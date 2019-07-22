@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E79122DDD1AB008AC433 /* AppDelegate.swift */; };
-		4D45E79422DDD1AB008AC433 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E79322DDD1AB008AC433 /* ViewController.swift */; };
+		4D45E79422DDD1AB008AC433 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E79322DDD1AB008AC433 /* MainViewController.swift */; };
 		4D45E79722DDD1AB008AC433 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79522DDD1AB008AC433 /* Main.storyboard */; };
 		4D45E79922DDD1AD008AC433 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79822DDD1AD008AC433 /* Assets.xcassets */; };
 		4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */; };
@@ -22,6 +22,20 @@
 		4D45E7CD22DDD1AE008AC433 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CC22DDD1AE008AC433 /* ExtensionDelegate.swift */; };
 		4D45E7CF22DDD1AE008AC433 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CE22DDD1AE008AC433 /* NotificationController.swift */; };
 		4D45E7D122DDD1AF008AC433 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
+		4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7E722DDD72B008AC433 /* UIView+Extension.swift */; };
+		4D45E7EA22DDDA00008AC433 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7E922DDDA00008AC433 /* MainViewModel.swift */; };
+		4D45E7EC22DE083D008AC433 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7EB22DE083D008AC433 /* Theme.swift */; };
+		4D45E7EE22DE086D008AC433 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7ED22DE086D008AC433 /* UIDevice+Extension.swift */; };
+		4D45E7F022DE0882008AC433 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7EF22DE0882008AC433 /* UIColor+Extension.swift */; };
+		4D45E7F422DE28CD008AC433 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7F322DE28CD008AC433 /* CustomLabel.swift */; };
+		4D71A3E722E3757800FEFB36 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */; };
+		4D71A3E822E3757800FEFB36 /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D71A3E622E3757800FEFB36 /* Task+CoreDataProperties.swift */; };
+		4D78ABF722DF0C9C001FD57F /* FiveModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* FiveModel.xcdatamodeld */; };
+		4D78AC3622DF1043001FD57F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D78AC3522DF1043001FD57F /* CoreDataManager.swift */; };
+		4DC0DE5422E21B7500B2B8D4 /* Day+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5222E21B7500B2B8D4 /* Day+CoreDataClass.swift */; };
+		4DC0DE5522E21B7500B2B8D4 /* Day+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5322E21B7500B2B8D4 /* Day+CoreDataProperties.swift */; };
+		4DC0DE5722E2220F00B2B8D4 /* TaskListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */; };
+		4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,7 +97,7 @@
 /* Begin PBXFileReference section */
 		4D45E78E22DDD1AB008AC433 /* Five.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Five.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D45E79122DDD1AB008AC433 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4D45E79322DDD1AB008AC433 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4D45E79322DDD1AB008AC433 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4D45E79622DDD1AB008AC433 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4D45E79822DDD1AD008AC433 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D45E79B22DDD1AD008AC433 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -105,6 +119,20 @@
 		4D45E7D022DDD1AF008AC433 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D45E7D222DDD1AF008AC433 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4D45E7D322DDD1AF008AC433 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		4D45E7E722DDD72B008AC433 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		4D45E7E922DDDA00008AC433 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		4D45E7EB22DE083D008AC433 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		4D45E7ED22DE086D008AC433 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
+		4D45E7EF22DE0882008AC433 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		4D45E7F322DE28CD008AC433 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4D71A3E622E3757800FEFB36 /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FiveModel.xcdatamodel; sourceTree = "<group>"; };
+		4D78AC3522DF1043001FD57F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		4DC0DE5222E21B7500B2B8D4 /* Day+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4DC0DE5322E21B7500B2B8D4 /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListHeader.swift; sourceTree = "<group>"; };
+		4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +170,7 @@
 		4D45E78522DDD1AB008AC433 = {
 			isa = PBXGroup;
 			children = (
+				4D45E7F322DE28CD008AC433 /* CustomLabel.swift */,
 				4D45E79022DDD1AB008AC433 /* Five */,
 				4D45E7A522DDD1AD008AC433 /* FiveTests */,
 				4D45E7B022DDD1AD008AC433 /* FiveUITests */,
@@ -166,8 +195,11 @@
 		4D45E79022DDD1AB008AC433 /* Five */ = {
 			isa = PBXGroup;
 			children = (
+				4DC0DE3722E087F100B2B8D4 /* CoreData */,
+				4DC0DE3622E087E300B2B8D4 /* Main */,
+				4D78AC3722DF16E7001FD57F /* Extensions */,
+				4D45E7EB22DE083D008AC433 /* Theme.swift */,
 				4D45E79122DDD1AB008AC433 /* AppDelegate.swift */,
-				4D45E79322DDD1AB008AC433 /* ViewController.swift */,
 				4D45E79522DDD1AB008AC433 /* Main.storyboard */,
 				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
 				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
@@ -215,6 +247,40 @@
 				4D45E7D322DDD1AF008AC433 /* PushNotificationPayload.apns */,
 			);
 			path = "Five WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		4D78AC3722DF16E7001FD57F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4D45E7E722DDD72B008AC433 /* UIView+Extension.swift */,
+				4D45E7ED22DE086D008AC433 /* UIDevice+Extension.swift */,
+				4D45E7EF22DE0882008AC433 /* UIColor+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4DC0DE3622E087E300B2B8D4 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				4D45E79322DDD1AB008AC433 /* MainViewController.swift */,
+				4D45E7E922DDDA00008AC433 /* MainViewModel.swift */,
+				4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */,
+				4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		4DC0DE3722E087F100B2B8D4 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				4D78ABF522DF0C9C001FD57F /* FiveModel.xcdatamodeld */,
+				4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */,
+				4D71A3E622E3757800FEFB36 /* Task+CoreDataProperties.swift */,
+				4DC0DE5222E21B7500B2B8D4 /* Day+CoreDataClass.swift */,
+				4DC0DE5322E21B7500B2B8D4 /* Day+CoreDataProperties.swift */,
+				4D78AC3522DF1043001FD57F /* CoreDataManager.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,8 +475,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D45E79422DDD1AB008AC433 /* ViewController.swift in Sources */,
+				4D45E7F022DE0882008AC433 /* UIColor+Extension.swift in Sources */,
+				4D71A3E722E3757800FEFB36 /* Task+CoreDataClass.swift in Sources */,
+				4D45E7EC22DE083D008AC433 /* Theme.swift in Sources */,
+				4D45E7EE22DE086D008AC433 /* UIDevice+Extension.swift in Sources */,
+				4D78ABF722DF0C9C001FD57F /* FiveModel.xcdatamodeld in Sources */,
+				4D45E79422DDD1AB008AC433 /* MainViewController.swift in Sources */,
+				4D71A3E822E3757800FEFB36 /* Task+CoreDataProperties.swift in Sources */,
+				4DC0DE5722E2220F00B2B8D4 /* TaskListHeader.swift in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
+				4DC0DE5522E21B7500B2B8D4 /* Day+CoreDataProperties.swift in Sources */,
+				4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */,
+				4D45E7EA22DDDA00008AC433 /* MainViewModel.swift in Sources */,
+				4D78AC3622DF1043001FD57F /* CoreDataManager.swift in Sources */,
+				4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */,
+				4D45E7F422DE28CD008AC433 /* CustomLabel.swift in Sources */,
+				4DC0DE5422E21B7500B2B8D4 /* Day+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,6 +947,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4D78ABF522DF0C9C001FD57F /* FiveModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
+			);
+			currentVersion = 4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */;
+			path = FiveModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4D45E78622DDD1AB008AC433 /* Project object */;
 }
