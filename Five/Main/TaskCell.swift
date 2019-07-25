@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TaskCell: UITableViewCell, UITextFieldDelegate {
+class TaskCell: UITableViewCell {
     
     var task: Task? = nil {
         didSet {
@@ -25,23 +25,25 @@ class TaskCell: UITableViewCell, UITextFieldDelegate {
             contentView.addSubview(name)
             contentView.addSubview(taskButton)
             
-            taskButton.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: bounds.width / 8, height: 0.0))
-            name.anchorView(top: topAnchor, bottom: bottomAnchor, leading: taskButton.trailingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
+            taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: bounds.width / 8, height: 0.0))
+            name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
             
             updateNameLabel(string: taskName)
         }
     }
     
     //convert to textfield
-    lazy var name: UITextField = {
-        let label = UITextField()
-        label.delegate = self
-        label.keyboardType = UIKeyboardType.default
-        label.keyboardAppearance = UIKeyboardAppearance.dark
-        label.textColor = UIColor.white
-        label.returnKeyType = UIReturnKeyType.done
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    lazy var name: UITextView = {
+        let view = UITextView()
+        view.delegate = self
+        view.backgroundColor = .clear
+        view.isScrollEnabled = false
+        view.keyboardType = UIKeyboardType.default
+        view.keyboardAppearance = UIKeyboardAppearance.dark
+        view.textColor = UIColor.white
+        view.returnKeyType = UIReturnKeyType.default
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     lazy var taskButton: TaskButton = {
@@ -79,19 +81,7 @@ class TaskCell: UITableViewCell, UITextFieldDelegate {
         taskButton.removeFromSuperview()
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("did end")
-    }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        updateTask(taskNameString: textField.text!)
-        textField.resignFirstResponder()
-        return true
-    }
     
     func updateTask(taskNameString: String) {
         task!.name = taskNameString
@@ -99,4 +89,56 @@ class TaskCell: UITableViewCell, UITextFieldDelegate {
     }
 }
 
-
+extension TaskCell: UITextViewDelegate {
+    
+    var tableView: UITableView? {
+        get {
+            var table: UIView? = superview
+            while !(table is UITableView) && table != nil {
+                table = table?.superview
+            }
+            
+            return table as? UITableView
+        }
+    }
+    
+    private func textViewDidEndEditing(_ textField: UITextField) {
+        print("did end")
+    }
+    
+    private func textViewShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    //    func textViewShouldReturn(_ textField: UITextField) -> Bool {
+    //        updateTask(taskNameString: textField.text!)
+    //        textField.resignFirstResponder()
+    //        return true
+    //    }
+    
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        print("end")
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        let size = textView.bounds.size
+        
+        let newSize = textView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
+        // Resize the cell only when cell's size is changed
+        if size.height != newSize.height {
+            UIView.setAnimationsEnabled(false)
+            tableView?.beginUpdates()
+            taskButton.setNeedsDisplay()
+            tableView?.endUpdates()
+            UIView.setAnimationsEnabled(true)
+            
+            if let thisIndexPath = tableView?.indexPath(for: self) {
+                tableView?.scrollToRow(at: thisIndexPath, at: .bottom, animated: false)
+            }
+        }
+        
+    }
+    
+}

@@ -60,8 +60,11 @@ class TaskButton: UIButton {
     override func draw(_ rect: CGRect) {
         //set up the width and height variables
         //for the horizontal stroke
-        let path = UIBezierPath(arcCenter: CGPoint(x: rect.height / 2, y: rect.height / 2), radius: (rect.height / 3) - Constants.lineWidth, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+//        let path = UIBezierPath(arcCenter: CGPoint(x: rect.height / 2, y: rect.height / 2), radius: (rect.height / 3) - Constants.lineWidth, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
         
+        let path = UIBezierPath(arcCenter: CGPoint(x: 40.0 / 2, y: 40.0 / 2), radius: (40.0 / 3) - Constants.lineWidth, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+
+        print("draw")
         //fill
         stateColor.setFill()
         path.fill()
