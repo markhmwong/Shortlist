@@ -10,7 +10,28 @@ import Foundation
 
 class MainViewModel {
     
-    let taskListCellId = "monthCellId"
+    let taskListCellId = "taskCellId"
+    
+    var dayEntity: Day? = nil {
+        didSet {
+            taskDataSource = dayEntity?.dayToTask?.allObjects as! [Task]
+        }
+    }
+    
+    var taskDataSource: [Task] = [] {
+        didSet {
+            taskDataSource.sort { (a, b) -> Bool in
+                return a.id < b.id
+            }
+        }
+    }
+    
+    let taskSizeLimit: Int = 5
+}
+
+class ReviewViewModel {
+    
+    let reviewCellId = "reviewCellId"
     
     var dayEntity: Day? = nil {
         didSet {

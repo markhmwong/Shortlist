@@ -21,5 +21,5 @@ extension Task {
     @NSManaged public var name: String?
     @NSManaged public var id: Int16
     @NSManaged public var taskToDay: Day?
-
+    @NSManaged public var carryOver: Bool
 }

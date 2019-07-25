@@ -13,9 +13,6 @@ class MainViewController: UIViewController {
     var viewModel: MainViewModel = MainViewModel()
     
     lazy var tableView: UITableView = {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .vertical
-//        layout.sectionInset = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
         let view = UITableView()
         view.delegate = self
         view.dataSource = self
@@ -37,12 +34,13 @@ class MainViewController: UIViewController {
     }()
     
     lazy var taskListHeader: UIView = {
-        let view = TaskListHeader()
+        let view = TaskListHeader(date: Calendar.current.today())
         return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loadData()
 //        CoreDataManager.shared.deleteAllRecordsIn(entity: Day.self)
         tableView.reloadData()
@@ -54,12 +52,41 @@ class MainViewController: UIViewController {
         view.addSubview(addButton)
         
         tableView.register(TaskCell.self, forCellReuseIdentifier: viewModel.taskListCellId)
-//        tableView.register(TaskCell.self, forCellWithReuseIdentifier: viewModel.taskListCellId)
-//        tableView.register(TaskListHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "TaskListHeaderId")
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
-        
         addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
+        
+
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let today = Calendar.current.today()
+        let todayStr = today.toString()
+        
+        //initialise date
+        guard let date = KeychainWrapper.standard.string(forKey: "Date") else {
+            KeychainWrapper.standard.set(todayStr, forKey: "Date")
+            return
+        }
+        
+        if (date != todayStr) {
+            //load review
+            loadReview()
+            //update
+            KeychainWrapper.standard.set(todayStr, forKey: "Date")
+        }
+        loadReview()
+    }
+    
+    func loadReview() {
+        let vc = ReviewViewController()
+        self.present(vc, animated: true) {
+            //
+        }
+    }
+    
+
     
     func loadData() {
         var dayEntity: Day? = nil
@@ -82,10 +109,10 @@ class MainViewController: UIViewController {
     func handleAddButton() {
         //addTask
         
-        if (viewModel.taskDataSource.count < 101) {
+        if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
             addSampleTask(toEntity: viewModel.dayEntity!)
             CoreDataManager.shared.saveContext()
-//            CoreDataManager.shared.printTodaysRecordIn(entity: Day.self)
+
             //reload row not entire collection view
             tableView.reloadData()
         } else {
@@ -101,6 +128,7 @@ class MainViewController: UIViewController {
         let dataSourceCount = viewModel.taskDataSource.count
         task.name = "Sample Task \(dataSourceCount)"
         task.complete = false
+        task.carryOver = false
         task.id = Int16(dataSourceCount)
         day.addToDayToTask(task)
 
@@ -108,11 +136,7 @@ class MainViewController: UIViewController {
     }
 }
 
-extension Calendar {
-    func today() -> Date {
-        return self.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
-    }
-}
+
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -130,31 +154,24 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         return 50.0
     }
     
-}
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "delete") { [weak self] (action, view, complete) in
+            
+            let cell = tableView.cellForRow(at: indexPath) as! TaskCell
+            if let task = cell.task {
+                //remove from datasource
+                self?.viewModel.taskDataSource.remove(at: indexPath.row)
+                
+                //remove from core data
+                self?.viewModel.dayEntity?.removeFromDayToTask(task)
+                
+                CoreDataManager.shared.saveContext()
+            }
 
-//extension MainViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return viewModel.taskDataSource.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.taskListCellId, for: indexPath) as! TaskCell
-//        cell.backgroundColor = .clear
-//        cell.task = viewModel.taskDataSource[indexPath.item]
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: view.bounds.width - 20.0, height: 50.0)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: view.bounds.width, height: 200.0)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "TaskListHeaderId", for: indexPath)
-//        return header
-//    }
-//}
+            complete(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+}
 

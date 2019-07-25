@@ -1,14 +1,14 @@
 //
-//  TaskCell.swift
+//  ReviewCell.swift
 //  Five
 //
-//  Created by Mark Wong on 20/7/19.
+//  Created by Mark Wong on 24/7/19.
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
 import UIKit
 
-class TaskCell: UITableViewCell, UITextFieldDelegate {
+class ReviewCell: UITableViewCell, UITextFieldDelegate {
     
     var task: Task? = nil {
         didSet {
@@ -21,7 +21,7 @@ class TaskCell: UITableViewCell, UITextFieldDelegate {
             if let state = task?.complete {
                 taskButton.taskState = state
             }
-
+            
             contentView.addSubview(name)
             contentView.addSubview(taskButton)
             
@@ -41,6 +41,7 @@ class TaskCell: UITableViewCell, UITextFieldDelegate {
         label.textColor = UIColor.white
         label.returnKeyType = UIReturnKeyType.done
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isEnabled = false
         return label
     }()
     
@@ -48,6 +49,7 @@ class TaskCell: UITableViewCell, UITextFieldDelegate {
         let button = TaskButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(handleTask), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -73,12 +75,6 @@ class TaskCell: UITableViewCell, UITextFieldDelegate {
         CoreDataManager.shared.saveContext()
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        name.removeFromSuperview()
-        taskButton.removeFromSuperview()
-    }
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("did end")
     }
@@ -86,7 +82,7 @@ class TaskCell: UITableViewCell, UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
-
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         updateTask(taskNameString: textField.text!)
         textField.resignFirstResponder()
@@ -97,6 +93,13 @@ class TaskCell: UITableViewCell, UITextFieldDelegate {
         task!.name = taskNameString
         CoreDataManager.shared.saveContext()
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        name.removeFromSuperview()
+        taskButton.removeFromSuperview()
+    }
 }
+
 
 
