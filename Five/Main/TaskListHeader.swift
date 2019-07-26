@@ -10,6 +10,44 @@ import UIKit
 
 class TaskListHeader: UIView {
     
+    enum DayColor {
+        case Standard
+        case Custom(Date)
+        
+        var value: UIColor {
+            switch self {
+                case .Standard:
+                    switch Calendar.current.todaysDayString() {
+                        case 0: //Sunday
+                            return UIColor(red:1.00, green:0.40, blue:0.25, alpha:1.0)
+                        case 1: //Monday
+                            return UIColor(red:0.44, green:0.89, blue:0.47, alpha:1.0)
+                        case 2: //Tuesday
+                            return UIColor(red:0.26, green:0.91, blue:0.79, alpha:1.0)
+                        case 3:
+                            return UIColor(red:0.88, green:0.31, blue:0.38, alpha:1.0)
+                        case 4:
+                            return UIColor(red:0.60, green:0.36, blue:0.79, alpha:1.0)
+                        case 5:
+                            return UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0)
+                        case 6: //Friday
+                            return UIColor(red:1.00, green:0.40, blue:0.25, alpha:1.0)
+                        case 7: //Saturday
+                            return UIColor(red:0.38, green:0.84, blue:0.95, alpha:1.0)
+                        default:
+                            return UIColor.blue
+                    }
+                default:
+                    return UIColor.black
+                }
+        }
+    }
+    
+    lazy var donateButton: UIButton = {
+        let button = UIButton()
+        return button
+    }()
+    
     lazy var dateTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -19,13 +57,10 @@ class TaskListHeader: UIView {
         nameFormatter.dateFormat = "MMMM"
         let monthString = nameFormatter.string(from: currentDate)
         let str = date!.toString(format: "dd")
-        
-        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str) ", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!])
-        
-        attributedStr.append(NSAttributedString(string: "\(monthString)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h1).value)!]))
-        
+        print("Day Color: \(Calendar.current.todaysDayString())")
+        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str) ", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.strokeWidth : -3.0, NSAttributedString.Key.strokeColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!])
+        attributedStr.append(NSAttributedString(string: "\(monthString)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h1).value)!]))
         label.attributedText = attributedStr
-        label.textColor = .white
         return label
     }()
     
@@ -42,14 +77,26 @@ class TaskListHeader: UIView {
         label.textContainer.lineFragmentPadding = 0
         label.textAlignment = .center
         label.backgroundColor = .clear
+        label.isScrollEnabled = false
+        label.isEditable = false
+        label.isSelectable = false
         label.translatesAutoresizingMaskIntoConstraints = false
         label.attributedText = NSAttributedString(string: "Select tasks you'd like to carry over from yesterday.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.darker(by: 50.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
         return label
     }()
     
+    lazy var dateBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = DayColor.Standard.value
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     var date: Date? = nil
     
     var reviewLabelState: Bool = false
+    
+    weak var delegate: ReviewViewController? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -63,9 +110,10 @@ class TaskListHeader: UIView {
         setupView()
     }
     
-    convenience init(date: Date, reviewState: Bool) {
+    convenience init(date: Date, reviewState: Bool, delegate: ReviewViewController) {
         self.init(frame: .zero)
         self.date = date
+        self.delegate = delegate
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .clear
         reviewLabelState = reviewState
@@ -79,15 +127,28 @@ class TaskListHeader: UIView {
     private func setupView() {
         heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / heightRatioForHeader()).isActive = true
         widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
-
-        addSubview(dateTitle)
-        dateTitle.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: .zero)
+        
+        addSubview(dateBackgroundView)
+        dateBackgroundView.addSubview(dateTitle)
+        
+        let estimatedFrame = NSString(string: dateTitle.text!).boundingRect(with: CGSize(width: bounds.width, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!], context: nil)
+        
+        dateBackgroundView.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: estimatedFrame.height))
+        dateTitle.anchorView(top: dateBackgroundView.topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: .zero)
 
         if (reviewLabelState) {
+            
+            let count = delegate?.viewModel.incompleteTasks
+            
+            
+            
             addSubview(reviewTitle)
             addSubview(instructionTitle)
-            reviewTitle.anchorView(top: dateTitle.bottomAnchor, bottom: nil, leading: dateTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: .zero)
-            instructionTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width, height: 50.0))
+            
+            let estimatedFrameInstructionTitle = NSString(string: instructionTitle.text!).boundingRect(with: CGSize(width: bounds.width, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.darker(by: 50.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!], context: nil)
+            
+            reviewTitle.anchorView(top: dateTitle.bottomAnchor, bottom: nil, leading: dateTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: estimatedFrameInstructionTitle.height, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
+            instructionTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
         }
     }
     

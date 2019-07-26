@@ -1,16 +1,16 @@
 //
-//  MainViewModel.swift
+//  ReviewViewModel.swift
 //  Five
 //
-//  Created by Mark Wong on 16/7/19.
+//  Created by Mark Wong on 26/7/19.
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
 import Foundation
 
-class MainViewModel {
+class ReviewViewModel {
     
-    let taskListCellId = "taskCellId"
+    let reviewCellId = "reviewCellId"
     
     var dayEntity: Day? = nil {
         didSet {
@@ -26,5 +26,15 @@ class MainViewModel {
         }
     }
     
-    let taskSizeLimit: Int = 5
+    let taskSize: Int = 5
+    
+    var incompleteTasks: Int {
+        let count = 0
+        for task in taskDataSource {
+            if (task.complete) {
+                count += 1
+            }
+        }
+        return count
+    }
 }

@@ -75,7 +75,7 @@ class MainViewController: UIViewController {
             //update
             KeychainWrapper.standard.set(todayStr, forKey: "Date")
         }
-//        loadReview()
+        loadReview()
     }
     
     func loadReview() {
@@ -148,10 +148,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let task = viewModel.taskDataSource[indexPath.row]
-//        let name = task.name!
-//
-//        let estimatedFrame = NSString(string: name).boundingRect(with: CGSize(width: view.bounds.width / 2 - 50.0, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b1).value)!], context: nil)
         return UITableView.automaticDimension
     }
     

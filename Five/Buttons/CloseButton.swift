@@ -70,15 +70,6 @@ class CloseButton: UIButton {
         path.lineWidth = Constants.lineWidth
         path.stroke()
         
-//        let context = UIGraphicsGetCurrentContext()
-//        context?.setStrokeColor(UIColor.white.cgColor)
-//        context?.setLineWidth(4.0)
-//
-//        context?.move(to: CGPoint(x: rect.width / 2, y: path.bounds.origin.y + 5))
-//        context?.addLine(to: CGPoint(x: rect.width / 2, y: path.bounds.height - 5))
-//        context?.rotate(by: 45.0)
-//        context?.drawPath(using: .stroke)
-        
         let plusWidth: CGFloat = min(bounds.width, bounds.height) * Constants.plusButtonScale
         let halfPlusWidth = plusWidth / 2
         
@@ -117,16 +108,3 @@ class CloseButton: UIButton {
 
     }
 }
-
-//extension UIBezierPath
-//{
-//    func rotateAroundCenter(angle: CGFloat)
-//    {
-//        let center = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)
-//        var transform = CGAffineTransform.identity
-//        transform = transform.translatedBy(x: center.x, y: center.y)
-//        transform = transform.rotated(by: angle)
-//        transform = transform.translatedBy(x: -center.x, y: -center.y)
-//        self.apply(transform)
-//    }
-//}

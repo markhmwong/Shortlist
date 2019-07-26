@@ -18,4 +18,9 @@ extension Calendar {
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)
         return yesterday!
     }
+    
+    func todaysDayString() -> Int {
+        let today = Calendar.current.date(byAdding: .day, value: 0, to: self.today())
+        return Calendar.current.component(.weekday, from: today!)
+    }
 }

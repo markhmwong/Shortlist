@@ -25,7 +25,7 @@ class TaskCell: UITableViewCell {
             contentView.addSubview(name)
             contentView.addSubview(taskButton)
             
-            taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: bounds.width / 8, height: 0.0))
+            taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
             name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
             
             updateNameLabel(string: taskName)
@@ -117,12 +117,10 @@ extension TaskCell: UITextViewDelegate {
     //    }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        print("end")
         return true
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        
         let size = textView.bounds.size
         
         let newSize = textView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
