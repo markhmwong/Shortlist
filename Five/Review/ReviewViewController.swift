@@ -45,7 +45,7 @@ class ReviewViewController: UIViewController {
     }()
     
     lazy var taskListHeader: UIView = {
-        let view = TaskListHeader(date: Calendar.current.yesterday(), reviewState: true)
+        let view = TaskListHeader(date: Calendar.current.yesterday(), reviewState: true, delegate: self)
         return view
     }()
     
@@ -77,11 +77,11 @@ class ReviewViewController: UIViewController {
     
     func loadData() {
         var dayEntity: Day? = nil
-        let context = CoreDataManager.shared.fetchContext()
-        
-        if (CoreDataManager.shared.doesEntityExist(forDate: Calendar.current.yesterday())) {
-            dayEntity = CoreDataManager.shared.fetchDayEntity(forDate: Calendar.current.yesterday())
-        }
+//        let context = CoreDataManager.shared.fetchContext()
+//
+//        if (CoreDataManager.shared.doesEntityExist(forDate: Calendar.current.yesterday())) {
+//            dayEntity = CoreDataManager.shared.fetchDayEntity(forDate: Calendar.current.yesterday())
+//        }
         
         viewModel.dayEntity = dayEntity
     }
@@ -96,20 +96,20 @@ class ReviewViewController: UIViewController {
     @objc
     func handleDone() {
         //get tasks to carry over to the next day
-        let tasks = viewModel.taskDataSource
-        let dayEntity = CoreDataManager.shared.fetchDayEntity(forDate: Calendar.current.today())
-        for task in tasks {
-            //shift task over to the new day
-            if (task.carryOver) {
-                let newTask = Task(context: CoreDataManager.shared.fetchContext()!)
-                newTask.carryOver = false
-                newTask.complete = false
-                newTask.id = task.id
-                newTask.name = task.name
-                dayEntity?.addToDayToTask(newTask)
-            }
-        }
-        CoreDataManager.shared.saveContext()
+//        let tasks = viewModel.taskDataSource
+//        let dayEntity = CoreDataManager.shared.fetchDayEntity(forDate: Calendar.current.today())
+//        for task in tasks {
+//            //shift task over to the new day
+//            if (task.carryOver) {
+//                let newTask = Task(context: CoreDataManager.shared.fetchContext()!)
+//                newTask.carryOver = false
+//                newTask.complete = false
+//                newTask.id = task.id
+//                newTask.name = task.name
+//                dayEntity?.addToDayToTask(newTask)
+//            }
+//        }
+//        CoreDataManager.shared.saveContext()
 
         self.dismiss(animated: false, completion: nil)
     }
@@ -145,7 +145,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
                 //remove from core data
                 self?.viewModel.dayEntity?.removeFromDayToTask(task)
                 
-                CoreDataManager.shared.saveContext()
+//                CoreDataManager.shared.saveContext()
             }
             
             complete(true)

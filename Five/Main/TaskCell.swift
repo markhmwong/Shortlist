@@ -72,7 +72,7 @@ class TaskCell: UITableViewCell {
     func handleTask() {
         taskButton.taskState = !taskButton.taskState
         task?.complete = taskButton.taskState
-        CoreDataManager.shared.saveContext()
+//        CoreDataManager.shared.saveContext()
     }
     
     override func prepareForReuse() {
@@ -85,7 +85,7 @@ class TaskCell: UITableViewCell {
     
     func updateTask(taskNameString: String) {
         task!.name = taskNameString
-        CoreDataManager.shared.saveContext()
+//        CoreDataManager.shared.saveContext()
     }
 }
 

@@ -72,7 +72,7 @@ class ReviewCell: UITableViewCell, UITextFieldDelegate {
     func handleTask() {
         taskButton.taskState = !taskButton.taskState
         task?.complete = taskButton.taskState
-        CoreDataManager.shared.saveContext()
+//        CoreDataManager.shared.saveContext()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -91,7 +91,7 @@ class ReviewCell: UITableViewCell, UITextFieldDelegate {
     
     func updateTask(taskNameString: String) {
         task!.name = taskNameString
-        CoreDataManager.shared.saveContext()
+//        CoreDataManager.shared.saveContext()
     }
     
     override func prepareForReuse() {

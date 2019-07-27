@@ -14,7 +14,11 @@ class MainViewModel {
     
     var dayEntity: Day? = nil {
         didSet {
-            taskDataSource = dayEntity?.dayToTask?.allObjects as! [Task]
+            guard let dayToTask = dayEntity?.dayToTask else {
+                taskDataSource = []
+                return
+            }
+            taskDataSource = dayToTask.allObjects as! [Task]
         }
     }
     

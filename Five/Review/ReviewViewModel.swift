@@ -14,7 +14,13 @@ class ReviewViewModel {
     
     var dayEntity: Day? = nil {
         didSet {
-            taskDataSource = dayEntity?.dayToTask?.allObjects as! [Task]
+            
+            guard let dayToTask = dayEntity?.dayToTask else {
+                taskDataSource = []
+                return
+            }
+            
+            taskDataSource = dayToTask.allObjects as! [Task]
         }
     }
     
@@ -29,7 +35,7 @@ class ReviewViewModel {
     let taskSize: Int = 5
     
     var incompleteTasks: Int {
-        let count = 0
+        var count = 0
         for task in taskDataSource {
             if (task.complete) {
                 count += 1
