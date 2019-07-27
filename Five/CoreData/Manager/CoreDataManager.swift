@@ -14,7 +14,7 @@ class CoreDataManager {
     
     private let completion: CoreDataManagerCompletion
     
-    fileprivate var context: NSManagedObjectContext? = nil
+//    fileprivate var context: NSManagedObjectContext? = nil
 
     private let modelName: String
     
@@ -36,39 +36,6 @@ class CoreDataManager {
         return NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
     }()
     
-//    private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
-//        // Initialize Persistent Store Coordinator
-//        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-//
-//        // Helpers
-//        let fileManager = FileManager.default
-//        let storeName = "\(self.modelName).sqlite"
-//
-//        // URL Documents Directory
-//        let documentsDirectoryURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-//
-//        // URL Persistent Store
-//        let persistentStoreURL = documentsDirectoryURL.appendingPathComponent(storeName)
-//
-//        do {
-//            let options = [
-//                NSMigratePersistentStoresAutomaticallyOption : true,
-//                NSInferMappingModelAutomaticallyOption : true
-//            ]
-//
-//            // Add Persistent Store
-//            try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType,
-//                                                              configurationName: nil,
-//                                                              at: persistentStoreURL,
-//                                                              options: options)
-//
-//        } catch {
-//            fatalError("Unable to Add Persistent Store")
-//        }
-//
-//        return persistentStoreCoordinator
-//    }()
-    
     public private(set) lazy var privateManagedObjectContext: NSManagedObjectContext = {
         // Initialize Managed Object Context
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -88,16 +55,6 @@ class CoreDataManager {
         
         return managedObjectContext
     }()
-    
-//    lazy var persistentContainer: NSPersistentContainer = {
-//        let container = NSPersistentContainer(name: "FiveModel")
-//        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-//            if let error = error as NSError? {
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//        })
-//        return container
-//    }()
     
     init(modelName: String, completion: @escaping CoreDataManagerCompletion) {
         self.modelName = modelName
@@ -184,39 +141,39 @@ class CoreDataManager {
         return managedObjectContext
     }
     
-    func loadContext() {
-//        self.context = persistentContainer.viewContext
+
+    
+
+    
+
+}
+
+// Helper Functions
+extension CoreDataManager {
+    func countTasks(forDate date: Date) -> Int {
+        let day = fetchDayEntity(forDate: Calendar.current.today()) as? Day
+        let count = day?.dayToTask?.count ?? 0
+        return count
     }
     
-    func saveContext() {
-        guard let context = context else { return }
-        if (context.hasChanges) {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
-    
-    func fetchContext() -> NSManagedObjectContext? {
-        guard context != nil else { return nil }
-        return context
-    }
-    
-    func fetchDayEntity(forDate date: Date) -> NSManagedObject? {
-        let context = self.mainManagedObjectContext
-        let dayRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Day")
-        dayRequest.returnsObjectsAsFaults = false
-        dayRequest.predicate = NSPredicate(format: "date == %@", date as NSDate)
+    func deleteAllRecordsIn<E: NSManagedObject>(entity: E.Type) -> Bool {
         
-        do {
-            let fetchedResults = try context.fetch(dayRequest)
-            return fetchedResults.first as? NSManagedObject
-        } catch let error as NSError {
-            print("Day entity could not be fetched \(error)")
-            return nil
+        if (self.doesEntityExist(forDate: Calendar.current.today())) {
+            do {
+                let fr = E.fetchRequest()
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fr)
+                try self.mainManagedObjectContext.execute(deleteRequest)
+                saveChanges()
+                //                try self.fetchContext()?.execute(deleteRequest)
+                //                try self.fetchContext()?.save()
+                return true
+            } catch let error as NSError {
+                print("Trouble deleting all records in entity: \(error)")
+                return false
+            }
+        } else {
+            print("Nothing to delete")
+            return false
         }
     }
     
@@ -240,28 +197,18 @@ class CoreDataManager {
         return true
     }
     
-    func countTasks(forDate date: Date) -> Int {
-        let day = fetchDayEntity(forDate: Calendar.current.today()) as? Day
-        let count = day?.dayToTask?.count ?? 0
-        return count
-    }
-    
-    func deleteAllRecordsIn<E: NSManagedObject>(entity: E.Type) -> Bool {
+    func fetchDayEntity(forDate date: Date) -> NSManagedObject? {
+        let context = self.mainManagedObjectContext
+        let dayRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Day")
+        dayRequest.returnsObjectsAsFaults = false
+        dayRequest.predicate = NSPredicate(format: "date == %@", date as NSDate)
         
-        if (self.doesEntityExist(forDate: Calendar.current.today())) {
-            do {
-                let fr = E.fetchRequest()
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fr)
-                try self.fetchContext()?.execute(deleteRequest)
-                try self.fetchContext()?.save()
-                return true
-            } catch let error as NSError {
-                print("Trouble deleting all records in entity: \(error)")
-                return false
-            }
-        } else {
-            print("Nothing to delete")
-            return false
+        do {
+            let fetchedResults = try context.fetch(dayRequest)
+            return fetchedResults.first as? NSManagedObject
+        } catch let error as NSError {
+            print("Day entity could not be fetched \(error)")
+            return nil
         }
     }
 }

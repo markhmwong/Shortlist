@@ -186,16 +186,6 @@ class MainViewController: UIViewController {
         task.id = Int16(viewModel.taskDataSource.count)
         day.addToDayToTask(task)
         viewModel.taskDataSource.append(task)
-//        let context = CoreDataManager.shared.fetchContext()
-//        let task: Task = Task(context: context!)
-//        let dataSourceCount = viewModel.taskDataSource.count
-//        task.name = "Sample Task \(dataSourceCount)"
-//        task.complete = false
-//        task.carryOver = false
-//        task.id = Int16(dataSourceCount)
-//        day.addToDayToTask(task)
-//
-//        viewModel.taskDataSource.append(task)
     }
 }
 
