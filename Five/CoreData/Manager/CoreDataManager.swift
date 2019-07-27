@@ -14,8 +14,6 @@ class CoreDataManager {
     
     private let completion: CoreDataManagerCompletion
     
-//    fileprivate var context: NSManagedObjectContext? = nil
-
     private let modelName: String
     
     private lazy var managedObjectModel: NSManagedObjectModel = {
@@ -59,8 +57,6 @@ class CoreDataManager {
     init(modelName: String, completion: @escaping CoreDataManagerCompletion) {
         self.modelName = modelName
         self.completion = completion
-        //This prevents others from using the default '()' initializer for this class.
-//        loadContext()
         setupCoreDataStack()
     }
     
@@ -140,12 +136,6 @@ class CoreDataManager {
         
         return managedObjectContext
     }
-    
-
-    
-
-    
-
 }
 
 // Helper Functions

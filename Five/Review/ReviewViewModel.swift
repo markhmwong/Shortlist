@@ -43,4 +43,6 @@ class ReviewViewModel {
         }
         return count
     }
+    
+    var targetDate: Date = Calendar.current.yesterday()
 }

@@ -14,6 +14,8 @@ import UIKit
 // Allows to carry over tasks to today.
 class ReviewViewController: UIViewController {
  
+    var coreDataManager: CoreDataManager?
+
     var viewModel: ReviewViewModel = ReviewViewModel()
     
     lazy var closeButton: CloseButton = {
@@ -49,6 +51,15 @@ class ReviewViewController: UIViewController {
         return view
     }()
     
+    init(coreDataManager: CoreDataManager) {
+        super.init(nibName: nil, bundle: nil)
+        self.coreDataManager = coreDataManager
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black
@@ -76,14 +87,23 @@ class ReviewViewController: UIViewController {
     }
     
     func loadData() {
-        var dayEntity: Day? = nil
-//        let context = CoreDataManager.shared.fetchContext()
-//
-//        if (CoreDataManager.shared.doesEntityExist(forDate: Calendar.current.yesterday())) {
-//            dayEntity = CoreDataManager.shared.fetchDayEntity(forDate: Calendar.current.yesterday())
-//        }
+        guard let coreDataManager = self.coreDataManager else {
+            fatalError("Error loading core data manager while loading data")
+        }
         
-        viewModel.dayEntity = dayEntity
+        var dayEntity: Day? = coreDataManager.fetchDayEntity(forDate: viewModel.targetDate) as? Day
+        
+        if (dayEntity == nil) {
+            dayEntity = Day(context: coreDataManager.mainManagedObjectContext)
+            let date = Calendar.current.today()
+            dayEntity?.date = date as NSDate
+            dayEntity?.taskLimit = 5 //default limit
+            coreDataManager.saveChanges()
+        }
+        
+        self.viewModel.dayEntity = dayEntity
+        print(self.viewModel.dayEntity)
+        self.tableView.reloadData()
     }
     
     @objc

@@ -60,7 +60,6 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("test")
         let today = Calendar.current.today()
         let todayStr = today.toString()
         
@@ -92,7 +91,8 @@ class MainViewController: UIViewController {
     }
     
     func loadReview() {
-        let vc = ReviewViewController()
+        guard let coreDataManager = coreDataManager else { return }
+        let vc = ReviewViewController(coreDataManager: coreDataManager)
         self.present(vc, animated: true) {
             //
         }
@@ -101,7 +101,6 @@ class MainViewController: UIViewController {
     // Deal with the situation when the user hasn't used the application for a few days. The review will open
     // yesterday's review however there won't be an entity.
     // Solution: Create the day or don't open for review. Empty/nil entities are considered 0 task days.
-    
     
     func seedCoreDataWhenFirstLaunched() {
         // check with keychain
@@ -121,27 +120,12 @@ class MainViewController: UIViewController {
                 dayEntity?.taskLimit = 5 //default limit
                 coreDataManager.saveChanges()
             }
-            print("testa")
+
             //load the entity into the viewModel
             // this will trigger the didSet operation for the property and sorts the data
             self.viewModel.dayEntity = dayEntity
             print(self.viewModel.dayEntity)
             self.tableView.reloadData()
-
-//            let context = CoreDataManager.shared.fetchContext()
-//            if (!CoreDataManager.shared.doesEntityExist(forDate: Calendar.current.today())) {
-//                //create date entity
-//                dayEntity = Day(context: context!)
-//                let date = Calendar.current.today()
-//                dayEntity?.date = date as NSDate
-//                dayEntity?.taskLimit = 5
-//                CoreDataManager.shared.saveContext()
-//            } else {
-//                dayEntity = CoreDataManager.shared.fetchDayEntity(forDate: Calendar.current.today())
-//            }
-//
-//            viewModel.dayEntity = dayEntity
-
         })
         
 //        // Create Private Child Managed Object Context
