@@ -13,8 +13,14 @@ class TaskCell: UITableViewCell {
     var task: Task? = nil {
         didSet {
             guard let taskName = task?.name else {
-                print("didset")
+                print("nil task name didset")
+                print(task?.name)
+                print(task?.id)
                 updateNameLabel(string: "Unknown name")
+                contentView.addSubview(name)
+                contentView.addSubview(taskButton)
+                taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
+                name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
                 return
             }
             
@@ -24,7 +30,6 @@ class TaskCell: UITableViewCell {
 
             contentView.addSubview(name)
             contentView.addSubview(taskButton)
-            
             taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
             name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
             
@@ -55,6 +60,7 @@ class TaskCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
     }
     
     required init?(coder aDecoder: NSCoder) {

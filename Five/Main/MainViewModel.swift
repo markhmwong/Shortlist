@@ -18,6 +18,7 @@ class MainViewModel {
                 taskDataSource = []
                 return
             }
+            print("reload")
             taskDataSource = dayToTask.allObjects as! [Task]
         }
     }
@@ -30,5 +31,5 @@ class MainViewModel {
         }
     }
     
-    let taskSizeLimit: Int = 5
+    let taskSizeLimit: Int = 100
 }

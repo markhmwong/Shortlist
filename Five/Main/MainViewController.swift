@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import CoreData
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
 
+    var fetchedResultsController: NSFetchedResultsController<Day>!
+    
     var viewModel: MainViewModel = MainViewModel()
     
     var coreDataManager: CoreDataManager?
+    
+    var persistentContainer: PersistentContainer?
     
     lazy var tableView: UITableView = {
         let view = UITableView()
@@ -46,6 +51,11 @@ class MainViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    init(persistentContainer: PersistentContainer? = nil) {
+        self.persistentContainer = persistentContainer
+        super.init(nibName: nil, bundle: nil)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -54,8 +64,8 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
         loadData()
-//        CoreDataManager.shared.deleteAllRecordsIn(entity: Day.self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,6 +102,8 @@ class MainViewController: UIViewController {
     
     func loadReview() {
         guard let coreDataManager = coreDataManager else { return }
+        guard let persistentContainer = persistentContainer else { return }
+        
         let vc = ReviewViewController(coreDataManager: coreDataManager)
         self.present(vc, animated: true) {
             //
@@ -107,73 +119,53 @@ class MainViewController: UIViewController {
     }
     
     func loadData() {
-        coreDataManager = CoreDataManager(modelName: "FiveModel", completion: {
-            self.setupView()
-            guard let coreDataManager = self.coreDataManager else {
-                fatalError("Error loading core data manager while loading data")
-            }
-            var dayEntity: Day? = coreDataManager.fetchDayEntity(forDate: Calendar.current.today()) as? Day
-            if (dayEntity == nil) {
-                dayEntity = Day(context: coreDataManager.mainManagedObjectContext)
-                let date = Calendar.current.today()
-                dayEntity?.date = date as NSDate
-                dayEntity?.taskLimit = 5 //default limit
-                coreDataManager.saveChanges()
-            }
+        //load today's current data into dayEntity
+        guard let persistentContainer = persistentContainer else { return }
+        //check if there is data for today, if there isn't then create the day
+        let todaysDate = Calendar.current.today()
+        var dayEntity: Day? = persistentContainer.fetchDayManagedObject(forDate: todaysDate)
 
-            //load the entity into the viewModel
-            // this will trigger the didSet operation for the property and sorts the data
-            self.viewModel.dayEntity = dayEntity
-            print(self.viewModel.dayEntity)
-            self.tableView.reloadData()
-        })
+        if (dayEntity == nil) {
+            let privateContext = persistentContainer.newBackgroundContext()
+            dayEntity = Day(context: privateContext)
+            dayEntity?.date = todaysDate as NSDate
+            dayEntity?.taskLimit = 5 //default limit
+
+            // possible loading graphic
+
+            privateContext.performAndWait {
+                do {
+                    try privateContext.save()
+                } catch (let err) {
+                    print("\(err) trouble saving")
+                }
+            }
+        }
+
+        self.viewModel.dayEntity = dayEntity
+        if (self.viewModel.dayEntity != nil) {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
         
-//        // Create Private Child Managed Object Context
-//
-//        let managedObjectContext = (coreDataManager?.privateChildManagedObjectContext())!
-//
-//        // Initialize Operation
-//        let task = TaskSaver(managedObjectContext: managedObjectContext)
-//
-//        // Add Operation to Operation Queue
-//        saveOperations.coreDataQueue.addOperation(task)
-        
-//        print("core data manager: \(coreDataManager?.mainManagedObjectContext)")
     }
     
     @objc
     func handleAddButton() {
-        //addTask
-        
+        guard let persistentContainer = persistentContainer else {
+            fatalError("Error loading core data manager while loading data")
+        }
         if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
-            addSampleTask(toEntity: viewModel.dayEntity!)
-//            CoreDataManager.shared.saveContext()
-            coreDataManager?.saveChanges()
-            //reload row not entire collection view
-            tableView.reloadData()
-        } else {
-            //show alert error
-            print("over 10 tasks")
+            persistentContainer.performBackgroundTask { (context) in
+                let dayObject = context.object(with: self.viewModel.dayEntity!.objectID) as! Day
+                persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: self.viewModel.taskDataSource.count)
+                persistentContainer.saveContext(backgroundContext: context)
+                self.loadData()
+            }
         }
-
-    }
-    
-    func addSampleTask(toEntity day: Day) {
-        guard let coreDataManager = coreDataManager else {
-            fatalError("Error loading core data manager")
-        }
-        let task: Task = Task(context: coreDataManager.mainManagedObjectContext)
-        let dataSourceCount = viewModel.taskDataSource.count
-        task.name = "Sample Task \(dataSourceCount)"
-        task.complete = false
-        task.carryOver = false
-        task.id = Int16(viewModel.taskDataSource.count)
-        day.addToDayToTask(task)
-        viewModel.taskDataSource.append(task)
     }
 }
-
-
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -182,7 +174,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.taskListCellId, for: indexPath) as! TaskCell
-        cell.backgroundColor = .clear
         cell.task = viewModel.taskDataSource[indexPath.row]
         return cell
     }
@@ -202,6 +193,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 //remove from core data
                 self?.viewModel.dayEntity?.removeFromDayToTask(task)
                 
+                //to do
 //                CoreDataManager.shared.saveContext()
             }
 

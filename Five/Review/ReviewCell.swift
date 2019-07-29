@@ -13,7 +13,6 @@ class ReviewCell: UITableViewCell, UITextFieldDelegate {
     var task: Task? = nil {
         didSet {
             guard let taskName = task?.name else {
-                print("didset")
                 updateNameLabel(string: "Unknown name")
                 return
             }

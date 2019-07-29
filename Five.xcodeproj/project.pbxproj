@@ -30,6 +30,7 @@
 		4D45E7F422DE28CD008AC433 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7F322DE28CD008AC433 /* CustomLabel.swift */; };
 		4D596EF222EC489500B2D21D /* TaskSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D596EF122EC489500B2D21D /* TaskSaver.swift */; };
 		4D596EF522EC550500B2D21D /* PendingOpertaions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D596EF422EC550500B2D21D /* PendingOpertaions.swift */; };
+		4D598B6422EEBE480020076D /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D598B6322EEBE480020076D /* PersistentContainer.swift */; };
 		4D59E26522EAEECA00B40E34 /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D59E26422EAEECA00B40E34 /* ReviewViewModel.swift */; };
 		4D5A438222E716AE00E34FAC /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5A438022E716AE00E34FAC /* KeychainWrapper.swift */; };
 		4D5A438322E716AE00E34FAC /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5A438122E716AE00E34FAC /* KeychainItemAccessibility.swift */; };
@@ -139,6 +140,7 @@
 		4D45E7F322DE28CD008AC433 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		4D596EF122EC489500B2D21D /* TaskSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSaver.swift; sourceTree = "<group>"; };
 		4D596EF422EC550500B2D21D /* PendingOpertaions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingOpertaions.swift; sourceTree = "<group>"; };
+		4D598B6322EEBE480020076D /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		4D59E26422EAEECA00B40E34 /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
 		4D5A438022E716AE00E34FAC /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		4D5A438122E716AE00E34FAC /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
@@ -323,18 +325,18 @@
 		4D596EF022EC488700B2D21D /* Operations */ = {
 			isa = PBXGroup;
 			children = (
-				4D596EF322EC54F000B2D21D /* New Group */,
 				4D596EF122EC489500B2D21D /* TaskSaver.swift */,
 				4D596EF422EC550500B2D21D /* PendingOpertaions.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
 		};
-		4D596EF322EC54F000B2D21D /* New Group */ = {
+		4D598B6222EEBE360020076D /* PersistentContainer */ = {
 			isa = PBXGroup;
 			children = (
+				4D598B6322EEBE480020076D /* PersistentContainer.swift */,
 			);
-			path = "New Group";
+			path = PersistentContainer;
 			sourceTree = "<group>";
 		};
 		4D5A437F22E716AE00E34FAC /* KeyChainHelper */ = {
@@ -392,6 +394,7 @@
 		4DC0DE3722E087F100B2B8D4 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				4D598B6222EEBE360020076D /* PersistentContainer */,
 				4D596EEE22EC478300B2D21D /* Entities */,
 				4D596EED22EC477900B2D21D /* Model */,
 				4D596EEC22EC477200B2D21D /* Manager */,
@@ -613,6 +616,7 @@
 				4DC0DE5522E21B7500B2B8D4 /* Day+CoreDataProperties.swift in Sources */,
 				4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */,
 				4D45E7EA22DDDA00008AC433 /* MainViewModel.swift in Sources */,
+				4D598B6422EEBE480020076D /* PersistentContainer.swift in Sources */,
 				4D5BA10122E5710000B9B487 /* TaskButton.swift in Sources */,
 				4D78AC3622DF1043001FD57F /* CoreDataManager.swift in Sources */,
 				4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */,

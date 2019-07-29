@@ -102,7 +102,6 @@ class ReviewViewController: UIViewController {
         }
         
         self.viewModel.dayEntity = dayEntity
-        print(self.viewModel.dayEntity)
         self.tableView.reloadData()
     }
     
@@ -113,6 +112,7 @@ class ReviewViewController: UIViewController {
         }
     }
     
+    //todo
     @objc
     func handleDone() {
         //get tasks to carry over to the next day
