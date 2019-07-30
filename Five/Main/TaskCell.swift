@@ -74,12 +74,7 @@ class TaskCell: UITableViewCell {
         // save to core data
         save()
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        configure(with: .none)
-    }
-    
+
     func configure(with task: Task?) {
         
         if let task = task {
@@ -100,6 +95,11 @@ class TaskCell: UITableViewCell {
         if let pc = persistentContainer {
             pc.saveContext()
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        configure(with: .none)
     }
 }
 

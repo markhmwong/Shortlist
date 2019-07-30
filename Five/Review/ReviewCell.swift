@@ -8,26 +8,13 @@
 
 import UIKit
 
+// Same ask task cell practically however all user interaction is disabled; the editing and button
+// the cell will act as a preview of yesterday's tasks.
 class ReviewCell: UITableViewCell, UITextFieldDelegate {
     
     var task: Task? = nil {
         didSet {
-            guard let taskName = task?.name else {
-                updateNameLabel(string: "Unknown name")
-                return
-            }
-            
-            if let state = task?.complete {
-                taskButton.taskState = state
-            }
-            
-            contentView.addSubview(name)
-            contentView.addSubview(taskButton)
-            
-            taskButton.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: bounds.width / 8, height: 0.0))
-            name.anchorView(top: topAnchor, bottom: bottomAnchor, leading: taskButton.trailingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
-            
-            updateNameLabel(string: taskName)
+            configure(with: task)
         }
     }
     
@@ -54,12 +41,33 @@ class ReviewCell: UITableViewCell, UITextFieldDelegate {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupCellLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupCellLayout() {
+        backgroundColor = .clear
+        contentView.addSubview(name)
+        contentView.addSubview(taskButton)
+        taskButton.backgroundColor = .red
+        taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
+        name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
+    }
+    
+    func configure(with task: Task?) {
+        
+        if let task = task {
+            name.attributedText = NSAttributedString(string: "\(task.name!)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+            taskButton.taskState = task.complete
+        } else {
+            name.attributedText = NSAttributedString(string: "Unknown Task", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+            taskButton.taskState = false
+        }
+        
+    }
     
     func updateNameLabel(string: String) {
         DispatchQueue.main.async {
@@ -71,11 +79,6 @@ class ReviewCell: UITableViewCell, UITextFieldDelegate {
     func handleTask() {
         taskButton.taskState = !taskButton.taskState
         task?.complete = taskButton.taskState
-//        CoreDataManager.shared.saveContext()
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("did end")
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -90,13 +93,11 @@ class ReviewCell: UITableViewCell, UITextFieldDelegate {
     
     func updateTask(taskNameString: String) {
         task!.name = taskNameString
-//        CoreDataManager.shared.saveContext()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        name.removeFromSuperview()
-        taskButton.removeFromSuperview()
+        configure(with: .none)
     }
 }
 
