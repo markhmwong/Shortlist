@@ -187,6 +187,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.taskListCellId, for: indexPath) as! TaskCell
         cell.task = viewModel.taskDataSource[indexPath.row]
+        cell.persistentContainer = persistentContainer
         return cell
     }
     

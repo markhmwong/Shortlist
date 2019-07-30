@@ -10,12 +10,11 @@ import UIKit
 
 class TaskCell: UITableViewCell {
     
+    var persistentContainer: PersistentContainer?
+    
     var task: Task? = nil {
         didSet {
             guard let taskName = task?.name else {
-                print("nil task name didset")
-                print(task?.name)
-                print(task?.id)
                 updateNameLabel(string: "Unknown name")
                 contentView.addSubview(name)
                 contentView.addSubview(taskButton)
@@ -46,7 +45,7 @@ class TaskCell: UITableViewCell {
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
         view.textColor = UIColor.white
-        view.returnKeyType = UIReturnKeyType.default
+        view.returnKeyType = UIReturnKeyType.done
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -78,7 +77,9 @@ class TaskCell: UITableViewCell {
     func handleTask() {
         taskButton.taskState = !taskButton.taskState
         task?.complete = taskButton.taskState
-//        CoreDataManager.shared.saveContext()
+        
+        // save to core data
+        save()
     }
     
     override func prepareForReuse() {
@@ -86,12 +87,17 @@ class TaskCell: UITableViewCell {
         name.removeFromSuperview()
         taskButton.removeFromSuperview()
     }
-    
 
-    
     func updateTask(taskNameString: String) {
         task!.name = taskNameString
+        
 //        CoreDataManager.shared.saveContext()
+    }
+    
+    func save() {
+        if let pc = persistentContainer {
+            pc.saveContext()
+        }
     }
 }
 
@@ -103,7 +109,6 @@ extension TaskCell: UITextViewDelegate {
             while !(table is UITableView) && table != nil {
                 table = table?.superview
             }
-            
             return table as? UITableView
         }
     }
@@ -116,11 +121,14 @@ extension TaskCell: UITextViewDelegate {
         return true
     }
     
-    //    func textViewShouldReturn(_ textField: UITextField) -> Bool {
-    //        updateTask(taskNameString: textField.text!)
-    //        textField.resignFirstResponder()
-    //        return true
-    //    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if (text == "\n") {
+            save()
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         return true
