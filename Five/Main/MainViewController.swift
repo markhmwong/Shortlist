@@ -13,7 +13,7 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
 
     var fetchedResultsController: NSFetchedResultsController<Day>!
     
-    var viewModel: MainViewModel = MainViewModel()
+    var viewModel: MainViewModel? = nil
     
     var coreDataManager: CoreDataManager?
     
@@ -51,8 +51,9 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(persistentContainer: PersistentContainer? = nil) {
+    init(persistentContainer: PersistentContainer? = nil, viewModel: MainViewModel) {
         self.persistentContainer = persistentContainer
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -89,6 +90,7 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
     }
     
     func setupView() {
+        guard let viewModel = viewModel else { return }
         tableView.tableHeaderView = taskListHeader
         taskListHeader.setNeedsLayout()
         taskListHeader.layoutIfNeeded()
@@ -121,6 +123,7 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
     func loadData() {
         //load today's current data into dayEntity
         guard let persistentContainer = persistentContainer else { return }
+        guard let viewModel = viewModel else { return }
         //check if there is data for today, if there isn't then create the day
         let todaysDate = Calendar.current.today()
         var dayEntity: Day? = persistentContainer.fetchDayManagedObject(forDate: todaysDate)
@@ -142,8 +145,8 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
             }
         }
 
-        self.viewModel.dayEntity = dayEntity
-        if (self.viewModel.dayEntity != nil) {
+        viewModel.dayEntity = dayEntity
+        if (viewModel.dayEntity != nil) {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -156,10 +159,12 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
         guard let persistentContainer = persistentContainer else {
             fatalError("Error loading core data manager while loading data")
         }
+        guard let viewModel = viewModel else { return }
+        
         if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
             persistentContainer.performBackgroundTask { (context) in
-                let dayObject = context.object(with: self.viewModel.dayEntity!.objectID) as! Day
-                persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: self.viewModel.taskDataSource.count)
+                let dayObject = context.object(with: viewModel.dayEntity!.objectID) as! Day
+                persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: viewModel.taskDataSource.count)
                 persistentContainer.saveContext(backgroundContext: context)
                 self.loadData()
             }
@@ -169,10 +174,17 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let viewModel = viewModel else {
+            return 0
+        }
         return viewModel.taskDataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let viewModel = viewModel else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "taskCellId", for: indexPath) as! TaskCell
+            return cell
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.taskListCellId, for: indexPath) as! TaskCell
         cell.task = viewModel.taskDataSource[indexPath.row]
         return cell
@@ -183,18 +195,18 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "delete") { [weak self] (action, view, complete) in
+        let delete = UIContextualAction(style: .destructive, title: "delete") { (action, view, complete) in
             
             let cell = tableView.cellForRow(at: indexPath) as! TaskCell
+            let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+            
             if let task = cell.task {
-                //remove from datasource
-                self?.viewModel.taskDataSource.remove(at: indexPath.row)
-                
-                //remove from core data
-                self?.viewModel.dayEntity?.removeFromDayToTask(task)
-                
-                //to do
-//                CoreDataManager.shared.saveContext()
+                //remove from table view datasource
+                self.viewModel?.taskDataSource.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .left)
+                let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
+                dayManagedObject.removeFromDayToTask(taskManagedObject)
+                self.persistentContainer?.saveContext()
             }
 
             complete(true)

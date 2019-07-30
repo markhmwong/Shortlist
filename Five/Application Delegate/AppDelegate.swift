@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = MainViewController(persistentContainer: persistentContainer)
+        window?.rootViewController = MainViewController(persistentContainer: persistentContainer, viewModel: MainViewModel())
         
         return true
     }
