@@ -25,7 +25,7 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
         view.dataSource = self
         view.backgroundColor = .clear
         view.separatorStyle = .none
-        view.estimatedRowHeight = 50.0
+        view.estimatedRowHeight = viewModel?.cellHeight ?? 50.0
         view.rowHeight = UITableView.automaticDimension
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -104,17 +104,10 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
     func loadReview() {
         guard let coreDataManager = coreDataManager else { return }
-        guard let persistentContainer = persistentContainer else { return }
         
         let vc = ReviewViewController(coreDataManager: coreDataManager)
-        self.present(vc, animated: true) {
-            //
-        }
+        self.present(vc, animated: true)
     }
-
-    // Deal with the situation when the user hasn't used the application for a few days. The review will open
-    // yesterday's review however there won't be an entity.
-    // Solution: Create the day or don't open for review. Empty/nil entities are considered 0 task days.
     
     func seedCoreDataWhenFirstLaunched() {
         // check with keychain

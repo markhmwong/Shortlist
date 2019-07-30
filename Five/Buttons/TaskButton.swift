@@ -11,7 +11,7 @@ import UIKit
 class TaskButton: UIButton {
     
     private struct Constants {
-        static let lineWidth: CGFloat = 3.0
+        static let lineWidth: CGFloat = 2.0
         static let plusLineWidth: CGFloat = 3.0
         static let plusButtonScale: CGFloat = 0.6
         static let halfPointShift: CGFloat = 0.5

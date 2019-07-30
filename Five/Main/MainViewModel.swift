@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class MainViewModel {
     
@@ -32,4 +32,6 @@ class MainViewModel {
     }
     
     let taskSizeLimit: Int = 100
+    
+    let cellHeight: CGFloat = 50.0
 }

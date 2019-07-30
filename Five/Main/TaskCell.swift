@@ -26,9 +26,10 @@ class TaskCell: UITableViewCell {
             if let state = task?.complete {
                 taskButton.taskState = state
             }
-
+            
             contentView.addSubview(name)
             contentView.addSubview(taskButton)
+            taskButton.backgroundColor = .red
             taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
             name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
             
@@ -47,6 +48,8 @@ class TaskCell: UITableViewCell {
         view.textColor = UIColor.white
         view.returnKeyType = UIReturnKeyType.done
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.textContainerInset = UIEdgeInsets.zero
+        view.textContainer.lineFragmentPadding = 0
         return view
     }()
     
@@ -65,11 +68,10 @@ class TaskCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+
     func updateNameLabel(string: String) {
         DispatchQueue.main.async {
-            self.name.attributedText = NSAttributedString(string: "\(string)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b1).value)!])
+            self.name.attributedText = NSAttributedString(string: "\(string)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
         }
     }
     
@@ -84,8 +86,19 @@ class TaskCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        name.removeFromSuperview()
-        taskButton.removeFromSuperview()
+        configure(with: .none)
+    }
+    
+    func configure(with task: Task?) {
+        
+        if let task = task {
+            name.attributedText = NSAttributedString(string: "\(task.name!)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+            taskButton.taskState = task.complete
+        } else {
+            name.attributedText = NSAttributedString(string: "Unknown Task", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+            taskButton.taskState = false
+        }
+        
     }
 
     func updateTask(taskNameString: String) {
@@ -113,26 +126,13 @@ extension TaskCell: UITextViewDelegate {
         }
     }
     
-    private func textViewDidEndEditing(_ textField: UITextField) {
-        print("did end")
-    }
-    
-    private func textViewShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if (text == "\n") {
             updateTask(taskNameString: textView.text!)
             save()
-            print("save")
             textView.resignFirstResponder()
             return false
         }
-        return true
-    }
-    
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         return true
     }
     
