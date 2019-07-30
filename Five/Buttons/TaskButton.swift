@@ -16,7 +16,7 @@ class TaskButton: UIButton {
         static let plusButtonScale: CGFloat = 0.6
         static let halfPointShift: CGFloat = 0.5
         
-        static let completeColor: UIColor = UIColor(red:0.78, green:0.76, blue:0.13, alpha:1.0)
+        static let completeColor: UIColor = UIColor(red:0.05, green:0.57, blue:0.70, alpha:1.0)
         static let incompleteColor: UIColor = UIColor.clear
         static let borderColor: UIColor = UIColor.white
     }
@@ -58,10 +58,6 @@ class TaskButton: UIButton {
     }
     
     override func draw(_ rect: CGRect) {
-        //set up the width and height variables
-        //for the horizontal stroke
-//        let path = UIBezierPath(arcCenter: CGPoint(x: rect.height / 2, y: rect.height / 2), radius: (rect.height / 3) - Constants.lineWidth, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
-        
         let path = UIBezierPath(arcCenter: CGPoint(x: 40.0 / 2, y: 40.0 / 2), radius: (40.0 / 3) - Constants.lineWidth, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
 
         //fill
