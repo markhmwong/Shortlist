@@ -14,26 +14,7 @@ class TaskCell: UITableViewCell {
     
     var task: Task? = nil {
         didSet {
-            guard let taskName = task?.name else {
-                updateNameLabel(string: "Unknown name")
-                contentView.addSubview(name)
-                contentView.addSubview(taskButton)
-                taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
-                name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
-                return
-            }
-            
-            if let state = task?.complete {
-                taskButton.taskState = state
-            }
-            
-            contentView.addSubview(name)
-            contentView.addSubview(taskButton)
-            taskButton.backgroundColor = .red
-            taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
-            name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
-            
-            updateNameLabel(string: taskName)
+            configure(with: task)
         }
     }
     
@@ -62,11 +43,21 @@ class TaskCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
+        setupCellLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupCellLayout() {
+        backgroundColor = .clear
+        contentView.addSubview(name)
+        contentView.addSubview(taskButton)
+        taskButton.backgroundColor = .red
+        taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
+        name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
+
     }
 
     func updateNameLabel(string: String) {
@@ -103,8 +94,6 @@ class TaskCell: UITableViewCell {
 
     func updateTask(taskNameString: String) {
         task!.name = taskNameString
-        
-//        CoreDataManager.shared.saveContext()
     }
     
     func save() {
