@@ -123,7 +123,9 @@ extension TaskCell: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if (text == "\n") {
+            updateTask(taskNameString: textView.text!)
             save()
+            print("save")
             textView.resignFirstResponder()
             return false
         }
