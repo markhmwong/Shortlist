@@ -18,7 +18,6 @@
 		4D45E7BD22DDD1AD008AC433 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7BB22DDD1AD008AC433 /* Interface.storyboard */; };
 		4D45E7BF22DDD1AE008AC433 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7BE22DDD1AE008AC433 /* Assets.xcassets */; };
 		4D45E7C622DDD1AE008AC433 /* Five WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4D45E7C522DDD1AE008AC433 /* Five WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		4D45E7CB22DDD1AE008AC433 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */; };
 		4D45E7CD22DDD1AE008AC433 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CC22DDD1AE008AC433 /* ExtensionDelegate.swift */; };
 		4D45E7CF22DDD1AE008AC433 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CE22DDD1AE008AC433 /* NotificationController.swift */; };
 		4D45E7D122DDD1AF008AC433 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
@@ -27,7 +26,6 @@
 		4D45E7EC22DE083D008AC433 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7EB22DE083D008AC433 /* Theme.swift */; };
 		4D45E7EE22DE086D008AC433 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7ED22DE086D008AC433 /* UIDevice+Extension.swift */; };
 		4D45E7F022DE0882008AC433 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7EF22DE0882008AC433 /* UIColor+Extension.swift */; };
-		4D45E7F422DE28CD008AC433 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7F322DE28CD008AC433 /* CustomLabel.swift */; };
 		4D596EF222EC489500B2D21D /* TaskSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D596EF122EC489500B2D21D /* TaskSaver.swift */; };
 		4D596EF522EC550500B2D21D /* PendingOpertaions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D596EF422EC550500B2D21D /* PendingOpertaions.swift */; };
 		4D598B6422EEBE480020076D /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D598B6322EEBE480020076D /* PersistentContainer.swift */; };
@@ -35,6 +33,11 @@
 		4D5A438222E716AE00E34FAC /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5A438022E716AE00E34FAC /* KeychainWrapper.swift */; };
 		4D5A438322E716AE00E34FAC /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5A438122E716AE00E34FAC /* KeychainItemAccessibility.swift */; };
 		4D5A438522E7197300E34FAC /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5A438422E7197300E34FAC /* Date+Extension.swift */; };
+		4D5B5DF922F07C4E00C8D9A5 /* PhoneSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5DF822F07C4E00C8D9A5 /* PhoneSessionManager.swift */; };
+		4D5B5E0022F07E5500C8D9A5 /* WatchSessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5DFC22F07E5400C8D9A5 /* WatchSessionHandler.swift */; };
+		4D5B5E0222F07E5500C8D9A5 /* WatchSessionDelegater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5DFE22F07E5400C8D9A5 /* WatchSessionDelegater.swift */; };
+		4D5B5E0522F07FEB00C8D9A5 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5E0422F07FEA00C8D9A5 /* TaskList.swift */; };
+		4D5B5E0622F0838F00C8D9A5 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5E0422F07FEA00C8D9A5 /* TaskList.swift */; };
 		4D5BA10122E5710000B9B487 /* TaskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10022E5710000B9B487 /* TaskButton.swift */; };
 		4D5BA10422E5ADA200B9B487 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10322E5ADA200B9B487 /* ReviewViewController.swift */; };
 		4D5BA10622E5EC1600B9B487 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */; };
@@ -49,6 +52,8 @@
 		4DC0DE5522E21B7500B2B8D4 /* Day+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5322E21B7500B2B8D4 /* Day+CoreDataProperties.swift */; };
 		4DC0DE5722E2220F00B2B8D4 /* TaskListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */; };
 		4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */; };
+		4DF724F822F1887500472072 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */; };
+		4DF724F922F1888D00472072 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,7 +142,6 @@
 		4D45E7EB22DE083D008AC433 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4D45E7ED22DE086D008AC433 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		4D45E7EF22DE0882008AC433 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		4D45E7F322DE28CD008AC433 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		4D596EF122EC489500B2D21D /* TaskSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSaver.swift; sourceTree = "<group>"; };
 		4D596EF422EC550500B2D21D /* PendingOpertaions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingOpertaions.swift; sourceTree = "<group>"; };
 		4D598B6322EEBE480020076D /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
@@ -145,6 +149,10 @@
 		4D5A438022E716AE00E34FAC /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		4D5A438122E716AE00E34FAC /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		4D5A438422E7197300E34FAC /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		4D5B5DF822F07C4E00C8D9A5 /* PhoneSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneSessionManager.swift; sourceTree = "<group>"; };
+		4D5B5DFC22F07E5400C8D9A5 /* WatchSessionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionHandler.swift; sourceTree = "<group>"; };
+		4D5B5DFE22F07E5400C8D9A5 /* WatchSessionDelegater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionDelegater.swift; sourceTree = "<group>"; };
+		4D5B5E0422F07FEA00C8D9A5 /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
 		4D5BA10022E5710000B9B487 /* TaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskButton.swift; sourceTree = "<group>"; };
 		4D5BA10322E5ADA200B9B487 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
@@ -159,6 +167,8 @@
 		4DC0DE5322E21B7500B2B8D4 /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListHeader.swift; sourceTree = "<group>"; };
 		4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
+		4DF724F022F174D200472072 /* Five.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Five.entitlements; sourceTree = "<group>"; };
+		4DF724F122F174F100472072 /* Five WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Five WatchKit App.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,7 +206,6 @@
 		4D45E78522DDD1AB008AC433 = {
 			isa = PBXGroup;
 			children = (
-				4D45E7F322DE28CD008AC433 /* CustomLabel.swift */,
 				4D45E79022DDD1AB008AC433 /* Five */,
 				4D45E7A522DDD1AD008AC433 /* FiveTests */,
 				4D45E7B022DDD1AD008AC433 /* FiveUITests */,
@@ -221,6 +230,8 @@
 		4D45E79022DDD1AB008AC433 /* Five */ = {
 			isa = PBXGroup;
 			children = (
+				4DF724F022F174D200472072 /* Five.entitlements */,
+				4D5B5DFA22F07E5400C8D9A5 /* WatchManager */,
 				4D596EF022EC488700B2D21D /* Operations */,
 				4D596EEF22EC479000B2D21D /* Theme */,
 				4D596EEB22EC42E600B2D21D /* Application Delegate */,
@@ -232,6 +243,7 @@
 				4D78AC3722DF16E7001FD57F /* Extensions */,
 				4D45E79522DDD1AB008AC433 /* Main.storyboard */,
 				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
+				4D5B5E0322F07FB500C8D9A5 /* Model */,
 				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
 				4D45E79D22DDD1AD008AC433 /* Info.plist */,
 			);
@@ -259,6 +271,7 @@
 		4D45E7BA22DDD1AD008AC433 /* Five WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
+				4DF724F122F174F100472072 /* Five WatchKit App.entitlements */,
 				4D45E7BB22DDD1AD008AC433 /* Interface.storyboard */,
 				4D45E7BE22DDD1AE008AC433 /* Assets.xcassets */,
 				4D45E7C022DDD1AE008AC433 /* Info.plist */,
@@ -270,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */,
+				4D5B5DF822F07C4E00C8D9A5 /* PhoneSessionManager.swift */,
 				4D45E7CC22DDD1AE008AC433 /* ExtensionDelegate.swift */,
 				4D45E7CE22DDD1AE008AC433 /* NotificationController.swift */,
 				4D45E7D022DDD1AF008AC433 /* Assets.xcassets */,
@@ -346,6 +360,23 @@
 				4D5A438122E716AE00E34FAC /* KeychainItemAccessibility.swift */,
 			);
 			path = KeyChainHelper;
+			sourceTree = "<group>";
+		};
+		4D5B5DFA22F07E5400C8D9A5 /* WatchManager */ = {
+			isa = PBXGroup;
+			children = (
+				4D5B5DFC22F07E5400C8D9A5 /* WatchSessionHandler.swift */,
+				4D5B5DFE22F07E5400C8D9A5 /* WatchSessionDelegater.swift */,
+			);
+			path = WatchManager;
+			sourceTree = "<group>";
+		};
+		4D5B5E0322F07FB500C8D9A5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4D5B5E0422F07FEA00C8D9A5 /* TaskList.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		4D5BA10222E5AD9100B9B487 /* Review */ = {
@@ -506,6 +537,11 @@
 				TargetAttributes = {
 					4D45E78D22DDD1AB008AC433 = {
 						CreatedOnToolsVersion = 10.2;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					4D45E7A122DDD1AD008AC433 = {
 						CreatedOnToolsVersion = 10.2;
@@ -517,6 +553,11 @@
 					};
 					4D45E7B522DDD1AD008AC433 = {
 						CreatedOnToolsVersion = 10.2;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					4D45E7C422DDD1AE008AC433 = {
 						CreatedOnToolsVersion = 10.2;
@@ -601,9 +642,11 @@
 				4D5BA10622E5EC1600B9B487 /* Calendar+Extension.swift in Sources */,
 				4D71A3E722E3757800FEFB36 /* Task+CoreDataClass.swift in Sources */,
 				4D45E7EC22DE083D008AC433 /* Theme.swift in Sources */,
+				4D5B5E0022F07E5500C8D9A5 /* WatchSessionHandler.swift in Sources */,
 				4D59E26522EAEECA00B40E34 /* ReviewViewModel.swift in Sources */,
 				4D45E7EE22DE086D008AC433 /* UIDevice+Extension.swift in Sources */,
 				4D5A438322E716AE00E34FAC /* KeychainItemAccessibility.swift in Sources */,
+				4D5B5E0222F07E5500C8D9A5 /* WatchSessionDelegater.swift in Sources */,
 				4D78ABF722DF0C9C001FD57F /* FiveModel.xcdatamodeld in Sources */,
 				4D45E79422DDD1AB008AC433 /* MainViewController.swift in Sources */,
 				4DA50FC222E83DD80059A46F /* UIBezierPath+Extension.swift in Sources */,
@@ -620,8 +663,8 @@
 				4D5BA10122E5710000B9B487 /* TaskButton.swift in Sources */,
 				4D78AC3622DF1043001FD57F /* CoreDataManager.swift in Sources */,
 				4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */,
-				4D45E7F422DE28CD008AC433 /* CustomLabel.swift in Sources */,
 				4D596EF222EC489500B2D21D /* TaskSaver.swift in Sources */,
+				4D5B5E0522F07FEB00C8D9A5 /* TaskList.swift in Sources */,
 				4DC0DE5422E21B7500B2B8D4 /* Day+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -646,9 +689,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DF724F822F1887500472072 /* InterfaceController.swift in Sources */,
+				4DF724F922F1888D00472072 /* Calendar+Extension.swift in Sources */,
 				4D45E7CF22DDD1AE008AC433 /* NotificationController.swift in Sources */,
+				4D5B5E0622F0838F00C8D9A5 /* TaskList.swift in Sources */,
+				4D5B5DF922F07C4E00C8D9A5 /* PhoneSessionManager.swift in Sources */,
 				4D45E7CD22DDD1AE008AC433 /* ExtensionDelegate.swift in Sources */,
-				4D45E7CB22DDD1AE008AC433 /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -870,6 +916,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Five WatchKit App/Five WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Five_WatchKit_Extension;
@@ -889,6 +936,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Five WatchKit App/Five WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Five_WatchKit_Extension;
@@ -907,6 +955,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Five/Five.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Five/Info.plist;
@@ -925,6 +974,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Five/Five.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Five/Info.plist;

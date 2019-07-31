@@ -9,10 +9,7 @@
 import UIKit
 import CoreData
 
-class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
-
-    var fetchedResultsController: NSFetchedResultsController<Day>!
-    
+class MainViewController: UIViewController {
     var viewModel: MainViewModel? = nil
     
     var coreDataManager: CoreDataManager?
@@ -61,12 +58,13 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
         super.init(coder: aDecoder)
     }
     
-    let saveOperations = PendingOperations()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         loadData()
+        // test watch
+        syncWatch()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -86,7 +84,27 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
             //update
             KeychainWrapper.standard.set(todayStr, forKey: "Date")
         }
-//        loadReview()
+//        loadReview() //to test
+        
+
+    }
+    
+    func syncWatch() {
+        let today = Calendar.current.today()
+        let taskList = TaskList(date: today)
+        let jsonEncoder = JSONEncoder()
+        
+        do {
+            let jsonData = try jsonEncoder.encode(taskList)
+//            let jsonString = String(data: jsonData, encoding: .utf8)
+            print("send")
+//            print(WatchSessionHandler.shared.isReachable())
+//            WatchSessionHandler.shared.sendObjectWith(jsonData: jsonData)
+            WatchSessionHandler.shared.updateApplicationContext(with: jsonData)
+        } catch (let err) {
+            print("Error encoding taskList \(err)")
+        }
+        
     }
     
     func setupView() {
@@ -152,16 +170,16 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate {
         guard let persistentContainer = persistentContainer else {
             fatalError("Error loading core data manager while loading data")
         }
-        guard let viewModel = viewModel else { return }
-        
-        if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
-            persistentContainer.performBackgroundTask { (context) in
-                let dayObject = context.object(with: viewModel.dayEntity!.objectID) as! Day
-                persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: viewModel.taskDataSource.count)
-                persistentContainer.saveContext(backgroundContext: context)
-                self.loadData()
-            }
-        }
+        syncWatch()
+//        guard let viewModel = viewModel else { return }
+//        if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
+//            persistentContainer.performBackgroundTask { (context) in
+//                let dayObject = context.object(with: viewModel.dayEntity!.objectID) as! Day
+//                persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: viewModel.taskDataSource.count)
+//                persistentContainer.saveContext(backgroundContext: context)
+//                self.loadData()
+//            }
+//        }
     }
 }
 
