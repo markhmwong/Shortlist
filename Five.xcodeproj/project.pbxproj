@@ -36,8 +36,8 @@
 		4D5B5DF922F07C4E00C8D9A5 /* PhoneSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5DF822F07C4E00C8D9A5 /* PhoneSessionManager.swift */; };
 		4D5B5E0022F07E5500C8D9A5 /* WatchSessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5DFC22F07E5400C8D9A5 /* WatchSessionHandler.swift */; };
 		4D5B5E0222F07E5500C8D9A5 /* WatchSessionDelegater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5DFE22F07E5400C8D9A5 /* WatchSessionDelegater.swift */; };
-		4D5B5E0522F07FEB00C8D9A5 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5E0422F07FEA00C8D9A5 /* TaskList.swift */; };
-		4D5B5E0622F0838F00C8D9A5 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5E0422F07FEA00C8D9A5 /* TaskList.swift */; };
+		4D5B5E0522F07FEB00C8D9A5 /* TaskStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5E0422F07FEA00C8D9A5 /* TaskStruct.swift */; };
+		4D5B5E0622F0838F00C8D9A5 /* TaskStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5E0422F07FEA00C8D9A5 /* TaskStruct.swift */; };
 		4D5BA10122E5710000B9B487 /* TaskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10022E5710000B9B487 /* TaskButton.swift */; };
 		4D5BA10422E5ADA200B9B487 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10322E5ADA200B9B487 /* ReviewViewController.swift */; };
 		4D5BA10622E5EC1600B9B487 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */; };
@@ -54,6 +54,7 @@
 		4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */; };
 		4DF724F822F1887500472072 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */; };
 		4DF724F922F1888D00472072 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */; };
+		4DF724FC22F1974000472072 /* TaskRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF724FB22F1974000472072 /* TaskRowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,7 +153,7 @@
 		4D5B5DF822F07C4E00C8D9A5 /* PhoneSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneSessionManager.swift; sourceTree = "<group>"; };
 		4D5B5DFC22F07E5400C8D9A5 /* WatchSessionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionHandler.swift; sourceTree = "<group>"; };
 		4D5B5DFE22F07E5400C8D9A5 /* WatchSessionDelegater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionDelegater.swift; sourceTree = "<group>"; };
-		4D5B5E0422F07FEA00C8D9A5 /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
+		4D5B5E0422F07FEA00C8D9A5 /* TaskStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStruct.swift; sourceTree = "<group>"; };
 		4D5BA10022E5710000B9B487 /* TaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskButton.swift; sourceTree = "<group>"; };
 		4D5BA10322E5ADA200B9B487 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
@@ -169,6 +170,8 @@
 		4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		4DF724F022F174D200472072 /* Five.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Five.entitlements; sourceTree = "<group>"; };
 		4DF724F122F174F100472072 /* Five WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Five WatchKit App.entitlements"; sourceTree = "<group>"; };
+		4DF724FA22F18FEF00472072 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4DF724FB22F1974000472072 /* TaskRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +209,7 @@
 		4D45E78522DDD1AB008AC433 = {
 			isa = PBXGroup;
 			children = (
+				4DF724FA22F18FEF00472072 /* README.md */,
 				4D45E79022DDD1AB008AC433 /* Five */,
 				4D45E7A522DDD1AD008AC433 /* FiveTests */,
 				4D45E7B022DDD1AD008AC433 /* FiveUITests */,
@@ -283,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */,
+				4DF724FB22F1974000472072 /* TaskRowController.swift */,
 				4D5B5DF822F07C4E00C8D9A5 /* PhoneSessionManager.swift */,
 				4D45E7CC22DDD1AE008AC433 /* ExtensionDelegate.swift */,
 				4D45E7CE22DDD1AE008AC433 /* NotificationController.swift */,
@@ -374,7 +379,7 @@
 		4D5B5E0322F07FB500C8D9A5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4D5B5E0422F07FEA00C8D9A5 /* TaskList.swift */,
+				4D5B5E0422F07FEA00C8D9A5 /* TaskStruct.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -664,7 +669,7 @@
 				4D78AC3622DF1043001FD57F /* CoreDataManager.swift in Sources */,
 				4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */,
 				4D596EF222EC489500B2D21D /* TaskSaver.swift in Sources */,
-				4D5B5E0522F07FEB00C8D9A5 /* TaskList.swift in Sources */,
+				4D5B5E0522F07FEB00C8D9A5 /* TaskStruct.swift in Sources */,
 				4DC0DE5422E21B7500B2B8D4 /* Day+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,7 +697,8 @@
 				4DF724F822F1887500472072 /* InterfaceController.swift in Sources */,
 				4DF724F922F1888D00472072 /* Calendar+Extension.swift in Sources */,
 				4D45E7CF22DDD1AE008AC433 /* NotificationController.swift in Sources */,
-				4D5B5E0622F0838F00C8D9A5 /* TaskList.swift in Sources */,
+				4D5B5E0622F0838F00C8D9A5 /* TaskStruct.swift in Sources */,
+				4DF724FC22F1974000472072 /* TaskRowController.swift in Sources */,
 				4D5B5DF922F07C4E00C8D9A5 /* PhoneSessionManager.swift in Sources */,
 				4D45E7CD22DDD1AE008AC433 /* ExtensionDelegate.swift in Sources */,
 			);

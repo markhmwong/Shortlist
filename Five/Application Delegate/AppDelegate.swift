@@ -54,23 +54,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         
-        if (!WatchSessionHandler.shared.isSupported() && !WatchSessionHandler.shared.isReachable()) {
-            print("WCSession not supported")
-        } else {
-            print("WCSession IS supported")
-            let today = Calendar.current.today()
-            let taskList = TaskList(date: today)
-            let jsonEncoder = JSONEncoder()
-            
-            do {
-                let jsonData = try jsonEncoder.encode(taskList)
-                //            let jsonString = String(data: jsonData, encoding: .utf8)
-                print("send")
-                WatchSessionHandler.shared.sendObjectWith(jsonData: jsonData)
-            } catch (let err) {
-                print("Error encoding taskList \(err)")
-            }
-        }
+//        if (!WatchSessionHandler.shared.isSupported() && !WatchSessionHandler.shared.isReachable()) {
+//            print("WCSession not supported")
+//        } else {
+//            print("WCSession IS supported")
+//            let today = Calendar.current.today()
+//            let taskList = TaskStruct(date: today)
+//            let jsonEncoder = JSONEncoder()
+//            
+//            do {
+//                let jsonData = try jsonEncoder.encode(taskList)
+//                //            let jsonString = String(data: jsonData, encoding: .utf8)
+//                print("send")
+//                WatchSessionHandler.shared.sendObjectWith(jsonData: jsonData)
+//            } catch (let err) {
+//                print("Error encoding taskList \(err)")
+//            }
+//        }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

@@ -8,6 +8,8 @@
 
 import Foundation
 
-struct TaskList: Codable {
+struct TaskStruct: Codable {
     var date: Date
+    var name: String
+    var complete: Bool
 }

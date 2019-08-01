@@ -91,16 +91,18 @@ class MainViewController: UIViewController {
     
     func syncWatch() {
         let today = Calendar.current.today()
-        let taskList = TaskList(date: today)
+        let taskList: [TaskStruct] = [
+            TaskStruct(date: today, name: "Sample task one", complete: false),
+            TaskStruct(date: today, name: "Sample task two", complete: true),
+            TaskStruct(date: today, name: "Sample task three", complete: false)
+        ]
         let jsonEncoder = JSONEncoder()
         
         do {
-            let jsonData = try jsonEncoder.encode(taskList)
-//            let jsonString = String(data: jsonData, encoding: .utf8)
-            print("send")
-//            print(WatchSessionHandler.shared.isReachable())
-//            WatchSessionHandler.shared.sendObjectWith(jsonData: jsonData)
-            WatchSessionHandler.shared.updateApplicationContext(with: jsonData)
+            let encodedData = try jsonEncoder.encode(taskList)
+            let jsonString = String(data: encodedData, encoding: .utf8)
+            print(jsonString)
+            WatchSessionHandler.shared.updateApplicationContext(with: encodedData)
         } catch (let err) {
             print("Error encoding taskList \(err)")
         }

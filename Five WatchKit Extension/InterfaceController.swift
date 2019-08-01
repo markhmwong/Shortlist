@@ -10,10 +10,12 @@ import WatchKit
 import Foundation
 import WatchConnectivity
 
-
 class InterfaceController: WKInterfaceController {
 
     @IBOutlet weak var dateLabel: WKInterfaceLabel!
+    @IBOutlet weak var taskTable: WKInterfaceTable!
+    
+//    var tasks tbd
     
     private var watchSession: WCSession? {
         didSet {
@@ -27,13 +29,14 @@ class InterfaceController: WKInterfaceController {
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         // Configure interface objects here.
+        watchSession = WCSession.default
         reloadData()
-        
     }
     
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+
     }
     
     override func didDeactivate() {
@@ -43,6 +46,13 @@ class InterfaceController: WKInterfaceController {
     
     func reloadData() {
         
+        watchSession?.sendMessage(["RequestData" : 1], replyHandler: { (response) in
+            // grab response from iOS and parse data to table
+            self.taskTable.setNumberOfRows(0, withRowType: "TaskRow")
+        }, errorHandler: { (err) in
+            print("\(err) ")
+        })
+        
         let today = Calendar.current.today()
         let monthNameFormatter = DateFormatter()
         monthNameFormatter.dateFormat = "MMMM"
@@ -51,11 +61,8 @@ class InterfaceController: WKInterfaceController {
         todayNameFormatter.dateFormat = "dd"
         let todayString = todayNameFormatter.string(from: today)
         let str = "\(todayString) \(monthString)"
-        
-//        dateLabel.setText(str)
-        
-        dateLabel.setAttributedText(NSMutableAttributedString(string: "\(str)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.strokeWidth : -3.0, NSAttributedString.Key.strokeColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: "Avenir-Heavy", size: 22.0)!]))
-        watchSession = WCSession.default
+
+        dateLabel.setText(str)
     }
 
 }
@@ -82,10 +89,19 @@ extension InterfaceController: WCSessionDelegate {
         let jsonDecoder = JSONDecoder()
         do {
             let data = applicationContext["TaskListObject"] as! Data
-            let taskdata = try jsonDecoder.decode(TaskList.self, from: data)
-            print(taskdata.date)
+            let taskData = try jsonDecoder.decode([TaskStruct].self, from: data)
+            print(taskData.count)
+            taskTable.setNumberOfRows(3, withRowType: "TaskRow")
+            
+            for index in 0..<taskTable.numberOfRows {
+                guard let controller = taskTable.rowController(at: index) as? TaskRowController else { continue }
+                controller.task = taskData[index]
+            }
+            
         } catch (let err) {
             print("\(err)")
         }
     }
+    
+    
 }
