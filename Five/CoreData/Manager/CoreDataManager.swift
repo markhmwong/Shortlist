@@ -191,7 +191,7 @@ extension CoreDataManager {
         let context = self.mainManagedObjectContext
         let dayRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Day")
         dayRequest.returnsObjectsAsFaults = false
-        dayRequest.predicate = NSPredicate(format: "date == %@", date as NSDate)
+        dayRequest.predicate = NSPredicate(format: "createdAt == %@", date as NSDate)
         
         do {
             let fetchedResults = try context.fetch(dayRequest)

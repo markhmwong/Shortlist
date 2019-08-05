@@ -13,7 +13,9 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    var buttonColor = UIColor()
+    
     lazy var persistentContainer: PersistentContainer = {
         let container = PersistentContainer(name: "FiveModel")
         container.loadPersistentStores { description, error in
@@ -31,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         window?.rootViewController = MainViewController(persistentContainer: persistentContainer, viewModel: MainViewModel())
-        
         if (!WatchSessionHandler.shared.isSupported()) {
             print("WCSession not supported")
         }

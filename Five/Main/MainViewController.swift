@@ -8,13 +8,29 @@
 
 import UIKit
 import CoreData
+import WatchConnectivity
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, NSFetchedResultsControllerDelegate{
     var viewModel: MainViewModel? = nil
     
     var coreDataManager: CoreDataManager?
     
     var persistentContainer: PersistentContainer?
+    
+    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
+        // Create Fetch Request
+        let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
+        // Configure Fetch Request
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "createdAt == %@", argumentArray: [Calendar.current.today()])
+        // Create Fetched Results Controller
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: (self.persistentContainer?.viewContext ?? nil)!, sectionNameKeyPath: nil, cacheName: nil)
+        
+        // Configure Fetched Results Controller
+        fetchedResultsController.delegate = self
+        
+        return fetchedResultsController
+    }()
     
     lazy var tableView: UITableView = {
         let view = UITableView()
@@ -51,6 +67,7 @@ class MainViewController: UIViewController {
     init(persistentContainer: PersistentContainer? = nil, viewModel: MainViewModel) {
         self.persistentContainer = persistentContainer
         self.viewModel = viewModel
+        WatchSessionHandler.shared.initPersistentContainer(with: persistentContainer!)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,8 +78,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
         loadData()
+        setupView()
+        
+//        deleteAllData()
         // test watch
         syncWatch()
     }
@@ -85,23 +104,24 @@ class MainViewController: UIViewController {
             KeychainWrapper.standard.set(todayStr, forKey: "Date")
         }
 //        loadReview() //to test
-        
-
+    }
+    
+    func deleteAllData() {
+        guard let persistentContainer = persistentContainer else { return }
+        persistentContainer.deleteAllRecordsIn(entity: Day.self)
     }
     
     func syncWatch() {
         let today = Calendar.current.today()
         let taskList: [TaskStruct] = [
-            TaskStruct(date: today, name: "Sample task one", complete: false),
-            TaskStruct(date: today, name: "Sample task two", complete: true),
-            TaskStruct(date: today, name: "Sample task three", complete: false)
+            TaskStruct(id: 0, name: "Sample Task One", complete: false),
+            TaskStruct(id: 1, name: "Sample Task One", complete: false),
+            TaskStruct(id: 2, name: "Sample Task One", complete: false),
         ]
         let jsonEncoder = JSONEncoder()
-        
         do {
             let encodedData = try jsonEncoder.encode(taskList)
-            let jsonString = String(data: encodedData, encoding: .utf8)
-            print(jsonString)
+//            let jsonString = String(data: encodedData, encoding: .utf8)
             WatchSessionHandler.shared.updateApplicationContext(with: encodedData)
         } catch (let err) {
             print("Error encoding taskList \(err)")
@@ -140,11 +160,26 @@ class MainViewController: UIViewController {
         //check if there is data for today, if there isn't then create the day
         let todaysDate = Calendar.current.today()
         var dayEntity: Day? = persistentContainer.fetchDayManagedObject(forDate: todaysDate)
-
+        
+        do {
+            try fetchedResultsController.performFetch()
+            if let day = fetchedResultsController.fetchedObjects {
+                print("Day Object")
+                let todayObject = day.first
+                print(todayObject?.createdAt)
+                
+                print(todayObject?.dayToTask?.count)
+                
+            
+            }
+        } catch (let err) {
+            print("Unable to perform fetch \(err)")
+        }
+        
         if (dayEntity == nil) {
             let privateContext = persistentContainer.newBackgroundContext()
             dayEntity = Day(context: privateContext)
-            dayEntity?.date = todaysDate as NSDate
+            dayEntity?.createdAt = todaysDate as NSDate
             dayEntity?.taskLimit = 5 //default limit
 
             // possible loading graphic
@@ -172,25 +207,27 @@ class MainViewController: UIViewController {
         guard let persistentContainer = persistentContainer else {
             fatalError("Error loading core data manager while loading data")
         }
-        syncWatch()
-//        guard let viewModel = viewModel else { return }
-//        if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
-//            persistentContainer.performBackgroundTask { (context) in
-//                let dayObject = context.object(with: viewModel.dayEntity!.objectID) as! Day
-//                persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: viewModel.taskDataSource.count)
-//                persistentContainer.saveContext(backgroundContext: context)
-//                self.loadData()
-//            }
-//        }
+//        syncWatch()
+        guard let viewModel = viewModel else { return }
+        if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
+            persistentContainer.performBackgroundTask { (context) in
+                let dayObject = context.object(with: viewModel.dayEntity!.objectID) as! Day
+                persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: viewModel.taskDataSource.count)
+                persistentContainer.saveContext(backgroundContext: context)
+                self.loadData()
+            }
+        }
     }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let viewModel = viewModel else {
-            return 0
-        }
-        return viewModel.taskDataSource.count
+//        guard let viewModel = viewModel else {
+//            return 0
+//        }
+//        return viewModel.taskDataSource.count
+        guard let dayObjects = fetchedResultsController.fetchedObjects else { return 0 }
+        return dayObjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -199,7 +236,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.taskListCellId, for: indexPath) as! TaskCell
-        cell.task = viewModel.taskDataSource[indexPath.row]
+        let dayObject = fetchedResultsController.fetchedObjects?.first
+        let set = dayObject?.dayToTask as? Set<Task>
+        
+        let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
+            return taskA.id < taskB.id
+        })
+        cell.task = sortedSet?[indexPath.row]
         cell.persistentContainer = persistentContainer
         return cell
     }

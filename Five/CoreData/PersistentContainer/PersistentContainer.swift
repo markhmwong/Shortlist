@@ -28,7 +28,7 @@ class PersistentContainer: NSPersistentContainer {
         let dayRequest: NSFetchRequest<Day> = Day.fetchRequest()
         
         dayRequest.returnsObjectsAsFaults = false
-        dayRequest.predicate = NSPredicate(format: "date == %@", date as NSDate)
+        dayRequest.predicate = NSPredicate(format: "createdAt == %@", date as NSDate)
         
         do {
             let fetchedResults = try context.fetch(dayRequest)
@@ -66,7 +66,7 @@ class PersistentContainer: NSPersistentContainer {
         let context = viewContext
         let dayRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Day")
         dayRequest.returnsObjectsAsFaults = false
-        dayRequest.predicate = NSPredicate(format: "date == %@", date as NSDate)
+        dayRequest.predicate = NSPredicate(format: "createdAt == %@", date as NSDate)
         
         do {
             let fetchedResults = try context.fetch(dayRequest)

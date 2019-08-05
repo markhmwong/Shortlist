@@ -17,7 +17,7 @@ extension Day {
         return NSFetchRequest<Day>(entityName: "Day")
     }
 
-    @NSManaged public var date: NSDate?
+    @NSManaged public var createdAt: NSDate?
     @NSManaged public var taskLimit: Int64
     @NSManaged public var dayToTask: NSSet?
 

@@ -15,6 +15,13 @@ class WatchSessionHandler : NSObject {
     
     private var session = WCSession.default
     
+    //pass core data here
+    private var persistentContainer: PersistentContainer? {
+        didSet {
+            sessionDelegater.persistentContainer = persistentContainer
+        }
+    }
+    
     private lazy var sessionDelegater: WatchSessionDelegater = {
         return WatchSessionDelegater()
     }()
@@ -29,6 +36,10 @@ class WatchSessionHandler : NSObject {
         }
         
         print("isPaired?: \(session.isPaired), isWatchAppInstalled?: \(session.isWatchAppInstalled)")
+    }
+    
+    func initPersistentContainer(with container: PersistentContainer) {
+        persistentContainer = container
     }
     
     func isSupported() -> Bool {

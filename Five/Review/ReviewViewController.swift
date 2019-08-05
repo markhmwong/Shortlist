@@ -92,11 +92,10 @@ class ReviewViewController: UIViewController {
         }
         
         var dayEntity: Day? = coreDataManager.fetchDayEntity(forDate: viewModel.targetDate) as? Day
-        
         if (dayEntity == nil) {
             dayEntity = Day(context: coreDataManager.mainManagedObjectContext)
             let date = Calendar.current.today()
-            dayEntity?.date = date as NSDate
+            dayEntity?.createdAt = date as NSDate
             dayEntity?.taskLimit = 5 //default limit
             coreDataManager.saveChanges()
         }

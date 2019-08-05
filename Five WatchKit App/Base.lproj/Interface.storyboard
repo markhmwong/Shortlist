@@ -23,11 +23,16 @@
                                 <tableRow identifier="TaskRow" id="3jI-7e-w0F" customClass="TaskRowController" customModule="Five_WatchKit_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="juu-oz-hIk">
                                         <items>
+                                            <button width="19" height="20" alignment="left" verticalAlignment="center" backgroundImage="TaskButtonEnabled" id="mPs-Wd-RI9">
+                                                <connections>
+                                                    <action selector="taskComplete" destination="3jI-7e-w0F" id="RLJ-vF-dYe"/>
+                                                </connections>
+                                            </button>
                                             <label alignment="left" verticalAlignment="center" text="Label" id="i0L-N2-CYS"/>
                                         </items>
-                                        <color key="backgroundColor" white="0.8506652066" alpha="0.84185189260000004" colorSpace="calibratedWhite"/>
                                     </group>
                                     <connections>
+                                        <outlet property="taskButton" destination="mPs-Wd-RI9" id="f3y-m8-PIz"/>
                                         <outlet property="taskLabel" destination="i0L-N2-CYS" id="k4d-xX-qh5"/>
                                     </connections>
                                 </tableRow>

@@ -10,20 +10,25 @@ import Foundation
 import WatchConnectivity
 
 class WatchSessionDelegater: NSObject, WCSessionDelegate {
+    
+    var persistentContainer: PersistentContainer?
+    
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("did become active")
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        
+        print("did become inactive")
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
+        print("did deactivate")
         session.activate()
     }
     
     func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
         print("did receive from watch")
+
         
 //        let jsonDecoder = JSONDecoder()
 //        do {
@@ -32,6 +37,40 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
 //        } catch (let err) {
 //            print("\(err)")
 //        }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        print("didreceivemessage")
+        persistentContainer?.saveContext()
+        
+        if (message.keys.contains("requestPhoneData")) {
+            let todayNSManagedObject = persistentContainer?.fetchDayManagedObject(forDate: Calendar.current.today())
+            let taskList: [Task] = todayNSManagedObject?.dayToTask?.allObjects as! [Task]
+            var dataList: [TaskStruct] = []
+            for task in taskList {
+                let newTask: TaskStruct = TaskStruct(id: task.id, name: task.name!, complete: task.complete)
+                dataList.append(newTask)
+            }
+            
+            let jsonEncoder = JSONEncoder()
+            do {
+                let encodedData = try jsonEncoder.encode(dataList)
+                print("dataList \(dataList.count)")
+                replyHandler(["WatchDidLoadResponse" : encodedData])
+            } catch (let err) {
+                print("Error encoding taskList \(err)")
+            }
+        }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
+        print("messageData")
+        
+    }
+    
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        print("did receive application context")
+        
     }
     
 }

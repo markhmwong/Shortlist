@@ -157,6 +157,7 @@
 		4D5BA10022E5710000B9B487 /* TaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskButton.swift; sourceTree = "<group>"; };
 		4D5BA10322E5ADA200B9B487 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
+		4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D71A3E622E3757800FEFB36 /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FiveModel.xcdatamodel; sourceTree = "<group>"; };
@@ -1140,9 +1141,10 @@
 		4D78ABF522DF0C9C001FD57F /* FiveModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */,
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
 			);
-			currentVersion = 4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */;
+			currentVersion = 4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */;
 			path = FiveModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

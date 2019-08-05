@@ -9,7 +9,12 @@
 import Foundation
 
 struct TaskStruct: Codable {
-    var date: Date
+    var id: Int16
     var name: String
     var complete: Bool
+    
+    //var date: Date
+    //properties missing
+    //carryover
+    //tasktoday relationship
 }
