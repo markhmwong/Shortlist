@@ -69,8 +69,25 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
     }
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        print("did receive application context")
-        
+        print("did receive application context from watch")
+//        UpdateTaskFromWatch
+        let data = applicationContext["UpdateTaskFromWatch"] as! Data
+        //decode
+        do {
+            let decodedData = try JSONDecoder().decode([TaskStruct].self, from: data)
+
+            let taskDataPhone = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+            taskDataPhone.taskLimit = taskDataPhone.taskLimit + 1
+            let tasks = taskDataPhone.dayToTask?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [Task]
+
+            for task in decodedData {
+                tasks[Int(task.id)].complete = task.complete
+            }
+            
+            persistentContainer?.saveContext(backgroundContext: nil)
+        } catch (let err) {
+            print("Unable to decode data from Watch\(err)")
+        }
     }
     
 }

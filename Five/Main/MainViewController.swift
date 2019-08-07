@@ -10,7 +10,8 @@ import UIKit
 import CoreData
 import WatchConnectivity
 
-class MainViewController: UIViewController, NSFetchedResultsControllerDelegate{
+class MainViewController: UIViewController {
+    
     var viewModel: MainViewModel? = nil
     
     var coreDataManager: CoreDataManager?
@@ -104,6 +105,9 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate{
             KeychainWrapper.standard.set(todayStr, forKey: "Date")
         }
 //        loadReview() //to test
+        let dayEntity: Day? = persistentContainer!.fetchDayManagedObject(forDate: Calendar.current.today())
+        dayEntity?.taskLimit = dayEntity!.taskLimit + 1
+        persistentContainer?.saveContext()
     }
     
     func deleteAllData() {
@@ -163,15 +167,9 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate{
         
         do {
             try fetchedResultsController.performFetch()
-            if let day = fetchedResultsController.fetchedObjects {
-                print("Day Object")
-                let todayObject = day.first
-                print(todayObject?.createdAt)
-                
-                print(todayObject?.dayToTask?.count)
-                
-            
-            }
+//            if let day = fetchedResultsController.fetchedObjects {
+//                let todayObject = day.first
+//            }
         } catch (let err) {
             print("Unable to perform fetch \(err)")
         }
@@ -220,14 +218,34 @@ class MainViewController: UIViewController, NSFetchedResultsControllerDelegate{
     }
 }
 
+extension MainViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        print("fetch controller changed")
+        do {
+            try fetchedResultsController.performFetch()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        } catch (let err) {
+            print("\(err)")
+        }
+        
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        print("fetch: didchange")
+//        got it working! must change the same entity as in the fetch controller not the entity attached to the relationship (one to many)
+        print(anObject)
+        let dayObject = anObject as! Day
+    }
+}
+
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        guard let viewModel = viewModel else {
-//            return 0
-//        }
-//        return viewModel.taskDataSource.count
         guard let dayObjects = fetchedResultsController.fetchedObjects else { return 0 }
-        return dayObjects.count
+        let first = dayObjects.first
+        return first?.dayToTask?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -239,10 +257,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let dayObject = fetchedResultsController.fetchedObjects?.first
         let set = dayObject?.dayToTask as? Set<Task>
         
-        let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
-            return taskA.id < taskB.id
-        })
-        cell.task = sortedSet?[indexPath.row]
+        if (!set!.isEmpty) {
+            let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
+                return taskA.id < taskB.id
+            })
+            cell.task = sortedSet?[indexPath.row]
+        }
+
         cell.persistentContainer = persistentContainer
         return cell
     }
@@ -259,13 +280,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             
             if let task = cell.task {
                 //remove from table view datasource
-                self.viewModel?.taskDataSource.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .left)
+//                self.viewModel?.taskDataSource.remove(at: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .left)
                 let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
                 dayManagedObject.removeFromDayToTask(taskManagedObject)
                 self.persistentContainer?.saveContext()
             }
-
             complete(true)
         }
         

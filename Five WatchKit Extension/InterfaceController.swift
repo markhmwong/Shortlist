@@ -79,6 +79,7 @@ class InterfaceController: WKInterfaceController {
         for index in 0..<taskTable.numberOfRows {
             guard let controller = taskTable.rowController(at: index) as? TaskRowController else { continue }
             controller.task = data[index]
+            //task button closure
             controller.updateDataSource = { [unowned self] (task) in
                 self.tableDataSource?[Int(task.id)] = task
                 do {
@@ -142,6 +143,4 @@ extension InterfaceController: WCSessionDelegate {
             print("\(err)")
         }
     }
-    
-    
 }

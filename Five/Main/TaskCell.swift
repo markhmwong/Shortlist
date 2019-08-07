@@ -71,7 +71,7 @@ class TaskCell: UITableViewCell {
         task?.complete = taskButton.taskState
         
         // save to core data
-        save()
+        saveTaskState()
     }
 
     func configure(with task: Task?) {
@@ -79,6 +79,7 @@ class TaskCell: UITableViewCell {
         if let task = task {
             name.attributedText = NSAttributedString(string: "\(task.name!)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
             taskButton.taskState = task.complete
+            print("\(task.name!), \(task.complete)")
         } else {
             name.attributedText = NSAttributedString(string: "Unknown Task", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
             taskButton.taskState = false
@@ -90,7 +91,8 @@ class TaskCell: UITableViewCell {
         task!.name = taskNameString
     }
     
-    func save() {
+    func saveTaskState() {
+        print("task context: \(persistentContainer?.viewContext)")
         if let pc = persistentContainer {
             pc.saveContext()
         }
@@ -117,7 +119,7 @@ extension TaskCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if (text == "\n") {
             updateTask(taskNameString: textView.text!)
-            save()
+            saveTaskState()
             textView.resignFirstResponder()
             return false
         }
