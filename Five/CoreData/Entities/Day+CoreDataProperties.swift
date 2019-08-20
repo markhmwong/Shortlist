@@ -2,7 +2,7 @@
 //  Day+CoreDataProperties.swift
 //  Five
 //
-//  Created by Mark Wong on 20/7/19.
+//  Created by Mark Wong on 20/8/19.
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 //
@@ -19,6 +19,11 @@ extension Day {
 
     @NSManaged public var createdAt: NSDate?
     @NSManaged public var taskLimit: Int64
+    @NSManaged public var year: Int16
+    @NSManaged public var month: NSDate?
+    @NSManaged public var day: Int16
+    @NSManaged public var totalCompleted: Int16
+    @NSManaged public var totalTasks: NSObject?
     @NSManaged public var dayToTask: NSSet?
 
 }
