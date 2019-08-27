@@ -41,11 +41,7 @@ class StatisticsGenerator: NSObject {
             totalCompletedForTimePeriod += Int(day.totalCompleted)
             totalTasksForDay += day.totalTasks
             
-            guard let monthType = MonthType(rawValue: day.month) else {
-                fatalError("Day Type does not exist")
-            }
-            
-            let date = Calendar.current.dayOfWeek(date: day.createdAt as! Date)
+            let date = Calendar.current.dayOfWeek(date: day.createdAt! as Date)
             guard let dayOfWeek = DayOfWeek(rawValue: Int16(date)) else {
                 fatalError("Day Type does not exist")
             }

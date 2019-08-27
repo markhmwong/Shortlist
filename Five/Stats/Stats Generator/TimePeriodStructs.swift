@@ -30,15 +30,6 @@ struct DayOverview: OverviewData {
     
 }
 
-// Month Overview - no longer in use. We'll use the DayOverview
-//struct MonthOverView: OverviewData {
-//    
-//    let date: Int
-//    
-//    var numberOfCompletedTasks: Int16
-//    
-//}
-
 // A summary of a week's data
 // Stores properties
 
