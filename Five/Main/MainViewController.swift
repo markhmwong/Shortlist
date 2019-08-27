@@ -12,9 +12,11 @@ import WatchConnectivity
 
 class MainViewController: UIViewController {
     
+    weak var coordinator: MainCoordinator?
+    
     var viewModel: MainViewModel? = nil
     
-    var coreDataManager: CoreDataManager?
+//    var coreDataManager: CoreDataManager?
     
     var persistentContainer: PersistentContainer?
     
@@ -26,10 +28,8 @@ class MainViewController: UIViewController {
         fetchRequest.predicate = NSPredicate(format: "createdAt == %@", argumentArray: [Calendar.current.today()])
         // Create Fetched Results Controller
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: (self.persistentContainer?.viewContext ?? nil)!, sectionNameKeyPath: nil, cacheName: nil)
-        
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self
-        
         return fetchedResultsController
     }()
     
@@ -76,15 +76,20 @@ class MainViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+//        deleteAllData()
+//        initialiseSampleData()
         loadData()
         setupView()
+//        guard let dayArray = persistentContainer?.fetchAllTasksByWeek(forWeek: Calendar.current.startOfWeek(), today: Calendar.current.today()) else {
+//            //no data to do
+//            return
+//        }
         
-//        deleteAllData()
+        
         // test watch
-        syncWatch()
+//        syncWatch()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,9 +110,27 @@ class MainViewController: UIViewController {
             KeychainWrapper.standard.set(todayStr, forKey: "Date")
         }
 //        loadReview() //to test
-        let dayEntity: Day? = persistentContainer!.fetchDayManagedObject(forDate: Calendar.current.today())
-        dayEntity?.taskLimit = dayEntity!.taskLimit + 1
         persistentContainer?.saveContext()
+    }
+    
+    func initialiseSampleData() {
+        guard let persistentContainer = persistentContainer else { return }
+        let dayInSeconds: TimeInterval = 86400
+        let totalTasks: [Int] = [5, 10, 15]
+        for i in 0..<50 {
+            let date = Date().addingTimeInterval(Double(i) * -dayInSeconds)
+            var dayObject: Day? = persistentContainer.fetchDayEntity(forDate: date) as? Day
+            
+            if dayObject == nil {
+                dayObject = Day(context: persistentContainer.viewContext)
+                dayObject?.createdAt = date as NSDate
+                dayObject?.totalCompleted = Int16.random(in: 0..<6)
+                dayObject?.totalTasks = Int16(totalTasks[Int.random(in: 0..<3)])
+                dayObject?.month = Calendar.current.monthToInt(date: date, adjust: -i)
+                dayObject?.year = Calendar.current.yearToInt()
+                dayObject?.day = Int16(Calendar.current.dayDate(date: date))
+            }
+        }
     }
     
     func deleteAllData() {
@@ -115,6 +138,7 @@ class MainViewController: UIViewController {
         persistentContainer.deleteAllRecordsIn(entity: Day.self)
     }
     
+    // disabled
     func syncWatch() {
         let today = Calendar.current.today()
         let taskList: [TaskStruct] = [
@@ -122,9 +146,9 @@ class MainViewController: UIViewController {
             TaskStruct(id: 1, name: "Sample Task One", complete: false),
             TaskStruct(id: 2, name: "Sample Task One", complete: false),
         ]
-        let jsonEncoder = JSONEncoder()
+
         do {
-            let encodedData = try jsonEncoder.encode(taskList)
+            let encodedData = try JSONEncoder().encode(taskList)
 //            let jsonString = String(data: encodedData, encoding: .utf8)
             WatchSessionHandler.shared.updateApplicationContext(with: encodedData)
         } catch (let err) {
@@ -144,13 +168,23 @@ class MainViewController: UIViewController {
         tableView.register(TaskCell.self, forCellReuseIdentifier: viewModel.taskListCellId)
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
         addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
+        
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Stats", style: .plain, target: self, action: #selector(handleStats))
+    }
+    
+    @objc
+    func handleStats() {
+        guard let coordinator = coordinator else { return }
+        coordinator.showStats(persistentContainer)
     }
     
     func loadReview() {
-        guard let coreDataManager = coreDataManager else { return }
+        // no longer using coredataManager pass PersistentContainer object instead
+//        guard let coreDataManager = coreDataManager else { return }
         
-        let vc = ReviewViewController(coreDataManager: coreDataManager)
-        self.present(vc, animated: true)
+//        let vc = ReviewViewController(coreDataManager: coreDataManager)
+//        self.present(vc, animated: true)
     }
     
     func seedCoreDataWhenFirstLaunched() {
@@ -163,25 +197,23 @@ class MainViewController: UIViewController {
         guard let viewModel = viewModel else { return }
         //check if there is data for today, if there isn't then create the day
         let todaysDate = Calendar.current.today()
-        var dayEntity: Day? = persistentContainer.fetchDayManagedObject(forDate: todaysDate)
-        
+        var dayObject: Day? = persistentContainer.fetchDayManagedObject(forDate: todaysDate)
         do {
             try fetchedResultsController.performFetch()
-//            if let day = fetchedResultsController.fetchedObjects {
-//                let todayObject = day.first
-//            }
         } catch (let err) {
             print("Unable to perform fetch \(err)")
         }
         
-        if (dayEntity == nil) {
+        if (dayObject == nil) {
             let privateContext = persistentContainer.newBackgroundContext()
-            dayEntity = Day(context: privateContext)
-            dayEntity?.createdAt = todaysDate as NSDate
-            dayEntity?.taskLimit = 5 //default limit
-
-            // possible loading graphic
-
+            dayObject = Day(context: privateContext)
+            dayObject?.createdAt = Calendar.current.today() as NSDate
+            dayObject?.taskLimit = 5 //default limit
+            dayObject?.month = Calendar.current.monthToInt() // Stats
+            dayObject?.year = Calendar.current.yearToInt() // Stats
+            dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats
+            // possible loading graphic todo
+            
             privateContext.performAndWait {
                 do {
                     try privateContext.save()
@@ -190,14 +222,12 @@ class MainViewController: UIViewController {
                 }
             }
         }
-
-        viewModel.dayEntity = dayEntity
+        viewModel.dayEntity = dayObject
         if (viewModel.dayEntity != nil) {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
-        
     }
     
     @objc
@@ -220,7 +250,6 @@ class MainViewController: UIViewController {
 
 extension MainViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("fetch controller changed")
         do {
             try fetchedResultsController.performFetch()
             DispatchQueue.main.async {
@@ -229,14 +258,10 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
         } catch (let err) {
             print("\(err)")
         }
-        
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        print("fetch: didchange")
-//        got it working! must change the same entity as in the fetch controller not the entity attached to the relationship (one to many)
-        print(anObject)
-        let dayObject = anObject as! Day
+        
     }
 }
 
@@ -253,6 +278,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "taskCellId", for: indexPath) as! TaskCell
             return cell
         }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.taskListCellId, for: indexPath) as! TaskCell
         let dayObject = fetchedResultsController.fetchedObjects?.first
         let set = dayObject?.dayToTask as? Set<Task>
@@ -263,7 +289,30 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             })
             cell.task = sortedSet?[indexPath.row]
         }
-
+        
+        cell.adjustDailyTaskComplete = { (task) in
+            if (task.complete) {
+                dayObject?.totalCompleted += 1
+            } else {
+                dayObject?.totalCompleted -= 1
+            }
+            self.persistentContainer?.saveContext()
+        }
+        
+        cell.updateWatch = { (task) in
+            //WCSession
+            let taskList = self.fetchedResultsController.fetchedObjects?.first?.dayToTask as! Set<Task>
+            var tempTaskStruct: [TaskStruct] = []
+            for task in taskList {
+                tempTaskStruct.append(TaskStruct(id: task.id, name: task.name!, complete: task.complete))
+            }
+            do {
+                let data = try JSONEncoder().encode(tempTaskStruct)
+                WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
+            } catch (let err) {
+                print("\(err)")
+            }
+        }
         cell.persistentContainer = persistentContainer
         return cell
     }
@@ -280,8 +329,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             
             if let task = cell.task {
                 //remove from table view datasource
-//                self.viewModel?.taskDataSource.remove(at: indexPath.row)
-//                tableView.deleteRows(at: [indexPath], with: .left)
                 let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
                 dayManagedObject.removeFromDayToTask(taskManagedObject)
                 self.persistentContainer?.saveContext()

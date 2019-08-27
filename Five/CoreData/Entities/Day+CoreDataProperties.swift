@@ -20,10 +20,13 @@ extension Day {
     @NSManaged public var createdAt: NSDate?
     @NSManaged public var taskLimit: Int64
     @NSManaged public var year: Int16
-    @NSManaged public var month: NSDate?
+    @NSManaged public var month: Int16
+    
+    //Represents the date of the month not the day of the week
     @NSManaged public var day: Int16
+    
     @NSManaged public var totalCompleted: Int16
-    @NSManaged public var totalTasks: NSObject?
+    @NSManaged public var totalTasks: Int16
     @NSManaged public var dayToTask: NSSet?
 
 }

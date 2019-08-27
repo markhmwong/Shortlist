@@ -75,6 +75,7 @@ class InterfaceController: WKInterfaceController {
     
     // data: [TaskStruct] is sorted.
     func reloadTable(with data: [TaskStruct]) {
+        print("reloadTable")
         taskTable.setNumberOfRows(data.count, withRowType: "TaskRow")
         for index in 0..<taskTable.numberOfRows {
             guard let controller = taskTable.rowController(at: index) as? TaskRowController else { continue }
@@ -85,7 +86,7 @@ class InterfaceController: WKInterfaceController {
                 do {
                     let encodedData = try JSONEncoder().encode(self.tableDataSource)
                     let dataDict = ["UpdateTaskFromWatch": encodedData]
-                    try self.watchSession?.updateApplicationContext(dataDict)
+//                    try self.watchSession?.updateApplicationContext(dataDict)
                 } catch (let err) {
                     print("Error encoding data from watch: \(err)")
                 }
@@ -120,27 +121,48 @@ extension InterfaceController: WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
         print("didRecieve Message Data")
         print(messageData)
-//        let jsonDecoder = JSONDecoder()
-//        do {
-//            let taskList = try jsonDecoder.decode(TaskList.self, from: messageData)
-//            print(taskList.date)
-//        } catch (let err) {
-//            print("\(err)")
-//        }
     }
-    
+
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         print("watch received app context: ", applicationContext)
-        let jsonDecoder = JSONDecoder()
-        do {
-            let data = applicationContext["TaskListObject"] as! Data
-            let decodedData = try jsonDecoder.decode([TaskStruct].self, from: data)
-            let sortedData = decodedData.sorted { (taskA, taskB) -> Bool in
-                return taskA.id < taskB.id
-            }
-            self.tableDataSource = sortedData
-        } catch (let err) {
-            print("\(err)")
+        let key = applicationContext.keys.sorted()
+//         <- sort this first.
+//        the data is sending but the order of the dictionary is incorrect, the force_send key sometimes is in index 0
+
+        switch key.first {
+            case ReceiveApplicationContextKey.TaskListObject.rawValue:
+                let jsonDecoder = JSONDecoder()
+                do {
+                    let data = applicationContext[ReceiveApplicationContextKey.TaskListObject.rawValue] as! Data
+                    let decodedData = try jsonDecoder.decode([TaskStruct].self, from: data)
+                    let sortedData = decodedData.sorted { (taskA, taskB) -> Bool in
+                        return taskA.id < taskB.id
+                    }
+                    self.tableDataSource = sortedData
+                } catch (let err) {
+                    print("\(err)")
+                }
+            case ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue:
+                let jsonDecoder = JSONDecoder()
+                do {
+                    let data = applicationContext[ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue] as! Data
+                    let decodedData = try jsonDecoder.decode([TaskStruct].self, from: data)
+                    let sortedData = decodedData.sorted { (taskA, taskB) -> Bool in
+                        return taskA.id < taskB.id
+                    }
+                    self.tableDataSource = sortedData
+                } catch (let err) {
+                    print("\(err)")
+                }
+        default:
+            ()
         }
     }
+}
+
+
+enum ReceiveApplicationContextKey: String {
+    case ForceSend = "9_ForceSend"
+    case TaskListObject = "0_TaskListObject"
+    case UpdateTaskListFromPhone = "0_UpdateTaskListFromPhone"
 }

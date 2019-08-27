@@ -9,3 +9,11 @@ WatchOs
 Cloud Kit Sync
 
 
+build test data
+graph
+when selecting task, update number of tasks complete (done)
+
+
+# Bugs
+
+When a new day begins, app crashes

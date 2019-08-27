@@ -22,6 +22,51 @@ class PersistentContainer: NSPersistentContainer {
         }
     }
     
+    func fetchAllTasksByYear(forYear year: Int16) -> [Day] {
+        let context = viewContext
+        let dayRequest: NSFetchRequest<Day> = Day.fetchRequest()
+        dayRequest.returnsObjectsAsFaults = false
+        dayRequest.predicate = NSPredicate(format: "year == %i", year)
+        do {
+            let fetchedResults = try context.fetch(dayRequest)
+            return fetchedResults
+            //            return fetchedResults.first
+        } catch let error as NSError {
+            print("Day entity could not be fetched \(error)")
+            return []
+        }
+    }
+    
+    func fetchAllTasksByMonth(forMonth month: Int16, year: Int16) -> [Day] {
+        let context = viewContext
+        let dayRequest: NSFetchRequest<Day> = Day.fetchRequest()
+        dayRequest.returnsObjectsAsFaults = false
+        dayRequest.predicate = NSPredicate(format: "month == %i AND year == %i", month, year)
+        do {
+            let fetchedResults = try context.fetch(dayRequest)
+            return fetchedResults
+//            return fetchedResults.first
+        } catch let error as NSError {
+            print("Day entity could not be fetched \(error)")
+            return []
+        }
+    }
+    
+    func fetchAllTasksByWeek(forWeek beginning: Date, today: Date) -> [Day] {
+        let context = viewContext
+        let dayRequest: NSFetchRequest<Day> = Day.fetchRequest()
+        dayRequest.returnsObjectsAsFaults = false
+        dayRequest.predicate = NSPredicate(format: "createdAt >= %@ AND createdAt <= %@", beginning as NSDate, today as NSDate)
+        do {
+            let fetchedResults = try context.fetch(dayRequest)
+            return fetchedResults
+
+        } catch let error as NSError {
+            print("Day entity could not be fetched \(error)")
+            return []
+        }
+    }
+    
     // Fetches Day Object by date
     func fetchDayManagedObject(forDate date: Date) -> Day? {
         let context = viewContext
@@ -41,7 +86,7 @@ class PersistentContainer: NSPersistentContainer {
     
     func createSampleTask(toEntity day: Day, context: NSManagedObjectContext, idNum: Int) {
         let task: Task = Task(context: context)
-        task.name = "Sample Task \(idNum)"
+        task.name = idNum.numberToWord()
         task.complete = false
         task.carryOver = false
         task.id = Int16(idNum)

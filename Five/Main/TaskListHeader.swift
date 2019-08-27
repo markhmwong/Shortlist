@@ -17,23 +17,21 @@ class TaskListHeader: UIView {
         var value: UIColor {
             switch self {
                 case .Standard:
-                    switch Calendar.current.todaysDayString() {
-                        case 0: //Sunday
+                    switch Calendar.current.todayToInt() {
+                        case DayOfWeek.Sunday.rawValue: //Sunday
                             return UIColor(red:1.00, green:0.40, blue:0.25, alpha:1.0)
-                        case 1: //Monday
+                        case DayOfWeek.Monday.rawValue: //Monday
                             return UIColor(red:0.44, green:0.89, blue:0.47, alpha:1.0)
-                        case 2: //Tuesday
+                        case DayOfWeek.Tuesday.rawValue: //Tuesday
                             return UIColor(red:0.26, green:0.91, blue:0.79, alpha:1.0)
-                        case 3:
+                        case DayOfWeek.Wednesday.rawValue:
                             return UIColor(red:0.88, green:0.31, blue:0.38, alpha:1.0)
-                        case 4:
+                        case DayOfWeek.Thursday.rawValue:
                             return UIColor(red:0.60, green:0.36, blue:0.79, alpha:1.0)
-                        case 5:
+                        case DayOfWeek.Friday.rawValue: // Friday
                             return UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0)
-                        case 6: //Friday
+                        case DayOfWeek.Saturday.rawValue: // Saturday
                             return UIColor(red:1.00, green:0.40, blue:0.25, alpha:1.0)
-                        case 7: //Saturday
-                            return UIColor(red:0.38, green:0.84, blue:0.95, alpha:1.0)
                         default:
                             return UIColor.blue
                     }
@@ -57,7 +55,6 @@ class TaskListHeader: UIView {
         nameFormatter.dateFormat = "MMMM"
         let monthString = nameFormatter.string(from: currentDate)
         let str = date!.toString(format: "dd")
-        print("Day Color: \(Calendar.current.todaysDayString())")
         var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str) ", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.strokeWidth : -3.0, NSAttributedString.Key.strokeColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!])
         attributedStr.append(NSAttributedString(string: "\(monthString)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h1).value)!]))
         label.attributedText = attributedStr

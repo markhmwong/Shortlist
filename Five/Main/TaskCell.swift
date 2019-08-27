@@ -18,6 +18,10 @@ class TaskCell: UITableViewCell {
         }
     }
     
+    var updateWatch: ((Task) -> ())? = nil
+    
+    var adjustDailyTaskComplete: ((Task) -> ())? = nil
+    
     //convert to textfield
     lazy var name: UITextView = {
         let view = UITextView()
@@ -69,9 +73,10 @@ class TaskCell: UITableViewCell {
     func handleTask() {
         taskButton.taskState = !taskButton.taskState
         task?.complete = taskButton.taskState
-        
+        adjustDailyTaskComplete?(task!)
         // save to core data
         saveTaskState()
+        updateWatch?(task!) 
     }
 
     func configure(with task: Task?) {
@@ -79,7 +84,6 @@ class TaskCell: UITableViewCell {
         if let task = task {
             name.attributedText = NSAttributedString(string: "\(task.name!)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
             taskButton.taskState = task.complete
-            print("\(task.name!), \(task.complete)")
         } else {
             name.attributedText = NSAttributedString(string: "Unknown Task", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
             taskButton.taskState = false
@@ -92,7 +96,6 @@ class TaskCell: UITableViewCell {
     }
     
     func saveTaskState() {
-        print("task context: \(persistentContainer?.viewContext)")
         if let pc = persistentContainer {
             pc.saveContext()
         }

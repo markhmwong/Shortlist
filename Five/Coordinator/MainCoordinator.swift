@@ -6,4 +6,53 @@
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+    
+    var childCoordinators: [Coordinator] = [Coordinator]()
+    
+    var navigationController: UINavigationController
+    
+    init(navigationController:UINavigationController) {
+        self.navigationController = navigationController
+    }
+    
+    // begin application
+    func start(_ persistentContainer: PersistentContainer?) {
+        navigationController.delegate = self
+        let viewModel = MainViewModel()
+        let vc = MainViewController(persistentContainer: persistentContainer, viewModel: viewModel)
+        vc.coordinator = self
+        navigationController.pushViewController(vc, animated: false)
+    }
+    
+    // add stats view and coordinator
+    func showStats(_ persistentContainer: PersistentContainer?) {
+        let child = StatsCoordinator(navigationController: navigationController)
+        child.parentCoordinator = self
+        childCoordinators.append(child)
+        child.start(persistentContainer)
+    }
+    
+    func childDidFinish(_ child: Coordinator) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if (coordinator === child) {
+                childCoordinators.remove(at: index)
+                break
+            }
+        }
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
+        
+        if navigationController.viewControllers.contains(fromViewController) {
+            return
+        }
+        
+        if let statsViewController = fromViewController as? StatsViewController {
+            childDidFinish(statsViewController.coordinator!)
+        }
+    }
+}

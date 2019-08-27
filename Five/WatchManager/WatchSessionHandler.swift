@@ -60,7 +60,15 @@ class WatchSessionHandler : NSObject {
     
     func updateApplicationContext(with data: Data) {
         do {
-            try session.updateApplicationContext(["TaskListObject" : data, "force_send" : UUID().uuidString])
+            try session.updateApplicationContext([ReceiveApplicationContextKey.TaskListObject.rawValue : data, ReceiveApplicationContextKey.ForceSend.rawValue : UUID().uuidString])
+        } catch (let err) {
+            print("\(err) could not update context")
+        }
+    }
+    
+    func updateApplicationContext(with key: String, data: Data) {
+        do {
+            try session.updateApplicationContext([key : data, ReceiveApplicationContextKey.ForceSend.rawValue : UUID().uuidString])
         } catch (let err) {
             print("\(err) could not update context")
         }
