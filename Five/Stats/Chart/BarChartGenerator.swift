@@ -49,17 +49,17 @@ class BarChartGenerator {
             fatalError("Error: Monthly Data unavailable")
         }
         
-        let data = monthlyData.data
-        let sorted = data.sorted { $0.key < $1.key }
+        let sorted = monthlyData.data.sorted { $0.key < $1.key }
+        
         // key - month, value - day
         for (day, data) in sorted {
-            // 0 - 1
+
             let heightInPercentage: CGFloat = CGFloat(data.numberOfCompletedTasks) / CGFloat(monthlyData.maxTasks)
             let barColor: UIColor = UIColor.orange
             
             
             if (heightInPercentage == 0.0) {
-                let barData = BarProperties(color: barColor, day: data, barWidth: barWidth, barHeight: 0.0, origin: .zero)
+                let barData = BarProperties(color: barColor, day: nil, barWidth: barWidth, barHeight: 0.0, origin: .zero)
                 barEntries.append(barData)
             } else {
                 let xPos = CGFloat(day) * (barWidth + spacing)
@@ -72,9 +72,19 @@ class BarChartGenerator {
             }
         }
         
-        for bar in barEntries {
-            print(bar.day.dayDate)
+        let numberOfDaysInMonth = Calendar.current.daysInMonth()
+        if (numberOfDaysInMonth - sorted.count != 0) {
+            let daysRemaining = numberOfDaysInMonth - sorted.count
+            let barColor: UIColor = UIColor.clear
+            for _ in 0..<daysRemaining {
+                let zeroBar = BarProperties(color: barColor, day: nil, barWidth: barWidth, barHeight: 0.0, origin: .zero)
+                barEntries.append(zeroBar)
+            }
         }
+        
+        
+        
+        print(barEntries.count)
         
         return barEntries
     }
@@ -87,7 +97,7 @@ class BarChartGenerator {
             barWidth = 10.0
             return
         }
-        let numberOfBars = CGFloat(monthlyData.data.count)
+        let numberOfBars = CGFloat(Calendar.current.daysInMonth())
         self.barWidth = (viewWidth / numberOfBars) - spacing
     }
 }
@@ -97,7 +107,7 @@ struct BarProperties {
     let color: UIColor
     
     // To be changed
-    let day: DayOverview
+    let day: DayOverview?
     
     let barWidth: CGFloat
     

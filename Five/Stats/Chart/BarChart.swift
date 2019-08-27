@@ -59,13 +59,15 @@ class BarChart: UIView {
         // BarChartGenerator
         
         guard let monthlyData = monthOverviewChartData else { return }
-        
         let chartGenerator = BarChartGenerator(barWidth: 40, spacing: 5, data: monthlyData)
         chartData = chartGenerator.generateBarData(viewHeight: bounds.height, viewWidth: bounds.width)
     }
     
     private func drawBar(index: Int, bar: BarProperties) {
         mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.color.cgColor)
+        
+        mainLayer.addChartTitleLayer(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: 50.0), color: UIColor.white.cgColor, fontSize: 16.0, text: monthOverviewChartData?.title ?? "_month_")
+        
 //        let cgColor = entry.color.cgColor
         
         // Show the main bar
@@ -77,4 +79,5 @@ class BarChart: UIView {
         // Show a title below the bar
 //        mainLayer.addTextLayer(frame: entry.bottomTitleFrame, color: cgColor, fontSize: 14, text: entry.data.title, animated: animated, oldFrame: oldEntry?.bottomTitleFrame)
     }
+    
 }

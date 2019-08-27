@@ -10,7 +10,10 @@ Cloud Kit Sync
 
 
 build test data
-graph
+bar chart
+    - average
+    - chart title
+    - fill remaining days for week
 when selecting task, update number of tasks complete (done)
 
 

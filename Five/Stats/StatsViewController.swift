@@ -16,36 +16,6 @@ class StatsViewController: UIViewController {
 
     var persistentContainer: PersistentContainer?
     
-    lazy var percentageCompleteForMonth: UILabel = {
-        let label = UILabel()
-        label.text = "0%"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var completeForMonth: UILabel = {
-        let label = UILabel()
-        label.text = "0%"
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var percentageCompleteForYear: UILabel = {
-        let label = UILabel()
-        label.text = "0%"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var completeForYear: UILabel = {
-        let label = UILabel()
-        label.text = "0%"
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     var barChart: BarChart?
     
     init(persistentContainer: PersistentContainer, coordinator: StatsCoordinator) {
@@ -62,12 +32,6 @@ class StatsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
-        
-        view.addSubview(completeForYear)
-        view.addSubview(completeForMonth)
-        
-        completeForYear.anchorView(top: completeForMonth.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: .zero)
-        completeForMonth.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: .zero)
         
         calculateStatsForMonth()
 //        calculateStatsForYear()

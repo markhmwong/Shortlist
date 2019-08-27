@@ -24,16 +24,23 @@ class StatisticsGenerator: NSObject {
     
     // Calculate for month
     func calculateStatsForMonth() -> MonthOverviewChartData {
+        
         var totalTasksForDay: Int16 = 0
         var totalCompletedForTimePeriod: Int = 0
         var convertedData: [Int : DayOverview] = [:]
         var maxTaskLimit: Int16 = 0
+        var averageTaskComplete: Int16 = 0 //todo
+        
+        let chartTitle: String = "Month"
         
         guard let dayArray = dayArray else {
-            return MonthOverviewChartData(maxTasks: 0, data: [:])
+            return MonthOverviewChartData(maxTasks: 0, data: [:], title: chartTitle)
         }
+        
+        
+        
         for day in dayArray {
-            print("day.day \(day.day)")
+
             if (day.taskLimit > maxTaskLimit) {
                 maxTaskLimit = Int16(day.taskLimit)
             }
@@ -46,13 +53,11 @@ class StatisticsGenerator: NSObject {
                 fatalError("Day Type does not exist")
             }
             
-//            let month: MonthOverView = MonthOverView(date: Int(day.day), numberOfCompletedTasks: day.totalCompleted)
-            
             let dayOverview: DayOverview = DayOverview(dayOfWeek: dayOfWeek, dayDate: Int(day.day), numberOfCompletedTasks: day.totalCompleted)
             
             convertedData[Calendar.current.dayDate(date: day.createdAt! as Date)] = dayOverview
         }
-        return MonthOverviewChartData(maxTasks: maxTaskLimit, data: convertedData)
+        return MonthOverviewChartData(maxTasks: maxTaskLimit, data: convertedData, title: chartTitle)
     }
     
     // Week beginning from Sunday

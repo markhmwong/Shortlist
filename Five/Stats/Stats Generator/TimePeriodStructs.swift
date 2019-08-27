@@ -10,8 +10,13 @@ import Foundation
 
 // Chart structures that organises the data into their Week, Month, Year overview
 
-protocol OverviewData {
-    
+protocol ChartData {
+    var title: String { get }
+    var maxTasks: Int16 { get }
+    var data: [ Int : DayOverview ] { get }
+    var average: Int16 { get }
+    var minRange: String { get }
+    var maxRange: String { get }
 }
 
 // Day Overview
@@ -19,7 +24,7 @@ protocol OverviewData {
 // We can grab the Date() object from Core Data and convert that into
 // day of the week and a day date representation
 
-struct DayOverview: OverviewData {
+struct DayOverview {
     
     // Represents the day of the week. Monday, Tuesday etc. Needs to be converted from CoreData
     let dayOfWeek: DayOfWeek
@@ -30,15 +35,24 @@ struct DayOverview: OverviewData {
     
 }
 
-// A summary of a week's data
+// A summary of the last 7 days
 // Stores properties
 
-struct WeekChartData {
+struct WeekChartData: ChartData {
     
-    let maxTasks: Int16
+    // Since the app allows for 5 - 15 (not sure of the max amount yet), we'll need to iterate and find the largest value
+    var maxTasks: Int16
     
-    // Max of 30 days
-    let data: [Int : DayOverview]
+    // Should be a maximum of 7 days
+    var data: [Int : DayOverview]
+    
+    var average: Int16
+    
+    var title: String
+
+    var minRange: String
+    
+    var maxRange: String
     
 }
 
@@ -49,4 +63,12 @@ struct MonthOverviewChartData {
     // Max of 30/31 days
     let data: [Int : DayOverview]
     
+    var title: String
+    
+//    var average: Int16
+//
+//    var minRange: String
+//
+//    var maxRange: String
+
 }

@@ -61,6 +61,16 @@ extension Calendar {
         let today = Calendar.current.date(byAdding: .day, value: 0, to: date)
         return Int16(Calendar.current.component(.month, from: today!))
     }
+    
+    func daysInMonth() -> Int {
+        let month = self.monthToInt()
+        let year = self.yearToInt()
+        
+        let calendar = Calendar.current
+        let date = calendar.date(from: DateComponents(calendar: nil, timeZone: nil, era: nil, year: Int(year), month: Int(month), day: nil, hour: nil, minute: nil, second: nil, nanosecond: nil, weekday: nil, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: nil, yearForWeekOfYear: nil))!
+        let range = calendar.range(of: .day, in: .month, for: date)!
+        return range.count
+    }
 }
 
 enum DayOfWeek: Int16 {

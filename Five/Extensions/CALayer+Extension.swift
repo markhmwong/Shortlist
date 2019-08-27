@@ -10,24 +10,24 @@ import UIKit
 
 extension CALayer {
     
-    func addTextLayer(frame: CGRect, color: CGColor, fontSize: CGFloat, text: String, animated: Bool, oldFrame: CGRect?) {
+    func addChartTitleLayer(frame: CGRect, color: CGColor, fontSize: CGFloat, text: String) {
         let textLayer = CATextLayer()
         textLayer.frame = frame
         textLayer.foregroundColor = color
         textLayer.backgroundColor = UIColor.clear.cgColor
-        textLayer.alignmentMode = CATextLayerAlignmentMode.center
+        textLayer.alignmentMode = CATextLayerAlignmentMode.left
         textLayer.contentsScale = UIScreen.main.scale
         textLayer.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
         textLayer.fontSize = fontSize
         textLayer.string = text
         self.addSublayer(textLayer)
         
-        if animated, let oldFrame = oldFrame {
-            // "frame" property is not animatable in CALayer, so, I use "position" instead
-            // Position is at the center of the frame (if you don't change the anchor point)
-            let oldPosition = CGPoint(x: oldFrame.midX, y: oldFrame.midY)
-            textLayer.animate(fromValue: oldPosition, toValue: textLayer.position, keyPath: "position")
-        }
+//        if animated, let oldFrame = oldFrame {
+//            // "frame" property is not animatable in CALayer, so, I use "position" instead
+//            // Position is at the center of the frame (if you don't change the anchor point)
+//            let oldPosition = CGPoint(x: oldFrame.midX, y: oldFrame.midY)
+//            textLayer.animate(fromValue: oldPosition, toValue: textLayer.position, keyPath: "position")
+//        }
     }
     
     func addRectangleLayer(frame: CGRect, color: CGColor) {
