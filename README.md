@@ -16,7 +16,10 @@ bar chart
     - fill remaining days for week
 when selecting task, update number of tasks complete (done)
 
+stats
+    tasks per day
 
 # Bugs
 
 When a new day begins, app crashes
+

@@ -18,7 +18,6 @@ class MainViewModel {
                 taskDataSource = []
                 return
             }
-            print("reload")
             taskDataSource = dayToTask.allObjects as! [Task]
         }
     }

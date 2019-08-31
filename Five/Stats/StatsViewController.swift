@@ -33,7 +33,8 @@ class StatsViewController: UIViewController {
         view.backgroundColor = .black
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         
-        calculateStatsForMonth()
+        calculateStatsForLastThirtyDays()
+//        calculateStatsForMonth()
 //        calculateStatsForYear()
 //        calculateStatsForWeek()
     }
@@ -43,7 +44,6 @@ class StatsViewController: UIViewController {
         guard let monthly = persistentContainer?.fetchAllTasksByMonth(forMonth: Calendar.current.monthToInt(), year: Calendar.current.yearToInt()) else {
             return
         }
-        print(monthly.count)
         let stats = StatisticsGenerator(withArray: monthly)
         let monthlyStats: MonthOverviewChartData = stats.calculateStatsForMonth()
         
@@ -55,13 +55,31 @@ class StatsViewController: UIViewController {
         barChart.prepareChartWithData()
     }
     
+    // A month overview
+    func calculateStatsForLastThirtyDays() {
+        let from = Calendar.current.thirtyDaysFromToday()
+        guard let monthly = persistentContainer?.fetchRangeOfDays(from: from, to: Calendar.current.today()) else {
+            return
+        }
+        
+        print(monthly)
+        
+        let stats = StatisticsGenerator(withArray: monthly)
+        let monthlyStats: MonthOverviewChartData = stats.calculateStatsForMonth()
+        
+        barChart = BarChart(inputData: monthlyStats)
+        guard let barChart = barChart else { return }
+        view.addSubview(barChart)
+        barChart.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: view.bounds.height / 3.0))
+        barChart.layoutIfNeeded()
+        barChart.prepareChartWithData()
+    }
     
     func calculateStatsForWeek() {
         guard let dayArray = persistentContainer?.fetchAllTasksByWeek(forWeek: Calendar.current.startOfWeek(), today: Calendar.current.today()) else {
             //no data to do
             return
         }
-        print(dayArray)
     }
     
     @objc

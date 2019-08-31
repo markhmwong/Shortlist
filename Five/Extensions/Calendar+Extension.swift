@@ -9,9 +9,14 @@
 import Foundation
 
 // If you forget, call as Calendar.current.myFunction
-extension Calendar {
+extension Calendar {    
     func today() -> Date {
         return self.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!
+    }
+    
+    func thirtyDaysFromToday() -> Date {
+        let date = Calendar.current.date(byAdding: .day, value: Int(-30), to: self.today())
+        return date!
     }
     
     // Week starts on Sunday
@@ -25,6 +30,7 @@ extension Calendar {
         }
     }
     
+    // Returns an int that relates to the day of the week - Sunday = 1, monday, tuesday, wednesday.
     func dayOfWeek(date: Date) -> Int {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.weekday], from: date)

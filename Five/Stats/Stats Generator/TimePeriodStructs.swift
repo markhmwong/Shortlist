@@ -65,7 +65,7 @@ struct MonthOverviewChartData {
     
     var title: String
     
-//    var average: Int16
+    var mean: Int16
 //
 //    var minRange: String
 //

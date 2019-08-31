@@ -44,18 +44,26 @@ class BarChartGenerator {
     // Properties such as bar height and text labels
     
     func generateBarData(viewHeight: CGFloat, viewWidth: CGFloat) -> [BarProperties] {
+        
         calculateBarWidth(viewWidth: viewWidth)
+        
+        
         guard let monthlyData = monthlyData else {
             fatalError("Error: Monthly Data unavailable")
         }
         
         let sorted = monthlyData.data.sorted { $0.key < $1.key }
+        var totalCompletedTasks: Int16 = 0
         
         // key - month, value - day
+        // Iterates over the raw data from CoreData to transpose the data to CGPoints/widths/heights
+        // of the bar chart.
         for (day, data) in sorted {
 
             let heightInPercentage: CGFloat = CGFloat(data.numberOfCompletedTasks) / CGFloat(monthlyData.maxTasks)
             let barColor: UIColor = UIColor.orange
+            
+            totalCompletedTasks += data.numberOfCompletedTasks
             
             
             if (heightInPercentage == 0.0) {
@@ -71,7 +79,8 @@ class BarChartGenerator {
                 barEntries.append(barData)
             }
         }
-        
+                
+        // Add extra padding to the chart to pad out the remaining days of the month / week
         let numberOfDaysInMonth = Calendar.current.daysInMonth()
         if (numberOfDaysInMonth - sorted.count != 0) {
             let daysRemaining = numberOfDaysInMonth - sorted.count
@@ -81,11 +90,6 @@ class BarChartGenerator {
                 barEntries.append(zeroBar)
             }
         }
-        
-        
-        
-        print(barEntries.count)
-        
         return barEntries
     }
     
@@ -93,10 +97,6 @@ class BarChartGenerator {
     // iPhone models
     
     func calculateBarWidth(viewWidth: CGFloat) {
-        guard let monthlyData = monthlyData else {
-            barWidth = 10.0
-            return
-        }
         let numberOfBars = CGFloat(Calendar.current.daysInMonth())
         self.barWidth = (viewWidth / numberOfBars) - spacing
     }

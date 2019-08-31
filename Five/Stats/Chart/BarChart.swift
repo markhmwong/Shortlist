@@ -67,17 +67,6 @@ class BarChart: UIView {
         mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.color.cgColor)
         
         mainLayer.addChartTitleLayer(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: 50.0), color: UIColor.white.cgColor, fontSize: 16.0, text: monthOverviewChartData?.title ?? "_month_")
-        
-//        let cgColor = entry.color.cgColor
-        
-        // Show the main bar
-        
-
-        // Show an Int value above the bar
-//        mainLayer.addTextLayer(frame: entry.textValueFrame, color: cgColor, fontSize: 14, text: entry.data.textValue, animated: animated, oldFrame: oldEntry?.textValueFrame)
-        
-        // Show a title below the bar
-//        mainLayer.addTextLayer(frame: entry.bottomTitleFrame, color: cgColor, fontSize: 14, text: entry.data.title, animated: animated, oldFrame: oldEntry?.bottomTitleFrame)
     }
     
 }

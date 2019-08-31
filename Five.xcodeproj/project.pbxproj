@@ -475,8 +475,8 @@
 		4DC0DE3622E087E300B2B8D4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				4D45E7E922DDDA00008AC433 /* MainViewModel.swift */,
 				4D45E79322DDD1AB008AC433 /* MainViewController.swift */,
+				4D45E7E922DDDA00008AC433 /* MainViewModel.swift */,
 				4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */,
 				4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */,
 			);

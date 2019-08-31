@@ -34,9 +34,9 @@ extension CALayer {
         let layer = CALayer()
         layer.frame = frame
         layer.backgroundColor = UIColor.orange.adjust(by: 10)?.cgColor
-        layer.borderColor = UIColor.orange.darker()?.cgColor
-        layer.borderWidth = 2.0
-        layer.cornerRadius = 0.8
+        layer.borderColor = UIColor.clear.cgColor
+        layer.borderWidth = 0.0
+        layer.cornerRadius = 3.0
         self.addSublayer(layer)
         
 //        if animated, let oldFrame = oldFrame {

@@ -116,16 +116,25 @@ class MainViewController: UIViewController {
     func initialiseSampleData() {
         guard let persistentContainer = persistentContainer else { return }
         let dayInSeconds: TimeInterval = 86400
-        let totalTasks: [Int] = [5, 10, 15]
+        let taskLimitArr: [Int] = [5, 10, 15]
+        
         for i in 0..<50 {
             let date = Date().addingTimeInterval(Double(i) * -dayInSeconds)
             var dayObject: Day? = persistentContainer.fetchDayEntity(forDate: date) as? Day
             
             if dayObject == nil {
+                let count = taskLimitArr.count
+                let limit = taskLimitArr[Int.random(in: 0..<count)]
+                let range = 1..<limit
+                let totalTasks = Int.random(in: range)
+                let completedTasksRange = 0..<totalTasks
+                let totalCompleted = Int.random(in: completedTasksRange)
+                
                 dayObject = Day(context: persistentContainer.viewContext)
+                dayObject?.taskLimit = Int16(limit)
                 dayObject?.createdAt = date as NSDate
-                dayObject?.totalCompleted = Int16.random(in: 0..<6)
-                dayObject?.totalTasks = Int16(totalTasks[Int.random(in: 0..<3)])
+                dayObject?.totalCompleted = Int16(totalCompleted)
+                dayObject?.totalTasks = Int16(totalTasks)
                 dayObject?.month = Calendar.current.monthToInt(date: date, adjust: -i)
                 dayObject?.year = Calendar.current.yearToInt()
                 dayObject?.day = Int16(Calendar.current.dayDate(date: date))

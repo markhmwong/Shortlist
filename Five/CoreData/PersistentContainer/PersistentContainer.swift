@@ -45,7 +45,21 @@ class PersistentContainer: NSPersistentContainer {
         do {
             let fetchedResults = try context.fetch(dayRequest)
             return fetchedResults
-//            return fetchedResults.first
+        } catch let error as NSError {
+            print("Day entity could not be fetched \(error)")
+            return []
+        }
+    }
+    
+    func fetchRangeOfDays(from startDate: Date, to endDate: Date = Calendar.current.today()) -> [Day] {
+        let context = viewContext
+        let dayRequest: NSFetchRequest<Day> = Day.fetchRequest()
+        dayRequest.returnsObjectsAsFaults = false
+        dayRequest.predicate = NSPredicate(format: "createdAt >= %@ AND createdAt <= %@", startDate as NSDate, endDate as NSDate)
+        do {
+            let fetchedResults = try context.fetch(dayRequest)
+            return fetchedResults
+            
         } catch let error as NSError {
             print("Day entity could not be fetched \(error)")
             return []

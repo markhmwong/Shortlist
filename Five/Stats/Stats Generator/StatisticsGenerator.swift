@@ -22,30 +22,25 @@ class StatisticsGenerator: NSObject {
         
     }
     
-    // Calculate for month
+    // Converting the coredata data to readable data for the chart
     func calculateStatsForMonth() -> MonthOverviewChartData {
         
         var totalTasksForDay: Int16 = 0
-        var totalCompletedForTimePeriod: Int = 0
+        var totalCompletedForTimePeriod: Int16 = 0
         var convertedData: [Int : DayOverview] = [:]
-        var maxTaskLimit: Int16 = 0
-        var averageTaskComplete: Int16 = 0 //todo
+        var taskLimit: Int16 = 0
+        var meanTasksCompleted: Int16 = 0
         
         let chartTitle: String = "Month"
         
         guard let dayArray = dayArray else {
-            return MonthOverviewChartData(maxTasks: 0, data: [:], title: chartTitle)
+            return MonthOverviewChartData(maxTasks: 0, data: [:], title: chartTitle, mean: 0)
         }
-        
-        
         
         for day in dayArray {
 
-            if (day.taskLimit > maxTaskLimit) {
-                maxTaskLimit = Int16(day.taskLimit)
-            }
-            
-            totalCompletedForTimePeriod += Int(day.totalCompleted)
+            taskLimit = mostAmountOfTasksForDay(currLimit: day.taskLimit, newLimit: taskLimit)
+            totalCompletedForTimePeriod += day.totalCompleted
             totalTasksForDay += day.totalTasks
             
             let date = Calendar.current.dayOfWeek(date: day.createdAt! as Date)
@@ -57,7 +52,16 @@ class StatisticsGenerator: NSObject {
             
             convertedData[Calendar.current.dayDate(date: day.createdAt! as Date)] = dayOverview
         }
-        return MonthOverviewChartData(maxTasks: maxTaskLimit, data: convertedData, title: chartTitle)
+        meanTasksCompleted = meanTasks(Float(totalCompletedForTimePeriod), Float(dayArray.count))
+
+        return MonthOverviewChartData(maxTasks: taskLimit, data: convertedData, title: chartTitle, mean: meanTasksCompleted)
+    }
+    
+    func meanTasks(_ completedTasks: Float, _ numberOfDays: Float) -> Int16 {
+        if numberOfDays != 0 {
+            return Int16(round(completedTasks / numberOfDays))
+        }
+        return 0
     }
     
     // Week beginning from Sunday
@@ -80,6 +84,11 @@ class StatisticsGenerator: NSObject {
             let dayStruct: DayOverview = DayOverview(dayOfWeek: dayType, dayDate: Int(day.day), numberOfCompletedTasks: day.totalCompleted)
             weekData.append(dayStruct)
         }
+    }
+    
+    // Add Indicator to show highest amount of tasks complete for bar.
+    func mostAmountOfTasksForDay(currLimit: Int16, newLimit: Int16) -> Int16 {
+        return currLimit < newLimit ? newLimit : currLimit
     }
 }
 
