@@ -78,8 +78,8 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        deleteAllData()
-//        initialiseSampleData()
+        deleteAllData()
+        initialiseSampleData()
         loadData()
         setupView()
 //        guard let dayArray = persistentContainer?.fetchAllTasksByWeek(forWeek: Calendar.current.startOfWeek(), today: Calendar.current.today()) else {
@@ -119,15 +119,15 @@ class MainViewController: UIViewController {
         let taskLimitArr: [Int] = [5, 10, 15]
         
         for i in 0..<50 {
-            let date = Date().addingTimeInterval(Double(i) * -dayInSeconds)
+            let date = Calendar.current.today().addingTimeInterval(Double(i) * -dayInSeconds)
             var dayObject: Day? = persistentContainer.fetchDayEntity(forDate: date) as? Day
             
             if dayObject == nil {
                 let count = taskLimitArr.count
                 let limit = taskLimitArr[Int.random(in: 0..<count)]
-                let range = 1..<limit
+                let range = 2..<limit
                 let totalTasks = Int.random(in: range)
-                let completedTasksRange = 0..<totalTasks
+                let completedTasksRange = 1..<totalTasks
                 let totalCompleted = Int.random(in: completedTasksRange)
                 
                 dayObject = Day(context: persistentContainer.viewContext)
@@ -216,6 +216,7 @@ class MainViewController: UIViewController {
         if (dayObject == nil) {
             let privateContext = persistentContainer.newBackgroundContext()
             dayObject = Day(context: privateContext)
+            var today = Calendar.current.today() as NSDate
             dayObject?.createdAt = Calendar.current.today() as NSDate
             dayObject?.taskLimit = 5 //default limit
             dayObject?.month = Calendar.current.monthToInt() // Stats
@@ -249,6 +250,7 @@ class MainViewController: UIViewController {
         if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
             persistentContainer.performBackgroundTask { (context) in
                 let dayObject = context.object(with: viewModel.dayEntity!.objectID) as! Day
+                dayObject.totalTasks += 1
                 persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: viewModel.taskDataSource.count)
                 persistentContainer.saveContext(backgroundContext: context)
                 self.loadData()

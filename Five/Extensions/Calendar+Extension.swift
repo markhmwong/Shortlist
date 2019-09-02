@@ -11,11 +11,16 @@ import Foundation
 // If you forget, call as Calendar.current.myFunction
 extension Calendar {    
     func today() -> Date {
-        return self.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!
+        return self.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
+    }
+    
+    func sevenDaysFromToday() -> Date {
+        let date = Calendar.current.date(byAdding: .day, value: Int(-6), to: self.today())
+        return date!
     }
     
     func thirtyDaysFromToday() -> Date {
-        let date = Calendar.current.date(byAdding: .day, value: Int(-30), to: self.today())
+        let date = Calendar.current.date(byAdding: .day, value: Int(-29), to: self.today())
         return date!
     }
     

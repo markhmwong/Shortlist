@@ -61,7 +61,7 @@ struct MonthOverviewChartData {
     let maxTasks: Int16
     
     // Max of 30/31 days
-    let data: [Int : DayOverview]
+    let data: [Date : DayOverview]
     
     var title: String
     

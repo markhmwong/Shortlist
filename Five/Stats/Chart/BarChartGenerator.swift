@@ -25,7 +25,9 @@ class BarChartGenerator {
     
     private var barEntries: [BarProperties] = []
     
-    init(barWidth: CGFloat = 40, spacing: CGFloat = 20, data: [Day]) {
+    var meanHeight: CGFloat = 0
+    
+    init(barWidth: CGFloat = 40, spacing: CGFloat = 15.0, data: [Day]) {
         self.barWidth = barWidth
         self.spacing = spacing
         self.data = data
@@ -47,7 +49,6 @@ class BarChartGenerator {
         
         calculateBarWidth(viewWidth: viewWidth)
         
-        
         guard let monthlyData = monthlyData else {
             fatalError("Error: Monthly Data unavailable")
         }
@@ -58,38 +59,44 @@ class BarChartGenerator {
         // key - month, value - day
         // Iterates over the raw data from CoreData to transpose the data to CGPoints/widths/heights
         // of the bar chart.
-        for (day, data) in sorted {
+        for (index, data) in sorted.enumerated() {
 
-            let heightInPercentage: CGFloat = CGFloat(data.numberOfCompletedTasks) / CGFloat(monthlyData.maxTasks)
+            let heightInPercentage: CGFloat = CGFloat(data.value.numberOfCompletedTasks) / CGFloat(monthlyData.maxTasks)
             let barColor: UIColor = UIColor.orange
             
-            totalCompletedTasks += data.numberOfCompletedTasks
-            
+            totalCompletedTasks += data.value.numberOfCompletedTasks
             
             if (heightInPercentage == 0.0) {
                 let barData = BarProperties(color: barColor, day: nil, barWidth: barWidth, barHeight: 0.0, origin: .zero)
                 barEntries.append(barData)
             } else {
-                let xPos = CGFloat(day) * (barWidth + spacing)
+                let xPos = CGFloat(index) * (barWidth + spacing) + 5.0
                 let topPadding: CGFloat = 10.0
                 let heightOfBar = viewHeight * heightInPercentage - topPadding
                 let yPos = viewHeight - heightOfBar
                 let origin: CGPoint = CGPoint(x: xPos, y: yPos)
-                let barData = BarProperties(color: barColor, day: data, barWidth: barWidth, barHeight: heightOfBar, origin: origin)
+                let barData = BarProperties(color: barColor, day: data.value, barWidth: barWidth, barHeight: heightOfBar, origin: origin)
                 barEntries.append(barData)
             }
         }
-                
+        
         // Add extra padding to the chart to pad out the remaining days of the month / week
-        let numberOfDaysInMonth = Calendar.current.daysInMonth()
-        if (numberOfDaysInMonth - sorted.count != 0) {
-            let daysRemaining = numberOfDaysInMonth - sorted.count
-            let barColor: UIColor = UIColor.clear
-            for _ in 0..<daysRemaining {
-                let zeroBar = BarProperties(color: barColor, day: nil, barWidth: barWidth, barHeight: 0.0, origin: .zero)
-                barEntries.append(zeroBar)
-            }
+//        let numberOfDaysInMonth = Calendar.current.daysInMonth()
+//        if (numberOfDaysInMonth - sorted.count != 0) {
+//            let daysRemaining = numberOfDaysInMonth - sorted.count
+//            let barColor: UIColor = UIColor.clear
+//            for _ in 0..<daysRemaining {
+//                let zeroBar = BarProperties(color: barColor, day: nil, barWidth: barWidth, barHeight: 0.0, origin: .zero)
+//                barEntries.append(zeroBar)
+//            }
+//        }
+        
+        for bar in barEntries {
+            
+            print(bar.day?.dayDate)
+            
         }
+        
         return barEntries
     }
     
@@ -97,8 +104,19 @@ class BarChartGenerator {
     // iPhone models
     
     func calculateBarWidth(viewWidth: CGFloat) {
-        let numberOfBars = CGFloat(Calendar.current.daysInMonth())
+        
+        guard let monthlyData = monthlyData else {
+            self.barWidth = 0.0
+            return }
+        
+        let numberOfBars: CGFloat = CGFloat(monthlyData.data.count)
         self.barWidth = (viewWidth / numberOfBars) - spacing
+    }
+    
+    func calculateHeightOfMean(viewHeight: CGFloat) {
+        guard let monthlyData = monthlyData else { return }
+        let mean: CGFloat = CGFloat(monthlyData.mean) / CGFloat(monthlyData.maxTasks)
+        meanHeight = viewHeight - (viewHeight * mean - 10.0)
     }
 }
 

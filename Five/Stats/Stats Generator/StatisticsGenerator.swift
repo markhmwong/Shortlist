@@ -27,7 +27,7 @@ class StatisticsGenerator: NSObject {
         
         var totalTasksForDay: Int16 = 0
         var totalCompletedForTimePeriod: Int16 = 0
-        var convertedData: [Int : DayOverview] = [:]
+        var convertedData: [Date : DayOverview] = [:]
         var taskLimit: Int16 = 0
         var meanTasksCompleted: Int16 = 0
         
@@ -50,10 +50,42 @@ class StatisticsGenerator: NSObject {
             
             let dayOverview: DayOverview = DayOverview(dayOfWeek: dayOfWeek, dayDate: Int(day.day), numberOfCompletedTasks: day.totalCompleted)
             
-            convertedData[Calendar.current.dayDate(date: day.createdAt! as Date)] = dayOverview
+            convertedData[day.createdAt as! Date] = dayOverview
         }
         meanTasksCompleted = meanTasks(Float(totalCompletedForTimePeriod), Float(dayArray.count))
 
+        return MonthOverviewChartData(maxTasks: taskLimit, data: convertedData, title: chartTitle, mean: meanTasksCompleted)
+    }
+    
+    // Converting the coredata data to readable data for the chart
+    func calculateStats(chartTitle: String) -> MonthOverviewChartData {
+        var totalTasksForDay: Int16 = 0
+        var totalCompletedForTimePeriod: Int16 = 0
+        var convertedData: [Date : DayOverview] = [:]
+        var taskLimit: Int16 = 0
+        var meanTasksCompleted: Int16 = 0
+        let chartTitle: String = chartTitle
+        
+        guard let dayArray = dayArray else {
+            return MonthOverviewChartData(maxTasks: 0, data: [:], title: chartTitle, mean: 0)
+        }
+        
+        for day in dayArray {
+            taskLimit = mostAmountOfTasksForDay(currLimit: day.taskLimit, newLimit: taskLimit)
+            totalCompletedForTimePeriod += day.totalCompleted
+            totalTasksForDay += day.totalTasks
+            
+            let date = Calendar.current.dayOfWeek(date: day.createdAt! as Date)
+            guard let dayOfWeek = DayOfWeek(rawValue: Int16(date)) else {
+                fatalError("Day Type does not exist")
+            }
+            
+            let dayOverview: DayOverview = DayOverview(dayOfWeek: dayOfWeek, dayDate: Int(day.day), numberOfCompletedTasks: day.totalCompleted)
+            
+            convertedData[day.createdAt! as Date] = dayOverview
+        }
+        meanTasksCompleted = meanTasks(Float(totalCompletedForTimePeriod), Float(dayArray.count))
+        
         return MonthOverviewChartData(maxTasks: taskLimit, data: convertedData, title: chartTitle, mean: meanTasksCompleted)
     }
     
