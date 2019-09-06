@@ -16,8 +16,6 @@ class MainViewController: UIViewController {
     
     var viewModel: MainViewModel? = nil
     
-//    var coreDataManager: CoreDataManager?
-    
     var persistentContainer: PersistentContainer?
     
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
@@ -78,10 +76,14 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        deleteAllData()
-        initialiseSampleData()
+//        deleteAllData()
+//        initialiseSampleData()
         loadData()
         setupView()
+        
+        let localTime = DateFormatter().localDateTime()
+        print(Calendar.current.sevenDaysFromDate(currDate: localTime))
+
 //        guard let dayArray = persistentContainer?.fetchAllTasksByWeek(forWeek: Calendar.current.startOfWeek(), today: Calendar.current.today()) else {
 //            //no data to do
 //            return
@@ -96,7 +98,6 @@ class MainViewController: UIViewController {
         super.viewDidAppear(animated)
         let today = Calendar.current.today()
         let todayStr = today.toString()
-        
         //initialise date
         guard let date = KeychainWrapper.standard.string(forKey: "Date") else {
             KeychainWrapper.standard.set(todayStr, forKey: "Date")
@@ -179,7 +180,15 @@ class MainViewController: UIViewController {
         addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
         
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Stats", style: .plain, target: self, action: #selector(handleStats))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Stats", style: .plain, target: self, action: #selector(handleStats))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(handleSettings))
+
+    }
+    
+    @objc
+    func handleSettings() {
+        guard let coordinator = coordinator else { return }
+        coordinator.showSettings(persistentContainer)
     }
     
     @objc
@@ -245,16 +254,24 @@ class MainViewController: UIViewController {
         guard let persistentContainer = persistentContainer else {
             fatalError("Error loading core data manager while loading data")
         }
-//        syncWatch()
+        
+        let today = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
         guard let viewModel = viewModel else { return }
-        if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
-            persistentContainer.performBackgroundTask { (context) in
-                let dayObject = context.object(with: viewModel.dayEntity!.objectID) as! Day
-                dayObject.totalTasks += 1
-                persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: viewModel.taskDataSource.count)
-                persistentContainer.saveContext(backgroundContext: context)
-                self.loadData()
+
+        if ((viewModel.taskDataSource.count) < today.taskLimit) {
+            //        syncWatch()
+            if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
+                persistentContainer.performBackgroundTask { (context) in
+                    let dayObject = context.object(with: viewModel.dayEntity!.objectID) as! Day
+                    dayObject.totalTasks += 1
+                    persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: viewModel.taskDataSource.count)
+                    persistentContainer.saveContext(backgroundContext: context)
+                    self.loadData()
+                }
             }
+        } else {
+            // show alert todo
+            coordinator?.showAlertBox("Over the Limit")
         }
     }
 }

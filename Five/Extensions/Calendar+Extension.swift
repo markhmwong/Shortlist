@@ -9,9 +9,16 @@
 import Foundation
 
 // If you forget, call as Calendar.current.myFunction
-extension Calendar {    
+extension Calendar {
+    
+    //deprecated, please use the DateFormatter extension
     func today() -> Date {
-        return self.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
+        return self.startOfDay(for: Date())
+    }
+    
+    func sevenDaysFromDate(currDate: Date) -> Date {
+        let date = Calendar.current.date(byAdding: .day, value: Int(-6), to: currDate)
+        return date!
     }
     
     func sevenDaysFromToday() -> Date {

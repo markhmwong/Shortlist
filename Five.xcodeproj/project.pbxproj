@@ -28,6 +28,10 @@
 		4D45E7EC22DE083D008AC433 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7EB22DE083D008AC433 /* Theme.swift */; };
 		4D45E7EE22DE086D008AC433 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7ED22DE086D008AC433 /* UIDevice+Extension.swift */; };
 		4D45E7F022DE0882008AC433 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7EF22DE0882008AC433 /* UIColor+Extension.swift */; };
+		4D4F0C92231FD16400E71BE9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4F0C91231FD16400E71BE9 /* SettingsViewController.swift */; };
+		4D4F0C94231FD1E400E71BE9 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4F0C93231FD1E400E71BE9 /* SettingsCoordinator.swift */; };
+		4D4F0C96231FFE2500E71BE9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4F0C95231FFE2500E71BE9 /* SettingsViewModel.swift */; };
+		4D4F0C98231FFF6600E71BE9 /* SettingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4F0C97231FFF6600E71BE9 /* SettingsHeader.swift */; };
 		4D598B6422EEBE480020076D /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D598B6322EEBE480020076D /* PersistentContainer.swift */; };
 		4D59E26522EAEECA00B40E34 /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D59E26422EAEECA00B40E34 /* ReviewViewModel.swift */; };
 		4D5A438222E716AE00E34FAC /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5A438022E716AE00E34FAC /* KeychainWrapper.swift */; };
@@ -47,6 +51,7 @@
 		4D5FD36A23114AC90053E193 /* BarChartGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36923114AC90053E193 /* BarChartGenerator.swift */; };
 		4D5FD36D2311505D0053E193 /* TimePeriodStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */; };
 		4D5FD36F231155CC0053E193 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36E231155CC0053E193 /* CALayer+Extension.swift */; };
+		4D62366B231D7962001CBF1C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D62366A231D7962001CBF1C /* String+Extension.swift */; };
 		4D6A57C8230AF0E40055C16F /* Day+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A57C6230AF0E40055C16F /* Day+CoreDataClass.swift */; };
 		4D6A57C9230AF0E40055C16F /* Day+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A57C7230AF0E40055C16F /* Day+CoreDataProperties.swift */; };
 		4D71A3E722E3757800FEFB36 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */; };
@@ -61,6 +66,9 @@
 		4DA50FBF22E75A8F0059A46F /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA50FBE22E75A8F0059A46F /* CloseButton.swift */; };
 		4DA50FC222E83DD80059A46F /* UIBezierPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA50FC122E83DD80059A46F /* UIBezierPath+Extension.swift */; };
 		4DA50FC422E84BE60059A46F /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA50FC322E84BE60059A46F /* ReviewCell.swift */; };
+		4DAFBC8B2320917300A6F189 /* TaskLimitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAFBC8A2320917300A6F189 /* TaskLimitViewController.swift */; };
+		4DAFBC8E232093A200A6F189 /* TaskLimitCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAFBC8D232093A200A6F189 /* TaskLimitCoordinator.swift */; };
+		4DAFBC902320C38F00A6F189 /* TaskLimitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAFBC8F2320C38F00A6F189 /* TaskLimitViewModel.swift */; };
 		4DC0DE5722E2220F00B2B8D4 /* TaskListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */; };
 		4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */; };
 		4DF724F822F1887500472072 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */; };
@@ -155,6 +163,10 @@
 		4D45E7EB22DE083D008AC433 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4D45E7ED22DE086D008AC433 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		4D45E7EF22DE0882008AC433 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		4D4F0C91231FD16400E71BE9 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		4D4F0C93231FD1E400E71BE9 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		4D4F0C95231FFE2500E71BE9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		4D4F0C97231FFF6600E71BE9 /* SettingsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsHeader.swift; sourceTree = "<group>"; };
 		4D598B6322EEBE480020076D /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		4D59E26422EAEECA00B40E34 /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
 		4D5A438022E716AE00E34FAC /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
@@ -173,6 +185,7 @@
 		4D5FD36923114AC90053E193 /* BarChartGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartGenerator.swift; sourceTree = "<group>"; };
 		4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePeriodStructs.swift; sourceTree = "<group>"; };
 		4D5FD36E231155CC0053E193 /* CALayer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		4D62366A231D7962001CBF1C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		4D6A57C6230AF0E40055C16F /* Day+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D6A57C7230AF0E40055C16F /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -188,6 +201,9 @@
 		4DA50FBE22E75A8F0059A46F /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		4DA50FC122E83DD80059A46F /* UIBezierPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Extension.swift"; sourceTree = "<group>"; };
 		4DA50FC322E84BE60059A46F /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		4DAFBC8A2320917300A6F189 /* TaskLimitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskLimitViewController.swift; sourceTree = "<group>"; };
+		4DAFBC8D232093A200A6F189 /* TaskLimitCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskLimitCoordinator.swift; sourceTree = "<group>"; };
+		4DAFBC8F2320C38F00A6F189 /* TaskLimitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskLimitViewModel.swift; sourceTree = "<group>"; };
 		4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListHeader.swift; sourceTree = "<group>"; };
 		4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		4DF724F022F174D200472072 /* Five.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Five.entitlements; sourceTree = "<group>"; };
@@ -257,6 +273,7 @@
 		4D45E79022DDD1AB008AC433 /* Five */ = {
 			isa = PBXGroup;
 			children = (
+				4D4F0C8F231FCF1700E71BE9 /* Settings */,
 				4DF724F022F174D200472072 /* Five.entitlements */,
 				4D596EEB22EC42E600B2D21D /* Application Delegate */,
 				4D953B62230A91720048C247 /* Coordinator */,
@@ -320,6 +337,17 @@
 				4D45E7D322DDD1AF008AC433 /* PushNotificationPayload.apns */,
 			);
 			path = "Five WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		4D4F0C8F231FCF1700E71BE9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4DAFBC892320915000A6F189 /* TaskLimit */,
+				4D4F0C91231FD16400E71BE9 /* SettingsViewController.swift */,
+				4D4F0C95231FFE2500E71BE9 /* SettingsViewModel.swift */,
+				4D4F0C97231FFF6600E71BE9 /* SettingsHeader.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		4D596EEB22EC42E600B2D21D /* Application Delegate */ = {
@@ -439,6 +467,7 @@
 				4D5A438422E7197300E34FAC /* Date+Extension.swift */,
 				4DA50FC122E83DD80059A46F /* UIBezierPath+Extension.swift */,
 				4D5BED7622FD93D100176E18 /* Int+Extension.swift */,
+				4D62366A231D7962001CBF1C /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -449,6 +478,8 @@
 				4D953B65230A91AD0048C247 /* Coordinator.swift */,
 				4D953B63230A91910048C247 /* MainCoordinator.swift */,
 				4D953B67230A9DF90048C247 /* StatsCoordinator.swift */,
+				4D4F0C93231FD1E400E71BE9 /* SettingsCoordinator.swift */,
+				4DAFBC8C2320938600A6F189 /* Settings */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -470,6 +501,23 @@
 				4D5BA10022E5710000B9B487 /* TaskButton.swift */,
 			);
 			path = Buttons;
+			sourceTree = "<group>";
+		};
+		4DAFBC892320915000A6F189 /* TaskLimit */ = {
+			isa = PBXGroup;
+			children = (
+				4DAFBC8A2320917300A6F189 /* TaskLimitViewController.swift */,
+				4DAFBC8F2320C38F00A6F189 /* TaskLimitViewModel.swift */,
+			);
+			path = TaskLimit;
+			sourceTree = "<group>";
+		};
+		4DAFBC8C2320938600A6F189 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4DAFBC8D232093A200A6F189 /* TaskLimitCoordinator.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		4DC0DE3622E087E300B2B8D4 /* Main */ = {
@@ -709,6 +757,7 @@
 				4D59E26522EAEECA00B40E34 /* ReviewViewModel.swift in Sources */,
 				4D6A57C9230AF0E40055C16F /* Day+CoreDataProperties.swift in Sources */,
 				4D45E7EE22DE086D008AC433 /* UIDevice+Extension.swift in Sources */,
+				4D4F0C94231FD1E400E71BE9 /* SettingsCoordinator.swift in Sources */,
 				4D5A438322E716AE00E34FAC /* KeychainItemAccessibility.swift in Sources */,
 				4D953B68230A9DF90048C247 /* StatsCoordinator.swift in Sources */,
 				4D5B5E0222F07E5500C8D9A5 /* WatchSessionDelegater.swift in Sources */,
@@ -716,12 +765,17 @@
 				4D5FD36F231155CC0053E193 /* CALayer+Extension.swift in Sources */,
 				4D45E79422DDD1AB008AC433 /* MainViewController.swift in Sources */,
 				4DA50FC222E83DD80059A46F /* UIBezierPath+Extension.swift in Sources */,
+				4D4F0C96231FFE2500E71BE9 /* SettingsViewModel.swift in Sources */,
+				4D4F0C98231FFF6600E71BE9 /* SettingsHeader.swift in Sources */,
+				4D4F0C92231FD16400E71BE9 /* SettingsViewController.swift in Sources */,
+				4DAFBC8E232093A200A6F189 /* TaskLimitCoordinator.swift in Sources */,
 				4D71A3E822E3757800FEFB36 /* Task+CoreDataProperties.swift in Sources */,
 				4D5FD36D2311505D0053E193 /* TimePeriodStructs.swift in Sources */,
 				4D953B64230A91910048C247 /* MainCoordinator.swift in Sources */,
 				4DC0DE5722E2220F00B2B8D4 /* TaskListHeader.swift in Sources */,
 				4DA50FBF22E75A8F0059A46F /* CloseButton.swift in Sources */,
 				4D5A438222E716AE00E34FAC /* KeychainWrapper.swift in Sources */,
+				4DAFBC902320C38F00A6F189 /* TaskLimitViewModel.swift in Sources */,
 				4D5FD36823114A7E0053E193 /* BarChart.swift in Sources */,
 				4D5BA10422E5ADA200B9B487 /* ReviewViewController.swift in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
@@ -731,6 +785,7 @@
 				4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */,
 				4D45E7EA22DDDA00008AC433 /* MainViewModel.swift in Sources */,
 				4D598B6422EEBE480020076D /* PersistentContainer.swift in Sources */,
+				4DAFBC8B2320917300A6F189 /* TaskLimitViewController.swift in Sources */,
 				4D953B66230A91AD0048C247 /* Coordinator.swift in Sources */,
 				4D5BA10122E5710000B9B487 /* TaskButton.swift in Sources */,
 				4D5BED7722FD93D100176E18 /* Int+Extension.swift in Sources */,
@@ -738,6 +793,7 @@
 				4D78AC3622DF1043001FD57F /* CoreDataManager.swift in Sources */,
 				4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */,
 				4D5B5E0522F07FEB00C8D9A5 /* TaskStruct.swift in Sources */,
+				4D62366B231D7962001CBF1C /* String+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

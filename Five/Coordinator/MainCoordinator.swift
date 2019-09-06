@@ -35,6 +35,20 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         child.start(persistentContainer)
     }
     
+    // add stats view and coordinator
+    func showSettings(_ persistentContainer: PersistentContainer?) {
+        let child = SettingsCoordinator(navigationController: navigationController)
+        child.parentCoordinator = self
+        childCoordinators.append(child)
+        child.start(persistentContainer)
+    }
+    
+    func showAlertBox(_ message: String) {
+        let alert = UIAlertController(title: "Hold up!", message: "\(message)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        navigationController.present(alert, animated: true, completion: nil)
+    }
+    
     func childDidFinish(_ child: Coordinator) {
         for (index, coordinator) in childCoordinators.enumerated() {
             if (coordinator === child) {

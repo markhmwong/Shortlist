@@ -33,6 +33,7 @@ struct DayOverview {
     
     let numberOfCompletedTasks: Int16
     
+    let incompleteTasks: Int16
 }
 
 // A summary of the last 7 days

@@ -68,7 +68,7 @@ extension CALayer {
     func addRectangleLayer(frame: CGRect, color: CGColor) {
         let layer = CALayer()
         layer.frame = frame
-        layer.backgroundColor = UIColor.orange.adjust(by: 10)?.cgColor
+        layer.backgroundColor = color
         layer.borderColor = UIColor.clear.cgColor
         layer.borderWidth = 0.0
         layer.cornerRadius = 3.0
