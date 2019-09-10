@@ -41,7 +41,7 @@ class MainViewController: UIViewController {
         view.backgroundColor = .clear
         view.separatorStyle = .none
         view.isEditing = false
-        view.estimatedRowHeight = viewModel?.cellHeight ?? 50.0
+        view.estimatedRowHeight = viewModel?.cellHeight ?? 100.0
         view.rowHeight = UITableView.automaticDimension
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -259,8 +259,7 @@ class MainViewController: UIViewController {
         }
         guard let vm = viewModel else { return }
         guard let day = vm.dayEntity else { return }
-
-
+        
         if (day.totalTasks < day.taskLimit) {
             //        syncWatch()
             persistentContainer.performBackgroundTask { (context) in

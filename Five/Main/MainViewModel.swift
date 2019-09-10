@@ -33,5 +33,5 @@ class MainViewModel {
     
     let taskSizeLimit: Int = 100
     
-    let cellHeight: CGFloat = 50.0
+    let cellHeight: CGFloat = 70.0
 }

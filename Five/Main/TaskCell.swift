@@ -10,6 +10,8 @@ import UIKit
 
 class TaskCell: UITableViewCell {
     
+    let minHeight: CGFloat = 70.0
+    
     var persistentContainer: PersistentContainer?
     
     var task: Task? = nil {
@@ -21,6 +23,8 @@ class TaskCell: UITableViewCell {
     var updateWatch: ((Task) -> ())? = nil
     
     var adjustDailyTaskComplete: ((Task) -> ())? = nil
+    
+    var stateColor: UIColor?
     
     //convert to textfield
     lazy var name: UITextView = {
@@ -72,17 +76,28 @@ class TaskCell: UITableViewCell {
     @objc
     func handleTask() {
         taskButton.taskState = !taskButton.taskState
-        task?.complete = taskButton.taskState
-        adjustDailyTaskComplete?(task!)
+        guard let task = task else { return }
+        task.complete = taskButton.taskState
+        adjustDailyTaskComplete?(task)
         // save to core data
         saveTaskState()
-        updateWatch?(task!) 
+        updateWatch?(task)
+        
+        if (taskButton.taskState) {
+            name.attributedText = NSAttributedString(string: "\(task.name!)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+        }
     }
 
     func configure(with task: Task?) {
-        
         if let task = task {
-            name.attributedText = NSAttributedString(string: "\(task.name!)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+            stateColor = task.complete ? UIColor.white.darker(by: 40.0) : UIColor.white
+            let nameStr = "\(task.name!)"
+            let nameAttributedStr = NSMutableAttributedString(string: nameStr, attributes: [NSAttributedString.Key.foregroundColor : stateColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+            
+            if task.complete {
+                nameAttributedStr.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, nameAttributedStr.length))
+            }
+            name.attributedText = nameAttributedStr
             taskButton.taskState = task.complete
         } else {
             name.attributedText = NSAttributedString(string: "Unknown Task", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
@@ -104,6 +119,11 @@ class TaskCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         configure(with: .none)
+    }
+    
+    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+        let size = super.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
+        return CGSize(width: size.width, height: max(size.height, minHeight))
     }
 }
 

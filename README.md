@@ -16,9 +16,10 @@ reformat the task cell to show a title and description
 a editing task page - allows editing of task title and description as well as setting an alarm for today only
 unit tests
 task categories Update core data
-priority (red to blue)  update core data attribute
+priority colour
+priority update core data attribute @(done)
 weather (not a priority)
-movable tasks
+movable tasks @(done)
 
 
 iOS

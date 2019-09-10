@@ -22,7 +22,7 @@ struct Theme {
             case h3 = 28.0
             case h4 = 22.0
             //body sizes
-            case b0 = 20.0
+            case b0 = 18.0
             case b1 = 16.0
             case b2 = 14.0
             case b3 = 12.0
