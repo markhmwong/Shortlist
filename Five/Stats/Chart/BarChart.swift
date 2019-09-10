@@ -24,7 +24,9 @@ class BarChart: UIView {
     
     let titlePadding: CGFloat = 20.0
     
-    // barEntries (completed tasks, incomplete Tasks)
+    let meanLineWidth: CGFloat = 2.0
+    
+    // barEntries tuple (completed tasks, incomplete Tasks)
     private var chartData: ([BarProperties], [BarProperties])? {
         didSet {
             mainLayer.sublayers?.forEach({$0.removeFromSuperlayer()})
@@ -51,7 +53,6 @@ class BarChart: UIView {
     }
     
     func setupView() {
-        print("bar chart - set up view")
         layer.addSublayer(mainLayer)
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -84,7 +85,7 @@ class BarChart: UIView {
         // add mean line indicator
         let meanHeight = chartGenerator!.meanHeight
         let meanColor = UIColor(red:0.74, green:0.97, blue:1.00, alpha:0.7)
-        mainLayer.addChartMeanLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: meanHeight), endPoint: CGPoint(x: bounds.width - titlePadding, y: meanHeight)), width: 1.0, color: meanColor.cgColor)
+        mainLayer.addChartMeanLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: meanHeight), endPoint: CGPoint(x: bounds.width - titlePadding, y: meanHeight)), width: meanLineWidth, color: meanColor.cgColor)
 
         // add chart title
         let charTitleStr = "\(monthOverviewChartData?.title ?? "chartTitle")"

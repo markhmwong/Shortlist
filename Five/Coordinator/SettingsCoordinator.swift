@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
@@ -38,6 +39,30 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
+    }
+    
+    // add contact view
+    func showAbout(_ persistentContainer: PersistentContainer?) {
+        let child = AboutCoordinator(navigationController: navigationController)
+        child.parentCoordinator = self
+        childCoordinators.append(child)
+        child.start(persistentContainer)
+    }
+    
+    func showFeedback(_ viewController: MFMailComposeViewController) {
+        
+        DispatchQueue.main.async {
+            self.getTopMostViewController()?.present(viewController, animated: true, completion: nil)
+        }
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
     }
     
     

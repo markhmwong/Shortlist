@@ -103,6 +103,8 @@ class PersistentContainer: NSPersistentContainer {
         task.name = idNum.numberToWord()
         task.complete = false
         task.carryOver = false
+        task.category = 0 // to do categories by string or dynamically adjusted
+        task.priority = Int16(idNum)
         task.id = Int16(idNum)
         day.addToDayToTask(task)
     }

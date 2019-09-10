@@ -1,14 +1,14 @@
 //
-//  TaskLimitCoordinator.swift
+//  ContactCoordinator.swift
 //  Five
 //
-//  Created by Mark Wong on 5/9/19.
+//  Created by Mark Wong on 7/9/19.
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
 import UIKit
 
-class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class AboutCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
     weak var parentCoordinator: SettingsCoordinator?
     
@@ -23,12 +23,8 @@ class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegat
     // stats viewcontroller begin here
     func start(_ persistentContainer: PersistentContainer?) {
         navigationController.delegate = self
-        guard let persistentContainer = persistentContainer else {
-            print("Persistent Container not loaded")
-            return
-        }
-        let viewModel = TaskLimitViewModel()
-        let vc = TaskLimitViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel)
+
+        let vc = AboutViewController()
         let nav = UINavigationController(rootViewController: vc)
         DispatchQueue.main.async {
             self.getTopMostViewController()?.present(nav, animated: true, completion: nil)

@@ -22,10 +22,11 @@ class MainViewModel {
         }
     }
     
+    // deprecated
     var taskDataSource: [Task] = [] {
         didSet {
             taskDataSource.sort { (a, b) -> Bool in
-                return a.id < b.id
+                return a.priority < b.priority
             }
         }
     }

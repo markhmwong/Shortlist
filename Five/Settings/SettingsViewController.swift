@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import MessageUI
 
 class SettingsViewController: UIViewController {
     
     enum MenuStructure: Int {
         case TaskLimit = 0
+        case About
+        case Review
+        case Contact
     }
     
     weak var coordinator: SettingsCoordinator?
@@ -60,6 +64,26 @@ class SettingsViewController: UIViewController {
     func handleBack() {
         navigationController?.dismiss(animated: true, completion: nil)
     }
+    
+    func emailFeedback() {
+        guard let vm = viewModel else {
+            return
+        }
+        
+        let mail: MFMailComposeViewController = MFMailComposeViewController(nibName: nil, bundle: nil)
+        mail.mailComposeDelegate = self
+        mail.setToRecipients([vm.emailToRecipient])
+        mail.setSubject(vm.emailSubject)
+        
+        mail.setMessageBody(vm.emailBody(), isHTML: true)
+        coordinator?.showFeedback(mail)
+    }
+}
+
+extension SettingsViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -81,20 +105,19 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
-        
         if let menu = MenuStructure(rawValue: indexPath.row) {
             
             switch menu {
                 case .TaskLimit:
                     coordinator?.showTaskLimit(persistentContainer)
+                case .About:
+                    coordinator?.showAbout(nil)
+                case .Review:
+                    ()
+                case .Contact:
+                    self.emailFeedback()
             }
-            
         }
         tableView.deselectRow(at: indexPath, animated: true)
-
     }
-    
-
 }

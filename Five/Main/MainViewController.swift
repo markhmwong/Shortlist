@@ -37,6 +37,7 @@ class MainViewController: UIViewController {
         view.dataSource = self
         view.backgroundColor = .clear
         view.separatorStyle = .none
+        view.isEditing = true
         view.estimatedRowHeight = viewModel?.cellHeight ?? 50.0
         view.rowHeight = UITableView.automaticDimension
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -78,9 +79,10 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 //        deleteAllData()
 //        initialiseSampleData()
+        
         loadData()
         setupView()
-        
+        AppStoreReviewManager.requestReviewIfAppropriate()
         let localTime = DateFormatter().localDateTime()
         print(Calendar.current.sevenDaysFromDate(currDate: localTime))
 
@@ -88,8 +90,6 @@ class MainViewController: UIViewController {
 //            //no data to do
 //            return
 //        }
-        
-        
         // test watch
 //        syncWatch()
     }
@@ -254,20 +254,20 @@ class MainViewController: UIViewController {
         guard let persistentContainer = persistentContainer else {
             fatalError("Error loading core data manager while loading data")
         }
-        
-        let today = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-        guard let viewModel = viewModel else { return }
+        guard let vm = viewModel else { return }
+        guard let day = vm.dayEntity else { return }
 
-        if ((viewModel.taskDataSource.count) < today.taskLimit) {
+
+        if (day.totalTasks < day.taskLimit) {
             //        syncWatch()
-            if (viewModel.taskDataSource.count < viewModel.taskSizeLimit) {
-                persistentContainer.performBackgroundTask { (context) in
-                    let dayObject = context.object(with: viewModel.dayEntity!.objectID) as! Day
-                    dayObject.totalTasks += 1
-                    persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: viewModel.taskDataSource.count)
-                    persistentContainer.saveContext(backgroundContext: context)
-                    self.loadData()
-                }
+            persistentContainer.performBackgroundTask { (context) in
+                
+                let dayObject = context.object(with: day.objectID) as! Day
+                dayObject.totalTasks += 1
+                persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: vm.taskDataSource.count)
+                
+                persistentContainer.saveContext(backgroundContext: context)
+                self.loadData()
             }
         } else {
             // show alert todo
@@ -359,12 +359,39 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 //remove from table view datasource
                 let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
                 dayManagedObject.removeFromDayToTask(taskManagedObject)
+                dayManagedObject.totalTasks = dayManagedObject.totalTasks - 1
                 self.persistentContainer?.saveContext()
             }
             complete(true)
         }
         
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        
+        let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+        let set = dayManagedObject.dayToTask as? Set<Task>
+        let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
+            return taskA.id < taskB.id
+        })
+        
+        let sourceTask = sortedSet?[sourceIndexPath.row]
+        let destTask = sortedSet?[destinationIndexPath.row]
+
+        let tempDestinationPriority = destTask?.priority
+        destTask?.priority = sourceTask!.priority
+        sourceTask?.priority = tempDestinationPriority!
+        persistentContainer?.saveContext()
+
+        for task in sortedSet! {
+            print(task.name, task.priority)
+        }
     }
 }
 

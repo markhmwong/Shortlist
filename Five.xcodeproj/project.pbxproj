@@ -52,6 +52,9 @@
 		4D5FD36D2311505D0053E193 /* TimePeriodStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */; };
 		4D5FD36F231155CC0053E193 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36E231155CC0053E193 /* CALayer+Extension.swift */; };
 		4D62366B231D7962001CBF1C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D62366A231D7962001CBF1C /* String+Extension.swift */; };
+		4D646B3A2323C0E400073FD6 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D646B392323C0E400073FD6 /* AboutViewController.swift */; };
+		4D646B3C2323C1B400073FD6 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D646B3B2323C1B400073FD6 /* AboutCoordinator.swift */; };
+		4D646B3E2326203300073FD6 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D646B3D2326203200073FD6 /* AppStoreReviewManager.swift */; };
 		4D6A57C8230AF0E40055C16F /* Day+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A57C6230AF0E40055C16F /* Day+CoreDataClass.swift */; };
 		4D6A57C9230AF0E40055C16F /* Day+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A57C7230AF0E40055C16F /* Day+CoreDataProperties.swift */; };
 		4D71A3E722E3757800FEFB36 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */; };
@@ -187,6 +190,10 @@
 		4D5FD36E231155CC0053E193 /* CALayer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		4D62366A231D7962001CBF1C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		4D646B392323C0E400073FD6 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		4D646B3B2323C1B400073FD6 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
+		4D646B3D2326203200073FD6 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
+		4D646B3F23264C1300073FD6 /* FiveModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		4D6A57C6230AF0E40055C16F /* Day+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D6A57C7230AF0E40055C16F /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -342,6 +349,7 @@
 		4D4F0C8F231FCF1700E71BE9 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				4D646B382323C0D300073FD6 /* Contact */,
 				4DAFBC892320915000A6F189 /* TaskLimit */,
 				4D4F0C91231FD16400E71BE9 /* SettingsViewController.swift */,
 				4D4F0C95231FFE2500E71BE9 /* SettingsViewModel.swift */,
@@ -456,6 +464,14 @@
 			path = "Stats Generator";
 			sourceTree = "<group>";
 		};
+		4D646B382323C0D300073FD6 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				4D646B392323C0E400073FD6 /* AboutViewController.swift */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
 		4D78AC3722DF16E7001FD57F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -516,6 +532,7 @@
 			isa = PBXGroup;
 			children = (
 				4DAFBC8D232093A200A6F189 /* TaskLimitCoordinator.swift */,
+				4D646B3B2323C1B400073FD6 /* AboutCoordinator.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -523,6 +540,7 @@
 		4DC0DE3622E087E300B2B8D4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				4D646B3D2326203200073FD6 /* AppStoreReviewManager.swift */,
 				4D45E79322DDD1AB008AC433 /* MainViewController.swift */,
 				4D45E7E922DDDA00008AC433 /* MainViewModel.swift */,
 				4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */,
@@ -761,7 +779,9 @@
 				4D5A438322E716AE00E34FAC /* KeychainItemAccessibility.swift in Sources */,
 				4D953B68230A9DF90048C247 /* StatsCoordinator.swift in Sources */,
 				4D5B5E0222F07E5500C8D9A5 /* WatchSessionDelegater.swift in Sources */,
+				4D646B3A2323C0E400073FD6 /* AboutViewController.swift in Sources */,
 				4D78ABF722DF0C9C001FD57F /* FiveModel.xcdatamodeld in Sources */,
+				4D646B3E2326203300073FD6 /* AppStoreReviewManager.swift in Sources */,
 				4D5FD36F231155CC0053E193 /* CALayer+Extension.swift in Sources */,
 				4D45E79422DDD1AB008AC433 /* MainViewController.swift in Sources */,
 				4DA50FC222E83DD80059A46F /* UIBezierPath+Extension.swift in Sources */,
@@ -776,6 +796,7 @@
 				4DA50FBF22E75A8F0059A46F /* CloseButton.swift in Sources */,
 				4D5A438222E716AE00E34FAC /* KeychainWrapper.swift in Sources */,
 				4DAFBC902320C38F00A6F189 /* TaskLimitViewModel.swift in Sources */,
+				4D646B3C2323C1B400073FD6 /* AboutCoordinator.swift in Sources */,
 				4D5FD36823114A7E0053E193 /* BarChart.swift in Sources */,
 				4D5BA10422E5ADA200B9B487 /* ReviewViewController.swift in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
@@ -1263,10 +1284,11 @@
 		4D78ABF522DF0C9C001FD57F /* FiveModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4D646B3F23264C1300073FD6 /* FiveModel 3.xcdatamodel */,
 				4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */,
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
 			);
-			currentVersion = 4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */;
+			currentVersion = 4D646B3F23264C1300073FD6 /* FiveModel 3.xcdatamodel */;
 			path = FiveModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

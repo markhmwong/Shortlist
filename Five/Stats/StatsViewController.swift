@@ -20,11 +20,20 @@ class StatsViewController: UIViewController {
     
     var weeklyBarChart: BarChart?
     
-    lazy var dateTitle: UILabel = {
+    lazy var statTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         let str = "Stats"
         var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!])
+        label.attributedText = attributedStr
+        return label
+    }()
+    
+    lazy var tasksPerDay: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        let str = "Tasks Per Day"
+        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
         label.attributedText = attributedStr
         return label
     }()
@@ -44,8 +53,8 @@ class StatsViewController: UIViewController {
         view.backgroundColor = .black
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         
-        view.addSubview(dateTitle)
-        dateTitle.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+        view.addSubview(statTitle)
+        statTitle.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
         
         calculateStatsForLastSevenDays()
 //        calculateStatsForLastThirtyDays()
@@ -66,7 +75,7 @@ class StatsViewController: UIViewController {
         guard let weeklyBarChart = weeklyBarChart else { return }
         view.addSubview(weeklyBarChart)
         let paddingTopBottom: CGFloat = 10.0
-        weeklyBarChart.anchorView(top: dateTitle.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: paddingTopBottom, left: 0.0, bottom: paddingTopBottom, right: 0.0), size: CGSize(width: view.bounds.width, height: view.bounds.height / 3.0))
+        weeklyBarChart.anchorView(top: statTitle.bottomAnchor, bottom: nil, leading: view.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: paddingTopBottom, left: 0.0, bottom: paddingTopBottom, right: 0.0), size: CGSize(width: view.bounds.width, height: view.bounds.height / 3.0))
         weeklyBarChart.layoutIfNeeded()
         weeklyBarChart.prepareChartWithData()
     }

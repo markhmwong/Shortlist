@@ -26,9 +26,10 @@ extension Day {
     // Represents the date of the month not the day of the week
     @NSManaged public var day: Int16
     
+    // Total tasks the user has completed
     @NSManaged public var totalCompleted: Int16
     
-    // Total tasks the user has manually input
+    // Total tasks whether they are complete or incomplete
     @NSManaged public var totalTasks: Int16
     
     @NSManaged public var dayToTask: NSSet?

@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let container = PersistentContainer(name: "FiveModel")
         container.loadPersistentStores { description, error in
             if let error = error {
-                fatalError("Unable to load persistent stores: \(error)")
+                fatalError("Unable to load p¡ersistent stores: \(error)")
             }
         }
         container.viewContext.automaticallyMergesChangesFromParent = true        
