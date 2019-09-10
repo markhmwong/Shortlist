@@ -12,9 +12,5 @@ struct TaskStruct: Codable {
     var id: Int16
     var name: String
     var complete: Bool
-    
-    //var date: Date
-    //properties missing
-    //carryover
-    //tasktoday relationship
+    var priority: Int16 // to do
 }

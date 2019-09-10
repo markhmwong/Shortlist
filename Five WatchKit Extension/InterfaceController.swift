@@ -105,7 +105,7 @@ extension InterfaceController: WCSessionDelegate {
                 do {
                     let decodedData = try JSONDecoder().decode([TaskStruct].self, from: data)
                     let sortedData = decodedData.sorted { (taskA, taskB) -> Bool in
-                        return taskA.id < taskB.id
+                        return taskA.priority < taskB.priority
                     }
                     // Table reloads in didSet method of tableDataSource var
                     self.tableDataSource = sortedData
@@ -128,7 +128,7 @@ extension InterfaceController: WCSessionDelegate {
         let key = applicationContext.keys.sorted()
 //         <- sort this first.
 //        the data is sending but the order of the dictionary is incorrect, the force_send key sometimes is in index 0
-
+        // **** priority fix it for the watch
         switch key.first {
             case ReceiveApplicationContextKey.TaskListObject.rawValue:
                 let jsonDecoder = JSONDecoder()
@@ -136,7 +136,7 @@ extension InterfaceController: WCSessionDelegate {
                     let data = applicationContext[ReceiveApplicationContextKey.TaskListObject.rawValue] as! Data
                     let decodedData = try jsonDecoder.decode([TaskStruct].self, from: data)
                     let sortedData = decodedData.sorted { (taskA, taskB) -> Bool in
-                        return taskA.id < taskB.id
+                        return taskA.priority < taskB.priority
                     }
                     self.tableDataSource = sortedData
                 } catch (let err) {
@@ -148,7 +148,7 @@ extension InterfaceController: WCSessionDelegate {
                     let data = applicationContext[ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue] as! Data
                     let decodedData = try jsonDecoder.decode([TaskStruct].self, from: data)
                     let sortedData = decodedData.sorted { (taskA, taskB) -> Bool in
-                        return taskA.id < taskB.id
+                        return taskA.priority < taskB.priority
                     }
                     self.tableDataSource = sortedData
                 } catch (let err) {

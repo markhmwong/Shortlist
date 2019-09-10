@@ -35,9 +35,12 @@ class MainViewController: UIViewController {
         let view = UITableView()
         view.delegate = self
         view.dataSource = self
+        view.dragDelegate = self
+        view.dropDelegate = self
+        view.dragInteractionEnabled = true
         view.backgroundColor = .clear
         view.separatorStyle = .none
-        view.isEditing = true
+        view.isEditing = false
         view.estimatedRowHeight = viewModel?.cellHeight ?? 50.0
         view.rowHeight = UITableView.automaticDimension
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -152,9 +155,9 @@ class MainViewController: UIViewController {
     func syncWatch() {
         let today = Calendar.current.today()
         let taskList: [TaskStruct] = [
-            TaskStruct(id: 0, name: "Sample Task One", complete: false),
-            TaskStruct(id: 1, name: "Sample Task One", complete: false),
-            TaskStruct(id: 2, name: "Sample Task One", complete: false),
+            TaskStruct(id: 0, name: "Sample Task One", complete: false, priority: 0),
+            TaskStruct(id: 1, name: "Sample Task One", complete: false, priority: 1),
+            TaskStruct(id: 2, name: "Sample Task One", complete: false, priority: 2),
         ]
 
         do {
@@ -293,7 +296,9 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
+
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let dayObjects = fetchedResultsController.fetchedObjects else { return 0 }
@@ -313,7 +318,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         if (!set!.isEmpty) {
             let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
-                return taskA.id < taskB.id
+                return taskA.priority < taskB.priority
             })
             cell.task = sortedSet?[indexPath.row]
         }
@@ -332,7 +337,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             let taskList = self.fetchedResultsController.fetchedObjects?.first?.dayToTask as! Set<Task>
             var tempTaskStruct: [TaskStruct] = []
             for task in taskList {
-                tempTaskStruct.append(TaskStruct(id: task.id, name: task.name!, complete: task.complete))
+                tempTaskStruct.append(TaskStruct(id: task.id, name: task.name!, complete: task.complete, priority: task.priority))
             }
             do {
                 let data = try JSONEncoder().encode(tempTaskStruct)
@@ -373,14 +378,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
-        
+        print(sourceIndexPath.row, destinationIndexPath.row)
         let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
         let set = dayManagedObject.dayToTask as? Set<Task>
         let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
-            return taskA.id < taskB.id
+            return taskA.priority < taskB.priority
         })
-        
+
         let sourceTask = sortedSet?[sourceIndexPath.row]
         let destTask = sortedSet?[destinationIndexPath.row]
 
@@ -392,6 +396,24 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         for task in sortedSet! {
             print(task.name, task.priority)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return [UIDragItem(itemProvider: NSItemProvider())]
+    }
+    
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        
+    }
+    
+    func tableView(_ tableView: UITableView, dragPreviewParametersForRowAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+        return previewParameters(forItemAt: indexPath, tableView: tableView)
+    }
+    
+    private func previewParameters(forItemAt indexPath:IndexPath, tableView:UITableView) -> UIDragPreviewParameters?     {
+        let previewParameters = UIDragPreviewParameters()
+        previewParameters.backgroundColor = .black
+        return previewParameters
     }
 }
 

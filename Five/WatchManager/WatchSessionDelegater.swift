@@ -48,7 +48,7 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
             let taskList: [Task] = todayNSManagedObject?.dayToTask?.allObjects as! [Task]
             var dataList: [TaskStruct] = []
             for task in taskList {
-                let newTask: TaskStruct = TaskStruct(id: task.id, name: task.name!, complete: task.complete)
+                let newTask: TaskStruct = TaskStruct(id: task.id, name: task.name!, complete: task.complete, priority: task.priority)
                 dataList.append(newTask)
             }
 
