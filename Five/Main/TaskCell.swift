@@ -42,6 +42,13 @@ class TaskCell: UITableViewCell {
         return view
     }()
     
+    lazy var categoryTitle: UILabel = {
+        let view = UILabel()
+        view.attributedText = NSAttributedString(string: "Work", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     lazy var taskButton: TaskButton = {
         let button = TaskButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -60,11 +67,14 @@ class TaskCell: UITableViewCell {
     
     func setupCellLayout() {
         backgroundColor = .clear
+        
         contentView.addSubview(name)
         contentView.addSubview(taskButton)
+        contentView.addSubview(categoryTitle)
+        
         taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
         name.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 4.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
-
+        categoryTitle.anchorView(top: nil, bottom: contentView.bottomAnchor, leading: name.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -5.0, right: 0.0), size: .zero)
     }
 
     func updateNameLabel(string: String) {
@@ -151,7 +161,6 @@ extension TaskCell: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let size = textView.bounds.size
-        
         let newSize = textView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
         // Resize the cell only when cell's size is changed
         if size.height != newSize.height {

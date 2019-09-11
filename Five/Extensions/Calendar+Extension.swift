@@ -22,7 +22,7 @@ extension Calendar {
     }
     
     func sevenDaysFromToday() -> Date {
-        let date = Calendar.current.date(byAdding: .day, value: Int(-6), to: self.today())
+        let date = Calendar.current.date(byAdding: .day, value: Int(-7), to: self.today())
         return date!
     }
     

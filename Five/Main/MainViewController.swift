@@ -51,9 +51,9 @@ class MainViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 15.0
-        button.backgroundColor = .green
+        button.backgroundColor = UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
         button.setTitle("Add", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.addTarget(self, action: #selector(handleAddButton), for: .touchUpInside)
         return button
     }()

@@ -88,14 +88,14 @@ class BarChartGenerator {
                 
             } else {
                 let xPos = CGFloat(index) * (barWidth + spacing) + padding //(change to padding)
-                let topPadding: CGFloat = 0.0
-                let heightOfBar = viewHeight * heightInPercentage - topPadding
+                let topPadding: CGFloat = 40.0
+                let heightOfBar = viewHeight * heightInPercentage - topPadding < 0 ? 0 : viewHeight * heightInPercentage - topPadding
                 let yPos = viewHeight - heightOfBar
                 let origin: CGPoint = CGPoint(x: xPos, y: yPos)
                 let barData = BarProperties(color: barColor, day: data.value, barWidth: barWidth, barHeight: heightOfBar, origin: origin)
                 barEntries.append(barData)
                 
-                let heightOfIncompleteBar = viewHeight * incompletePercentage - topPadding
+                let heightOfIncompleteBar = viewHeight * incompletePercentage - topPadding < 0 ? 0 : viewHeight * incompletePercentage - topPadding
                 let yPosIncomplete = viewHeight - heightOfIncompleteBar
                 let incompleteOrigin = CGPoint(x: xPos - 3.0, y: yPosIncomplete)
                 let incompleteBarData = BarProperties(color: incompleteColor, day: data.value, barWidth: barWidth, barHeight: heightOfIncompleteBar, origin: incompleteOrigin)

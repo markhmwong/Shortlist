@@ -71,17 +71,7 @@ class BarChart: UIView {
     private func drawChart() {
 
         guard let (chartData, incompleteTaskChartData) = chartData else { return }
-        
-        // draw bars for incomplete tasks
-        for (_, bar) in incompleteTaskChartData.enumerated() {
-            mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.color.cgColor)
-        }
-        
-        // draw bars for complete tasks
-        for (_, bar) in chartData.enumerated() {
-             mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.color.cgColor)
-        }
-        
+
         // add mean line indicator
         let meanHeight = chartGenerator!.meanHeight
         let meanColor = UIColor(red:0.74, green:0.97, blue:1.00, alpha:0.7)
@@ -90,12 +80,24 @@ class BarChart: UIView {
         // add chart title
         let charTitleStr = "\(monthOverviewChartData?.title ?? "chartTitle")"
         let titleWidth = charTitleStr.width(withConstrainedHeight: 50.0, font: UIFont.systemFont(ofSize: 16.0))
-        mainLayer.addChartTitleLayer(frame: CGRect(x: titlePadding, y: 0.0, width: titleWidth, height: 20.0), color: UIColor.white.cgColor, fontSize: 16.0, text: monthOverviewChartData?.title ?? "_month_")
+        let titleFrame: CGRect = CGRect(x: titlePadding, y: 0.0, width: titleWidth, height: 20.0)
+        mainLayer.addChartTitleLayer(frame: titleFrame, color: UIColor.white.cgColor, fontSize: 16.0, text: monthOverviewChartData?.title ?? "_month_")
         
         // add average stat
-        let averageStr: String = "Average:\(monthOverviewChartData!.mean)"
+        let averageStr: String = "Daily Average:\(monthOverviewChartData!.mean)"
         let width = averageStr.width(withConstrainedHeight: 20.0, font: UIFont.systemFont(ofSize: 16.0))
-        mainLayer.addChartTitleLayer(frame: CGRect(x: mainLayer.bounds.width - width - titlePadding, y: 0.0, width: width, height: 50.0), color: UIColor.white.cgColor, fontSize: 16.0, text: averageStr)
+        let averageFrame = CGRect(x: titleFrame.minX, y: titleFrame.maxY + 5.0, width: width, height: 20.0)
+        mainLayer.addChartTitleLayer(frame: averageFrame, color: UIColor.white.cgColor, fontSize: 16.0, text: averageStr)
+        
+        // draw bars for incomplete tasks
+        for (_, bar) in incompleteTaskChartData.enumerated() {
+            mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.color.cgColor)
+        }
+        
+        // draw bars for complete tasks
+        for (_, bar) in chartData.enumerated() {
+            mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.color.cgColor)
+        }
     }
 }
 

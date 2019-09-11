@@ -11,7 +11,7 @@ import UIKit
 struct Theme {
     
     struct Font {
-        static var Name: String = "AvenirNext-Medium"
+        static var Regular: String = "AvenirNext-Medium"
         static var Bold: String = "Avenir-Heavy"
         static var Color: UIColor = .white
         enum StandardSizes: CGFloat {
