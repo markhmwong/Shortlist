@@ -57,6 +57,7 @@ struct WeekChartData: ChartData {
     
 }
 
+// rename
 struct MonthOverviewChartData {
     
     let maxTasks: Int16
