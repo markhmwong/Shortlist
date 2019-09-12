@@ -99,6 +99,25 @@ enum DayOfWeek: Int16 {
     case Thursday
     case Friday
     case Saturday
+    
+    var shortHand: String {
+        switch self {
+        case .Sunday:
+            return "Sun"
+        case .Monday:
+            return "Mon"
+        case .Tuesday:
+            return "Tue"
+        case .Wednesday:
+            return "Wed"
+        case .Thursday:
+            return "Thu"
+        case .Friday:
+            return "Fri"
+        case .Saturday:
+            return "Sat"
+        }
+    }
 }
 
 enum MonthType: Int16 {

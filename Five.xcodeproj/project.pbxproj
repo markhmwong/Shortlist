@@ -194,6 +194,7 @@
 		4D646B3B2323C1B400073FD6 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
 		4D646B3D2326203200073FD6 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		4D646B3F23264C1300073FD6 /* FiveModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 3.xcdatamodel"; sourceTree = "<group>"; };
+		4D646B4023290D7C00073FD6 /* FiveModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 4.xcdatamodel"; sourceTree = "<group>"; };
 		4D6A57C6230AF0E40055C16F /* Day+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D6A57C7230AF0E40055C16F /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1284,11 +1285,12 @@
 		4D78ABF522DF0C9C001FD57F /* FiveModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4D646B4023290D7C00073FD6 /* FiveModel 4.xcdatamodel */,
 				4D646B3F23264C1300073FD6 /* FiveModel 3.xcdatamodel */,
 				4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */,
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
 			);
-			currentVersion = 4D646B3F23264C1300073FD6 /* FiveModel 3.xcdatamodel */;
+			currentVersion = 4D646B4023290D7C00073FD6 /* FiveModel 4.xcdatamodel */;
 			path = FiveModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

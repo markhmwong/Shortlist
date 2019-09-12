@@ -36,13 +36,26 @@ extension CALayer {
         self.addSublayer(textLayer)
     }
     
-    func addChartMeanLine(lineSegement: LineSegment, width: CGFloat, color: CGColor) {
+    func addChartLine(lineSegement: LineSegment, width: CGFloat, color: CGColor) {
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(lineSegment: lineSegement).cgPath
         layer.fillColor = UIColor.clear.cgColor
         layer.strokeColor = color
         layer.lineWidth = width
         self.addSublayer(layer)
+    }
+    
+    func xAxisLabels(frame: CGRect, color: CGColor, fontSize: CGFloat, text: String) {
+        let textLayer = CATextLayer()
+        textLayer.frame = frame
+        textLayer.foregroundColor = color
+        textLayer.backgroundColor = UIColor.clear.cgColor
+        textLayer.alignmentMode = CATextLayerAlignmentMode.center
+        textLayer.contentsScale = UIScreen.main.scale
+        textLayer.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
+        textLayer.fontSize = fontSize
+        textLayer.string = text
+        self.addSublayer(textLayer)
     }
     
     func addChartTitleLayer(frame: CGRect, color: CGColor, fontSize: CGFloat, text: String) {

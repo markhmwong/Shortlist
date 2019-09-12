@@ -49,13 +49,12 @@ class TaskListHeader: UIView {
     lazy var dateTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-
         let currentDate = Date()
         let nameFormatter = DateFormatter()
         nameFormatter.dateFormat = "MMMM"
         let monthString = nameFormatter.string(from: currentDate)
         let str = date!.toString(format: "dd")
-        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str) ", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.strokeWidth : -3.0, NSAttributedString.Key.strokeColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!])
+        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str) ", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.strokeWidth : -3.0, NSAttributedString.Key.strokeColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h1).value)!])
         attributedStr.append(NSAttributedString(string: "\(monthString)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h1).value)!]))
         label.attributedText = attributedStr
         return label
@@ -131,14 +130,10 @@ class TaskListHeader: UIView {
         let estimatedFrame = NSString(string: dateTitle.text!).boundingRect(with: CGSize(width: bounds.width, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!], context: nil)
         
         dateBackgroundView.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: estimatedFrame.height))
-        dateTitle.anchorView(top: dateBackgroundView.topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: .zero)
+        dateTitle.anchorView(top: nil, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: dateBackgroundView.centerYAnchor, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: .zero)
 
         if (reviewLabelState) {
-            
             let count = delegate?.viewModel.incompleteTasks
-            
-            
-            
             addSubview(reviewTitle)
             addSubview(instructionTitle)
             

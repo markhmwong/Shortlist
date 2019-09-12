@@ -67,7 +67,8 @@ class StatsViewController: UIViewController {
         let from = Calendar.current.sevenDaysFromToday()
         guard let dayArray = persistentContainer?.fetchRangeOfDays(from: from, to: Calendar.current.today()) else {
             return
-        }
+        }        
+        
         let stats = StatisticsGenerator(withArray: dayArray)
         let monthlyStats: MonthOverviewChartData = stats.calculateStats(chartTitle: "Last 7 Days")
         

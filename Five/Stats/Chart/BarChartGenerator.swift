@@ -29,7 +29,11 @@ class BarChartGenerator {
     
     private var incompleteBarEntries: [BarProperties] = []
     
-    var meanHeight: CGFloat = 0
+    private var topPadding: CGFloat = 70.0
+    
+    var meanHeight: CGFloat = 0.0
+    
+    var maxIndicatorHeight: CGFloat = 0.0
     
     init(barWidth: CGFloat = 40, spacing: CGFloat = 15.0, data: [Day], padding: CGFloat = 15.0) {
         self.barWidth = barWidth
@@ -56,18 +60,17 @@ class BarChartGenerator {
         // bar width calculation. Possible to inject the width manually. but this overrides the injected value
 //        calculateBarWidth(viewWidth: viewWidth)
         
-
-        
         guard let monthlyData = monthlyData else {
             fatalError("Error: Monthly Data unavailable")
         }
         
         let numberOfBars: CGFloat = CGFloat(monthlyData.data.count) * 2
-        barWidth = ((viewWidth - (spacing * CGFloat(monthlyData.data.count)) - (padding / 2.0) ) / numberOfBars)
+        barWidth = ((viewWidth - (spacing * CGFloat(monthlyData.data.count))) / numberOfBars)
         let sorted = monthlyData.data.sorted { $0.key < $1.key }
         var totalCompletedTasks: Int16 = 0
-        let barColor: UIColor = UIColor(red:0.31, green:0.85, blue:0.40, alpha:1.0)
-        let incompleteColor: UIColor = UIColor(red:0.83, green:0.22, blue:0.22, alpha:0.8)
+        
+        let barColor: UIColor = UIColor(red:0.36, green:0.94, blue:0.62, alpha:1.0)
+        let incompleteColor: UIColor = UIColor(red:0.94, green:0.36, blue:0.44, alpha:1.0)
         
         // key - month, value - day
         // Iterates over the raw data from CoreData to transpose the data to CGPoints/widths/heights
@@ -79,36 +82,35 @@ class BarChartGenerator {
             totalCompletedTasks += data.value.numberOfCompletedTasks
             var xPos: CGFloat = 0.0
             if (index == 0) {
-                xPos = CGFloat(index) * (2 * barWidth) + spacing + (padding / 2.0)
+                xPos = CGFloat(index) * (2 * barWidth) + spacing
             } else {
-                xPos = CGFloat(index) * (2 * barWidth + spacing) + spacing + (padding / 2.0)
+                xPos = CGFloat(index) * (2 * barWidth + spacing) + spacing
             }
 
-            let topPadding: CGFloat = 50.0
             if (heightInPercentage == 0.0) {
-                let heightOfBar = viewHeight * heightInPercentage - topPadding < 0 ? 0 : viewHeight * heightInPercentage - topPadding
-                let yPos = viewHeight - heightOfBar
+                let heightOfBar = (viewHeight - topPadding) * heightInPercentage < 0 ? 0 : (viewHeight - topPadding) * heightInPercentage
+                let yPos = (viewHeight) - heightOfBar
                 
                 let origin: CGPoint = CGPoint(x: xPos, y: yPos)
                 let barData = BarProperties(color: barColor, day: data.value, barWidth: barWidth, barHeight: 0.0, origin: origin)
                 barEntries.append(barData)
                 
-                let heightOfIncompleteBar = viewHeight * incompletePercentage - topPadding < 0 ? 0 : viewHeight * incompletePercentage - topPadding
-                let yPosIncomplete = viewHeight - heightOfIncompleteBar
+                let heightOfIncompleteBar = (viewHeight - topPadding) * incompletePercentage < 0 ? 0 : (viewHeight - topPadding) * incompletePercentage
+                let yPosIncomplete = (viewHeight) - heightOfIncompleteBar
                 let incompleteOrigin = CGPoint(x: xPos + barWidth, y: yPosIncomplete)
                 let incompleteBarData = BarProperties(color: incompleteColor, day: data.value, barWidth: barWidth, barHeight: heightOfIncompleteBar, origin: incompleteOrigin)
                 incompleteBarEntries.append(incompleteBarData)
                 
                 
             } else {
-                let heightOfBar = viewHeight * heightInPercentage - topPadding < 0 ? 0 : viewHeight * heightInPercentage - topPadding
-                let yPos = viewHeight - heightOfBar
+                let heightOfBar = (viewHeight - topPadding) * heightInPercentage < 0 ? 0 : (viewHeight - topPadding) * heightInPercentage
+                let yPos = (viewHeight) - heightOfBar
                 let origin: CGPoint = CGPoint(x: xPos, y: yPos)
                 let barData = BarProperties(color: barColor, day: data.value, barWidth: barWidth, barHeight: heightOfBar, origin: origin)
                 barEntries.append(barData)
                 
-                let heightOfIncompleteBar = viewHeight * incompletePercentage - topPadding < 0 ? 0 : viewHeight * incompletePercentage - topPadding
-                let yPosIncomplete = viewHeight - heightOfIncompleteBar
+                let heightOfIncompleteBar = (viewHeight - topPadding) * incompletePercentage < 0 ? 0 : (viewHeight - topPadding) * incompletePercentage
+                let yPosIncomplete = (viewHeight) - heightOfIncompleteBar
                 let incompleteOrigin = CGPoint(x: xPos + barWidth, y: yPosIncomplete)
                 let incompleteBarData = BarProperties(color: incompleteColor, day: data.value, barWidth: barWidth, barHeight: heightOfIncompleteBar, origin: incompleteOrigin)
                 incompleteBarEntries.append(incompleteBarData)
@@ -150,8 +152,12 @@ class BarChartGenerator {
     
     func calculateHeightOfMean(viewHeight: CGFloat) {
         guard let monthlyData = monthlyData else { return }
-        let mean: CGFloat = CGFloat(monthlyData.mean) / CGFloat(monthlyData.maxTasks)
-        meanHeight = viewHeight - (viewHeight * mean - 10.0)
+        let percentage: CGFloat = CGFloat(monthlyData.mean) / CGFloat(monthlyData.maxTasks)
+        meanHeight = viewHeight - ((viewHeight - topPadding) * percentage)
+    }
+    
+    func calculateHeightOfMax(viewHeight: CGFloat) {
+        maxIndicatorHeight = viewHeight - (viewHeight - topPadding)
     }
 }
 

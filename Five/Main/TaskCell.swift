@@ -44,7 +44,7 @@ class TaskCell: UITableViewCell {
     
     lazy var categoryTitle: UILabel = {
         let view = UILabel()
-        view.attributedText = NSAttributedString(string: "Work", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
+        view.attributedText = NSAttributedString(string: "Work", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.adjust(by: -40.0), NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
