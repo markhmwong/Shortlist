@@ -78,6 +78,22 @@ class SettingsViewController: UIViewController {
         mail.setMessageBody(vm.emailBody(), isHTML: true)
         coordinator?.showFeedback(mail)
     }
+    
+    //https://itunes.apple.com/app/id1454444680?mt=8
+    func writeReview() {
+        let productURL = URL(string: "https://itunes.apple.com/app/id1454444680?mt=8")!
+        var components = URLComponents(url: productURL, resolvingAgainstBaseURL: false)
+        
+        components?.queryItems = [
+            URLQueryItem(name: "action", value: "write-review")
+        ]
+        
+        guard let writeReviewURL = components?.url else {
+            return
+        }
+        
+        UIApplication.shared.open(writeReviewURL)
+    }
 }
 
 extension SettingsViewController: MFMailComposeViewControllerDelegate {
@@ -113,7 +129,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
                 case .About:
                     coordinator?.showAbout(nil)
                 case .Review:
-                    ()
+                    self.writeReview()
                 case .Contact:
                     self.emailFeedback()
             }

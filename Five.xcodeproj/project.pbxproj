@@ -447,6 +447,13 @@
 			path = Review;
 			sourceTree = "<group>";
 		};
+		4D5D7E2D232B08550088EB5F /* Edit Task */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Edit Task";
+			sourceTree = "<group>";
+		};
 		4D5FD3662311461D0053E193 /* Chart */ = {
 			isa = PBXGroup;
 			children = (
@@ -541,11 +548,12 @@
 		4DC0DE3622E087E300B2B8D4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				4D646B3D2326203200073FD6 /* AppStoreReviewManager.swift */,
+				4D5D7E2D232B08550088EB5F /* Edit Task */,
 				4D45E79322DDD1AB008AC433 /* MainViewController.swift */,
 				4D45E7E922DDDA00008AC433 /* MainViewModel.swift */,
 				4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */,
 				4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */,
+				4D646B3D2326203200073FD6 /* AppStoreReviewManager.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";

@@ -8,24 +8,27 @@ https://facilethings.com/blog/en/keep-your-todo-list-short (not relevant)
 
 # to do
 tip jar
-think of other settings options
+settings options
     sounds for alert
  add alert/reminder for task 
  lock tasks? inconvenient perhaps
+ time you complete your tasks
+ 
 calculate tasks per day, tasks per month, tasks per minute, tasks per hour, tasks per year on the task page
 reformat the task cell to show a title and description
 a editing task page - allows editing of task title and description as well as setting an alarm for today only
 unit tests
-task categories Update core data
+task categories Update core data @(done)
 priority colour - design issue
 
 weather in title (not a priority)
 Fix new day review 
 
+
 graph
-    add bottom line for graph
-    add maximum line for graph
-    height of one complete task is too small
+    add bottom line for graph 
+    add maximum line for graph @(done)
+    height of one complete task is too small @(done)
 
 iOS
     priority update core data attribute @(done)

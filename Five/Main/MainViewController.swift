@@ -86,8 +86,6 @@ class MainViewController: UIViewController {
         loadData()
         setupView()
         AppStoreReviewManager.requestReviewIfAppropriate()
-        let localTime = DateFormatter().localDateTime()
-        print(Calendar.current.sevenDaysFromDate(currDate: localTime))
 
 //        guard let dayArray = persistentContainer?.fetchAllTasksByWeek(forWeek: Calendar.current.startOfWeek(), today: Calendar.current.today()) else {
 //            //no data to do
