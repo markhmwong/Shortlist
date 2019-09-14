@@ -13,7 +13,7 @@ class SettingsViewModel {
     let menu = [
         "Task Limit",
         "About",
-        "Review (link to be fixed)",
+        "Review",
         "Contact",
     ]
     
