@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import WatchConnectivity
+import os
 
 class MainViewController: UIViewController {
     
@@ -105,13 +106,13 @@ class MainViewController: UIViewController {
             return
         }
         
-        if (date != todayStr) {
-            //load review
-            loadReview()
-            //update
-            KeychainWrapper.standard.set(todayStr, forKey: "Date")
-        }
-//        loadReview() //to test
+//        if (date != todayStr) {
+//            //load review
+//            loadReview()
+//            //update
+//            KeychainWrapper.standard.set(todayStr, forKey: "Date")
+//        }
+//        loadReview() //to be done
         persistentContainer?.saveContext()
     }
     
@@ -258,6 +259,7 @@ class MainViewController: UIViewController {
         guard let vm = viewModel else { return }
         guard let day = vm.dayEntity else { return }
         
+        // bug on new day
         if (day.totalTasks < day.taskLimit) {
             //        syncWatch()
             persistentContainer.performBackgroundTask { (context) in

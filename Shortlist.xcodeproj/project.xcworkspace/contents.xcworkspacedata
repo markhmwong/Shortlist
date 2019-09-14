@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/Mark/Development/iOS/Prototypes/Five/Shortlist.xcodeproj">
+      location = "self:../Shortlist">
    </FileRef>
 </Workspace>

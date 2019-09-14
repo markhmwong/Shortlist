@@ -16,10 +16,10 @@
 		4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */; };
 		4D45E7A722DDD1AD008AC433 /* FiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7A622DDD1AD008AC433 /* FiveTests.swift */; };
 		4D45E7B222DDD1AD008AC433 /* FiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7B122DDD1AD008AC433 /* FiveUITests.swift */; };
-		4D45E7B722DDD1AD008AC433 /* Five WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4D45E7B622DDD1AD008AC433 /* Five WatchKit App.app */; };
+		4D45E7B722DDD1AD008AC433 /* Shortlist WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4D45E7B622DDD1AD008AC433 /* Shortlist WatchKit App.app */; };
 		4D45E7BD22DDD1AD008AC433 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7BB22DDD1AD008AC433 /* Interface.storyboard */; };
 		4D45E7BF22DDD1AE008AC433 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7BE22DDD1AE008AC433 /* Assets.xcassets */; };
-		4D45E7C622DDD1AE008AC433 /* Five WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4D45E7C522DDD1AE008AC433 /* Five WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4D45E7C622DDD1AE008AC433 /* Shortlist WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4D45E7C522DDD1AE008AC433 /* Shortlist WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4D45E7CD22DDD1AE008AC433 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CC22DDD1AE008AC433 /* ExtensionDelegate.swift */; };
 		4D45E7CF22DDD1AE008AC433 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CE22DDD1AE008AC433 /* NotificationController.swift */; };
 		4D45E7D122DDD1AF008AC433 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
@@ -47,6 +47,9 @@
 		4D5BA10622E5EC1600B9B487 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */; };
 		4D5BED7522FD8BC400176E18 /* RecievingKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BED7422FD8BC400176E18 /* RecievingKeys.swift */; };
 		4D5BED7722FD93D100176E18 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BED7622FD93D100176E18 /* Int+Extension.swift */; };
+		4D5D7E3E232CF9380088EB5F /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E3C232CF9380088EB5F /* IAPHelper.swift */; };
+		4D5D7E3F232CF9380088EB5F /* IAPProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E3D232CF9380088EB5F /* IAPProducts.swift */; };
+		4D5D7E42232CFAD40088EB5F /* LocalProductManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */; };
 		4D5FD36823114A7E0053E193 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36723114A7E0053E193 /* BarChart.swift */; };
 		4D5FD36A23114AC90053E193 /* BarChartGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36923114AC90053E193 /* BarChartGenerator.swift */; };
 		4D5FD36D2311505D0053E193 /* TimePeriodStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */; };
@@ -60,7 +63,7 @@
 		4D71A3E722E3757800FEFB36 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */; };
 		4D71A3E822E3757800FEFB36 /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D71A3E622E3757800FEFB36 /* Task+CoreDataProperties.swift */; };
 		4D786DB7230ED182002D8DEB /* StatisticsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D786DB6230ED182002D8DEB /* StatisticsGenerator.swift */; };
-		4D78ABF722DF0C9C001FD57F /* FiveModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* FiveModel.xcdatamodeld */; };
+		4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */; };
 		4D78AC3622DF1043001FD57F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D78AC3522DF1043001FD57F /* CoreDataManager.swift */; };
 		4D953B64230A91910048C247 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B63230A91910048C247 /* MainCoordinator.swift */; };
 		4D953B66230A91AD0048C247 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B65230A91AD0048C247 /* Coordinator.swift */; };
@@ -117,7 +120,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				4D45E7C622DDD1AE008AC433 /* Five WatchKit Extension.appex in Embed App Extensions */,
+				4D45E7C622DDD1AE008AC433 /* Shortlist WatchKit Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,7 +131,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				4D45E7B722DDD1AD008AC433 /* Five WatchKit App.app in Embed Watch Content */,
+				4D45E7B722DDD1AD008AC433 /* Shortlist WatchKit App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,24 +140,24 @@
 
 /* Begin PBXFileReference section */
 		4D015E4522FAC853007E2536 /* Tips */ = {isa = PBXFileReference; lastKnownFileType = text; path = Tips; sourceTree = "<group>"; };
-		4D45E78E22DDD1AB008AC433 /* Five.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Five.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D45E78E22DDD1AB008AC433 /* Shortlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shortlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D45E79122DDD1AB008AC433 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4D45E79322DDD1AB008AC433 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4D45E79622DDD1AB008AC433 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4D45E79822DDD1AD008AC433 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D45E79B22DDD1AD008AC433 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4D45E79D22DDD1AD008AC433 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4D45E7A222DDD1AD008AC433 /* FiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D45E7A222DDD1AD008AC433 /* ShortlistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortlistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D45E7A622DDD1AD008AC433 /* FiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveTests.swift; sourceTree = "<group>"; };
 		4D45E7A822DDD1AD008AC433 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4D45E7AD22DDD1AD008AC433 /* FiveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FiveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D45E7AD22DDD1AD008AC433 /* ShortlistUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShortlistUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D45E7B122DDD1AD008AC433 /* FiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveUITests.swift; sourceTree = "<group>"; };
 		4D45E7B322DDD1AD008AC433 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4D45E7B622DDD1AD008AC433 /* Five WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Five WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D45E7B622DDD1AD008AC433 /* Shortlist WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shortlist WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D45E7BC22DDD1AD008AC433 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		4D45E7BE22DDD1AE008AC433 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D45E7C022DDD1AE008AC433 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4D45E7C522DDD1AE008AC433 /* Five WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Five WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D45E7C522DDD1AE008AC433 /* Shortlist WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Shortlist WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		4D45E7CC22DDD1AE008AC433 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		4D45E7CE22DDD1AE008AC433 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
@@ -184,6 +187,9 @@
 		4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		4D5BED7422FD8BC400176E18 /* RecievingKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecievingKeys.swift; sourceTree = "<group>"; };
 		4D5BED7622FD93D100176E18 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		4D5D7E3C232CF9380088EB5F /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
+		4D5D7E3D232CF9380088EB5F /* IAPProducts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPProducts.swift; sourceTree = "<group>"; };
+		4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalProductManager.swift; sourceTree = "<group>"; };
 		4D5FD36723114A7E0053E193 /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		4D5FD36923114AC90053E193 /* BarChartGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartGenerator.swift; sourceTree = "<group>"; };
 		4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePeriodStructs.swift; sourceTree = "<group>"; };
@@ -257,11 +263,11 @@
 			children = (
 				4D015E4522FAC853007E2536 /* Tips */,
 				4DF724FA22F18FEF00472072 /* README.md */,
-				4D45E79022DDD1AB008AC433 /* Five */,
-				4D45E7A522DDD1AD008AC433 /* FiveTests */,
-				4D45E7B022DDD1AD008AC433 /* FiveUITests */,
-				4D45E7BA22DDD1AD008AC433 /* Five WatchKit App */,
-				4D45E7C922DDD1AE008AC433 /* Five WatchKit Extension */,
+				4D45E79022DDD1AB008AC433 /* Shortlist */,
+				4D45E7A522DDD1AD008AC433 /* ShortlistTests */,
+				4D45E7B022DDD1AD008AC433 /* ShortlistUITests */,
+				4D45E7BA22DDD1AD008AC433 /* Shortlist WatchKit App */,
+				4D45E7C922DDD1AE008AC433 /* Shortlist WatchKit Extension */,
 				4D45E78F22DDD1AB008AC433 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -269,59 +275,61 @@
 		4D45E78F22DDD1AB008AC433 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4D45E78E22DDD1AB008AC433 /* Five.app */,
-				4D45E7A222DDD1AD008AC433 /* FiveTests.xctest */,
-				4D45E7AD22DDD1AD008AC433 /* FiveUITests.xctest */,
-				4D45E7B622DDD1AD008AC433 /* Five WatchKit App.app */,
-				4D45E7C522DDD1AE008AC433 /* Five WatchKit Extension.appex */,
+				4D45E78E22DDD1AB008AC433 /* Shortlist.app */,
+				4D45E7A222DDD1AD008AC433 /* ShortlistTests.xctest */,
+				4D45E7AD22DDD1AD008AC433 /* ShortlistUITests.xctest */,
+				4D45E7B622DDD1AD008AC433 /* Shortlist WatchKit App.app */,
+				4D45E7C522DDD1AE008AC433 /* Shortlist WatchKit Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4D45E79022DDD1AB008AC433 /* Five */ = {
+		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
-				4D4F0C8F231FCF1700E71BE9 /* Settings */,
-				4DF724F022F174D200472072 /* Five.entitlements */,
+				4D5D7E40232CFAC80088EB5F /* LocalProductManager */,
+				4D5D7E3B232CF9380088EB5F /* IAP */,
 				4D596EEB22EC42E600B2D21D /* Application Delegate */,
-				4D953B62230A91720048C247 /* Coordinator */,
-				4D5B5DFA22F07E5400C8D9A5 /* WatchManager */,
-				4D5B5E0322F07FB500C8D9A5 /* Model */,
-				4D596EEF22EC479000B2D21D /* Theme */,
 				4DA50FC022E75AB80059A46F /* Buttons */,
-				4D5A437F22E716AE00E34FAC /* KeyChainHelper */,
-				4D5BA10222E5AD9100B9B487 /* Review */,
+				4D953B62230A91720048C247 /* Coordinator */,
 				4DC0DE3722E087F100B2B8D4 /* CoreData */,
-				4D953B69230AA4400048C247 /* Stats */,
-				4DC0DE3622E087E300B2B8D4 /* Main */,
 				4D78AC3722DF16E7001FD57F /* Extensions */,
-				4D45E79522DDD1AB008AC433 /* Main.storyboard */,
+				4D5A437F22E716AE00E34FAC /* KeyChainHelper */,
+				4DC0DE3622E087E300B2B8D4 /* Main */,
+				4D5B5E0322F07FB500C8D9A5 /* Model */,
+				4D5BA10222E5AD9100B9B487 /* Review */,
+				4D4F0C8F231FCF1700E71BE9 /* Settings */,
+				4D953B69230AA4400048C247 /* Stats */,
+				4D596EEF22EC479000B2D21D /* Theme */,
+				4D5B5DFA22F07E5400C8D9A5 /* WatchManager */,
 				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
-				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
+				4DF724F022F174D200472072 /* Five.entitlements */,
 				4D45E79D22DDD1AD008AC433 /* Info.plist */,
+				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
+				4D45E79522DDD1AB008AC433 /* Main.storyboard */,
 			);
-			path = Five;
+			path = Shortlist;
 			sourceTree = "<group>";
 		};
-		4D45E7A522DDD1AD008AC433 /* FiveTests */ = {
+		4D45E7A522DDD1AD008AC433 /* ShortlistTests */ = {
 			isa = PBXGroup;
 			children = (
 				4D45E7A622DDD1AD008AC433 /* FiveTests.swift */,
 				4D45E7A822DDD1AD008AC433 /* Info.plist */,
 			);
-			path = FiveTests;
+			path = ShortlistTests;
 			sourceTree = "<group>";
 		};
-		4D45E7B022DDD1AD008AC433 /* FiveUITests */ = {
+		4D45E7B022DDD1AD008AC433 /* ShortlistUITests */ = {
 			isa = PBXGroup;
 			children = (
 				4D45E7B122DDD1AD008AC433 /* FiveUITests.swift */,
 				4D45E7B322DDD1AD008AC433 /* Info.plist */,
 			);
-			path = FiveUITests;
+			path = ShortlistUITests;
 			sourceTree = "<group>";
 		};
-		4D45E7BA22DDD1AD008AC433 /* Five WatchKit App */ = {
+		4D45E7BA22DDD1AD008AC433 /* Shortlist WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
 				4DF724F122F174F100472072 /* Five WatchKit App.entitlements */,
@@ -329,10 +337,10 @@
 				4D45E7BE22DDD1AE008AC433 /* Assets.xcassets */,
 				4D45E7C022DDD1AE008AC433 /* Info.plist */,
 			);
-			path = "Five WatchKit App";
+			path = "Shortlist WatchKit App";
 			sourceTree = "<group>";
 		};
-		4D45E7C922DDD1AE008AC433 /* Five WatchKit Extension */ = {
+		4D45E7C922DDD1AE008AC433 /* Shortlist WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
 				4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */,
@@ -344,7 +352,7 @@
 				4D45E7D222DDD1AF008AC433 /* Info.plist */,
 				4D45E7D322DDD1AF008AC433 /* PushNotificationPayload.apns */,
 			);
-			path = "Five WatchKit Extension";
+			path = "Shortlist WatchKit Extension";
 			sourceTree = "<group>";
 		};
 		4D4F0C8F231FCF1700E71BE9 /* Settings */ = {
@@ -378,7 +386,7 @@
 		4D596EED22EC477900B2D21D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4D78ABF522DF0C9C001FD57F /* FiveModel.xcdatamodeld */,
+				4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -422,9 +430,9 @@
 		4D5B5DFA22F07E5400C8D9A5 /* WatchManager */ = {
 			isa = PBXGroup;
 			children = (
-				4D5B5DFC22F07E5400C8D9A5 /* WatchSessionHandler.swift */,
-				4D5B5DFE22F07E5400C8D9A5 /* WatchSessionDelegater.swift */,
 				4D5BED7422FD8BC400176E18 /* RecievingKeys.swift */,
+				4D5B5DFE22F07E5400C8D9A5 /* WatchSessionDelegater.swift */,
+				4D5B5DFC22F07E5400C8D9A5 /* WatchSessionHandler.swift */,
 			);
 			path = WatchManager;
 			sourceTree = "<group>";
@@ -452,6 +460,23 @@
 			children = (
 			);
 			path = "Edit Task";
+			sourceTree = "<group>";
+		};
+		4D5D7E3B232CF9380088EB5F /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				4D5D7E3C232CF9380088EB5F /* IAPHelper.swift */,
+				4D5D7E3D232CF9380088EB5F /* IAPProducts.swift */,
+			);
+			path = IAP;
+			sourceTree = "<group>";
+		};
+		4D5D7E40232CFAC80088EB5F /* LocalProductManager */ = {
+			isa = PBXGroup;
+			children = (
+				4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */,
+			);
+			path = LocalProductManager;
 			sourceTree = "<group>";
 		};
 		4D5FD3662311461D0053E193 /* Chart */ = {
@@ -572,9 +597,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4D45E78D22DDD1AB008AC433 /* Five */ = {
+		4D45E78D22DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D45E7DE22DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Five" */;
+			buildConfigurationList = 4D45E7DE22DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Shortlist" */;
 			buildPhases = (
 				4D45E78A22DDD1AB008AC433 /* Sources */,
 				4D45E78B22DDD1AB008AC433 /* Frameworks */,
@@ -586,14 +611,14 @@
 			dependencies = (
 				4D45E7B922DDD1AD008AC433 /* PBXTargetDependency */,
 			);
-			name = Five;
+			name = Shortlist;
 			productName = Five;
-			productReference = 4D45E78E22DDD1AB008AC433 /* Five.app */;
+			productReference = 4D45E78E22DDD1AB008AC433 /* Shortlist.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4D45E7A122DDD1AD008AC433 /* FiveTests */ = {
+		4D45E7A122DDD1AD008AC433 /* ShortlistTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D45E7E122DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "FiveTests" */;
+			buildConfigurationList = 4D45E7E122DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "ShortlistTests" */;
 			buildPhases = (
 				4D45E79E22DDD1AD008AC433 /* Sources */,
 				4D45E79F22DDD1AD008AC433 /* Frameworks */,
@@ -604,14 +629,14 @@
 			dependencies = (
 				4D45E7A422DDD1AD008AC433 /* PBXTargetDependency */,
 			);
-			name = FiveTests;
+			name = ShortlistTests;
 			productName = FiveTests;
-			productReference = 4D45E7A222DDD1AD008AC433 /* FiveTests.xctest */;
+			productReference = 4D45E7A222DDD1AD008AC433 /* ShortlistTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		4D45E7AC22DDD1AD008AC433 /* FiveUITests */ = {
+		4D45E7AC22DDD1AD008AC433 /* ShortlistUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D45E7E422DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "FiveUITests" */;
+			buildConfigurationList = 4D45E7E422DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "ShortlistUITests" */;
 			buildPhases = (
 				4D45E7A922DDD1AD008AC433 /* Sources */,
 				4D45E7AA22DDD1AD008AC433 /* Frameworks */,
@@ -622,14 +647,14 @@
 			dependencies = (
 				4D45E7AF22DDD1AD008AC433 /* PBXTargetDependency */,
 			);
-			name = FiveUITests;
+			name = ShortlistUITests;
 			productName = FiveUITests;
-			productReference = 4D45E7AD22DDD1AD008AC433 /* FiveUITests.xctest */;
+			productReference = 4D45E7AD22DDD1AD008AC433 /* ShortlistUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		4D45E7B522DDD1AD008AC433 /* Five WatchKit App */ = {
+		4D45E7B522DDD1AD008AC433 /* Shortlist WatchKit App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D45E7DA22DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Five WatchKit App" */;
+			buildConfigurationList = 4D45E7DA22DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Shortlist WatchKit App" */;
 			buildPhases = (
 				4D45E7B422DDD1AD008AC433 /* Resources */,
 				4D45E7D922DDD1AF008AC433 /* Embed App Extensions */,
@@ -639,14 +664,14 @@
 			dependencies = (
 				4D45E7C822DDD1AE008AC433 /* PBXTargetDependency */,
 			);
-			name = "Five WatchKit App";
+			name = "Shortlist WatchKit App";
 			productName = "Five WatchKit App";
-			productReference = 4D45E7B622DDD1AD008AC433 /* Five WatchKit App.app */;
+			productReference = 4D45E7B622DDD1AD008AC433 /* Shortlist WatchKit App.app */;
 			productType = "com.apple.product-type.application.watchapp2";
 		};
-		4D45E7C422DDD1AE008AC433 /* Five WatchKit Extension */ = {
+		4D45E7C422DDD1AE008AC433 /* Shortlist WatchKit Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D45E7D622DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Five WatchKit Extension" */;
+			buildConfigurationList = 4D45E7D622DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Shortlist WatchKit Extension" */;
 			buildPhases = (
 				4D45E7C122DDD1AE008AC433 /* Sources */,
 				4D45E7C222DDD1AE008AC433 /* Frameworks */,
@@ -656,9 +681,9 @@
 			);
 			dependencies = (
 			);
-			name = "Five WatchKit Extension";
+			name = "Shortlist WatchKit Extension";
 			productName = "Five WatchKit Extension";
-			productReference = 4D45E7C522DDD1AE008AC433 /* Five WatchKit Extension.appex */;
+			productReference = 4D45E7C522DDD1AE008AC433 /* Shortlist WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
@@ -713,11 +738,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4D45E78D22DDD1AB008AC433 /* Five */,
-				4D45E7A122DDD1AD008AC433 /* FiveTests */,
-				4D45E7AC22DDD1AD008AC433 /* FiveUITests */,
-				4D45E7B522DDD1AD008AC433 /* Five WatchKit App */,
-				4D45E7C422DDD1AE008AC433 /* Five WatchKit Extension */,
+				4D45E78D22DDD1AB008AC433 /* Shortlist */,
+				4D45E7A122DDD1AD008AC433 /* ShortlistTests */,
+				4D45E7AC22DDD1AD008AC433 /* ShortlistUITests */,
+				4D45E7B522DDD1AD008AC433 /* Shortlist WatchKit App */,
+				4D45E7C422DDD1AE008AC433 /* Shortlist WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -789,7 +814,7 @@
 				4D953B68230A9DF90048C247 /* StatsCoordinator.swift in Sources */,
 				4D5B5E0222F07E5500C8D9A5 /* WatchSessionDelegater.swift in Sources */,
 				4D646B3A2323C0E400073FD6 /* AboutViewController.swift in Sources */,
-				4D78ABF722DF0C9C001FD57F /* FiveModel.xcdatamodeld in Sources */,
+				4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */,
 				4D646B3E2326203300073FD6 /* AppStoreReviewManager.swift in Sources */,
 				4D5FD36F231155CC0053E193 /* CALayer+Extension.swift in Sources */,
 				4D45E79422DDD1AB008AC433 /* MainViewController.swift in Sources */,
@@ -813,6 +838,8 @@
 				4D786DB7230ED182002D8DEB /* StatisticsGenerator.swift in Sources */,
 				4D953B6B230AA4500048C247 /* StatsViewController.swift in Sources */,
 				4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */,
+				4D5D7E3E232CF9380088EB5F /* IAPHelper.swift in Sources */,
+				4D5D7E3F232CF9380088EB5F /* IAPProducts.swift in Sources */,
 				4D45E7EA22DDDA00008AC433 /* MainViewModel.swift in Sources */,
 				4D598B6422EEBE480020076D /* PersistentContainer.swift in Sources */,
 				4DAFBC8B2320917300A6F189 /* TaskLimitViewController.swift in Sources */,
@@ -820,6 +847,7 @@
 				4D5BA10122E5710000B9B487 /* TaskButton.swift in Sources */,
 				4D5BED7722FD93D100176E18 /* Int+Extension.swift in Sources */,
 				4D5FD36A23114AC90053E193 /* BarChartGenerator.swift in Sources */,
+				4D5D7E42232CFAD40088EB5F /* LocalProductManager.swift in Sources */,
 				4D78AC3622DF1043001FD57F /* CoreDataManager.swift in Sources */,
 				4DC0DE5922E222CA00B2B8D4 /* TaskCell.swift in Sources */,
 				4D5B5E0522F07FEB00C8D9A5 /* TaskStruct.swift in Sources */,
@@ -862,22 +890,22 @@
 /* Begin PBXTargetDependency section */
 		4D45E7A422DDD1AD008AC433 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4D45E78D22DDD1AB008AC433 /* Five */;
+			target = 4D45E78D22DDD1AB008AC433 /* Shortlist */;
 			targetProxy = 4D45E7A322DDD1AD008AC433 /* PBXContainerItemProxy */;
 		};
 		4D45E7AF22DDD1AD008AC433 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4D45E78D22DDD1AB008AC433 /* Five */;
+			target = 4D45E78D22DDD1AB008AC433 /* Shortlist */;
 			targetProxy = 4D45E7AE22DDD1AD008AC433 /* PBXContainerItemProxy */;
 		};
 		4D45E7B922DDD1AD008AC433 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4D45E7B522DDD1AD008AC433 /* Five WatchKit App */;
+			target = 4D45E7B522DDD1AD008AC433 /* Shortlist WatchKit App */;
 			targetProxy = 4D45E7B822DDD1AD008AC433 /* PBXContainerItemProxy */;
 		};
 		4D45E7C822DDD1AE008AC433 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4D45E7C422DDD1AE008AC433 /* Five WatchKit Extension */;
+			target = 4D45E7C422DDD1AE008AC433 /* Shortlist WatchKit Extension */;
 			targetProxy = 4D45E7C722DDD1AE008AC433 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1032,13 +1060,13 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
-				INFOPLIST_FILE = "Five WatchKit Extension/Info.plist";
+				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.Five.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1054,13 +1082,13 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
-				INFOPLIST_FILE = "Five WatchKit Extension/Info.plist";
+				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.Five.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1079,8 +1107,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Five_WatchKit_Extension;
-				INFOPLIST_FILE = "Five WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.Five.watchkitapp;
+				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1099,8 +1127,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Five_WatchKit_Extension;
-				INFOPLIST_FILE = "Five WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.Five.watchkitapp;
+				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1117,12 +1145,12 @@
 				CODE_SIGN_ENTITLEMENTS = Five/Five.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
-				INFOPLIST_FILE = Five/Info.plist;
+				INFOPLIST_FILE = Shortlist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.Five;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1136,12 +1164,12 @@
 				CODE_SIGN_ENTITLEMENTS = Five/Five.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
-				INFOPLIST_FILE = Five/Info.plist;
+				INFOPLIST_FILE = Shortlist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.Five;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1165,7 +1193,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Five.app/Five";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shortlist.app/Shortlist";
 			};
 			name = Debug;
 		};
@@ -1186,7 +1214,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Five.app/Five";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shortlist.app/Shortlist";
 			};
 			name = Release;
 		};
@@ -1242,7 +1270,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D45E7D622DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Five WatchKit Extension" */ = {
+		4D45E7D622DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Shortlist WatchKit Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D45E7D722DDD1AF008AC433 /* Debug */,
@@ -1251,7 +1279,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D45E7DA22DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Five WatchKit App" */ = {
+		4D45E7DA22DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Shortlist WatchKit App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D45E7DB22DDD1AF008AC433 /* Debug */,
@@ -1260,7 +1288,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D45E7DE22DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Five" */ = {
+		4D45E7DE22DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Shortlist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D45E7DF22DDD1AF008AC433 /* Debug */,
@@ -1269,7 +1297,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D45E7E122DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "FiveTests" */ = {
+		4D45E7E122DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "ShortlistTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D45E7E222DDD1AF008AC433 /* Debug */,
@@ -1278,7 +1306,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D45E7E422DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "FiveUITests" */ = {
+		4D45E7E422DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "ShortlistUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D45E7E522DDD1AF008AC433 /* Debug */,
@@ -1290,7 +1318,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		4D78ABF522DF0C9C001FD57F /* FiveModel.xcdatamodeld */ = {
+		4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				4D646B4023290D7C00073FD6 /* FiveModel 4.xcdatamodel */,
@@ -1299,7 +1327,7 @@
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
 			);
 			currentVersion = 4D646B4023290D7C00073FD6 /* FiveModel 4.xcdatamodel */;
-			path = FiveModel.xcdatamodeld;
+			path = ShortlistModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

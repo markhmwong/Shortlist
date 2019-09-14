@@ -17,10 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var mainCoordinator: MainCoordinator?
     
     lazy var persistentContainer: PersistentContainer = {
-        let container = PersistentContainer(name: "FiveModel")
+        let container = PersistentContainer(name: "ShortlistModel")
         container.loadPersistentStores { description, error in
             if let error = error {
-                fatalError("Unable to load p¡ersistent stores: \(error)")
+                fatalError("Unable to load persistent stores: \(error)")
             }
         }
         container.viewContext.automaticallyMergesChangesFromParent = true        
