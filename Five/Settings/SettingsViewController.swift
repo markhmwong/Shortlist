@@ -52,7 +52,8 @@ class SettingsViewController: UIViewController {
         navigationController?.title = "Settings"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "SettingsCellId")
         
-        let header = SettingsHeader(delegate: self)
+        let headerViewModel = SettingsHeaderViewModel()
+        let header = SettingsHeader(delegate: self, viewModel: headerViewModel)
         tableView.tableHeaderView = header
         header.setNeedsLayout()
         header.layoutIfNeeded()
