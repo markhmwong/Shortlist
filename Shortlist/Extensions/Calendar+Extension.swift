@@ -16,6 +16,11 @@ extension Calendar {
         return self.startOfDay(for: Date())
     }
     
+    func yesterday() -> Date {
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: self.today())
+        return yesterday!
+    }
+    
     func sevenDaysFromDate(currDate: Date) -> Date {
         let date = Calendar.current.date(byAdding: .day, value: Int(-6), to: currDate)
         return date!
@@ -55,10 +60,6 @@ extension Calendar {
         return components.day!
     }
     
-    func yesterday() -> Date {
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: self.today())
-        return yesterday!
-    }
     
     func todayToInt() -> Int16 {
         let today = Calendar.current.date(byAdding: .day, value: 0, to: self.today())

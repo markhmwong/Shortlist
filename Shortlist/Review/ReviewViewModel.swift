@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class ReviewViewModel {
     
@@ -45,4 +45,6 @@ class ReviewViewModel {
     }
     
     var targetDate: Date = Calendar.current.yesterday()
+    
+    let cellHeight: CGFloat = 70.0
 }

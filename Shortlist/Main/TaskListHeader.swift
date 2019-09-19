@@ -133,7 +133,6 @@ class TaskListHeader: UIView {
         dateTitle.anchorView(top: nil, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: dateBackgroundView.centerYAnchor, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: .zero)
 
         if (reviewLabelState) {
-            let count = delegate?.viewModel.incompleteTasks
             addSubview(reviewTitle)
             addSubview(instructionTitle)
             

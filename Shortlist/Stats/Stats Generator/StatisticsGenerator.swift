@@ -11,7 +11,7 @@ import Foundation
 class StatisticsGenerator: NSObject {
     
     // input data
-    var dayArray: [Day]?
+    private var dayArray: [Day]?
     
     init(withArray arr: [Day]) {
         self.dayArray = arr
@@ -37,13 +37,14 @@ class StatisticsGenerator: NSObject {
         }
         
         for day in dayArray {
+            
+            print(day.createdAt)
             taskLimit = mostAmountOfTasksForDay(currLimit: day.taskLimit, newLimit: taskLimit)
             totalCompletedForTimePeriod += day.totalCompleted
             totalTasksForDay += day.totalTasks
             incompleteTasks = day.totalTasks - day.totalCompleted
             
             let date = Calendar.current.dayOfWeek(date: day.createdAt! as Date)
-            print(day.createdAt!)
             guard let dayOfWeek = DayOfWeek(rawValue: Int16(date)) else {
                 fatalError("Day Type does not exist")
             }

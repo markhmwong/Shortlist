@@ -39,11 +39,12 @@ class TaskLimitViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let vm = viewModel else { return }
         view.backgroundColor = .black
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         title = "Daily Limit"
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TaskLimitCellId")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: vm.cellId)
         view.addSubview(tableView)
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
     }
@@ -54,7 +55,7 @@ class TaskLimitViewController: UIViewController {
     }
     
     func currentTaskLimit() -> Int {
-        if let taskLimit = KeychainWrapper.standard.integer(forKey: "DailyTaskLimit") {
+        if let taskLimit = KeychainWrapper.standard.integer(forKey: KeyChainKeys.TaskLimit) {
             return taskLimit
         }
         return 3
@@ -70,7 +71,7 @@ extension TaskLimitViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskLimitCellId", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel?.cellId ?? "TaskLimitCellId", for: indexPath)
         cell.backgroundColor = .clear
         // uninitialised view model
         guard let viewModel = viewModel else {
@@ -99,7 +100,7 @@ extension TaskLimitViewController: UITableViewDelegate, UITableViewDataSource {
         newCell?.accessoryType = .checkmark
         
         // save
-        KeychainWrapper.standard.set(indexPath.row, forKey: "DailyTaskLimit")
+        KeychainWrapper.standard.set(indexPath.row, forKey: KeyChainKeys.TaskLimit)
         let today = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
         guard let viewModel = viewModel else { return }
         today.taskLimit = Int16(viewModel.limits[indexPath.row])

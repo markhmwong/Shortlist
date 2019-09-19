@@ -98,22 +98,19 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let today = Calendar.current.today()
-        let todayStr = today.toString()
-        //initialise date
-        guard let date = KeychainWrapper.standard.string(forKey: "Date") else {
-            KeychainWrapper.standard.set(todayStr, forKey: "Date")
-            return
+        let today: Int16 = Calendar.current.todayToInt()
+        loadReview()
+        if let reviewDate = KeychainWrapper.standard.integer(forKey: KeyChainKeys.ReviewDate) {
+            if today != Int16(reviewDate) {
+                // update keychain
+                KeychainWrapper.standard.set(Int(today), forKey: KeyChainKeys.ReviewDate)
+                // show preview
+                loadReview()
+            }
+        } else {
+            // continues as normal
+            
         }
-        
-//        if (date != todayStr) {
-//            //load review
-//            loadReview()
-//            //update
-//            KeychainWrapper.standard.set(todayStr, forKey: "Date")
-//        }
-//        loadReview() //to be done
-        persistentContainer?.saveContext()
     }
     
     func initialiseSampleData() {
@@ -151,23 +148,23 @@ class MainViewController: UIViewController {
     }
     
     // disabled
-    func syncWatch() {
-        let today = Calendar.current.today()
-        let taskList: [TaskStruct] = [
-            TaskStruct(id: 0, name: "Sample Task One", complete: false, priority: 0),
-            TaskStruct(id: 1, name: "Sample Task One", complete: false, priority: 1),
-            TaskStruct(id: 2, name: "Sample Task One", complete: false, priority: 2),
-        ]
-
-        do {
-            let encodedData = try JSONEncoder().encode(taskList)
-//            let jsonString = String(data: encodedData, encoding: .utf8)
-            WatchSessionHandler.shared.updateApplicationContext(with: encodedData)
-        } catch (let err) {
-            print("Error encoding taskList \(err)")
-        }
-        
-    }
+//    func syncWatch() {
+//        let today = Calendar.current.today()
+//        let taskList: [TaskStruct] = [
+//            TaskStruct(id: 0, name: "Sample Task One", complete: false, priority: 0),
+//            TaskStruct(id: 1, name: "Sample Task One", complete: false, priority: 1),
+//            TaskStruct(id: 2, name: "Sample Task One", complete: false, priority: 2),
+//        ]
+//
+//        do {
+//            let encodedData = try JSONEncoder().encode(taskList)
+////            let jsonString = String(data: encodedData, encoding: .utf8)
+//            WatchSessionHandler.shared.updateApplicationContext(with: encodedData)
+//        } catch (let err) {
+//            print("Error encoding taskList \(err)")
+//        }
+//
+//    }
     
     func setupView() {
         guard let viewModel = viewModel else { return }
@@ -205,6 +202,7 @@ class MainViewController: UIViewController {
         
 //        let vc = ReviewViewController(coreDataManager: coreDataManager)
 //        self.present(vc, animated: true)
+        coordinator?.showReview(persistentContainer)
     }
     
     func seedCoreDataWhenFirstLaunched() {
@@ -218,31 +216,24 @@ class MainViewController: UIViewController {
         //check if there is data for today, if there isn't then create the day
         let todaysDate = Calendar.current.today()
         var dayObject: Day? = persistentContainer.fetchDayManagedObject(forDate: todaysDate)
+        
+        if (dayObject == nil) {
+            dayObject = Day(context: persistentContainer.viewContext)
+            dayObject?.createdAt = Calendar.current.today() as NSDate
+            dayObject?.taskLimit = 5 //default limit
+            dayObject?.month = Calendar.current.monthToInt() // Stats
+            dayObject?.year = Calendar.current.yearToInt() // Stats
+            dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats
+            // possible loading graphic todo            
+            persistentContainer.saveContext()
+        }
+        
         do {
             try fetchedResultsController.performFetch()
         } catch (let err) {
             print("Unable to perform fetch \(err)")
         }
         
-        if (dayObject == nil) {
-            let privateContext = persistentContainer.newBackgroundContext()
-            dayObject = Day(context: privateContext)
-            var today = Calendar.current.today() as NSDate
-            dayObject?.createdAt = Calendar.current.today() as NSDate
-            dayObject?.taskLimit = 5 //default limit
-            dayObject?.month = Calendar.current.monthToInt() // Stats
-            dayObject?.year = Calendar.current.yearToInt() // Stats
-            dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats
-            // possible loading graphic todo
-            
-            privateContext.performAndWait {
-                do {
-                    try privateContext.save()
-                } catch (let err) {
-                    print("\(err) trouble saving")
-                }
-            }
-        }
         viewModel.dayEntity = dayObject
         if (viewModel.dayEntity != nil) {
             DispatchQueue.main.async {
@@ -260,6 +251,7 @@ class MainViewController: UIViewController {
         guard let day = vm.dayEntity else { return }
         
         // bug on new day
+        os_log("Totaltasks %d, %d", log: Log.task, type: .info, day.totalTasks, day.taskLimit)
         if (day.totalTasks < day.taskLimit) {
             //        syncWatch()
             persistentContainer.performBackgroundTask { (context) in
@@ -391,10 +383,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
         destTask?.priority = sourceTask!.priority
         sourceTask?.priority = tempDestinationPriority!
         persistentContainer?.saveContext()
-
-        for task in sortedSet! {
-            print(task.name, task.priority)
-        }
     }
     
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {

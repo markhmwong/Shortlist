@@ -147,7 +147,7 @@ class PersistentContainer: NSPersistentContainer {
                 try viewContext.execute(deleteRequest)
                 saveContext(backgroundContext: nil)
                 return true
-            } catch let error as NSError {
+            } catch let error {
                 print("Trouble deleting all records in entity: \(error)")
                 return false
             }

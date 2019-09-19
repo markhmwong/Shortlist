@@ -17,7 +17,7 @@ struct Theme {
         enum StandardSizes: CGFloat {
             //title sizes
             case h0 = 60.0
-            case h1 = 30.0
+            case h1 = 35.0
             case h2 = 29.0
             case h3 = 28.0
             case h4 = 22.0

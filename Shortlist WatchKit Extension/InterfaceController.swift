@@ -85,7 +85,7 @@ class InterfaceController: WKInterfaceController {
                 self.tableDataSource?[Int(task.id)] = task
                 do {
                     let encodedData = try JSONEncoder().encode(self.tableDataSource)
-                    let dataDict = ["UpdateTaskFromWatch": encodedData]
+                    let _ = ["UpdateTaskFromWatch": encodedData]
 //                    try self.watchSession?.updateApplicationContext(dataDict)
                 } catch (let err) {
                     print("Error encoding data from watch: \(err)")

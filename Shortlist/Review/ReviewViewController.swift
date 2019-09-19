@@ -7,22 +7,30 @@
 //
 
 import UIKit
-
+import CoreData
 
 // A Review of the day before.
 // It shows incomplete / complete tasks
 // Allows to carry over tasks to today.
 class ReviewViewController: UIViewController {
  
-    var coreDataManager: CoreDataManager?
+    var persistentContainer: PersistentContainer?
 
-    var viewModel: ReviewViewModel = ReviewViewModel()
+    var viewModel: ReviewViewModel?
     
-    lazy var closeButton: CloseButton = {
-        let button = CloseButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
-        return button
+    var coordinator: ReviewCoordinator?
+    
+    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
+        // Create Fetch Request
+        let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
+        // Configure Fetch Request
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "createdAt == %@", argumentArray: [Calendar.current.yesterday()])
+        // Create Fetched Results Controller
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: (self.persistentContainer?.viewContext ?? nil)!, sectionNameKeyPath: nil, cacheName: nil)
+        // Configure Fetched Results Controller
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
     }()
     
     lazy var tableView: UITableView = {
@@ -31,7 +39,9 @@ class ReviewViewController: UIViewController {
         view.dataSource = self
         view.backgroundColor = .clear
         view.separatorStyle = .none
+        view.estimatedRowHeight = viewModel?.cellHeight ?? 100.0
         view.translatesAutoresizingMaskIntoConstraints = false
+		view.allowsMultipleSelection = true
         return view
     }()
     
@@ -42,18 +52,22 @@ class ReviewViewController: UIViewController {
         button.backgroundColor = .green
         button.setTitle("Done", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.addTarget(self, action: #selector(handleDone), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleDoneButton), for: .touchUpInside)
         return button
     }()
     
-    lazy var taskListHeader: UIView = {
-        let view = TaskListHeader(date: Calendar.current.yesterday(), reviewState: true, delegate: self)
+
+
+    lazy var reviewHeader: UIView = {
+        let view = ReviewHeader(date: Calendar.current.yesterday(), viewModel: self.viewModel!)
         return view
     }()
     
-    init(coreDataManager: CoreDataManager) {
+    init(persistentContainer: PersistentContainer, coordinator: ReviewCoordinator, viewModel: ReviewViewModel) {
         super.init(nibName: nil, bundle: nil)
-        self.coreDataManager = coreDataManager
+        self.persistentContainer = persistentContainer
+        self.viewModel = viewModel
+        self.coordinator = coordinator
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -68,17 +82,16 @@ class ReviewViewController: UIViewController {
         //        CoreDataManager.shared.deleteAllRecordsIn(entity: Day.self)
         tableView.reloadData()
         // Do any additional setup after loading the view.
-        tableView.tableHeaderView = taskListHeader
-        taskListHeader.setNeedsLayout()
-        taskListHeader.layoutIfNeeded()
+        tableView.tableHeaderView = reviewHeader
+        reviewHeader.setNeedsLayout()
+        reviewHeader.layoutIfNeeded()
         view.addSubview(tableView)
-        view.addSubview(closeButton)
         view.addSubview(doneButton)
         
-        tableView.register(ReviewCell.self, forCellReuseIdentifier: viewModel.reviewCellId)
-        tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDoneButton))
         
-        closeButton.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: -20.0), size: .zero)
+        tableView.register(ReviewCell.self, forCellReuseIdentifier: viewModel?.reviewCellId ?? "ReviewCellId")
+        tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
         doneButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
     }
     
@@ -87,49 +100,41 @@ class ReviewViewController: UIViewController {
     }
     
     func loadData() {
-        guard let coreDataManager = self.coreDataManager else {
-            fatalError("Error loading core data manager while loading data")
+        guard let persistentContainer = persistentContainer else { return }
+        guard let yesterday = viewModel?.targetDate else { return }
+        guard let viewModel = viewModel else { return }
+        
+        var dayObject: Day? = persistentContainer.fetchDayManagedObject(forDate: yesterday)
+        
+        if (dayObject == nil) {
+            dayObject = Day(context: persistentContainer.viewContext)
+            dayObject?.createdAt = Calendar.current.today() as NSDate
+            dayObject?.taskLimit = 5 //default limit
+            dayObject?.month = Calendar.current.monthToInt() // Stats
+            dayObject?.year = Calendar.current.yearToInt() // Stats
+            dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats
+            // possible loading graphic todo
+            persistentContainer.saveContext()
         }
         
-        var dayEntity: Day? = coreDataManager.fetchDayEntity(forDate: viewModel.targetDate) as? Day
-        if (dayEntity == nil) {
-            dayEntity = Day(context: coreDataManager.mainManagedObjectContext)
-            let date = Calendar.current.today()
-            dayEntity?.createdAt = date as NSDate
-            dayEntity?.taskLimit = 5 //default limit
-            coreDataManager.saveChanges()
+        do {
+            try fetchedResultsController.performFetch()
+        } catch (let err) {
+            print("Unable to perform fetch \(err)")
         }
         
-        self.viewModel.dayEntity = dayEntity
-        self.tableView.reloadData()
+        viewModel.dayEntity = dayObject
+        if (viewModel.dayEntity != nil) {
+            DispatchQueue.main.async {
+                
+                self.tableView.reloadData()
+            }
+        }
     }
     
     @objc
-    func handleClose() {
-        self.dismiss(animated: true) {
-            //
-        }
-    }
-    
-    //todo
-    @objc
-    func handleDone() {
-        //get tasks to carry over to the next day
-//        let tasks = viewModel.taskDataSource
-//        let dayEntity = CoreDataManager.shared.fetchDayEntity(forDate: Calendar.current.today())
-//        for task in tasks {
-//            //shift task over to the new day
-//            if (task.carryOver) {
-//                let newTask = Task(context: CoreDataManager.shared.fetchContext()!)
-//                newTask.carryOver = false
-//                newTask.complete = false
-//                newTask.id = task.id
-//                newTask.name = task.name
-//                dayEntity?.addToDayToTask(newTask)
-//            }
-//        }
-//        CoreDataManager.shared.saveContext()
-
+    func handleDoneButton() {
+        // use coordinator
         self.dismiss(animated: false, completion: nil)
     }
 }
@@ -138,39 +143,28 @@ class ReviewViewController: UIViewController {
 
 extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.taskDataSource.count
+        guard let dayObjects = fetchedResultsController.fetchedObjects else { return 0 }
+        let first = dayObjects.first
+        return first?.dayToTask?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reviewCellId, for: indexPath) as! ReviewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel?.reviewCellId ?? "ReviewCellId", for: indexPath) as! ReviewCell
         cell.backgroundColor = .clear
-        cell.selectionStyle = .blue
-        cell.task = viewModel.taskDataSource[indexPath.row]
+		
+        let dayObject = fetchedResultsController.fetchedObjects?.first
+        let set = dayObject?.dayToTask as? Set<Task>
+        if (!set!.isEmpty) {
+            let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
+                return taskA.priority < taskB.priority
+            })
+            cell.task = sortedSet?[indexPath.row]
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50.0
-    }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "delete") { [weak self] (action, view, complete) in
-            
-            let cell = tableView.cellForRow(at: indexPath) as! ReviewCell
-            if let task = cell.task {
-                //remove from datasource
-                self?.viewModel.taskDataSource.remove(at: indexPath.row)
-                
-                //remove from core data
-                self?.viewModel.dayEntity?.removeFromDayToTask(task)
-                
-//                CoreDataManager.shared.saveContext()
-            }
-            
-            complete(true)
-        }
-        
-        return UISwipeActionsConfiguration(actions: [delete])
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -180,17 +174,37 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         task.carryOver = !task.carryOver
-        if task.carryOver {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
+//        if task.carryOver {
+//            cell.accessoryType = .checkmark
+//        } else {
+//            cell.accessoryType = .none
+//        }
+		
+		
+//        tableView.deselectRow(at: indexPath, animated: true)
 
     }
     
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return true
     }
+	
+	
 }
 
+extension ReviewViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        do {
+            try fetchedResultsController.performFetch()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        } catch (let err) {
+            print("\(err)")
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+    }
+}

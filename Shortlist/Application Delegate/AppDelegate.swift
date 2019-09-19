@@ -40,6 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("WCSession not supported")
         }
         
+        /// Observer for handling In App Product key events
+        IAPProducts.tipStore.addStoreObserver()
+        
         return true
     }
 

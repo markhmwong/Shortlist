@@ -108,7 +108,7 @@ class BarChart: UIView {
             
             let day = bar.day!.dayOfWeek.shortHand
             print("\(day)")
-            mainLayer.xAxisLabels(frame: xAxisLabelFrame, color: UIColor.white.cgColor, fontSize: 12.0, text: "\(day)")
+            mainLayer.xAxisLabels(frame: xAxisLabelFrame, color: UIColor.white.cgColor, fontSize: 12.0, text: "\(day)")
             
         }
         

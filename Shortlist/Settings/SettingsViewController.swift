@@ -52,12 +52,14 @@ class SettingsViewController: UIViewController {
         navigationController?.title = "Settings"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "SettingsCellId")
         
-        let header = SettingsHeader(delegate: self)
+        let settingsHeaderViewModel = SettingsHeaderViewModel()
+        let header = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel)
         tableView.tableHeaderView = header
         header.setNeedsLayout()
         header.layoutIfNeeded()
         view.addSubview(tableView)
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+        header.grabTipsProducts()
     }
     
     @objc
@@ -81,7 +83,7 @@ class SettingsViewController: UIViewController {
     
     //https://itunes.apple.com/app/id1454444680?mt=8
     func writeReview() {
-        let productURL = URL(string: "https://itunes.apple.com/app/id1454444680?mt=8")!
+        let productURL = URL(string: "https://itunes.apple.com/app/id1454444680?mt=8")! // to be changed
         var components = URLComponents(url: productURL, resolvingAgainstBaseURL: false)
         
         components?.queryItems = [

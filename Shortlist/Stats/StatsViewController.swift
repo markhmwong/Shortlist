@@ -9,6 +9,7 @@
 //  This view controller will display the current month's progress.
 
 import UIKit
+import os.log
 
 class StatsViewController: UIViewController {
     
@@ -67,9 +68,19 @@ class StatsViewController: UIViewController {
         let from = Calendar.current.sevenDaysFromToday()
         guard let dayArray = persistentContainer?.fetchRangeOfDays(from: from, to: Calendar.current.today()) else {
             return
-        }        
+        }
+        var paddedDayArray = dayArray
+        if paddedDayArray.count < 7 {
+            for _ in paddedDayArray.count..<7 {
+                let day = Day(context: persistentContainer!.viewContext)
+                day.createNewDay()
+                paddedDayArray.append(day)
+                persistentContainer?.saveContext()
+            }
+        }
         
-        let stats = StatisticsGenerator(withArray: dayArray)
+        os_log("dayArray %d", log: Log.chart, type: .info, paddedDayArray.count)
+        let stats = StatisticsGenerator(withArray: paddedDayArray)
         let monthlyStats: MonthOverviewChartData = stats.calculateStats(chartTitle: "Last 7 Days")
         
         weeklyBarChart = BarChart(inputData: monthlyStats)
