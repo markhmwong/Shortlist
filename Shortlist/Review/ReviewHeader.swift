@@ -137,7 +137,7 @@ class ReviewHeader: UIView {
         let totalCompleted = viewModel.dayEntity?.totalCompleted
         completedTasks.attributedText = NSAttributedString(string: "\(totalCompleted ?? 0) / \(totalTasks ?? 5)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h1).value)!])
         
-        heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.20).isActive = true
+        heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.23).isActive = true
         widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         
         addSubview(reviewTitle)

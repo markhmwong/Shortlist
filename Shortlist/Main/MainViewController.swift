@@ -51,10 +51,10 @@ class MainViewController: UIViewController {
     lazy var addButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 15.0
-        button.backgroundColor = UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
+        button.layer.cornerRadius = Theme.Button.cornerRadius
+		button.backgroundColor = Theme.Button.backgroundColor
         button.setTitle("Add", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
+		button.setTitleColor(Theme.Button.textColor, for: .normal)
         button.addTarget(self, action: #selector(handleAddButton), for: .touchUpInside)
         return button
     }()
@@ -255,7 +255,6 @@ class MainViewController: UIViewController {
         if (day.totalTasks < day.taskLimit) {
             //        syncWatch()
             persistentContainer.performBackgroundTask { (context) in
-                
                 let dayObject = context.object(with: day.objectID) as! Day
                 dayObject.totalTasks += 1
                 persistentContainer.createSampleTask(toEntity: dayObject, context: context, idNum: vm.taskDataSource.count)
@@ -289,8 +288,6 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
 
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let dayObjects = fetchedResultsController.fetchedObjects else { return 0 }
         let first = dayObjects.first
@@ -312,7 +309,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
                 return taskA.priority < taskB.priority
             })
             cell.task = sortedSet?[indexPath.row]
-        }
+		} else {
+			cell.task = nil
+		}
         
         cell.adjustDailyTaskComplete = { (task) in
             if (task.complete) {
@@ -337,7 +336,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
                 print("\(err)")
             }
         }
+		
         cell.persistentContainer = persistentContainer
+		
         return cell
     }
     
@@ -369,8 +370,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        print(sourceIndexPath.row, destinationIndexPath.row)
-        let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+
+		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
         let set = dayManagedObject.dayToTask as? Set<Task>
         let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
             return taskA.priority < taskB.priority

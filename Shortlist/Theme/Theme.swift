@@ -70,4 +70,10 @@ struct Theme {
     struct GeneralView {
         static var background: UIColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:1.0).darker(by: 2.0)!
     }
+	
+	struct Button {
+		static var backgroundColor: UIColor = UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
+		static var textColor: UIColor = UIColor.black
+		static var cornerRadius: CGFloat = 15.0
+	}
 }

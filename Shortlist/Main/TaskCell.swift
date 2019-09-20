@@ -86,6 +86,7 @@ class TaskCell: UITableViewCell {
     @objc
     func handleTask() {
         taskButton.taskState = !taskButton.taskState
+		
         guard let task = task else { return }
         task.complete = taskButton.taskState
         adjustDailyTaskComplete?(task)

@@ -47,4 +47,36 @@ class ReviewViewModel {
     var targetDate: Date = Calendar.current.yesterday()
     
     let cellHeight: CGFloat = 70.0
+	
+	typealias Priority = Int
+
+	var carryOverTaskObjectsArr: [Priority: Task] = [:]
+	
+	func tableCellFor(tableView: UITableView, indexPath: IndexPath) -> ReviewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: reviewCellId, for: indexPath) as! ReviewCell
+		cell.backgroundColor = .clear
+		guard cell.task != nil else {
+			cell.task = nil
+            return cell
+        }
+		return cell
+	}
+	
+	func tableCellAt(tableView: UITableView, indexPath: IndexPath) -> ReviewCell {
+		let cell = tableView.cellForRow(at: indexPath) as! ReviewCell
+		guard cell.task != nil else {
+			cell.task = nil
+            return cell
+        }
+		return cell
+	}
+	
+	func handleCarryOver(task: Task, cell: ReviewCell) {
+		let key: Int = Int(task.priority)
+		if cell.selectedState {
+			carryOverTaskObjectsArr[key] = task
+		} else {
+			carryOverTaskObjectsArr.removeValue(forKey: key)
+		}
+	}
 }

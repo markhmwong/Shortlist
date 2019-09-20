@@ -48,10 +48,10 @@ class ReviewViewController: UIViewController {
     lazy var doneButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 15.0
-        button.backgroundColor = .green
+        button.layer.cornerRadius = Theme.Button.cornerRadius
+		button.backgroundColor = Theme.Button.backgroundColor
         button.setTitle("Done", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
+		button.setTitleColor(Theme.Button.textColor, for: .normal)
         button.addTarget(self, action: #selector(handleDoneButton), for: .touchUpInside)
         return button
     }()
@@ -132,14 +132,28 @@ class ReviewViewController: UIViewController {
         }
     }
     
+	//update color for buttons
     @objc
     func handleDoneButton() {
-        // use coordinator
-        self.dismiss(animated: false, completion: nil)
+		copyMarkedTasks()
+		//save to core data
+		persistentContainer?.saveContext()
+		//dismiss view
+		coordinator?.dimiss()
     }
+	
+	func copyMarkedTasks() {
+		guard let viewModel = viewModel else { return }
+		let today: Day = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+		// create new day here, incase the app is running in the back ground and a new day hasn't been created in the interim
+		
+		
+		for (_, task) in viewModel.carryOverTaskObjectsArr {
+			today.addToDayToTask(task)
+		}
+		
+	}
 }
-
-
 
 extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -149,8 +163,35 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel?.reviewCellId ?? "ReviewCellId", for: indexPath) as! ReviewCell
-        cell.backgroundColor = .clear
+		
+		// handle the view model when it doesn't exist
+		guard let viewModel = viewModel else {
+			let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewCellId", for: indexPath) as! ReviewCell
+			cell.backgroundColor = .clear
+			cell.carryTaskOver = { (task) in
+				// print error view model does not exist for this closure
+			}
+			
+			let dayObject = fetchedResultsController.fetchedObjects?.first
+			let set = dayObject?.dayToTask as? Set<Task>
+			if (!set!.isEmpty) {
+				let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
+					return taskA.priority < taskB.priority
+				})
+				cell.task = sortedSet?[indexPath.row]
+			} else {
+				cell.task = nil
+			}
+			return cell
+		}
+		
+		// when the view model does exist we proceed at normal
+		let cell = viewModel.tableCellFor(tableView: tableView, indexPath: indexPath)
+		
+		// closure to handle tasks that will be carried over to the the following day
+		cell.carryTaskOver = { (task) in
+			viewModel.handleCarryOver(task: task, cell: cell)
+		}
 		
         let dayObject = fetchedResultsController.fetchedObjects?.first
         let set = dayObject?.dayToTask as? Set<Task>
@@ -168,28 +209,22 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! ReviewCell
-        guard let task = cell.task else {
-            return
-        }
-
-        task.carryOver = !task.carryOver
-//        if task.carryOver {
-//            cell.accessoryType = .checkmark
-//        } else {
-//            cell.accessoryType = .none
-//        }
-		
-		
-//        tableView.deselectRow(at: indexPath, animated: true)
-
+		guard let viewModel = viewModel else { return }
+		let cell = viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
+		cell.selectedState = !cell.selectedState
+		persistentContainer?.saveContext() // save on done
     }
-    
+	
+	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+		guard let viewModel = viewModel else { return }
+		let cell = viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
+		cell.selectedState = !cell.selectedState
+		persistentContainer?.saveContext() // save on done
+	}
+	
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-	
-	
 }
 
 extension ReviewViewController: NSFetchedResultsControllerDelegate {
@@ -205,6 +240,6 @@ extension ReviewViewController: NSFetchedResultsControllerDelegate {
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
+        //
     }
 }

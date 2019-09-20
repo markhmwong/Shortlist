@@ -32,6 +32,12 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         let nav = UINavigationController(rootViewController: vc)
         navigationController.present(nav, animated: true, completion: nil)
     }
+	
+	func dimiss() {
+		navigationController.dismiss(animated: true) {
+			//
+		}
+	}
     
     func childDidFinish(_ child: Coordinator) {
         for (index, coordinator) in childCoordinators.enumerated() {
