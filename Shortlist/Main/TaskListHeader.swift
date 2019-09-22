@@ -54,8 +54,8 @@ class TaskListHeader: UIView {
         nameFormatter.dateFormat = "MMMM"
         let monthString = nameFormatter.string(from: currentDate)
         let str = date!.toString(format: "dd")
-        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str) ", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.strokeWidth : -3.0, NSAttributedString.Key.strokeColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h1).value)!])
-        attributedStr.append(NSAttributedString(string: "\(monthString)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h1).value)!]))
+        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str) ", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.strokeWidth : -3.0, NSAttributedString.Key.strokeColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleBold, size: Theme.Font.FontSize.Standard(.h3).value)!])
+        attributedStr.append(NSAttributedString(string: "\(monthString)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleRegular, size: Theme.Font.FontSize.Standard(.h3).value)!]))
         label.attributedText = attributedStr
         return label
     }()
@@ -67,7 +67,7 @@ class TaskListHeader: UIView {
         return label
     }()
     
-    lazy var instructionTitle: UITextView = {
+    lazy var weather: UITextView = {
         let label = UITextView()
         label.textContainerInset = .zero
         label.textContainer.lineFragmentPadding = 0
@@ -77,7 +77,7 @@ class TaskListHeader: UIView {
         label.isEditable = false
         label.isSelectable = false
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Select tasks you'd like to carry over from yesterday.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.darker(by: 50.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
+		label.attributedText = NSAttributedString(string: "A sunny day ahead with a light breeze.", attributes: [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleRegular, size: Theme.Font.FontSize.Standard(.b4).value)!])
         return label
     }()
     
@@ -121,26 +121,19 @@ class TaskListHeader: UIView {
     }
     
     private func setupView() {
-        heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / heightRatioForHeader()).isActive = true
+		heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.12).isActive = true
         widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         
         addSubview(dateBackgroundView)
         dateBackgroundView.addSubview(dateTitle)
         
-        let estimatedFrame = NSString(string: dateTitle.text!).boundingRect(with: CGSize(width: bounds.width, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!], context: nil)
+//        let estimatedFrame = NSString(string: dateTitle.text!).boundingRect(with: CGSize(width: bounds.width, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!], context: nil)
         
-        dateBackgroundView.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: estimatedFrame.height))
-        dateTitle.anchorView(top: nil, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: dateBackgroundView.centerYAnchor, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: .zero)
+        dateBackgroundView.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: UIScreen.main.bounds.height * 0.12))
+		dateTitle.anchorView(top: dateBackgroundView.topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 20.0, bottom: 0.0, right: 0.0), size: .zero)
 
-        if (reviewLabelState) {
-            addSubview(reviewTitle)
-            addSubview(instructionTitle)
-            
-            let estimatedFrameInstructionTitle = NSString(string: instructionTitle.text!).boundingRect(with: CGSize(width: bounds.width, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.darker(by: 50.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!], context: nil)
-            
-            reviewTitle.anchorView(top: dateTitle.bottomAnchor, bottom: nil, leading: dateTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: estimatedFrameInstructionTitle.height, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
-            instructionTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
-        }
+		addSubview(weather)
+		weather.anchorView(top: dateTitle.bottomAnchor, bottom: nil, leading: dateTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
     }
     
     override func layoutSubviews() {

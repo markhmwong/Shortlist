@@ -52,37 +52,39 @@ class ReviewHeader: UIView {
     lazy var reviewTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Yesterday's Review", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+		var str = NSMutableAttributedString(string: "Yesterday's ", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleBold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+		str.append(NSMutableAttributedString(string: "Review", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleRegular, size: Theme.Font.FontSize.Standard(.b0).value)!]))
+        label.attributedText = str
         return label
     }()
 	
-	lazy var taskCompleteTitle: UILabel = {
-		let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-		label.textAlignment = .left
-		label.attributedText = NSAttributedString(string: "Complete", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
-		return label
-	}()
+//	lazy var taskCompleteTitle: UILabel = {
+//		let label = UILabel()
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//		label.textAlignment = .left
+//		label.attributedText = NSAttributedString(string: "Complete", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
+//		return label
+//	}()
     
-    lazy var instructionTitle: UITextView = {
-        let label = UITextView()
-        label.textContainerInset = .zero
-        label.textContainer.lineFragmentPadding = 0
-        label.textAlignment = .center
-        label.backgroundColor = .clear
-        label.isScrollEnabled = false
-        label.isEditable = false
-        label.isSelectable = false
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Select tasks you'd like to carry over to today's task list.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.darker(by: 50.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
-        return label
-    }()
+//    lazy var instructionTitle: UITextView = {
+//        let label = UITextView()
+//        label.textContainerInset = .zero
+//        label.textContainer.lineFragmentPadding = 0
+//        label.textAlignment = .center
+//        label.backgroundColor = .clear
+//        label.isScrollEnabled = false
+//        label.isEditable = false
+//        label.isSelectable = false
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.attributedText = NSAttributedString(string: "Select tasks you'd like to carry over to today's task list.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.darker(by: 50.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
+//        return label
+//    }()
     
     lazy var completedTasksTitle: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Completed", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b2).value)!])
+        label.attributedText = NSAttributedString(string: "Completed", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
         return label
     }()
     
@@ -141,16 +143,16 @@ class ReviewHeader: UIView {
         widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         
         addSubview(reviewTitle)
-        addSubview(instructionTitle)
+//        addSubview(instructionTitle)
         addSubview(completedTasksTitle)
         addSubview(completedTasks)
         
         let estimatedFrameInstructionTitle = NSString(string: reviewTitle.text!).boundingRect(with: CGSize(width: bounds.width, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.darker(by: 50.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!], context: nil)
         
         reviewTitle.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: estimatedFrameInstructionTitle.height, left: 10.0, bottom: 0.0, right: 10.0), size: .zero)
-        instructionTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 10.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
+//        instructionTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 10.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
         
-        completedTasksTitle.anchorView(top: instructionTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
+        completedTasksTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 40.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
         completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
     }
     

@@ -58,7 +58,8 @@ class TaskButton: UIButton {
     }
     
     override func draw(_ rect: CGRect) {
-        let path = UIBezierPath(arcCenter: CGPoint(x: 35.0 / 2, y: 35.0 / 2), radius: (35.0 / 3) - Constants.lineWidth, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+		let height: CGFloat = 30.0
+        let path = UIBezierPath(arcCenter: CGPoint(x: height / 2, y: height / 2), radius: (height / 3) - Constants.lineWidth, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
 
         //fill
         stateColor.setFill()

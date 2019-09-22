@@ -55,8 +55,6 @@ class ReviewViewController: UIViewController {
         button.addTarget(self, action: #selector(handleDoneButton), for: .touchUpInside)
         return button
     }()
-    
-
 
     lazy var reviewHeader: UIView = {
         let view = ReviewHeader(date: Calendar.current.yesterday(), viewModel: self.viewModel!)
@@ -88,6 +86,8 @@ class ReviewViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(doneButton)
         
+		navigationItem.prompt = "Select tasks to repeat"
+		
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDoneButton))
         
         tableView.register(ReviewCell.self, forCellReuseIdentifier: viewModel?.reviewCellId ?? "ReviewCellId")

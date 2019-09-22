@@ -44,11 +44,19 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     }
     
     func showReview(_ persistentContainer: PersistentContainer?) {
+		
         let child = ReviewCoordinator(navigationController: navigationController)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
     }
+	
+	func showEditTask(_ persistentContainer: PersistentContainer?) {
+		let child = EditTaskCoordinator(navigationController: navigationController)
+		child.parentCoordinator = self
+        childCoordinators.append(child)
+        child.start(persistentContainer)
+	}
     
     func showAlertBox(_ message: String) {
         let alert = UIAlertController(title: "Hold up!", message: "\(message)", preferredStyle: .alert)

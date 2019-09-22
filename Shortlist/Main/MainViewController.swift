@@ -403,5 +403,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
         previewParameters.backgroundColor = .black
         return previewParameters
     }
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		coordinator?.showEditTask(persistentContainer)
+		tableView.deselectRow(at: indexPath, animated: true)
+	}
 }
 

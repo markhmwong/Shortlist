@@ -11,7 +11,7 @@ import Foundation
 class TaskLimitViewModel {
     
     // 10, 15, 20 paid
-    let limits = [1, 3, 5, 7, 10, 15, 20]
+	lazy var limits: [Int] = Array(1...10)
     
     let cellId = "TaskLimitCellId"
 }

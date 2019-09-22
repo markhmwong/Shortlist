@@ -55,6 +55,8 @@
 		4D5FD36A23114AC90053E193 /* BarChartGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36923114AC90053E193 /* BarChartGenerator.swift */; };
 		4D5FD36D2311505D0053E193 /* TimePeriodStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */; };
 		4D5FD36F231155CC0053E193 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36E231155CC0053E193 /* CALayer+Extension.swift */; };
+		4D61A5422335CE3200F81EB5 /* Marketing in Resources */ = {isa = PBXBuildFile; fileRef = 4D61A5412335CE3200F81EB5 /* Marketing */; };
+		4D61A5442335CE4000F81EB5 /* Todo in Resources */ = {isa = PBXBuildFile; fileRef = 4D61A5432335CE4000F81EB5 /* Todo */; };
 		4D62366B231D7962001CBF1C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D62366A231D7962001CBF1C /* String+Extension.swift */; };
 		4D646B3A2323C0E400073FD6 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D646B392323C0E400073FD6 /* AboutViewController.swift */; };
 		4D646B3C2323C1B400073FD6 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D646B3B2323C1B400073FD6 /* AboutCoordinator.swift */; };
@@ -62,6 +64,8 @@
 		4D64C5C6232F628900EE77D0 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D64C5C5232F628900EE77D0 /* Log.swift */; };
 		4D6A57C8230AF0E40055C16F /* Day+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A57C6230AF0E40055C16F /* Day+CoreDataClass.swift */; };
 		4D6A57C9230AF0E40055C16F /* Day+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A57C7230AF0E40055C16F /* Day+CoreDataProperties.swift */; };
+		4D6D53DE2337AFB300FA38B4 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6D53DD2337AFB300FA38B4 /* EditTaskViewController.swift */; };
+		4D6D53E02337B1AD00FA38B4 /* EditTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6D53DF2337B1AD00FA38B4 /* EditTaskCoordinator.swift */; };
 		4D6DA23C2330B1B4006B1663 /* ReviewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6DA23B2330B1B4006B1663 /* ReviewCoordinator.swift */; };
 		4D6DA23E2330C09E006B1663 /* ReviewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6DA23D2330C09E006B1663 /* ReviewHeader.swift */; };
 		4D71A3E722E3757800FEFB36 /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */; };
@@ -200,6 +204,8 @@
 		4D5FD36923114AC90053E193 /* BarChartGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartGenerator.swift; sourceTree = "<group>"; };
 		4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePeriodStructs.swift; sourceTree = "<group>"; };
 		4D5FD36E231155CC0053E193 /* CALayer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		4D61A5412335CE3200F81EB5 /* Marketing */ = {isa = PBXFileReference; lastKnownFileType = text; path = Marketing; sourceTree = "<group>"; };
+		4D61A5432335CE4000F81EB5 /* Todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = Todo; sourceTree = "<group>"; };
 		4D62366A231D7962001CBF1C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		4D646B392323C0E400073FD6 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +216,8 @@
 		4D64C5C5232F628900EE77D0 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		4D6A57C6230AF0E40055C16F /* Day+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D6A57C7230AF0E40055C16F /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4D6D53DD2337AFB300FA38B4 /* EditTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
+		4D6D53DF2337B1AD00FA38B4 /* EditTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskCoordinator.swift; sourceTree = "<group>"; };
 		4D6DA23B2330B1B4006B1663 /* ReviewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCoordinator.swift; sourceTree = "<group>"; };
 		4D6DA23D2330C09E006B1663 /* ReviewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHeader.swift; sourceTree = "<group>"; };
 		4D71A3E522E3757800FEFB36 /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -271,6 +279,8 @@
 		4D45E78522DDD1AB008AC433 = {
 			isa = PBXGroup;
 			children = (
+				4D61A5412335CE3200F81EB5 /* Marketing */,
+				4D61A5432335CE4000F81EB5 /* Todo */,
 				4D015E4522FAC853007E2536 /* Tips */,
 				4DF724FA22F18FEF00472072 /* README.md */,
 				4D45E79022DDD1AB008AC433 /* Shortlist */,
@@ -471,6 +481,7 @@
 		4D5D7E2D232B08550088EB5F /* Edit Task */ = {
 			isa = PBXGroup;
 			children = (
+				4D6D53DD2337AFB300FA38B4 /* EditTaskViewController.swift */,
 			);
 			path = "Edit Task";
 			sourceTree = "<group>";
@@ -545,6 +556,7 @@
 		4D953B62230A91720048C247 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				4D6D53DF2337B1AD00FA38B4 /* EditTaskCoordinator.swift */,
 				4D953B65230A91AD0048C247 /* Coordinator.swift */,
 				4D953B63230A91910048C247 /* MainCoordinator.swift */,
 				4D6DA23B2330B1B4006B1663 /* ReviewCoordinator.swift */,
@@ -775,9 +787,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D61A5422335CE3200F81EB5 /* Marketing in Resources */,
 				4D015E4622FAC853007E2536 /* Tips in Resources */,
 				4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */,
 				4D45E79922DDD1AD008AC433 /* Assets.xcassets in Resources */,
+				4D61A5442335CE4000F81EB5 /* Todo in Resources */,
 				4D45E79722DDD1AB008AC433 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -828,6 +842,7 @@
 				4D71A3E722E3757800FEFB36 /* Task+CoreDataClass.swift in Sources */,
 				4D5BED7522FD8BC400176E18 /* RecievingKeys.swift in Sources */,
 				4D45E7EC22DE083D008AC433 /* Theme.swift in Sources */,
+				4D6D53DE2337AFB300FA38B4 /* EditTaskViewController.swift in Sources */,
 				4D5B5E0022F07E5500C8D9A5 /* WatchSessionHandler.swift in Sources */,
 				4D59E26522EAEECA00B40E34 /* ReviewViewModel.swift in Sources */,
 				4D6A57C9230AF0E40055C16F /* Day+CoreDataProperties.swift in Sources */,
@@ -866,6 +881,7 @@
 				4D786DB7230ED182002D8DEB /* StatisticsGenerator.swift in Sources */,
 				4D953B6B230AA4500048C247 /* StatsViewController.swift in Sources */,
 				4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */,
+				4D6D53E02337B1AD00FA38B4 /* EditTaskCoordinator.swift in Sources */,
 				4D5D7E3E232CF9380088EB5F /* IAPHelper.swift in Sources */,
 				4D5D7E3F232CF9380088EB5F /* IAPProducts.swift in Sources */,
 				4D45E7EA22DDDA00008AC433 /* MainViewModel.swift in Sources */,

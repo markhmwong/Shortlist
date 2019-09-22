@@ -39,6 +39,7 @@ class TaskCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textContainerInset = UIEdgeInsets.zero
         view.textContainer.lineFragmentPadding = 0
+		view.isEditable = false
         return view
     }()
     

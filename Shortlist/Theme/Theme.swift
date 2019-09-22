@@ -12,20 +12,23 @@ struct Theme {
     
     struct Font {
         static var Regular: String = "AvenirNext-Medium"
-        static var Bold: String = "Avenir-Heavy"
+        static var Bold: String = "Avenir-Black"
+		static var TitleRegular: String = "Georgia"
+		static var TitleBold: String = "Georgia-Bold"
         static var Color: UIColor = .white
         enum StandardSizes: CGFloat {
             //title sizes
-            case h0 = 60.0
-            case h1 = 35.0
-            case h2 = 29.0
-            case h3 = 28.0
-            case h4 = 22.0
+            case h0 = 50.0
+            case h1 = 30.0
+            case h2 = 26.0
+            case h3 = 24.0
+            case h4 = 20.0
             //body sizes
-            case b0 = 18.0
-            case b1 = 16.0
-            case b2 = 14.0
-            case b3 = 12.0
+            case b0 = 15.0
+            case b1 = 14.0
+            case b2 = 12.0
+            case b3 = 11.0
+			case b4 = 10.0
         }
         
         enum FontSize {
