@@ -10,7 +10,7 @@ import UIKit
 
 class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
-    weak var parentCoordinator: MainCoordinator?
+    weak var parentCoordinator: SettingsCoordinator?
     
     var childCoordinators: [Coordinator] = [Coordinator]()
     

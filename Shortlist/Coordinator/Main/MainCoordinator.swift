@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
@@ -28,32 +29,32 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     }
     
     // add stats view and coordinator
-    func showStats(_ persistentContainer: PersistentContainer?) {
-        let child = StatsCoordinator(navigationController: navigationController)
-        child.parentCoordinator = self
-        childCoordinators.append(child)
-        child.start(persistentContainer)
-    }
-    
-    // add stats view and coordinator
     func showSettings(_ persistentContainer: PersistentContainer?) {
         let child = SettingsCoordinator(navigationController: navigationController)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
     }
+	
+	func showBigList(_ persistentContainer: PersistentContainer?) {
+        let child = MultiListCoordinator(navigationController: navigationController)
+        child.parentCoordinator = self
+        childCoordinators.append(child)
+        child.start(persistentContainer)
+	}
     
-    func showReview(_ persistentContainer: PersistentContainer?) {
-		
-        let child = ReviewCoordinator(navigationController: navigationController)
+	func showReview(_ persistentContainer: PersistentContainer?, mainViewController: MainViewController?) {
+		let child = ReviewCoordinator(navigationController: navigationController, viewController: mainViewController)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
     }
 	
-	func showEditTask(_ persistentContainer: PersistentContainer?) {
+	func showEditTask(_ persistentContainer: PersistentContainer?, task: Task, fetchedResultsController: NSFetchedResultsController<Day>) {
 		let child = EditTaskCoordinator(navigationController: navigationController)
 		child.parentCoordinator = self
+		child.task = task
+		child.fetchedResultsController = fetchedResultsController
         childCoordinators.append(child)
         child.start(persistentContainer)
 	}
@@ -61,7 +62,26 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     func showAlertBox(_ message: String) {
         let alert = UIAlertController(title: "Hold up!", message: "\(message)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        navigationController.present(alert, animated: true, completion: nil)
+//        navigationController.present(alert, animated: true, completion: nil)
+		DispatchQueue.main.async {
+			self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
+    }
+	
+	func showCategory(_ persistentContainer: PersistentContainer?, mainViewController: MainViewController) {
+		let child = SelectCategoryCoordinator(navigationController: navigationController, viewController: mainViewController)
+		child.parentCoordinator = self
+		childCoordinators.append(child)
+		child.start(persistentContainer)
+	}
+	
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
     }
     
     func childDidFinish(_ child: Coordinator) {

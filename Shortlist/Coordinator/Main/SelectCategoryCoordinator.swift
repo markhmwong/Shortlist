@@ -1,14 +1,14 @@
 //
-//  ReviewCoordinator.swift
+//  SelectCategory.swift
 //  Shortlist
 //
-//  Created by Mark Wong on 17/9/19.
+//  Created by Mark Wong on 23/10/19.
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
 import UIKit
 
-class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
     weak var parentCoordinator: MainCoordinator?
     
@@ -16,26 +16,36 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
     var navigationController: UINavigationController
     
-    init(navigationController:UINavigationController) {
+	var mainViewController: MainViewController?
+	
+	init(navigationController:UINavigationController, viewController: MainViewController?) {
         self.navigationController = navigationController
+		self.mainViewController = viewController
     }
     
-    // stats viewcontroller begin here
+    // stats viewcontroller begins here
     func start(_ persistentContainer: PersistentContainer?) {
-        navigationController.delegate = self
+		navigationController.delegate = self
         guard let persistentContainer = persistentContainer else {
-            print("Persistent Container not loaded")
+			let viewModel = SelectCategoryViewModel()
+			let vc = SelectCategoryViewController(nil, coordinator: self, viewModel: viewModel)
+			let nav = UINavigationController(rootViewController: vc)
+			navigationController.present(nav, animated: true, completion: nil)
             return
         }
-        let viewModel = ReviewViewModel()
-        let vc = ReviewViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel)
-        let nav = UINavigationController(rootViewController: vc)
-        navigationController.present(nav, animated: true, completion: nil)
+		let viewModel = SelectCategoryViewModel()
+		let vc = SelectCategoryViewController(persistentContainer, coordinator: self, viewModel: viewModel)
+		let nav = UINavigationController(rootViewController: vc)
+		navigationController.present(nav, animated: true, completion: nil)
     }
 	
-	func dimiss() {
+	func dimiss(_ persistentContainer: PersistentContainer?) {
+		//get mainviewcontroller delegate
 		navigationController.dismiss(animated: true) {
-			//
+			guard let mvc = self.mainViewController else {
+				return
+			}
+			mvc.loadData()
 		}
 	}
     
@@ -57,4 +67,3 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         
     }
 }
-

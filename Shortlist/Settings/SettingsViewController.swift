@@ -13,6 +13,8 @@ class SettingsViewController: UIViewController {
     
     enum MenuStructure: Int {
         case TaskLimit = 0
+		case Stats
+		case YesterdayReview
         case About
         case Review
         case Contact
@@ -34,11 +36,11 @@ class SettingsViewController: UIViewController {
         return view
     }()
     
-    init(persistentContainer: PersistentContainer, coordinator: SettingsCoordinator) {
+	init(persistentContainer: PersistentContainer, coordinator: SettingsCoordinator, viewModel: SettingsViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.coordinator = coordinator
         self.persistentContainer = persistentContainer
-        self.viewModel = SettingsViewModel()
+        self.viewModel = viewModel
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -50,8 +52,8 @@ class SettingsViewController: UIViewController {
         view.backgroundColor = .black
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         navigationController?.title = "Settings"
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "SettingsCellId")
-        
+
+		viewModel?.registerTableViewCell(tableView)
         let settingsHeaderViewModel = SettingsHeaderViewModel()
         let header = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel)
         tableView.tableHeaderView = header
@@ -64,7 +66,9 @@ class SettingsViewController: UIViewController {
     
     @objc
     func handleBack() {
-        navigationController?.dismiss(animated: true, completion: nil)
+		navigationController?.dismiss(animated: true, completion: {
+//			self.coordinator?.parentCoordinator?.showReview(self.persistentContainer)
+		})
     }
     
     func emailFeedback() {
@@ -96,6 +100,12 @@ class SettingsViewController: UIViewController {
         
         UIApplication.shared.open(writeReviewURL)
     }
+	
+	func dismissAndShowReview() {
+		navigationController?.dismiss(animated: true, completion: {
+			self.coordinator?.parentCoordinator?.showReview(self.persistentContainer, mainViewController: nil)
+		})
+	}
 }
 
 extension SettingsViewController: MFMailComposeViewControllerDelegate {
@@ -110,7 +120,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCellId", for: indexPath)
+		let cell = tableView.dequeueReusableCell(withIdentifier: viewModel?.cellId ?? "SettingsCellId", for: indexPath)
         cell.textLabel?.text = viewModel?.menu[indexPath.row]
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.textColor = UIColor.white
@@ -124,10 +134,13 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let menu = MenuStructure(rawValue: indexPath.row) {
-            
             switch menu {
                 case .TaskLimit:
-                    coordinator?.showTaskLimit(persistentContainer)
+					coordinator?.showTaskLimit(persistentContainer)
+				case .Stats:
+					coordinator?.showStats(persistentContainer)
+				case .YesterdayReview:
+					dismissAndShowReview()
                 case .About:
                     coordinator?.showAbout(nil)
                 case .Review:

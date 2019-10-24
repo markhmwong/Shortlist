@@ -1,5 +1,27 @@
 #  Tasks
 
+Import calendar
+
+Big List
+
+Tutorial / Introduction Page
+	- Explain what Shortlist is
+		- Ordered by Priority
+		- Limits tasks you are allowed to add to focus on during the day
+		- Adjustable limits
+
+Priority view / Simple View
+
+bug when skipping a day how to deal with multiple days skipped?
+
+adding task
+	allow to add in place initially - add reminder?
+	bring up edit task
+
+review
+	add "donate" (nagware) in review or a thank you email. donation only appears if you haven't completed all your tasks, just need to add it into the header
+	allow to manually bring up the review in settings
+	
 stats to record
     most common time of day to add a task
     favorite day to complete tasks
@@ -11,13 +33,17 @@ stats to record
     days with incomplete tasks
     busiest month
     calculate tasks per day, tasks per month, tasks per minute, tasks per hour, tasks per year on the task page
-    
-allow to manually bring up the review in settings
+
+editing task page
+	save reminder (for today only) place time picker in row
+	save label/category (set categories work/sport/play/)
+	swiping down ask to discard changes to confirm
+
 initialise default values on first install
     tasklimit
     day
 
-a editing task page - allows editing of task title and description as well as setting an alarm for today only
+a editing task page - allows editing of task title and description as well as setting an alarm for today only @done
 unit tests
 Fix new day review
 fixed length on the xaxis in the charts
@@ -37,31 +63,33 @@ lock tasks? inconvenient perhaps
 
 graph
     add bottom line for graph
-    add maximum line for graph @(done)
-    height of one complete task is too small @(done)
+    add maximum line for graph @done
+    height of one complete task is too small @done
 
 iOS
-    tip jar @(done)
-    add iap products @(done)
-    reformat the task cell to show a title and description @(done)
-    fix add task when a new day begins @(done)
-    task categories Update core data @(done)
-    priority update core data attribute @(done)
-    movable tasks @(done)
-    build test data @(done)
+    tip jar @done
+    add iap products @done
+    reformat the task cell to show a title and description @done
+    fix add task when a new day begins @done
+    task categories Update core data @done
+    priority update core data attribute @done
+    movable tasks @done
+    build test data @done
     bar chart
-        - show incomplete tasks @(done)
-        - average @(done)
-        - chart title @(done)
-        - fill remaining days for week @(done)
-    when selecting task, update number of tasks complete @(done)
+        - show incomplete tasks @done
+        - average @done
+        - chart title @done
+        - fill remaining days for week @done
+    when selecting task, update number of tasks complete @done
     leave review @done
     about @done
     support email @done
+	save name @done
+	save description @done
 WatchOs
-    - Populate table with today's data@(done)
-    - send data to watch @(done)
-    - send data to/from watch when completing a task @(done)
+    - Populate table with today's data@done
+    - send data to watch @done
+    - send data to/from watch when completing a task @done
 Cloud Kit Sync
 
 stats

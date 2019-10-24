@@ -89,18 +89,11 @@ class BarChartGenerator {
 
             if (heightInPercentage == 0.0) {
                 let heightOfBar = (viewHeight - topPadding) * heightInPercentage < 0 ? 0 : (viewHeight - topPadding) * heightInPercentage
-                let yPos = (viewHeight) - heightOfBar
+				let yPos = (viewHeight) - heightOfBar
                 
                 let origin: CGPoint = CGPoint(x: xPos, y: yPos)
-                let barData = BarProperties(color: barColor, day: data.value, barWidth: barWidth, barHeight: 0.0, origin: origin)
+                let barData = BarProperties(color: barColor, day: data.value, barWidth: barWidth, barHeight: -1.0, origin: origin)
                 barEntries.append(barData)
-                
-                let heightOfIncompleteBar = (viewHeight - topPadding) * incompletePercentage < 0 ? 0 : (viewHeight - topPadding) * incompletePercentage
-                let yPosIncomplete = (viewHeight) - heightOfIncompleteBar
-                let incompleteOrigin = CGPoint(x: xPos + barWidth, y: yPosIncomplete)
-                let incompleteBarData = BarProperties(color: incompleteColor, day: data.value, barWidth: barWidth, barHeight: heightOfIncompleteBar, origin: incompleteOrigin)
-                incompleteBarEntries.append(incompleteBarData)
-                
                 
             } else {
                 let heightOfBar = (viewHeight - topPadding) * heightInPercentage < 0 ? 0 : (viewHeight - topPadding) * heightInPercentage
@@ -108,13 +101,23 @@ class BarChartGenerator {
                 let origin: CGPoint = CGPoint(x: xPos, y: yPos)
                 let barData = BarProperties(color: barColor, day: data.value, barWidth: barWidth, barHeight: heightOfBar, origin: origin)
                 barEntries.append(barData)
-                
+            }
+			
+			if (incompletePercentage == 0.0) {
                 let heightOfIncompleteBar = (viewHeight - topPadding) * incompletePercentage < 0 ? 0 : (viewHeight - topPadding) * incompletePercentage
                 let yPosIncomplete = (viewHeight) - heightOfIncompleteBar
                 let incompleteOrigin = CGPoint(x: xPos + barWidth, y: yPosIncomplete)
-                let incompleteBarData = BarProperties(color: incompleteColor, day: data.value, barWidth: barWidth, barHeight: heightOfIncompleteBar, origin: incompleteOrigin)
+				let incompleteBarData = BarProperties(color: incompleteColor, day: data.value, barWidth: barWidth, barHeight: -1.0, origin: incompleteOrigin)
                 incompleteBarEntries.append(incompleteBarData)
-            }
+				
+			} else {
+                let heightOfIncompleteBar = (viewHeight - topPadding) * incompletePercentage < 0 ? 0 : (viewHeight - topPadding) * incompletePercentage
+                let yPosIncomplete = (viewHeight) - heightOfIncompleteBar
+                let incompleteOrigin = CGPoint(x: xPos + barWidth, y: yPosIncomplete)
+				let incompleteBarData = BarProperties(color: incompleteColor, day: data.value, barWidth: barWidth, barHeight: heightOfIncompleteBar, origin: incompleteOrigin)
+                incompleteBarEntries.append(incompleteBarData)
+			}
+			
         }
         
         // Add extra padding to the chart to pad out the remaining days of the month / week

@@ -37,8 +37,6 @@ class StatisticsGenerator: NSObject {
         }
         
         for day in dayArray {
-            
-            print(day.createdAt)
             taskLimit = mostAmountOfTasksForDay(currLimit: day.taskLimit, newLimit: taskLimit)
             totalCompletedForTimePeriod += day.totalCompleted
             totalTasksForDay += day.totalTasks

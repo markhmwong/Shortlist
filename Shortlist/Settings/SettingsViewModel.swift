@@ -10,11 +10,15 @@ import UIKit
 
 class SettingsViewModel {
 
+	let cellId = "SettingsCellId"
+	
     let menu = [
         "Task Limit",
+		"Stats",
+		"Yesterday's Review",
         "About",
-        "Review (fix link)",
-        "Contact",
+        "Review App (fix link)",
+        "Contact / Feedback",
     ]
     
     // Device parameters
@@ -34,6 +38,11 @@ class SettingsViewModel {
         </br>Device: \(deviceType.rawValue)
         """
     }
+	
+	func registerTableViewCell(_ tableView: UITableView) {
+		tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+	}
+	
 }
 
 // to be refactored

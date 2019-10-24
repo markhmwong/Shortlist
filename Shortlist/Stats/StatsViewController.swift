@@ -25,7 +25,7 @@ class StatsViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         let str = "Stats"
-        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!])
+		var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.h4).value)!])
         label.attributedText = attributedStr
         return label
     }()
@@ -70,6 +70,7 @@ class StatsViewController: UIViewController {
             return
         }
         var paddedDayArray = dayArray
+		print(paddedDayArray.count)
         if paddedDayArray.count < 7 {
             for _ in paddedDayArray.count..<7 {
                 let day = Day(context: persistentContainer!.viewContext)

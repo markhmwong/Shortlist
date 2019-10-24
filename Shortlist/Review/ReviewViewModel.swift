@@ -7,9 +7,19 @@
 //
 
 import UIKit
+import StoreKit
 
 class ReviewViewModel {
     
+    var tipProducts: [SKProduct]? {
+        didSet {
+            self.tipProducts?.sort(by: { (a, b) -> Bool in
+                return Unicode.CanonicalCombiningClass(rawValue: UInt8(truncating: a.price)) < Unicode.CanonicalCombiningClass(rawValue: UInt8(truncating: b.price))
+            })
+        }
+    }
+    var buttonArr: [StandardButton] = []
+	
     let reviewCellId = "reviewCellId"
     
     var dayEntity: Day? = nil {

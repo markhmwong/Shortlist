@@ -100,15 +100,70 @@ class PersistentContainer: NSPersistentContainer {
     
     func createSampleTask(toEntity day: Day, context: NSManagedObjectContext, idNum: Int) {
         let task: Task = Task(context: context)
-        task.name = idNum.numberToWord()
+//		print("\(idNum), \(idNum.numberToWord())")
+		task.name = "An interesting task"
         task.complete = false
         task.carryOver = false
-        task.category = 0 // to do categories by string or dynamically adjusted
+        task.category = "A memorable category (optional)"
+		task.isNew = true
         task.priority = Int16(idNum)
         task.id = Int16(idNum)
         day.addToDayToTask(task)
     }
+	
+	func createTask(toEntity day: Day, context: NSManagedObjectContext, idNum: Int, taskName: String, categoryName: String) {
+		let task: Task = Task(context: context)
+		task.name = taskName
+		task.complete = false
+		task.carryOver = false
+		task.category = categoryName
+		task.isNew = false 
+		task.priority = Int16(idNum)
+		task.id = Int16(idNum)
+		day.addToDayToTask(task)
+	}
     
+	func createCategory(_ name: String, context: NSManagedObjectContext) {
+		let category: BigListCategories = BigListCategories(context: context)
+		category.name = name
+	}
+	
+	func deleteCategory(forName categoryName: String) -> Bool {
+		let categoryRequest: NSFetchRequest<BigListCategories> = BigListCategories.fetchRequest()
+		categoryRequest.returnsObjectsAsFaults = false
+		categoryRequest.predicate = NSPredicate(format: "name == %@", categoryName)
+		
+        do {
+			let fetchedResults = try viewContext.fetch(categoryRequest)
+			if let categoryObject = fetchedResults.first {
+				viewContext.delete(categoryObject)
+				return true
+			}
+			return false
+        } catch let error as NSError {
+            print("Category entity could not be fetched \(error)")
+            return false
+        }
+	}
+	
+	func categoryExists(_ name: String) -> Bool {
+		let context = viewContext
+		let categoryRequest: NSFetchRequest<BigListCategories> = BigListCategories.fetchRequest()
+		categoryRequest.returnsObjectsAsFaults = false
+		categoryRequest.predicate = NSPredicate(format: "name == %@", name)
+        do {
+            let fetchedResults = try context.fetch(categoryRequest)
+			if fetchedResults.first != nil {
+				return true
+			} else {
+				return false
+			}
+        } catch let error as NSError {
+            print("Day entity could not be fetched \(error)")
+            return false
+        }
+	}
+	
     func doesEntityExist(forDate date: Date) -> Bool {
         guard fetchDayEntity(forDate: date) != nil else {
             print("Nothing In Entity")

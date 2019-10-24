@@ -18,8 +18,10 @@ class ReviewViewController: UIViewController {
 
     var viewModel: ReviewViewModel?
     
-    var coordinator: ReviewCoordinator?
+    var reviewCoordinator: ReviewCoordinator?
     
+//	var settingsCoordinator: SettingsCoordinator?
+	
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
@@ -60,13 +62,22 @@ class ReviewViewController: UIViewController {
         let view = ReviewHeader(date: Calendar.current.yesterday(), viewModel: self.viewModel!)
         return view
     }()
+	
+	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
     
     init(persistentContainer: PersistentContainer, coordinator: ReviewCoordinator, viewModel: ReviewViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.persistentContainer = persistentContainer
         self.viewModel = viewModel
-        self.coordinator = coordinator
+        self.reviewCoordinator = coordinator
     }
+	
+//    init(persistentContainer: PersistentContainer, coordinator: SettingsCoordinator, viewModel: ReviewViewModel) {
+//        super.init(nibName: nil, bundle: nil)
+//        self.persistentContainer = persistentContainer
+//        self.viewModel = viewModel
+//        self.settingsCoordinator = coordinator
+//    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -86,13 +97,15 @@ class ReviewViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(doneButton)
         
-		navigationItem.prompt = "Select tasks to repeat"
+		navigationItem.prompt = "Select tasks to repeat today"
 		
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDoneButton))
         
         tableView.register(ReviewCell.self, forCellReuseIdentifier: viewModel?.reviewCellId ?? "ReviewCellId")
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
         doneButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
+		
+		grabTipsProducts()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -136,17 +149,55 @@ class ReviewViewController: UIViewController {
     @objc
     func handleDoneButton() {
 		copyMarkedTasks()
+		
 		//save to core data
 		persistentContainer?.saveContext()
+		
 		//dismiss view
-		coordinator?.dimiss()
+		reviewCoordinator?.dimiss(persistentContainer)
+    }
+	
+	
+    func grabTipsProducts() {
+        
+        IAPProducts.tipStore.requestProducts { [weak self](success, products) in
+            
+            guard let self = self else { return }
+            
+            if (success) {
+                guard let products = products else { return }
+                self.viewModel?.tipProducts = products
+                //update buttons
+                self.updateTipButtons()
+            } else {
+                // requires internet access
+            }
+        }
+    }
+	
+    func updateTipButtons() {
+        guard let tipProductArr = self.viewModel?.tipProducts else { return } //tips are sorted with didSet observer
+        let buttonArr = viewModel?.buttonArr
+        if (buttonArr!.count == tipProductArr.count) {
+            for (index, button) in buttonArr!.enumerated() {
+                SettingsHeader.priceFormatter.locale = tipProductArr[index].priceLocale
+                let price = SettingsHeader.priceFormatter.string(from: tipProductArr[index].price)
+                DispatchQueue.main.async {
+                    button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle) \(price!)", attributes: self.attributes), for: .normal)
+                }
+
+                button.product = tipProductArr[index]
+                button.buyButtonHandler = { product in
+                    IAPProducts.tipStore.buyProduct(product)
+                }
+            }
+        }
     }
 	
 	func copyMarkedTasks() {
 		guard let viewModel = viewModel else { return }
 		let today: Day = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
 		// create new day here, incase the app is running in the back ground and a new day hasn't been created in the interim
-		
 		
 		for (_, task) in viewModel.carryOverTaskObjectsArr {
 			today.addToDayToTask(task)

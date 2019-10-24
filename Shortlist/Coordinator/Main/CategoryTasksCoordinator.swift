@@ -1,17 +1,18 @@
 //
-//  SettingsCoordinator.swift
-//  Five
+//  CategoryTasksCoordinator.swift
+//  Shortlist
 //
-//  Created by Mark Wong on 4/9/19.
+//  Created by Mark Wong on 18/10/19.
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
-import UIKit
-import MessageUI
+import Foundation
 
-class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+import UIKit
+
+class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
-    weak var parentCoordinator: MainCoordinator?
+    weak var parentCoordinator: MultiListCoordinator?
     
     var childCoordinators: [Coordinator] = [Coordinator]()
     
@@ -28,31 +29,11 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
             print("Persistent Container not loaded")
             return
         }
-        let vc = SettingsViewController(persistentContainer: persistentContainer, coordinator: self)
-        let nav = UINavigationController(rootViewController: vc)
-        navigationController.present(nav, animated: true, completion: nil)
-    }
-    
-    // add stats view and coordinator
-    func showTaskLimit(_ persistentContainer: PersistentContainer?) {
-        let child = TaskLimitCoordinator(navigationController: navigationController)
-        child.parentCoordinator = self
-        childCoordinators.append(child)
-        child.start(persistentContainer)
-    }
-    
-    // add contact view
-    func showAbout(_ persistentContainer: PersistentContainer?) {
-        let child = AboutCoordinator(navigationController: navigationController)
-        child.parentCoordinator = self
-        childCoordinators.append(child)
-        child.start(persistentContainer)
-    }
-    
-    func showFeedback(_ viewController: MFMailComposeViewController) {
-        
-        DispatchQueue.main.async {
-            self.getTopMostViewController()?.present(viewController, animated: true, completion: nil)
+		
+		let vc = CategoryTaskListViewController(persistentContainer: persistentContainer)
+		let nav = UINavigationController(rootViewController: vc)
+		DispatchQueue.main.async {
+            self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
         }
     }
     
@@ -64,7 +45,6 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         }
         return topMostViewController
     }
-    
     
     func childDidFinish(_ child: Coordinator) {
         for (index, coordinator) in childCoordinators.enumerated() {

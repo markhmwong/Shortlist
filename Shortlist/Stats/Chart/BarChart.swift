@@ -26,7 +26,7 @@ class BarChart: UIView {
     
     let meanLineWidth: CGFloat = 2.0
     
-    let chartBackgroundColor: UIColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:0.8)
+    let chartBackgroundColor: UIColor = UIColor(red:0.08, green:0.08, blue:0.08, alpha:1.0)
     
     // barEntries tuple (completed tasks, incomplete Tasks)
     private var chartData: ([BarProperties], [BarProperties])? {

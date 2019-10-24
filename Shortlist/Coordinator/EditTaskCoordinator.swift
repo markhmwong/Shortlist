@@ -6,9 +6,8 @@
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
-import Foundation
-
 import UIKit
+import CoreData
 
 class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
@@ -18,6 +17,10 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     
     var navigationController: UINavigationController
     
+	var task: Task?
+	
+	var fetchedResultsController: NSFetchedResultsController<Day>?
+	
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
     }
@@ -29,16 +32,19 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
             print("Persistent Container not loaded")
             return
         }
-        let viewModel = EditTaskViewModel()
-        let vc = EditTaskViewController(viewModel: viewModel, persistentContainer: persistentContainer)
+		
+		let viewModel = EditTaskViewModel(with: task)
+		let vc = EditTaskViewController(viewModel: viewModel, persistentContainer: persistentContainer, fetchedResultsController: fetchedResultsController!) //to do fix forced wrap
         let nav = UINavigationController(rootViewController: vc)
         navigationController.present(nav, animated: true, completion: nil)
     }
 	
 	func dimiss() {
-		navigationController.dismiss(animated: true) {
+		
+		let topMostVc = getTopMostViewController()
+		topMostVc?.dismiss(animated: true, completion: {
 			//
-		}
+		})
 	}
     
     func childDidFinish(_ child: Coordinator) {
@@ -48,6 +54,15 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
                 break
             }
         }
+    }
+	
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
     }
     
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {

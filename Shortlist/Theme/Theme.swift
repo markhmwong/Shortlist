@@ -65,13 +65,13 @@ struct Theme {
     struct Cell {
         static var background: UIColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:1.0)
         static var text: UIColor = UIColor(red:0.91, green:0.53, blue:0.04, alpha:1.0)
-        
+		static var textFieldBackground: UIColor = UIColor.black.adjust(by: 5)!
         static var idle: UIColor = .green
         static var inProgress: UIColor = .yellow
     }
     
     struct GeneralView {
-        static var background: UIColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:1.0).darker(by: 2.0)!
+		static var background: UIColor = UIColor.black
     }
 	
 	struct Button {
