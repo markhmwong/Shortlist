@@ -9,32 +9,14 @@
 import UIKit
 import CoreData
 
-
-extension SelectCategoryViewController: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-		do {
-            try fetchedResultsController?.performFetch()
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        } catch (let err) {
-            print("\(err)")
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
-    }
-}
-
 class SelectCategoryViewController: UIViewController {
 	
 	// fetchedresultscontroller
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<CategoryList>? = {
+    lazy var fetchedResultsController: NSFetchedResultsController<CategoryList>? = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<CategoryList> = CategoryList.fetchRequest()
         // Configure Fetch Request
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         // Create Fetched Results Controller
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: (self.persistentContainer?.viewContext ?? nil)!, sectionNameKeyPath: nil, cacheName: nil)
         // Configure Fetched Results Controller
@@ -53,33 +35,14 @@ class SelectCategoryViewController: UIViewController {
 		return view
 	}()
 	
-	private lazy var inputContainer: UIView = {
-		let view = UIView()
+	private lazy var inputContainer: SelectCategoryInputView = {
+		let view = SelectCategoryInputView(delegate: self, persistentContainer: persistentContainer ?? nil)
 		view.alpha = 0.0
 		view.backgroundColor = Theme.Cell.textFieldBackground
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
-	
-	private lazy var categoryInputTextView: UITextView = {
-		let view = UITextView()
-		view.delegate = self
-		view.backgroundColor = Theme.Cell.textFieldBackground
-        view.keyboardAppearance = UIKeyboardAppearance.dark
-		view.keyboardType = UIKeyboardType.default
-		view.isEditable = true
-		view.isUserInteractionEnabled = true
-		view.isSelectable = true
-		view.isScrollEnabled = false
-		view.returnKeyType = UIReturnKeyType.next
-        view.textColor = Theme.Font.Color
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.attributedText = categoryNamePlaceholder
-		return view
-	}()
-	
-	let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "New Category", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
-	
+
 	var coordinator: SelectCategoryCoordinator?
 	
 	var viewModel: SelectCategoryViewModel?
@@ -88,11 +51,14 @@ class SelectCategoryViewController: UIViewController {
 	
 	var bottomConstraint: NSLayoutConstraint?
 	
+	var delegate: MainViewController?
+	
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 	}
 	
-	init(_ persistentContainer: PersistentContainer?, coordinator: SelectCategoryCoordinator, viewModel: SelectCategoryViewModel) {
+	init(_ persistentContainer: PersistentContainer?, coordinator: SelectCategoryCoordinator, viewModel: SelectCategoryViewModel, mainViewController: MainViewController?) {
+		self.delegate = mainViewController
 		self.persistentContainer = persistentContainer
 		self.viewModel = viewModel
 		self.coordinator = coordinator
@@ -105,31 +71,25 @@ class SelectCategoryViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		loadCategories()
 		guard let viewModel = viewModel else { return }
 		keyboardNotifications()
 		
+		navigationItem.title = "Categories"
 		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDone))
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAdd))
 
 		viewModel.tableViewRegisterCell(tableView)
 		view.addSubview(tableView)
 		view.addSubview(inputContainer)
-		inputContainer.addSubview(categoryInputTextView)
 		
 		tableView.anchorView(top: view.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
-		inputContainer.anchorView(top:nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+		inputContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		bottomConstraint = NSLayoutConstraint(item: inputContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
 		view.addConstraint(bottomConstraint!)
-		
-		categoryInputTextView.anchorView(top: inputContainer.topAnchor, bottom: inputContainer.bottomAnchor, leading: inputContainer.leadingAnchor, trailing: inputContainer.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
-		
-		categoryInputTextView.becomeFirstResponder() // to remove, for testing adding categories
-		
-		loadCategories()
 	}
 	
-	private func loadCategories() {
-        guard let persistentContainer = persistentContainer else { return }
+	func loadCategories() {
 		DispatchQueue.main.async {
 			do {
 				try self.fetchedResultsController?.performFetch()
@@ -140,9 +100,27 @@ class SelectCategoryViewController: UIViewController {
 		}
 	}
 	
-	private func keyboardNotifications() {
+	func keyboardNotifications() {
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
+	}
+	
+	// consolidate adding code to this function so both the Add button in the navigation bar and add button on the input container (above the keyboard)  can use the same code
+	func addCategory() {
+		guard let persistentContainer = persistentContainer else { return }
+		
+		// check if existing category exists
+		
+		guard let category: String = inputContainer.getCategoryFromInputField() else { return }
+		
+		if (inputContainer.getCategoryFromInputField() != nil) {
+			// add category
+			if (!persistentContainer.categoryExists(category)) {
+				persistentContainer.createCategoryInCategoryList(category, context: persistentContainer.viewContext)
+				persistentContainer.saveContext()
+				inputContainer.reisgnInputText()
+			}
+		}
 	}
 	
 	@objc
@@ -152,14 +130,12 @@ class SelectCategoryViewController: UIViewController {
 	
 	@objc
 	func handleAdd() {
-		categoryInputTextView.becomeFirstResponder()
+		inputContainer.focusField()
 	}
 	
 	@objc
 	func handleKeyboardNotification(_ notification : Notification?) {
-		
 		if let info = notification?.userInfo {
-			
 			let isKeyboardShowing = notification?.name == UIResponder.keyboardWillShowNotification
 			
 			let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
@@ -181,45 +157,4 @@ class SelectCategoryViewController: UIViewController {
 			}
 		}
 	}
-}
-
-extension SelectCategoryViewController: UITableViewDataSource, UITableViewDelegate {
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		guard let categories = fetchedResultsController?.fetchedObjects else {
-			tableView.separatorColor = .clear
-			tableView.setEmptyMessage("Add a new category by selecting the top right button!")
-			return 0
-		}
-		return categories.count
-	}
-	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let viewModel = viewModel else {
-			let cell = tableView.dequeueReusableCell(withIdentifier: "SelectCategoryCellId", for: indexPath)
-			cell.textLabel?.text = "No Categories"
-			cell.backgroundColor = UIColor.red
-			cell.textLabel?.textColor = UIColor.white
-			return cell
-		}
-		
-		return viewModel.tableViewCell(tableView, indexPath: indexPath)
-	}
-	
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-}
-
-extension SelectCategoryViewController: UITextViewDelegate {
-	
-	// We're using this to dynamically adjust task name height when typing
-    func textViewDidChange(_ textView: UITextView) {
-        let size = textView.bounds.size
-        let newSize = textView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
-        if size.height != newSize.height {
-            UIView.setAnimationsEnabled(false)
-			categoryInputTextView.sizeToFit()
-            UIView.setAnimationsEnabled(true)
-        }
-    }
 }

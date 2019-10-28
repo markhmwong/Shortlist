@@ -20,9 +20,10 @@ class SelectCategoryViewModel {
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
 	}
 	
-	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath, category: String) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-		cell.backgroundColor = UIColor.white
+		cell.backgroundColor = UIColor.clear
+		cell.textLabel?.attributedText = NSAttributedString(string: "\(category)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b1).value)!])
 		return cell
 	}
 	

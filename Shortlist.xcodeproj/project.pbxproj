@@ -64,6 +64,8 @@
 		4D64C5C6232F628900EE77D0 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D64C5C5232F628900EE77D0 /* Log.swift */; };
 		4D676176233904210029C6EB /* EditTaskTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D676175233904210029C6EB /* EditTaskTextViewCell.swift */; };
 		4D676178233904340029C6EB /* EditTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D676177233904340029C6EB /* EditTaskViewModel.swift */; };
+		4D67DCF72363003F0008AE98 /* CircularProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D67DCF62363003F0008AE98 /* CircularProgressBar.swift */; };
+		4D67DCFA2363010A0008AE98 /* ProgressBarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D67DCF92363010A0008AE98 /* ProgressBarContainer.swift */; };
 		4D69039B233A7F6F008DC5D6 /* EditTaskFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D69039A233A7F6F008DC5D6 /* EditTaskFactory.swift */; };
 		4D69039D233B18D8008DC5D6 /* EditTaskLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D69039C233B18D8008DC5D6 /* EditTaskLabelCell.swift */; };
 		4D6903A0233B56D2008DC5D6 /* EditTaskCellBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D69039F233B56D2008DC5D6 /* EditTaskCellBase.swift */; };
@@ -112,6 +114,9 @@
 		4DC69511234CD78B00CB4A6E /* FourToSixCustomMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC69510234CD78B00CB4A6E /* FourToSixCustomMigration.swift */; };
 		4DD2D78B232F7C4D005A6208 /* KeyChainKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD2D78A232F7C4D005A6208 /* KeyChainKeys.swift */; };
 		4DED15662361335A00FC903E /* SelectCategoryInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED15652361335A00FC903E /* SelectCategoryInputView.swift */; };
+		4DED156923616A2D00FC903E /* SelectCategory+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED156823616A2D00FC903E /* SelectCategory+UITableView.swift */; };
+		4DED156B23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED156A23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift */; };
+		4DED156D23617BA200FC903E /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED156C23617BA200FC903E /* UITextView+Extension.swift */; };
 		4DF724F822F1887500472072 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */; };
 		4DF724F922F1888D00472072 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */; };
 		4DF724FC22F1974000472072 /* TaskRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF724FB22F1974000472072 /* TaskRowController.swift */; };
@@ -242,6 +247,8 @@
 		4D64C5C5232F628900EE77D0 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		4D676175233904210029C6EB /* EditTaskTextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTextViewCell.swift; sourceTree = "<group>"; };
 		4D676177233904340029C6EB /* EditTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskViewModel.swift; sourceTree = "<group>"; };
+		4D67DCF62363003F0008AE98 /* CircularProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBar.swift; sourceTree = "<group>"; };
+		4D67DCF92363010A0008AE98 /* ProgressBarContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarContainer.swift; sourceTree = "<group>"; };
 		4D69039A233A7F6F008DC5D6 /* EditTaskFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskFactory.swift; sourceTree = "<group>"; };
 		4D69039C233B18D8008DC5D6 /* EditTaskLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskLabelCell.swift; sourceTree = "<group>"; };
 		4D69039F233B56D2008DC5D6 /* EditTaskCellBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskCellBase.swift; sourceTree = "<group>"; };
@@ -293,6 +300,9 @@
 		4DC69510234CD78B00CB4A6E /* FourToSixCustomMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourToSixCustomMigration.swift; sourceTree = "<group>"; };
 		4DD2D78A232F7C4D005A6208 /* KeyChainKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainKeys.swift; sourceTree = "<group>"; };
 		4DED15652361335A00FC903E /* SelectCategoryInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryInputView.swift; sourceTree = "<group>"; };
+		4DED156823616A2D00FC903E /* SelectCategory+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectCategory+UITableView.swift"; sourceTree = "<group>"; };
+		4DED156A23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectCategoryViewController+NSFetchedResultsController.swift"; sourceTree = "<group>"; };
+		4DED156C23617BA200FC903E /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		4DF724F022F174D200472072 /* Five.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Five.entitlements; sourceTree = "<group>"; };
 		4DF724F122F174F100472072 /* Five WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Five WatchKit App.entitlements"; sourceTree = "<group>"; };
 		4DF724FA22F18FEF00472072 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -362,6 +372,7 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
+				4D67DCF52362FF940008AE98 /* CircularIndicator */,
 				4D6E7537235633F200C67B8F /* CategoryList */,
 				4D64C5C4232F627A00EE77D0 /* Logging */,
 				4D5D7E40232CFAC80088EB5F /* LocalProductManager */,
@@ -604,6 +615,15 @@
 			path = Logging;
 			sourceTree = "<group>";
 		};
+		4D67DCF52362FF940008AE98 /* CircularIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				4D67DCF62363003F0008AE98 /* CircularProgressBar.swift */,
+				4D67DCF92363010A0008AE98 /* ProgressBarContainer.swift */,
+			);
+			path = CircularIndicator;
+			sourceTree = "<group>";
+		};
 		4D69039E233B55E3008DC5D6 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -640,6 +660,7 @@
 		4D6E75662360648000C67B8F /* SelectCategory */ = {
 			isa = PBXGroup;
 			children = (
+				4DED156723616A1900FC903E /* Table */,
 				4D6E75642360466F00C67B8F /* SelectCategoryViewController.swift */,
 				4DED15652361335A00FC903E /* SelectCategoryInputView.swift */,
 				4D6E75672360649400C67B8F /* SelectCategoryViewModel.swift */,
@@ -660,6 +681,7 @@
 				4D5BED7622FD93D100176E18 /* Int+Extension.swift */,
 				4D62366A231D7962001CBF1C /* String+Extension.swift */,
 				4D6E756F2360ADE500C67B8F /* UITableView+Extension.swift */,
+				4DED156C23617BA200FC903E /* UITextView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -740,6 +762,15 @@
 				4D596EEC22EC477200B2D21D /* Manager */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		4DED156723616A1900FC903E /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				4DED156823616A2D00FC903E /* SelectCategory+UITableView.swift */,
+				4DED156A23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift */,
+			);
+			name = Table;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -951,6 +982,7 @@
 				4D45E7F022DE0882008AC433 /* UIColor+Extension.swift in Sources */,
 				4DA50FC422E84BE60059A46F /* ReviewCell.swift in Sources */,
 				4D6E7539235634B300C67B8F /* MultiListViewController.swift in Sources */,
+				4DED156B23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift in Sources */,
 				4D5A438522E7197300E34FAC /* Date+Extension.swift in Sources */,
 				4D6E7560235DB16700C67B8F /* MainInputView.swift in Sources */,
 				4D5BA10622E5EC1600B9B487 /* Calendar+Extension.swift in Sources */,
@@ -970,6 +1002,7 @@
 				4DC6950F234CD76600CB4A6E /* 4to6.xcmappingmodel in Sources */,
 				4D5A438322E716AE00E34FAC /* KeychainItemAccessibility.swift in Sources */,
 				4D953B68230A9DF90048C247 /* StatsCoordinator.swift in Sources */,
+				4DED156D23617BA200FC903E /* UITextView+Extension.swift in Sources */,
 				4D6E754F2358264C00C67B8F /* CategoryList+CoreDataClass.swift in Sources */,
 				4D5B5E0222F07E5500C8D9A5 /* WatchSessionDelegater.swift in Sources */,
 				4D646B3A2323C0E400073FD6 /* AboutViewController.swift in Sources */,
@@ -981,6 +1014,7 @@
 				4DD2D78B232F7C4D005A6208 /* KeyChainKeys.swift in Sources */,
 				4DA50FC222E83DD80059A46F /* UIBezierPath+Extension.swift in Sources */,
 				4D4F0C96231FFE2500E71BE9 /* SettingsViewModel.swift in Sources */,
+				4D67DCF72363003F0008AE98 /* CircularProgressBar.swift in Sources */,
 				4D64C5C6232F628900EE77D0 /* Log.swift in Sources */,
 				4D4F0C98231FFF6600E71BE9 /* SettingsHeader.swift in Sources */,
 				4D4F0C92231FD16400E71BE9 /* SettingsViewController.swift in Sources */,
@@ -999,6 +1033,7 @@
 				4D6DA23C2330B1B4006B1663 /* ReviewCoordinator.swift in Sources */,
 				4DAFBC902320C38F00A6F189 /* TaskLimitViewModel.swift in Sources */,
 				4D6DA23E2330C09E006B1663 /* ReviewHeader.swift in Sources */,
+				4D67DCFA2363010A0008AE98 /* ProgressBarContainer.swift in Sources */,
 				4D646B3C2323C1B400073FD6 /* AboutCoordinator.swift in Sources */,
 				4D5FD36823114A7E0053E193 /* BarChart.swift in Sources */,
 				4D69039D233B18D8008DC5D6 /* EditTaskLabelCell.swift in Sources */,
@@ -1022,6 +1057,7 @@
 				4D6E756C2360940500C67B8F /* CategoryList+CoreDataProperties.swift in Sources */,
 				4D6E7556235994F200C67B8F /* CategoryCell.swift in Sources */,
 				4D953B66230A91AD0048C247 /* Coordinator.swift in Sources */,
+				4DED156923616A2D00FC903E /* SelectCategory+UITableView.swift in Sources */,
 				4D5BA10122E5710000B9B487 /* TaskButton.swift in Sources */,
 				4D5BED7722FD93D100176E18 /* Int+Extension.swift in Sources */,
 				4D6903A0233B56D2008DC5D6 /* EditTaskCellBase.swift in Sources */,

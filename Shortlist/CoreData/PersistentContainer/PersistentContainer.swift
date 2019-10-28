@@ -128,6 +128,11 @@ class PersistentContainer: NSPersistentContainer {
 		category.name = name
 	}
 	
+	func createCategoryInCategoryList(_ name: String, context: NSManagedObjectContext) {
+		let category: CategoryList = CategoryList(context: context)
+		category.name = name
+	}
+	
 	func deleteCategory(forName categoryName: String) -> Bool {
 		let categoryRequest: NSFetchRequest<BigListCategories> = BigListCategories.fetchRequest()
 		categoryRequest.returnsObjectsAsFaults = false
@@ -142,6 +147,24 @@ class PersistentContainer: NSPersistentContainer {
 			return false
         } catch let error as NSError {
             print("Category entity could not be fetched \(error)")
+            return false
+        }
+	}
+	
+	func doesExistInCategoryList(_ name: String) -> Bool {
+		let context = viewContext
+		let categoryRequest: NSFetchRequest<CategoryList> = CategoryList.fetchRequest()
+		categoryRequest.returnsObjectsAsFaults = false
+		categoryRequest.predicate = NSPredicate(format: "name == %@", name)
+        do {
+            let fetchedResults = try context.fetch(categoryRequest)
+			if fetchedResults.first != nil {
+				return true
+			} else {
+				return false
+			}
+        } catch let error as NSError {
+            print("Day entity could not be fetched \(error)")
             return false
         }
 	}

@@ -28,13 +28,13 @@ class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDe
 		navigationController.delegate = self
         guard let persistentContainer = persistentContainer else {
 			let viewModel = SelectCategoryViewModel()
-			let vc = SelectCategoryViewController(nil, coordinator: self, viewModel: viewModel)
+			let vc = SelectCategoryViewController(nil, coordinator: self, viewModel: viewModel, mainViewController: mainViewController)
 			let nav = UINavigationController(rootViewController: vc)
 			navigationController.present(nav, animated: true, completion: nil)
             return
         }
 		let viewModel = SelectCategoryViewModel()
-		let vc = SelectCategoryViewController(persistentContainer, coordinator: self, viewModel: viewModel)
+		let vc = SelectCategoryViewController(persistentContainer, coordinator: self, viewModel: viewModel, mainViewController: mainViewController)
 		let nav = UINavigationController(rootViewController: vc)
 		navigationController.present(nav, animated: true, completion: nil)
     }
@@ -45,7 +45,8 @@ class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDe
 			guard let mvc = self.mainViewController else {
 				return
 			}
-			mvc.loadData()
+			mvc.updateCategory()
+//			mvc.loadData()
 		}
 	}
     

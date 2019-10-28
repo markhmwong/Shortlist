@@ -15,19 +15,21 @@ class MainInputView: UIView {
 		case CategoryName
 	}
 	
+	private let taskTextFieldCharacterLimit: Int = 240
+	
 	weak var delegate: MainViewController?
 	
-	var taskName: String? = ""
+	private var taskName: String? = ""
 	
-	var categoryName: String? = ""
+	private var categoryName: String? = ""
 	
-	let padding: CGFloat = 10.0
+	private let padding: CGFloat = 10.0
 	
-	let defaultText: String = "An interesting task.."
+	private let defaultText: String = "An interesting task.."
 	
-	let taskNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "An interesting task..", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
+	private let taskNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "An interesting task..", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	
-	let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
+	private let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	
 	private lazy var taskTextView: UITextView = {
 		let view = UITextView()
@@ -81,6 +83,12 @@ class MainInputView: UIView {
 		return button
 	}()
 	
+	lazy var progressBar: ProgressBarContainer = {
+		let view = ProgressBarContainer()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+	
 	init(delegate: MainViewController) {
 		self.delegate = delegate
 		super.init(frame: .zero)
@@ -97,19 +105,20 @@ class MainInputView: UIView {
 		addSubview(postTaskButton)
 		addSubview(categoryButton)
 		addSubview(alarmButton)
-		
-		taskTextView.anchorView(top: topAnchor, bottom: buttonContainer.topAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		addSubview(progressBar)
+
+		taskTextView.anchorView(top: topAnchor, bottom: buttonContainer.topAnchor, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: .zero)
 		buttonContainer.anchorView(top: taskTextView.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 35.0)) // update height for varied screens
 		postTaskButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: nil, trailing: buttonContainer.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -padding, right: -padding), size: .zero)
 		alarmButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: buttonContainer.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: padding, bottom: -padding, right: 0.0), size: .zero)
 		categoryButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: buttonContainer.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -padding / 2.0, right: 0.0), size: .zero)
-		
+		progressBar.anchorView(top: taskTextView.topAnchor, bottom: nil, leading: taskTextView.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: padding, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
 		keyoardNotification()
 	}
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		sizeButtons()
+		sizeIconsInInputField()
 	}
 	
 	private func keyoardNotification() {
@@ -121,29 +130,39 @@ class MainInputView: UIView {
 		taskTextView.becomeFirstResponder()
 	}
 	
-	func sizeButtons() {
-		let height = buttonContainer.frame.height - buttonContainer.frame.height * 0.45
+	func sizeIconsInInputField() {
+		let height = buttonContainer.frame.height - buttonContainer.frame.height * 0.55
 		postTaskButton.heightAnchor.constraint(equalToConstant: height).isActive = true
 		postTaskButton.widthAnchor.constraint(equalToConstant: height).isActive = true
 		
 		alarmButton.heightAnchor.constraint(equalToConstant: height).isActive = true
 		alarmButton.widthAnchor.constraint(equalToConstant: height).isActive = true
+		
+		progressBar.heightAnchor.constraint(equalToConstant: height).isActive = true
+		progressBar.widthAnchor.constraint(equalToConstant: height).isActive = true
+		
+		taskTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -height - padding).isActive = true
 	}
 	
 	private func defaultTaskTextViewState() {
 		taskTextView.text = defaultText
 		taskTextView.textColor = UIColor.lightGray
 	}
+	
+	private func removeTextOnFirstType() {
+		
+	}
 
 	/// Buttons
 	// Saves and posts task when the arrow is selected
+	//let viewmodel handle this
 	@objc
 	func handlePostTask() {
 		guard let delegate = delegate else { return }
 		taskTextView.resignFirstResponder()
 		taskName = taskTextView.text
-		categoryName = "Uncategorised" // to do
-		delegate.postTask(task: taskName ?? "An interesting task..", category: categoryName ?? "uncategorized")
+		categoryName = delegate.viewModel?.category ?? "Uncategorized"
+		delegate.postTask(task: taskName ?? "An interesting task..", category: categoryName ?? "Uncategorized")
 	}
 	
 	@objc
@@ -175,9 +194,20 @@ extension MainInputView: UITextViewDelegate {
 			taskTextView.sizeToFit()
             UIView.setAnimationsEnabled(true)
         }
+		
+		let currLimit: CGFloat = CGFloat(textView.text.count) / CGFloat(taskTextFieldCharacterLimit)
+		progressBar.updateProgressBar(currLimit)
     }
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+		
+		if (textView.text.count + (text.count - range.length) >= taskTextFieldCharacterLimit) {
+			let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
+			impactFeedbackgenerator.prepare()
+			impactFeedbackgenerator.impactOccurred()
+			return false
+		}
+		
 		if (text == "\n") {
 			if let nextField = textView.superview?.viewWithTag(textView.tag + 1) {
 				taskName = textView.text
@@ -199,30 +229,21 @@ extension MainInputView: UITextViewDelegate {
 		
 		if let tag = TextViewTag.init(rawValue: textView.tag) {
 			// Replaces placeholder text with user entered text
-			if (tag == TextViewTag.TaskName && textView.textColor == UIColor.lightGray || tag == TextViewTag.CategoryName && textView.textColor == UIColor.lightGray) {
-				textView.text = nil
-				textView.textColor = Theme.Font.Color
+			if (tag == TextViewTag.TaskName && textView.textColor == UIColor.lightGray) {
+				textView.clearTextOnFirstInput(Theme.Font.Color)
 			}
 		}
+		
 		return true
 	}
 	
 	func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-//		if let tag = TextViewTag.init(rawValue: textView.tag) {
-//			if (tag == TextViewTag.CategoryName) {
-//
-//				// reset text views
-//				taskTextView.attributedText = taskNamePlaceholder
-//				categoryTextView.attributedText = categoryNamePlaceholder
-//			}
-//		}
 		return true
 	}
 	
 	func textViewDidEndEditing(_ textView: UITextView) {
 		if let tag = TextViewTag.init(rawValue: textView.tag) {
 			if (tag == TextViewTag.CategoryName) {
-				
 				// reset text views
 				if (taskTextView.text == "An interesting task..") {
 					taskTextView.attributedText = taskNamePlaceholder
@@ -231,3 +252,5 @@ extension MainInputView: UITextViewDelegate {
 		}
 	}
 }
+
+

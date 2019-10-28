@@ -18,14 +18,12 @@ class MainViewModel {
     
     let cellHeight: CGFloat = 70.0
 	
-
+	var category: String? = ""
 	
 	func taskForRow(_ tasks: [Task]?, indexPath: IndexPath) -> Task? {		
 		guard let tasks = tasks else { return nil }
 		return tasks[indexPath.row]
 	}
-	
-
 	
 	func sortTasks(_ day: Day) -> [Task]? {
 		let set = day.dayToTask as? Set<Task>

@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
 		let view = MainInputView(delegate: self)
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.alpha = 0.0
-		view.backgroundColor = .red
+		view.backgroundColor = Theme.Cell.textFieldBackground
 		return view
 	}()
 	
@@ -123,7 +123,6 @@ class MainViewController: UIViewController {
 		} else {
 			// continues as normal
 //			loadReview() //returning from this view needs to reload the tableview
-
 			loadData()
 			setupView()
 			AppStoreReviewManager.requestReviewIfAppropriate()
@@ -141,8 +140,6 @@ class MainViewController: UIViewController {
 //        }
         // test watch
 //        syncWatch()
-		
-		
     }
 	
 	func keyboardNotifications() {
@@ -288,6 +285,13 @@ class MainViewController: UIViewController {
 		}
     }
 	
+	func updateCategory() {
+		guard let vm = viewModel else { return }
+		DispatchQueue.main.async {
+			self.mainInputView.categoryButton.setAttributedTitle(NSMutableAttributedString(string: "\(vm.category ?? "Uncategorized")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
+		}
+	}
+	
 	func focusOnNewTask() {
 		DispatchQueue.main.async {
 			self.mainInputView.taskFirstResponder()
@@ -381,7 +385,6 @@ class MainViewController: UIViewController {
 	
 	// handle the saving of task from MainInputView
 	func saveInput(task: String, category: String) {
-		
         guard let persistentContainer = persistentContainer else {
             fatalError("Error loading core data manager while loading data")
         }
@@ -417,19 +420,17 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
     }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
-	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let dayObjects = fetchedResultsController?.fetchedObjects else {
 			tableView.separatorColor = .clear
 			tableView.setEmptyMessage("Start with a new task by selecting Add")
 			return 0
 		}
-		tableView.restore()
+		tableView.restoreBackgroundView()
         let first = dayObjects.first
         return first?.dayToTask?.count ?? 0
     }
