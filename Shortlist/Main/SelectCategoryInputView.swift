@@ -143,14 +143,13 @@ class SelectCategoryInputView: UIView {
 	
 	@objc
 	func checkCategory() {
-		print("check")
 		guard let pc = persistentContainer else { return }
 		let userInfo = timer?.userInfo as! [String : UITextView]
-		print(userInfo["categoryText"]?.text)
-		let exists = pc.doesExistInCategoryList(userInfo["categoryText"]?.text ?? "Uncategorized")
+		categoryExists = pc.doesExistInCategoryList(userInfo["categoryText"]?.text ?? "Uncategorized")
+
 		// update view - make text red
-		print(exists)
-		updateCategoryInputTextView(exists ? UIColor.red : UIColor.green)
+		print(categoryExists)
+		updateCategoryInputTextView(categoryExists ? UIColor.red : UIColor.green)
 	}
 }
 
@@ -180,9 +179,7 @@ extension SelectCategoryInputView: UITextViewDelegate {
 			impactFeedbackgenerator.impactOccurred()
 			return false
 		}
-		
 
-		
 		// Replaces placeholder text with user entered text
 		if (textView.textColor == UIColor.lightGray) {
 			textView.text = nil
