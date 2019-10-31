@@ -43,6 +43,21 @@ class SettingsViewModel {
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
 	}
 	
+	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        cell.textLabel?.text = menu[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
+        cell.textLabel?.textColor = UIColor.white
+        cell.backgroundColor = .clear
+		
+		// chevron set up
+		let image = UIImage(named: "ChevronRight.png")?.withRenderingMode(.alwaysTemplate)
+		let chevron = UIImageView(frame: CGRect(x: 0, y: 0, width: cell.frame.height * 0.5, height: cell.frame.height * 0.5))
+		chevron.image = image
+		cell.accessoryView = chevron
+		cell.tintColor = UIColor.white //color of the chevron
+        return cell
+	}
 }
 
 // to be refactored

@@ -29,7 +29,10 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         }
         let vc = StatsViewController(persistentContainer: persistentContainer, coordinator: self)
         let nav = UINavigationController(rootViewController: vc)
-        navigationController.present(nav, animated: true, completion: nil)
+//        navigationController.present(nav, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
+        }
     }
     
     func childDidFinish(_ child: Coordinator) {
@@ -39,6 +42,15 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
                 break
             }
         }
+    }
+	
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
     }
     
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {

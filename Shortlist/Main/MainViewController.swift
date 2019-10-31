@@ -27,24 +27,11 @@ class MainViewController: UIViewController {
 		return view
 	}()
 	
-//	private lazy var textView: UITextView = {
-//		let view = UITextView()
-////        view.delegate = self
-//        view.backgroundColor = .clear
-//        view.keyboardType = UIKeyboardType.default
-//        view.keyboardAppearance = UIKeyboardAppearance.dark
-//        view.textColor = UIColor.white
-//        view.returnKeyType = UIReturnKeyType.done
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.textContainerInset = UIEdgeInsets.zero
-//        view.textContainer.lineFragmentPadding = 0
-//		view.isEditable = true
-//		view.isSelectable = true
-//		view.isUserInteractionEnabled = true
-//		view.isScrollEnabled = false
-//		view.tag = 0
-//		return view
-//	}()
+	private lazy var pickerViewContainer: PickerViewContainer = {
+		let view = PickerViewContainer(delegate: self)
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
 	
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Day>? = {
         // Create Fetch Request
@@ -93,6 +80,8 @@ class MainViewController: UIViewController {
 	
 	var bottomConstraint: NSLayoutConstraint?
     
+	var pickerViewBottomConstraint: NSLayoutConstraint?
+	
     init(coreDataManager: CoreDataManager? = nil) {
         super.init(nibName: nil, bundle: nil)
     }
@@ -131,7 +120,6 @@ class MainViewController: UIViewController {
 //        deleteAllData()
 //        initialiseSampleData()
 //		deleteAllCategoryListData()
-
 //		prepareDayObjectsInAdvance()
 		
 //        guard let dayArray = persistentContainer?.fetchAllTasksByWeek(forWeek: Calendar.current.startOfWeek(), today: Calendar.current.today()) else {
@@ -153,6 +141,10 @@ class MainViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+	}
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
 	}
 	
     private func initialiseSampleData() {
@@ -234,24 +226,11 @@ class MainViewController: UIViewController {
 		bottomConstraint = NSLayoutConstraint(item: mainInputView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
 		view.addConstraint(bottomConstraint!)
     }
-	
-	// preps for statistics.
-	private func fillMissingDayObjects() {
-		
-	}
     
     private func loadReview() {
-        // no longer using coredataManager pass PersistentContainer object instead
-//        guard let coreDataManager = coreDataManager else { return }
-        
-//        let vc = ReviewViewController(coreDataManager: coreDataManager)
-//        self.present(vc, animated: true)
         coordinator?.showReview(persistentContainer, mainViewController: self)
     }
-    
-    func seedCoreDataWhenFirstLaunched() {
-        // check with keychain
-    }
+
     
     func loadData() {
         //load today's current data into dayEntity
@@ -305,7 +284,7 @@ class MainViewController: UIViewController {
         }
         guard let vm = viewModel else { return }
         guard let day = vm.dayEntity else { return }
-        
+		vm.category = "Uncategorized"
         // bug on new day
         os_log("CurrTasks %d, Totaltasks %d", log: Log.task, type: .info, day.totalTasks, day.taskLimit)
 		
@@ -336,9 +315,11 @@ class MainViewController: UIViewController {
 		if let info = notification?.userInfo {
 			
 			let isKeyboardShowing = notification?.name == UIResponder.keyboardWillShowNotification
+			guard let vm = viewModel else { return }
 			
 			let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
 			if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
+				vm.keyboardSize = kbFrame
 				
 				if (isKeyboardShowing) {
 					mainInputView.alpha = 1.0
@@ -357,32 +338,6 @@ class MainViewController: UIViewController {
 		}
 	}
 	
-	func keyboardSize(_ notification : Notification?) -> CGSize {
-
-        if let info = notification?.userInfo {
-
-            let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
-
-            //  Getting UIKeyboardSize.
-            if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
-
-                let screenSize = UIScreen.main.bounds
-
-                //Calculating actual keyboard displayed size, keyboard frame may be different when hardware keyboard is attached
-                let intersectRect = kbFrame.intersection(screenSize)
-
-                if intersectRect.isNull {
-                    return CGSize(width: screenSize.size.width, height: 0)
-                } else {
-                    return intersectRect.size
-                }
-//                print("Your Keyboard Size \(_kbSize)")
-            }
-        }
-		
-		return CGSize.zero
-	}
-	
 	// handle the saving of task from MainInputView
 	func saveInput(task: String, category: String) {
         guard let persistentContainer = persistentContainer else {
@@ -394,8 +349,15 @@ class MainViewController: UIViewController {
 		let context = persistentContainer.viewContext
 		let dayObject = context.object(with: day.objectID) as! Day
 		dayObject.totalTasks += 1
+		let priority = Int(dayObject.totalTasks)
 		persistentContainer.createTask(toEntity: dayObject, context: context, idNum: Int(dayObject.totalTasks), taskName: task, categoryName: category)
 		persistentContainer.saveContext()
+		
+		//create notification
+		if (vm.timeInterval > 0.0) {
+			
+			LocalNotificationsService.shared.addReminderNotification(dateIdentifier: "Task \(priority)", notificationContent: nil, timeRemaining: vm.timeInterval)
+		}
 	}
 	
 	func showCategory() {
@@ -405,6 +367,32 @@ class MainViewController: UIViewController {
 	func postTask(task: String, category: String) {
 		saveInput(task: task, category: category)
 	}
+	
+	func showTimePicker() {
+		mainInputView.taskResignFirstResponder()
+		guard let vm = viewModel else { return }
+		
+		view.addSubview(pickerViewContainer)
+		pickerViewContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: vm.keyboardSize.height))
+		pickerViewBottomConstraint = NSLayoutConstraint(item: pickerViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+		view.addConstraint(pickerViewBottomConstraint!)
+	}
+
+	func closeTimePicker() {
+		guard let vm = viewModel else { return }
+		
+		pickerViewContainer.getValues()
+		
+		pickerViewBottomConstraint?.constant = vm.keyboardSize.height
+		
+		UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut], animations: {
+			self.view.layoutIfNeeded()
+			self.focusOnNewTask()
+		}) { (complete) in
+			//
+		}
+	}
+	
 }
 
 extension MainViewController: NSFetchedResultsControllerDelegate {

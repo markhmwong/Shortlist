@@ -33,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         mainCoordinator = MainCoordinator(navigationController: navController)
         mainCoordinator?.start(persistentContainer)
         
+		persistentContainer.createCategoryInCategoryList("Uncategorized", context: persistentContainer.viewContext)
+		
         window = UIWindow()
         window?.rootViewController = navController
         window?.makeKeyAndVisible()

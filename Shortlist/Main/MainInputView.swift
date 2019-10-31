@@ -31,7 +31,7 @@ class MainInputView: UIView {
 	
 	private let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	
-	private lazy var taskTextView: UITextView = {
+	lazy var taskTextView: UITextView = {
 		let view = UITextView()
 		view.delegate = self
 		view.backgroundColor = Theme.Cell.textFieldBackground
@@ -40,7 +40,7 @@ class MainInputView: UIView {
 		view.isUserInteractionEnabled = true
 		view.isSelectable = true
 		view.isScrollEnabled = false
-		view.returnKeyType = UIReturnKeyType.next
+		view.returnKeyType = UIReturnKeyType.done
         view.textColor = Theme.Font.Color
         view.keyboardAppearance = UIKeyboardAppearance.dark
 		view.keyboardType = UIKeyboardType.default
@@ -56,7 +56,7 @@ class MainInputView: UIView {
 		return view
 	}()
 	
-	lazy var postTaskButton: UIButton = {
+	private lazy var postTaskButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.setImage(UIImage(named:"Send.png"), for: .normal)
@@ -64,11 +64,11 @@ class MainInputView: UIView {
 		return button
 	}()
 	
-	lazy var alarmButton: UIButton = {
+	private lazy var reminderButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.setImage(UIImage(named:"Alarm.png"), for: .normal)
-		button.addTarget(self, action: #selector(handlePostTask), for: .touchUpInside)
+		button.addTarget(self, action: #selector(handleReminder), for: .touchUpInside)
 		return button
 	}()
 	
@@ -83,7 +83,7 @@ class MainInputView: UIView {
 		return button
 	}()
 	
-	lazy var progressBar: ProgressBarContainer = {
+	private lazy var progressBar: ProgressBarContainer = {
 		let view = ProgressBarContainer()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
@@ -104,13 +104,13 @@ class MainInputView: UIView {
 		addSubview(buttonContainer)
 		addSubview(postTaskButton)
 		addSubview(categoryButton)
-		addSubview(alarmButton)
+		addSubview(reminderButton)
 		addSubview(progressBar)
 
 		taskTextView.anchorView(top: topAnchor, bottom: buttonContainer.topAnchor, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: .zero)
 		buttonContainer.anchorView(top: taskTextView.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 35.0)) // update height for varied screens
 		postTaskButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: nil, trailing: buttonContainer.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -padding, right: -padding), size: .zero)
-		alarmButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: buttonContainer.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: padding, bottom: -padding, right: 0.0), size: .zero)
+		reminderButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: buttonContainer.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: padding, bottom: -padding, right: 0.0), size: .zero)
 		categoryButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: buttonContainer.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -padding / 2.0, right: 0.0), size: .zero)
 		progressBar.anchorView(top: taskTextView.topAnchor, bottom: nil, leading: taskTextView.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: padding, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
 		keyoardNotification()
@@ -130,13 +130,17 @@ class MainInputView: UIView {
 		taskTextView.becomeFirstResponder()
 	}
 	
+	func taskResignFirstResponder() {
+		taskTextView.resignFirstResponder()
+	}
+	
 	func sizeIconsInInputField() {
 		let height = buttonContainer.frame.height - buttonContainer.frame.height * 0.55
 		postTaskButton.heightAnchor.constraint(equalToConstant: height).isActive = true
 		postTaskButton.widthAnchor.constraint(equalToConstant: height).isActive = true
 		
-		alarmButton.heightAnchor.constraint(equalToConstant: height).isActive = true
-		alarmButton.widthAnchor.constraint(equalToConstant: height).isActive = true
+		reminderButton.heightAnchor.constraint(equalToConstant: height).isActive = true
+		reminderButton.widthAnchor.constraint(equalToConstant: height).isActive = true
 		
 		progressBar.heightAnchor.constraint(equalToConstant: height).isActive = true
 		progressBar.widthAnchor.constraint(equalToConstant: height).isActive = true
@@ -147,10 +151,6 @@ class MainInputView: UIView {
 	private func defaultTaskTextViewState() {
 		taskTextView.text = defaultText
 		taskTextView.textColor = UIColor.lightGray
-	}
-	
-	private func removeTextOnFirstType() {
-		
 	}
 
 	/// Buttons
@@ -181,6 +181,12 @@ class MainInputView: UIView {
 			}
 		}
 	}
+	
+	@objc
+	func handleReminder() {
+		guard let delegate = delegate else { return }
+		delegate.showTimePicker()
+	}
 }
 
 extension MainInputView: UITextViewDelegate {
@@ -197,11 +203,13 @@ extension MainInputView: UITextViewDelegate {
 		
 		let currLimit: CGFloat = CGFloat(textView.text.count) / CGFloat(taskTextFieldCharacterLimit)
 		progressBar.updateProgressBar(currLimit)
+		progressBar.updateColor(currLimit)
     }
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+		let currLimit = textView.text.count + (text.count - range.length)
 		
-		if (textView.text.count + (text.count - range.length) >= taskTextFieldCharacterLimit) {
+		if (currLimit >= taskTextFieldCharacterLimit) {
 			let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
 			impactFeedbackgenerator.prepare()
 			impactFeedbackgenerator.impactOccurred()

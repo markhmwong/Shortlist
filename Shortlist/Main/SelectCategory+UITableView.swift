@@ -37,7 +37,9 @@ extension SelectCategoryViewController: UITableViewDataSource, UITableViewDelega
 			cell.textLabel?.textColor = UIColor.white
 			return cell
 		}
-				
+		
+		
+		
 		return viewModel.tableViewCell(tableView, indexPath: indexPath, category: results[indexPath.row].name ?? "Unknown")
 	}
 	

@@ -14,6 +14,13 @@ class ProgressBarContainer: UIView {
 	
 	var progressBarTrack: CircularProgressBar?
 	
+	struct StatusColor {
+		static var high: UIColor = UIColor.red.adjust(by: -10.0)!
+		static var medium: UIColor = UIColor.yellow.adjust(by: -10.0)!
+		static var low: UIColor = UIColor.green.adjust(by: -10.0)!
+		static var normal: UIColor = UIColor.white
+	}
+	
 	init() {
 		super.init(frame: .zero)
 		self.setupView()
@@ -51,5 +58,17 @@ class ProgressBarContainer: UIView {
 	func updateProgressBar(_ percentage: CGFloat) {
 		guard let progressBar = progressBar else { return }
 		progressBar.strokeEnd = percentage
+	}
+	
+	func updateColor(_ percentage: CGFloat) {
+		guard let progressBar = progressBar else { return }
+		
+		if (percentage >= 0.5 && percentage <= 0.75) {
+			progressBar.strokeColor = StatusColor.medium.cgColor
+		} else if (percentage > 0.75) {
+			progressBar.strokeColor = StatusColor.high.cgColor
+		} else if (percentage > 0.25 && percentage < 0.5){
+			progressBar.strokeColor = StatusColor.low.cgColor
+		}
 	}
 }

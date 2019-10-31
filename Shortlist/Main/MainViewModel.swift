@@ -10,6 +10,10 @@ import UIKit
 
 class MainViewModel {
     
+	var timeInterval: Double = 0
+	
+	var keyboardSize: CGRect = .zero
+	
     let taskListCellId = "taskCellId"
     
     var dayEntity: Day? = nil //{
@@ -42,15 +46,12 @@ class MainViewModel {
 	
 	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath) -> TaskCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: taskListCellId, for: indexPath) as! TaskCell
-		
 		if (indexPath.row == 0) {
 			cell.setupCellLayout(indexPath.row)
 			cell.backgroundColor = UIColor(red:0.29, green:0.08, blue:0.02, alpha:1.0)
 		} else {
 			cell.setupCellLayout(indexPath.row)
 		}
-		
 		return cell
 	}
-	
 }

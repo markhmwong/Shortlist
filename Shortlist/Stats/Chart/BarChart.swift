@@ -90,10 +90,10 @@ class BarChart: UIView {
         mainLayer.addChartTitleLayer(frame: titleFrame, color: UIColor.white.cgColor, fontSize: 16.0, text: monthOverviewChartData?.title ?? "_month_")
         
         // add average stat
-        let averageStr: String = "Daily Average:\(monthOverviewChartData!.mean)"
+        let averageStr: String = "Daily Average \(monthOverviewChartData!.mean)"
         let width = averageStr.width(withConstrainedHeight: 20.0, font: UIFont.systemFont(ofSize: 16.0))
         let averageFrame = CGRect(x: titleFrame.minX, y: titleFrame.maxY + 5.0, width: width, height: 20.0)
-        mainLayer.addChartTitleLayer(frame: averageFrame, color: UIColor.white.cgColor, fontSize: 16.0, text: averageStr)
+        mainLayer.addChartTitleLayer(frame: averageFrame, color: UIColor.white.cgColor, fontSize: 12.0, text: averageStr)
         
         // draw bars for incomplete tasks
         for (_, bar) in incompleteTaskChartData.enumerated() {
@@ -107,9 +107,7 @@ class BarChart: UIView {
             let xAxisLabelFrame: CGRect = CGRect(x: bar.barFrame.minX, y: bar.barFrame.maxY, width: bar.barFrame.width * 2, height: 25.0)
             
             let day = bar.day!.dayOfWeek.shortHand
-            print("\(day)")
             mainLayer.xAxisLabels(frame: xAxisLabelFrame, color: UIColor.white.cgColor, fontSize: 12.0, text: "\(day)")
-            
         }
         
         // include max number indicator

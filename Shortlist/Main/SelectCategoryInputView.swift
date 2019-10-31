@@ -74,10 +74,8 @@ class SelectCategoryInputView: UIView {
 		addSubview(progressBar)
 		
 		categoryInputTextView.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
-		postTaskButton.anchorView(top: nil, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: categoryInputTextView.centerYAnchor, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -padding), size: .zero)
+		postTaskButton.anchorView(top: nil, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: categoryInputTextView.centerYAnchor, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 5.0, bottom: 0.0, right: -padding), size: .zero)
 		progressBar.anchorView(top: nil, bottom: nil, leading: nil, trailing: postTaskButton.leadingAnchor, centerY: categoryInputTextView.centerYAnchor, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -5.0), size: .zero)
-		
-//		categoryInputTextView.becomeFirstResponder()  // to remove, for testing adding categories
 	}
 	
 	override func layoutSubviews() {
@@ -85,7 +83,7 @@ class SelectCategoryInputView: UIView {
 		sizeButtons()
 	}
 	
-	func sizeButtons() {
+	private func sizeButtons() {
 		let height = frame.height - frame.height * 0.45
 		postTaskButton.heightAnchor.constraint(equalToConstant: height).isActive = true
 		postTaskButton.widthAnchor.constraint(equalToConstant: height).isActive = true
@@ -94,16 +92,21 @@ class SelectCategoryInputView: UIView {
 		
 		progressBar.heightAnchor.constraint(equalToConstant: height).isActive = true
 		progressBar.widthAnchor.constraint(equalToConstant: height).isActive = true
-//		progressBar.updateProgressBar(1.0)
 	}
 	
-	private func defaultTaskTextViewState() {
-//		taskTextView.text = defaultText
-//		taskTextView.textColor = UIColor.lightGray
-	}
+//	private func defaultTaskTextViewState() {
+////		taskTextView.text = defaultText
+////		taskTextView.textColor = UIColor.lightGray
+//	}
 	
 	func focusField() {
 		categoryInputTextView.becomeFirstResponder()
+	}
+	
+	func updateField(_ category: String) {
+		DispatchQueue.main.async {
+			self.categoryInputTextView.text = category
+		}
 	}
 	
 	func reisgnInputText() {
@@ -119,10 +122,19 @@ class SelectCategoryInputView: UIView {
 	}
 	
 	@objc
+	func checkCategory() {
+		guard let pc = persistentContainer else { return }
+		let userInfo = timer?.userInfo as! [String : UITextView]
+		categoryExists = pc.doesExistInCategoryList(userInfo["categoryText"]?.text ?? "Uncategorized")
+
+		// update view - make text red
+		updateCategoryInputTextView(categoryExists ? UIColor.red.adjust(by: -30.0)! : UIColor.green.adjust(by: -30.0)!)
+	}
+	
+	@objc
 	func handlePostCategory() {
 		print("post category to do")
 		guard let delegate = delegate else { return }
-		
 		//check if category exists
 		if (!categoryExists) {
 			delegate.addCategory()
@@ -138,18 +150,9 @@ class SelectCategoryInputView: UIView {
 	}
 	
 	func updateCategoryInputTextView(_ color: UIColor) {
-		categoryInputTextView.textColor = color
-	}
-	
-	@objc
-	func checkCategory() {
-		guard let pc = persistentContainer else { return }
-		let userInfo = timer?.userInfo as! [String : UITextView]
-		categoryExists = pc.doesExistInCategoryList(userInfo["categoryText"]?.text ?? "Uncategorized")
-
-		// update view - make text red
-		print(categoryExists)
-		updateCategoryInputTextView(categoryExists ? UIColor.red : UIColor.green)
+		DispatchQueue.main.async {
+			self.categoryInputTextView.textColor = color
+		}
 	}
 }
 

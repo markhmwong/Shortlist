@@ -51,6 +51,8 @@ class SelectCategoryViewController: UIViewController {
 	
 	var bottomConstraint: NSLayoutConstraint?
 	
+	var tableViewBottomConstraint: NSLayoutConstraint?
+	
 	var delegate: MainViewController?
 	
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -76,14 +78,15 @@ class SelectCategoryViewController: UIViewController {
 		keyboardNotifications()
 		
 		navigationItem.title = "Categories"
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDone))
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAdd))
 
 		viewModel.tableViewRegisterCell(tableView)
 		view.addSubview(tableView)
 		view.addSubview(inputContainer)
 		
-		tableView.anchorView(top: view.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		tableView.anchorView(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+		view.addConstraint(tableViewBottomConstraint!)
 		inputContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		bottomConstraint = NSLayoutConstraint(item: inputContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
 		view.addConstraint(bottomConstraint!)
@@ -125,6 +128,11 @@ class SelectCategoryViewController: UIViewController {
 	
 	@objc
 	func handleDone() {
+		let category = "Uncategorized"
+		guard let mvc = delegate else { return }
+		guard let vm = mvc.viewModel else { return }
+		vm.category = category
+		inputContainer.updateField(category)
 		coordinator?.dimiss(nil)
 	}
 	
@@ -144,9 +152,11 @@ class SelectCategoryViewController: UIViewController {
 				if (isKeyboardShowing) {
 					inputContainer.alpha = 1.0
 					bottomConstraint?.constant = -kbFrame.height
+					tableViewBottomConstraint?.constant = -kbFrame.height - inputContainer.bounds.height
 				} else {
 					inputContainer.alpha = 0.0
-					bottomConstraint?.constant = 0
+					bottomConstraint?.constant = 0.0
+					tableViewBottomConstraint?.constant = 0.0
 				}
 				
 				UIView.animate(withDuration: 0.0, delay: 0.0, options: .curveEaseInOut, animations: {

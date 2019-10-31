@@ -32,6 +32,7 @@
 		4D4F0C94231FD1E400E71BE9 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4F0C93231FD1E400E71BE9 /* SettingsCoordinator.swift */; };
 		4D4F0C96231FFE2500E71BE9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4F0C95231FFE2500E71BE9 /* SettingsViewModel.swift */; };
 		4D4F0C98231FFF6600E71BE9 /* SettingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4F0C97231FFF6600E71BE9 /* SettingsHeader.swift */; };
+		4D57856123696C9300842C50 /* PickerViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D57856023696C9300842C50 /* PickerViewContainer.swift */; };
 		4D598B6422EEBE480020076D /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D598B6322EEBE480020076D /* PersistentContainer.swift */; };
 		4D59E26522EAEECA00B40E34 /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D59E26422EAEECA00B40E34 /* ReviewViewModel.swift */; };
 		4D5A438222E716AE00E34FAC /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5A438022E716AE00E34FAC /* KeychainWrapper.swift */; };
@@ -42,6 +43,7 @@
 		4D5B5E0222F07E5500C8D9A5 /* WatchSessionDelegater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5DFE22F07E5400C8D9A5 /* WatchSessionDelegater.swift */; };
 		4D5B5E0522F07FEB00C8D9A5 /* TaskStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5E0422F07FEA00C8D9A5 /* TaskStruct.swift */; };
 		4D5B5E0622F0838F00C8D9A5 /* TaskStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B5E0422F07FEA00C8D9A5 /* TaskStruct.swift */; };
+		4D5B89DF236AB2EC00B38DF5 /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5B89DE236AB2EC00B38DF5 /* LocalNotificationsService.swift */; };
 		4D5BA10122E5710000B9B487 /* TaskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10022E5710000B9B487 /* TaskButton.swift */; };
 		4D5BA10422E5ADA200B9B487 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10322E5ADA200B9B487 /* ReviewViewController.swift */; };
 		4D5BA10622E5EC1600B9B487 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */; };
@@ -213,6 +215,7 @@
 		4D4F0C93231FD1E400E71BE9 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		4D4F0C95231FFE2500E71BE9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		4D4F0C97231FFF6600E71BE9 /* SettingsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsHeader.swift; sourceTree = "<group>"; };
+		4D57856023696C9300842C50 /* PickerViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewContainer.swift; sourceTree = "<group>"; };
 		4D598B6322EEBE480020076D /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		4D59E26422EAEECA00B40E34 /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
 		4D5A438022E716AE00E34FAC /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
@@ -222,6 +225,7 @@
 		4D5B5DFC22F07E5400C8D9A5 /* WatchSessionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionHandler.swift; sourceTree = "<group>"; };
 		4D5B5DFE22F07E5400C8D9A5 /* WatchSessionDelegater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionDelegater.swift; sourceTree = "<group>"; };
 		4D5B5E0422F07FEA00C8D9A5 /* TaskStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStruct.swift; sourceTree = "<group>"; };
+		4D5B89DE236AB2EC00B38DF5 /* LocalNotificationsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalNotificationsService.swift; sourceTree = "<group>"; };
 		4D5BA10022E5710000B9B487 /* TaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskButton.swift; sourceTree = "<group>"; };
 		4D5BA10322E5ADA200B9B487 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
@@ -372,6 +376,7 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
+				4D5B89DD236AB2E200B38DF5 /* Service */,
 				4D67DCF52362FF940008AE98 /* CircularIndicator */,
 				4D6E7537235633F200C67B8F /* CategoryList */,
 				4D64C5C4232F627A00EE77D0 /* Logging */,
@@ -540,6 +545,14 @@
 				4D5B5E0422F07FEA00C8D9A5 /* TaskStruct.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		4D5B89DD236AB2E200B38DF5 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				4D5B89DE236AB2EC00B38DF5 /* LocalNotificationsService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		4D5BA10222E5AD9100B9B487 /* Review */ = {
@@ -746,6 +759,7 @@
 				4D45E79322DDD1AB008AC433 /* MainViewController.swift */,
 				4D6E755F235DB16700C67B8F /* MainInputView.swift */,
 				4D45E7E922DDDA00008AC433 /* MainViewModel.swift */,
+				4D57856023696C9300842C50 /* PickerViewContainer.swift */,
 				4DC0DE5822E222CA00B2B8D4 /* TaskCell.swift */,
 				4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */,
 				4D646B3D2326203200073FD6 /* AppStoreReviewManager.swift */,
@@ -1005,6 +1019,7 @@
 				4DED156D23617BA200FC903E /* UITextView+Extension.swift in Sources */,
 				4D6E754F2358264C00C67B8F /* CategoryList+CoreDataClass.swift in Sources */,
 				4D5B5E0222F07E5500C8D9A5 /* WatchSessionDelegater.swift in Sources */,
+				4D57856123696C9300842C50 /* PickerViewContainer.swift in Sources */,
 				4D646B3A2323C0E400073FD6 /* AboutViewController.swift in Sources */,
 				4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */,
 				4D646B3E2326203300073FD6 /* AppStoreReviewManager.swift in Sources */,
@@ -1042,6 +1057,7 @@
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
 				4D6A57C8230AF0E40055C16F /* Day+CoreDataClass.swift in Sources */,
 				4D6E75702360ADE500C67B8F /* UITableView+Extension.swift in Sources */,
+				4D5B89DF236AB2EC00B38DF5 /* LocalNotificationsService.swift in Sources */,
 				4D786DB7230ED182002D8DEB /* StatisticsGenerator.swift in Sources */,
 				4D953B6B230AA4500048C247 /* StatsViewController.swift in Sources */,
 				4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */,

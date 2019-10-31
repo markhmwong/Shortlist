@@ -76,13 +76,17 @@ class SettingsViewController: UIViewController {
             return
         }
         
-        let mail: MFMailComposeViewController = MFMailComposeViewController(nibName: nil, bundle: nil)
-        mail.mailComposeDelegate = self
-        mail.setToRecipients([vm.emailToRecipient])
-        mail.setSubject(vm.emailSubject)
+        let mail: MFMailComposeViewController? = MFMailComposeViewController(nibName: nil, bundle: nil)
+		guard let mailVc = mail else {
+			return
+		}
+		
+        mailVc.mailComposeDelegate = self
+        mailVc.setToRecipients([vm.emailToRecipient])
+        mailVc.setSubject(vm.emailSubject)
         
-        mail.setMessageBody(vm.emailBody(), isHTML: true)
-        coordinator?.showFeedback(mail)
+        mailVc.setMessageBody(vm.emailBody(), isHTML: true)
+        coordinator?.showFeedback(mailVc)
     }
     
     //https://itunes.apple.com/app/id1454444680?mt=8
@@ -120,12 +124,14 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: viewModel?.cellId ?? "SettingsCellId", for: indexPath)
-        cell.textLabel?.text = viewModel?.menu[indexPath.row]
-        cell.accessoryType = .disclosureIndicator
-        cell.textLabel?.textColor = UIColor.white
-        cell.backgroundColor = .black
-        return cell
+		guard let viewModel = viewModel else {
+			let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCellId", for: indexPath)
+			cell.textLabel?.text = "Unknown Cell"
+			cell.textLabel?.textColor = UIColor.white
+			cell.backgroundColor = .clear
+			return cell
+		}
+		return viewModel.tableViewCell(tableView, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
