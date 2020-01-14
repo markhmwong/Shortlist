@@ -9,9 +9,7 @@
 import UIKit
 
 class PickerViewContainer: UIView {
-	
-	var pickerLabels: [Int: UILabel] = [:]
-	
+		
 	private lazy var pickerView: UIDatePicker = {
 		let view = UIDatePicker()
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -23,18 +21,32 @@ class PickerViewContainer: UIView {
 		return view
 	}()
 	
-	private lazy var closeButton: UIButton = {
+	private lazy var saveButton: UIButton = {
 		let button = UIButton()
-		button.setTitle("Close", for: .normal)
-		button.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
+		button.setTitle("Save", for: .normal)
+        button.layer.cornerRadius = Theme.Button.cornerRadius
+		button.backgroundColor = Theme.Button.backgroundColor
+		button.setTitleColor(Theme.Button.textColor, for: .normal)
+		button.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
 	}()
 	
-	weak var delegate: MainViewController?
+	private lazy var clearButton: UIButton = {
+		let button = UIButton()
+		button.setTitle("Clear", for: .normal)
+        button.layer.cornerRadius = Theme.Button.cornerRadius
+		button.backgroundColor = Theme.Button.backgroundColor
+		button.setTitleColor(Theme.Button.textColor, for: .normal)
+		button.addTarget(self, action: #selector(handleClearButton), for: .touchUpInside)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		return button
+	}()
+		
+	var delegateProtocol: PickerViewContainerProtocol?
 	
-	init(delegate: MainViewController) {
-		self.delegate = delegate
+	init(delegateP: PickerViewContainerProtocol) {
+		self.delegateProtocol = delegateP
 		super.init(frame: .zero)
 		setupView()
 	}
@@ -45,28 +57,36 @@ class PickerViewContainer: UIView {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		guard let delegate = delegate else { return }
 	}
 	
-	func setupView() {
+	private func setupView() {
 		
 		addSubview(pickerView)
 		pickerView.fillSuperView()
 		
-		addSubview(closeButton)
-		closeButton.anchorView(top: topAnchor, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 70.0, height: 30.0))
+		addSubview(saveButton)
+		saveButton.anchorView(top: topAnchor, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: -5.0), size: CGSize(width: 70.0, height: 30.0))
+		addSubview(clearButton)
+		clearButton.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 5, bottom: 0.0, right: 0.0), size: CGSize(width: 70.0, height: 30.0))
 	}
 	
-	func getValues() {
-		guard let delegate = delegate else { return }
-		guard let vm = delegate.viewModel else { return }
-		vm.timeInterval = pickerView.date.timeIntervalSince(Date())
+	func getValues() -> Date {
+		return pickerView.date
 	}
 
+	
+	// the actual saving of the local notification is done in the main view controller, look for LocalNotificationService
+	// We wait until the task has been posted or we'll need to remove the notification
 	@objc
-	func handleCloseButton() {
-		guard let delegate = delegate else { return }
-		getValues()
-		delegate.closeTimePicker()
+	func handleSaveButton() {
+		guard let delegateProtocol = delegateProtocol else { return }
+		delegateProtocol.closeTimePicker()
+	}
+	
+	@objc
+	func handleClearButton() {
+		guard let delegateProtocol = delegateProtocol else { return }
+		pickerView.date = Date()
+		delegateProtocol.closeTimePicker()
 	}
 }

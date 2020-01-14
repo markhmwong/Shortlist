@@ -11,6 +11,10 @@ import MessageUI
 
 class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
+	typealias DeletionClosure = () -> ()
+	
+	var rootViewController: SettingsViewController? = nil
+	
     weak var parentCoordinator: MainCoordinator?
     
     var childCoordinators: [Coordinator] = [Coordinator]()
@@ -31,13 +35,14 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 		
 		let vm = SettingsViewModel()
 		let vc = SettingsViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: vm)
+		rootViewController = vc
         let nav = UINavigationController(rootViewController: vc)
         navigationController.present(nav, animated: true, completion: nil)
     }
     
     // add stats view and coordinator
     func showTaskLimit(_ persistentContainer: PersistentContainer?) {
-        let child = TaskLimitCoordinator(navigationController: navigationController)
+		let child = TaskLimitCoordinator(navigationController: navigationController, parentViewController: rootViewController ?? nil)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
@@ -65,9 +70,33 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         child.start(persistentContainer)
     }
 	
+	func deleteBox(_ delegate: SettingsViewController, deletionClosure: @escaping DeletionClosure, title: String, message: String) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let delete = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+			deletionClosure()
+		}
+		
+		let cancel = UIAlertAction(title: "Cancel", style: .default) { (action) in
+			self.dimiss()
+		}
+		alert.addAction(cancel)
+		alert.addAction(delete)
+		
+		DispatchQueue.main.async {
+            self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
+	}
+	
+	func dimiss() {
+		let topMostVc = getTopMostViewController()
+		topMostVc?.dismiss(animated: true, completion: {
+			//
+		})
+	}
+	
     func getTopMostViewController() -> UIViewController? {
-        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        
+//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
         }

@@ -113,7 +113,6 @@ class SettingsHeader: UIView {
     }
     
     func grabTipsProducts() {
-        
         IAPProducts.tipStore.requestProducts { [weak self](success, products) in
             
             guard let self = self else { return }

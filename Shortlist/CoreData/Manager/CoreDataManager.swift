@@ -173,7 +173,7 @@ extension CoreDataManager {
     func printTodaysRecordIn<E: NSManagedObject>(entity: E.Type) {
         let today = Calendar.current.today()
         guard let day: Day = self.fetchDayEntity(forDate: today) as? Day else {
-            print("Cannot print entity")
+
             return
         }
         for task in day.dayToTask as! Set<Task> {
@@ -184,7 +184,7 @@ extension CoreDataManager {
     
     func doesEntityExist(forDate date: Date) -> Bool {
         guard self.fetchDayEntity(forDate: date) != nil else {
-            print("Nothing In Entity")
+
             return false
         }
         return true
@@ -199,8 +199,7 @@ extension CoreDataManager {
         do {
             let fetchedResults = try context.fetch(dayRequest)
             return fetchedResults.first as? NSManagedObject
-        } catch let error as NSError {
-            print("Day entity could not be fetched \(error)")
+		} catch _ as NSError {
             return nil
         }
     }

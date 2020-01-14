@@ -7,10 +7,22 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewModel {
     
-	var timeInterval: Double = 0
+	enum CellType {
+		case Regular
+		case Available
+	}
+	
+	enum SectionType: Int, CaseIterable {
+		case HighPriority // Pressing
+		case MediumPriority // Doable
+		case LowPriority // Touch and Go
+	}
+	
+	var taskName: String = "An interesting task.."
 	
 	var keyboardSize: CGRect = .zero
 	
@@ -24,34 +36,143 @@ class MainViewModel {
 	
 	var category: String? = ""
 	
-	func taskForRow(_ tasks: [Task]?, indexPath: IndexPath) -> Task? {		
-		guard let tasks = tasks else { return nil }
-		return tasks[indexPath.row]
+	typealias SectionNumber = Int16 // This is based on the attribute property 'priority'
+	
+	var sortedSet: [Task]? = nil
+	
+	//used only for preplanned view controller
+	let tomorrow = Calendar.current.forSpecifiedDay(value: 1)
+	
+	func taskForRow(indexPath: IndexPath) -> Task? {
+		return sortedSet?[indexPath.row]
 	}
 	
+	// tasks are sorted by category
 	func sortTasks(_ day: Day) -> [Task]? {
 		let set = day.dayToTask as? Set<Task>
 		if (!set!.isEmpty) {
             return set?.sorted(by: { (taskA, taskB) -> Bool in
-                return taskA.priority < taskB.priority
+				// sort same priority by date
+				if (taskA.priority == taskB.priority) {
+					return ((taskA.createdAt! as Date).compare(taskB.createdAt! as Date) == .orderedAscending)
+				} else {
+					// otherwise order by priority
+					return taskA.priority < taskB.priority
+				}
             })
 		} else {
 			return nil
 		}
 	}
 	
+	func totalTasksForPriority(_ day: Day, priorityLevel: Int) -> Int {
+		guard let set = sortTasks(day) else {
+			return 0
+		}
+		
+		var totalTasks = 0
+		for task in set {
+			if (priorityLevel == task.priority) {
+				totalTasks = totalTasks + 1
+			}
+		}
+		
+		return totalTasks
+	}
+
 	func registerCell(_ tableView: UITableView) {
         tableView.register(TaskCell.self, forCellReuseIdentifier: taskListCellId)
 	}
 	
-	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath) -> TaskCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: taskListCellId, for: indexPath) as! TaskCell
-		if (indexPath.row == 0) {
-			cell.setupCellLayout(indexPath.row)
-			cell.backgroundColor = UIColor(red:0.29, green:0.08, blue:0.02, alpha:1.0)
-		} else {
-			cell.setupCellLayout(indexPath.row)
+	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath, fetchedResultsController: NSFetchedResultsController<Day>?, persistentContainer: PersistentContainer?) -> TaskCell {
+		for i in 0..<tableView.numberOfSections {
+			let numRowsInSection = tableView.numberOfRows(inSection: i)
+			if indexPath.row == numRowsInSection {
+				//return empty TaskCell
+				
+			}
 		}
+		
+		// because the fetchedResultsController updates dynamically, we'll have to fetch today's Day object
+		// sort it and then grab the relevant task from the Day to Task relationship
+		guard let dayObject = fetchedResultsController?.fetchedObjects?.first else {
+			let cell = tableView.dequeueReusableCell(withIdentifier: taskListCellId, for: indexPath) as! TaskCell
+			return cell
+		}
+		
+		let cell = tableView.dequeueReusableCell(withIdentifier: taskListCellId, for: indexPath) as! TaskCell
+		cell.setupCellLayout()
+		cell.persistentContainer = persistentContainer
+		cell.task = taskForRow(indexPath: indexPath)
+//		cell.stateOfTextView()
+        cell.adjustDailyTaskComplete = { (task) in
+			if (task.complete) {
+                dayObject.totalCompleted += 1
+            } else {
+                dayObject.totalCompleted -= 1
+            }
+            persistentContainer?.saveContext()
+        }
+		
+		cell.updateStats = { (task) in
+			let stat = persistentContainer?.fetchStatEntity()
+			
+            if (task.complete) {
+				// general stat
+				stat?.addToTotalCompleteTasks(numTasks: 1)
+				stat?.removeFromTotalIncompleteTasks(numTasks: 1)
+				
+				// category specific stat
+				stat?.addToCategoryACompleteTask(category: task.category)
+				
+            } else {
+				stat?.addToTotalIncompleteTasks(numTasks: 1)
+				stat?.removeFromTotalCompleteTasks(numTasks: 1)
+				
+				// category specific stat
+				stat?.removeFromCategoryACompleteTask(category: task.category)
+            }
+            persistentContainer?.saveContext()
+		}
+
+        cell.updateWatch = { (task) in
+            //WCSession
+            let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
+            var tempTaskStruct: [TaskStruct] = []
+            for task in taskList {
+                tempTaskStruct.append(TaskStruct(id: task.id, name: task.name!, complete: task.complete, priority: task.priority))
+            }
+            do {
+                let data = try JSONEncoder().encode(tempTaskStruct)
+                WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
+            } catch (let err) {
+                print("\(err)")
+            }
+        }
+        
 		return cell
+	}
+	
+	func headerForSection(_tableView: UITableView, section: Int) -> UIView {
+		let view = UITableViewHeaderFooterView()
+		
+		if let sectionType = SectionType.init(rawValue: section) {
+			switch sectionType {
+				case .HighPriority:
+					view.tintColor = UIColor.orange.adjust(by: -30.0) ?? UIColor.orange
+					view.textLabel?.attributedText = NSMutableAttributedString(string: "Pressing", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b5).value)!, NSAttributedString.Key.foregroundColor: UIColor.orange.adjust(by: 20.0) ?? UIColor.white])
+				case .MediumPriority:
+					view.tintColor = UIColor.purple.adjust(by: -20.0) ?? UIColor.purple
+					view.textLabel?.attributedText = NSMutableAttributedString(string: "Doable", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b5).value)!, NSAttributedString.Key.foregroundColor: UIColor.purple.adjust(by: 20.0) ?? UIColor.white])
+				case .LowPriority:
+					view.tintColor = UIColor.blue.adjust(by: -20.0) ?? UIColor.blue
+					view.textLabel?.attributedText = NSMutableAttributedString(string: "Touch and go", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b5).value)!, NSAttributedString.Key.foregroundColor: UIColor.blue.adjust(by: 60.0) ?? UIColor.white])
+			}
+		}
+		return view
+	}
+	
+	func numberOfSections() -> Int {
+		return SectionType.allCases.count
 	}
 }

@@ -11,18 +11,10 @@ import MessageUI
 
 class SettingsViewController: UIViewController {
     
-    enum MenuStructure: Int {
-        case TaskLimit = 0
-		case Stats
-		case YesterdayReview
-        case About
-        case Review
-        case Contact
-    }
-    
     weak var coordinator: SettingsCoordinator?
     
-    var persistentContainer: PersistentContainer?
+	// move to view model?
+    weak var persistentContainer: PersistentContainer?
     
     var viewModel: SettingsViewModel?
     
@@ -46,7 +38,7 @@ class SettingsViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -67,7 +59,7 @@ class SettingsViewController: UIViewController {
     @objc
     func handleBack() {
 		navigationController?.dismiss(animated: true, completion: {
-//			self.coordinator?.parentCoordinator?.showReview(self.persistentContainer)
+
 		})
     }
     
@@ -89,9 +81,9 @@ class SettingsViewController: UIViewController {
         coordinator?.showFeedback(mailVc)
     }
     
-    //https://itunes.apple.com/app/id1454444680?mt=8
+    //link to be updated
     func writeReview() {
-        let productURL = URL(string: "https://itunes.apple.com/app/id1454444680?mt=8")! // to be changed
+        let productURL = URL(string: "https://itunes.apple.com/app/id1454444680?mt=8")!
         var components = URLComponents(url: productURL, resolvingAgainstBaseURL: false)
         
         components?.queryItems = [
@@ -110,6 +102,44 @@ class SettingsViewController: UIViewController {
 			self.coordinator?.parentCoordinator?.showReview(self.persistentContainer, mainViewController: nil)
 		})
 	}
+	
+	func confirmDeleteCategoryData() {
+		let closure = { () in
+			self.deleteCategoryData()
+		}
+		coordinator?.deleteBox(self, deletionClosure: closure, title: "Would you like to delete all categories?", message: "Data is unrecoverable")
+	}
+	
+	func confirmDeleteAllData() {
+		let closure = { () in
+			self.deleteAllData()
+		}
+		coordinator?.deleteBox(self, deletionClosure: closure, title: "Would you like to delete all data?", message: "Data is unrecoverable")
+	}
+	
+	// viewModel?
+	func deleteAllData() {
+		guard let persistentContainer = persistentContainer else { return }
+		let _ = persistentContainer.deleteAllRecordsIn(entity: Day.self)
+		// Task/BigListTask entity is deletion is cascaded that's why it's missing
+		let _ = persistentContainer.deleteAllRecordsIn(entity: CategoryList.self)
+		let _ = persistentContainer.deleteAllRecordsIn(entity: BackLog.self)
+		let _ = persistentContainer.deleteAllRecordsIn(entity: Stats.self)
+		let _ = persistentContainer.deleteAllRecordsIn(entity: StatsCategoryComplete.self)
+	}
+	
+	func deleteCategoryData() {
+		guard let persistentContainer = persistentContainer else { return }
+		let _ = persistentContainer.deleteAllRecordsIn(entity: CategoryList.self)
+		let _ = persistentContainer.deleteAllRecordsIn(entity: BackLog.self)
+	}
+	
+	func reloadData() {
+		DispatchQueue.main.async {
+			self.tableView.reloadData()
+		}
+		
+	}
 }
 
 extension SettingsViewController: MFMailComposeViewControllerDelegate {
@@ -119,8 +149,40 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
+	
+	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+		let view = view as? UITableViewHeaderFooterView
+		
+		if #available(iOS 10, *) {
+			view?.contentView.backgroundColor = .black
+		} else {
+			view?.backgroundView?.backgroundColor = .black
+		}
+		
+		let size: CGFloat = Theme.Font.FontSize.Standard(.b4).value
+		view?.textLabel?.font = UIFont(name: Theme.Font.Regular, size: size)
+	}
+	
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		let view = UITableViewHeaderFooterView()
+		view.backgroundView?.backgroundColor = .clear
+		view.textLabel?.textColor = UIColor.white.withAlphaComponent(0.7)
+		return view
+	}
+	
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		guard let _viewModel = viewModel else { return "Unknown" }
+		return _viewModel.titleForSection(sectionNum: section)
+	}
+	
+	func numberOfSections(in tableView: UITableView) -> Int {
+		guard let _viewModel = viewModel else { return 0 }
+        return _viewModel.sectionsCount()
+	}
+	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.menu.count ?? 0
+		guard let _viewModel = viewModel else { return 0 }
+		return _viewModel.rowsInSection(section: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -139,22 +201,10 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let menu = MenuStructure(rawValue: indexPath.row) {
-            switch menu {
-                case .TaskLimit:
-					coordinator?.showTaskLimit(persistentContainer)
-				case .Stats:
-					coordinator?.showStats(persistentContainer)
-				case .YesterdayReview:
-					dismissAndShowReview()
-                case .About:
-                    coordinator?.showAbout(nil)
-                case .Review:
-                    self.writeReview()
-                case .Contact:
-                    self.emailFeedback()
-            }
-        }
+		
+		guard let _viewModel = viewModel else { return }
+		guard let _persistentContainer = persistentContainer else { return }
+		_viewModel.didSelectRow(tableView, indexPath: indexPath, delegate: self, persistentContainer: _persistentContainer)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

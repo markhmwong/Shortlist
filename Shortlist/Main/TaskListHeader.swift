@@ -54,32 +54,30 @@ class TaskListHeader: UIView {
         nameFormatter.dateFormat = "MMMM"
         let monthString = nameFormatter.string(from: currentDate)
         let str = date!.toString(format: "dd")
-        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str) ", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.strokeWidth : -3.0, NSAttributedString.Key.strokeColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleBold, size: Theme.Font.FontSize.Standard(.h3).value)!])
-		attributedStr.append(NSAttributedString(string: "\(monthString)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleRegular, size: Theme.Font.FontSize.Standard(.h3).value)!]))
+        var attributedStr: NSMutableAttributedString = NSMutableAttributedString(string: "\(str) ", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.strokeWidth : -3.0, NSAttributedString.Key.strokeColor: UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b1).value)!])
+		attributedStr.append(NSAttributedString(string: "\(monthString)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b1).value)!]))
         label.attributedText = attributedStr
         return label
     }()
     
-    lazy var reviewTitle: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = NSAttributedString(string: "Yesterday's Review", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b1).value)!])
-        return label
-    }()
+
     
-    lazy var weather: UITextView = {
-        let label = UITextView()
-        label.textContainerInset = .zero
-        label.textContainer.lineFragmentPadding = 0
-        label.textAlignment = .center
-        label.backgroundColor = .clear
-        label.isScrollEnabled = false
-        label.isEditable = false
-        label.isSelectable = false
-        label.translatesAutoresizingMaskIntoConstraints = false
-		label.attributedText = NSAttributedString(string: "A sunny day ahead with a light breeze.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleRegular, size: Theme.Font.FontSize.Standard(.b4).value)!])
-        return label
-    }()
+	// find weather api that allows lots of requests
+	// or use google firebase
+//    lazy var weather: UITextView = {
+//        let label = UITextView()
+//        label.textContainerInset = .zero
+//        label.textContainer.lineFragmentPadding = 0
+//        label.textAlignment = .center
+//        label.backgroundColor = .clear
+//        label.isScrollEnabled = false
+//        label.isEditable = false
+//        label.isSelectable = false
+//		label.backgroundColor = .clear
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//		label.attributedText = NSAttributedString(string: "A sunny day ahead with a light breeze.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleRegular, size: Theme.Font.FontSize.Standard(.b4).value)!])
+//        return label
+//    }()
     
     lazy var dateBackgroundView: UIView = {
         let view = UIView()
@@ -101,8 +99,7 @@ class TaskListHeader: UIView {
     convenience init(date: Date) {
         self.init(frame: .zero)
         self.date = date
-        translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor(red:0.08, green:0.08, blue:0.08, alpha:1.0)
+
         setupView()
     }
     
@@ -121,35 +118,38 @@ class TaskListHeader: UIView {
     }
     
     private func setupView() {
-		heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.15).isActive = true
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = UIColor(red:0.05, green:0.05, blue:0.05, alpha:1.0)
+		
+		heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.04).isActive = true
         widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         
         addSubview(dateBackgroundView)
         dateBackgroundView.addSubview(dateTitle)
         
-//        let estimatedFrame = NSString(string: dateTitle.text!).boundingRect(with: CGSize(width: bounds.width, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h0).value)!], context: nil)
-        
         dateBackgroundView.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -10.0, right: 0.0), size: CGSize(width: 0.0, height: UIScreen.main.bounds.height * 0.12))
-		dateTitle.anchorView(top: dateBackgroundView.topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 20.0, bottom: 0.0, right: 0.0), size: .zero)
 
-		addSubview(weather)
-		weather.anchorView(top: dateTitle.bottomAnchor, bottom: nil, leading: dateTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
+
+//		addSubview(weather)
+//		weather.anchorView(top: dateTitle.bottomAnchor, bottom: nil, leading: dateTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
+
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+		dateTitle.anchorView(top: dateBackgroundView.topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: centerYAnchor, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
     }
     
     func heightRatioForHeader() -> CGFloat {
         switch UIDevice.current.screenType.rawValue {
-        case UIDevice.ScreenType.iPhones_6Plus_6sPlus_7Plus_8Plus.rawValue, UIDevice.ScreenType.iPhones_6_6s_7_8.rawValue:
-            return 4.0
-        case UIDevice.ScreenType.iPhones_5_5s_5c_SE.rawValue:
-            return 4.0
-        case UIDevice.ScreenType.iPhoneXSMax.rawValue, UIDevice.ScreenType.iPhoneX_iPhoneXS.rawValue, UIDevice.ScreenType.iPhoneXR.rawValue:
-            return 4.0
-        default:
-            return 4.0
+			case UIDevice.ScreenType.iPhones_6Plus_6sPlus_7Plus_8Plus.rawValue, UIDevice.ScreenType.iPhones_6_6s_7_8.rawValue:
+				return 4.0
+			case UIDevice.ScreenType.iPhones_5_5s_5c_SE.rawValue:
+				return 4.0
+			case UIDevice.ScreenType.iPhoneXSMax.rawValue, UIDevice.ScreenType.iPhoneX_iPhoneXS.rawValue, UIDevice.ScreenType.iPhoneXR.rawValue:
+				return 4.0
+			default:
+				return 4.0
         }
     }
 }

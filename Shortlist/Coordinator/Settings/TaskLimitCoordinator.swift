@@ -10,14 +10,17 @@ import UIKit
 
 class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
-    weak var parentCoordinator: SettingsCoordinator?
+    weak var parentCoordinator: SettingsCoordinator? = nil
     
     var childCoordinators: [Coordinator] = [Coordinator]()
     
     var navigationController: UINavigationController
     
-    init(navigationController:UINavigationController) {
+	weak var parentViewController: SettingsViewController? = nil
+	
+	init(navigationController:UINavigationController, parentViewController: SettingsViewController?) {
         self.navigationController = navigationController
+		self.parentViewController = parentViewController
     }
     
     // stats viewcontroller begin here
@@ -27,8 +30,8 @@ class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegat
             print("Persistent Container not loaded")
             return
         }
-        let viewModel = TaskLimitViewModel()
-        let vc = TaskLimitViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel)
+        let viewModel = TaskLimitViewModel(persistentContainer)
+		let vc = TaskLimitViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel, parentViewController: parentViewController)
         let nav = UINavigationController(rootViewController: vc)
         DispatchQueue.main.async {
             self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
@@ -36,8 +39,7 @@ class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegat
     }
     
     func getTopMostViewController() -> UIViewController? {
-        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        
+		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
         }

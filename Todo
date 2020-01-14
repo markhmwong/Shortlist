@@ -1,28 +1,79 @@
 #  Tasks
+@Keywords
+Get Things Done
 
-Import calendar
+@Feature 1.1
+Import calendar 1.1
+Priority view / Simple List View (Card view - swipe horizontal)
+stats - time completed task // maybe later
 
-Big List
+Pressing - 1
+Doable - 4
+Touch and Go - 5
 
+@Priority
+Challenges (weekly) extra points
+	Exercise challenge
+		walk for...
+	Rest Challenge
+		take a 15minute rest
+	spend time with...
+	
+Awards (Daily)
+	- task streaks
+	Limit tasks to 10
+	- When day ends and transitions to a new day, we must update the table, show review
+	- add accolades to review page
+		- fast task completion of 2 or more tasks < 10mins from setting : Fastest Hands in the West
+		- fast task completion of 3 or more tasks < 15mins : The Quick Draw
+		- fast task complete of 4 or more tasks < 20mins : The Fast and the Furious
+		- completed all tasks : The Completionist, The Perfectionist,
+		- did not complete all tasks : Work Shy, Idler, AFKer, Funday, The Politician
+		- Completed one Pressing task:
+		- completed two or more Pressing tasks : The President,
+		- completed two or more Doable tasks: The Workhorse
+		- completed 4 or more doable tasks: The Terminator, The Doer, 
+		- completed two or more Touch and Go tasks : The Procrastinator,
+		- completed three or more of the same category : The Professional, The Specialist,
+		- completed all tasks (full list) when none were completed yesterday : The Avenger, The Return of the King, The Unchained
+		- completed no tasks when all were completed yesterday : The Couch Potato, The Tenderizer
+		- all tasks completed before lunch: The Braveheart
+		- set multiple reminders : The Reminder
+		- incomplete tasks with reminders : The Forgotten
+		- all tasks completed near the end of the day :
+		- preplan : The Planner
+	
+- main features
+	- coordinator, remove child coordinators when closed
+	
+	- preplan for tomorrow
+		- reminders
+	- limit tasks for each type of priority
+		- warning condition when posting
+		- fix for watch there's a comment look for it
+	- card display
+	- stats
+		- add priority stats
+		- end day summariser
+		
+	- calendar (next version)
+- test
+	- reminders a new reminder and an edited reminder
+	- deleted reminders
+
+- stats
+	- top 5 categories with completed tasks over the entire life time
+	- top 5 categories with incomplete tasks over the entire life time
+
+@Feature
 Tutorial / Introduction Page
 	- Explain what Shortlist is
 		- Ordered by Priority
 		- Limits tasks you are allowed to add to focus on during the day
 		- Adjustable limits
 
-Priority view / Simple View
-
-bug when skipping a day how to deal with multiple days skipped?
-
-adding task
-	allow to add in place initially - add reminder?
-	bring up edit task
-
-review
-	add "donate" (nagware) in review or a thank you email. donation only appears if you haven't completed all your tasks, just need to add it into the header
-	allow to manually bring up the review in settings
-	
-stats to record
+@Feature
+possible stats to record
     most common time of day to add a task
     favorite day to complete tasks
     favorite day to do nothing
@@ -34,25 +85,37 @@ stats to record
     busiest month
     calculate tasks per day, tasks per month, tasks per minute, tasks per hour, tasks per year on the task page
 
-editing task page
-	save reminder (for today only) place time picker in row
-	save label/category (set categories work/sport/play/)
-	swiping down ask to discard changes to confirm
-
+@Check
 initialise default values on first install
     tasklimit
     day
 
-a editing task page - allows editing of task title and description as well as setting an alarm for today only @done
+@Feature
+notifications
+	daily notification
+	frequent notifications that occur throughout the day
+
+# Post Launch
+@Feature
+add a completed list of tasks
+
+editing task page
+	- swiping down ask to discard changes to confirm
+
+@Testing
 unit tests
-Fix new day review
-fixed length on the xaxis in the charts
+	- day entity tests
+	- task entity tests
+
+@Design
+priority colour - design issue (orange red to blue to light  blue)
+
 
 ### settings options
 sounds for alert
 add alert/reminder for task
 
-priority colour - design issue (orange red to blue to light  blue)
+
 
 ### Apple Watch
 
@@ -60,13 +123,27 @@ priority colour - design issue (orange red to blue to light  blue)
 weather in title (not a priority)
 lock tasks? inconvenient perhaps
 
+# Completed tasks
 
 graph
-    add bottom line for graph
+    add bottom line for graph @done
     add maximum line for graph @done
     height of one complete task is too small @done
 
 iOS
+	fixed section titles for edit task @done
+	fixed pickerview hidden toggle @done
+	Confirm delete all data @done
+	Fix new day review @done
+	Fixed length on the xaxis in the charts @done
+	save reminder (for today only) place time picker in row @done
+	save label/category (set categories work/sport/play/) @done
+	a editing task page - allows editing of task title and description as well as setting an alarm for today only @done
+	adding task will also add the task to backlog of tasks @done
+	add "donate" (nagware) in review or a thank you email. donation only appears if you haven't completed all your tasks, just need to add it into the header @done
+	allow to manually bring up the review in settings @done@
+	allow to add in place initially - add reminder? @done
+	bring up edit task @done
     tip jar @done
     add iap products @done
     reformat the task cell to show a title and description @done
@@ -79,7 +156,7 @@ iOS
         - show incomplete tasks @done
         - average @done
         - chart title @done
-        - fill remaining days for week @done
+        - fill remaining days for week @todo
     when selecting task, update number of tasks complete @done
     leave review @done
     about @done

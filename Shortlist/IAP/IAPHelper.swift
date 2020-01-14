@@ -104,7 +104,7 @@ extension IAPHelper: SKProductsRequestDelegate {
     }
     
     public func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
-        print(transactions.count)
+//        print(transactions.count)
     }
 }
 
@@ -150,7 +150,6 @@ extension IAPHelper: SKPaymentTransactionObserver {
     guard let productIdentifier = transaction.original?.payment.productIdentifier else { return }
     LocalProductManager.sharedInstance.restorePurchasesToKeyChain(productIdentifier: productIdentifier)
     deliverPurchaseNotificationFor(identifier: productIdentifier)
-    print(productIdentifier)
     SKPaymentQueue.default().finishTransaction(transaction)
   }
 

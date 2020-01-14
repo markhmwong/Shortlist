@@ -19,4 +19,7 @@ extension CategoryList {
 
     @NSManaged public var name: String?
 
+	func create(name: String) {
+		self.name = name
+	}
 }

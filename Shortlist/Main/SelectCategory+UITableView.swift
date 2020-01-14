@@ -15,9 +15,13 @@ extension SelectCategoryViewController: UITableViewDataSource, UITableViewDelega
 			tableView.setEmptyMessage("Add a new category by selecting the top right button!")
 			return 0
 		}
+		
+		if (categories.count == 0) {
+			tableView.setEmptyMessage("Add a new category by selecting the top right button!")
+			return 0
+		}
+		
 		tableView.restoreBackgroundView()
-		
-		
 		return categories.count
 	}
 	
@@ -37,9 +41,7 @@ extension SelectCategoryViewController: UITableViewDataSource, UITableViewDelega
 			cell.textLabel?.textColor = UIColor.white
 			return cell
 		}
-		
-		
-		
+
 		return viewModel.tableViewCell(tableView, indexPath: indexPath, category: results[indexPath.row].name ?? "Unknown")
 	}
 	
@@ -50,8 +52,8 @@ extension SelectCategoryViewController: UITableViewDataSource, UITableViewDelega
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		let cell = tableView.cellForRow(at: indexPath)
-		guard let mvc = delegate else { return }
-		guard let vm = mvc.viewModel else { return }
+//		guard let mvc = delegate else { return }
+		guard let vm = delegate.viewModel else { return }
 		vm.category = cell?.textLabel?.text
 		coordinator?.dimiss(nil)
 	}

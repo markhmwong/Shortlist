@@ -26,11 +26,15 @@ class TaskLimitViewController: UIViewController {
     
     var viewModel: TaskLimitViewModel?
     
-    init(persistentContainer: PersistentContainer, coordinator: TaskLimitCoordinator, viewModel: TaskLimitViewModel) {
-        super.init(nibName: nil, bundle: nil)
+	// parentViewController
+	weak var pvc: SettingsViewController? = nil
+	
+	init(persistentContainer: PersistentContainer, coordinator: TaskLimitCoordinator, viewModel: TaskLimitViewModel, parentViewController: SettingsViewController?) {
         self.coordinator = coordinator
         self.persistentContainer = persistentContainer
         self.viewModel = viewModel
+		self.pvc = parentViewController
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,6 +44,7 @@ class TaskLimitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let vm = viewModel else { return }
+		
         view.backgroundColor = .black
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         title = "Daily Limit"
@@ -51,59 +56,66 @@ class TaskLimitViewController: UIViewController {
     
     @objc
     func handleBack() {
+		guard let _pvc = pvc else {
+			navigationController?.dismiss(animated: true, completion: nil)
+			return
+		}
+		_pvc.reloadData()
         navigationController?.dismiss(animated: true, completion: nil)
-    }
-    
-    func currentTaskLimit() -> Int {
-        if let taskLimit = KeychainWrapper.standard.integer(forKey: KeyChainKeys.TaskLimit) {
-            return taskLimit
-        }
-        return 3
     }
 }
 
 extension TaskLimitViewController: UITableViewDelegate, UITableViewDataSource {
+	
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		guard let _viewModel = viewModel else { return nil }
+		return _viewModel.headerForSection(section: section)
+	}
+	
+	func numberOfSections(in tableView: UITableView) -> Int {
+		guard let viewModel = viewModel else { return 3 }
+		return viewModel.numSections()
+	}
+	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else {
-            return 0
+            return 1
         }
-        return viewModel.limits.count
+		return viewModel.rowsFor(section: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel?.cellId ?? "TaskLimitCellId", for: indexPath)
-        cell.backgroundColor = .clear
-        // uninitialised view model
-        guard let viewModel = viewModel else {
-            cell.textLabel?.text = "\(0)"
-            cell.textLabel?.textColor = UIColor.white
-            return cell
-        }
-        
-        cell.accessoryType = .none
-        if (currentTaskLimit() == indexPath.row) {
-            cell.accessoryType = .checkmark
-        }
-        cell.textLabel?.text = "\(viewModel.limits[indexPath.row])"
-        cell.textLabel?.textColor = UIColor.white
-        return cell
+		
+		guard let _viewModel = viewModel else {
+			// to do
+			let cell = tableView.dequeueReusableCell(withIdentifier: viewModel?.cellId ?? "TaskLimitCellId", for: indexPath)
+			cell.backgroundColor = .clear
+			cell.accessoryType = .none
+			cell.textLabel?.text = "\(indexPath.row)"
+			cell.textLabel?.textColor = UIColor.white
+			return cell
+		}
+		return _viewModel.tableViewCell(tableView, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+		guard let _viewModel = viewModel else { return }
+		guard let _persistentContainer = persistentContainer else { return }
+		
+		let currTaskLimit = _viewModel.taskLimitFor(section: indexPath.section) - 1 // we -1 to adjust for the row
+		
         // find and uncheck the previous limit
-        let cell = tableView.cellForRow(at: IndexPath(row: currentTaskLimit(), section: 0))
-        cell?.accessoryType = .none
+		let cell = tableView.cellForRow(at: IndexPath(row: currTaskLimit, section: indexPath.section))
+		cell?.accessoryType = .none
         
         // checkmark the new limit
         let newCell = tableView.cellForRow(at: indexPath)
         newCell?.accessoryType = .checkmark
         
         // save
-        KeychainWrapper.standard.set(indexPath.row, forKey: KeyChainKeys.TaskLimit)
-        let today = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-        guard let viewModel = viewModel else { return }
-        today.taskLimit = Int16(viewModel.limits[indexPath.row])
+		_viewModel.updateKeychain(indexPath: indexPath)
+		_viewModel.updateDayObject(persistentContainer: _persistentContainer)
+		
         persistentContainer?.saveContext()
         
         // remove selected highlight in table

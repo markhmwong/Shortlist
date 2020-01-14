@@ -11,13 +11,22 @@ import CoreData
 import WatchConnectivity
 import os
 
-class MainViewController: UIViewController {
+protocol MainViewControllerProtocol {
+	func reloadTableView()
+	func showCategory()
+	func showTimePicker()
+	func updateCategory()
+	func postTask(taskName: String, category: String, priorityLevel: Int)
+	var viewModel: MainViewModel? { get set }
+}
+
+class MainViewController: UIViewController, PickerViewContainerProtocol, MainViewControllerProtocol {
     
-    weak var coordinator: MainCoordinator?
+    weak var coordinator: MainCoordinator? = nil
     
     var viewModel: MainViewModel? = nil
     
-    var persistentContainer: PersistentContainer?
+    weak var persistentContainer: PersistentContainer? = nil
   
 	private lazy var mainInputView: MainInputView = {
 		let view = MainInputView(delegate: self)
@@ -28,12 +37,12 @@ class MainViewController: UIViewController {
 	}()
 	
 	private lazy var pickerViewContainer: PickerViewContainer = {
-		let view = PickerViewContainer(delegate: self)
+		let view = PickerViewContainer(delegateP: self)
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	
-    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Day>? = {
+    private lazy var fetchedResultsController: NSFetchedResultsController<Day>? = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
         // Configure Fetch Request
@@ -67,8 +76,7 @@ class MainViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = Theme.Button.cornerRadius
 		button.backgroundColor = Theme.Button.backgroundColor
-        button.setTitle("Add", for: .normal)
-		button.setTitleColor(Theme.Button.textColor, for: .normal)
+		button.setAttributedTitle(NSAttributedString(string: "Add Task", attributes: [NSAttributedString.Key.font : UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!, NSAttributedString.Key.foregroundColor : Theme.Button.textColor]), for: .normal)
         button.addTarget(self, action: #selector(handleAddButton), for: .touchUpInside)
         return button
     }()
@@ -81,10 +89,6 @@ class MainViewController: UIViewController {
 	var bottomConstraint: NSLayoutConstraint?
     
 	var pickerViewBottomConstraint: NSLayoutConstraint?
-	
-    init(coreDataManager: CoreDataManager? = nil) {
-        super.init(nibName: nil, bundle: nil)
-    }
     
     init(persistentContainer: PersistentContainer? = nil, viewModel: MainViewModel) {
         self.persistentContainer = persistentContainer
@@ -99,13 +103,16 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		
 		let today: Int16 = Calendar.current.todayToInt()
+		// to do review these comments in this entire function
+		// background thread fill uninitialised days over the last 30 days - for stats
+//		searchNilDaysOverThirtyDays()
 		
-		if let reviewDate = KeychainWrapper.standard.integer(forKey: KeyChainKeys.ReviewDate) {
+		if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
 			if today != Int16(reviewDate) {
 				// update keychain
-				KeychainWrapper.standard.set(Int(today), forKey: KeyChainKeys.ReviewDate)
+				KeychainWrapper.standard.set(Int(today), forKey: SettingsKeyChainKeys.ReviewDate)
+				
 				// show preview
 				loadReview()
 			}
@@ -116,7 +123,12 @@ class MainViewController: UIViewController {
 			setupView()
 			AppStoreReviewManager.requestReviewIfAppropriate()
 		}
+		
 		keyboardNotifications()
+		initialiseStatEntity()
+		
+		
+		// mostly testing functions
 //        deleteAllData()
 //        initialiseSampleData()
 //		deleteAllCategoryListData()
@@ -129,6 +141,38 @@ class MainViewController: UIViewController {
         // test watch
 //        syncWatch()
     }
+	
+	func initialiseData(_ dayObject: Day) {
+		guard let _viewModel = viewModel else { return }
+		_viewModel.sortedSet = _viewModel.sortTasks(dayObject)
+	}
+	
+	func initialiseStatEntity() {
+		guard let _persistentContainer = persistentContainer else { return }
+		guard _persistentContainer.fetchStatEntity() != nil else {
+			let stat = Stats(context: _persistentContainer.viewContext)
+			stat.id = Int16(0)
+			stat.favoriteTimeToComplete = nil
+			stat.totalCompleteTasks = 0
+			stat.totalTasks = 0
+			stat.totalIncompleteTasks = 0
+			stat.statsToComplete = Set<StatsCategoryComplete>() as NSSet
+			stat.statsToIncomplete = Set<StatsCategoryIncomplete>() as NSSet
+			
+			let complete = StatsCategoryComplete(context: _persistentContainer.viewContext)
+			complete.name = "Uncategorized"
+			complete.completeCount = 0
+			stat.addToStatsToComplete(complete)
+			
+			let incomplete = StatsCategoryIncomplete(context: _persistentContainer.viewContext)
+			incomplete.name = "Uncategorized"
+			incomplete.incompleteCount = 0
+			stat.addToStatsToIncomplete(incomplete)
+			
+			_persistentContainer.saveContext()
+			return
+		}
+	}
 	
 	func keyboardNotifications() {
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -165,7 +209,9 @@ class MainViewController: UIViewController {
                 let totalCompleted = Int.random(in: completedTasksRange)
                 
                 dayObject = Day(context: persistentContainer.viewContext)
-                dayObject?.taskLimit = Int16(limit)
+				dayObject?.highPriorityLimit = Int16(Int.random(in: 1...3))
+				dayObject?.mediumPriorityLimit = Int16(Int.random(in: 1...5))
+				dayObject?.lowPriorityLimit = Int16(Int.random(in: 1...5))
                 dayObject?.createdAt = date as NSDate
                 dayObject?.totalCompleted = Int16(totalCompleted)
                 dayObject?.totalTasks = Int16(totalTasks)
@@ -174,16 +220,33 @@ class MainViewController: UIViewController {
                 dayObject?.day = Int16(Calendar.current.dayDate(date: date))
             }
         }
+		persistentContainer.saveContext()
     }
-    
-    private func deleteAllData() {
+	
+	private func searchNilDaysOverThirtyDays() {
         guard let persistentContainer = persistentContainer else { return }
-        persistentContainer.deleteAllRecordsIn(entity: Day.self)
+		for day in 1...30 {
+			let date = Calendar.current.forSpecifiedDay(value: -day)
+			
+			if (persistentContainer.fetchDayEntity(forDate: date) == nil) {
+				
+				// create empty day
+				let dayObj = Day(context: persistentContainer.viewContext)
+				dayObj.createNewDayAsPaddedDay(date: date)
+				persistentContainer.saveContext()
+			}
+		}
+	}
+    
+	// for testing purposes - now in settings
+    private func deleteAllData() {
+//        guard let persistentContainer = persistentContainer else { return }
+//        persistentContainer.deleteAllRecordsIn(entity: Day.self)
     }
 	
 	private func deleteAllCategoryListData() {
-        guard let persistentContainer = persistentContainer else { return }
-        persistentContainer.deleteAllRecordsIn(entity: BigListCategories.self)
+//        guard let persistentContainer = persistentContainer else { return }
+//        persistentContainer.deleteAllRecordsIn(entity: BackLog.self)
 	}
     
     // disabled
@@ -202,12 +265,12 @@ class MainViewController: UIViewController {
 //        } catch (let err) {
 //            print("Error encoding taskList \(err)")
 //        }
-//
 //    }
 	
     private func setupView() {
+		
         guard let viewModel = viewModel else { return }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "List", style: .plain, target: self, action: #selector(handleBigList))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(handleOptions))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(handleSettings))
 		
 		viewModel.registerCell(tableView)
@@ -230,7 +293,6 @@ class MainViewController: UIViewController {
     private func loadReview() {
         coordinator?.showReview(persistentContainer, mainViewController: self)
     }
-
     
     func loadData() {
         //load today's current data into dayEntity
@@ -240,17 +302,21 @@ class MainViewController: UIViewController {
         let todaysDate = Calendar.current.today()
         var dayObject: Day? = persistentContainer.fetchDayManagedObject(forDate: todaysDate)
         
-        if (dayObject == nil) {
+        if let _dayObject = dayObject {
+			initialiseData(_dayObject)
+		} else {
             dayObject = Day(context: persistentContainer.viewContext)
             dayObject?.createdAt = Calendar.current.today() as NSDate
-            dayObject?.taskLimit = 5 //default limit
+			dayObject?.highPriorityLimit = 1
+			dayObject?.mediumPriorityLimit = 3
+			dayObject?.lowPriorityLimit = 3
             dayObject?.month = Calendar.current.monthToInt() // Stats
             dayObject?.year = Calendar.current.yearToInt() // Stats
             dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats
-            // possible loading graphic todo            
-            persistentContainer.saveContext()
-        }
-
+			dayObject?.dayToTask = Set<Task>() as NSSet
+		}
+		persistentContainer.saveContext()
+		
 		DispatchQueue.main.async {
 			do {
 				try self.fetchedResultsController?.performFetch()
@@ -276,25 +342,127 @@ class MainViewController: UIViewController {
 			self.mainInputView.taskFirstResponder()
 		}
 	}
-    
-    @objc
-    func handleAddButton() {
+	
+	func showCategory() {
+		coordinator?.showCategory(persistentContainer, mainViewController: self)
+	}
+	
+	func postTask(taskName: String, category: String, priorityLevel: Int) {
+		// to do add priority
         guard let persistentContainer = persistentContainer else {
             fatalError("Error loading core data manager while loading data")
         }
-        guard let vm = viewModel else { return }
-        guard let day = vm.dayEntity else { return }
-		vm.category = "Uncategorized"
-        // bug on new day
-        os_log("CurrTasks %d, Totaltasks %d", log: Log.task, type: .info, day.totalTasks, day.taskLimit)
 		
-        if (day.totalTasks < day.taskLimit) {
-            //        syncWatch()
+		guard let vm = viewModel else { return }
+        guard let day = vm.dayEntity else { return }
+		
+		let totalTasks = vm.totalTasksForPriority(day, priorityLevel: priorityLevel)
+		
+		//move to view model
+		if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) ?? totalTasks) {
+			// warning
+			coordinator?.showAlertBox("High Priority Limit Reached")
+			return
+		} else if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? totalTasks) {
+			coordinator?.showAlertBox("Medium Priority Limit Reached")
+		} else if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? totalTasks) {
+			// warning
+			coordinator?.showAlertBox("Low Priority Limit Reached")
+		} else {
+			let context: NSManagedObjectContext  = persistentContainer.viewContext
+			let dayObject: Day = context.object(with: day.objectID) as! Day
+			let createdAt: Date = Date()
+			let reminderDate: Date = pickerViewContainer.getValues()
+			
+			dayObject.totalTasks += 1
+			let task: Task = Task(context: context)
+			task.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
+			dayObject.addToDayToTask(task)
+			
+			// check if category exists
+			if (persistentContainer.categoryExistsInBackLog(category)) {
+				if let bigListCategory: BackLog = persistentContainer.fetchBigListCategory(forDate: category) {
+					let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
+					bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
+					bigListCategory.addToBackLogToBigListTask(bigListTask)
+				} else {
+					//failed - pop up
+				}
+			} else {
+				
+				// create category
+				let bigListCategory: BackLog = BackLog(context: persistentContainer.viewContext)
+				bigListCategory.create(name: category)
+				let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
+				bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
+				bigListCategory.addToBackLogToBigListTask(bigListTask)
+				let categoryList: CategoryList = CategoryList(context: persistentContainer.viewContext)
+				categoryList.create(name: category)
+			}
+
+			//create notification
+			if (reminderDate.timeIntervalSince(createdAt) > 0.0) {
+				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [NotificationKeys.Title : taskName], timeRemaining: reminderDate.timeIntervalSince(createdAt))
+			}
+			
+			// add to stats
+			if let stats: Stats = persistentContainer.fetchStatEntity() {
+				stats.addToTotalTasks(numTasks: 1)
+				stats.addToTotalIncompleteTasks(numTasks: 1)
+			}
+			persistentContainer.saveContext()
+		}
+	}
+	
+	func showTimePicker() {
+		mainInputView.taskResignFirstResponder()
+		guard let vm = viewModel else { return }
+		
+		view.addSubview(pickerViewContainer)
+		pickerViewContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: vm.keyboardSize.height))
+		pickerViewBottomConstraint = NSLayoutConstraint(item: pickerViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+		view.addConstraint(pickerViewBottomConstraint!)
+	}
+
+	func closeTimePicker() {
+		guard let vm = viewModel else { return }
+		pickerViewBottomConstraint?.constant = vm.keyboardSize.height
+		UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut], animations: {
+			self.view.layoutIfNeeded()
 			self.focusOnNewTask()
-        } else {
-            // show alert todo
-            coordinator?.showAlertBox("Over the Limit")
-        }
+		}) { (complete) in
+			//
+		}
+	}
+	
+	func reloadTableView() {
+		DispatchQueue.main.async {
+			self.tableView.reloadData()
+		}
+	}
+	
+    @objc
+    func handleAddButton() {
+        guard let vm = viewModel else { return }
+//        guard let day = vm.dayEntity else { return }
+		
+		// set the default and initial category as Uncategorized
+		vm.category = "Uncategorized"
+		
+		// attention is brought to the
+		self.focusOnNewTask()
+		
+		
+        // bug on new day
+//        os_log("CurrTasks %d, Totaltasks %d", log: Log.task, type: .info, day.totalTasks, day.taskLimit)
+		
+//		if (day.totalTasks < day.taskLimit) {
+//            //        syncWatch()
+//			self.focusOnNewTask()
+//        } else {
+//            // show alert todo
+//            coordinator?.showAlertBox("Over the Limit")
+//        }
     }
 	
     @objc
@@ -304,9 +472,11 @@ class MainViewController: UIViewController {
     }
     
     @objc
-    func handleBigList() {
-        guard let coordinator = coordinator else { return }
-		coordinator.showBigList(persistentContainer)
+    func handleOptions() {
+		// change from backlog to show a list of options
+		
+		guard let coordinator = self.coordinator else { return }
+		coordinator.showOptions(persistentContainer)
     }
 	
 	@objc
@@ -337,68 +507,21 @@ class MainViewController: UIViewController {
 			}
 		}
 	}
-	
-	// handle the saving of task from MainInputView
-	func saveInput(task: String, category: String) {
-        guard let persistentContainer = persistentContainer else {
-            fatalError("Error loading core data manager while loading data")
-        }
-		guard let vm = viewModel else { return }
-        guard let day = vm.dayEntity else { return }
-
-		let context = persistentContainer.viewContext
-		let dayObject = context.object(with: day.objectID) as! Day
-		dayObject.totalTasks += 1
-		let priority = Int(dayObject.totalTasks)
-		persistentContainer.createTask(toEntity: dayObject, context: context, idNum: Int(dayObject.totalTasks), taskName: task, categoryName: category)
-		persistentContainer.saveContext()
-		
-		//create notification
-		if (vm.timeInterval > 0.0) {
-			
-			LocalNotificationsService.shared.addReminderNotification(dateIdentifier: "Task \(priority)", notificationContent: nil, timeRemaining: vm.timeInterval)
-		}
-	}
-	
-	func showCategory() {
-		coordinator?.showCategory(persistentContainer, mainViewController: self)
-	}
-	
-	func postTask(task: String, category: String) {
-		saveInput(task: task, category: category)
-	}
-	
-	func showTimePicker() {
-		mainInputView.taskResignFirstResponder()
-		guard let vm = viewModel else { return }
-		
-		view.addSubview(pickerViewContainer)
-		pickerViewContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: vm.keyboardSize.height))
-		pickerViewBottomConstraint = NSLayoutConstraint(item: pickerViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-		view.addConstraint(pickerViewBottomConstraint!)
-	}
-
-	func closeTimePicker() {
-		guard let vm = viewModel else { return }
-		
-		pickerViewContainer.getValues()
-		
-		pickerViewBottomConstraint?.constant = vm.keyboardSize.height
-		
-		UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut], animations: {
-			self.view.layoutIfNeeded()
-			self.focusOnNewTask()
-		}) { (complete) in
-			//
-		}
-	}
-	
 }
 
 extension MainViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 		do {
             try fetchedResultsController?.performFetch()
+			// organise dictionary here
+			guard let _viewModel = viewModel else { return }
+			guard let dayObject = fetchedResultsController?.fetchedObjects?.first else {
+				return
+			}
+
+			let sortedSet = _viewModel.sortTasks(dayObject)
+			_viewModel.sortedSet = sortedSet
+			
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -412,63 +535,35 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
+	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let dayObjects = fetchedResultsController?.fetchedObjects else {
 			tableView.separatorColor = .clear
-			tableView.setEmptyMessage("Start with a new task by selecting Add")
+			tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
 			return 0
 		}
-		tableView.restoreBackgroundView()
-        let first = dayObjects.first
-        return first?.dayToTask?.count ?? 0
+		
+		if let day = dayObjects.first {
+			if (day.dayToTask?.count == 0) {
+				tableView.separatorColor = .clear
+				tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
+				return 0
+			} else {
+				tableView.restoreBackgroundView()
+				return day.dayToTask?.count ?? 0
+			}
+		} else {
+			return 0
+		}
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let viewModel = viewModel else {
+        guard let _viewModel = viewModel else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "taskCellId", for: indexPath) as! TaskCell
 			cell.textLabel?.text = "Unknown Task"
             return cell
         }
-        
-		let cell: TaskCell = viewModel.tableViewCell(tableView, indexPath: indexPath)
-
-		// move to viewmodel later
-		guard let dayObject = fetchedResultsController?.fetchedObjects?.first else {
-			return cell
-		}
-		
-		let sortedSet = viewModel.sortTasks(dayObject)
-		if (indexPath.row == 0) {
-			cell.backgroundColor = UIColor(red:0.29, green:0.08, blue:0.02, alpha:1.0)
-		}
-		cell.task = viewModel.taskForRow(sortedSet, indexPath: indexPath)
-		cell.stateOfTextView()
-		
-        cell.adjustDailyTaskComplete = { (task) in
-            if (task.complete) {
-                dayObject.totalCompleted += 1
-            } else {
-                dayObject.totalCompleted -= 1
-            }
-            self.persistentContainer?.saveContext()
-        }
-        
-        cell.updateWatch = { (task) in
-            //WCSession
-            let taskList = self.fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
-            var tempTaskStruct: [TaskStruct] = []
-            for task in taskList {
-                tempTaskStruct.append(TaskStruct(id: task.id, name: task.name!, complete: task.complete, priority: task.priority))
-            }
-            do {
-                let data = try JSONEncoder().encode(tempTaskStruct)
-                WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
-            } catch (let err) {
-                print("\(err)")
-            }
-        }
-		
-        cell.persistentContainer = persistentContainer
+		let cell: TaskCell = _viewModel.tableViewCell(tableView, indexPath: indexPath, fetchedResultsController: fetchedResultsController, persistentContainer: persistentContainer)
         return cell
     }
     
@@ -478,7 +573,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "delete") { (action, view, complete) in
-            
             let cell = tableView.cellForRow(at: indexPath) as! TaskCell
             let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
             
@@ -489,6 +583,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
 				if task.complete {
 					dayManagedObject.totalCompleted = dayManagedObject.totalCompleted - 1
 				}
+				
+				if let stats: Stats = self.persistentContainer?.fetchStatEntity() {
+					stats.removeFromTotalTasks(numTasks: 1)
+					if (task.complete) {
+						stats.removeFromTotalCompleteTasks(numTasks: 1)
+					} else {
+						stats.removeFromTotalIncompleteTasks(numTasks: 1)
+					}
+				}
+				
                 self.persistentContainer?.saveContext()
             }
             complete(true)
@@ -499,18 +603,20 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
+	
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-
+//		guard let _viewModel = viewModel else { return }
+		// is it a swap between rows or a swap between sections
+		
 		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
         let set = dayManagedObject.dayToTask as? Set<Task>
+		
         let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
             return taskA.priority < taskB.priority
         })
 
-        let sourceTask = sortedSet?[sourceIndexPath.row]
-        let destTask = sortedSet?[destinationIndexPath.row]
-
+        let sourceTask = sortedSet?[sourceIndexPath.section]
+        let destTask = sortedSet?[destinationIndexPath.section]
         let tempDestinationPriority = destTask?.priority
         destTask?.priority = sourceTask!.priority
         sourceTask?.priority = tempDestinationPriority!
@@ -537,7 +643,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
     }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		
+		guard let persistentContainer = persistentContainer else { return }
 		//place in viewmodel
 		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
         let set = dayManagedObject.dayToTask as? Set<Task>
@@ -547,7 +653,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
 		
 		guard let task = sortedSet?[indexPath.row] else { return }
 		guard let fetchedResultsController = fetchedResultsController else { return }
-		coordinator?.showEditTask(persistentContainer, task: task, fetchedResultsController: fetchedResultsController)
+		coordinator?.showEditTask(persistentContainer, task: task, fetchedResultsController: fetchedResultsController, mainViewController: self)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 }

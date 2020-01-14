@@ -27,7 +27,7 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
             print("Persistent Container not loaded")
             return
         }
-        let vc = StatsViewController(persistentContainer: persistentContainer, coordinator: self)
+        let vc = StatsViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: StatsViewModel())
         let nav = UINavigationController(rootViewController: vc)
 //        navigationController.present(nav, animated: true, completion: nil)
         DispatchQueue.main.async {
@@ -45,8 +45,7 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     }
 	
     func getTopMostViewController() -> UIViewController? {
-        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        
+		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
         }

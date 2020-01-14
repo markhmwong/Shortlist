@@ -22,7 +22,7 @@ class StatisticsGenerator: NSObject {
         
     }
     
-    // Converting the coredata data to readable data for the chart for each day
+    // Converting the coredata data to readable chart data for each day
     func calculateStats(chartTitle: String) -> MonthOverviewChartData {
         var totalTasksForDay: Int16 = 0
         var totalCompletedForTimePeriod: Int16 = 0
@@ -37,7 +37,8 @@ class StatisticsGenerator: NSObject {
         }
         
         for day in dayArray {
-            taskLimit = mostAmountOfTasksForDay(currLimit: day.taskLimit, newLimit: taskLimit)
+			let limit = day.highPriorityLimit + day.mediumPriorityLimit + day.lowPriorityLimit
+            taskLimit = mostAmountOfTasksForDay(currLimit: limit, newLimit: taskLimit)
             totalCompletedForTimePeriod += day.totalCompleted
             totalTasksForDay += day.totalTasks
             incompleteTasks = day.totalTasks - day.totalCompleted
@@ -87,7 +88,7 @@ class StatisticsGenerator: NSObject {
         }
     }
     
-    // Add Indicator to show highest amount of tasks complete for bar.
+    // Adds Indicator to show highest amount of tasks complete
     func mostAmountOfTasksForDay(currLimit: Int16, newLimit: Int16) -> Int16 {
         return currLimit < newLimit ? newLimit : currLimit
     }

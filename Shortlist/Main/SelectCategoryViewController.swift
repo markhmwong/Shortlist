@@ -9,12 +9,19 @@
 import UIKit
 import CoreData
 
-class SelectCategoryViewController: UIViewController {
+protocol CategoryInputViewProtocol {
+	var bottomConstraint: NSLayoutConstraint? { get set }
+	
+	func addCategory()
+	func keyboardNotifications()
+}
+
+class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol {	
 	
 	// fetchedresultscontroller
-    lazy var fetchedResultsController: NSFetchedResultsController<CategoryList>? = {
+    lazy var fetchedResultsController: NSFetchedResultsController<BackLog>? = {
         // Create Fetch Request
-        let fetchRequest: NSFetchRequest<CategoryList> = CategoryList.fetchRequest()
+        let fetchRequest: NSFetchRequest<BackLog> = BackLog.fetchRequest()
         // Configure Fetch Request
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         // Create Fetched Results Controller
@@ -43,23 +50,23 @@ class SelectCategoryViewController: UIViewController {
 		return view
 	}()
 
-	var coordinator: SelectCategoryCoordinator?
+	weak var coordinator: SelectCategoryCoordinator?
 	
 	var viewModel: SelectCategoryViewModel?
 	
-	var persistentContainer: PersistentContainer?
+	weak var persistentContainer: PersistentContainer?
 	
 	var bottomConstraint: NSLayoutConstraint?
 	
 	var tableViewBottomConstraint: NSLayoutConstraint?
 	
-	var delegate: MainViewController?
+	var delegate: MainViewControllerProtocol
 	
-	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-	}
+//	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+//	}
 	
-	init(_ persistentContainer: PersistentContainer?, coordinator: SelectCategoryCoordinator, viewModel: SelectCategoryViewModel, mainViewController: MainViewController?) {
+	init(_ persistentContainer: PersistentContainer?, coordinator: SelectCategoryCoordinator, viewModel: SelectCategoryViewModel, mainViewController: MainViewControllerProtocol) {
 		self.delegate = mainViewController
 		self.persistentContainer = persistentContainer
 		self.viewModel = viewModel
@@ -78,7 +85,8 @@ class SelectCategoryViewController: UIViewController {
 		keyboardNotifications()
 		
 		navigationItem.title = "Categories"
-		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAdd))
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAddCategory))
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(handleClose))
 
 		viewModel.tableViewRegisterCell(tableView)
 		view.addSubview(tableView)
@@ -86,6 +94,8 @@ class SelectCategoryViewController: UIViewController {
 		
 		tableView.anchorView(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
 		tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+		
+		
 		view.addConstraint(tableViewBottomConstraint!)
 		inputContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		bottomConstraint = NSLayoutConstraint(item: inputContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
@@ -118,8 +128,9 @@ class SelectCategoryViewController: UIViewController {
 		
 		if (inputContainer.getCategoryFromInputField() != nil) {
 			// add category
-			if (!persistentContainer.categoryExists(category)) {
-				persistentContainer.createCategoryInCategoryList(category, context: persistentContainer.viewContext)
+			if (!persistentContainer.categoryExistsInBackLog(category)) {
+//				persistentContainer.createCategoryInCategoryList(category, context: persistentContainer.viewContext)
+				persistentContainer.createCategoryInBackLog(category, context: persistentContainer.viewContext)
 				persistentContainer.saveContext()
 				inputContainer.reisgnInputText()
 			}
@@ -127,17 +138,17 @@ class SelectCategoryViewController: UIViewController {
 	}
 	
 	@objc
-	func handleDone() {
+	func handleClose() {
 		let category = "Uncategorized"
-		guard let mvc = delegate else { return }
-		guard let vm = mvc.viewModel else { return }
+//		guard let mvc = delegate else { return }
+		guard let vm = delegate.viewModel else { return }
 		vm.category = category
 		inputContainer.updateField(category)
 		coordinator?.dimiss(nil)
 	}
 	
 	@objc
-	func handleAdd() {
+	func handleAddCategory() {
 		inputContainer.focusField()
 	}
 	

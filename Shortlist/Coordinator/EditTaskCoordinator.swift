@@ -21,6 +21,8 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 	
 	var fetchedResultsController: NSFetchedResultsController<Day>?
 	
+	var mainViewController: MainViewControllerProtocol?
+	
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
     }
@@ -32,19 +34,33 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
             print("Persistent Container not loaded")
             return
         }
-		
 		let viewModel = EditTaskViewModel(with: task)
-		let vc = EditTaskViewController(viewModel: viewModel, persistentContainer: persistentContainer, fetchedResultsController: fetchedResultsController!) //to do fix forced wrap
+		let vc = EditTaskViewController(viewModel: viewModel, persistentContainer: persistentContainer, fetchedResultsController: fetchedResultsController!, delegate: mainViewController!, coordinator: self)
         let nav = UINavigationController(rootViewController: vc)
         navigationController.present(nav, animated: true, completion: nil)
     }
 	
-	func dimiss() {
-		
-		let topMostVc = getTopMostViewController()
-		topMostVc?.dismiss(animated: true, completion: {
+	func discardBox(viewModel: EditTaskViewModel, persistentContainer: PersistentContainer?) {
+		let alert = UIAlertController(title: "Are you sure you want to discard any changes?", message: "", preferredStyle: .alert)
+		let keepEditing = UIAlertAction(title: "Keep Editing", style: .default) { (action) in
 			//
-		})
+		}
+		
+		let discard = UIAlertAction(title: "Discard", style: .cancel) { (action) in
+			self.dimiss()
+		}
+		alert.addAction(discard)
+		alert.addAction(keepEditing)
+
+		DispatchQueue.main.async {
+			self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
+		}
+	}
+	
+	func dimiss() {
+		 getTopMostViewController()?.dismiss(animated: true, completion: {
+			 //
+		 })
 	}
     
     func childDidFinish(_ child: Coordinator) {
@@ -57,8 +73,9 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     }
 	
     func getTopMostViewController() -> UIViewController? {
-        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        
+		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
+//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
         }

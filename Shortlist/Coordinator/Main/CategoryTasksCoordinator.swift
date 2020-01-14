@@ -12,12 +12,14 @@ import UIKit
 
 class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
-    weak var parentCoordinator: MultiListCoordinator?
+    weak var parentCoordinator: CategoryListCoordinator?
     
     var childCoordinators: [Coordinator] = [Coordinator]()
     
     var navigationController: UINavigationController
-    
+    	
+	var categoryName: String?
+	
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
     }
@@ -30,7 +32,8 @@ class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDel
             return
         }
 		
-		let vc = CategoryTaskListViewController(persistentContainer: persistentContainer)
+		let viewModel = BackLogTaskListViewModel(categoryName: categoryName)
+		let vc = BackLogTaskListViewController(persistentContainer: persistentContainer, viewModel: viewModel)
 		let nav = UINavigationController(rootViewController: vc)
 		DispatchQueue.main.async {
             self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
@@ -38,7 +41,8 @@ class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDel
     }
     
     func getTopMostViewController() -> UIViewController? {
-        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
+//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
         
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController

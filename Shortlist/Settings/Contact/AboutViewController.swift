@@ -29,28 +29,26 @@ class AboutViewController: UIViewController {
     private let appBuild = AppMetaData.build
     
     lazy var details = """
-    Thanks for using \(appName) v\(appVersion ?? " unknown"), build \(appBuild ?? "unknown").\n
-    \n
-    "sense of finality", less overwhelmed, overcome procrastination, building a sense of accomplishment
-    There's are many ToDo/Task list applications, including Apple's Reminder App. Ever since the advent of mobile devices holding large capacities, applications have exploited this generous feature. I believe we've taken this for granted, progressively made us harder to focus, overwhelmed and less motivated to finish our work.
-    
-    As I'm typing this I just recalled the day I received my first electronic address book device. That thing advertised x amount address book and reminders it could store as it's leading feature.\n
-    
-    I guess this is where I'm taking this application back to, when times were simpler, and things were limited.\n
-    
-    If you're an avid and master at productivity, this app may not be for you, but I encourage you to take a look at your own reminder list and look at the tasks that are lingering from the week/month/year before. It certainly would leave a guilty feeling inside as the task slowly fades far into the past. This app intends to remove and notion of revisitng old tasks, keep track of incomplete tasks and completed tasks and remind you to keep your goal small and focused for the day.\n
-    
-    We would rather see 5/5 rather than 5/10 right? It's not only encouraging but motivating, especially for those who struggle to find focus and narrow their field of vision (so to speak). Lingering tasks will always be left in the attic collecting dust, and dusting it off only sets us back. Do what you can and only do that for the day to finish on a high note and continue tomorrow.\n
-    
-    Privacy.\n
-    To be completed. May use Google Analytics to monitor app usage
-    
-    Bugs.\n
-    Please report any bugs to hello@whizbangapps.xyz.
-    
-    Contact.\n
-    Twitter: @markhmwong\nWebsite: https://www.whizbangapps.xyz/\(appName)
-    """
+	Thanks for using \(appName) v\(appVersion ?? " unknown"), build \(appBuild ?? "unknown").\n
+	\n
+	Ever since the advent of mobile devices inbuilt with large capacities; applications have exploited their generous storage space. I believe we've taken this for granted, made things harder to focus, overwhelmed and less motivated to finish our work. The "openess" we take for granted has geared ourselves towards no direction to the method we complete our tasks; there is no system employed to guide our day.
+	
+	If you're an avid and master at productivity, this app may not be for you, but I encourage you to take a look at your own reminder list and look at the tasks that are lingering from the week/month/year before. It certainly would leave a guilty feeling inside as the task slowly fades far into the past. This app intends to reduce the notion of revisitng old tasks, keep track of incomplete tasks and completed tasks and while focusing on the day's tasks ahead.\n
+	
+	At the end of the day we would rather see 5/5 rather than 5/10 right? It's not only encouraging but motivating, especially for those who struggle to find focus this helps narrow their field of vision (so to speak). Lingering tasks will always be left in the attic collecting dust, and dusting it off may sets you back. Do what you can and only do that for the day to finish on a high note and continue tomorrow.\n
+	
+	Privacy.\n
+	To be completed. May use Google Analytics to monitor app usage
+	
+	Bugs.\n
+	Please report any bugs to hello@whizbangapps.xyz.
+	
+	Contact.\n
+	Twitter: @markhmwong\nWebsite: https://www.whizbangapps.xyz/\(appName)\n
+	
+	Credits.\n
+	Onboarding graphics authors: Freepik, Pause08, Becris, srip, zlatko-najdenovski, itim2101 @ www.flaticon.com
+	"""
     
     override func viewDidLoad() {
         super.viewDidLoad()

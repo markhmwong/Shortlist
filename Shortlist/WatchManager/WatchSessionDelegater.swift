@@ -74,7 +74,7 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
             let decodedData = try JSONDecoder().decode([TaskStruct].self, from: data)
 
             let taskDataPhone = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-            taskDataPhone.taskLimit = taskDataPhone.taskLimit + 1
+//            taskDataPhone.taskLimit = taskDataPhone.taskLimit + 1 // to be fixed
             let tasks = taskDataPhone.dayToTask?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [Task]
             for task in decodedData {
                 tasks[Int(task.id)].complete = task.complete

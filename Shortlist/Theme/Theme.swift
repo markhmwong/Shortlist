@@ -15,7 +15,10 @@ struct Theme {
         static var Bold: String = "Avenir-Black"
 		static var TitleRegular: String = "Georgia"
 		static var TitleBold: String = "Georgia-Bold"
+		
         static var Color: UIColor = .white
+		static var FadedColor: UIColor = UIColor.white.adjust(by: -40.0)!
+		
         enum StandardSizes: CGFloat {
             //title sizes
             case h0 = 50.0
@@ -29,6 +32,7 @@ struct Theme {
             case b2 = 12.0
             case b3 = 11.0
 			case b4 = 10.0
+			case b5 = 8.0
         }
         
         enum FontSize {
@@ -65,9 +69,11 @@ struct Theme {
     struct Cell {
         static var background: UIColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:1.0)
         static var text: UIColor = UIColor(red:0.91, green:0.53, blue:0.04, alpha:1.0)
-		static var textFieldBackground: UIColor = UIColor.black.adjust(by: 5)!
+		static var textFieldBackground: UIColor = UIColor.black.adjust(by: 3)!
         static var idle: UIColor = .green
         static var inProgress: UIColor = .yellow
+		static var taskCompleteColor: UIColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
+		static var highlighted: UIColor = UIColor(red:0.26, green:0.75, blue:0.46, alpha:0.8)
     }
     
     struct GeneralView {
@@ -78,5 +84,21 @@ struct Theme {
 		static var backgroundColor: UIColor = UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
 		static var textColor: UIColor = UIColor.black
 		static var cornerRadius: CGFloat = 15.0
+	}
+	
+	struct Chart {
+		static var lineTaskCompleteColor: UIColor = UIColor(red:0.00, green:0.82, blue:1.00, alpha:1.0)
+		static var lineTaskIncompleteColor: UIColor = UIColor(red:1.00, green:0.24, blue:0.00, alpha:1.0).adjust(by: 0.0)!
+		static var chartLineColor: UIColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+		static var meanLineColor: UIColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+		static var chartTitleColor: UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6)
+		static var chartBackgroundColor: UIColor = UIColor(red:0.08, green:0.08, blue:0.08, alpha:1.0)
+	}
+	
+	struct Priority {
+		static var highColor: UIColor = UIColor(red:0.82, green:0.35, blue:0.75, alpha:1.0).adjust(by: 0.0)!
+		static var mediumColor: UIColor = UIColor(red:0.82, green:0.52, blue:0.35, alpha:1.0).adjust(by: -5.0)!
+		static var lowColor: UIColor = UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+		static var noneColor: UIColor = UIColor.white.adjust(by: -30.0)!
 	}
 }

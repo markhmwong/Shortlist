@@ -11,6 +11,8 @@ https://facilethings.com/blog/en/keep-your-todo-list-short (not relevant)
 beta
 presales
 
+system
+
 ### websites
 slack channels (cocoaheads/ios devs)
 indiehackers
@@ -35,9 +37,50 @@ github
 my own blog whizbang.xyz
 
 
+https://twitter.com/MixedUpMoney
+https://twitter.com/MixedUpMoney/status/1097968301638995968?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1097968301638995968&ref_url=https%3A%2F%2Fthefinancialdiet.com%2Fbuild-better-to-do-list-productivity%2F
+kalle hallden
+
 # Article notes
 Slimming down
 Why should we reduce our tasks
 balance your life
 feel accomplished everyday with no left over tasks
+
+# What is Shortlist?
+
+A systemised todo list application at it's core by enforcing limits on what we allow ourselves to achieve because the typical day only has 23 hours 59mins 59 seconds.
+
+# Why make Shortlist?
+
+This was tough to make, as the market for to do lists is muchly oversaturated but here we are with perhaps a todo list that hopefully goes against the trend to being an all in one application because it's not that. I feel that most to-do lists lose their focus and try to be everything in one, with no particular system in place to guide your tasks - with virtually unlimited storage to add tasks, unlimited prioritised tasks, no review, and little collective data.
+
+# What are the differences between Shortlist and something like the Apple Reminders App and Todoist
+
+As mentioned above most to do list applications tend to be an all in one solution with no guidance. The stand out features are listed below
+
+- Personalise your task limitation per day.
+- Carry over incomplete tasks from yesterday while maintaining the limit.
+- Limited on the number of high/medium/low priority tasks you may add
+- Review yesterday's tasks on a new day
+- A stats system to view your behavior and progress over time
+- Prepare tomorrow's tasks
+
+# Is my data stored on a 3rd party server?
+
+All data is stored locally on the device.
+
+
+By eliminating the limitless feature of our devices that we all take for granted, we are less likely to pour information into our devices willy nilly (without direction).
+
+- Personalise your task limitation per day.
+- Carry over incomplete tasks from yesterday
+- Organise task and flag one task as a must do
+- Review yesterday's tasks on a new day
+- Prepare tomorrow's tasks
+- does not allow for new tasks after Xpm (lock the add button). Because people have different schedules and may work night shifts
+- stats
+- a system
+
+
 

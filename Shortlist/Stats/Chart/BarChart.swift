@@ -14,7 +14,7 @@ class BarChart: UIView {
     private let mainLayer: CALayer = CALayer()
     
     // bar chart generator - generates chart data points in order for it to be drawn
-    private var chartGenerator: BarChartGenerator?
+    private var chartGenerator: ChartGenerator?
     
     private var monthOverviewChartData: MonthOverviewChartData?
     
@@ -31,8 +31,9 @@ class BarChart: UIView {
     // barEntries tuple (completed tasks, incomplete Tasks)
     private var chartData: ([BarProperties], [BarProperties])? {
         didSet {
+			let xPadding: CGFloat = 8.0
             mainLayer.sublayers?.forEach({$0.removeFromSuperlayer()})
-            mainLayer.frame = CGRect(x: 8, y: 10, width: bounds.width - 16.0, height: bounds.height)
+            mainLayer.frame = CGRect(x: xPadding, y: 10, width: bounds.width - (xPadding * 2), height: bounds.height)
             chartGenerator?.calculateHeightOfMean(viewHeight: mainLayer.frame.height)
             chartGenerator?.calculateHeightOfMax(viewHeight: mainLayer.frame.height)
             drawChart()
@@ -58,7 +59,6 @@ class BarChart: UIView {
     func setupView() {
         layer.addSublayer(mainLayer)
         self.translatesAutoresizingMaskIntoConstraints = false
-        
         mainLayer.backgroundColor = chartBackgroundColor.cgColor
         mainLayer.cornerRadius = 5.0
     }
@@ -67,21 +67,15 @@ class BarChart: UIView {
         // BarChartGenerator
         
         guard let monthlyData = monthOverviewChartData else { return }
-        chartGenerator = BarChartGenerator(data: monthlyData, padding: innerChartPadding)
+        chartGenerator = ChartGenerator(data: monthlyData, padding: innerChartPadding)
         chartData = chartGenerator?.generateBarData(viewHeight: bounds.height, viewWidth: bounds.width - innerChartPadding) //take into account left/right padding
     }
     
     private func drawChart() {
-
         guard let (chartData, incompleteTaskChartData) = chartData else { return }
-
-        // add mean line indicator
+        let maxIndicatorHeight = chartGenerator!.maxIndicatorHeight
         let meanHeight = chartGenerator!.meanHeight
         let lineColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
-        mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: meanHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: meanHeight)), width: meanLineWidth, color: lineColor.cgColor)
-
-        let maxIndicatorHeight = chartGenerator!.maxIndicatorHeight
-        mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: maxIndicatorHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: maxIndicatorHeight)), width: meanLineWidth, color: lineColor.cgColor)
         
         // add chart title
         let charTitleStr = "\(monthOverviewChartData?.title ?? "chartTitle")"
@@ -97,15 +91,15 @@ class BarChart: UIView {
         
         // draw bars for incomplete tasks
         for (_, bar) in incompleteTaskChartData.enumerated() {
-            mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.color.cgColor)
-
+            mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.completeColor)
         }
         
         // draw bars for complete tasks
         for (_, bar) in chartData.enumerated() {
-            mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.color.cgColor)
+            mainLayer.addRectangleLayer(frame: bar.barFrame, color: bar.completeColor)
             let xAxisLabelFrame: CGRect = CGRect(x: bar.barFrame.minX, y: bar.barFrame.maxY, width: bar.barFrame.width * 2, height: 25.0)
             
+			// x axis labels
             let day = bar.day!.dayOfWeek.shortHand
             mainLayer.xAxisLabels(frame: xAxisLabelFrame, color: UIColor.white.cgColor, fontSize: 12.0, text: "\(day)")
         }
@@ -121,6 +115,12 @@ class BarChart: UIView {
         let meanSizeStr = meanNumberStr.size(withAttributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!])
         let meanFrame: CGRect = CGRect(x: frame.width - xPadding - meanSizeStr.width, y: meanHeight, width: meanSizeStr.width, height: meanSizeStr.height)
         mainLayer.addChartTitleLayer(frame: meanFrame, color: UIColor.white.cgColor, fontSize: Theme.Font.FontSize.Standard(.b3).value, text: meanNumberStr as String)
+		
+		// bottom line indicator. We add this after the bars are added to the view, so that the line covers the bottom of the bars
+		mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: meanHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: meanHeight)), width: meanLineWidth, color: lineColor.cgColor)
+
+		// max line indicator
+        mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: maxIndicatorHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: maxIndicatorHeight)), width: meanLineWidth, color: lineColor.cgColor)
     }
 }
 

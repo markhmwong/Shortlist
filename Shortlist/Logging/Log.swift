@@ -13,5 +13,4 @@ private let subsystem = "com.whizbang.shortlist"
 struct Log {
     static let task = OSLog(subsystem: subsystem, category: "task")
     static let chart = OSLog(subsystem: subsystem, category: "chart")
-
 }

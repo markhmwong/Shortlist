@@ -111,7 +111,8 @@ class PersistentContainer: NSPersistentContainer {
         day.addToDayToTask(task)
     }
 	
-	func createTask(toEntity day: Day, context: NSManagedObjectContext, idNum: Int, taskName: String, categoryName: String) {
+	// deprecated
+	func createTask(toEntity day: Day, context: NSManagedObjectContext, idNum: Int, taskName: String, categoryName: String, createdAt: Date, reminderDate: Date) {
 		let task: Task = Task(context: context)
 		task.name = taskName
 		task.complete = false
@@ -120,21 +121,42 @@ class PersistentContainer: NSPersistentContainer {
 		task.isNew = false 
 		task.priority = Int16(idNum)
 		task.id = Int16(idNum)
+		task.createdAt = createdAt as NSDate
+		task.reminder = reminderDate as NSDate
 		day.addToDayToTask(task)
 	}
     
-	func createCategory(_ name: String, context: NSManagedObjectContext) {
-		let category: BigListCategories = BigListCategories(context: context)
+	func createCategoryInBackLog(_ name: String, context: NSManagedObjectContext) {
+		let category: BackLog = BackLog(context: context)
 		category.name = name
 	}
 	
-	func createCategoryInCategoryList(_ name: String, context: NSManagedObjectContext) {
-		let category: CategoryList = CategoryList(context: context)
-		category.name = name
+//	func createCategoryInCategoryList(_ name: String, context: NSManagedObjectContext) {
+//		let category: CategoryList = CategoryList(context: context)
+//		category.name = name
+//	}
+	
+	// is this in use?
+	func saveTaskToCategory(forName categoryName: String, task: BigListTask) {
+		let categoryRequest: NSFetchRequest<BackLog> = BackLog.fetchRequest()
+		categoryRequest.returnsObjectsAsFaults = false
+		categoryRequest.predicate = NSPredicate(format: "name == %@", categoryName)
+		
+        do {
+			let fetchedResults = try viewContext.fetch(categoryRequest)
+			if let categoryObject = fetchedResults.first {
+				// revisit 4/1/19
+//				categoryObject.addToBigListToBigListTask(<#T##value: BigListTask##BigListTask#>)
+			}
+			return
+        } catch let error as NSError {
+            print("Category entity could not be fetched \(error)")
+            return
+        }
 	}
 	
 	func deleteCategory(forName categoryName: String) -> Bool {
-		let categoryRequest: NSFetchRequest<BigListCategories> = BigListCategories.fetchRequest()
+		let categoryRequest: NSFetchRequest<BackLog> = BackLog.fetchRequest()
 		categoryRequest.returnsObjectsAsFaults = false
 		categoryRequest.predicate = NSPredicate(format: "name == %@", categoryName)
 		
@@ -169,9 +191,10 @@ class PersistentContainer: NSPersistentContainer {
         }
 	}
 	
-	func categoryExists(_ name: String) -> Bool {
+	
+	func categoryExistsInBackLog(_ name: String) -> Bool {
 		let context = viewContext
-		let categoryRequest: NSFetchRequest<BigListCategories> = BigListCategories.fetchRequest()
+		let categoryRequest: NSFetchRequest<BackLog> = BackLog.fetchRequest()
 		categoryRequest.returnsObjectsAsFaults = false
 		categoryRequest.predicate = NSPredicate(format: "name == %@", name)
         do {
@@ -200,6 +223,21 @@ class PersistentContainer: NSPersistentContainer {
         let count = day?.dayToTask?.count ?? 0
         return count
     }
+	
+    func fetchBigListCategory(forDate categoryName: String) -> BackLog? {
+        let context = viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: "BackLog")
+        request.returnsObjectsAsFaults = false
+        request.predicate = NSPredicate(format: "name == %@", categoryName)
+        
+        do {
+            let fetchedResults = try context.fetch(request)
+            return fetchedResults.first as? BackLog
+        } catch let error as NSError {
+            print("Big List Category entity could not be fetched \(error)")
+            return nil
+        }
+    }
     
     func fetchDayEntity(forDate date: Date) -> NSManagedObject? {
         let context = viewContext
@@ -217,21 +255,32 @@ class PersistentContainer: NSPersistentContainer {
     }
     
     func deleteAllRecordsIn<E: NSManagedObject>(entity: E.Type) -> Bool {
-        
-        if (self.doesEntityExist(forDate: Calendar.current.today())) {
-            do {
-                let fr = E.fetchRequest()
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fr)
-                try viewContext.execute(deleteRequest)
-                saveContext(backgroundContext: nil)
-                return true
-            } catch let error {
-                print("Trouble deleting all records in entity: \(error)")
-                return false
-            }
-        } else {
-            print("Nothing to delete")
-            return false
-        }
+		do {
+			let fr = E.fetchRequest()
+			let deleteRequest = NSBatchDeleteRequest(fetchRequest: fr)
+			try viewContext.execute(deleteRequest)
+			saveContext(backgroundContext: nil)
+			return true
+		} catch let error {
+			print("Trouble deleting all records in entity: \(error)")
+			return false
+		}
     }
+	
+	func fetchStatEntity() -> Stats? {
+		// id = 0. Should only be one stat entity, must use id of 0
+        let context = viewContext
+		let id = 0
+		let request: NSFetchRequest<Stats> = Stats.fetchRequest()
+		request.returnsObjectsAsFaults = false
+		request.predicate = NSPredicate(format: "id == %i", id)
+		
+		do {
+            let fetchedResults = try context.fetch(request)
+			return fetchedResults.first
+        } catch let error as NSError {
+            print("Stats entity could not be fetched \(error)")
+            return nil
+        }
+	}
 }

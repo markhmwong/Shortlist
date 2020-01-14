@@ -14,7 +14,13 @@ import CoreData
 // Allows to carry over tasks to today.
 class ReviewViewController: UIViewController {
  
-    var persistentContainer: PersistentContainer?
+	// to do - add accolades
+	// quick task completion - Quick Draw,
+	// completed all tasks - Completionist, Perfectionist
+	// did not complete all tasks - Work Shy, Idler, AFKer, Funday,
+	// 
+	
+    weak var persistentContainer: PersistentContainer?
 
     var viewModel: ReviewViewModel?
     
@@ -71,13 +77,6 @@ class ReviewViewController: UIViewController {
         self.viewModel = viewModel
         self.reviewCoordinator = coordinator
     }
-	
-//    init(persistentContainer: PersistentContainer, coordinator: SettingsCoordinator, viewModel: ReviewViewModel) {
-//        super.init(nibName: nil, bundle: nil)
-//        self.persistentContainer = persistentContainer
-//        self.viewModel = viewModel
-//        self.settingsCoordinator = coordinator
-//    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -122,7 +121,9 @@ class ReviewViewController: UIViewController {
         if (dayObject == nil) {
             dayObject = Day(context: persistentContainer.viewContext)
             dayObject?.createdAt = Calendar.current.today() as NSDate
-            dayObject?.taskLimit = 5 //default limit
+            dayObject?.lowPriorityLimit = 5 //default limit
+			dayObject?.mediumPriorityLimit = 5 //default limit
+			dayObject?.highPriorityLimit = 5 //default limit
             dayObject?.month = Calendar.current.monthToInt() // Stats
             dayObject?.year = Calendar.current.yearToInt() // Stats
             dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats

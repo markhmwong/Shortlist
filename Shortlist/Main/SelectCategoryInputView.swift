@@ -12,18 +12,15 @@ class SelectCategoryInputView: UIView {
 	
 	private var timer: Timer? = nil
 	
-	private weak var delegate: SelectCategoryViewController?
+	private var delegate: CategoryInputViewProtocol?
 	
 	private let padding: CGFloat = 7.0
-	
-	private let taskTextFieldCharacterLimit: Int = 15
-	
+		
 	private var categoryExists: Bool = false
 	
 	private weak var persistentContainer: PersistentContainer?
 	
 	private let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "A new category..", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
-	
 	
 	private lazy var categoryInputTextView: UITextView = {
 		let view = UITextView()
@@ -57,7 +54,7 @@ class SelectCategoryInputView: UIView {
 		return view
 	}()
 	
-	init(delegate: SelectCategoryViewController, persistentContainer: PersistentContainer?) {
+	init(delegate: CategoryInputViewProtocol, persistentContainer: PersistentContainer?) {
 		self.delegate = delegate
 		self.persistentContainer = persistentContainer
 		super.init(frame: .zero)
@@ -94,11 +91,6 @@ class SelectCategoryInputView: UIView {
 		progressBar.widthAnchor.constraint(equalToConstant: height).isActive = true
 	}
 	
-//	private func defaultTaskTextViewState() {
-////		taskTextView.text = defaultText
-////		taskTextView.textColor = UIColor.lightGray
-//	}
-	
 	func focusField() {
 		categoryInputTextView.becomeFirstResponder()
 	}
@@ -125,15 +117,14 @@ class SelectCategoryInputView: UIView {
 	func checkCategory() {
 		guard let pc = persistentContainer else { return }
 		let userInfo = timer?.userInfo as! [String : UITextView]
-		categoryExists = pc.doesExistInCategoryList(userInfo["categoryText"]?.text ?? "Uncategorized")
+		categoryExists = pc.categoryExistsInBackLog(userInfo["categoryText"]?.text ?? "Uncategorized")
 
-		// update view - make text red
+		// update view - reflects whether the category
 		updateCategoryInputTextView(categoryExists ? UIColor.red.adjust(by: -30.0)! : UIColor.green.adjust(by: -30.0)!)
 	}
 	
 	@objc
 	func handlePostCategory() {
-		print("post category to do")
 		guard let delegate = delegate else { return }
 		//check if category exists
 		if (!categoryExists) {
@@ -171,15 +162,13 @@ extension SelectCategoryInputView: UITextViewDelegate {
 		//a real time check if category exists
 		liveCategoryCheck(textView)
 		
-		let currLimit: CGFloat = CGFloat(textView.text.count) / CGFloat(taskTextFieldCharacterLimit)
+		let currLimit: CGFloat = CGFloat(textView.text.count) / CGFloat(TaskCharacterLimits.taskCategoryMaximumCharacterLimit)
 		progressBar.updateProgressBar(currLimit)
     }
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-		if (textView.text.count + (text.count - range.length) >= taskTextFieldCharacterLimit && textView.textColor == Theme.Font.Color) {
-			let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .heavy)
-			impactFeedbackgenerator.prepare()
-			impactFeedbackgenerator.impactOccurred()
+		if (textView.text.count + (text.count - range.length) >= TaskCharacterLimits.taskCategoryMaximumCharacterLimit && textView.textColor == Theme.Font.Color) {
+			ImpactFeedbackService.shared.impactType(feedBackStyle: .heavy)
 			return false
 		}
 

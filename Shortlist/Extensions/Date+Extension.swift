@@ -25,6 +25,20 @@ extension Date {
         components.second = -1
         return Calendar.current.date(byAdding: components, to: startOfDay)!
     }
+	
+	func hoursRemaining() -> Int {
+		let tomorrow = Calendar.current.forSpecifiedDay(value: 1)
+		let now = Date()
+		let diff = tomorrow.timeIntervalSince(now)
+		return Int(diff) / 3600
+	}
+	
+	func timeRemainingToHour() -> TimeInterval {
+		let tomorrow = Calendar.current.forSpecifiedDay(value: 1)
+		let now = Date()
+		let diff = tomorrow.timeIntervalSince(now)
+		return diff.truncatingRemainder(dividingBy: 3600) / 60
+	}
 }
 
 extension DateFormatter {

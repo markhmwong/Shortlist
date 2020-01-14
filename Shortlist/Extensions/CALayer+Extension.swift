@@ -8,11 +8,6 @@
 
 import UIKit
 
-struct LineSegment {
-    let startPoint: CGPoint
-    let endPoint: CGPoint
-}
-
 extension UIBezierPath {
     convenience init(lineSegment: LineSegment) {
         self.init()
@@ -44,12 +39,21 @@ extension CALayer {
         layer.lineWidth = width
         self.addSublayer(layer)
     }
+	
+	func addChartGuides(lineSegement: LineSegment, width: CGFloat, color: CGColor) {
+        let layer = CAShapeLayer()
+        layer.path = UIBezierPath(lineSegment: lineSegement).cgPath
+        layer.fillColor = UIColor.clear.cgColor
+        layer.strokeColor = color
+        layer.lineWidth = width
+        self.addSublayer(layer)
+	}
     
     func xAxisLabels(frame: CGRect, color: CGColor, fontSize: CGFloat, text: String) {
         let textLayer = CATextLayer()
         textLayer.frame = frame
         textLayer.foregroundColor = color
-        textLayer.backgroundColor = UIColor.clear.cgColor
+		textLayer.backgroundColor = UIColor.clear.cgColor
         textLayer.alignmentMode = CATextLayerAlignmentMode.center
         textLayer.contentsScale = UIScreen.main.scale
         textLayer.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
@@ -78,12 +82,12 @@ extension CALayer {
 //        }
     }
     
-    func addRectangleLayer(frame: CGRect, color: CGColor) {
+    func addRectangleLayer(frame: CGRect, color: UIColor) {
         let layer = CALayer()
         layer.frame = frame
-        layer.backgroundColor = color
-        layer.borderColor = UIColor.clear.cgColor
-        layer.borderWidth = 0.0
+		layer.backgroundColor = color.cgColor
+		layer.borderColor = color.adjust(by: -70.0)?.cgColor
+        layer.borderWidth = 2.0
         layer.cornerRadius = 3.0
         self.addSublayer(layer)
         

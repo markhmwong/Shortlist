@@ -10,15 +10,15 @@ import UIKit
 
 class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
-    weak var parentCoordinator: MainCoordinator?
+    var parentCoordinator: MainCoordinatorProtocol?
     
     var childCoordinators: [Coordinator] = [Coordinator]()
     
     var navigationController: UINavigationController
     
-	var mainViewController: MainViewController?
+	var mainViewController: MainViewControllerProtocol
 	
-	init(navigationController:UINavigationController, viewController: MainViewController?) {
+	init(navigationController:UINavigationController, viewController: MainViewControllerProtocol) {
         self.navigationController = navigationController
 		self.mainViewController = viewController
     }
@@ -42,11 +42,7 @@ class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDe
 	func dimiss(_ persistentContainer: PersistentContainer?) {
 		//get mainviewcontroller delegate
 		navigationController.dismiss(animated: true) {
-			guard let mvc = self.mainViewController else {
-				return
-			}
-			mvc.updateCategory()
-//			mvc.loadData()
+			self.mainViewController.updateCategory()
 		}
 	}
     

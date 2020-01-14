@@ -12,5 +12,7 @@ protocol Coordinator: AnyObject {
     var childCoordinators: [Coordinator] { get set }
     var navigationController: UINavigationController { get set }
     
+	// add getTopMostViewController
+	
     func start(_ persistentContainer: PersistentContainer?)
 }

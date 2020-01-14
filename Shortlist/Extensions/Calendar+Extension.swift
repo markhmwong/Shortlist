@@ -15,6 +15,11 @@ extension Calendar {
     func today() -> Date {
         return self.startOfDay(for: Date())
     }
+	
+	// 0 - today, negatives go back in time as expected
+	func forSpecifiedDay(value: Int) -> Date {
+		return self.startOfDay(for: Calendar.current.date(byAdding: .day, value: value, to: self.today())!)
+	}
     
     func yesterday() -> Date {
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: self.today())
@@ -104,19 +109,19 @@ enum DayOfWeek: Int16 {
     var shortHand: String {
         switch self {
         case .Sunday:
-            return "Sun"
+            return "S"
         case .Monday:
-            return "Mon"
+            return "M"
         case .Tuesday:
-            return "Tue"
+            return "T"
         case .Wednesday:
-            return "Wed"
+            return "W"
         case .Thursday:
-            return "Thu"
+            return "T"
         case .Friday:
-            return "Fri"
+            return "F"
         case .Saturday:
-            return "Sat"
+            return "S"
         }
     }
 }

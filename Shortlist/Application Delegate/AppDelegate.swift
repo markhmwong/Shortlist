@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     var mainCoordinator: MainCoordinator?
-    
+	
     lazy var persistentContainer: PersistentContainer = {
         let container = PersistentContainer(name: "ShortlistModel")
         container.loadPersistentStores { description, error in
@@ -29,12 +29,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let navController = UINavigationController()
-        mainCoordinator = MainCoordinator(navigationController: navController)
-        mainCoordinator?.start(persistentContainer)
-        
-		persistentContainer.createCategoryInCategoryList("Uncategorized", context: persistentContainer.viewContext)
 		
+        let navController = UINavigationController()
+		mainCoordinator = MainCoordinator(navigationController: navController)
+
+		if (ApplicationDetails.shared.isFirstLoad()) {
+//		if (true) {
+			mainCoordinator?.start(persistentContainer)
+			mainCoordinator?.showOnboarding(persistentContainer)
+			
+			// create sample
+			let context = persistentContainer.viewContext
+			let dayObject = Day(context: persistentContainer.viewContext)
+			dayObject.createNewDay(date: Calendar.current.today())
+			dayObject.totalTasks += 3
+			let taskHigh: Task = Task(context: context)
+			taskHigh.create(context: context, idNum: Int(dayObject.totalTasks), taskName: "An important task, preferably something you must accomplish today.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value))
+			taskHigh.details = "These tasks are very limited of 1 - 3. Important and may take most of the day to complete."
+			dayObject.addToDayToTask(taskHigh)
+			let taskMed: Task = Task(context: context)
+
+			taskMed.create(context: context, idNum: Int(dayObject.totalTasks), taskName: "Think of this as a meeting with work colleagues, friends, family, grocery shopping, initial design or prototype.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.medium.value))
+			taskMed.details = "The limit on a medium priority task is 3 - 5."
+			dayObject.addToDayToTask(taskMed)
+			
+			let taskLow: Task = Task(context: context)
+			taskLow.create(context: context, idNum: Int(dayObject.totalTasks), taskName: "Quick tasks that aren't necessarily important, like catching up on TV shows.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value))
+			taskLow.details = "The limit on a low priority task is 3 - 5. Quick tasks that don't need a lot of time spent on."
+			dayObject.addToDayToTask(taskLow)
+			persistentContainer.saveContext()
+
+		} else {
+			mainCoordinator?.start(persistentContainer)
+
+		}
+		
+		
+		// setup initial priority limits for the keychain
+		// numbers are defaults for each priority
+		initialisePriorityKeychain()
+
         window = UIWindow()
         window?.rootViewController = navController
         window?.makeKeyAndVisible()
@@ -47,6 +81,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+	
+	func initialisePriorityKeychain() {
+		if (KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) == nil) {
+			KeychainWrapper.standard.set(1, forKey: SettingsKeyChainKeys.HighPriorityLimit)
+			KeychainWrapper.standard.set(3, forKey: SettingsKeyChainKeys.MediumPriorityLimit)
+			KeychainWrapper.standard.set(3, forKey: SettingsKeyChainKeys.LowPriorityLimit)
+		}
+	}
 
     func applicationWillResignActive(_ application: UIApplication) {
         persistentContainer.saveContext()
@@ -64,7 +106,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-
         persistentContainer.saveContext()
     }
 

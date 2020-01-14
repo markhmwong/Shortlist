@@ -19,7 +19,11 @@ extension Day {
 
     @NSManaged public var createdAt: NSDate?
     // Total Task limit for the day
-    @NSManaged public var taskLimit: Int16
+//    @NSManaged public var taskLimit: Int16
+    @NSManaged public var lowPriorityLimit: Int16
+    @NSManaged public var mediumPriorityLimit: Int16
+    @NSManaged public var highPriorityLimit: Int16
+
     @NSManaged public var year: Int16
     @NSManaged public var month: Int16
     

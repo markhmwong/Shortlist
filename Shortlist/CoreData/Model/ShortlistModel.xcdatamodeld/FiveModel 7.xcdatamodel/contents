@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="BigListCategories" representedClassName="BigListCategories" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BackLog" representedClassName="BackLog" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="bigListToBigListTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BigListTask" inverseName="bigListTaskToBigList" inverseEntity="BigListTask"/>
+        <relationship name="backLogToBigListTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BigListTask" inverseName="bigListTaskToBackLog" inverseEntity="BigListTask"/>
     </entity>
     <entity name="BigListTask" representedClassName="BigListTask" syncable="YES">
         <attribute name="carryOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="details" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isNew" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="bigListTaskToBigList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BigListCategories" inverseName="bigListToBigListTask" inverseEntity="BigListCategories"/>
+        <attribute name="reminder" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="reminderState" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="bigListTaskToBackLog" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BackLog" inverseName="backLogToBigListTask" inverseEntity="BackLog"/>
     </entity>
     <entity name="CategoryList" representedClassName="CategoryList" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -28,22 +31,47 @@
         <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="dayToTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="taskToDay" inverseEntity="Task"/>
     </entity>
+    <entity name="Stats" representedClassName="Stats" syncable="YES">
+        <attribute name="favoriteTimeToComplete" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalCompleteTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalIncompleteTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="statsToComplete" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="StatsCategoryComplete" inverseName="completeToStats" inverseEntity="StatsCategoryComplete"/>
+        <relationship name="statsToIncomplete" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="StatsCategoryIncomplete" inverseName="incompleteToStats" inverseEntity="StatsCategoryIncomplete"/>
+    </entity>
+    <entity name="StatsCategoryComplete" representedClassName="StatsCategoryComplete" syncable="YES">
+        <attribute name="completeCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="completeToStats" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Stats" inverseName="statsToComplete" inverseEntity="Stats"/>
+    </entity>
+    <entity name="StatsCategoryIncomplete" representedClassName="StatsCategoryIncomplete" syncable="YES">
+        <attribute name="incompleteCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="incompleteToStats" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Stats" inverseName="statsToIncomplete" inverseEntity="Stats"/>
+    </entity>
     <entity name="Task" representedClassName="Task" syncable="YES">
         <attribute name="carryOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="details" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isNew" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="reminder" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="reminderState" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="taskToDay" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Day" inverseName="dayToTask" inverseEntity="Day"/>
     </entity>
     <elements>
-        <element name="BigListCategories" positionX="-598.09765625" positionY="115.62890625" width="128" height="73"/>
-        <element name="BigListTask" positionX="-394.78515625" positionY="13.6328125" width="128" height="178"/>
-        <element name="CategoryList" positionX="-352.97265625" positionY="265.53515625" width="128" height="58"/>
-        <element name="Day" positionX="-238.67578125" positionY="4.4765625" width="128" height="165"/>
-        <element name="Task" positionX="0.32421875" positionY="-26.2578125" width="128" height="178"/>
+        <element name="BackLog" positionX="-222.703125" positionY="12.37109375" width="128" height="73"/>
+        <element name="BigListTask" positionX="-394.78515625" positionY="13.6328125" width="128" height="223"/>
+        <element name="CategoryList" positionX="6.55078125" positionY="-177.7265625" width="128" height="58"/>
+        <element name="Day" positionX="6.375" positionY="-64.6953125" width="128" height="165"/>
+        <element name="Stats" positionX="-365.7421875" positionY="-178.22265625" width="128" height="28"/>
+        <element name="Task" positionX="157.875" positionY="-65.9453125" width="128" height="223"/>
+        <element name="StatsCategoryComplete" positionX="-166.3984375" positionY="-166.56640625" width="128" height="88"/>
+        <element name="StatsCategoryIncomplete" positionX="-165.69140625" positionY="-106.76171875" width="128" height="88"/>
     </elements>
 </model>

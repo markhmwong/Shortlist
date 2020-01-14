@@ -8,8 +8,9 @@
 
 import Foundation
 
+// Apple Watch struct to transform the data
 struct TaskStruct: Codable {
-    var id: Int16
+    private(set) var id: Int16
     var name: String
     var complete: Bool
     var priority: Int16 // to do
