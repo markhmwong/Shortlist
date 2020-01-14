@@ -46,16 +46,16 @@ class SettingsCellFactory {
 				let cell = tableView.dequeueReusableCell(withIdentifier: standardCellId, for: indexPath) as! SettingsStandardCell
 				return cell
 			case .Chevron:
-				let cell = tableView.dequeueReusableCell(withIdentifier: chevronCellId, for: indexPath)
-				cell.backgroundColor = .clear
-				cell.textLabel?.textColor = .white
-				
-				// chevron image set up
-				let image = UIImage(named: "ChevronRight.png")?.withRenderingMode(.alwaysTemplate)
-				let chevron = UIImageView(frame: CGRect(x: 0, y: 0, width: cell.frame.height * 0.5, height: cell.frame.height * 0.5))
-				chevron.image = image
-				cell.accessoryView = chevron
-				cell.tintColor = UIColor.white
+				let cell = tableView.dequeueReusableCell(withIdentifier: standardCellId, for: indexPath) as! SettingsStandardCell
+//				cell.backgroundColor = .clear
+//				cell.textLabel?.textColor = .white
+//
+//				// chevron image set up
+//				let image = UIImage(named: "ChevronRight.png")?.withRenderingMode(.alwaysTemplate)
+//				let chevron = UIImageView(frame: CGRect(x: 0, y: 0, width: cell.frame.height * 0.5, height: cell.frame.height * 0.5))
+//				chevron.image = image
+//				cell.accessoryView = chevron
+//				cell.tintColor = UIColor.white
 				return cell
 			case .DetailedChevron:
 				let cell = tableView.dequeueReusableCell(withIdentifier: detailedChevronCellId, for: indexPath) as! SettingsDetailedChevronCell

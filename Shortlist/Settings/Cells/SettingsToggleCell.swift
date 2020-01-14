@@ -8,7 +8,21 @@
 
 import UIKit
 
-class SettingsToggleCell: CellBase {
+class SettingsToggleCell: CellBase, SettingsStandardCellProtocol {
+	lazy var nameLabel: UILabel = {
+		let label = UILabel()
+		label.textColor = Theme.Font.Color
+		label.translatesAutoresizingMaskIntoConstraints = false
+		return label
+	}()
+	
+	lazy var iconImage: UIImageView = {
+		let image = UIImageView(frame: .zero)
+		image.translatesAutoresizingMaskIntoConstraints = false
+		return image
+	}()
+	
+	lazy var chevron: UIImageView? = nil
 	
 	lazy var toggle: UISwitch = {
 		let toggle = UISwitch()
@@ -29,8 +43,14 @@ class SettingsToggleCell: CellBase {
 	
 	override func setupCellLayout() {
 		super.setupCellLayout()
+		tintColor = UIColor.white
 		addSubview(toggle)
+		addSubview(nameLabel)
+		addSubview(iconImage)
+		
 		toggle.anchorView(top: nil, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -20.0), size: .zero)
+		iconImage.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 10.0, bottom: -10.0, right: -5.0), size: CGSize(width: bounds.height - 20.0, height: bounds.height - 20.0))
+		nameLabel.anchorView(top: topAnchor, bottom: bottomAnchor, leading: iconImage.trailingAnchor, trailing: toggle.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
 	}
 	
 	
@@ -60,6 +80,14 @@ class SettingsToggleCell: CellBase {
 				}
 			}
 		}
+	}
+	
+	func updateName(_ name: String) {
+		nameLabel.text = name
+	}
+	
+	func updateIcon(_ iconName: String) {
+		iconImage.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
 	}
 }
 

@@ -149,7 +149,8 @@ class SettingsViewModel {
 								return cell
 							case .Notifications:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Toggle) as! SettingsToggleCell
-								cell.textLabel?.text = generalTitles[_general]
+								cell.updateName(generalTitles[_general] ?? "Unknown")
+								cell.updateIcon("SettingsNotification.png")
 								return cell
 							case .NotificationsDisclaimer:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Disclaimer)
@@ -161,17 +162,23 @@ class SettingsViewModel {
 					if let _about = About.init(rawValue: indexPath.row) {
 						switch _about {
 							case .Info:
-								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Chevron)
-								cell.textLabel?.text = aboutTitles[indexPath.row]
+								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .SettingsStandardCell) as! SettingsStandardCell
+								cell.updateName(aboutTitles[indexPath.row])
+								cell.updateIcon("SettingsInfo.png")
 								return cell
 						}
 					}
 				case .Support:
 					if let _support = Support.init(rawValue: indexPath.row) {
+						let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .SettingsStandardCell) as! SettingsStandardCell
+						cell.updateName(supportTitles[indexPath.row])
+						
 						switch _support {
-							case .ReviewApp, .Contact:
-								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Chevron)
-								cell.textLabel?.text = supportTitles[indexPath.row]
+							case .ReviewApp:
+								cell.updateIcon("SettingsReviewApp.png")
+								return cell
+							case .Contact:
+								cell.updateIcon("SettingsContact.png")
 								return cell
 						}
 					}
