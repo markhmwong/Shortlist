@@ -55,6 +55,25 @@ class SettingsViewController: UIViewController {
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
         header.grabTipsProducts()
     }
+	
+	override func viewWillLayoutSubviews() {
+		super.viewWillLayoutSubviews()
+		
+		guard let header = tableView.tableHeaderView else {
+			return
+		}
+		
+		header.anchorView(top: tableView.topAnchor, bottom: nil, leading: tableView.leadingAnchor, trailing: tableView.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		
+		let newSize: CGSize = header.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+		
+		if header.frame.height != newSize.height {
+			header.frame.size.height = newSize.height
+			tableView.tableHeaderView = header
+			header.layoutIfNeeded()
+		}
+		
+	}
     
     @objc
     func handleBack() {

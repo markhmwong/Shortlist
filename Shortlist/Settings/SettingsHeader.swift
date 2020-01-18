@@ -76,6 +76,13 @@ class SettingsHeader: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+	
+	lazy var tipJarContainer: UIView = {
+		let view = UIView()
+		view.backgroundColor = .blue
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -93,23 +100,28 @@ class SettingsHeader: UIView {
     }
     
     func setupView() {
-        backgroundColor = .clear
-        anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.25))
+		backgroundColor = .yellow
+//		anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
         
-        addSubview(coffeeTip)
-        addSubview(generousTip)
-        addSubview(amazingTip)
+		addSubview(tipJarContainer)
+		tipJarContainer.addSubview(coffeeTip)
+		tipJarContainer.addSubview(generousTip)
+		tipJarContainer.addSubview(amazingTip)
         addSubview(promoText)
-        
-        viewModel?.buttonArr.append(coffeeTip)
-        viewModel?.buttonArr.append(generousTip)
-        viewModel?.buttonArr.append(amazingTip)
-        
+
+		tipJarContainer.anchorView(top: promoText.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		
         promoText.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
         
         coffeeTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.1))
-        generousTip.anchorView(top: promoText.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.1))
+		generousTip.anchorView(top: tipJarContainer.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: tipJarContainer.centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.1))
         amazingTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.1))
+		
+		guard let _viewModel = viewModel else { return }
+		
+        _viewModel.buttonArr.append(coffeeTip)
+        _viewModel.buttonArr.append(generousTip)
+        _viewModel.buttonArr.append(amazingTip)
     }
     
     func grabTipsProducts() {
