@@ -14,22 +14,26 @@ class AboutCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
     var childCoordinators: [Coordinator] = [Coordinator]()
     
+	// Absolute root nav controller
     var navigationController: UINavigationController
     
-    init(navigationController:UINavigationController) {
+	weak var parentViewController: SettingsViewController? = nil
+	
+    init(navigationController: UINavigationController, parentViewController: SettingsViewController?) {
         self.navigationController = navigationController
+		self.parentViewController = parentViewController
     }
     
     // stats viewcontroller begin here
-    func start(_ persistentContainer: PersistentContainer?) {
+	func start(_ persistentContainer: PersistentContainer?) {
         navigationController.delegate = self
-
-        let vc = AboutViewController()
-        let nav = UINavigationController(rootViewController: vc)
-        DispatchQueue.main.async {
-            self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
-        }
+        let vc = AboutViewController(coordinator: self)
+		parentViewController?.navigationController?.pushViewController(vc, animated: true)
     }
+	
+	func dismiss() {
+		parentViewController?.navigationController?.popViewController(animated: true)
+	}
     
     func getTopMostViewController() -> UIViewController? {
 		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController

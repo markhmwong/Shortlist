@@ -42,6 +42,25 @@ class DailyAccolades: NSObject {
 
 	}
 	
+	
+	
+	
+	private func resolveCarriedOverTasks() {
+		var task = 0
+		if (task >= 3) {
+			awardList.append(AwardsList.CarryOver.ThePlanner)
+		}
+	}
+	
+	// where to store deleted tasks - in day object
+	private func resolveDeletedTasks() {
+		var deletedTasks = 0
+		if (deletedTasks >= 4) {
+			awardList.append(AwardsList.Delete.TheRejecter)
+		}
+		
+	}
+	
 	private func resolveCompleteTasks() {
 		guard let _day = day else { return }
 		
@@ -50,15 +69,22 @@ class DailyAccolades: NSObject {
 			return
 		}
 		
-		if (_day.totalCompleted > 1 && _day.totalCompleted <= 2) {
+		var percentageComplete: Double = Double(_day.totalCompleted) / Double(_day.totalTasks)
+		
+		if (percentageComplete > 0.01 && percentageComplete <= 0.25) {
 			awardList.append(AwardsList.Complete.TheDoer)
-		} else if (_day.totalCompleted > 2 && _day.totalCompleted <= 4) {
-			awardList.append(AwardsList.Complete.TheDoer)
-
+			awardList.append(AwardsList.Complete.TheGoGetter)
+		} else if (percentageComplete > 0.26 && percentageComplete <= 0.50) {
+			awardList.append(AwardsList.Complete.TheGoGetter)
+		} else if (percentageComplete > 0.51 && percentageComplete <= 0.74) {
+			awardList.append(AwardsList.Complete.TheProfessional)
+			awardList.append(AwardsList.Complete.TheOrganizer)
+			awardList.append(AwardsList.Complete.TheAchiever)
+		} else if (percentageComplete > 0.74 && percentageComplete <= 1.0) {
+			awardList.append(AwardsList.Complete.TheCompletionist)
+			awardList.append(AwardsList.Complete.TheEyeOfTheTiger)
+			awardList.append(AwardsList.Complete.ThePowerhouse)
 		}
-		
-		
-
 	}
 	
 	private func resolveIncompleteTasks() {
@@ -69,14 +95,16 @@ class DailyAccolades: NSObject {
 			awardList.append(AwardsList.Incomplete.TheFunday)
 		} else if (incompleteTasks > 2 && incompleteTasks <= 5) {
 			awardList.append(AwardsList.Incomplete.TheCouchPotato)
+			awardList.append(AwardsList.Incomplete.TheSpectator)
 		} else if (incompleteTasks > 5 && incompleteTasks <= 8) {
-			awardList.append(AwardsList.Incomplete.ThePolitician)
+			awardList.append(AwardsList.Incomplete.TheLoaf)
+			awardList.append(AwardsList.Incomplete.TheSloth)
 		} else if (incompleteTasks > 9) {
 			awardList.append(AwardsList.Incomplete.TheDayDreamer)
+			awardList.append(AwardsList.Incomplete.ThePolitician)
 		} else {
 			() // no award for all other circumstances
 		}
-		
 	}
 	
 	private func resolveTaskPriorityAward() {

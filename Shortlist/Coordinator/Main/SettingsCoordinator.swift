@@ -29,7 +29,6 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     func start(_ persistentContainer: PersistentContainer?) {
         navigationController.delegate = self
         guard let persistentContainer = persistentContainer else {
-            print("Persistent Container not loaded")
             return
         }
 		
@@ -50,7 +49,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     
     // add contact view
     func showAbout(_ persistentContainer: PersistentContainer?) {
-        let child = AboutCoordinator(navigationController: navigationController)
+		let child = AboutCoordinator(navigationController: navigationController, parentViewController: rootViewController ?? nil)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
@@ -64,7 +63,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 	
     // add stats view and coordinator
     func showStats(_ persistentContainer: PersistentContainer?) {
-        let child = StatsCoordinator(navigationController: navigationController)
+		let child = StatsCoordinator(navigationController: navigationController, parentViewController: rootViewController ?? nil)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)

@@ -84,6 +84,7 @@ struct Theme {
 		static var backgroundColor: UIColor = UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
 		static var textColor: UIColor = UIColor.black
 		static var cornerRadius: CGFloat = 15.0
+		static var donationButtonBackgroundColor: UIColor = UIColor(red:1.00, green:0.24, blue:0.00, alpha:1.0)
 	}
 	
 	struct Chart {

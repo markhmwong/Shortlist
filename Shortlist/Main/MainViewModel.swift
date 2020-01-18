@@ -70,14 +70,15 @@ class MainViewModel {
 			return 0
 		}
 		
-		var totalTasks = 0
+		var numberOfPriorityTasks = 0
 		for task in set {
 			if (priorityLevel == task.priority) {
-				totalTasks = totalTasks + 1
+				
+				numberOfPriorityTasks = numberOfPriorityTasks + 1
 			}
 		}
 		
-		return totalTasks
+		return numberOfPriorityTasks
 	}
 
 	func registerCell(_ tableView: UITableView) {

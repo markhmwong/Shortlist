@@ -67,7 +67,7 @@ class BackLogTaskListViewController: UIViewController, NSFetchedResultsControlle
 		super.viewDidLoad()
 		view.backgroundColor = UIColor.black
 		navigationItem.title = "Tasks"
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(handleClose))
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleClose), imageName: "Back", height: self.topBarHeight / 1.8)
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Test", style: .plain, target: self, action: #selector(createTestTask))
 
 		guard let vm = viewModel else { return }

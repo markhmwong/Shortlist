@@ -99,7 +99,7 @@ class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
 		view.backgroundColor = Theme.GeneralView.background
 		navigationItem.prompt = "Make changes to your Task"
 		
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleCancel), imageName: "Back", height: self.topBarHeight / 1.8)
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
 		
 		vm.registerCells(tableView: tableView)

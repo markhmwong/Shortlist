@@ -108,6 +108,14 @@ class ReviewHeader: UIView {
         label.attributedText = NSAttributedString(string: "0 / 5", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.h3).value)!])
         return label
     }()
+	
+    lazy var tipJarTitle: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.attributedText = NSAttributedString(string: "Tip for incompleted tasks", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.h3).value)!])
+        return label
+    }()
     
     lazy var dateBackgroundView: UIView = {
         let view = UIView()
@@ -136,8 +144,7 @@ class ReviewHeader: UIView {
         self.init(frame: .zero)
         self.date = date
         self.viewModel = viewModel
-        translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .clear
+
         setupView()
     }
 
@@ -146,52 +153,45 @@ class ReviewHeader: UIView {
     }
     
     private func setupView() {
-        guard let viewModel = viewModel else { return }
-        
-        let totalTasks = viewModel.dayEntity?.totalTasks
-        let totalCompleted = viewModel.dayEntity?.totalCompleted
-        completedTasks.attributedText = NSAttributedString(string: "\(totalCompleted ?? 0) / \(totalTasks ?? 5)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])
-        
-		widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
-
+        guard let _viewModel = viewModel else { return }
+        translatesAutoresizingMaskIntoConstraints = false
+		backgroundColor = UIColor(red:0.02, green:0.12, blue:0.20, alpha:1.0)
+		
+        let totalTasks = _viewModel.dayEntity?.totalTasks
+        let totalCompleted = _viewModel.dayEntity?.totalCompleted
+//        completedTasks.attributedText = NSAttributedString(string: "\(totalCompleted ?? 0) / \(totalTasks ?? 5)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])
+		
 		addSubview(reviewTitle)
 		let estimatedFrameInstructionTitle = NSString(string: reviewTitle.text!).boundingRect(with: CGSize(width: bounds.width, height: 1000), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.darker(by: 50.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!], context: nil)
 		
-		if (totalTasks != totalCompleted) {
-			heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.35).isActive = true
-			
+//		if (totalTasks != totalCompleted) {
+		if (true) {
 			addSubview(coffeeTip)
 			addSubview(generousTip)
 			addSubview(amazingTip)
 			addSubview(tipDisclaimer)
 			
-			viewModel.buttonArr.append(coffeeTip)
-			viewModel.buttonArr.append(generousTip)
-			viewModel.buttonArr.append(amazingTip)
+			_viewModel.buttonArr.append(coffeeTip)
+			_viewModel.buttonArr.append(generousTip)
+			_viewModel.buttonArr.append(amazingTip)
 			
-			coffeeTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.1))
-			generousTip.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.1))
-			amazingTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.1))
-			tipDisclaimer.anchorView(top: generousTip.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: .zero, size: .zero)
-			reviewTitle.anchorView(top: tipDisclaimer.bottomAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: estimatedFrameInstructionTitle.height, left: 10.0, bottom: 0.0, right: 10.0), size: .zero)
-			
-
-
+			coffeeTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.06))
+			generousTip.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.06))
+			amazingTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: UIScreen.main.bounds.height * 0.06))
+			tipDisclaimer.anchorView(top: generousTip.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
+			reviewTitle.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: estimatedFrameInstructionTitle.height, left: 10.0, bottom: 0.0, right: 10.0), size: .zero)
 		} else {
+
 			heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.23).isActive = true
 
-			reviewTitle.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: estimatedFrameInstructionTitle.height, left: 10.0, bottom: 0.0, right: 10.0), size: .zero)
+			reviewTitle.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: estimatedFrameInstructionTitle.height, left: 10.0, bottom: 0.0, right: 10.0), size: .zero)
 		}
 		
-		addSubview(completedTasksTitle)
-        addSubview(completedTasks)
+//		addSubview(completedTasksTitle)
+//        addSubview(completedTasks)
         
-        completedTasksTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 40.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
-        completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
+//        completedTasksTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 40.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
+//        completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
     }
     
     func heightRatioForHeader() -> CGFloat {

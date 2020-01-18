@@ -136,6 +136,8 @@
 		4D90B59F23CB5BEC0077E756 /* SettingsDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D90B59E23CB5BEC0077E756 /* SettingsDisclaimerCell.swift */; };
 		4D90B5A123CD54380077E756 /* SettingsStandardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D90B5A023CD54380077E756 /* SettingsStandardCell.swift */; };
 		4D90B5A323CD56650077E756 /* SettingsStandardCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D90B5A223CD56650077E756 /* SettingsStandardCellProtocol.swift */; };
+		4D90B5A523D178F70077E756 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D90B5A423D178F70077E756 /* UIViewController+Extension.swift */; };
+		4D90B5A723D17D340077E756 /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D90B5A623D17D340077E756 /* UIBarButtonItem.swift */; };
 		4D9304A823A9A6650001EC3D /* EditTaskPriorityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9304A723A9A6650001EC3D /* EditTaskPriorityCell.swift */; };
 		4D9304AB23A9A8970001EC3D /* PriorityLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9304AA23A9A8970001EC3D /* PriorityLevel.swift */; };
 		4D953B64230A91910048C247 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B63230A91910048C247 /* MainCoordinator.swift */; };
@@ -364,6 +366,8 @@
 		4D90B59E23CB5BEC0077E756 /* SettingsDisclaimerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisclaimerCell.swift; sourceTree = "<group>"; };
 		4D90B5A023CD54380077E756 /* SettingsStandardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStandardCell.swift; sourceTree = "<group>"; };
 		4D90B5A223CD56650077E756 /* SettingsStandardCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStandardCellProtocol.swift; sourceTree = "<group>"; };
+		4D90B5A423D178F70077E756 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		4D90B5A623D17D340077E756 /* UIBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
 		4D9304A723A9A6650001EC3D /* EditTaskPriorityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskPriorityCell.swift; sourceTree = "<group>"; };
 		4D9304AA23A9A8970001EC3D /* PriorityLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityLevel.swift; sourceTree = "<group>"; };
 		4D953B63230A91910048C247 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -508,7 +512,6 @@
 				4D5B5E0322F07FB500C8D9A5 /* Model */,
 				4D5BA10222E5AD9100B9B487 /* Review */,
 				4D4F0C8F231FCF1700E71BE9 /* Settings */,
-				4D953B69230AA4400048C247 /* Stats */,
 				4D596EEF22EC479000B2D21D /* Theme */,
 				4D5B5DFA22F07E5400C8D9A5 /* WatchManager */,
 				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
@@ -570,11 +573,12 @@
 		4D4F0C8F231FCF1700E71BE9 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */,
-				4DD2D78A232F7C4D005A6208 /* SettingsKeyChainKeys.swift */,
+				4D953B69230AA4400048C247 /* Stats */,
 				4D377CFE237EF1840026FB3A /* Cells */,
 				4D646B382323C0D300073FD6 /* Contact */,
 				4DAFBC892320915000A6F189 /* TaskLimit */,
+				4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */,
+				4DD2D78A232F7C4D005A6208 /* SettingsKeyChainKeys.swift */,
 				4D4F0C91231FD16400E71BE9 /* SettingsViewController.swift */,
 				4D4F0C95231FFE2500E71BE9 /* SettingsViewModel.swift */,
 				4D4F0C97231FFF6600E71BE9 /* SettingsHeader.swift */,
@@ -896,6 +900,8 @@
 				4D6E756F2360ADE500C67B8F /* UITableView+Extension.swift */,
 				4DED156C23617BA200FC903E /* UITextView+Extension.swift */,
 				4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */,
+				4D90B5A423D178F70077E756 /* UIViewController+Extension.swift */,
+				4D90B5A623D17D340077E756 /* UIBarButtonItem.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -915,7 +921,6 @@
 				4D953B65230A91AD0048C247 /* Coordinator.swift */,
 				4D6D53DF2337B1AD00FA38B4 /* EditTaskCoordinator.swift */,
 				4D6E753C2356388E00C67B8F /* CategoryListCoordinator.swift */,
-				4D953B67230A9DF90048C247 /* StatsCoordinator.swift */,
 				4D6E7561236045A100C67B8F /* Main */,
 				4DAFBC8C2320938600A6F189 /* Settings */,
 			);
@@ -971,6 +976,7 @@
 		4DAFBC8C2320938600A6F189 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				4D953B67230A9DF90048C247 /* StatsCoordinator.swift */,
 				4DAFBC8D232093A200A6F189 /* TaskLimitCoordinator.swift */,
 				4D646B3B2323C1B400073FD6 /* AboutCoordinator.swift */,
 				4D377CFB237EEA970026FB3A /* NotificationsCoordinator.swift */,
@@ -1235,6 +1241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D45E7F022DE0882008AC433 /* UIColor+Extension.swift in Sources */,
+				4D90B5A723D17D340077E756 /* UIBarButtonItem.swift in Sources */,
 				4DA50FC422E84BE60059A46F /* ReviewCell.swift in Sources */,
 				4D70285C2371A26E003D33E6 /* EditTaskToggleCell.swift in Sources */,
 				4D6E7539235634B300C67B8F /* BackLogViewController.swift in Sources */,
@@ -1320,6 +1327,7 @@
 				4D6E755E2359C59E00C67B8F /* BackLog+CoreDataProperties.swift in Sources */,
 				4D5BA10422E5ADA200B9B487 /* ReviewViewController.swift in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
+				4D90B5A523D178F70077E756 /* UIViewController+Extension.swift in Sources */,
 				4D6A57C8230AF0E40055C16F /* Day+CoreDataClass.swift in Sources */,
 				4D6E75702360ADE500C67B8F /* UITableView+Extension.swift in Sources */,
 				4D5B89DF236AB2EC00B38DF5 /* LocalNotificationsService.swift in Sources */,

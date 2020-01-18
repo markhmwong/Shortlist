@@ -15,19 +15,13 @@ import CoreData
 class ReviewViewController: UIViewController {
  
 	// to do - add accolades
-	// quick task completion - Quick Draw,
-	// completed all tasks - Completionist, Perfectionist
-	// did not complete all tasks - Work Shy, Idler, AFKer, Funday,
-	// 
 	
-    weak var persistentContainer: PersistentContainer?
+    private weak var persistentContainer: PersistentContainer?
 
     var viewModel: ReviewViewModel?
     
     var reviewCoordinator: ReviewCoordinator?
-    
-//	var settingsCoordinator: SettingsCoordinator?
-	
+    	
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
@@ -81,18 +75,28 @@ class ReviewViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		if let header = tableView.tableHeaderView as? ReviewHeader {
+			header.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+			header.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+			header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+			header.bottomAnchor.constraint(equalTo: header.tipDisclaimer.bottomAnchor, constant: 15.0).isActive = true
+		}
+	}
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.black
+		view.backgroundColor = Theme.GeneralView.background
         
+		// LOAD DATA
         loadData()
-        //        CoreDataManager.shared.deleteAllRecordsIn(entity: Day.self)
         tableView.reloadData()
-        // Do any additional setup after loading the view.
-        tableView.tableHeaderView = reviewHeader
-        reviewHeader.setNeedsLayout()
-        reviewHeader.layoutIfNeeded()
+
+		tableView.tableHeaderView = reviewHeader
+		reviewHeader.setNeedsLayout()
+		reviewHeader.layoutIfNeeded()
         view.addSubview(tableView)
         view.addSubview(doneButton)
         
@@ -155,7 +159,7 @@ class ReviewViewController: UIViewController {
 		persistentContainer?.saveContext()
 		
 		//dismiss view
-		reviewCoordinator?.dimiss(persistentContainer)
+		reviewCoordinator?.dimissFromMainViewController(persistentContainer)
     }
 	
 	
@@ -209,9 +213,27 @@ class ReviewViewController: UIViewController {
 
 extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let dayObjects = fetchedResultsController.fetchedObjects else { return 0 }
-        let first = dayObjects.first
-        return first?.dayToTask?.count ?? 0
+        guard let dayObjects = fetchedResultsController.fetchedObjects else {
+			tableView.separatorColor = .clear
+			tableView.setEmptyMessage("No tasks in this day!")
+			return 0
+		}
+		
+		if let day = dayObjects.first {
+			if (day.dayToTask?.count == 0) {
+				tableView.separatorColor = .clear
+				tableView.setEmptyMessage("No tasks in this day!")
+				return 0
+			} else {
+				tableView.restoreBackgroundView()
+				return day.dayToTask?.count ?? 0
+			}
+		} else {
+			return 0
+		}
+		
+//        let first = dayObjects.first
+//        return first?.dayToTask?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

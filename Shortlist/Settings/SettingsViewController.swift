@@ -41,18 +41,35 @@ class SettingsViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
-        navigationController?.title = "Settings"
+		
+		// view
+		
+		view.backgroundColor = .black
+		
+		// Navigation
 
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleBack), imageName: "Back", height: self.topBarHeight / 1.8)
+		navigationItem.title = "Settings"
+
+		
+		// Setup tableview
+		
 		viewModel?.registerTableViewCell(tableView)
+		
+		// tableview header
+		
         let settingsHeaderViewModel = SettingsHeaderViewModel()
         let header = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel)
         tableView.tableHeaderView = header
         header.setNeedsLayout()
         header.layoutIfNeeded()
+		
         view.addSubview(tableView)
+		
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		
+		// request tips from Apple
+		
         header.grabTipsProducts()
     }
     

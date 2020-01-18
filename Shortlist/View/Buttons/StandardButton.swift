@@ -15,8 +15,8 @@ class StandardButton: UIButton {
     
     var product: SKProduct?
     
-    let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : UIColor.black, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
-    
+	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
+    	
     init(title: String) {
         super.init(frame: .zero)
         self.setupView(title)
@@ -27,13 +27,14 @@ class StandardButton: UIButton {
     }
     
     func setupView(_ title: String) {
+
         translatesAutoresizingMaskIntoConstraints = false
         setAttributedTitle(NSAttributedString(string: title, attributes: attributes), for: .normal)
-        backgroundColor = UIColor.white
+		backgroundColor = Theme.Button.donationButtonBackgroundColor
         layer.cornerRadius = 5.0
         titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 10.0)
     }
-    
+	
     func updateButtonTitle(with title: String) {
         DispatchQueue.main.async {
             self.setAttributedTitle(NSAttributedString(string: title, attributes: self.attributes), for: .normal)

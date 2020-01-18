@@ -70,7 +70,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	}
     
 	func showReview(_ persistentContainer: PersistentContainer?, mainViewController: MainViewController?) {
-		let child = ReviewCoordinator(navigationController: navigationController, viewController: mainViewController)
+		let child = ReviewCoordinator(navigationController: navigationController, mainViewController: mainViewController)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)

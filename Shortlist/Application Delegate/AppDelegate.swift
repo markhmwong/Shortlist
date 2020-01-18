@@ -34,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		mainCoordinator = MainCoordinator(navigationController: navController)
 
 		if (ApplicationDetails.shared.isFirstLoad()) {
-//		if (true) {
 			mainCoordinator?.start(persistentContainer)
 			mainCoordinator?.showOnboarding(persistentContainer)
 			
@@ -61,7 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		} else {
 			mainCoordinator?.start(persistentContainer)
-
 		}
 		
 		

@@ -16,8 +16,11 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
     var navigationController: UINavigationController
     
-    init(navigationController:UINavigationController) {
+	weak var parentViewController: SettingsViewController? = nil
+	
+	init(navigationController: UINavigationController, parentViewController: SettingsViewController?) {
         self.navigationController = navigationController
+		self.parentViewController = parentViewController
     }
     
     // stats viewcontroller begin here
@@ -28,12 +31,22 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
             return
         }
         let vc = StatsViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: StatsViewModel())
-        let nav = UINavigationController(rootViewController: vc)
-//        navigationController.present(nav, animated: true, completion: nil)
-        DispatchQueue.main.async {
-            self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
-        }
+		parentViewController?.navigationController?.pushViewController(vc, animated: true)
+
+//		DispatchQueue.main.async {
+//			self.getTopMostViewController()?.navigationController?.pushViewController(vc, animated: true)
+//		}
+		
+		
+//        let nav = UINavigationController(rootViewController: vc)
+//        DispatchQueue.main.async {
+//            self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
+//        }
     }
+	
+	func dismiss() {
+		parentViewController?.navigationController?.popViewController(animated: true)
+	}
     
     func childDidFinish(_ child: Coordinator) {
         for (index, coordinator) in childCoordinators.enumerated() {

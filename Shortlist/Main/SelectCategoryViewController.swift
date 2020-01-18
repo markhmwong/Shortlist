@@ -86,7 +86,7 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 		
 		navigationItem.title = "Categories"
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAddCategory))
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(handleClose))
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleClose), imageName: "Back", height: self.topBarHeight / 1.8)
 
 		viewModel.tableViewRegisterCell(tableView)
 		view.addSubview(tableView)

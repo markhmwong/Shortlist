@@ -32,11 +32,13 @@ class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegat
         }
         let viewModel = TaskLimitViewModel(persistentContainer)
 		let vc = TaskLimitViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel, parentViewController: parentViewController)
-        let nav = UINavigationController(rootViewController: vc)
-        DispatchQueue.main.async {
-            self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
-        }
+		parentViewController?.navigationController?.pushViewController(vc, animated: true)
+
     }
+	
+	func dismiss() {
+		parentViewController?.navigationController?.popViewController(animated: true)
+	}
     
     func getTopMostViewController() -> UIViewController? {
 		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController

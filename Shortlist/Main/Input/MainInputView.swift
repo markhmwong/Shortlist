@@ -127,6 +127,7 @@ class MainInputView: UIView {
 		progressBar.anchorView(top: taskTextView.topAnchor, bottom: nil, leading: taskTextView.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: padding, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
 		priorityButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: reminderButton.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: padding, bottom: -padding / 2.0, right: 0.0), size: .zero)
 		keyoardNotification()
+		initialisePriorityButton()
 	}
 	
 	override func layoutSubviews() {
@@ -211,18 +212,32 @@ class MainInputView: UIView {
 		delegate.showTimePicker()
 	}
 	
-	
-	//switch between three priority levels
+	// cycles between three priority levels
 	@objc
 	func handlePriority() {
 		
-		if (priority != 2) {
+		if (priority != Int(Priority.low.rawValue)) {
 			priority = priority + 1
 		} else {
 			//reset
-			priority = 0
+			priority = Int(Priority.high.rawValue)
 		}
 		
+		if let p = Priority(rawValue: Int16(priority)) {
+			switch p {
+				case .high:
+					updatePriorityButton(string: "H", color: Theme.Priority.highColor)
+				case .medium:
+					updatePriorityButton(string: "M", color: Theme.Priority.mediumColor)
+				case .low:
+					updatePriorityButton(string: "L", color: Theme.Priority.lowColor)
+				case .none:
+					updatePriorityButton(string: "N", color: Theme.Priority.noneColor)
+			}
+		}
+	}
+	
+	func initialisePriorityButton() {
 		if let p = Priority(rawValue: Int16(priority)) {
 			switch p {
 				case .high:

@@ -120,7 +120,8 @@ class OnboardingCell: UICollectionViewCell {
 	
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		details.text = ""
-		title.text = ""
+		updateDetails("")
+		updateTitle("")
+		updateImage(nil)
 	}
 }

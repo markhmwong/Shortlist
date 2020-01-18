@@ -16,11 +16,11 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
     var navigationController: UINavigationController
     
-	var mainViewController: MainViewController?
-	
-	init(navigationController:UINavigationController, viewController: MainViewController?) {
+	weak var mainViewController: MainViewController? = nil
+		
+	init(navigationController:UINavigationController, mainViewController: MainViewController?) {
         self.navigationController = navigationController
-		self.mainViewController = viewController
+		self.mainViewController = mainViewController
     }
     
     // stats viewcontroller begins here
@@ -32,12 +32,15 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         }
         let viewModel = ReviewViewModel()
         let vc = ReviewViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel)
-        let nav = UINavigationController(rootViewController: vc)
-        navigationController.present(nav, animated: true, completion: nil)
+		navigationController.modalPresentationStyle = .fullScreen
+		navigationController.present(vc, animated: true, completion: nil)
+
+		
     }
 	
-	func dimiss(_ persistentContainer: PersistentContainer?) {
+	func dimissFromMainViewController(_ persistentContainer: PersistentContainer?) {
 		//get mainviewcontroller delegate
+		
 		navigationController.dismiss(animated: true) {
 			guard let mvc = self.mainViewController else {
 				return

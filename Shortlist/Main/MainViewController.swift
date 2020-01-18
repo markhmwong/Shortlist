@@ -68,11 +68,12 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         view.estimatedRowHeight = viewModel?.cellHeight ?? 100.0
         view.rowHeight = UITableView.automaticDimension
         view.translatesAutoresizingMaskIntoConstraints = false
+		view.keyboardDismissMode = .onDrag
         return view
     }()
     
-    lazy var addButton: UIButton = {
-        let button = UIButton()
+    lazy var addButton: StandardButton = {
+        let button = StandardButton(title: "AddTask")
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = Theme.Button.cornerRadius
 		button.backgroundColor = Theme.Button.backgroundColor
@@ -101,6 +102,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         super.init(coder: aDecoder)
     }
     
+	// clean up
     override func viewDidLoad() {
         super.viewDidLoad()
 		let today: Int16 = Calendar.current.todayToInt()
@@ -270,8 +272,8 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     private func setupView() {
 		
         guard let viewModel = viewModel else { return }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(handleOptions))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(handleSettings))
+		navigationItem.rightBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleOptions), imageName: "More.png", height: self.topBarHeight / 1.8)
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleSettings), imageName: "Settings.png", height: self.topBarHeight / 1.8)
 		
 		viewModel.registerCell(tableView)
 
@@ -284,7 +286,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		view.addSubview(addButton)
 		
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
-        addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
+        addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -30.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
 		mainInputView.anchorView(top:nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		bottomConstraint = NSLayoutConstraint(item: mainInputView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
 		view.addConstraint(bottomConstraint!)
@@ -347,6 +349,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		coordinator?.showCategory(persistentContainer, mainViewController: self)
 	}
 	
+	//move to viewmodel
 	func postTask(taskName: String, category: String, priorityLevel: Int) {
 		// to do add priority
         guard let persistentContainer = persistentContainer else {
@@ -357,61 +360,73 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         guard let day = vm.dayEntity else { return }
 		
 		let totalTasks = vm.totalTasksForPriority(day, priorityLevel: priorityLevel)
-		
+
 		//move to view model
-		if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) ?? totalTasks) {
-			// warning
-			coordinator?.showAlertBox("High Priority Limit Reached")
-			return
-		} else if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? totalTasks) {
-			coordinator?.showAlertBox("Medium Priority Limit Reached")
-		} else if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? totalTasks) {
-			// warning
-			coordinator?.showAlertBox("Low Priority Limit Reached")
-		} else {
-			let context: NSManagedObjectContext  = persistentContainer.viewContext
-			let dayObject: Day = context.object(with: day.objectID) as! Day
-			let createdAt: Date = Date()
-			let reminderDate: Date = pickerViewContainer.getValues()
-			
-			dayObject.totalTasks += 1
-			let task: Task = Task(context: context)
-			task.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
-			dayObject.addToDayToTask(task)
-			
-			// check if category exists
-			if (persistentContainer.categoryExistsInBackLog(category)) {
-				if let bigListCategory: BackLog = persistentContainer.fetchBigListCategory(forDate: category) {
-					let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
-					bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
-					bigListCategory.addToBackLogToBigListTask(bigListTask)
-				} else {
-					//failed - pop up
-				}
-			} else {
-				
-				// create category
-				let bigListCategory: BackLog = BackLog(context: persistentContainer.viewContext)
-				bigListCategory.create(name: category)
+		if let p = Priority.init(rawValue: Int16(priorityLevel)) {
+			switch p {
+				case Priority.high:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) ?? totalTasks) {
+						// warning
+						coordinator?.showAlertBox("High Priority Limit Reached")
+						return
+					}
+				case Priority.medium:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? totalTasks) {
+						coordinator?.showAlertBox("Medium Priority Limit Reached")
+						return
+					}
+				case Priority.low:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? totalTasks) {
+						// warning
+						coordinator?.showAlertBox("Low Priority Limit Reached")
+						return
+					}
+				case Priority.none:
+				()
+			}
+		}
+
+		let context: NSManagedObjectContext  = persistentContainer.viewContext
+		let dayObject: Day = context.object(with: day.objectID) as! Day
+		let createdAt: Date = Date()
+		let reminderDate: Date = pickerViewContainer.getValues()
+		
+		dayObject.totalTasks += 1
+		let task: Task = Task(context: context)
+		task.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
+		dayObject.addToDayToTask(task)
+		
+		// check if category exists
+		if (persistentContainer.categoryExistsInBackLog(category)) {
+			if let bigListCategory: BackLog = persistentContainer.fetchBigListCategory(forDate: category) {
 				let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
 				bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
 				bigListCategory.addToBackLogToBigListTask(bigListTask)
-				let categoryList: CategoryList = CategoryList(context: persistentContainer.viewContext)
-				categoryList.create(name: category)
 			}
-
-			//create notification
-			if (reminderDate.timeIntervalSince(createdAt) > 0.0) {
-				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [NotificationKeys.Title : taskName], timeRemaining: reminderDate.timeIntervalSince(createdAt))
-			}
+		} else {
 			
-			// add to stats
-			if let stats: Stats = persistentContainer.fetchStatEntity() {
-				stats.addToTotalTasks(numTasks: 1)
-				stats.addToTotalIncompleteTasks(numTasks: 1)
-			}
-			persistentContainer.saveContext()
+			// create category
+			let bigListCategory: BackLog = BackLog(context: persistentContainer.viewContext)
+			bigListCategory.create(name: category)
+			let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
+			bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
+			bigListCategory.addToBackLogToBigListTask(bigListTask)
+			let categoryList: CategoryList = CategoryList(context: persistentContainer.viewContext)
+			categoryList.create(name: category)
 		}
+
+		//create notification
+		if (reminderDate.timeIntervalSince(createdAt) > 0.0) {
+			LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [NotificationKeys.Title : taskName], timeRemaining: reminderDate.timeIntervalSince(createdAt))
+		}
+		
+		// add to stats
+		if let stats: Stats = persistentContainer.fetchStatEntity() {
+			stats.addToTotalTasks(numTasks: 1)
+			stats.addToTotalIncompleteTasks(numTasks: 1)
+		}
+		persistentContainer.saveContext()
+		
 	}
 	
 	func showTimePicker() {
@@ -465,6 +480,13 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 //        }
     }
 	
+	func emphasiseAddButton() {
+		DispatchQueue.main.async {
+			self.addButton.backgroundColor = Theme.Button.donationButtonBackgroundColor
+			self.addButton.setAttributedTitle(NSAttributedString(string: "Add Task", attributes: [NSAttributedString.Key.font : UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!, NSAttributedString.Key.foregroundColor : Theme.Font.Color]), for: .normal)
+		}
+	}
+	
     @objc
     func handleSettings() {
         guard let coordinator = coordinator else { return }
@@ -509,6 +531,14 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	}
 }
 
+extension MainViewController {
+	
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		print("touch")
+	}
+	
+}
+
 extension MainViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 		do {
@@ -540,6 +570,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
         guard let dayObjects = fetchedResultsController?.fetchedObjects else {
 			tableView.separatorColor = .clear
 			tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
+			emphasiseAddButton()
 			return 0
 		}
 		
@@ -547,6 +578,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
 			if (day.dayToTask?.count == 0) {
 				tableView.separatorColor = .clear
 				tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
+				emphasiseAddButton()
 				return 0
 			} else {
 				tableView.restoreBackgroundView()
@@ -605,8 +637,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
     }
 	
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//		guard let _viewModel = viewModel else { return }
-		// is it a swap between rows or a swap between sections
 		
 		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
         let set = dayManagedObject.dayToTask as? Set<Task>

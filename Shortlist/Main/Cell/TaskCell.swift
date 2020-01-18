@@ -90,7 +90,7 @@ class TaskCell: UITableViewCell {
     lazy var categoryTitle: UITextView = {
         let view = UITextView()
         view.delegate = self
-		view.backgroundColor = UIColor.black.adjust(by: 20.0)
+		view.backgroundColor = UIColor.clear
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
         view.textColor = UIColor.white
@@ -123,7 +123,6 @@ class TaskCell: UITableViewCell {
 	
 	lazy var fadedBackground: UIView = {
 		let view = UIView()
-//		view.backgroundColor = Theme.Priority.highColor.withAlphaComponent(0.2)
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
@@ -145,15 +144,13 @@ class TaskCell: UITableViewCell {
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
 		gradientLayer.frame = taskName.bounds
-		priorityMarker.anchorView(top: fadedBackground.topAnchor, bottom: nil, leading: fadedBackground.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: fadedBackground.bounds.width, height: 10.0))
+		priorityMarker.anchorView(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: contentView.bounds.width, height: 10.0))
 	}
 	
 	
 	func setupCellLayout() {
-		addSubview(fadedBackground)
-		backgroundColor = .clear//Theme.Priority.highColor.withAlphaComponent(0.05)
-
-
+		contentView.addSubview(fadedBackground)
+		backgroundColor = .clear
 		gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
 		gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
 		gradientLayer.drawsAsynchronously = true
@@ -162,16 +159,15 @@ class TaskCell: UITableViewCell {
         gradientSet.append([gradientTwo, gradientThree])
         gradientSet.append([gradientThree, gradientOne])
 		gradientLayer.colors = gradientSet[currentGradient]
-		gradientLayer.delegate = self
+		gradientLayer.delegate = self // animation
 		animateGradient()
-		
+		taskName.layer.mask = gradientLayer
         contentView.addSubview(taskName)
-        contentView.addSubview(taskButton)
         contentView.addSubview(categoryTitle)
 		contentView.addSubview(priorityMarker)
 		contentView.addSubview(details)
+        contentView.addSubview(taskButton)
 
-		taskName.layer.mask = gradientLayer
 
 		taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 50.0, height: 0.0))
 		taskName.anchorView(top: contentView.topAnchor, bottom: nil, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -5.0, right: -20.0), size: .zero)
