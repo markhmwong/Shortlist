@@ -60,10 +60,8 @@ class SettingsViewController: UIViewController {
         let settingsHeaderViewModel = SettingsHeaderViewModel()
         let header = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel)
         tableView.tableHeaderView = header
-		header.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
 		header.setNeedsLayout()
         header.layoutIfNeeded()
-
         view.addSubview(tableView)
 		
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
@@ -79,8 +77,9 @@ class SettingsViewController: UIViewController {
 		guard let headerView = tableView.tableHeaderView else {
 		  return
 		}
-		headerView.anchorView(top: tableView.topAnchor, bottom: nil, leading: tableView.leadingAnchor, trailing: tableView.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
-		
+		headerView.anchorView(top: tableView.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+		headerView.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
+
 		// DYNAMIC TABLE HEADER VIEW HEIGHT
 		
 		let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
