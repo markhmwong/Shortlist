@@ -63,16 +63,16 @@ class SettingsViewController: UIViewController {
 			return
 		}
 		
-		header.anchorView(top: tableView.topAnchor, bottom: nil, leading: tableView.leadingAnchor, trailing: tableView.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		header.anchorView(top: tableView.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		header.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
 		
 		let newSize: CGSize = header.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
 		
-		if header.frame.height != newSize.height {
+		if header.frame.size.height != newSize.height {
 			header.frame.size.height = newSize.height
 			tableView.tableHeaderView = header
 			header.layoutIfNeeded()
 		}
-		
 	}
     
     @objc
