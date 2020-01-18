@@ -12,42 +12,6 @@ import StoreKit
 // set out to do x tasks
 
 class ReviewHeader: UIView {
-    
-    enum DayColor {
-        case Standard
-        case Custom(Date)
-        
-        var value: UIColor {
-            switch self {
-            case .Standard:
-                switch Calendar.current.todayToInt() {
-                case DayOfWeek.Sunday.rawValue: //Sunday
-                    return UIColor(red:1.00, green:0.40, blue:0.25, alpha:1.0)
-                case DayOfWeek.Monday.rawValue: //Monday
-                    return UIColor(red:0.44, green:0.89, blue:0.47, alpha:1.0)
-                case DayOfWeek.Tuesday.rawValue: //Tuesday
-                    return UIColor(red:0.26, green:0.91, blue:0.79, alpha:1.0)
-                case DayOfWeek.Wednesday.rawValue:
-                    return UIColor(red:0.88, green:0.31, blue:0.38, alpha:1.0)
-                case DayOfWeek.Thursday.rawValue:
-                    return UIColor(red:0.60, green:0.36, blue:0.79, alpha:1.0)
-                case DayOfWeek.Friday.rawValue: // Friday
-                    return UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0)
-                case DayOfWeek.Saturday.rawValue: // Saturday
-                    return UIColor(red:1.00, green:0.40, blue:0.25, alpha:1.0)
-                default:
-                    return UIColor.blue
-                }
-            default:
-                return UIColor.black
-            }
-        }
-    }
-	
-    lazy var donateButton: UIButton = {
-        let button = UIButton()
-        return button
-    }()
     	
     lazy var reviewTitle: UILabel = {
         let label = UILabel()
@@ -144,7 +108,6 @@ class ReviewHeader: UIView {
         self.init(frame: .zero)
         self.date = date
         self.viewModel = viewModel
-
         setupView()
     }
 
@@ -155,7 +118,7 @@ class ReviewHeader: UIView {
     private func setupView() {
         guard let _viewModel = viewModel else { return }
         translatesAutoresizingMaskIntoConstraints = false
-		backgroundColor = UIColor(red:0.02, green:0.12, blue:0.20, alpha:1.0)
+		backgroundColor = Theme.GeneralView.headerBackground
 		
         let totalTasks = _viewModel.dayEntity?.totalTasks
         let totalCompleted = _viewModel.dayEntity?.totalCompleted
@@ -192,19 +155,6 @@ class ReviewHeader: UIView {
         
 //        completedTasksTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 40.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
 //        completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
-    }
-    
-    func heightRatioForHeader() -> CGFloat {
-        switch UIDevice.current.screenType.rawValue {
-        case UIDevice.ScreenType.iPhones_6Plus_6sPlus_7Plus_8Plus.rawValue, UIDevice.ScreenType.iPhones_6_6s_7_8.rawValue:
-            return 4.0
-        case UIDevice.ScreenType.iPhones_5_5s_5c_SE.rawValue:
-            return 4.0
-        case UIDevice.ScreenType.iPhoneXSMax.rawValue, UIDevice.ScreenType.iPhoneX_iPhoneXS.rawValue, UIDevice.ScreenType.iPhoneXR.rawValue:
-            return 4.0
-        default:
-            return 4.0
-        }
     }
 	
     @objc func handleCoffeeTip(_ button: StandardButton) {

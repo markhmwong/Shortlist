@@ -19,7 +19,7 @@ class SettingsViewController: UIViewController {
     var viewModel: SettingsViewModel?
     
     lazy var tableView: UITableView = {
-       let view = UITableView()
+		let view = UITableView(frame: .zero, style: UITableView.Style.plain)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.dataSource = self
         view.delegate = self
@@ -42,36 +42,55 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		// view
+		// VIEW
 		
 		view.backgroundColor = .black
 		
-		// Navigation
+		// NAVIGATION
 
 		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleBack), imageName: "Back", height: self.topBarHeight / 1.8)
 		navigationItem.title = "Settings"
-
 		
-		// Setup tableview
+		// SETUP / REGISTER CELLS FOR TABLEVIEW
 		
 		viewModel?.registerTableViewCell(tableView)
 		
-		// tableview header
+		// TABLEVIEW HEADER
 		
         let settingsHeaderViewModel = SettingsHeaderViewModel()
         let header = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel)
         tableView.tableHeaderView = header
-        header.setNeedsLayout()
+		header.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
+		header.setNeedsLayout()
         header.layoutIfNeeded()
-		
+
         view.addSubview(tableView)
 		
         tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
-		
+
 		// request tips from Apple
 		
         header.grabTipsProducts()
     }
+	
+	override func viewWillLayoutSubviews() {
+		super.viewWillLayoutSubviews()
+		
+		guard let headerView = tableView.tableHeaderView else {
+		  return
+		}
+		headerView.anchorView(top: tableView.topAnchor, bottom: nil, leading: tableView.leadingAnchor, trailing: tableView.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+		
+		// DYNAMIC TABLE HEADER VIEW HEIGHT
+		
+		let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+
+		if headerView.frame.size.height != size.height {
+			headerView.frame.size.height = size.height
+			tableView.tableHeaderView = headerView
+			tableView.layoutIfNeeded()
+		}
+	}
     
     @objc
     func handleBack() {
@@ -218,7 +237,6 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		
 		guard let _viewModel = viewModel else { return }
 		guard let _persistentContainer = persistentContainer else { return }
 		_viewModel.didSelectRow(tableView, indexPath: indexPath, delegate: self, persistentContainer: _persistentContainer)

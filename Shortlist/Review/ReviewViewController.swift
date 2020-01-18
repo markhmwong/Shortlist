@@ -57,11 +57,11 @@ class ReviewViewController: UIViewController {
         button.addTarget(self, action: #selector(handleDoneButton), for: .touchUpInside)
         return button
     }()
-
-    lazy var reviewHeader: UIView = {
-        let view = ReviewHeader(date: Calendar.current.yesterday(), viewModel: self.viewModel!)
-        return view
-    }()
+//
+//    lazy var reviewHeader: UIView = {
+//        let view = ReviewHeader(date: Calendar.current.yesterday(), viewModel: self.viewModel!)
+//        return view
+//    }()
 	
 	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
     
@@ -78,6 +78,8 @@ class ReviewViewController: UIViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
+		
+		// DYNAMIC HEIGHT TABLE VIEW HEADER
 		if let header = tableView.tableHeaderView as? ReviewHeader {
 			header.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 			header.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -93,7 +95,7 @@ class ReviewViewController: UIViewController {
 		// LOAD DATA
         loadData()
         tableView.reloadData()
-
+		let reviewHeader = ReviewHeader(date: Calendar.current.yesterday(), viewModel: self.viewModel!)
 		tableView.tableHeaderView = reviewHeader
 		reviewHeader.setNeedsLayout()
 		reviewHeader.layoutIfNeeded()
@@ -105,7 +107,7 @@ class ReviewViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDoneButton))
         
         tableView.register(ReviewCell.self, forCellReuseIdentifier: viewModel?.reviewCellId ?? "ReviewCellId")
-        tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+		tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
         doneButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
 		
 		grabTipsProducts()
@@ -144,7 +146,6 @@ class ReviewViewController: UIViewController {
         viewModel.dayEntity = dayObject
         if (viewModel.dayEntity != nil) {
             DispatchQueue.main.async {
-                
                 self.tableView.reloadData()
             }
         }
@@ -161,7 +162,6 @@ class ReviewViewController: UIViewController {
 		//dismiss view
 		reviewCoordinator?.dimissFromMainViewController(persistentContainer)
     }
-	
 	
     func grabTipsProducts() {
         
@@ -221,9 +221,9 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 		
 		if let day = dayObjects.first {
 			if (day.dayToTask?.count == 0) {
-				tableView.separatorColor = .clear
-				tableView.setEmptyMessage("No tasks in this day!")
-				return 0
+//				tableView.separatorColor = .clear
+//				tableView.setEmptyMessage("No tasks in this day!")
+				return 1
 			} else {
 				tableView.restoreBackgroundView()
 				return day.dayToTask?.count ?? 0

@@ -78,6 +78,7 @@ struct Theme {
     
     struct GeneralView {
 		static var background: UIColor = UIColor.black
+		static var headerBackground: UIColor = UIColor(red:0.02, green:0.12, blue:0.20, alpha:1.0)
     }
 	
 	struct Button {
