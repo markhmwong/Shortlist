@@ -186,24 +186,29 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//		guard let _viewModel = viewModel else { return nil }
+//		return _viewModel.headerForSection(section: section)
 		let view = view as? UITableViewHeaderFooterView
-		
+
 		if #available(iOS 10, *) {
 			view?.contentView.backgroundColor = .black
 		} else {
 			view?.backgroundView?.backgroundColor = .black
 		}
-		
+
 		let size: CGFloat = Theme.Font.FontSize.Standard(.b4).value
 		view?.textLabel?.font = UIFont(name: Theme.Font.Regular, size: size)
 	}
 	
-	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		let view = UITableViewHeaderFooterView()
-		view.backgroundView?.backgroundColor = .clear
-		view.textLabel?.textColor = UIColor.white.withAlphaComponent(0.7)
-		return view
-	}
+//	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//		guard let _viewModel = viewModel else { return nil }
+//		return _viewModel.headerForSection(section: section)
+		
+//		let view = UITableViewHeaderFooterView()
+//		view.backgroundView?.backgroundColor = .orange
+//		view.textLabel?.textColor = UIColor.white.withAlphaComponent(0.7)
+//		return view
+//	}
 	
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		guard let _viewModel = viewModel else { return "Unknown" }

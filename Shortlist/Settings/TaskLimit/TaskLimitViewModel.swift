@@ -67,8 +67,6 @@ class TaskLimitViewModel {
 		let backgroundView = UIView()
 		backgroundView.backgroundColor = UIColor.clear
 		view.backgroundView = backgroundView
-		
-
 
 		if let section = PriorityLevel.init(rawValue: section) {
 			switch section {

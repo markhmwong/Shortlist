@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,9 +31,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 		
+		//Launch firebase
+		FirebaseApp.configure()
+		
+		// initialise root coordinator
         let navController = UINavigationController()
 		mainCoordinator = MainCoordinator(navigationController: navController)
-
+		
+		// Recognise whether this is the first time the app has been booted/installed via KeyChain
 		if (ApplicationDetails.shared.isFirstLoad()) {
 			mainCoordinator?.start(persistentContainer)
 			mainCoordinator?.showOnboarding(persistentContainer)
@@ -63,8 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		}
 		
 		
-		// setup initial priority limits for the keychain
-		// numbers are defaults for each priority
+		// setup initial priority limits for the keychain numbers are defaults for each priority
 		initialisePriorityKeychain()
 
         window = UIWindow()

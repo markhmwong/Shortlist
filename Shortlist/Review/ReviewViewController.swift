@@ -13,9 +13,7 @@ import CoreData
 // It shows incomplete / complete tasks
 // Allows to carry over tasks to today.
 class ReviewViewController: UIViewController {
- 
-	// to do - add accolades
-	
+ 	
     private weak var persistentContainer: PersistentContainer?
 
     var viewModel: ReviewViewModel?
@@ -57,11 +55,8 @@ class ReviewViewController: UIViewController {
         button.addTarget(self, action: #selector(handleDoneButton), for: .touchUpInside)
         return button
     }()
-//
-//    lazy var reviewHeader: UIView = {
-//        let view = ReviewHeader(date: Calendar.current.yesterday(), viewModel: self.viewModel!)
-//        return view
-//    }()
+	
+	// to do - add accolades
 	
 	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
     

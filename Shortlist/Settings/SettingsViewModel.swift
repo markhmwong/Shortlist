@@ -269,7 +269,20 @@ class SettingsViewModel {
 			}
 			
 		}
+	}
+	
+	func headerForSection(section: Int) -> UITableViewHeaderFooterView? {
+		let headerView = UITableViewHeaderFooterView()
 		
+		if #available(iOS 10, *) {
+			headerView.contentView.backgroundColor = Theme.Cell.background
+		} else {
+			headerView.backgroundView?.backgroundColor = Theme.Cell.background
+		}
+		
+		let size: CGFloat = Theme.Font.FontSize.Standard(.b5).value
+		headerView.textLabel?.font = UIFont(name: Theme.Font.Regular, size: size)
+		return headerView
 	}
 	
     func currentHighPriorityTaskLimit() -> Int {
