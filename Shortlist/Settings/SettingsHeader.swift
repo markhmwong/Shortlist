@@ -99,9 +99,13 @@ class SettingsHeader: UIView {
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
 		tipButtonContainer.anchorView(top: promoText.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -10.0, right: 0.0), size: .zero)
-		promoText.anchorView(top: topAnchor, bottom: tipButtonContainer.topAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
-		generousTip.anchorView(top: tipButtonContainer.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: tipButtonContainer.centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 10.0, bottom: 0.0, right: -10.0), size: CGSize(width: 120.0, height: 60.0))
-		coffeeTip.anchorView(top: tipButtonContainer.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: 120.0, height: 60.0))
+		
+		promoText.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
+		
+		coffeeTip.anchorView(top: tipButtonContainer.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: 120.0, height: 60.0))
+		
+		generousTip.anchorView(top: tipButtonContainer.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: tipButtonContainer.centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: 120.0, height: 60.0))
+		
 		amazingTip.anchorView(top: tipButtonContainer.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 10.0, bottom: 0.0, right: 0.0), size: CGSize(width: 120.0, height: 60.0))
 	}
     

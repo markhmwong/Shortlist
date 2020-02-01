@@ -82,7 +82,7 @@ class SettingsViewController: UIViewController {
 
 		// DYNAMIC TABLE HEADER VIEW HEIGHT
 		
-		let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+		let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
 
 		if headerView.frame.size.height != size.height {
 			headerView.frame.size.height = size.height
@@ -185,20 +185,20 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 	
-	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
 //		guard let _viewModel = viewModel else { return nil }
 //		return _viewModel.headerForSection(section: section)
-		let view = view as? UITableViewHeaderFooterView
-
-		if #available(iOS 10, *) {
-			view?.contentView.backgroundColor = .black
-		} else {
-			view?.backgroundView?.backgroundColor = .black
-		}
-
-		let size: CGFloat = Theme.Font.FontSize.Standard(.b4).value
-		view?.textLabel?.font = UIFont(name: Theme.Font.Regular, size: size)
-	}
+//		let view = view as? UITableViewHeaderFooterView
+//
+//		if #available(iOS 10, *) {
+//			view?.contentView.backgroundColor = .black
+//		} else {
+//			view?.backgroundView?.backgroundColor = .black
+//		}
+//
+//		let size: CGFloat = Theme.Font.FontSize.Standard(.b4).value
+//		view?.textLabel?.font = UIFont(name: Theme.Font.Regular, size: size)
+//	}
 	
 //	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 //		guard let _viewModel = viewModel else { return nil }
