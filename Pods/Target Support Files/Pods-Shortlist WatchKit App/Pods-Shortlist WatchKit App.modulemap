@@ -1,0 +1,6 @@
+framework module Pods_Shortlist_WatchKit_App {
+  umbrella header "Pods-Shortlist WatchKit App-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -11,6 +11,7 @@ import Foundation
 // List of awards given to the user during the review stage
 
 struct AwardsList {
+	// @done priorties
 	struct HighPriority {
 		// completed all priority tasks - number of high priority
 		static var ThePresident: String = "The President"
@@ -18,78 +19,72 @@ struct AwardsList {
 		// complete some high priority tasks
 		static var TheTopBrass: String = "The Top Brass"
 		
-		static var TheJuggernaut: String = "The Juggernaut"
+		static var TheBoss: String = "The Boss"
 	}
 	
 	struct MediumPriority {
 		static var TheTerminator: String = "The Terminator"
 		static var TheWorkHorse: String = "The Workhorse"
-		static var TheBusyBee: String = "The Busy Bee"
+		static var TheSilverMedal: String = "The Silver Medal"
 	}
 	
 	struct LowPriority {
 		static var TheProcrastinator: String = "The Procrastinator"
-		static var TheIgnored: String = "The Cherry Picker"
-		static var TheCasualOperator: String = "The Casual Operator"
-		static var TheBackSeat: String = "The Back Seat"
-		static var TheCliffhanger: String = "The Cliffhanger"
+		static var TheLoafer: String = "The Loafer"
+		static var TheTimeKiller: String = "The Time Killer"
 	}
 	
+	// @done award
 	struct Category {
 		// complete 3 or more of the same category
 		static var TheSpecialist: String = "The Specialist"
+		static var TheProfessional: String = "The Professional"
+		
+		// complete 5
+		static var TheIceman: String = "The Iceman"
+		static var TheMaster: String = "The Master"
 		
 		// complete all unique categories - categories must all be unique to each other
 		static var TheGeneralist: String = "The Generalist"
+		static var TheRenaissanceMan: String = "The Renaissance Man"
+		static var TheFactotum: String = "The Factotum"
 	}
 	
 	// award @done
 	struct Incomplete {
 		static var TheCouchPotato: String = "The Couch Potato"
-//		static var TheWatcher: String = "The Watcher"
-		// incomplete tasks with reminders
+		static var TheUndecided: String = "The Undecided"
 		static var TheForgotten: String = "The Forgotten"
 
 		static var TheDayDreamer: String = "The Day Dreamer"
 		static var ThePolitician: String = "The Politician"
 		static var TheFunday: String = "The Funday"
-		static var TheSpectator: String = "The Spectator"
-		static var TheSloth: String = "The Sloth"
-		static var TheLoaf: String = "The Loaf"
-		//static var TheStockpiler: String = "The Stockpiler"
 	}
 	
 	struct Complete {
-		// a 25% of tasks complete
+		// min ~30% of tasks complete
 		static var TheDoer: String = "The Doer"
-		static var TheAddresser: String = "The Addresser"
-		static var TheGoGetter: String = "The Go Getter"
-		static var TheSelfActivist: String = "The Self Activist"
+		static var TheGoGetter: String = "The GoGetter"
 		
-		// half tasks complete
+		// min ~70% of tasks complete
 		static var TheExecutor: String = "The Executor"
-		static var TheWork: String = "The Worker"
+		static var TheHustler: String = "The Hustler"
 		
-		// 75% of tasks complete
-		static var TheProfessional: String = "The Professional"
-		static var TheOrganizer: String = "The Organizer"
-		static var TheAchiever: String = "The Achiever"
+		// min 50% tasks complete
+		static var TheBusyBee: String = "The Busy Bee"
+		static var ThePowerHouse: String = "The Power House"
 		
 		// completed all tasks today
 		static var TheCompletionist: String = "The Completionist"
-		static var ThePowerhouse: String = "The Powerhouse"
-		static var TheEyeOfTheTiger: String = "The Eye Of The Tiger"
+		static var TheHighAchiever: String = "The High Achiever"
 		
 		// compeleted tasks that were carried over
-		static var TheAvenger: String = "The Avenger"
-		static var TheReturnOfTheKing: String = "The Return Of The King"
+//		static var TheAvenger: String = "The Avenger"
+//		static var TheReturnOfTheKing: String = "The Return Of The King"
 	}
 	
+	// to do
 	struct Time {
-		
-		//
-		static var TheDispatcher: String = "The Dispatcher"
-		
 		// complete tasks early for a free cruisy afternoon
 		static var TheBraveHeart: String = "The Braveheart"
 		
@@ -103,13 +98,8 @@ struct AwardsList {
 		static var ThePlanner: String = "The Planner"
 	}
 	
+	// to do
 	struct Delete {
 		static var TheRejecter: String = "The Rejecter"
-		static var TheCastAway: String = "The Cast Away"
-	}
-	
-	struct CarryOver {
-		static var ThePlanner: String = "The Planner"
-		
 	}
 }
