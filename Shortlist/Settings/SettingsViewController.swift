@@ -22,7 +22,7 @@ class SettingsViewController: UIViewController {
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = UIColor.orange
-		return
+		return view
 	}()
 	
 	lazy var globalTasksLabel: UILabel = {
@@ -74,7 +74,7 @@ class SettingsViewController: UIViewController {
 		view.addSubview(globalTasksLabel)
 		globalTasksLabel.anchorView(top: feedContainer.topAnchor, bottom: feedContainer.bottomAnchor, leading: feedContainer.leadingAnchor, trailing: feedContainer.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
 		
-		feedContainer.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: <#T##NSLayoutYAxisAnchor?#>, leading: <#T##NSLayoutXAxisAnchor?#>, trailing: <#T##NSLayoutXAxisAnchor?#>, centerY: <#T##NSLayoutYAxisAnchor?#>, centerX: <#T##NSLayoutXAxisAnchor?#>, padding: <#T##UIEdgeInsets#>, size: <#T##CGSize#>)
+//		feedContainer.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: <#T##NSLayoutYAxisAnchor?#>, leading: <#T##NSLayoutXAxisAnchor?#>, trailing: <#T##NSLayoutXAxisAnchor?#>, centerY: <#T##NSLayoutYAxisAnchor?#>, centerX: <#T##NSLayoutXAxisAnchor?#>, padding: <#T##UIEdgeInsets#>, size: <#T##CGSize#>)
     }
 	
 	override func viewWillLayoutSubviews() {
