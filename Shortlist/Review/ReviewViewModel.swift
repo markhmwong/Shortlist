@@ -22,6 +22,8 @@ class ReviewViewModel {
 	
     let reviewCellId = "reviewCellId"
     
+	var accoladeTitle: String = "Accolade"
+	
     var dayEntity: Day? = nil {
         didSet {
             
@@ -88,5 +90,20 @@ class ReviewViewModel {
 		} else {
 			carryOverTaskObjectsArr.removeValue(forKey: key)
 		}
+	}
+	
+	func resolveAccolade() {
+		guard let _dayEntity = dayEntity else { return }
+
+		if (_dayEntity.accolade?.isEmpty ?? true || _dayEntity.accolade == "") {
+			let accolades = DailyAccolades(day: _dayEntity)
+			accoladeTitle = accolades.evaluateFinalAward()
+		} else {
+			accoladeTitle = _dayEntity.accolade ?? "Unknown"
+		}
+	}
+	
+	func getAccolade() -> String {
+		return accoladeTitle
 	}
 }

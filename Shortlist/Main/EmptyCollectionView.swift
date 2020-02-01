@@ -18,7 +18,7 @@ class EmptyCollectionView: UIView {
 	
     lazy var messageLabel: UILabel = {
         let label = UILabel()
-		label.attributedText = NSAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: fontName, size: fontSize)!])
+		label.attributedText = NSAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: fontName, size: fontSize)!])
         label.textAlignment = .center
         label.numberOfLines = 0
         label.sizeToFit()
@@ -29,7 +29,7 @@ class EmptyCollectionView: UIView {
 	
 	init(message: String) {
 		super.init(frame: .zero)
-		self.messageLabel.attributedText = NSAttributedString(string: message, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: fontName, size: fontSize)!])
+		self.messageLabel.attributedText = NSAttributedString(string: message, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: fontName, size: fontSize)!])
 		self.setupView()
 	}
     

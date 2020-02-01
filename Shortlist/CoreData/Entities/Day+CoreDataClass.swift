@@ -56,4 +56,7 @@ public class Day: NSManagedObject {
         self.day = Int16(Calendar.current.todayToInt()) // Stats
 		
 	}
+	
+
+	
 }

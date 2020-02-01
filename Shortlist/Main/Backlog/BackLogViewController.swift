@@ -90,7 +90,7 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 	}
 	
 	func prepareNavigationItem() {
-		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleDismiss))
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back.png", height: topbarHeight * 0.5)
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Category", style: .plain, target: self, action: #selector(handleAddCategory))
 		navigationController?.title = "List"
 	}

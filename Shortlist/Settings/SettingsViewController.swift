@@ -18,6 +18,21 @@ class SettingsViewController: UIViewController {
     
     var viewModel: SettingsViewModel?
     
+	lazy var feedContainer: UIView = {
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor.orange
+		return
+	}()
+	
+	lazy var globalTasksLabel: UILabel = {
+		let label = UILabel()
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.text = ""
+		label.textColor = Theme.Font.DefaultColor
+		return label
+	}()
+	
     lazy var tableView: UITableView = {
        let view = UITableView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -42,8 +57,9 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
-        navigationController?.title = "Settings"
+
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleBack), imageName: "Back.png", height: topbarHeight * 0.5)
+        navigationItem.title = "Settings"
 
 		viewModel?.registerTableViewCell(tableView)
         let settingsHeaderViewModel = SettingsHeaderViewModel()
@@ -52,8 +68,13 @@ class SettingsViewController: UIViewController {
         header.setNeedsLayout()
         header.layoutIfNeeded()
         view.addSubview(tableView)
-        tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+        tableView.anchorView(top: globalTasksLabel.bottomAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
         header.grabTipsProducts()
+		
+		view.addSubview(globalTasksLabel)
+		globalTasksLabel.anchorView(top: feedContainer.topAnchor, bottom: feedContainer.bottomAnchor, leading: feedContainer.leadingAnchor, trailing: feedContainer.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		
+		feedContainer.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: <#T##NSLayoutYAxisAnchor?#>, leading: <#T##NSLayoutXAxisAnchor?#>, trailing: <#T##NSLayoutXAxisAnchor?#>, centerY: <#T##NSLayoutYAxisAnchor?#>, centerX: <#T##NSLayoutXAxisAnchor?#>, padding: <#T##UIEdgeInsets#>, size: <#T##CGSize#>)
     }
 	
 	override func viewWillLayoutSubviews() {

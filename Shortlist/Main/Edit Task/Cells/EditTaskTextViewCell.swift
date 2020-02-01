@@ -33,7 +33,7 @@ class EditTaskTextViewCell: CellBase {
 		view.backgroundColor = Theme.Cell.textFieldBackground
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
-		view.textColor = Theme.Font.Color
+		view.textColor = Theme.Font.DefaultColor
         view.returnKeyType = UIReturnKeyType.done
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textContainerInset = UIEdgeInsets.zero

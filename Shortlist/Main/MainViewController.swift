@@ -104,6 +104,11 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     override func viewDidLoad() {
         super.viewDidLoad()
 		let today: Int16 = Calendar.current.todayToInt()
+		let firebaseService = FirebaseService(dataBaseUrl: "https://shortlist-d8e3d.firebaseio.com/")
+		firebaseService.authenticateAnonymously()
+		firebaseService.getGlobalTasks { (globalTask) in
+			print("where to put total completed tasks and how often to update? only request when we load the review completion handler \(globalTask)")
+		}
 		// to do review these comments in this entire function
 		// background thread fill uninitialised days over the last 30 days - for stats
 //		searchNilDaysOverThirtyDays()
@@ -190,6 +195,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 	}
+
 	
     private func initialiseSampleData() {
         guard let persistentContainer = persistentContainer else { return }
@@ -270,8 +276,8 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     private func setupView() {
 		
         guard let viewModel = viewModel else { return }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Options", style: .plain, target: self, action: #selector(handleOptions))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(handleSettings))
+		navigationItem.rightBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleOptions), imageName: "Options.png", height: self.topbarHeight * 0.5)
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleSettings), imageName: "Settings.png", height: self.topbarHeight * 0.5)
 		
 		viewModel.registerCell(tableView)
 
@@ -333,7 +339,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	func updateCategory() {
 		guard let vm = viewModel else { return }
 		DispatchQueue.main.async {
-			self.mainInputView.categoryButton.setAttributedTitle(NSMutableAttributedString(string: "\(vm.category ?? "Uncategorized")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
+			self.mainInputView.categoryButton.setAttributedTitle(NSMutableAttributedString(string: "\(vm.category ?? "Uncategorized")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		}
 	}
 	

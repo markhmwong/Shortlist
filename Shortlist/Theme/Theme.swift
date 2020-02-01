@@ -12,11 +12,12 @@ struct Theme {
     
     struct Font {
         static var Regular: String = "AvenirNext-Medium"
+		static var Italic: String = "Avenir-MediumOblique"
         static var Bold: String = "Avenir-Black"
 		static var TitleRegular: String = "Georgia"
 		static var TitleBold: String = "Georgia-Bold"
 		
-        static var Color: UIColor = .white
+        static var DefaultColor: UIColor = .white
 		static var FadedColor: UIColor = UIColor.white.adjust(by: -40.0)!
 		
         enum StandardSizes: CGFloat {

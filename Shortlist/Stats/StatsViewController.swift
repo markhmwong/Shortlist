@@ -78,7 +78,7 @@ class StatsViewController: UIViewController {
 
         view.backgroundColor = .black
 		navigationItem.title = "Stats"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleBack), imageName: "Back.png", height: topbarHeight * 0.5)
 		
 		view.addSubview(statStackView)
 		statStackView.addArrangedSubview(totalTasksStat)

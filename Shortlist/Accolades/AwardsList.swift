@@ -11,37 +11,49 @@ import Foundation
 // List of awards given to the user during the review stage
 
 struct AwardsList {
+	// @done priorties
 	struct HighPriority {
 		// completed all priority tasks - number of high priority
 		static var ThePresident: String = "The President"
 		
 		// complete some high priority tasks
 		static var TheTopBrass: String = "The Top Brass"
+		
+		static var TheBoss: String = "The Boss"
 	}
 	
 	struct MediumPriority {
-		static var TheDoer: String = "The Doer"
 		static var TheTerminator: String = "The Terminator"
 		static var TheWorkHorse: String = "The Workhorse"
+		static var TheSilverMedal: String = "The Silver Medal"
 	}
 	
 	struct LowPriority {
 		static var TheProcrastinator: String = "The Procrastinator"
+		static var TheLoafer: String = "The Loafer"
+		static var TheTimeKiller: String = "The Time Killer"
 	}
 	
+	// @done award
 	struct Category {
 		// complete 3 or more of the same category
 		static var TheSpecialist: String = "The Specialist"
+		static var TheProfessional: String = "The Professional"
+		
+		// complete 5
+		static var TheIceman: String = "The Iceman"
+		static var TheMaster: String = "The Master"
 		
 		// complete all unique categories - categories must all be unique to each other
 		static var TheGeneralist: String = "The Generalist"
+		static var TheRenaissanceMan: String = "The Renaissance Man"
+		static var TheFactotum: String = "The Factotum"
 	}
 	
 	// award @done
 	struct Incomplete {
 		static var TheCouchPotato: String = "The Couch Potato"
-		
-		// incomplete tasks with reminders
+		static var TheUndecided: String = "The Undecided"
 		static var TheForgotten: String = "The Forgotten"
 
 		static var TheDayDreamer: String = "The Day Dreamer"
@@ -50,25 +62,28 @@ struct AwardsList {
 	}
 	
 	struct Complete {
-		// a couple of tasks complete
+		// min ~30% of tasks complete
 		static var TheDoer: String = "The Doer"
+		static var TheGoGetter: String = "The GoGetter"
 		
-		// 80% of tasks complete
-		static var TheExecutor: String = "TheExecutor"
+		// min ~70% of tasks complete
+		static var TheExecutor: String = "The Executor"
+		static var TheHustler: String = "The Hustler"
 		
-		// half tasks complete
-		static var The: String = "TheExecutor"
-
-		
+		// min 50% tasks complete
+		static var TheBusyBee: String = "The Busy Bee"
+		static var ThePowerHouse: String = "The Power House"
 		
 		// completed all tasks today
 		static var TheCompletionist: String = "The Completionist"
+		static var TheHighAchiever: String = "The High Achiever"
 		
 		// compeleted tasks that were carried over
-		static var TheAvenger: String = "The Avenger"
-		static var TheReturnOfTheKing: String = "The Return Of The King"
+//		static var TheAvenger: String = "The Avenger"
+//		static var TheReturnOfTheKing: String = "The Return Of The King"
 	}
 	
+	// to do
 	struct Time {
 		// complete tasks early for a free cruisy afternoon
 		static var TheBraveHeart: String = "The Braveheart"
@@ -83,6 +98,7 @@ struct AwardsList {
 		static var ThePlanner: String = "The Planner"
 	}
 	
+	// to do
 	struct Delete {
 		static var TheRejecter: String = "The Rejecter"
 	}

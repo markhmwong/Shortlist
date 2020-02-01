@@ -95,7 +95,6 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 	}
 	
     func getTopMostViewController() -> UIViewController? {
-//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
         var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController

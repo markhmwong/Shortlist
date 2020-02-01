@@ -49,13 +49,15 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
 	}
 	
 	func dismiss() {
-		navigationController.dismiss(animated: true, completion: nil)
+		let topMostVc = getTopMostViewController()
+		topMostVc?.dismiss(animated: true, completion: nil)
+//		navigationController.dismiss(animated: true, completion: nil)
 	}
 
     func showAlertBox(_ message: String) {
         let alert = UIAlertController(title: "Hold up!", message: "\(message)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//        navigationController.present(alert, animated: true, completion: nil)
+
 		DispatchQueue.main.async {
 			self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
         }
@@ -70,7 +72,6 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
 	
     func getTopMostViewController() -> UIViewController? {
 		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
-//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
         
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController

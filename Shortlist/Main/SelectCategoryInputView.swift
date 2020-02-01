@@ -33,7 +33,7 @@ class SelectCategoryInputView: UIView {
 		view.isSelectable = true
 		view.isScrollEnabled = false
 		view.returnKeyType = UIReturnKeyType.done
-        view.textColor = Theme.Font.Color
+        view.textColor = Theme.Font.DefaultColor
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.attributedText = categoryNamePlaceholder
 		return view
@@ -167,7 +167,7 @@ extension SelectCategoryInputView: UITextViewDelegate {
     }
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-		if (textView.text.count + (text.count - range.length) >= TaskCharacterLimits.taskCategoryMaximumCharacterLimit && textView.textColor == Theme.Font.Color) {
+		if (textView.text.count + (text.count - range.length) >= TaskCharacterLimits.taskCategoryMaximumCharacterLimit && textView.textColor == Theme.Font.DefaultColor) {
 			ImpactFeedbackService.shared.impactType(feedBackStyle: .heavy)
 			return false
 		}
@@ -175,7 +175,7 @@ extension SelectCategoryInputView: UITextViewDelegate {
 		// Replaces placeholder text with user entered text
 		if (textView.textColor == UIColor.lightGray) {
 			textView.text = nil
-			textView.textColor = Theme.Font.Color
+			textView.textColor = Theme.Font.DefaultColor
 		}
 		return true
 	}

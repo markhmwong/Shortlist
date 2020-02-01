@@ -69,7 +69,7 @@ class ReviewViewController: UIViewController {
         return view
     }()
 	
-	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
+	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
     
     init(persistentContainer: PersistentContainer, coordinator: ReviewCoordinator, viewModel: ReviewViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -96,6 +96,7 @@ class ReviewViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(doneButton)
         
+		navigationItem.title = "Review"
 		navigationItem.prompt = "Select tasks to repeat today"
 		
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDoneButton))
@@ -105,6 +106,9 @@ class ReviewViewController: UIViewController {
         doneButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
 		
 		grabTipsProducts()
+		guard let _viewModel = viewModel else { return }
+		_viewModel.resolveAccolade()
+		
     }
     
     override func viewDidAppear(_ animated: Bool) {

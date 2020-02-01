@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>857708129379-l5epsh7q9k3ugk7qrlvdkjm8sto56l0b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.857708129379-l5epsh7q9k3ugk7qrlvdkjm8sto56l0b</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBgxt9GDyWK1oo8BLO9n7W_xdk_ZHJQ3is</string>
+	<key>GCM_SENDER_ID</key>
+	<string>857708129379</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.whizbang.shortlist</string>
+	<key>PROJECT_ID</key>
+	<string>shortlist-d8e3d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>shortlist-d8e3d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:857708129379:ios:83bd7798f7710487685c56</string>
+	<key>DATABASE_URL</key>
+	<string>https://shortlist-d8e3d.firebaseio.com</string>
+</dict>
+</plist>

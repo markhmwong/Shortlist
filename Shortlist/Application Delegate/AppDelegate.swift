@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,7 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
         let navController = UINavigationController()
 		mainCoordinator = MainCoordinator(navigationController: navController)
-
+		
+		FirebaseApp.configure()
 		if (ApplicationDetails.shared.isFirstLoad()) {
 //		if (true) {
 			mainCoordinator?.start(persistentContainer)

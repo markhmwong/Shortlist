@@ -41,7 +41,7 @@ class MainInputView: UIView {
 		view.isSelectable = true
 		view.isScrollEnabled = false
 		view.returnKeyType = UIReturnKeyType.default
-        view.textColor = Theme.Font.Color
+        view.textColor = Theme.Font.DefaultColor
         view.keyboardAppearance = UIKeyboardAppearance.dark
 		view.keyboardType = UIKeyboardType.default
 		view.attributedText = taskNamePlaceholder
@@ -75,7 +75,7 @@ class MainInputView: UIView {
 	lazy var categoryButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.setAttributedTitle(NSMutableAttributedString(string: "Uncategorized", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
+		button.setAttributedTitle(NSMutableAttributedString(string: "Uncategorized", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		button.addTarget(self, action: #selector(handleCategory), for: .touchUpInside)
 		button.layer.cornerRadius = 10.0
 		button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
@@ -86,7 +86,7 @@ class MainInputView: UIView {
 	private lazy var priorityButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.setAttributedTitle(NSMutableAttributedString(string: "M", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
+		button.setAttributedTitle(NSMutableAttributedString(string: "M", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		button.addTarget(self, action: #selector(handlePriority), for: .touchUpInside)
 		button.layer.cornerRadius = 10.0
 		button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
@@ -240,7 +240,7 @@ class MainInputView: UIView {
 	func updatePriorityButton(string: String, color: UIColor) {
 		DispatchQueue.main.async {
 			self.priorityButton.layer.backgroundColor = color.cgColor
-			self.priorityButton.setAttributedTitle(NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
+			self.priorityButton.setAttributedTitle(NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		}
 	}
 }
@@ -274,7 +274,7 @@ extension MainInputView: UITextViewDelegate {
 		// Replaces placeholder text with user entered text
 		if let tag = TextViewTag.init(rawValue: textView.tag) {
 			if (tag == TextViewTag.TaskName && textView.textColor == UIColor.lightGray) {
-				textView.clearTextOnFirstInput(Theme.Font.Color)
+				textView.clearTextOnFirstInput(Theme.Font.DefaultColor)
 			}
 		}
 		

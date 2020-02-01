@@ -11,72 +11,87 @@ import Foundation
 
 class DailyAccolades: NSObject {
 	
-	let task: Set<Task>?
+	private let task: Set<Task>?
 	
 	typealias Award = String
-	var awardList: [Award] = []
+	private var awardList: [Award] = []
 	
-	typealias Priority = Int
+	typealias PriorityLevel = Int
 	typealias Amount = Int
 	
-	var priorityTracker: [Priority : Amount] = [:]
+	private var priorityTracker: [PriorityLevel : Amount] = [:]
 	
-	var categoryTracker: [String : Int] = [:]
+	private var categoryTracker: [String : Int] = [:]
 	
-	var day: Day?
+	private var day: Day?
+	
+	private var hasHighPriorityTaskBeenCompleted: Bool = false
 	
 	init(day: Day) {
 		self.day = day
 		self.task = day.dayToTask as? Set<Task>
 		super.init()
-		
-		resolveIncompleteTasks()
-		
 		resolveFinalAward()
 	}
 	
 	// how to decide which award has priority - randomly selected from array
 	// shuffle first, randomly pick top 3
 	func resolveFinalAward() {
+		resolveCompleteTasks()
+		resolveTaskPriorityAward()
+		resolveCategoryAward()
 		
-
+		// To help the user feel good and continue using the app
+		// we want to avoid anything that may deter them from being productive
+		// rather we want to encourage them to keep going, so we'll leave these
+		// awards out if they haven't done a high priority task
+		if (!hasHighPriorityTaskBeenCompleted) {
+			resolveIncompleteTasks()
+		}
 	}
 	
 	private func resolveCompleteTasks() {
 		guard let _day = day else { return }
 		
-		if (_day.totalCompleted == _day.totalTasks) {
+		if (_day.totalCompleted == _day.totalTasks && _day.totalCompleted != 0) {
 			awardList.append(AwardsList.Complete.TheCompletionist)
 			return
 		}
 		
-		if (_day.totalCompleted > 1 && _day.totalCompleted <= 2) {
+		// to be updated with correct awards
+		
+		let percentageComplete: Double = Double(_day.totalCompleted) / Double(_day.totalTasks)
+		if (percentageComplete > 0.0 && percentageComplete < 0.3) {
 			awardList.append(AwardsList.Complete.TheDoer)
-		} else if (_day.totalCompleted > 2 && _day.totalCompleted <= 4) {
-			awardList.append(AwardsList.Complete.TheDoer)
-
+			awardList.append(AwardsList.Complete.TheGoGetter)
+		} else if (percentageComplete >= 0.3 && percentageComplete < 0.7) {
+			awardList.append(AwardsList.Complete.TheBusyBee)
+			awardList.append(AwardsList.Complete.ThePowerHouse)
+		} else {
+			awardList.append(AwardsList.Complete.TheExecutor)
+			awardList.append(AwardsList.Complete.TheHustler)
 		}
-		
-		
-
 	}
 	
 	private func resolveIncompleteTasks() {
 		guard let _day = day else { return }
 		let incompleteTasks = _day.totalTasks - _day.totalCompleted
 		
-		if (incompleteTasks <= 2 && incompleteTasks > 0) {
+		if (_day.totalTasks == 0) {
 			awardList.append(AwardsList.Incomplete.TheFunday)
-		} else if (incompleteTasks > 2 && incompleteTasks <= 5) {
-			awardList.append(AwardsList.Incomplete.TheCouchPotato)
-		} else if (incompleteTasks > 5 && incompleteTasks <= 8) {
-			awardList.append(AwardsList.Incomplete.ThePolitician)
-		} else if (incompleteTasks > 9) {
-			awardList.append(AwardsList.Incomplete.TheDayDreamer)
-		} else {
-			() // no award for all other circumstances
 		}
 		
+		let percentageIncomplete: Double = Double(incompleteTasks) / Double(_day.totalTasks)
+		
+		if (percentageIncomplete >= 0.0 && percentageIncomplete < 0.3) {
+			awardList.append(AwardsList.Incomplete.TheUndecided)
+		} else if (percentageIncomplete >= 0.3 && percentageIncomplete < 0.7) {
+			awardList.append(AwardsList.Incomplete.TheCouchPotato)
+		} else if (percentageIncomplete >= 0.7 && percentageIncomplete < 0.9) {
+			awardList.append(AwardsList.Incomplete.ThePolitician)
+		} else {
+			awardList.append(AwardsList.Incomplete.TheDayDreamer)
+		}
 	}
 	
 	private func resolveTaskPriorityAward() {
@@ -86,12 +101,37 @@ class DailyAccolades: NSObject {
 		for t in _task {
 			if (t.complete) {
 				priorityTracker[Int(t.priority)] = (priorityTracker[Int(t.priority)] ?? 0) + 1
-			} else {
-				priorityTracker[Int(t.priority)] = (priorityTracker[Int(t.priority)] ?? 0) + 1
+				if (Priority.high.value == t.priority) {
+					hasHighPriorityTaskBeenCompleted = true
+				}
+			}
+		}
+		
+		guard let maxPriority = priorityTracker.keys.min() else { return }
+		
+		// we choose the highest priority
+		
+		if let p = Priority.init(rawValue: Int16(maxPriority)) {
+			switch p {
+				case .high:
+					awardList.append(AwardsList.HighPriority.ThePresident)
+					awardList.append(AwardsList.HighPriority.TheTopBrass)
+					awardList.append(AwardsList.HighPriority.TheBoss)
+				case .medium:
+					awardList.append(AwardsList.MediumPriority.TheTerminator)
+					awardList.append(AwardsList.MediumPriority.TheWorkHorse)
+					awardList.append(AwardsList.MediumPriority.TheSilverMedal)
+				case .low:
+					awardList.append(AwardsList.LowPriority.TheProcrastinator)
+					awardList.append(AwardsList.LowPriority.TheLoafer)
+					awardList.append(AwardsList.LowPriority.TheTimeKiller)
+				case .none:
+					()
 			}
 		}
 	}
 	
+	// Not counting the uncategorized category
 	private func resolveCategoryAward() {
 		guard let _task = task else { return }
 		// track highest most category complete
@@ -100,6 +140,37 @@ class DailyAccolades: NSObject {
 				categoryTracker[t.category] = (categoryTracker[t.category] ?? 0) + 1
 			}
 		}
+		if let maxValue = categoryTracker.values.max() {
+			if maxValue >= 3 && maxValue < 5 {
+				awardList.append(AwardsList.Category.TheSpecialist)
+				awardList.append(AwardsList.Category.TheProfessional)
+			} else if (maxValue >= 5) {
+				awardList.append(AwardsList.Category.TheIceman)
+				awardList.append(AwardsList.Category.TheMaster)
+			}
+		}
+		
+		guard let _day = day else { return }
+		
+		if (_day.totalCompleted == _day.totalTasks) {
+			if let maxValue = categoryTracker.values.max() {
+				if maxValue == 1 {
+					awardList.append(AwardsList.Category.TheGeneralist)
+					awardList.append(AwardsList.Category.TheRenaissanceMan)
+					awardList.append(AwardsList.Category.TheFactotum)
+				}
+			}
+		}
+	}
+
+	func retrieveAwards() -> [Award] {
+		return awardList
 	}
 	
+	// Award is a typealias of type String
+	func evaluateFinalAward() -> Award {
+		let max = awardList.count
+		let num = Int.random(in: 0..<max)
+		return awardList[num]
+	}
 }

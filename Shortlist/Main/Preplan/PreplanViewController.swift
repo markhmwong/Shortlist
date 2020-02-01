@@ -98,6 +98,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 		super.viewDidLoad()
 		guard let _viewModel = viewModel else { return }
 		view.backgroundColor = .black
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back.png", height: self.topbarHeight * 0.5)
 		title = "Preplan"
         
 		tableView.tableHeaderView = taskListHeader
@@ -205,6 +206,11 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 //		}
 	}
 	
+	@objc
+	func handleDismiss() {
+		coordinator?.dismiss()
+	}
+	
 	func closeTimePicker() {
 		guard let vm = viewModel else { return }
 		pickerViewBottomConstraint?.constant = vm.keyboardSize.height
@@ -254,7 +260,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 	func updateCategory() {
 		guard let vm = viewModel else { return }
 		DispatchQueue.main.async {
-			self.mainInputView.categoryButton.setAttributedTitle(NSMutableAttributedString(string: "\(vm.category ?? "Uncategorized")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
+			self.mainInputView.categoryButton.setAttributedTitle(NSMutableAttributedString(string: "\(vm.category ?? "Uncategorized")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		}
 	}
 	
