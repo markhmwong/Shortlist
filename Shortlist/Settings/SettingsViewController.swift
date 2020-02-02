@@ -71,13 +71,12 @@ class SettingsViewController: UIViewController {
         header.grabTipsProducts()
     }
 	
-	override func viewWillLayoutSubviews() {
-		super.viewWillLayoutSubviews()
-		
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
 		guard let headerView = tableView.tableHeaderView else {
 		  return
 		}
-		headerView.anchorView(top: tableView.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+		headerView.anchorView(top: tableView.topAnchor, bottom: nil, leading: tableView.leadingAnchor, trailing: tableView.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		headerView.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
 
 		// DYNAMIC TABLE HEADER VIEW HEIGHT
@@ -89,6 +88,10 @@ class SettingsViewController: UIViewController {
 			tableView.tableHeaderView = headerView
 			tableView.layoutIfNeeded()
 		}
+	}
+	
+	override func viewWillLayoutSubviews() {
+		super.viewWillLayoutSubviews()
 	}
     
     @objc
@@ -185,30 +188,15 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 	
-//	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-//		guard let _viewModel = viewModel else { return nil }
-//		return _viewModel.headerForSection(section: section)
-//		let view = view as? UITableViewHeaderFooterView
-//
-//		if #available(iOS 10, *) {
-//			view?.contentView.backgroundColor = .black
-//		} else {
-//			view?.backgroundView?.backgroundColor = .black
-//		}
-//
-//		let size: CGFloat = Theme.Font.FontSize.Standard(.b4).value
-//		view?.textLabel?.font = UIFont(name: Theme.Font.Regular, size: size)
-//	}
+	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+		guard let _viewModel = viewModel else { return }
+		_viewModel.willDisplayHeader(view: view, section: section)
+	}
 	
-//	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//		guard let _viewModel = viewModel else { return nil }
-//		return _viewModel.headerForSection(section: section)
-		
-//		let view = UITableViewHeaderFooterView()
-//		view.backgroundView?.backgroundColor = .orange
-//		view.textLabel?.textColor = UIColor.white.withAlphaComponent(0.7)
-//		return view
-//	}
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		guard let _viewModel = viewModel else { return nil }
+		return _viewModel.viewForHeader(section: section)
+	}
 	
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		guard let _viewModel = viewModel else { return "Unknown" }

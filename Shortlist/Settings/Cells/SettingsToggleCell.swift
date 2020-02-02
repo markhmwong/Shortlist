@@ -11,7 +11,7 @@ import UIKit
 class SettingsToggleCell: CellBase, SettingsStandardCellProtocol {
 	lazy var nameLabel: UILabel = {
 		let label = UILabel()
-		label.textColor = Theme.Font.Color
+		label.textColor = Theme.Font.DefaultColor
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()

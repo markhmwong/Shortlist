@@ -58,7 +58,7 @@ class ReviewViewController: UIViewController {
 	
 	// to do - add accolades
 	
-	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
+	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
     
     init(persistentContainer: PersistentContainer, coordinator: ReviewCoordinator, viewModel: ReviewViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -75,11 +75,26 @@ class ReviewViewController: UIViewController {
 		super.viewDidLayoutSubviews()
 		
 		// DYNAMIC HEIGHT TABLE VIEW HEADER
-		if let header = tableView.tableHeaderView as? ReviewHeader {
-			header.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-			header.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-			header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-			header.bottomAnchor.constraint(equalTo: header.tipDisclaimer.bottomAnchor, constant: 15.0).isActive = true
+//		if let header = tableView.tableHeaderView as? ReviewHeader {
+//			header.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//			header.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//			header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+//			header.bottomAnchor.constraint(equalTo: header.tipDisclaimer.bottomAnchor, constant: 15.0).isActive = true
+//		}
+		
+		guard let headerView = tableView.tableHeaderView else {
+		  return
+		}
+		
+		headerView.anchorView(top: tableView.topAnchor, bottom: nil, leading: tableView.leadingAnchor, trailing: tableView.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+		headerView.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
+		
+		let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
+
+		if headerView.frame.size.height != size.height {
+			headerView.frame.size.height = size.height
+			tableView.tableHeaderView = headerView
+			tableView.layoutIfNeeded()
 		}
 	}
     
@@ -94,6 +109,7 @@ class ReviewViewController: UIViewController {
 		tableView.tableHeaderView = reviewHeader
 		reviewHeader.setNeedsLayout()
 		reviewHeader.layoutIfNeeded()
+		
         view.addSubview(tableView)
         view.addSubview(doneButton)
         
@@ -102,12 +118,15 @@ class ReviewViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDoneButton))
         
         tableView.register(ReviewCell.self, forCellReuseIdentifier: viewModel?.reviewCellId ?? "ReviewCellId")
-		tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		
         doneButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
 		
 		grabTipsProducts()
+		guard let _viewModel = viewModel else { return }
+		reviewHeader.updateAccoladeLabel(_viewModel.resolveAccolade())
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }

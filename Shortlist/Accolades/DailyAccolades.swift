@@ -11,14 +11,15 @@ import Foundation
 
 class DailyAccolades: NSObject {
 	
-	private let task: Set<Task>?
-	
-	typealias Award = String
-	private var awardList: [Award] = []
-	
 	typealias PriorityLevel = Int
 	typealias Amount = Int
+	typealias Award = String
 	
+	private let task: Set<Task>?
+	
+	
+	private var awardList: [Award] = []
+
 	private var priorityTracker: [PriorityLevel : Amount] = [:]
 	
 	private var categoryTracker: [String : Int] = [:]
@@ -31,12 +32,12 @@ class DailyAccolades: NSObject {
 		self.day = day
 		self.task = day.dayToTask as? Set<Task>
 		super.init()
-		resolveFinalAward()
+		resolveAllAwards()
 	}
 	
 	// how to decide which award has priority - randomly selected from array
 	// shuffle first, randomly pick top 3
-	func resolveFinalAward() {
+	private func resolveAllAwards() {
 		resolveCompleteTasks()
 		resolveTaskPriorityAward()
 		resolveCategoryAward()

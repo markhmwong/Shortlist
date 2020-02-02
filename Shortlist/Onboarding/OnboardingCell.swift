@@ -27,7 +27,7 @@ class OnboardingCell: UICollectionViewCell {
 	lazy var skipButton: UIButton = {
 		let button = UIButton()
 		button.setTitle("Skip", for: .normal)
-		button.setTitleColor(Theme.Font.Color.adjust(by: -40.0)!, for: .normal)
+		button.setTitleColor(Theme.Font.DefaultColor.adjust(by: -40.0)!, for: .normal)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.addTarget(self, action: #selector(handleSkip), for: .touchUpInside)
 		return button

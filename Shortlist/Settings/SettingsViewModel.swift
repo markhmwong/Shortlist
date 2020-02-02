@@ -271,8 +271,15 @@ class SettingsViewModel {
 		}
 	}
 	
-	func headerForSection(section: Int) -> UITableViewHeaderFooterView? {
-		let headerView = UITableViewHeaderFooterView()
+	func viewForHeader(section: Int) -> UIView? {
+		let view = UITableViewHeaderFooterView()
+		view.backgroundView?.backgroundColor = .orange
+		view.textLabel?.textColor = UIColor.white.withAlphaComponent(0.7)
+		return view
+	}
+	
+	func willDisplayHeader(view: UIView, section: Int) {
+		let headerView = view as! UITableViewHeaderFooterView
 		
 		if #available(iOS 10, *) {
 			headerView.contentView.backgroundColor = Theme.Cell.background
@@ -282,7 +289,7 @@ class SettingsViewModel {
 		
 		let size: CGFloat = Theme.Font.FontSize.Standard(.b5).value
 		headerView.textLabel?.font = UIFont(name: Theme.Font.Regular, size: size)
-		return headerView
+//		return headerView
 	}
 	
     func currentHighPriorityTaskLimit() -> Int {

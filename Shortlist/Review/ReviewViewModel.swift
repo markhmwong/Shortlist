@@ -11,6 +11,8 @@ import StoreKit
 
 class ReviewViewModel {
     
+	typealias Priority = Int
+	
     var tipProducts: [SKProduct]? {
         didSet {
             self.tipProducts?.sort(by: { (a, b) -> Bool in
@@ -58,7 +60,7 @@ class ReviewViewModel {
     
     let cellHeight: CGFloat = 70.0
 	
-	typealias Priority = Int
+	var accolade: String = ""
 
 	var carryOverTaskObjectsArr: [Priority: Task] = [:]
 	
@@ -88,5 +90,11 @@ class ReviewViewModel {
 		} else {
 			carryOverTaskObjectsArr.removeValue(forKey: key)
 		}
+	}
+	
+	func resolveAccolade() -> String {
+		guard let _dayEntity = dayEntity else { return "Unknown Accolade" }
+		let dailyAccolade = DailyAccolades(day: _dayEntity)
+		return dailyAccolade.evaluateFinalAward()
 	}
 }

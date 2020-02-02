@@ -16,7 +16,7 @@ struct Theme {
 		static var TitleRegular: String = "Georgia"
 		static var TitleBold: String = "Georgia-Bold"
 		
-        static var Color: UIColor = .white
+        static var DefaultColor: UIColor = .white
 		static var FadedColor: UIColor = UIColor.white.adjust(by: -40.0)!
 		
         enum StandardSizes: CGFloat {
@@ -67,7 +67,7 @@ struct Theme {
     }
     
     struct Cell {
-        static var background: UIColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:1.0)
+		static var background: UIColor = UIColor(red:0.0, green:0.0, blue:0.0, alpha:1.0)
         static var text: UIColor = UIColor(red:0.91, green:0.53, blue:0.04, alpha:1.0)
 		static var textFieldBackground: UIColor = UIColor.black.adjust(by: 3)!
         static var idle: UIColor = .green

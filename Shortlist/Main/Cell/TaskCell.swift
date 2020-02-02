@@ -12,7 +12,7 @@ class TaskCell: UITableViewCell {
 	
     let minHeight: CGFloat = 70.0
     
-	let categoryTextColor: UIColor = Theme.Font.Color.adjust(by: -10.0)!
+	let categoryTextColor: UIColor = Theme.Font.DefaultColor.adjust(by: -10.0)!
 	
     var persistentContainer: PersistentContainer?
     
@@ -215,10 +215,10 @@ class TaskCell: UITableViewCell {
     func configure(with task: Task?) {
         if let task = task {
 			let nameStr = "\(task.name ?? "unknown")"
-			let nameAttributedStr = NSMutableAttributedString(string: nameStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!, ])
+			let nameAttributedStr = NSMutableAttributedString(string: nameStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!, ])
             
 			let detailsStr = "\(task.details ?? "Empty Notes")"
-			let detailsAttributedStr = NSMutableAttributedString(string: detailsStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
+			let detailsAttributedStr = NSMutableAttributedString(string: detailsStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
 			
             if (task.complete) {
                 nameAttributedStr.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, nameAttributedStr.length))
@@ -233,16 +233,16 @@ class TaskCell: UITableViewCell {
 			categoryTitle.attributedText = categoryAttributedStr
 			
 			if (task.isNew) {
-				taskName.textColor = Theme.Font.Color.adjust(by: -40.0)!
+				taskName.textColor = Theme.Font.DefaultColor.adjust(by: -40.0)!
 				categoryTitle.textColor = UIColor.lightGray
 			} else {
-				taskName.textColor = Theme.Font.Color
+				taskName.textColor = Theme.Font.DefaultColor
 				categoryTitle.textColor = categoryTextColor
 			}
 			
 			priorityColor(task.priority)
         } else {
-            taskName.attributedText = NSAttributedString(string: "Unknown Task", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+            taskName.attributedText = NSAttributedString(string: "Unknown Task", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
             taskButton.taskState = false
 			priorityColor(3) // 3 is no color
         }

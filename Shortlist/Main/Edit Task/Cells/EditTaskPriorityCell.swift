@@ -96,7 +96,7 @@ class EditTaskPriorityCell: CellBase {
 	func updateButton(string: String, color: UIColor) {
 		DispatchQueue.main.async {
 			self.priorityButton.layer.backgroundColor = color.cgColor
-			self.priorityButton.setAttributedTitle(NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!]), for: .normal)
+			self.priorityButton.setAttributedTitle(NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!]), for: .normal)
 		}
 	}
 }
