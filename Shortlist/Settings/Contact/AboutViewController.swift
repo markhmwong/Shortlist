@@ -45,13 +45,13 @@ class AboutViewController: UIViewController {
 	To be completed. May use Google Analytics to monitor app usage
 	
 	Bugs.\n
-	Please report any bugs to hello@whizbangapps.xyz.
+	Please report any bugs to hello@whizbangapps.xyz
 	
 	Contact.\n
 	Twitter: @markhmwong\nWebsite: https://www.whizbangapps.xyz/\(appName)\n
 	
 	Credits.\n
-	Onboarding graphics authors: Freepik, Pause08, Becris, srip, zlatko-najdenovski, itim2101 @ www.flaticon.com
+	Onboarding graphics authors: Freepik, Pause08, Becris, srip, zlatko-najdenovski, itim2101 @ www.flaticon.com and icons8.com
 	"""
     
 	init(coordinator: AboutCoordinator) {

@@ -132,10 +132,9 @@ class SettingsViewModel {
 						switch _general {
 							case .PriorityLimit:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .DetailedChevron) as! SettingsDetailedChevronCell
-								let priorityLimitStr = "\(currentHighPriorityTaskLimit()), \(currentMediumPriorityTaskLimit()), \(currentLowPriorityTaskLimit())"
 								cell.updateName(generalTitles[_general] ?? "Unknown")
 								cell.updateIcon("SettingsPriority.png")
-								cell.updateDetailsLabel(priorityLimitStr)
+								cell.updateDetailsLabel(highPriorityLimit: "\(currentHighPriorityTaskLimit())", mediumPriorityLimit: "\(currentMediumPriorityTaskLimit())", lowPriorityLimit: "\(currentLowPriorityTaskLimit())")
 								return cell
 							case .Stats:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .SettingsStandardCell) as! SettingsStandardCell

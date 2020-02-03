@@ -19,9 +19,23 @@ extension UITableView {
     }
 	
 	func updateHeaderViewHeight() {
-        if let header = self.tableHeaderView {
-            let newSize = header.systemLayoutSizeFitting(CGSize(width: self.bounds.width, height: 0))
-            header.frame.size.height = newSize.height
-        }
+		// header view setup for dynamic height
+		guard let headerView = self.tableHeaderView else {
+		  return
+		}
+		
+		headerView.anchorView(top: self.topAnchor, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+		headerView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+		
+		let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
+
+		if (headerView.frame.size.height != size.height) {
+			headerView.frame.size.height = size.height
+			self.tableHeaderView = headerView
+			DispatchQueue.main.async {
+				self.layoutIfNeeded()
+			}
+		}
     }
+	
 }

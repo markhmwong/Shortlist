@@ -27,6 +27,8 @@ class SettingsViewController: UIViewController {
         view.backgroundColor = .black
         return view
     }()
+	
+
     
 	init(persistentContainer: PersistentContainer, coordinator: SettingsCoordinator, viewModel: SettingsViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -42,56 +44,36 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		// VIEW
-		
+		// view
 		view.backgroundColor = .black
 		
-		// NAVIGATION
-
+		// navigation
 		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleBack), imageName: "Back", height: self.topBarHeight / 1.8)
 		navigationItem.title = "Settings"
 		
-		// SETUP / REGISTER CELLS FOR TABLEVIEW
-		
+		// register cells for tableview
 		viewModel?.registerTableViewCell(tableView)
 		
-		// TABLEVIEW HEADER
-		
+		// tableview header setup
         let settingsHeaderViewModel = SettingsHeaderViewModel()
         let header = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel)
         tableView.tableHeaderView = header
 		header.setNeedsLayout()
-        header.layoutIfNeeded()
+		header.layoutIfNeeded()
         view.addSubview(tableView)
+        tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)		
 		
-        tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
-
 		// request tips from Apple
-		
         header.grabTipsProducts()
     }
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		guard let headerView = tableView.tableHeaderView else {
-		  return
-		}
-		headerView.anchorView(top: tableView.topAnchor, bottom: nil, leading: tableView.leadingAnchor, trailing: tableView.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
-		headerView.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
-
-		// DYNAMIC TABLE HEADER VIEW HEIGHT
-		
-		let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
-
-		if headerView.frame.size.height != size.height {
-			headerView.frame.size.height = size.height
-			tableView.tableHeaderView = headerView
-			tableView.layoutIfNeeded()
-		}
 	}
 	
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
+		tableView.updateHeaderViewHeight()
 	}
     
     @objc
@@ -121,7 +103,7 @@ class SettingsViewController: UIViewController {
     
     //link to be updated
     func writeReview() {
-        let productURL = URL(string: "https://itunes.apple.com/app/id1454444680?mt=8")!
+        let productURL = URL(string: "https://itunes.apple.com/app/")!
         var components = URLComponents(url: productURL, resolvingAgainstBaseURL: false)
         
         components?.queryItems = [

@@ -9,13 +9,6 @@
 import Foundation
 import Firebase
 
-enum DatabaseReferenceKeys: String {
-    case rooms = "rooms"
-    case userRooms = "userRooms"
-    case users = "users"
-    case roomsCheck = "roomsCheck"
-}
-
 class FirebaseService {
 	
 	private var ref: DatabaseReference = Database.database().reference(fromURL: "https://shortlist-d8e3d.firebaseio.com/")
@@ -23,8 +16,8 @@ class FirebaseService {
 	//separate?
 	private var queue = DispatchGroup()
 	
-	init(dataBaseUrl: String) {
-		self.ref = Database.database().reference(fromURL: dataBaseUrl)
+	init(dataBaseUrl: String?) {
+		self.ref = Database.database().reference(fromURL: dataBaseUrl ?? "https://shortlist-d8e3d.firebaseio.com/")
 	}
 	
 	func authenticateAnonymously() {

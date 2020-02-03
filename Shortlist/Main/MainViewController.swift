@@ -78,6 +78,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         button.layer.cornerRadius = Theme.Button.cornerRadius
 		button.backgroundColor = Theme.Button.backgroundColor
 		button.setAttributedTitle(NSAttributedString(string: "Add Task", attributes: [NSAttributedString.Key.font : UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!, NSAttributedString.Key.foregroundColor : Theme.Button.textColor]), for: .normal)
+		
         button.addTarget(self, action: #selector(handleAddButton), for: .touchUpInside)
         return button
     }()
@@ -86,6 +87,12 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         let view = TaskListHeader(date: Calendar.current.today())
         return view
     }()
+	
+	lazy var newsFeed: NewsFeed = {
+		let vm = NewsFeedViewModel()
+		let feed = NewsFeed(viewModel: vm)
+		return feed
+	}()
 	
 	var bottomConstraint: NSLayoutConstraint?
     
@@ -128,6 +135,20 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		
 		keyboardNotifications()
 		initialiseStatEntity()
+		
+		let fbs = FirebaseService(dataBaseUrl: nil)
+		fbs.authenticateAnonymously()
+		fbs.getGlobalTasks { (globalTaskValue) in
+			self.newsFeed.updateFeed(str: "\(globalTaskValue)")
+			
+			UIView.animate(withDuration: 1.0, delay: 0.5, options: [.curveEaseInOut], animations: {
+				self.newsFeedTopAnchor = self.addButton.bottomAnchor
+				self.view.layoutIfNeeded()
+			}) { (state) in
+	
+			}
+			
+		}
 		
 		
 		// mostly testing functions
@@ -269,6 +290,9 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 //        }
 //    }
 	
+	
+	var newsFeedTopAnchor: NSLayoutYAxisAnchor?
+	
     private func setupView() {
 		
         guard let viewModel = viewModel else { return }
@@ -281,15 +305,34 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         taskListHeader.setNeedsLayout()
         taskListHeader.layoutIfNeeded()
 
+		
 		view.addSubview(tableView)
 		view.addSubview(mainInputView)
 		view.addSubview(addButton)
+		view.addSubview(newsFeed)
 		
-        tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
-        addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -30.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
+		tableView.anchorView(top: newsFeed.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+		
+		let addButtonWidth: CGFloat = addButton.titleLabel?.text?.widthOfString(usingFont: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!) ?? 0.0
+        addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -80.0, right: 0.0), size: CGSize(width: addButtonWidth + 40, height: 0.0))
 		mainInputView.anchorView(top:nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		bottomConstraint = NSLayoutConstraint(item: mainInputView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-		view.addConstraint(bottomConstraint!)
+		
+		newsFeedTopAnchor = view.safeAreaLayoutGuide.topAnchor
+		
+		newsFeed.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
+		
+//		newsFeedTopAnchor = newsFeed.topAnchor.constraint(equalTo: view.bottomAnchor)
+//		newsFeedTopAnchor.isActive = true
+//
+//		view.addConstraint(bottomConstraint!)
+//
+//		UIView.animate(withDuration: 1.0, delay: 0.5, options: [.curveEaseInOut], animations: {
+//			self.newsFeedTopAnchor = self.addButton.bottomAnchor
+//			self.view.layoutIfNeeded()
+//		}) { (state) in
+//
+//		}
     }
     
     private func loadReview() {
@@ -529,14 +572,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 			}
 		}
 	}
-}
-
-extension MainViewController {
-	
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		print("touch")
-	}
-	
 }
 
 extension MainViewController: NSFetchedResultsControllerDelegate {

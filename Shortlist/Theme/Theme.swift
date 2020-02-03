@@ -98,8 +98,8 @@ struct Theme {
 	}
 	
 	struct Priority {
-		static var highColor: UIColor = UIColor(red:0.82, green:0.35, blue:0.75, alpha:1.0).adjust(by: 0.0)!
-		static var mediumColor: UIColor = UIColor(red:0.82, green:0.52, blue:0.35, alpha:1.0).adjust(by: -5.0)!
+		static var highColor: UIColor = UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+		static var mediumColor: UIColor = UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
 		static var lowColor: UIColor = UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
 		static var noneColor: UIColor = UIColor.white.adjust(by: -30.0)!
 	}

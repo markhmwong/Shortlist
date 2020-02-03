@@ -33,7 +33,7 @@ class SettingsHeader: UIView {
     
     var viewModel: SettingsHeaderViewModel?
     
-    let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
+    let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!]
     
     lazy var coffeeTip: StandardButton = {
         let button = StandardButton(title: "Short Tip N/A")
@@ -64,9 +64,9 @@ class SettingsHeader: UIView {
         return button
     }()
     
-    lazy var promoText: UILabel = {
+    lazy var tipText: UILabel = {
         let view = UILabel()
-        view.attributedText = NSAttributedString(string: "If you find this app useful for your daily activities, please consider supporting the app by leaving a tip in my tip jar.", attributes: attributes)
+        view.attributedText = NSAttributedString(string: "Sharing, reviewing, emailing and donating motivates me. If you find this app helped you in a part of your life, show your support by doing one of the above. I don't have a big marketing budget, or a team, I'm just a one man band.", attributes: attributes)
         view.backgroundColor = .clear
         view.lineBreakMode = .byWordWrapping
 		view.numberOfLines = 0
@@ -80,6 +80,12 @@ class SettingsHeader: UIView {
 		view.backgroundColor = .clear
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
+	}()
+	
+	lazy var newsFeed: NewsFeed = {
+		let vm = NewsFeedViewModel()
+		let feed = NewsFeed(viewModel: vm)
+		return feed
 	}()
     
     override init(frame: CGRect) {
@@ -99,33 +105,38 @@ class SettingsHeader: UIView {
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
 		
-		tipButtonContainer.anchorView(top: promoText.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -10.0, right: 0.0), size: .zero)
-		
-		promoText.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
-		
+		// button container
+		tipButtonContainer.anchorView(top: tipText.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -10.0, right: 0.0), size: .zero)
+		// text
+		tipText.anchorView(top: newsFeed.bottomAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
+		//buttons
 		let buttonHeight: CGFloat = UIScreen.main.bounds.height * 0.05
+		let buttonWidth: CGFloat = UIScreen.main.bounds.width * 0.25
 		
-		coffeeTip.anchorView(top: generousTip.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: 120.0, height: buttonHeight))
+		coffeeTip.anchorView(top: generousTip.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: buttonWidth, height: buttonHeight))
 		
-		generousTip.anchorView(top: tipButtonContainer.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: tipButtonContainer.centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: 120.0, height: buttonHeight))
+		generousTip.anchorView(top: tipButtonContainer.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: tipButtonContainer.centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: buttonWidth, height: buttonHeight))
 		
-		amazingTip.anchorView(top: generousTip.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: CGSize(width: 120.0, height: buttonHeight))
+		amazingTip.anchorView(top: generousTip.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: CGSize(width: buttonWidth, height: buttonHeight))
 	}
     
     func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 		backgroundColor = Theme.GeneralView.headerBackground
+		addSubview(newsFeed)
 		addSubview(tipButtonContainer)
 		tipButtonContainer.addSubview(coffeeTip)
 		tipButtonContainer.addSubview(generousTip)
 		tipButtonContainer.addSubview(amazingTip)
-		addSubview(promoText)
+		addSubview(tipText)
 		
 		guard let _viewModel = viewModel else { return }
 		
         _viewModel.buttonArr.append(coffeeTip)
         _viewModel.buttonArr.append(generousTip)
         _viewModel.buttonArr.append(amazingTip)
+		
+		newsFeed.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
 
     }
     

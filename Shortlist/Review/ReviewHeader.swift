@@ -16,7 +16,7 @@ class ReviewHeader: UIView {
     lazy var reviewTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-		var str = NSMutableAttributedString(string: "Review", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!])
+		var str = NSMutableAttributedString(string: "Review", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b1).value)!])
         label.attributedText = str
         return label
     }()
@@ -42,8 +42,10 @@ class ReviewHeader: UIView {
 	
 	lazy var tipDisclaimer: UILabel = {
 		let label = UILabel()
-		label.attributedText = NSMutableAttributedString(string: "Hidden when you complete all tasks", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
+		label.attributedText = NSMutableAttributedString(string: "Consider this a nagging pop up when you don't complete the tasks you set out to do. Show your support by reviewing on the App Store, emailing me feedback, or easily donating below.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: 0.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
 		label.translatesAutoresizingMaskIntoConstraints = false
+		label.numberOfLines = 0
+		label.textAlignment = .center
 		return label
 	}()
     
@@ -126,11 +128,12 @@ class ReviewHeader: UIView {
 		//		if (totalTasks != totalCompleted) {
 		if (true) {
 			let buttonHeight: CGFloat = UIScreen.main.bounds.height * 0.05
+			let buttonWidth: CGFloat = UIScreen.main.bounds.width * 0.30
 			
-			coffeeTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width * 0.30, height: buttonHeight))
-			generousTip.anchorView(top: accoladeLabel.bottomAnchor, bottom: tipDisclaimer.topAnchor, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: -10.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width * 0.30, height: buttonHeight))
-			amazingTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width * 0.25, height: buttonHeight))
-			tipDisclaimer.anchorView(top: generousTip.bottomAnchor, bottom: bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -5.0, right: 0.0), size: .zero)
+			coffeeTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: buttonWidth, height: buttonHeight))
+			generousTip.anchorView(top: completedTasks.bottomAnchor, bottom: tipDisclaimer.topAnchor, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: -10.0, right: 0.0), size: CGSize(width: buttonWidth, height: buttonHeight))
+			amazingTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: CGSize(width: buttonWidth, height: buttonHeight))
+			tipDisclaimer.anchorView(top: generousTip.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: -5.0, right: -20.0), size: .zero)
 		}
 	}
     
@@ -140,15 +143,22 @@ class ReviewHeader: UIView {
 		backgroundColor = Theme.GeneralView.headerBackground
 		addSubview(reviewTitle)
 		addSubview(accoladeLabel)
+		addSubview(completedTasksTitle)
+        addSubview(completedTasks)
 		
-		reviewTitle.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 10.0), size: .zero)
+		reviewTitle.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 20.0, left: 10.0, bottom: 0.0, right: 10.0), size: .zero)
 
-		accoladeLabel.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: reviewTitle.centerXAnchor, padding: .zero, size: .zero)
+		accoladeLabel.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 15.0, left: 0.0, bottom: -20.0, right: 0.0), size: .zero)
+		
+		completedTasksTitle.anchorView(top: accoladeLabel.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
+		
+		completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: reviewTitle.centerXAnchor, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
+
+		
         let totalTasks = _viewModel.dayEntity?.totalTasks
         let totalCompleted = _viewModel.dayEntity?.totalCompleted
-//        completedTasks.attributedText = NSAttributedString(string: "\(totalCompleted ?? 0) / \(totalTasks ?? 5)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])
 		
-		
+		updateCompletedTaskLabel("\(totalCompleted ?? 0)")
 
 		
 //		if (totalTasks != totalCompleted) {
@@ -163,23 +173,26 @@ class ReviewHeader: UIView {
 			_viewModel.buttonArr.append(amazingTip)
 			
 
-		} else {
-
-//			heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.23).isActive = true
-//
-//			reviewTitle.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: estimatedFrameInstructionTitle.height, left: 10.0, bottom: 0.0, right: 10.0), size: .zero)
 		}
 		
-//		addSubview(completedTasksTitle)
-//        addSubview(completedTasks)
+
         
-//        completedTasksTitle.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 40.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: estimatedFrameInstructionTitle.height))
-//        completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: reviewTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
+        
+
     }
 	
 	func updateAccoladeLabel(_ accoladeStr: String) {
 		DispatchQueue.main.async {
-			self.accoladeLabel.attributedText = NSMutableAttributedString(string: accoladeStr, attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: 14.0)!, NSAttributedString.Key.foregroundColor: Theme.Font.DefaultColor])
+			self.accoladeLabel.attributedText = NSMutableAttributedString(string: accoladeStr, attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.h3).value)!, NSAttributedString.Key.foregroundColor: Theme.Font.DefaultColor])
+		}
+	}
+	
+	func updateCompletedTaskLabel(_ numberStr: String) {
+		guard let _viewModel = viewModel else { return }
+        let totalTasks = _viewModel.dayEntity?.totalTasks
+		
+		DispatchQueue.main.async {
+			self.accoladeLabel.attributedText = NSAttributedString(string: "\(numberStr) / \(totalTasks ?? 5)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])
 		}
 	}
 	

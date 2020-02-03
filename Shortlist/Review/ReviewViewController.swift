@@ -73,29 +73,7 @@ class ReviewViewController: UIViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		
-		// DYNAMIC HEIGHT TABLE VIEW HEADER
-//		if let header = tableView.tableHeaderView as? ReviewHeader {
-//			header.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//			header.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//			header.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-//			header.bottomAnchor.constraint(equalTo: header.tipDisclaimer.bottomAnchor, constant: 15.0).isActive = true
-//		}
-		
-		guard let headerView = tableView.tableHeaderView else {
-		  return
-		}
-		
-		headerView.anchorView(top: tableView.topAnchor, bottom: nil, leading: tableView.leadingAnchor, trailing: tableView.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
-		headerView.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
-		
-		let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
-
-		if headerView.frame.size.height != size.height {
-			headerView.frame.size.height = size.height
-			tableView.tableHeaderView = headerView
-			tableView.layoutIfNeeded()
-		}
+		tableView.updateHeaderViewHeight()
 	}
     
     override func viewDidLoad() {

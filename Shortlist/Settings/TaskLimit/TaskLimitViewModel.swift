@@ -72,14 +72,16 @@ class TaskLimitViewModel {
 			switch section {
 				case .HighPriority:
 					view.textLabel?.text = "High"
+					view.textLabel?.textColor = Theme.Priority.highColor
 				case .MediumPriority:
 					view.textLabel?.text = "Medium"
+					view.textLabel?.textColor = Theme.Priority.mediumColor
 				case .LowPriority:
 					view.textLabel?.text = "Low"
+					view.textLabel?.textColor = Theme.Priority.lowColor
 			}
 		}
 
-		view.textLabel?.textColor = UIColor.white
 		return view
 	}
 	
