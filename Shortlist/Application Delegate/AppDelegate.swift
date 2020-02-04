@@ -66,6 +66,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		} else {
 			mainCoordinator?.start(persistentContainer)
+			let today: Int16 = Calendar.current.todayToInt()
+
+			if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
+				if (today != Int16(reviewDate)) {
+					
+					// update keychain
+					KeychainWrapper.standard.set(Int(today), forKey: SettingsKeyChainKeys.ReviewDate)
+					
+					// show review page
+					DispatchQueue.main.async {
+						self.mainCoordinator?.showReview(self.persistentContainer)
+					}
+				}
+			}
 		}
 		
 		
@@ -102,10 +116,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+		print("will enter foreground")
+		let today: Int16 = Calendar.current.todayToInt()
+
+		if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
+			if (today != Int16(reviewDate)) {
+//			if true {
+				// update keychain
+				KeychainWrapper.standard.set(Int(today), forKey: SettingsKeyChainKeys.ReviewDate)
+				
+				// show review page
+				DispatchQueue.main.async {
+					self.mainCoordinator?.showReview(self.persistentContainer)
+				}
+			}
+		}
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-
+		
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

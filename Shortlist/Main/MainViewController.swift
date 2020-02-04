@@ -112,26 +112,14 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	// clean up
     override func viewDidLoad() {
         super.viewDidLoad()
-		let today: Int16 = Calendar.current.todayToInt()
+//		let today: Int16 = Calendar.current.todayToInt()
 		// to do review these comments in this entire function
 		// background thread fill uninitialised days over the last 30 days - for stats
 //		searchNilDaysOverThirtyDays()
 		
-		if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
-			if today != Int16(reviewDate) {
-				// update keychain
-				KeychainWrapper.standard.set(Int(today), forKey: SettingsKeyChainKeys.ReviewDate)
-				
-				// show preview
-				loadReview()
-			}
-		} else {
-			// continues as normal
-//			loadReview() //returning from this view needs to reload the tableview
-			loadData()
-			setupView()
-			AppStoreReviewManager.requestReviewIfAppropriate()
-		}
+		loadData()
+		setupView()
+		AppStoreReviewManager.requestReviewIfAppropriate()
 		
 		keyboardNotifications()
 		initialiseStatEntity()
@@ -141,14 +129,17 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		fbs.getGlobalTasks { (globalTaskValue) in
 			self.newsFeed.updateFeed(str: "\(globalTaskValue)")
 			
-			UIView.animate(withDuration: 1.0, delay: 0.5, options: [.curveEaseInOut], animations: {
-				self.newsFeedTopAnchor = self.addButton.bottomAnchor
+			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
+				self.newsFeed.feedLabel.alpha = 1
 				self.view.layoutIfNeeded()
 			}) { (state) in
 	
 			}
 			
 		}
+		
+		// test watch
+		// syncWatch()
 		
 		
 		// mostly testing functions
@@ -161,8 +152,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 //            //no data to do
 //            return
 //        }
-        // test watch
-//        syncWatch()
+
     }
 	
 	func initialiseData(_ dayObject: Day) {
@@ -322,21 +312,11 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		
 		newsFeed.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
 		
-//		newsFeedTopAnchor = newsFeed.topAnchor.constraint(equalTo: view.bottomAnchor)
-//		newsFeedTopAnchor.isActive = true
-//
-//		view.addConstraint(bottomConstraint!)
-//
-//		UIView.animate(withDuration: 1.0, delay: 0.5, options: [.curveEaseInOut], animations: {
-//			self.newsFeedTopAnchor = self.addButton.bottomAnchor
-//			self.view.layoutIfNeeded()
-//		}) { (state) in
-//
-//		}
+		
     }
     
     private func loadReview() {
-        coordinator?.showReview(persistentContainer, mainViewController: self)
+        coordinator?.showReview(persistentContainer)
     }
     
     func loadData() {
