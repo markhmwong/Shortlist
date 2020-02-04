@@ -37,6 +37,7 @@ extension Day {
     @NSManaged public var totalTasks: Int16
     
     @NSManaged public var dayToTask: NSSet?
+    @NSManaged public var accolade: String?
 
 }
 

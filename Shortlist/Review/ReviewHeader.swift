@@ -96,6 +96,13 @@ class ReviewHeader: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+	
+	lazy var tipButtonContainer: UIView = {
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = .clear
+		return view
+	}()
     
     var date: Date? = nil
     
@@ -122,18 +129,27 @@ class ReviewHeader: UIView {
 		super.layoutIfNeeded()
         guard let _viewModel = viewModel else { return }
 
-		let totalTasks = _viewModel.dayEntity?.totalTasks
-        let totalCompleted = _viewModel.dayEntity?.totalCompleted
+//		let totalTasks = _viewModel.dayEntity?.totalTasks
+//        let totalCompleted = _viewModel.dayEntity?.totalCompleted
 		
 		//		if (totalTasks != totalCompleted) {
 		if (true) {
 			let buttonHeight: CGFloat = UIScreen.main.bounds.height * 0.05
 			let buttonWidth: CGFloat = UIScreen.main.bounds.width * 0.30
-			
+
+			tipButtonContainer.isHidden = false
+
 			coffeeTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: CGSize(width: buttonWidth, height: buttonHeight))
-			generousTip.anchorView(top: completedTasks.bottomAnchor, bottom: tipDisclaimer.topAnchor, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: -10.0, right: 0.0), size: CGSize(width: buttonWidth, height: buttonHeight))
+
+			generousTip.anchorView(top: tipButtonContainer.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: buttonWidth, height: buttonHeight))
+
 			amazingTip.anchorView(top: generousTip.topAnchor, bottom: nil, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: CGSize(width: buttonWidth, height: buttonHeight))
-			tipDisclaimer.anchorView(top: generousTip.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: -5.0, right: -20.0), size: .zero)
+			
+			completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: reviewTitle.centerXAnchor, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
+			
+			tipDisclaimer.anchorView(top: generousTip.bottomAnchor, bottom: tipButtonContainer.bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 20.0, bottom: -10.0, right: -20.0), size: .zero)
+		} else {
+			completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: reviewTitle.centerXAnchor, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
 		}
 	}
     
@@ -145,40 +161,31 @@ class ReviewHeader: UIView {
 		addSubview(accoladeLabel)
 		addSubview(completedTasksTitle)
         addSubview(completedTasks)
+		addSubview(tipButtonContainer)
+		tipButtonContainer.addSubview(tipDisclaimer)
 		
 		reviewTitle.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 20.0, left: 10.0, bottom: 0.0, right: 10.0), size: .zero)
 
-		accoladeLabel.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 15.0, left: 0.0, bottom: -20.0, right: 0.0), size: .zero)
+		accoladeLabel.anchorView(top: reviewTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -20.0, right: 0.0), size: .zero)
 		
-		completedTasksTitle.anchorView(top: accoladeLabel.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
-		
-		completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: reviewTitle.centerXAnchor, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
+		completedTasksTitle.anchorView(top: accoladeLabel.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
 
+		tipButtonContainer.anchorView(top: completedTasks.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: .init(top: 20.0, left: 0.0, bottom: -10.0, right: 0.0), size: .zero)
+		
+		tipButtonContainer.isHidden = true
 		
         let totalTasks = _viewModel.dayEntity?.totalTasks
         let totalCompleted = _viewModel.dayEntity?.totalCompleted
 		
 		updateCompletedTaskLabel("\(totalCompleted ?? 0)")
 
+		tipButtonContainer.addSubview(coffeeTip)
+		tipButtonContainer.addSubview(generousTip)
+		tipButtonContainer.addSubview(amazingTip)
 		
-//		if (totalTasks != totalCompleted) {
-		if (true) {
-			addSubview(coffeeTip)
-			addSubview(generousTip)
-			addSubview(amazingTip)
-			addSubview(tipDisclaimer)
-			
-			_viewModel.buttonArr.append(coffeeTip)
-			_viewModel.buttonArr.append(generousTip)
-			_viewModel.buttonArr.append(amazingTip)
-			
-
-		}
-		
-
-        
-        
-
+		_viewModel.buttonArr.append(coffeeTip)
+		_viewModel.buttonArr.append(generousTip)
+		_viewModel.buttonArr.append(amazingTip)
     }
 	
 	func updateAccoladeLabel(_ accoladeStr: String) {
