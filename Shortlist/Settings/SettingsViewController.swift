@@ -119,7 +119,7 @@ class SettingsViewController: UIViewController {
 	
 	func dismissAndShowReview() {
 		navigationController?.dismiss(animated: true, completion: {
-			self.coordinator?.parentCoordinator?.showReview(self.persistentContainer)
+			self.coordinator?.parentCoordinator?.showReview(self.persistentContainer, automated: false)
 		})
 	}
 	

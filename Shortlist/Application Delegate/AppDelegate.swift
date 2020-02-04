@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 					
 					// show review page
 					DispatchQueue.main.async {
-						self.mainCoordinator?.showReview(self.persistentContainer)
+						self.mainCoordinator?.showReview(self.persistentContainer, automated: true)
 					}
 				}
 			}
@@ -127,7 +127,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				
 				// show review page
 				DispatchQueue.main.async {
-					self.mainCoordinator?.showReview(self.persistentContainer)
+					self.mainCoordinator?.showReview(self.persistentContainer, automated: true)
 				}
 			}
 		}

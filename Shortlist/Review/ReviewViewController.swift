@@ -56,13 +56,17 @@ class ReviewViewController: UIViewController {
         return button
     }()
 	
-	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
+	// determines whether the review was brought up automatically or manually displayed via the settings menu. This is also used to force an update to the global task count as we only want to update the value once per day
+	private var automatedDisplay: Bool = false
+	
+	private let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
     
-    init(persistentContainer: PersistentContainer, coordinator: ReviewCoordinator, viewModel: ReviewViewModel) {
+	init(persistentContainer: PersistentContainer, coordinator: ReviewCoordinator, viewModel: ReviewViewModel, automatedDisplay: Bool) {
         super.init(nibName: nil, bundle: nil)
         self.persistentContainer = persistentContainer
         self.viewModel = viewModel
         self.reviewCoordinator = coordinator
+		self.automatedDisplay = automatedDisplay
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -115,8 +119,13 @@ class ReviewViewController: UIViewController {
 		}
 		
 		// upload total tasks completed
-		let fbs = FirebaseService(dataBaseUrl: nil)
-		
+		if (automatedDisplay) {
+			let fbs = FirebaseService(dataBaseUrl: nil)
+			fbs.sendTotalCompletedTasks(amount: Int(_day.totalCompleted)) {
+				
+			}
+		}
+
     }
 
     override func viewDidAppear(_ animated: Bool) {

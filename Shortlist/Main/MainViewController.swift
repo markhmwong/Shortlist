@@ -126,20 +126,19 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		
 		let fbs = FirebaseService(dataBaseUrl: nil)
 		fbs.authenticateAnonymously()
-//		fbs.getGlobalTasks { (globalTaskValue) in
-//			self.newsFeed.updateFeed(str: "\(globalTaskValue)")
-//			
-//			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
-//				self.newsFeed.feedLabel.alpha = 1
-//				self.view.layoutIfNeeded()
-//			}) { (state) in
-//	
-//			}
-//		}
-		fbs.sendTotalCompletedTasks(amount: 0) {
-			//
+		fbs.getGlobalTasks { (globalTaskValue) in
+			DispatchQueue.main.async {
+				self.newsFeed.updateFeed(str: "\(globalTaskValue)")
+			}
+			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
+				self.newsFeed.feedLabel.alpha = 1
+				self.view.layoutIfNeeded()
+			}) { (state) in
+
+			}
 		}
-		
+
+
 		
 		// test watch
 		// syncWatch()
@@ -314,12 +313,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		newsFeedTopAnchor = view.safeAreaLayoutGuide.topAnchor
 		
 		newsFeed.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
-		
-		
-    }
-    
-    private func loadReview() {
-        coordinator?.showReview(persistentContainer)
     }
     
     func loadData() {

@@ -11,7 +11,7 @@ import Firebase
 
 class FirebaseService {
 	
-	private let GLOBAL_TASK_COUNT = "globalTasksCount"
+	private let GLOBAL_TASK_COUNT = "globalTaskCount"
 	
 	private let STATS_REF: String = "stats"
 	

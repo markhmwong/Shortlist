@@ -17,10 +17,14 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     var navigationController: UINavigationController
     
 	weak var mainViewController: MainViewController? = nil
-		
-	init(navigationController:UINavigationController, mainViewController: MainViewController?) {
+	
+	// also used to determine whether the app will update the global count
+	private var automated: Bool = false
+	
+	init(navigationController:UINavigationController, mainViewController: MainViewController?, automated: Bool) {
         self.navigationController = navigationController
 		self.mainViewController = mainViewController
+		self.automated = automated
     }
     
     // stats viewcontroller begins here
@@ -31,11 +35,9 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
             return
         }
         let viewModel = ReviewViewModel()
-        let vc = ReviewViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel)
+        let vc = ReviewViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel, automatedDisplay: automated)
 		navigationController.modalPresentationStyle = .fullScreen
 		navigationController.present(vc, animated: true, completion: nil)
-
-		
     }
 	
 	func dimissFromMainViewController(_ persistentContainer: PersistentContainer?) {
