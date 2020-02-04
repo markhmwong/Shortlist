@@ -126,17 +126,20 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		
 		let fbs = FirebaseService(dataBaseUrl: nil)
 		fbs.authenticateAnonymously()
-		fbs.getGlobalTasks { (globalTaskValue) in
-			self.newsFeed.updateFeed(str: "\(globalTaskValue)")
-			
-			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
-				self.newsFeed.feedLabel.alpha = 1
-				self.view.layoutIfNeeded()
-			}) { (state) in
-	
-			}
-			
+//		fbs.getGlobalTasks { (globalTaskValue) in
+//			self.newsFeed.updateFeed(str: "\(globalTaskValue)")
+//			
+//			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
+//				self.newsFeed.feedLabel.alpha = 1
+//				self.view.layoutIfNeeded()
+//			}) { (state) in
+//	
+//			}
+//		}
+		fbs.sendTotalCompletedTasks(amount: 0) {
+			//
 		}
+		
 		
 		// test watch
 		// syncWatch()

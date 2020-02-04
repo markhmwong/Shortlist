@@ -11,6 +11,10 @@ import Firebase
 
 class FirebaseService {
 	
+	private let GLOBAL_TASK_COUNT = "globalTasksCount"
+	
+	private let STATS_REF: String = "stats"
+	
 	private var ref: DatabaseReference = Database.database().reference(fromURL: "https://shortlist-d8e3d.firebaseio.com/")
 	
 	//separate?
@@ -48,18 +52,18 @@ class FirebaseService {
 	}
 	
 	func getGlobalTasks(completionHandler: @escaping (Int) -> Void) {
-		let refTasks = self.ref.child("stats")
+		let refStats = self.ref.child(STATS_REF)
 		var globalTask: Int = 0
 		let failedValue: Int = 0
 		queue.enter()
-		refTasks.observeSingleEvent(of: .value) { (snapshot) in
+		refStats.observeSingleEvent(of: .value) { (snapshot) in
 			print(snapshot)
 			guard let dictionary = snapshot.value as? [String: Any] else {
 				globalTask = failedValue
 				self.queue.leave()
 				return
 			}
-			guard let task = dictionary["globalTasks"] as! Int? else {
+			guard let task = dictionary[self.GLOBAL_TASK_COUNT] as! Int? else {
 				globalTask = failedValue
 				self.queue.leave()
 				return
@@ -70,6 +74,30 @@ class FirebaseService {
 		
 		queue.notify(queue: .main) {
 			completionHandler(globalTask)
+		}
+	}
+	
+	// Uses the transaction api to ensure the count is correct even when multiple sources attempt to update the value. This is important as we want the value to be updated correctly
+	func sendTotalCompletedTasks(amount: Int, completionHandler: @escaping () -> Void) {
+		
+		let refStats = self.ref.child(STATS_REF)
+		
+		refStats.runTransactionBlock({ (currentData: MutableData) -> TransactionResult in
+			if var stats: [String : Any] = currentData.value as? [String: Any] {
+				var globalTaskCount: Int = stats[self.GLOBAL_TASK_COUNT] as? Int ?? 0
+				
+				globalTaskCount = globalTaskCount + amount
+				
+				stats[self.GLOBAL_TASK_COUNT] = globalTaskCount
+				
+				currentData.value = stats
+				
+				return TransactionResult.success(withValue: currentData)
+			}
+			return TransactionResult.success(withValue: currentData)
+		}) { (err, state, dataSnapshot) in
+			//error todo
+			
 		}
 	}
 }
