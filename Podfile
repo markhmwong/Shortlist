@@ -9,6 +9,7 @@ target 'Shortlist' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  pod 'MarqueeLabel'
 
   target 'ShortlistTests' do
     inherit! :search_paths
