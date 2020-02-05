@@ -354,7 +354,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 //        let yObject: Day? = persistentContainer.fetchDayManagedObject(forDate: yesterday)
 //
 //		let task = Task.init(context: persistentContainer.viewContext)
-//		task.create(context: persistentContainer.viewContext, idNum: 0, taskName: "Task B", categoryName: "Uncategorized", createdAt: yesterday, reminderDate: yesterday, priority: 0)
+//		task.create(context: persistentContainer.viewContext, idNum: 0, taskName: "Task C", categoryName: "Uncategorized", createdAt: yesterday, reminderDate: yesterday, priority: 0)
 //		yObject?.addToDayToTask(task)
 //		persistentContainer.saveContext()
     }

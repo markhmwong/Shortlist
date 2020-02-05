@@ -174,7 +174,8 @@ class ReviewViewController: UIViewController {
 		copyMarkedTasks()
 		
 		//save to core data
-		persistentContainer?.saveContext()
+		guard let pc = persistentContainer else { return }
+		pc.saveContext()
 		
 		//dismiss view
 		reviewCoordinator?.dimissFromMainViewController(persistentContainer)
@@ -219,11 +220,14 @@ class ReviewViewController: UIViewController {
 	// marked tasks are placed inside the carryOverTaskObjectsArr
 	func copyMarkedTasks() {
 		guard let viewModel = viewModel else { return }
-		let today: Day = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-		// create new day here, incase the app is running in the back ground and a new day hasn't been created in the interim
+		guard let pc = persistentContainer else { return }
+		let today: Day = pc.fetchDayEntity(forDate: Calendar.current.today()) as! Day
 		
+		// create new day here, incase the app is running in the back ground and a new day hasn't been created in the interim
 		for (_, task) in viewModel.carryOverTaskObjectsArr {
-			today.addToDayToTask(task)
+			let copiedTask = Task(context: pc.viewContext)
+			copiedTask.create(context: pc.viewContext, idNum: Int(task.id), taskName: task.name ?? "Error", categoryName: task.category, createdAt: task.createdAt! as Date, reminderDate: task.reminder! as Date, priority: Int(task.priority))
+			today.addToDayToTask(copiedTask)
 		}
 		
 	}

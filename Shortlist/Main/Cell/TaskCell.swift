@@ -30,12 +30,11 @@ class TaskCell: UITableViewCell {
 	    
 	var isNew: Bool = false
 	
-	lazy var isEditable: Bool = false
+	private let isEditable: Bool = false
 	
     //convert to textfield
     lazy var taskName: UITextView = {
         let view = UITextView()
-        view.delegate = self
         view.backgroundColor = .clear
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
@@ -70,7 +69,6 @@ class TaskCell: UITableViewCell {
 	
     lazy var details: UITextView = {
         let view = UITextView()
-        view.delegate = self
         view.backgroundColor = .clear
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
@@ -89,7 +87,6 @@ class TaskCell: UITableViewCell {
     
     lazy var categoryTitle: UITextView = {
         let view = UITextView()
-        view.delegate = self
 		view.backgroundColor = UIColor.clear
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
@@ -136,7 +133,7 @@ class TaskCell: UITableViewCell {
     }
 	
 	override func layoutSubviews() {
-		super.layoutSubviews()		
+		super.layoutSubviews()
 	}
 	
 	override func layoutIfNeeded() {
@@ -290,89 +287,6 @@ class TaskCell: UITableViewCell {
         super.prepareForReuse()
         configure(with: .none)
     }
-	
-	// not in use because we're no longer editing in place
-//	func stateOfTextView() {
-//		guard let task = task else { return }
-//		editingOfTaskName(task.isNew)
-//	}
-//
-//	func editingOfTaskName(_ state: Bool) {
-////		taskName.isEditable = state
-////		taskName.isSelectable = state
-////		taskName.isUserInteractionEnabled = state
-////
-////		categoryTitle.isEditable = state
-////		categoryTitle.isSelectable = state
-////		categoryTitle.isUserInteractionEnabled = state
-//	}
-}
-
-// no longer using cell with text input
-extension TaskCell: UITextViewDelegate {
-	
-//    var tableView: UITableView? {
-//        get {
-//            var table: UIView? = superview
-//            while !(table is UITableView) && table != nil {
-//                table = table?.superview
-//            }
-//            return table as? UITableView
-//        }
-//    }
-    
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        if (text == "\n") {
-//			if (textView.superview?.viewWithTag(textView.tag + 1)) != nil {
-//	            updateTaskName(taskName: textView.text ?? "")
-//				setTaskToNotNew()
-//				saveTaskState()
-//				textView.textColor = UIColor.white
-//				return false
-//			} else {
-////				editingOfTaskName(false)
-//	            updateCategoryName(categoryName: textView.text ?? "") // may need to create a new category
-//				saveTaskState()
-//				textView.textColor = categoryTextColor
-//				return false
-//			}
-//		}
-//
-//		if (textView.textColor == UIColor.lightGray) {
-//			textView.text = nil
-//			if (textView.tag == 1) {
-//				textView.textColor = UIColor.white
-//			}
-//		}
-		
-//        return true
-//    }
-	
-//	func textViewDidBeginEditing(_ textView: UITextView) {
-////		saveTaskState()
-//	}
-//
-//	func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-//		return false
-//	}
-    
-	// Using this method to alter the height of the textfield
-//    func textViewDidChange(_ textView: UITextView) {
-//        let size = textView.bounds.size
-//        let newSize = textView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
-//        // Resize the cell only when cell's size is changed
-//        if size.height != newSize.height {
-//            UIView.setAnimationsEnabled(false)
-//            tableView?.beginUpdates()
-//            taskButton.setNeedsDisplay()
-//            tableView?.endUpdates()
-//            UIView.setAnimationsEnabled(true)
-//            if let thisIndexPath = tableView?.indexPath(for: self) {
-//                tableView?.scrollToRow(at: thisIndexPath, at: .bottom, animated: false)
-//            }
-//        }
-//    }
-
 }
 
 
