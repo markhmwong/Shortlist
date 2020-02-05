@@ -476,13 +476,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4D1079E423A77855002CDF3A /* Input */ = {
+		4D1079E423A77855002CDF3A /* AccesoryInputView */ = {
 			isa = PBXGroup;
 			children = (
 				4D6E755F235DB16700C67B8F /* MainInputView.swift */,
 				4D6E75662360648000C67B8F /* SelectCategory */,
 			);
-			path = Input;
+			path = AccesoryInputView;
 			sourceTree = "<group>";
 		};
 		4D377CFE237EF1840026FB3A /* Cells */ = {
@@ -1057,7 +1057,7 @@
 				4D6E7537235633F200C67B8F /* Backlog */,
 				4D9304A923A9A8850001EC3D /* Priority */,
 				4DD39ABD23B0AF9F0009495B /* Cell */,
-				4D1079E423A77855002CDF3A /* Input */,
+				4D1079E423A77855002CDF3A /* AccesoryInputView */,
 				4D5D7E2D232B08550088EB5F /* Edit Task */,
 				4D6E756D2360AAF000C67B8F /* EmptyCollectionView.swift */,
 				4D45E79322DDD1AB008AC433 /* MainViewController.swift */,

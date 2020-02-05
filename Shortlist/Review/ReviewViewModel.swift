@@ -9,6 +9,11 @@
 import UIKit
 import StoreKit
 
+enum PriorityLimitThreshold {
+	case Exceeded
+	case WithinLimit
+}
+
 class ReviewViewModel {
     
 	typealias PriorityType = Int
@@ -123,16 +128,13 @@ class ReviewViewModel {
 		for task in todayTasks {
 			todaysPriorityCount[Int(task.priority)] = (todaysPriorityCount[Int(task.priority)] ?? 0) + 1
 		}
-		
-		print(priorityCount)
-		print(todaysPriorityCount)
 	}
 	
-	
-	
-	func checkPrioriy(persistentContainer: PersistentContainer?, task: Task?) {
-		guard let _pc = persistentContainer else { return }
-		guard let _task = task else { return }
+	// A check for the priority limit. Do not allow the user to carry over another task with the same priority type if it has exceeded the daily limit. They can however change their daily limit to allow for it
+	// returns Tuple. The String in the tuple is the priority type in letters
+	func checkPrioriy(persistentContainer: PersistentContainer?, task: Task?) -> (PriorityLimitThreshold, String) {
+		guard let _pc = persistentContainer else { return (.Exceeded, "Persistent Container Error") }
+		guard let _task = task else { return (.Exceeded, "Task Error") }
 		let today: Date = Calendar.current.today()
 		let todayDayObj: Day = _pc.fetchDayEntity(forDate: today) as! Day
 		
@@ -140,25 +142,21 @@ class ReviewViewModel {
 			switch priority {
 				case Priority.high:
 					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.highPriorityLimit) {
-						
+						return (.Exceeded, "High")
 					}
 				case Priority.medium:
 					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.mediumPriorityLimit) {
-						
+						return (.Exceeded, "Medium")
 					}
 				case Priority.low:
 					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.lowPriorityLimit) {
-						
+						return (.Exceeded, "Low")
 					}
-				default:
-					()
+				case Priority.none:
+					return (.Exceeded, "None")
 			}
 		}
 		
-
-		
-		
-//		todayDayObj.highPriorityLimit
-		
+		return (.WithinLimit, "Sucess")
 	}
 }

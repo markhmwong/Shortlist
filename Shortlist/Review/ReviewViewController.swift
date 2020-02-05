@@ -16,7 +16,7 @@ class ReviewViewController: UIViewController {
  	
     private weak var persistentContainer: PersistentContainer?
 
-    var viewModel: ReviewViewModel?
+    private var viewModel: ReviewViewModel?
     
     var reviewCoordinator: ReviewCoordinator?
     	
@@ -130,7 +130,6 @@ class ReviewViewController: UIViewController {
 				
 			}
 		}
-
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -303,23 +302,27 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let viewModel = viewModel else { return }
+		guard let _viewModel = viewModel else { return }
+
+		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
 		
+		let (hasLimitExceeded, status): (PriorityLimitThreshold, String) = _viewModel.checkPrioriy(persistentContainer: persistentContainer, task: cell.task)
 		
-		
-		let cell = viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
-		cell.selectedState = !cell.selectedState
-		persistentContainer?.saveContext() // save on done
+		switch hasLimitExceeded {
+			case .Exceeded:
+				reviewCoordinator?.showAlertBox("Please update your limit from [Settings -> Priority Limit] or remove a \(status) priority task from today's schedule.")
+			case .WithinLimit:
+				cell.selectedState = !cell.selectedState
+				persistentContainer?.saveContext() // save on done
+		}
     }
 	
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
 		guard let _viewModel = viewModel else { return }
 		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
-		
-		_viewModel.checkPrioriy(persistentContainer: persistentContainer, task: cell.task)
-		
 		cell.selectedState = !cell.selectedState
 		persistentContainer?.saveContext() // save on done
+
 	}
 	
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {

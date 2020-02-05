@@ -23,10 +23,9 @@ class PickerViewContainer: UIView {
 	
 	private lazy var saveButton: UIButton = {
 		let button = UIButton()
-		button.setTitle("Save", for: .normal)
+		button.setAttributedTitle(NSAttributedString(string: "Save", attributes: [NSAttributedString.Key.font : UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b1).value)!, NSAttributedString.Key.foregroundColor : Theme.Button.textColor]), for: .normal)
         button.layer.cornerRadius = Theme.Button.cornerRadius
 		button.backgroundColor = Theme.Button.backgroundColor
-		button.setTitleColor(Theme.Button.textColor, for: .normal)
 		button.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
@@ -34,10 +33,9 @@ class PickerViewContainer: UIView {
 	
 	private lazy var clearButton: UIButton = {
 		let button = UIButton()
-		button.setTitle("Clear", for: .normal)
-        button.layer.cornerRadius = Theme.Button.cornerRadius
+		button.setAttributedTitle(NSAttributedString(string: "Clear", attributes: [NSAttributedString.Key.font : UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b1).value)!, NSAttributedString.Key.foregroundColor : Theme.Button.textColor]), for: .normal)
+		button.layer.cornerRadius = Theme.Button.cornerRadius
 		button.backgroundColor = Theme.Button.backgroundColor
-		button.setTitleColor(Theme.Button.textColor, for: .normal)
 		button.addTarget(self, action: #selector(handleClearButton), for: .touchUpInside)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
@@ -65,9 +63,9 @@ class PickerViewContainer: UIView {
 		pickerView.fillSuperView()
 		
 		addSubview(saveButton)
-		saveButton.anchorView(top: topAnchor, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: -5.0), size: CGSize(width: 70.0, height: 30.0))
+		saveButton.anchorView(top: topAnchor, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: -5.0), size: CGSize(width: 60.0, height: 27.0))
 		addSubview(clearButton)
-		clearButton.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 5, bottom: 0.0, right: 0.0), size: CGSize(width: 70.0, height: 30.0))
+		clearButton.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 5, bottom: 0.0, right: 0.0), size: CGSize(width: 60.0, height: 27.0))
 	}
 	
 	func getValues() -> Date {

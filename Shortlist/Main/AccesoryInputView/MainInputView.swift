@@ -14,9 +14,7 @@ class MainInputView: UIView {
 		case TaskName = 0
 		case CategoryName
 	}
-	
-//	private let taskTextFieldCharacterLimit: Int = 240
-	
+		
 	var delegate: MainViewControllerProtocol?
 	
 	private var priority: Int = Int(Priority.medium.rawValue)
@@ -75,11 +73,11 @@ class MainInputView: UIView {
 	lazy var categoryButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.setAttributedTitle(NSMutableAttributedString(string: "Uncategorized", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
+		button.setAttributedTitle(NSMutableAttributedString(string: "Uncategorized", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -70)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		button.addTarget(self, action: #selector(handleCategory), for: .touchUpInside)
 		button.layer.cornerRadius = 10.0
 		button.contentEdgeInsets = UIEdgeInsets(top: 5.0, left: 15.0, bottom: 5.0, right: 15.0)
-		button.layer.backgroundColor = UIColor.black.adjust(by: 10)?.cgColor
+		button.layer.backgroundColor = UIColor.black.adjust(by: 80)?.cgColor
 		return button
 	}()
 	
