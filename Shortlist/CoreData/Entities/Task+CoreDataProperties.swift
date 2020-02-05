@@ -89,6 +89,7 @@ extension Task {
 		self.reminderState = false
 	}
 	
+	// reminder date - must include a non-nil date, any date placed before the current time will be ignored for notifications
 	func create(context: NSManagedObjectContext, idNum: Int, taskName: String, categoryName: String, createdAt: Date, reminderDate: Date, priority: Int) {
 		self.name = taskName
 		self.complete = false

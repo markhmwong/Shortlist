@@ -214,6 +214,7 @@ class ReviewViewController: UIViewController {
         }
     }
 	
+	// marked tasks are placed inside the carryOverTaskObjectsArr within the viewModel
 	func copyMarkedTasks() {
 		guard let viewModel = viewModel else { return }
 		let today: Day = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day

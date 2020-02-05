@@ -349,6 +349,13 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 				print("Unable to perform fetch \(err)")
 			}
 		}
+		
+		let yesterday: Date = Calendar.current.yesterday()
+        var yObject: Day? = persistentContainer.fetchDayManagedObject(forDate: yesterday)
+		guard let taskList = yObject?.dayToTask as? Set<Task> else { return }
+		let task = Task.init(context: persistentContainer.viewContext)
+		task.create(context: persistentContainer.viewContext, idNum: 0, taskName: "Task A", categoryName: "Uncategorized", createdAt: yesterday, reminderDate: yesterday, priority: 0)
+		persistentContainer.saveContext()
     }
 	
 	func updateCategory() {

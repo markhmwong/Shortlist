@@ -44,6 +44,8 @@ Awards (Daily)
 		- preplan : The Planner
 	
 - main features
+	- copy task from review
+
 	- coordinator, remove child coordinators when closed
 	
 	- preplan for tomorrow
@@ -54,7 +56,7 @@ Awards (Daily)
 	- card display
 	- stats
 		- add priority stats
-		- end day summariser
+		- end day summariser(?)
 		
 	- calendar (next version)
 - test

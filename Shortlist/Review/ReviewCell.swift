@@ -64,8 +64,8 @@ class ReviewCell: UITableViewCell {
 	var selectedState: Bool = false {
 		didSet {
 			if selectedState {
-				UIView.animate(withDuration: 0.1, delay: 0.0, options: [.curveEaseInOut], animations: {
-					self.contentView.backgroundColor = .blue
+				UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut], animations: {
+					self.contentView.backgroundColor = Theme.Cell.highlighted
 				}, completion: nil)
 			} else {
 				UIView.animate(withDuration: 0.05, delay: 0.0, options: [.curveEaseInOut], animations: {
