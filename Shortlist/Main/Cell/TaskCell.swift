@@ -136,15 +136,15 @@ class TaskCell: UITableViewCell {
     }
 	
 	override func layoutSubviews() {
-		super.layoutSubviews()
-		fadedBackground.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 2.0, left: 5.0, bottom: -2.0, right: -5.0), size: .zero)
-		
+		super.layoutSubviews()		
 	}
 	
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
 		gradientLayer.frame = taskName.bounds
 		priorityMarker.anchorView(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: contentView.bounds.width, height: 10.0))
+		fadedBackground.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 2.0, left: 5.0, bottom: -2.0, right: -5.0), size: .zero)
+
 	}
 	
 	
@@ -173,6 +173,7 @@ class TaskCell: UITableViewCell {
 		taskName.anchorView(top: contentView.topAnchor, bottom: nil, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -5.0, right: -20.0), size: .zero)
 		details.anchorView(top: taskName.bottomAnchor, bottom: categoryTitle.topAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -10.0, right: -20.0), size: .zero)
 		categoryTitle.anchorView(top: nil, bottom: contentView.bottomAnchor, leading: taskName.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -2.0, right: 0.0), size: .zero)
+
 	}
 	
     func animateGradient() {

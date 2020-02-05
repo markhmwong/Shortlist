@@ -46,7 +46,7 @@ class EditTaskTextViewCell: CellBase {
         return view
     }()
 	
-	lazy var progressBarContainer: ProgressBarContainer = {
+	lazy var textLimitContainer: ProgressBarContainer = {
 		let view = ProgressBarContainer()
 		view.backgroundColor = .clear
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -70,13 +70,13 @@ class EditTaskTextViewCell: CellBase {
 		backgroundColor = .clear
 		
         addSubview(inputTextView)
-		addSubview(progressBarContainer)
+		addSubview(textLimitContainer)
 		
-		inputTextView.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 8.0, bottom: -10.0, right: -8.0), size: CGSize(width: 0, height: 0.0))
-		progressBarContainer.anchorView(top: inputTextView.topAnchor, bottom: nil, leading: nil, trailing: inputTextView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -5.0), size: CGSize(width: 18.0, height: 18.0))
+		inputTextView.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: textLimitContainer.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 8.0, bottom: -10.0, right: -8.0), size: CGSize(width: 0, height: 0.0))
+		textLimitContainer.anchorView(top: inputTextView.topAnchor, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -5.0), size: CGSize(width: 18.0, height: 18.0))
 		
-		progressBarContainer.updateColor(0.0)
-		progressBarContainer.updateProgressBar(0.0)
+		textLimitContainer.updateColor(0.0)
+		textLimitContainer.updateProgressBar(0.0)
 	}
 	
 	func configure(with text: String?) {
@@ -112,8 +112,8 @@ class EditTaskTextViewCell: CellBase {
 		}
 		
 		DispatchQueue.main.async {
-			self.progressBarContainer.updateColor(currLimit)
-			self.progressBarContainer.updateProgressBar(currLimit)
+			self.textLimitContainer.updateColor(currLimit)
+			self.textLimitContainer.updateProgressBar(currLimit)
 		}
 		
 	}

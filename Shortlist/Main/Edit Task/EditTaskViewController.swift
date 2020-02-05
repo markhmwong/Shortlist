@@ -286,7 +286,7 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 								return cell
 							case .DeleteDisclaimer:
 								let cell: EditTaskDisclaimerCell = viewModel.tableViewDisclaimerCell(tableView: tableView, indexPath: indexPath)
-								cell.updateLabel(name: "Delete the task from today's list")
+								cell.updateLabel(name: "Delete's the task from today's list")
 								return cell
 						}
 				}
