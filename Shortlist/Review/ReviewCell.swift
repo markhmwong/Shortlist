@@ -134,10 +134,9 @@ class ReviewCell: UITableViewCell {
             name.attributedText = nameAttributedStr
             taskButton.taskState = task.complete
         } else {
-            name.attributedText = NSAttributedString(string: "Unknown Task", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
+            name.attributedText = NSAttributedString(string: "Task Error", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
             taskButton.taskState = false
         }
-        
     }
     
     func updateTaskName(taskNameString: String) {

@@ -99,7 +99,7 @@ class ReviewViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(doneButton)
         
-        tableView.register(ReviewCell.self, forCellReuseIdentifier: viewModel?.reviewCellId ?? "ReviewCellId")
+//        tableView.register(ReviewCell.self, forCellReuseIdentifier: viewModel?.reviewCellId ?? "ReviewCellId")
 		tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
 		
         doneButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -60.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
@@ -109,6 +109,8 @@ class ReviewViewController: UIViewController {
 		// set accolade
 		guard let _viewModel = viewModel else { return }
 		guard let _day = _viewModel.dayEntity else { return }
+		
+		_viewModel.registerCells(tableView: tableView)
 		
 		if (_day.accolade == nil) {
 			let accolade = _viewModel.resolveAccolade()
@@ -214,7 +216,7 @@ class ReviewViewController: UIViewController {
         }
     }
 	
-	// marked tasks are placed inside the carryOverTaskObjectsArr within the viewModel
+	// marked tasks are placed inside the carryOverTaskObjectsArr
 	func copyMarkedTasks() {
 		guard let viewModel = viewModel else { return }
 		let today: Day = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day

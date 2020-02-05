@@ -93,15 +93,13 @@ class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-				
-		guard let vm = viewModel else { return }
-
+			
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleCancel), imageName: "Back", height: self.topBarHeight / 1.8)
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
 		view.backgroundColor = Theme.GeneralView.background
 		navigationItem.prompt = "Make changes to your Task"
 		
-		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleCancel), imageName: "Back", height: self.topBarHeight / 1.8)
-		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
-		
+		guard let vm = viewModel else { return }
 		vm.registerCells(tableView: tableView)
 		view.addSubview(tableView)
 		tableView.fillSuperView()

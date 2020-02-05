@@ -74,6 +74,10 @@ class ReviewViewModel {
 		return cell
 	}
 	
+	func registerCells(tableView: UITableView) {
+        tableView.register(ReviewCell.self, forCellReuseIdentifier: reviewCellId)
+	}
+	
 	func tableCellAt(tableView: UITableView, indexPath: IndexPath) -> ReviewCell {
 		let cell = tableView.cellForRow(at: indexPath) as! ReviewCell
 		guard cell.task != nil else {
