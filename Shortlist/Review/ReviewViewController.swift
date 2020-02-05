@@ -106,10 +106,13 @@ class ReviewViewController: UIViewController {
 		
 		grabTipsProducts()
 		
+		
 		// set accolade
 		guard let _viewModel = viewModel else { return }
 		guard let _day = _viewModel.dayEntity else { return }
+		guard let _persistentContainer = persistentContainer else { return }
 		
+		_viewModel.resolvePriorityCount(persistentContainer: _persistentContainer)
 		_viewModel.registerCells(tableView: tableView)
 		
 		if (_day.accolade == nil) {
@@ -301,14 +304,20 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard let viewModel = viewModel else { return }
+		
+		
+		
 		let cell = viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
 		cell.selectedState = !cell.selectedState
 		persistentContainer?.saveContext() // save on done
     }
 	
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-		guard let viewModel = viewModel else { return }
-		let cell = viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
+		guard let _viewModel = viewModel else { return }
+		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
+		
+		_viewModel.checkPrioriy(persistentContainer: persistentContainer, task: cell.task)
+		
 		cell.selectedState = !cell.selectedState
 		persistentContainer?.saveContext() // save on done
 	}

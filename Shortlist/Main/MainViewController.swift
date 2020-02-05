@@ -124,21 +124,23 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		keyboardNotifications()
 		initialiseStatEntity()
 		
-		let fbs = FirebaseService(dataBaseUrl: nil)
-		fbs.authenticateAnonymously()
-		fbs.getGlobalTasks { (globalTaskValue) in
-			DispatchQueue.main.async {
-				self.newsFeed.updateFeed(str: "\(globalTaskValue)")
-			}
-			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
-				self.newsFeed.feedLabel.alpha = 1
-				self.view.layoutIfNeeded()
-			}) { (state) in
-
-			}
-		}
-
-
+//		let fbs = FirebaseService(dataBaseUrl: nil)
+//		fbs.authenticateAnonymously()
+//		fbs.getGlobalTasks { (globalTaskValue) in
+//			DispatchQueue.main.async {
+//				self.newsFeed.updateFeed(str: "\(globalTaskValue)")
+//			}
+//			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
+//				self.newsFeed.feedLabel.alpha = 1
+//				self.view.layoutIfNeeded()
+//			}) { (state) in
+//
+//			}
+//		}
+//
+//		fbs.sendTotalCompletedTasks(amount: 2) {
+//			//
+//		}
 		
 		// test watch
 		// syncWatch()
@@ -309,10 +311,11 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -80.0, right: 0.0), size: CGSize(width: addButtonWidth + 40, height: 0.0))
 		mainInputView.anchorView(top:nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		bottomConstraint = NSLayoutConstraint(item: mainInputView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-		
+		guard let _bottomConstraint = bottomConstraint else { return }
+		view.addConstraint(_bottomConstraint)
 		newsFeedTopAnchor = view.safeAreaLayoutGuide.topAnchor
 		
-		newsFeed.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
+		newsFeed.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))		
     }
     
     func loadData() {
@@ -349,14 +352,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 				print("Unable to perform fetch \(err)")
 			}
 		}
-		
-//		let yesterday: Date = Calendar.current.yesterday()
-//        let yObject: Day? = persistentContainer.fetchDayManagedObject(forDate: yesterday)
-//
-//		let task = Task.init(context: persistentContainer.viewContext)
-//		task.create(context: persistentContainer.viewContext, idNum: 0, taskName: "Task C", categoryName: "Uncategorized", createdAt: yesterday, reminderDate: yesterday, priority: 0)
-//		yObject?.addToDayToTask(task)
-//		persistentContainer.saveContext()
     }
 	
 	func updateCategory() {
