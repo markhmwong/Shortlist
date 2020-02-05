@@ -75,6 +75,7 @@ class ReviewViewController: UIViewController {
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
+		
 	}
 	
 	override func viewWillLayoutSubviews() {
@@ -95,7 +96,6 @@ class ReviewViewController: UIViewController {
 		tableView.tableHeaderView = reviewHeader
 		reviewHeader.setNeedsLayout()
 		reviewHeader.layoutIfNeeded()
-		
         view.addSubview(tableView)
         view.addSubview(doneButton)
         
