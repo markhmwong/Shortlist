@@ -14,6 +14,8 @@
 		4D015E4722FC621A007E2536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
 		4D106A9023B7988F00AB1895 /* DailyAccolades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */; };
 		4D1079E323A74B0D002CDF3A /* PricingStructure in Resources */ = {isa = PBXBuildFile; fileRef = 4D1079E223A74B0D002CDF3A /* PricingStructure */; };
+		4D242C3D23EBCB2B00ED1C42 /* TipsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C3C23EBCB2B00ED1C42 /* TipsService.swift */; };
+		4D242C4023EBE38C00ED1C42 /* ProductivityTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C3F23EBE38C00ED1C42 /* ProductivityTips.swift */; };
 		4D377CF6237D2A810026FB3A /* AppMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF5237D2A810026FB3A /* AppMetaData.swift */; };
 		4D377CF8237D2AC10026FB3A /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */; };
 		4D377CFA237D33C50026FB3A /* SettingsCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */; };
@@ -241,6 +243,8 @@
 		4D015E4522FAC853007E2536 /* Tips */ = {isa = PBXFileReference; lastKnownFileType = text; path = Tips; sourceTree = "<group>"; };
 		4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAccolades.swift; sourceTree = "<group>"; };
 		4D1079E223A74B0D002CDF3A /* PricingStructure */ = {isa = PBXFileReference; lastKnownFileType = text; path = PricingStructure; sourceTree = "<group>"; };
+		4D242C3C23EBCB2B00ED1C42 /* TipsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsService.swift; sourceTree = "<group>"; };
+		4D242C3F23EBE38C00ED1C42 /* ProductivityTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductivityTips.swift; sourceTree = "<group>"; };
 		4D377CF5237D2A810026FB3A /* AppMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMetaData.swift; sourceTree = "<group>"; };
 		4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellFactory.swift; sourceTree = "<group>"; };
@@ -485,6 +489,15 @@
 			path = AccesoryInputView;
 			sourceTree = "<group>";
 		};
+		4D242C3E23EBE37800ED1C42 /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+				4D242C3C23EBCB2B00ED1C42 /* TipsService.swift */,
+				4D242C3F23EBE38C00ED1C42 /* ProductivityTips.swift */,
+			);
+			path = Tips;
+			sourceTree = "<group>";
+		};
 		4D377CFE237EF1840026FB3A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,7 +562,6 @@
 				4D5CF92423B65C540020EE22 /* Accolades */,
 				4D377D012384D6BD0026FB3A /* View */,
 				4D5B89DD236AB2E200B38DF5 /* Service */,
-				4D64C5C4232F627A00EE77D0 /* Logging */,
 				4D5D7E40232CFAC80088EB5F /* LocalProductManager */,
 				4D5D7E3B232CF9380088EB5F /* IAP */,
 				4D953B62230A91720048C247 /* Coordinator */,
@@ -748,9 +760,11 @@
 		4D5B89DD236AB2E200B38DF5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				4D64C5C5232F628900EE77D0 /* Log.swift */,
 				4D56220123E56AE2003F7309 /* FirebaseService.swift */,
 				4D5B89DE236AB2EC00B38DF5 /* LocalNotificationsService.swift */,
 				4D50EE72238FB821008ACCD8 /* ImpactFeedbackService.swift */,
+				4D242C3E23EBE37800ED1C42 /* Tips */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -858,14 +872,6 @@
 				4D646B392323C0E400073FD6 /* AboutViewController.swift */,
 			);
 			path = Contact;
-			sourceTree = "<group>";
-		};
-		4D64C5C4232F627A00EE77D0 /* Logging */ = {
-			isa = PBXGroup;
-			children = (
-				4D64C5C5232F628900EE77D0 /* Log.swift */,
-			);
-			path = Logging;
 			sourceTree = "<group>";
 		};
 		4D67DCF52362FF940008AE98 /* CircularIndicator */ = {
@@ -1544,8 +1550,10 @@
 				4D71A3E822E3757800FEFB36 /* Task+CoreDataProperties.swift in Sources */,
 				4D6E753D2356388E00C67B8F /* CategoryListCoordinator.swift in Sources */,
 				4D377CFA237D33C50026FB3A /* SettingsCellFactory.swift in Sources */,
+				4D242C4023EBE38C00ED1C42 /* ProductivityTips.swift in Sources */,
 				4DD39ABF23B0AFB50009495B /* PriorityMarker.swift in Sources */,
 				4D5FD36D2311505D0053E193 /* TimePeriodStructs.swift in Sources */,
+				4D242C3D23EBCB2B00ED1C42 /* TipsService.swift in Sources */,
 				4D953B64230A91910048C247 /* MainCoordinator.swift in Sources */,
 				4D676178233904340029C6EB /* EditTaskViewModel.swift in Sources */,
 				4D50EE73238FB821008ACCD8 /* ImpactFeedbackService.swift in Sources */,

@@ -74,7 +74,7 @@ class PickerViewContainer: UIView {
 
 	
 	// the actual saving of the local notification is done in the main view controller, look for LocalNotificationService
-	// We wait until the task has been posted or we'll need to remove the notification
+	// It waits until the task has been posted or we'll need to remove the notification
 	@objc
 	func handleSaveButton() {
 		guard let delegateProtocol = delegateProtocol else { return }

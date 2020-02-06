@@ -43,6 +43,8 @@ class MainViewModel {
 	//used only for preplanned view controller
 	let tomorrow = Calendar.current.forSpecifiedDay(value: 1)
 	
+	private var randomTip: String = ""
+	
 	func taskForRow(indexPath: IndexPath) -> Task? {
 		return sortedSet?[indexPath.row]
 	}
@@ -175,5 +177,10 @@ class MainViewModel {
 	
 	func numberOfSections() -> Int {
 		return SectionType.allCases.count
+	}
+	
+	func getRandomTip() -> String {
+		randomTip = TipsService.shared.randomTip()
+		return randomTip
 	}
 }

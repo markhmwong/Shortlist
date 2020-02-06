@@ -112,7 +112,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	// clean up
     override func viewDidLoad() {
         super.viewDidLoad()
-//		let today: Int16 = Calendar.current.todayToInt()
+
 		// to do review these comments in this entire function
 		// background thread fill uninitialised days over the last 30 days - for stats
 //		searchNilDaysOverThirtyDays()
@@ -124,23 +124,19 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		keyboardNotifications()
 		initialiseStatEntity()
 		
-//		let fbs = FirebaseService(dataBaseUrl: nil)
-//		fbs.authenticateAnonymously()
-//		fbs.getGlobalTasks { (globalTaskValue) in
-//			DispatchQueue.main.async {
-//				self.newsFeed.updateFeed(str: "\(globalTaskValue)")
-//			}
-//			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
-//				self.newsFeed.feedLabel.alpha = 1
-//				self.view.layoutIfNeeded()
-//			}) { (state) in
-//
-//			}
-//		}
-//
-//		fbs.sendTotalCompletedTasks(amount: 2) {
-//			//
-//		}
+		let fbs = FirebaseService(dataBaseUrl: nil)
+		fbs.authenticateAnonymously()
+		fbs.getGlobalTasks { (globalTaskValue) in
+			DispatchQueue.main.async {
+				self.newsFeed.updateFeed(str: "\(globalTaskValue)")
+			}
+			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
+				self.newsFeed.feedLabel.alpha = 1
+				self.view.layoutIfNeeded()
+			}) { (state) in
+
+			}
+		}
 		
 		// test watch
 		// syncWatch()
@@ -581,22 +577,29 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
 	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let dayObjects = fetchedResultsController?.fetchedObjects else {
+		guard let _viewModel = viewModel else {
 			tableView.separatorColor = .clear
 			tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
 			emphasiseAddButton()
 			return 0
 		}
 		
-		if let day = dayObjects.first {
-			if (day.dayToTask?.count == 0) {
+        guard let _dayObjects = fetchedResultsController?.fetchedObjects else {
+			tableView.separatorColor = .clear
+			tableView.setEmptyMessage(_viewModel.getRandomTip())
+			emphasiseAddButton()
+			return 0
+		}
+		
+		if let _day = _dayObjects.first {
+			if (_day.dayToTask?.count == 0) {
 				tableView.separatorColor = .clear
-				tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
+				tableView.setEmptyMessage(_viewModel.getRandomTip())
 				emphasiseAddButton()
 				return 0
 			} else {
 				tableView.restoreBackgroundView()
-				return day.dayToTask?.count ?? 0
+				return _day.dayToTask?.count ?? 0
 			}
 		} else {
 			return 0
