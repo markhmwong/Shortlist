@@ -1,7 +1,0 @@
-# Youtube video
-
-Real Time Communication Tips
-
-1. Set up delegates for both devices
-2. use UUID to force update and send data
-3. fetchcontroller using Day but Tasks were only updated, update property in Day
