@@ -126,7 +126,7 @@ class ReviewViewController: UIViewController {
 		// upload total tasks completed
 		if (automatedDisplay) {
 			let fbs = FirebaseService(dataBaseUrl: nil)
-			fbs.sendTotalCompletedTasks(amount: Int(_day.totalCompleted)) {
+			fbs.sendTotalCompletedTasks(amount: Int(_day.dayToStats?.totalCompleted ?? 0)) {
 				
 			}
 		}

@@ -308,11 +308,11 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 					guard let task = viewModel.task else { return }
 					let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
 					dayManagedObject.removeFromDayToTask(taskManagedObject)
-					dayManagedObject.totalTasks = dayManagedObject.totalTasks - 1
+					
+					dayManagedObject.dayToStats?.totalTasks = (dayManagedObject.dayToStats?.totalTasks ?? 0) - 1
 
 					if (task.complete) {
-						
-						dayManagedObject.totalCompleted = dayManagedObject.totalCompleted - 1
+						dayManagedObject.dayToStats?.totalCompleted =  (dayManagedObject.dayToStats?.totalCompleted ?? 0) - 1
 					}
 					
 					if let stat: Stats = persistentContainer?.fetchStatEntity() {

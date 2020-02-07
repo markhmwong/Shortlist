@@ -44,28 +44,17 @@ Awards (Daily)
 		- preplan : The Planner
 	
 - main features
-	- copy task from review
-
 	- coordinator, remove child coordinators when closed
-	
 	- preplan for tomorrow
 		- reminders
-	- limit tasks for each type of priority
-		- warning condition when posting
-		- fix for watch there's a comment look for it
 	- card display
 	- stats
-		- add priority stats
+		- add priority stats (totals)
 		- end day summariser(?)
-		
 	- calendar (next version)
 - test
 	- reminders a new reminder and an edited reminder
 	- deleted reminders
-
-- stats
-	- top 5 categories with completed tasks over the entire life time
-	- top 5 categories with incomplete tasks over the entire life time
 
 @Feature
 Tutorial / Introduction Page

@@ -110,7 +110,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 		view.addSubview(mainInputView)
 		
 		tableView.anchorView(top: view.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
-		addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
+		addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -60.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
 		mainInputView.anchorView(top:nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		bottomConstraint = NSLayoutConstraint(item: mainInputView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
 		view.addConstraint(bottomConstraint!)
@@ -355,8 +355,6 @@ extension PreplanViewController: NSFetchedResultsControllerDelegate {
 
 			let sortedSet = _viewModel.sortTasks(dayObject)
 			_viewModel.sortedSet = sortedSet
-//			print(sortedSet?.count)
-			
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -390,16 +388,22 @@ extension PreplanViewController: UITableViewDelegate, UITableViewDataSource, UIT
     }
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		guard let dayObjects = fetchedResultsController?.fetchedObjects else {
+		guard let _viewModel = viewModel else {
 			tableView.separatorColor = .clear
 			tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
 			return 0
 		}
 		
-		if let day = dayObjects.first {
+        guard let _dayObjects = fetchedResultsController?.fetchedObjects else {
+			tableView.separatorColor = .clear
+			tableView.setEmptyMessage(_viewModel.getRandomTip())
+			return 0
+		}
+		
+		if let day = _dayObjects.first {
 			if (day.dayToTask?.count == 0) {
 				tableView.separatorColor = .clear
-				tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
+				tableView.setEmptyMessage(_viewModel.getRandomTip())
 				return 0
 			} else {
 				tableView.restoreBackgroundView()
@@ -434,4 +438,33 @@ extension PreplanViewController: UITableViewDelegate, UITableViewDataSource, UIT
 		coordinator?.showEditTask(persistentContainer, task: task, fetchedResultsController: fetchedResultsController, mainViewController: self)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
+	
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "delete") { (action, view, complete) in
+            let cell = tableView.cellForRow(at: indexPath) as! TaskCell
+			let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: self.viewModel?.tomorrow ?? Calendar.current.forSpecifiedDay(value: 1)) as! Day
+            
+            if let task = cell.task {
+                let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
+                dayManagedObject.removeFromDayToTask(taskManagedObject)
+				dayManagedObject.dayToStats?.totalTasks = (dayManagedObject.dayToStats?.totalTasks ?? 0) - 1
+				if task.complete {
+					dayManagedObject.dayToStats?.totalCompleted = (dayManagedObject.dayToStats?.totalCompleted ?? 0) - 1
+				}
+				
+				if let stats: Stats = self.persistentContainer?.fetchStatEntity() {
+					stats.removeFromTotalTasks(numTasks: 1)
+					if (task.complete) {
+						stats.removeFromTotalCompleteTasks(numTasks: 1)
+					} else {
+						stats.removeFromTotalIncompleteTasks(numTasks: 1)
+					}
+				}
+				
+                self.persistentContainer?.saveContext()
+            }
+            complete(true)
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
 }

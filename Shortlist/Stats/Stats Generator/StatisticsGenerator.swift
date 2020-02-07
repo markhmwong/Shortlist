@@ -39,16 +39,17 @@ class StatisticsGenerator: NSObject {
         for day in dayArray {
 			let limit = day.highPriorityLimit + day.mediumPriorityLimit + day.lowPriorityLimit
             taskLimit = mostAmountOfTasksForDay(currLimit: limit, newLimit: taskLimit)
-            totalCompletedForTimePeriod += day.totalCompleted
-            totalTasksForDay += day.totalTasks
-            incompleteTasks = day.totalTasks - day.totalCompleted
+			day.dayToStats?.totalCompleted
+			totalCompletedForTimePeriod += day.dayToStats?.totalCompleted ?? 0
+			totalTasksForDay += day.dayToStats?.totalTasks ?? 0
+			incompleteTasks = (day.dayToStats?.totalTasks ?? 0) - (day.dayToStats?.totalCompleted ?? 0)
             
             let date = Calendar.current.dayOfWeek(date: day.createdAt! as Date)
             guard let dayOfWeek = DayOfWeek(rawValue: Int16(date)) else {
                 fatalError("Day Type does not exist")
             }
             
-            let dayOverview: DayOverview = DayOverview(dayOfWeek: dayOfWeek, dayDate: Int(day.day), numberOfCompletedTasks: day.totalCompleted, incompleteTasks: incompleteTasks)
+			let dayOverview: DayOverview = DayOverview(dayOfWeek: dayOfWeek, dayDate: Int(day.day), numberOfCompletedTasks: day.dayToStats?.totalCompleted ?? 0, incompleteTasks: incompleteTasks)
             
             convertedData[day.createdAt! as Date] = dayOverview
         }
@@ -76,14 +77,14 @@ class StatisticsGenerator: NSObject {
         }
         
         for day in dayArray {
-            totalCompletedForTimePeriod += Int(day.totalCompleted)
+			totalCompletedForTimePeriod += Int(day.dayToStats?.totalCompleted ?? 0)
             totalTasks += day.dayToTask?.count ?? 0
             
             guard let dayType = DayOfWeek(rawValue: day.day) else {
                 fatalError("Day Type does not exist")
             }
-            incompleteTasks = day.totalTasks - day.totalCompleted
-            let dayStruct: DayOverview = DayOverview(dayOfWeek: dayType, dayDate: Int(day.day), numberOfCompletedTasks: day.totalCompleted, incompleteTasks: incompleteTasks)
+			incompleteTasks = (day.dayToStats?.totalTasks ?? 0) - (day.dayToStats?.totalCompleted ?? 0)
+			let dayStruct: DayOverview = DayOverview(dayOfWeek: dayType, dayDate: Int(day.day), numberOfCompletedTasks: day.dayToStats?.totalCompleted ?? 0, incompleteTasks: incompleteTasks)
             weekData.append(dayStruct)
         }
     }

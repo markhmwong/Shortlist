@@ -142,7 +142,7 @@ class ReviewHeader: UIView {
 		
 		completedTasksTitle.anchorView(top: accoladeLabel.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
 		
-        let totalCompleted = _viewModel.dayEntity?.totalCompleted
+		let totalCompleted = _viewModel.dayEntity?.dayToStats?.totalCompleted ?? 0
 		updateCompletedTaskLabel("\(totalCompleted ?? 0)")
 		
 		let totalTasks = _viewModel.dayEntity?.totalTasks

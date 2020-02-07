@@ -34,7 +34,7 @@ public class Day: NSManagedObject {
 		} else {
 			self.lowPriorityLimit = 0
 		}
-		
+
 		self.totalCompleted = 0
         self.totalTasks = 0
         self.month = Calendar.current.monthToInt() // Stats

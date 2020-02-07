@@ -60,25 +60,6 @@ class TaskListHeader: UIView {
         return label
     }()
     
-
-    
-	// find weather api that allows lots of requests
-	// or use google firebase
-//    lazy var weather: UITextView = {
-//        let label = UITextView()
-//        label.textContainerInset = .zero
-//        label.textContainer.lineFragmentPadding = 0
-//        label.textAlignment = .center
-//        label.backgroundColor = .clear
-//        label.isScrollEnabled = false
-//        label.isEditable = false
-//        label.isSelectable = false
-//		label.backgroundColor = .clear
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//		label.attributedText = NSAttributedString(string: "A sunny day ahead with a light breeze.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Color, NSAttributedString.Key.font: UIFont(name: Theme.Font.TitleRegular, size: Theme.Font.FontSize.Standard(.b4).value)!])
-//        return label
-//    }()
-    
     lazy var dateBackgroundView: UIView = {
         let view = UIView()
 		view.backgroundColor = .clear//DayColor.Standard.value
@@ -128,10 +109,6 @@ class TaskListHeader: UIView {
         dateBackgroundView.addSubview(dateTitle)
         
         dateBackgroundView.anchorView(top: safeAreaLayoutGuide.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -10.0, right: 0.0), size: CGSize(width: 0.0, height: UIScreen.main.bounds.height * 0.12))
-
-
-//		addSubview(weather)
-//		weather.anchorView(top: dateTitle.bottomAnchor, bottom: nil, leading: dateTitle.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: UIScreen.main.bounds.width, height: 0.0))
 
     }
     

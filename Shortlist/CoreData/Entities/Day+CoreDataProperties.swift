@@ -39,6 +39,7 @@ extension Day {
     @NSManaged public var dayToTask: NSSet?
     @NSManaged public var accolade: String?
 
+	@NSManaged public var dayToStats: DayStats?
 }
 
 // MARK: Generated accessors for dayToTask

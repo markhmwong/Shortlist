@@ -27,9 +27,7 @@ class SettingsViewController: UIViewController {
         view.backgroundColor = .black
         return view
     }()
-	
 
-    
 	init(persistentContainer: PersistentContainer, coordinator: SettingsCoordinator, viewModel: SettingsViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.coordinator = coordinator

@@ -52,8 +52,7 @@ class AwardTests: XCTestCase {
 		} else {
 			day.lowPriorityLimit = 0
 		}
-		day.totalCompleted = 0
-        day.totalTasks = 0
+
         day.month = Calendar.current.monthToInt() // Stats
         day.year = Calendar.current.yearToInt() // Stats
         day.day = Int16(Calendar.current.todayToInt()) // Stats

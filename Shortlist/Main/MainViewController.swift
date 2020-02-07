@@ -89,8 +89,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     }()
 	
 	lazy var newsFeed: NewsFeed = {
-		let vm = NewsFeedViewModel()
-		let feed = NewsFeed(viewModel: vm)
+		let feed = NewsFeed()
 		return feed
 	}()
 	
@@ -140,19 +139,9 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		
 		// test watch
 		// syncWatch()
-		
-		
-		// mostly testing functions
-//        deleteAllData()
-//        initialiseSampleData()
-//		deleteAllCategoryListData()
-//		prepareDayObjectsInAdvance()
-		
-//        guard let dayArray = persistentContainer?.fetchAllTasksByWeek(forWeek: Calendar.current.startOfWeek(), today: Calendar.current.today()) else {
-//            //no data to do
-//            return
-//        }
 
+		// mostly testing functions
+//		prepareDayObjectsInAdvance()
     }
 	
 	func initialiseData(_ dayObject: Day) {
@@ -226,8 +215,8 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 				dayObject?.mediumPriorityLimit = Int16(Int.random(in: 1...5))
 				dayObject?.lowPriorityLimit = Int16(Int.random(in: 1...5))
                 dayObject?.createdAt = date as NSDate
-                dayObject?.totalCompleted = Int16(totalCompleted)
-                dayObject?.totalTasks = Int16(totalTasks)
+				dayObject?.dayToStats?.totalCompleted = Int16(totalCompleted)
+				dayObject?.dayToStats?.totalTasks = Int16(totalTasks)
                 dayObject?.month = Calendar.current.monthToInt(date: date, adjust: -i)
                 dayObject?.year = Calendar.current.yearToInt()
                 dayObject?.day = Int16(Calendar.current.dayDate(date: date))
@@ -249,17 +238,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 				persistentContainer.saveContext()
 			}
 		}
-	}
-    
-	// for testing purposes - now in settings
-    private func deleteAllData() {
-//        guard let persistentContainer = persistentContainer else { return }
-//        persistentContainer.deleteAllRecordsIn(entity: Day.self)
-    }
-	
-	private func deleteAllCategoryListData() {
-//        guard let persistentContainer = persistentContainer else { return }
-//        persistentContainer.deleteAllRecordsIn(entity: BackLog.self)
 	}
     
     // disabled
@@ -477,7 +455,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     @objc
     func handleAddButton() {
         guard let vm = viewModel else { return }
-//        guard let day = vm.dayEntity else { return }
 		
 		// set the default and initial category as Uncategorized
 		vm.category = "Uncategorized"
@@ -485,23 +462,19 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		// attention is brought to the
 		self.focusOnNewTask()
 		
-		
-        // bug on new day
 //        os_log("CurrTasks %d, Totaltasks %d", log: Log.task, type: .info, day.totalTasks, day.taskLimit)
-		
-//		if (day.totalTasks < day.taskLimit) {
-//            //        syncWatch()
-//			self.focusOnNewTask()
-//        } else {
-//            // show alert todo
-//            coordinator?.showAlertBox("Over the Limit")
-//        }
     }
 	
 	func emphasiseAddButton() {
 		DispatchQueue.main.async {
 			self.addButton.backgroundColor = Theme.Button.donationButtonBackgroundColor
 			self.addButton.setAttributedTitle(NSAttributedString(string: "Add Task", attributes: [NSAttributedString.Key.font : UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!, NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor]), for: .normal)
+			
+			UIView.animate(withDuration: 1.2, delay: 0.7, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.5, options: [.allowUserInteraction, .autoreverse, .repeat], animations: {
+				self.addButton.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+			}) { (state) in
+				
+			}
 		}
 	}
 	
@@ -547,6 +520,12 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 			}
 		}
 	}
+	
+    private func previewParameters(forItemAt indexPath:IndexPath, tableView:UITableView) -> UIDragPreviewParameters?     {
+        let previewParameters = UIDragPreviewParameters()
+        previewParameters.backgroundColor = .black
+        return previewParameters
+    }
 }
 
 extension MainViewController: NSFetchedResultsControllerDelegate {
@@ -587,15 +566,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
         guard let _dayObjects = fetchedResultsController?.fetchedObjects else {
 			tableView.separatorColor = .clear
 			tableView.setEmptyMessage(_viewModel.getRandomTip())
-			emphasiseAddButton()
 			return 0
 		}
 		
 		if let _day = _dayObjects.first {
 			if (_day.dayToTask?.count == 0) {
+				emphasiseAddButton()
 				tableView.separatorColor = .clear
 				tableView.setEmptyMessage(_viewModel.getRandomTip())
-				emphasiseAddButton()
 				return 0
 			} else {
 				tableView.restoreBackgroundView()
@@ -628,9 +606,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
             if let task = cell.task {
                 let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
                 dayManagedObject.removeFromDayToTask(taskManagedObject)
-                dayManagedObject.totalTasks = dayManagedObject.totalTasks - 1
+				
+				dayManagedObject.dayToStats?.totalTasks = (dayManagedObject.dayToStats?.totalTasks ?? 0) - 1
+				
 				if task.complete {
-					dayManagedObject.totalCompleted = dayManagedObject.totalCompleted - 1
+					dayManagedObject.dayToStats?.totalCompleted = (dayManagedObject.dayToStats?.totalCompleted ?? 0) - 1
 				}
 				
 				if let stats: Stats = self.persistentContainer?.fetchStatEntity() {
@@ -681,12 +661,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
     
     func tableView(_ tableView: UITableView, dragPreviewParametersForRowAt indexPath: IndexPath) -> UIDragPreviewParameters? {
         return previewParameters(forItemAt: indexPath, tableView: tableView)
-    }
-    
-    private func previewParameters(forItemAt indexPath:IndexPath, tableView:UITableView) -> UIDragPreviewParameters?     {
-        let previewParameters = UIDragPreviewParameters()
-        previewParameters.backgroundColor = .black
-        return previewParameters
     }
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

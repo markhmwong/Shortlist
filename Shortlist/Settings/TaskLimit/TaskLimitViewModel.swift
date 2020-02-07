@@ -71,13 +71,13 @@ class TaskLimitViewModel {
 		if let section = PriorityLevel.init(rawValue: section) {
 			switch section {
 				case .HighPriority:
-					view.textLabel?.text = "High"
+					view.textLabel?.text = "High Priority Limit"
 					view.textLabel?.textColor = Theme.Priority.highColor
 				case .MediumPriority:
-					view.textLabel?.text = "Medium"
+					view.textLabel?.text = "Medium Priority Limit"
 					view.textLabel?.textColor = Theme.Priority.mediumColor
 				case .LowPriority:
-					view.textLabel?.text = "Low"
+					view.textLabel?.text = "Low Priority Limit"
 					view.textLabel?.textColor = Theme.Priority.lowColor
 			}
 		}

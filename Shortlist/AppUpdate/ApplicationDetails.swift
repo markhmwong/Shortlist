@@ -34,6 +34,7 @@ final class ApplicationDetails: NSObject {
 		}
 	}
 	
+	// app's version in string type
 	func currentVersion() -> String {
 		if let version: String = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
 			return version
@@ -41,22 +42,11 @@ final class ApplicationDetails: NSObject {
 		return "Unknown Version"
 	}
 	
+	// app's version as Double
 	func currentVersionAsDouble() -> Double {
 		let version = currentVersion()
 		return Double(version)!
 	}
-	
-	func isFirstLoad() -> Bool {
-		if let first = KeychainWrapper.standard.bool(forKey: "FirstLoad") {
-			if (first) {
-				KeychainWrapper.standard.set(false, forKey: "FirstLoad")
-				return true
-			} else {
-				return false
-			}
-		}
-		KeychainWrapper.standard.set(false, forKey: "FirstLoad")
-
-		return true
-	}
 }
+
+

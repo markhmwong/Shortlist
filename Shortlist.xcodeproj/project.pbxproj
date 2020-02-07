@@ -10,12 +10,14 @@
 		158E138A3865985F7A754572 /* Pods_ShortlistTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 147594AFD1D02223234C2CBE /* Pods_ShortlistTests.framework */; };
 		1E8FA3F10D4AD178A7CE89EC /* Pods_Shortlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEC446ABDD0C7D281249F133 /* Pods_Shortlist.framework */; };
 		4B390D9A6A1FF084D47A1101 /* Pods_ShortlistUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F61ED63A603888FDD2D46B46 /* Pods_ShortlistUITests.framework */; };
-		4D015E4622FAC853007E2536 /* Tips in Resources */ = {isa = PBXBuildFile; fileRef = 4D015E4522FAC853007E2536 /* Tips */; };
 		4D015E4722FC621A007E2536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
 		4D106A9023B7988F00AB1895 /* DailyAccolades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */; };
 		4D1079E323A74B0D002CDF3A /* PricingStructure in Resources */ = {isa = PBXBuildFile; fileRef = 4D1079E223A74B0D002CDF3A /* PricingStructure */; };
 		4D242C3D23EBCB2B00ED1C42 /* TipsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C3C23EBCB2B00ED1C42 /* TipsService.swift */; };
 		4D242C4023EBE38C00ED1C42 /* ProductivityTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C3F23EBE38C00ED1C42 /* ProductivityTips.swift */; };
+		4D242C4223EC06EA00ED1C42 /* TemporaryStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */; };
+		4D242C5323EC498800ED1C42 /* DayStats+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C5123EC498800ED1C42 /* DayStats+CoreDataClass.swift */; };
+		4D242C5423EC498800ED1C42 /* DayStats+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C5223EC498800ED1C42 /* DayStats+CoreDataProperties.swift */; };
 		4D377CF6237D2A810026FB3A /* AppMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF5237D2A810026FB3A /* AppMetaData.swift */; };
 		4D377CF8237D2AC10026FB3A /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */; };
 		4D377CFA237D33C50026FB3A /* SettingsCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */; };
@@ -240,11 +242,13 @@
 		147594AFD1D02223234C2CBE /* Pods_ShortlistTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShortlistTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C327C0B68C7027F7AB99204 /* Pods-Shortlist WatchKit Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shortlist WatchKit Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Shortlist WatchKit Extension/Pods-Shortlist WatchKit Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		33CB3CDBD499A319B24EDFB1 /* Pods-ShortlistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortlistTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShortlistTests/Pods-ShortlistTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4D015E4522FAC853007E2536 /* Tips */ = {isa = PBXFileReference; lastKnownFileType = text; path = Tips; sourceTree = "<group>"; };
 		4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAccolades.swift; sourceTree = "<group>"; };
 		4D1079E223A74B0D002CDF3A /* PricingStructure */ = {isa = PBXFileReference; lastKnownFileType = text; path = PricingStructure; sourceTree = "<group>"; };
 		4D242C3C23EBCB2B00ED1C42 /* TipsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsService.swift; sourceTree = "<group>"; };
 		4D242C3F23EBE38C00ED1C42 /* ProductivityTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductivityTips.swift; sourceTree = "<group>"; };
+		4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryStorageService.swift; sourceTree = "<group>"; };
+		4D242C5123EC498800ED1C42 /* DayStats+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DayStats+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4D242C5223EC498800ED1C42 /* DayStats+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DayStats+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4D377CF5237D2A810026FB3A /* AppMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMetaData.swift; sourceTree = "<group>"; };
 		4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellFactory.swift; sourceTree = "<group>"; };
@@ -527,7 +531,6 @@
 				4D1079E223A74B0D002CDF3A /* PricingStructure */,
 				4D61A5412335CE3200F81EB5 /* Marketing */,
 				4D61A5432335CE4000F81EB5 /* Todo */,
-				4D015E4522FAC853007E2536 /* Tips */,
 				4DF724FA22F18FEF00472072 /* README.md */,
 				4D45E79022DDD1AB008AC433 /* Shortlist */,
 				4D45E7A522DDD1AD008AC433 /* ShortlistTests */,
@@ -562,12 +565,9 @@
 				4D5CF92423B65C540020EE22 /* Accolades */,
 				4D377D012384D6BD0026FB3A /* View */,
 				4D5B89DD236AB2E200B38DF5 /* Service */,
-				4D5D7E40232CFAC80088EB5F /* LocalProductManager */,
-				4D5D7E3B232CF9380088EB5F /* IAP */,
 				4D953B62230A91720048C247 /* Coordinator */,
 				4DC0DE3722E087F100B2B8D4 /* CoreData */,
 				4D78AC3722DF16E7001FD57F /* Extensions */,
-				4D5A437F22E716AE00E34FAC /* KeyChainHelper */,
 				4DC0DE3622E087E300B2B8D4 /* Main */,
 				4D5B5E0322F07FB500C8D9A5 /* Model */,
 				4D953B69230AA4400048C247 /* Stats */,
@@ -693,6 +693,8 @@
 		4D596EEE22EC478300B2D21D /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				4D242C5123EC498800ED1C42 /* DayStats+CoreDataClass.swift */,
+				4D242C5223EC498800ED1C42 /* DayStats+CoreDataProperties.swift */,
 				4D6EE34B23A87E25001BBC95 /* Stats+CoreDataClass.swift */,
 				4D6EE34C23A87E25001BBC95 /* Stats+CoreDataProperties.swift */,
 				4D6EE34F23A87F6F001BBC95 /* StatsCategoryComplete+CoreDataClass.swift */,
@@ -760,11 +762,15 @@
 		4D5B89DD236AB2E200B38DF5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				4D5A437F22E716AE00E34FAC /* KeyChainHelper */,
+				4D5D7E3B232CF9380088EB5F /* IAP */,
+				4D5D7E40232CFAC80088EB5F /* LocalProductManager */,
+				4D242C3E23EBE37800ED1C42 /* Tips */,
 				4D64C5C5232F628900EE77D0 /* Log.swift */,
 				4D56220123E56AE2003F7309 /* FirebaseService.swift */,
 				4D5B89DE236AB2EC00B38DF5 /* LocalNotificationsService.swift */,
 				4D50EE72238FB821008ACCD8 /* ImpactFeedbackService.swift */,
-				4D242C3E23EBE37800ED1C42 /* Tips */,
+				4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1300,7 +1306,6 @@
 			files = (
 				4D61A5422335CE3200F81EB5 /* Marketing in Resources */,
 				4D56220423E56AE9003F7309 /* GoogleService-Info.plist in Resources */,
-				4D015E4622FAC853007E2536 /* Tips in Resources */,
 				4D1079E323A74B0D002CDF3A /* PricingStructure in Resources */,
 				4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */,
 				4D45E79922DDD1AD008AC433 /* Assets.xcassets in Resources */,
@@ -1507,6 +1512,7 @@
 				4D6E753B235634C100C67B8F /* BackLogViewModel.swift in Sources */,
 				4D5BED7522FD8BC400176E18 /* RecievingKeys.swift in Sources */,
 				4D45E7EC22DE083D008AC433 /* Theme.swift in Sources */,
+				4D242C4223EC06EA00ED1C42 /* TemporaryStorageService.swift in Sources */,
 				4D702857236ED593003D33E6 /* PickerViewContainerProtocol.swift in Sources */,
 				4D6D53DE2337AFB300FA38B4 /* EditTaskViewController.swift in Sources */,
 				4D5B5E0022F07E5500C8D9A5 /* WatchSessionHandler.swift in Sources */,
@@ -1530,6 +1536,7 @@
 				4D6EE35423A87F6F001BBC95 /* StatsCategoryComplete+CoreDataProperties.swift in Sources */,
 				4D57856123696C9300842C50 /* PickerViewContainer.swift in Sources */,
 				4D9304A823A9A6650001EC3D /* EditTaskPriorityCell.swift in Sources */,
+				4D242C5323EC498800ED1C42 /* DayStats+CoreDataClass.swift in Sources */,
 				4D646B3A2323C0E400073FD6 /* AboutViewController.swift in Sources */,
 				4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */,
 				4D646B3E2326203300073FD6 /* AppStoreReviewManager.swift in Sources */,
@@ -1539,6 +1546,7 @@
 				4D60932B23C4537800A7936E /* OnboardingDetails.swift in Sources */,
 				4DD2D78B232F7C4D005A6208 /* SettingsKeyChainKeys.swift in Sources */,
 				4DA50FC222E83DD80059A46F /* UIBezierPath+Extension.swift in Sources */,
+				4D242C5423EC498800ED1C42 /* DayStats+CoreDataProperties.swift in Sources */,
 				4D4F0C96231FFE2500E71BE9 /* SettingsViewModel.swift in Sources */,
 				4D90B5A123CD54380077E756 /* SettingsStandardCell.swift in Sources */,
 				4D67DCF72363003F0008AE98 /* CircularProgressBar.swift in Sources */,

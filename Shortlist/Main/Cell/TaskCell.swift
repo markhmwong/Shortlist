@@ -12,7 +12,7 @@ class TaskCell: UITableViewCell {
 	
     let minHeight: CGFloat = 70.0
     
-	let categoryTextColor: UIColor = Theme.Font.DefaultColor.adjust(by: -10.0)!
+	let categoryTextColor: UIColor = Theme.Font.DefaultColor.adjust(by: -70)!
 	
     var persistentContainer: PersistentContainer?
     
@@ -58,14 +58,14 @@ class TaskCell: UITableViewCell {
         return view
     }()
 	
-	var gradientLayer: CAGradientLayer = CAGradientLayer()
+	private var gradientLayer: CAGradientLayer = CAGradientLayer()
 	
-	let gradientOne = UIColor.white.withAlphaComponent(0.8).cgColor
-	let gradientTwo = UIColor.white.cgColor
-    let gradientThree = UIColor.white.withAlphaComponent(0.8).cgColor
+	private let gradientOne = UIColor.white.withAlphaComponent(0.8).cgColor
+	private let gradientTwo = UIColor.white.cgColor
+    private let gradientThree = UIColor.white.withAlphaComponent(0.8).cgColor
 	
-	var gradientSet: [[CGColor]] = [[CGColor]]()
-    var currentGradient: Int = 0
+	private var gradientSet: [[CGColor]] = [[CGColor]]()
+    private var currentGradient: Int = 0
 	
     lazy var details: UITextView = {
         let view = UITextView()
@@ -84,14 +84,15 @@ class TaskCell: UITableViewCell {
 		view.tag = 0
         return view
     }()
-    
+
     lazy var categoryTitle: UITextView = {
         let view = UITextView()
 		view.backgroundColor = UIColor.clear
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
-        view.textColor = UIColor.white
-		view.layer.cornerRadius = 3.0
+        view.textColor = Theme.Font.DefaultColor.adjust(by: -70)!
+		view.layer.cornerRadius = 4.0
+		view.layer.backgroundColor = UIColor.black.adjust(by: 80)?.cgColor
         view.returnKeyType = UIReturnKeyType.done
         view.textContainerInset = UIEdgeInsets.zero
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -141,7 +142,6 @@ class TaskCell: UITableViewCell {
 		gradientLayer.frame = taskName.bounds
 		priorityMarker.anchorView(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: contentView.bounds.width, height: 10.0))
 		fadedBackground.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 2.0, left: 5.0, bottom: -2.0, right: -5.0), size: .zero)
-
 	}
 	
 	
@@ -170,7 +170,7 @@ class TaskCell: UITableViewCell {
 		taskName.anchorView(top: contentView.topAnchor, bottom: nil, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -5.0, right: -20.0), size: .zero)
 		details.anchorView(top: taskName.bottomAnchor, bottom: categoryTitle.topAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -10.0, right: -20.0), size: .zero)
 		categoryTitle.anchorView(top: nil, bottom: contentView.bottomAnchor, leading: taskName.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -2.0, right: 0.0), size: .zero)
-
+		categoryTitle.textContainerInset = UIEdgeInsets(top: 0.0, left: 5.0, bottom: 0.0, right: 5.0)
 	}
 	
     func animateGradient() {
@@ -217,16 +217,20 @@ class TaskCell: UITableViewCell {
             
 			let detailsStr = "\(task.details ?? "Empty Notes")"
 			let detailsAttributedStr = NSMutableAttributedString(string: detailsStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
+			self.contentView.alpha = 1.0
+
 			
             if (task.complete) {
+				self.contentView.alpha = 0.7
                 nameAttributedStr.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, nameAttributedStr.length))
             }
+			
             taskName.attributedText = nameAttributedStr
 			details.attributedText = detailsAttributedStr
             taskButton.taskState = task.complete
 				
 			let categoryStr = "\(task.category)"
-
+			
             let categoryAttributedStr = NSMutableAttributedString(string: categoryStr, attributes: [NSAttributedString.Key.foregroundColor : categoryTextColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
 			categoryTitle.attributedText = categoryAttributedStr
 			

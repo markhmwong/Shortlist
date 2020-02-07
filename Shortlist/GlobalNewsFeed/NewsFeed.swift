@@ -9,16 +9,11 @@
 import UIKit
 import MarqueeLabel
 
+// "News" feed, retreived from Firebase.
+// todo - maybe add Task names to the feed or include global priority task counts
+
 struct News {
 	var tasks: Int
-}
-
-class NewsFeedViewModel {
-	
-	init() {
-		
-	}
-	
 }
 
 class NewsFeed: UIView {
@@ -35,7 +30,7 @@ class NewsFeed: UIView {
 		return label
 	}()
 	
-	init(viewModel: NewsFeedViewModel) {
+	init() {
 		super.init(frame: .zero)
 		setupView()
 	}

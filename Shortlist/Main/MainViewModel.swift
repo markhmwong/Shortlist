@@ -107,12 +107,11 @@ class MainViewModel {
 		cell.setupCellLayout()
 		cell.persistentContainer = persistentContainer
 		cell.task = taskForRow(indexPath: indexPath)
-//		cell.stateOfTextView()
         cell.adjustDailyTaskComplete = { (task) in
 			if (task.complete) {
-                dayObject.totalCompleted += 1
+				dayObject.dayToStats?.totalCompleted += 1
             } else {
-                dayObject.totalCompleted -= 1
+				dayObject.dayToStats?.totalCompleted -= 1
             }
             persistentContainer?.saveContext()
         }

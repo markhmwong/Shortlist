@@ -46,23 +46,23 @@ class DailyAccolades: NSObject {
 		// we want to avoid anything that may deter them from being productive
 		// rather we want to encourage them to keep going, so we'll leave these
 		// awards out if they haven't done a high priority task
-		guard let _day = day else { return }
-		if (!hasHighPriorityTaskBeenCompleted && (Double(_day.totalCompleted) / Double(_day.totalTasks)) != 1.0) {
+		guard let _stats = day?.dayToStats else { return }
+		if (!hasHighPriorityTaskBeenCompleted && (Double(_stats.totalCompleted) / Double(_stats.totalTasks)) != 1.0) {
 			resolveIncompleteTasks()
 		}
 	}
 	
 	private func resolveCompleteTasks() {
-		guard let _day = day else { return }
+		guard let _stats = day?.dayToStats else { return }
 		
-		if (_day.totalCompleted == _day.totalTasks && _day.totalCompleted != 0) {
+		if (_stats.totalCompleted == _stats.totalTasks && _stats.totalCompleted != 0) {
 			awardList.append(AwardsList.Complete.TheCompletionist)
 			return
 		}
 		
 		// to be updated with correct awards
 		
-		let percentageComplete: Double = Double(_day.totalCompleted) / Double(_day.totalTasks)
+		let percentageComplete: Double = Double(_stats.totalCompleted) / Double(_stats.totalTasks)
 		if (percentageComplete > 0.01 && percentageComplete < 0.3) {
 			awardList.append(AwardsList.Complete.TheDoer)
 			awardList.append(AwardsList.Complete.TheGoGetter)
@@ -76,14 +76,14 @@ class DailyAccolades: NSObject {
 	}
 	
 	private func resolveIncompleteTasks() {
-		guard let _day = day else { return }
-		let incompleteTasks = _day.totalTasks - _day.totalCompleted
+		guard let _stats = day?.dayToStats else { return }
+		let incompleteTasks = _stats.totalTasks - _stats.totalCompleted
 		
-		if (_day.totalTasks == 0) {
+		if (_stats.totalTasks == 0) {
 			awardList.append(AwardsList.Incomplete.TheFunday)
 		}
 		
-		let percentageIncomplete: Double = Double(incompleteTasks) / Double(_day.totalTasks)
+		let percentageIncomplete: Double = Double(incompleteTasks) / Double(_stats.totalTasks)
 		
 		if (percentageIncomplete >= 0.0 && percentageIncomplete < 0.3) {
 			awardList.append(AwardsList.Incomplete.TheUndecided)
@@ -152,9 +152,9 @@ class DailyAccolades: NSObject {
 			}
 		}
 		
-		guard let _day = day else { return }
+		guard let _stats = day?.dayToStats else { return }
 		
-		if (_day.totalCompleted == _day.totalTasks) {
+		if (_stats.totalCompleted == _stats.totalTasks) {
 			if let maxValue = categoryTracker.values.max() {
 				if maxValue == 1 {
 					awardList.append(AwardsList.Category.TheGeneralist)

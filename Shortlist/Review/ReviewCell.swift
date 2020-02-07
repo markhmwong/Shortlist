@@ -39,7 +39,6 @@ class ReviewCell: UITableViewCell {
     //convert to textfield
     lazy var name: UITextView = {
         let view = UITextView()
-        view.delegate = self
         view.backgroundColor = .clear
         view.isScrollEnabled = false
         view.keyboardType = UIKeyboardType.default
@@ -150,17 +149,7 @@ class ReviewCell: UITableViewCell {
 	// button is disabled 20092019
     @objc
     func handleTask() {
-//        taskButton.taskState = !taskButton.taskState
-//        guard let task = task else { return }
-//        task.complete = taskButton.taskState
-//
-//        // save to core data
-//        saveTaskState()
-//
-//
-//        if (taskButton.taskState) {
-//            name.attributedText = NSAttributedString(string: "\(task.name!)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
-//        }
+
     }
     
     func configure(with task: Task?) {
@@ -171,10 +160,6 @@ class ReviewCell: UITableViewCell {
             
 			let detailsStr = "\(task.details ?? "Empty Notes")"
 			let detailsAttributedStr = NSMutableAttributedString(string: detailsStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
-			
-            if (task.complete) {
-                nameAttributedStr.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, nameAttributedStr.length))
-            }
 			
             name.attributedText = nameAttributedStr
 			details.attributedText = detailsAttributedStr
@@ -226,46 +211,4 @@ class ReviewCell: UITableViewCell {
         let size = super.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
         return CGSize(width: size.width, height: max(size.height, minHeight))
     }
-}
-
-extension ReviewCell: UITextViewDelegate {
-    
-    var tableView: UITableView? {
-        get {
-            var table: UIView? = superview
-            while !(table is UITableView) && table != nil {
-                table = table?.superview
-            }
-            return table as? UITableView
-        }
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if (text == "\n") {
-            updateTaskName(taskNameString: textView.text!)
-            saveTaskState()
-            textView.resignFirstResponder()
-            return false
-        }
-        return true
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        let size = textView.bounds.size
-        let newSize = textView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
-        // Resize the cell only when cell's size is changed
-        if size.height != newSize.height {
-            UIView.setAnimationsEnabled(false)
-            tableView?.beginUpdates()
-            taskButton.setNeedsDisplay()
-            tableView?.endUpdates()
-            UIView.setAnimationsEnabled(true)
-            
-            if let thisIndexPath = tableView?.indexPath(for: self) {
-                tableView?.scrollToRow(at: thisIndexPath, at: .bottom, animated: false)
-            }
-        }
-        
-    }
-    
 }

@@ -81,12 +81,6 @@ class SettingsHeader: UIView {
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
-	
-	lazy var newsFeed: NewsFeed = {
-		let vm = NewsFeedViewModel()
-		let feed = NewsFeed(viewModel: vm)
-		return feed
-	}()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -111,7 +105,6 @@ class SettingsHeader: UIView {
     func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 		backgroundColor = Theme.GeneralView.headerBackground
-		addSubview(newsFeed)
 		addSubview(tipButtonContainer)
 		tipButtonContainer.addSubview(coffeeTip)
 		tipButtonContainer.addSubview(generousTip)
@@ -124,12 +117,11 @@ class SettingsHeader: UIView {
         _viewModel.buttonArr.append(generousTip)
         _viewModel.buttonArr.append(amazingTip)
 		
-		newsFeed.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
 
 		// button container
 		tipButtonContainer.anchorView(top: tipDisclaimer.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -10.0, right: 0.0), size: .zero)
 		// text
-		tipDisclaimer.anchorView(top: newsFeed.bottomAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
+		tipDisclaimer.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
 		//buttons
 		let buttonHeight: CGFloat = UIScreen.main.bounds.height * 0.05
 		let buttonWidth: CGFloat = UIScreen.main.bounds.width * 0.25
