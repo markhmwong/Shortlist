@@ -8,19 +8,33 @@
 
 import UIKit
 
-class BackLogTaskListViewModel {
+class CategoryTaskListViewModel {
 	
 	let cellId = "TaskListCellId"
 	
 	var categoryName: String?
 	
+	var sortedData: [BigListTask]?
+	
 	init(categoryName: String?) {
 		self.categoryName = categoryName
 	}
 	
-	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath, data: BigListTask) -> UITableViewCell {
+	func initaliseData(data: Set<BigListTask>) {
+		sortedData = data.sorted { (taskA, taskB) -> Bool in
+			return taskA.name! > taskB.name!
+		}
+	}
+	
+	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! BackLogTaskListTableViewCell
-		cell.textLabel!.text = data.name
+		
+		guard let _sortedData = sortedData else {
+			cell.textLabel!.text = "Unknown Task"
+			return cell
+		}
+		
+		cell.textLabel!.text = _sortedData[indexPath.row].name
 		return cell
 	}
 	
@@ -34,9 +48,20 @@ class BackLogTaskListViewModel {
 		return cell
 	}
 	
+	func tableCellAt(tableView: UITableView, indexPath: IndexPath) -> BackLogTaskListTableViewCell {
+		let cell = tableView.cellForRow(at: indexPath) as! BackLogTaskListTableViewCell
+		guard cell.task != nil else {
+			cell.task = nil
+            return cell
+        }
+		return cell
+	}
+	
 }
 
 class BackLogTaskListTableViewCell: UITableViewCell, CellProtocol {
+	
+	var task : Task?
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)

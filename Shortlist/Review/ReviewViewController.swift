@@ -238,7 +238,6 @@ class ReviewViewController: UIViewController {
 				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: task.createdAt! as Date, notificationContent: [NotificationKeys.Title : task.name ?? ""], timeRemaining: newReminderDate.timeIntervalSince(Date()))
 			}
 		}
-		
 	}
 }
 

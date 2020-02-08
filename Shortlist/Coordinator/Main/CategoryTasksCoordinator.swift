@@ -35,7 +35,7 @@ class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDel
             return
         }
 		
-		let viewModel = BackLogTaskListViewModel(categoryName: categoryName)
+		let viewModel = CategoryTaskListViewModel(categoryName: categoryName)
 		let vc = BackLogTaskListViewController(persistentContainer: persistentContainer, viewModel: viewModel, coordinator: self)
 //		let nav = UINavigationController(rootViewController: vc)
 		parentViewController?.navigationController?.pushViewController(vc, animated: true)
