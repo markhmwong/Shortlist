@@ -3,6 +3,7 @@
     <entity name="BackLog" representedClassName="BackLog" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="backLogToBigListTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BigListTask" inverseName="bigListTaskToBackLog" inverseEntity="BigListTask"/>
+        <relationship name="backLogToTask" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" inverseName="taskToBackLog" inverseEntity="Task"/>
     </entity>
     <entity name="BigListTask" representedClassName="BigListTask" syncable="YES">
         <attribute name="carryOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -78,17 +79,18 @@
         <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="reminder" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="reminderState" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="taskToBackLog" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BackLog" inverseName="backLogToTask" inverseEntity="BackLog"/>
         <relationship name="taskToDay" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Day" inverseName="dayToTask" inverseEntity="Day"/>
     </entity>
     <elements>
-        <element name="BackLog" positionX="-222.703125" positionY="12.37109375" width="128" height="73"/>
-        <element name="BigListTask" positionX="-394.78515625" positionY="13.6328125" width="128" height="223"/>
+        <element name="BackLog" positionX="-168.37109375" positionY="231.5625" width="128" height="88"/>
+        <element name="BigListTask" positionX="-461.171875" positionY="129.3984375" width="128" height="223"/>
         <element name="CategoryList" positionX="6.55078125" positionY="-177.7265625" width="128" height="58"/>
         <element name="Day" positionX="6.375" positionY="-64.6953125" width="128" height="223"/>
         <element name="DayStats" positionX="8.55859375" positionY="232.4140625" width="128" height="148"/>
         <element name="Stats" positionX="-365.7421875" positionY="-178.22265625" width="128" height="193"/>
         <element name="StatsCategoryComplete" positionX="-166.3984375" positionY="-166.56640625" width="128" height="88"/>
         <element name="StatsCategoryIncomplete" positionX="-165.69140625" positionY="-106.76171875" width="128" height="88"/>
-        <element name="Task" positionX="157.875" positionY="-65.9453125" width="128" height="223"/>
+        <element name="Task" positionX="157.875" positionY="-65.9453125" width="128" height="238"/>
     </elements>
 </model>

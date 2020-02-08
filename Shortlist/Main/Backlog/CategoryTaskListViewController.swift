@@ -92,11 +92,11 @@ class BackLogTaskListViewController: UIViewController {
 		guard let categoryObject: BackLog = fetchedResultsController?.fetchedObjects?.first else {
 			return
 		}
-		guard let tasks = categoryObject.backLogToBigListTask else {
+		guard let tasks = categoryObject.backLogToTask else {
 			return
 		}
 		
-		_vm.initaliseData(data: tasks as! Set<BigListTask>)
+		_vm.initaliseData(data: tasks as! Set<Task>)
 		
 
 	}
@@ -117,24 +117,12 @@ class BackLogTaskListViewController: UIViewController {
 	// create test task
 	@objc
 	func createTestTask() {
-		guard let categoryObject: BackLog = fetchedResultsController?.fetchedObjects?.first else {
+		guard let backLog: BackLog = fetchedResultsController?.fetchedObjects?.first else {
 			return
 		}
 		
-		let task = BigListTask(context: persistentContainer!.viewContext)
-		task.carryOver = false
-		task.category = "CategoryA"
-		task.complete = false
-		task.details = "None"
-		task.id = 0
-		task.isNew = false
-		task.name = "Test Category"
-		task.priority = 0
-		task.reminder = nil
-		task.reminderState = false
-		categoryObject.addToBackLogToBigListTask(task)
-		
 	}
+	
 	@objc
 	func handleClose() {
 		coordinator?.dismiss()
@@ -164,8 +152,6 @@ class BackLogTaskListViewController: UIViewController {
 //			}
 //		}
 	}
-	
-
 }
 
 extension BackLogTaskListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -175,7 +161,7 @@ extension BackLogTaskListViewController: UITableViewDelegate, UITableViewDataSou
 			tableView.setEmptyMessage("Zero backlogged tasks!")
 			return 0
 		}
-		guard let tasks = categoryObject.backLogToBigListTask else {
+		guard let tasks = categoryObject.backLogToTask else {
 			tableView.separatorColor = .clear
 			tableView.setEmptyMessage("Zero backlogged tasks!")
 			return 0
@@ -212,11 +198,11 @@ extension BackLogTaskListViewController: NSFetchedResultsControllerDelegate {
 				return
 			}
 			
-			guard let tasks = categoryObject.backLogToBigListTask else {
+			guard let tasks = categoryObject.backLogToTask else {
 				return
 			}
 
-			_viewModel.initaliseData(data: tasks as! Set<BigListTask>)
+			_viewModel.initaliseData(data: tasks as! Set<Task>)
 			
             DispatchQueue.main.async {
                 self.tableView.reloadData()

@@ -18,6 +18,7 @@
 		4D242C4223EC06EA00ED1C42 /* TemporaryStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */; };
 		4D242C5323EC498800ED1C42 /* DayStats+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C5123EC498800ED1C42 /* DayStats+CoreDataClass.swift */; };
 		4D242C5423EC498800ED1C42 /* DayStats+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C5223EC498800ED1C42 /* DayStats+CoreDataProperties.swift */; };
+		4D242C5623EEB45C00ED1C42 /* BackLogTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C5523EEB45C00ED1C42 /* BackLogTaskCell.swift */; };
 		4D377CF6237D2A810026FB3A /* AppMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF5237D2A810026FB3A /* AppMetaData.swift */; };
 		4D377CF8237D2AC10026FB3A /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */; };
 		4D377CFA237D33C50026FB3A /* SettingsCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */; };
@@ -249,6 +250,7 @@
 		4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryStorageService.swift; sourceTree = "<group>"; };
 		4D242C5123EC498800ED1C42 /* DayStats+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DayStats+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D242C5223EC498800ED1C42 /* DayStats+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DayStats+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4D242C5523EEB45C00ED1C42 /* BackLogTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackLogTaskCell.swift; sourceTree = "<group>"; };
 		4D377CF5237D2A810026FB3A /* AppMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMetaData.swift; sourceTree = "<group>"; };
 		4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellFactory.swift; sourceTree = "<group>"; };
@@ -909,6 +911,7 @@
 				4D6E7555235994F200C67B8F /* CategoryCell.swift */,
 				4D6E753A235634C100C67B8F /* BackLogViewModel.swift */,
 				4D6E75592359A18E00C67B8F /* CategoryTaskListViewController.swift */,
+				4D242C5523EEB45C00ED1C42 /* BackLogTaskCell.swift */,
 				4D70285E237567E5003D33E6 /* CategoryTaskListViewModel.swift */,
 			);
 			path = Backlog;
@@ -1501,6 +1504,7 @@
 				4DA50FC422E84BE60059A46F /* ReviewCell.swift in Sources */,
 				4D70285C2371A26E003D33E6 /* EditTaskToggleCell.swift in Sources */,
 				4D6E7539235634B300C67B8F /* BackLogViewController.swift in Sources */,
+				4D242C5623EEB45C00ED1C42 /* BackLogTaskCell.swift in Sources */,
 				4DED156B23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift in Sources */,
 				4D5A438522E7197300E34FAC /* Date+Extension.swift in Sources */,
 				4D50EE7523951306008ACCD8 /* LineChart.swift in Sources */,

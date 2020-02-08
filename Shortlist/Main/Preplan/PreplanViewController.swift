@@ -292,21 +292,21 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 			
 			// check if category exists
 			if (persistentContainer.categoryExistsInBackLog(category)) {
-				if let bigListCategory: BackLog = persistentContainer.fetchBigListCategory(forDate: category) {
-					let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
-					bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
-					bigListCategory.addToBackLogToBigListTask(bigListTask)
+				if let backLog: BackLog = persistentContainer.fetchBackLog(forDate: category) {
+//					let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
+//					bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
+					backLog.addToBackLogToTask(task)
 				} else {
 					//failed - pop up
 				}
 			} else {
 				
 				// create category
-				let bigListCategory: BackLog = BackLog(context: persistentContainer.viewContext)
-				bigListCategory.create(name: category)
-				let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
-				bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
-				bigListCategory.addToBackLogToBigListTask(bigListTask)
+				let backLog: BackLog = BackLog(context: persistentContainer.viewContext)
+				backLog.create(name: category)
+//				let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
+//				bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
+				backLog.addToBackLogToTask(task)
 				let categoryList: CategoryList = CategoryList(context: persistentContainer.viewContext)
 				categoryList.create(name: category)
 			}

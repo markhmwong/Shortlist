@@ -224,7 +224,7 @@ class PersistentContainer: NSPersistentContainer {
         return count
     }
 	
-    func fetchBigListCategory(forDate categoryName: String) -> BackLog? {
+    func fetchBackLog(forDate categoryName: String) -> BackLog? {
         let context = viewContext
         let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: "BackLog")
         request.returnsObjectsAsFaults = false

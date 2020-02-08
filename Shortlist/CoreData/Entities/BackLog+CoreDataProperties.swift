@@ -19,7 +19,8 @@ extension BackLog {
 
     @NSManaged public var name: String?
     @NSManaged public var backLogToBigListTask: NSSet?
-
+	@NSManaged public var backLogToTask: NSSet?
+	
 }
 
 // MARK: Generated accessors for bigListToBigListTask
@@ -42,4 +43,21 @@ extension BackLog {
 		self.name = name
 	}
 	
+}
+
+// MARK: Generated accessors for backLogToTask
+extension BackLog {
+
+    @objc(addBackLogToTaskObject:)
+    @NSManaged public func addToBackLogToTask(_ value: Task)
+
+    @objc(removeBackLogToTaskObject:)
+    @NSManaged public func removeFromBackLogToTask(_ value: Task)
+
+    @objc(addBackLogToTask:)
+    @NSManaged public func addToBackLogToTask(_ values: NSSet)
+
+    @objc(removeBackLogToTask:)
+    @NSManaged public func removeFromBackLogToTask(_ values: NSSet)
+
 }
