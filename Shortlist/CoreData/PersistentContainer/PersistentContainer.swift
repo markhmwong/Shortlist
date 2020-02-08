@@ -224,7 +224,7 @@ class PersistentContainer: NSPersistentContainer {
         return count
     }
 	
-    func fetchBackLog(forDate categoryName: String) -> BackLog? {
+    func fetchBackLog(forCategory categoryName: String) -> BackLog? {
         let context = viewContext
         let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: "BackLog")
         request.returnsObjectsAsFaults = false
@@ -238,6 +238,21 @@ class PersistentContainer: NSPersistentContainer {
             return nil
         }
     }
+	
+//	func fetchBackLog(categoryName: String) -> BackLog? {
+//		let context = viewContext
+//        let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: "BackLog")
+//        request.returnsObjectsAsFaults = false
+//        request.predicate = NSPredicate(format: "name == %@", categoryName)
+//
+//        do {
+//            let fetchedResults = try context.fetch(request)
+//            return fetchedResults.first
+//        } catch let error as NSError {
+//            print("BackLog entity could not be fetched \(error)")
+//            return nil
+//        }
+//	}
     
     func fetchDayEntity(forDate date: Date) -> NSManagedObject? {
         let context = viewContext

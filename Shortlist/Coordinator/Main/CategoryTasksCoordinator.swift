@@ -53,6 +53,14 @@ class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDel
 	func dismiss() {
 		parentViewController?.navigationController?.popViewController(animated: true)
 	}
+	
+    func showAlertBox(_ message: String) {
+        let alert = UIAlertController(title: "Hold up!", message: "\(message)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+		DispatchQueue.main.async {
+			self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
+    }
     
     func childDidFinish(_ child: Coordinator) {
         for (index, coordinator) in childCoordinators.enumerated() {

@@ -30,7 +30,7 @@ class CategoryTaskListViewModel {
 		}
 	}
 	
-	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath) -> ReviewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ReviewCell
 		guard let _sortedData = sortedData else {
 			cell.textLabel!.text = "Unknown Task"
@@ -59,6 +59,34 @@ class CategoryTaskListViewModel {
             return cell
         }
 		return cell
+	}
+	
+	func checkPrioriy(persistentContainer: PersistentContainer?, task: Task?) -> (PriorityLimitThreshold, String) {
+		guard let _pc = persistentContainer else { return (.Exceeded, "Persistent Container Error") }
+		guard let _task = task else { return (.Exceeded, "Task Error") }
+		let today: Date = Calendar.current.today()
+		let todayDayObj: Day = _pc.fetchDayEntity(forDate: today) as! Day
+		
+		if let priority = Priority.init(rawValue: _task.priority) {
+			switch priority {
+				case Priority.high:
+					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.highPriorityLimit) {
+						return (.Exceeded, "High")
+					}
+				case Priority.medium:
+					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.mediumPriorityLimit) {
+						return (.Exceeded, "Medium")
+					}
+				case Priority.low:
+					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.lowPriorityLimit) {
+						return (.Exceeded, "Low")
+					}
+				case Priority.none:
+					return (.Exceeded, "None")
+			}
+		}
+		
+		return (.WithinLimit, "Sucess")
 	}
 
 }

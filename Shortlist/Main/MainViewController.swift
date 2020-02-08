@@ -395,7 +395,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		
 		// check if category exists
 		if (persistentContainer.categoryExistsInBackLog(category)) {
-			if let backLog: BackLog = persistentContainer.fetchBackLog(forDate: category) {
+			if let backLog: BackLog = persistentContainer.fetchBackLog(forCategory: category) {
 //				let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
 //				bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
 				backLog.addToBackLogToTask(task)

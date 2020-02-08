@@ -134,23 +134,46 @@ class BackLogTaskListViewController: UIViewController {
 	
 	// marked tasks are placed inside the carryOverTaskObjectsArr
 	func copyMarkedTasks() {
-		guard let viewModel = viewModel else { return }
+		guard let indexPathForSelectedRows = tableView.indexPathsForSelectedRows else {
+			coordinator?.showAlertBox("Select a task to repeat it today!")
+			return
+		}
+		
+		guard let _viewModel = viewModel else { return }
 		guard let pc = persistentContainer else { return }
 		let today: Day = pc.fetchDayEntity(forDate: Calendar.current.today()) as! Day
 		
-		// create new day here, incase the app is running in the back ground and a new day hasn't been created in the interim
-//		for (_, task) in viewModel.carryOverTaskObjectsArr {
-//			let copiedTask = Task(context: pc.viewContext)
-//			copiedTask.create(context: pc.viewContext, idNum: Int(task.id), taskName: task.name ?? "Error", categoryName: task.category, createdAt: task.createdAt! as Date, reminderDate: task.reminder! as Date, priority: Int(task.priority))
-//			today.addToDayToTask(copiedTask)
-//
-//			let newReminderDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: task.reminder! as Date)!
-//
-//			//create notification
-//			if (newReminderDate.timeIntervalSince(task.createdAt! as Date) > 0.0) {
-//				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: task.createdAt! as Date, notificationContent: [NotificationKeys.Title : task.name ?? ""], timeRemaining: newReminderDate.timeIntervalSince(Date()))
-//			}
-//		}
+		for indexPath in indexPathForSelectedRows {
+			let cell = _viewModel.tableViewCell(tableView, indexPath: indexPath)
+			guard let task = cell.task else { return }
+			task.complete = false
+			today.addToDayToTask(task)
+			today.dayToStats?.totalTasks = (today.dayToStats?.totalTasks ?? 0) + 1
+			
+			let newReminderDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: task.reminder! as Date)!
+			
+			//create notification
+			if (newReminderDate.timeIntervalSince(task.createdAt! as Date) > 0.0) {
+				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: task.createdAt! as Date, notificationContent: [NotificationKeys.Title : task.name ?? ""], timeRemaining: newReminderDate.timeIntervalSince(Date()))
+			}
+			
+			//background thread - todo fetchBack log witht he option to be on a child context
+			//https://medium.com/@aliakhtar_16369/mastering-in-coredata-part-14-multithreading-concurrency-strategy-parent-child-context-305d986f1ac3
+			// grab task.objectIds into array then perform the removal on the background thread
+			
+			let backlog = pc.fetchBackLog(forCategory: _viewModel.categoryName ?? "Uncategorized")
+			let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
+			
+			backlog?.removeFromBackLogToTask(taskManagedObject)
+			
+
+			
+			
+			pc.saveContext()
+		}
+		
+		coordinator?.dismiss()
+		
 	}
 }
 
@@ -185,6 +208,10 @@ extension BackLogTaskListViewController: UITableViewDelegate, UITableViewDataSou
 		guard let _viewModel = viewModel else { return }
 		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
 		
+		_viewModel.checkPrioriy(persistentContainer: persistentContainer, task: cell.task)
+		
+		cell.selectedState = !cell.selectedState
+		cell.setSelected(cell.selectedState, animated: false)
 	}
 }
 
