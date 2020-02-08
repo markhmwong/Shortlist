@@ -32,16 +32,6 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         }
         let vc = StatsViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: StatsViewModel())
 		parentViewController?.navigationController?.pushViewController(vc, animated: true)
-
-//		DispatchQueue.main.async {
-//			self.getTopMostViewController()?.navigationController?.pushViewController(vc, animated: true)
-//		}
-		
-		
-//        let nav = UINavigationController(rootViewController: vc)
-//        DispatchQueue.main.async {
-//            self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
-//        }
     }
 	
 	func dismiss() {

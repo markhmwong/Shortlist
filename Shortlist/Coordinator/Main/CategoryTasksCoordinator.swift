@@ -20,8 +20,11 @@ class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDel
     	
 	var categoryName: String?
 	
-    init(navigationController:UINavigationController) {
+	weak var parentViewController: BackLogViewController?
+	
+	init(navigationController:UINavigationController, parentViewController: BackLogViewController) {
         self.navigationController = navigationController
+		self.parentViewController = parentViewController
     }
     
     // stats viewcontroller begin here
@@ -33,22 +36,23 @@ class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDel
         }
 		
 		let viewModel = BackLogTaskListViewModel(categoryName: categoryName)
-		let vc = BackLogTaskListViewController(persistentContainer: persistentContainer, viewModel: viewModel)
-		let nav = UINavigationController(rootViewController: vc)
-		DispatchQueue.main.async {
-            self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
-        }
+		let vc = BackLogTaskListViewController(persistentContainer: persistentContainer, viewModel: viewModel, coordinator: self)
+//		let nav = UINavigationController(rootViewController: vc)
+		parentViewController?.navigationController?.pushViewController(vc, animated: true)
     }
     
     func getTopMostViewController() -> UIViewController? {
 		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
-//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
         
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
         }
         return topMostViewController
     }
+	
+	func dismiss() {
+		parentViewController?.navigationController?.popViewController(animated: true)
+	}
     
     func childDidFinish(_ child: Coordinator) {
         for (index, coordinator) in childCoordinators.enumerated() {

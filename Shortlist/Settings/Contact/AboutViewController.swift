@@ -67,7 +67,7 @@ class AboutViewController: UIViewController {
         super.viewDidLoad()
 		navigationItem.title = "About"
         view.backgroundColor = UIColor.black
-        navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleBack), imageName: "Back", height: self.topBarHeight / 2)
+        navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 2)
         
         contact.attributedText = NSAttributedString(string: "\(details)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!])
         view.addSubview(contact)
@@ -75,7 +75,7 @@ class AboutViewController: UIViewController {
     }
     
     @objc
-    func handleBack() {
+    func handleDismiss() {
 		coordinator.dismiss()
     }
 }

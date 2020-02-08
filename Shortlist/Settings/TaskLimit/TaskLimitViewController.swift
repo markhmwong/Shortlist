@@ -46,7 +46,7 @@ class TaskLimitViewController: UIViewController {
         guard let vm = viewModel else { return }
 		
         view.backgroundColor = .black
-        navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleBack), imageName: "Back", height: self.topBarHeight / 2)
+        navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 2)
         title = "Daily Limit"
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: vm.cellId)
@@ -55,7 +55,7 @@ class TaskLimitViewController: UIViewController {
     }
     
     @objc
-    func handleBack() {
+    func handleDismiss() {
 		guard let _pvc = pvc else {
 			coordinator?.dismiss()
 			return

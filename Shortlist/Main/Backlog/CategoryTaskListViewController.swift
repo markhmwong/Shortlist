@@ -49,6 +49,8 @@ class BackLogTaskListViewController: UIViewController, NSFetchedResultsControlle
 		return view
 	}()
 	
+	weak var coordinator: CategoryTasksCoordinator?
+	
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 	}
@@ -57,9 +59,10 @@ class BackLogTaskListViewController: UIViewController, NSFetchedResultsControlle
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	init(persistentContainer: PersistentContainer, viewModel: BackLogTaskListViewModel) {
+	init(persistentContainer: PersistentContainer, viewModel: BackLogTaskListViewModel, coordinator: CategoryTasksCoordinator) {
 		self.persistentContainer = persistentContainer
 		self.viewModel = viewModel
+		self.coordinator = coordinator
 		super.init(nibName: nil, bundle: nil)
 	}
 	
@@ -116,7 +119,7 @@ class BackLogTaskListViewController: UIViewController, NSFetchedResultsControlle
 	}
 	@objc
 	func handleClose() {
-		self.dismiss(animated: true, completion: nil)
+		coordinator?.dismiss()
 	}
 }
 

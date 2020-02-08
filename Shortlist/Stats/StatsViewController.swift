@@ -78,7 +78,7 @@ class StatsViewController: UIViewController {
 
         view.backgroundColor = .black
 		navigationItem.title = "Stats"
-        navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleBack), imageName: "Back", height: self.topBarHeight / 2)
+        navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 2)
 		
 		view.addSubview(statStackView)
 		statStackView.addArrangedSubview(totalTasksStat)
@@ -183,7 +183,7 @@ class StatsViewController: UIViewController {
 //    }
     
     @objc
-    func handleBack() {
+    func handleDismiss() {
 		guard let _coordinator = coordinator else { return }
 		_coordinator.dismiss()
     }

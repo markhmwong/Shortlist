@@ -230,6 +230,13 @@ class ReviewViewController: UIViewController {
 			let copiedTask = Task(context: pc.viewContext)
 			copiedTask.create(context: pc.viewContext, idNum: Int(task.id), taskName: task.name ?? "Error", categoryName: task.category, createdAt: task.createdAt! as Date, reminderDate: task.reminder! as Date, priority: Int(task.priority))
 			today.addToDayToTask(copiedTask)
+			
+			let newReminderDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: task.reminder! as Date)!
+
+			//create notification
+			if (newReminderDate.timeIntervalSince(task.createdAt! as Date) > 0.0) {
+				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: task.createdAt! as Date, notificationContent: [NotificationKeys.Title : task.name ?? ""], timeRemaining: newReminderDate.timeIntervalSince(Date()))
+			}
 		}
 		
 	}

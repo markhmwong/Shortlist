@@ -46,7 +46,7 @@ class SettingsViewController: UIViewController {
 		view.backgroundColor = .black
 		
 		// navigation
-		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleBack), imageName: "Back", height: self.topBarHeight / 1.8)
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 1.8)
 		navigationItem.title = "Settings"
 		
 		// register cells for tableview
@@ -75,7 +75,7 @@ class SettingsViewController: UIViewController {
 	}
     
     @objc
-    func handleBack() {
+    func handleDismiss() {
 		navigationController?.dismiss(animated: true, completion: {
 
 		})

@@ -107,7 +107,6 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     func showAlertBox(_ message: String) {
         let alert = UIAlertController(title: "Hold up!", message: "\(message)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//        navigationController.present(alert, animated: true, completion: nil)
 		DispatchQueue.main.async {
 			self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
         }

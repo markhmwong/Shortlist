@@ -73,6 +73,8 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .black
+		navigationItem.title = "Backlog"
+		
 		keyboardNotifications()
 		prepareNavigationItem()
 		
@@ -99,7 +101,6 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 		DispatchQueue.main.async {
 			do {
 				try self.fetchedResultsController?.performFetch()
-				
 				self.tableView.reloadData()
 			} catch (let err) {
 				print("Unable to perform fetch \(err)")
@@ -204,7 +205,7 @@ extension BackLogViewController: UITableViewDataSource, UITableViewDelegate {
 		let category = objects[indexPath.row]
 		
 		guard let coordinator = coordinator else { return }
-		coordinator.showCategoryTasks(persistentContainer, name: category.name)
+		coordinator.showCategoryTasks(persistentContainer, name: category.name, parentViewController: self)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 	
