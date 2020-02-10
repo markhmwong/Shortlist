@@ -49,7 +49,7 @@ class MainViewModel {
 		return sortedSet?[indexPath.row]
 	}
 	
-	// tasks are sorted by category
+	// tasks are sorted by priority then by date
 	func sortTasks(_ day: Day) -> [Task]? {
 		let set = day.dayToTask as? Set<Task>
 		if (!set!.isEmpty) {

@@ -34,32 +34,31 @@ class ReviewViewModel {
 	
     let reviewCellId = "reviewCellId"
     
-	//yesterday's day object
+	// set's up the dataSource when yesterday's day object is set
     var dayEntity: Day? = nil {
         didSet {
             
             guard let dayToTask = dayEntity?.dayToTask else {
-                taskDataSource = []
+                reviewTaskSet = []
                 return
             }
             
-            taskDataSource = dayToTask.allObjects as! [Task]
+			reviewTaskSet = sortTasks(dayToTask as? Set<Task>)
+			
+//            taskDataSource = dayToTask.allObjects as! [Task]
         }
     }
     
-    var taskDataSource: [Task] = [] {
-        didSet {
-            taskDataSource.sort { (a, b) -> Bool in
-                return a.id < b.id
-            }
-        }
-    }
+    var reviewTaskSet: [Task]? = []
     
     let taskSize: Int = 5
     
     var incompleteTasks: Int {
         var count = 0
-        for task in taskDataSource {
+		guard let _taskDataSource = reviewTaskSet else {
+			return count
+		}
+        for task in _taskDataSource {
             if (task.complete) {
                 count += 1
             }
@@ -75,13 +74,34 @@ class ReviewViewModel {
 
 	var carryOverTaskObjectsArr: [PriorityType: Task] = [:]
 	
-	func tableCellFor(tableView: UITableView, indexPath: IndexPath) -> ReviewCell {
+	// tasks are sorted by priority then by date
+	func sortTasks(_ tasks: Set<Task>?) -> [Task]? {
+		guard let set = tasks else {
+			return []
+		}
+		if (!set.isEmpty) {
+            return set.sorted(by: { (taskA, taskB) -> Bool in
+				// sort same priority by date
+				if (taskA.priority == taskB.priority) {
+					return ((taskA.createdAt! as Date).compare(taskB.createdAt! as Date) == .orderedAscending)
+				} else {
+					// otherwise order by priority
+					return taskA.priority < taskB.priority
+				}
+            })
+		} else {
+			return []
+		}
+	}
+	
+	func taskForRow(indexPath: IndexPath) -> Task? {
+		return reviewTaskSet?[indexPath.row]
+	}
+	
+	func tableViewCellFor(tableView: UITableView, indexPath: IndexPath) -> ReviewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: reviewCellId, for: indexPath) as! ReviewCell
 		cell.backgroundColor = .clear
-		guard cell.task != nil else {
-			cell.task = nil
-            return cell
-        }
+		cell.task = taskForRow(indexPath: indexPath)
 		return cell
 	}
 	

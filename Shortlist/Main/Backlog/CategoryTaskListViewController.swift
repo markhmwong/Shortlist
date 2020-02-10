@@ -81,10 +81,7 @@ class BackLogTaskListViewController: UIViewController {
 		tableView.fillSuperView()
 		
 		fetchData()
-//		prepareData()
 
-		
-//		createTestTask()
 	}
 	
 	func prepareData() {
@@ -97,8 +94,6 @@ class BackLogTaskListViewController: UIViewController {
 		}
 		
 		_vm.initaliseData(data: tasks as! Set<Task>)
-		
-
 	}
 	
 	func fetchData() {
@@ -106,6 +101,7 @@ class BackLogTaskListViewController: UIViewController {
 			do {
 				try self.fetchedResultsController?.performFetch()
 				self.prepareData() // needs fix by updating the predicate query
+				
 				self.tableView.reloadData()
 			} catch (let err) {
 				print("Unable to perform fetch \(err)")
@@ -208,7 +204,7 @@ extension BackLogTaskListViewController: UITableViewDelegate, UITableViewDataSou
 		guard let _viewModel = viewModel else { return }
 		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
 		
-		_viewModel.checkPrioriy(persistentContainer: persistentContainer, task: cell.task)
+//		_viewModel.checkPrioriy(persistentContainer: persistentContainer, task: cell.task)
 		
 		cell.selectedState = !cell.selectedState
 		cell.setSelected(cell.selectedState, animated: false)

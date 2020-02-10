@@ -99,13 +99,12 @@ class ReviewViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(doneButton)
         
-//        tableView.register(ReviewCell.self, forCellReuseIdentifier: viewModel?.reviewCellId ?? "ReviewCellId")
 		tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
 		
         doneButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -60.0, right: 0.0), size: CGSize(width: 80.0, height: 0.0))
 		
+		// IAP
 		grabTipsProducts()
-		
 		
 		// set accolade
 		guard let _viewModel = viewModel else { return }
@@ -228,15 +227,9 @@ class ReviewViewController: UIViewController {
 		// create new day here, incase the app is running in the back ground and a new day hasn't been created in the interim
 		for (_, task) in viewModel.carryOverTaskObjectsArr {
 			let copiedTask = Task(context: pc.viewContext)
-			copiedTask.create(context: pc.viewContext, idNum: Int(task.id), taskName: task.name ?? "Error", categoryName: task.category, createdAt: task.createdAt! as Date, reminderDate: task.reminder! as Date, priority: Int(task.priority))
+			let resetReminder = Date() // reminder is reset because we don't know exactly when the user will copy an older task
+			copiedTask.create(context: pc.viewContext, idNum: Int(task.id), taskName: task.name ?? "Error", categoryName: task.category, createdAt: task.createdAt! as Date, reminderDate: resetReminder, priority: Int(task.priority))
 			today.addToDayToTask(copiedTask)
-			
-			let newReminderDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: task.reminder! as Date)!
-
-			//create notification
-			if (newReminderDate.timeIntervalSince(task.createdAt! as Date) > 0.0) {
-				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: task.createdAt! as Date, notificationContent: [NotificationKeys.Title : task.name ?? ""], timeRemaining: newReminderDate.timeIntervalSince(Date()))
-			}
 		}
 	}
 }
@@ -285,21 +278,12 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 		}
 		
 		// when the view model does exist we proceed at normal
-		let cell = viewModel.tableCellFor(tableView: tableView, indexPath: indexPath)
+		let cell = viewModel.tableViewCellFor(tableView: tableView, indexPath: indexPath)
 		
 		// closure to handle tasks that will be carried over to the the following day
 		cell.carryTaskOver = { (task) in
 			viewModel.handleCarryOver(task: task, cell: cell)
 		}
-		
-        let dayObject = fetchedResultsController.fetchedObjects?.first
-        let set = dayObject?.dayToTask as? Set<Task>
-        if (!set!.isEmpty) {
-            let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
-                return taskA.priority < taskB.priority
-            })
-            cell.task = sortedSet?[indexPath.row]
-        }
         return cell
     }
     

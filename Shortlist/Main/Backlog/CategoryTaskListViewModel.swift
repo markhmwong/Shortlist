@@ -10,14 +10,17 @@ import UIKit
 
 class CategoryTaskListViewModel {
 	
-	let cellId = "ReviewCellId"
+	private let cellId = "ReviewCellId"
 	
 	var categoryName: String?
 	
-	var sortedData: [Task]?
+	private var sortedData: [Task]?
 	
-	var selectedTasksToCopy: [Task]?
+	private var selectedTasksToCopy: [Task]?
 	
+	typealias PriorityType = Int
+	
+	private var todaysPriorityCount: [PriorityType : Int] = [:]
 
 	
 	init(categoryName: String?) {
@@ -61,33 +64,49 @@ class CategoryTaskListViewModel {
 		return cell
 	}
 	
-	func checkPrioriy(persistentContainer: PersistentContainer?, task: Task?) -> (PriorityLimitThreshold, String) {
-		guard let _pc = persistentContainer else { return (.Exceeded, "Persistent Container Error") }
-		guard let _task = task else { return (.Exceeded, "Task Error") }
-		let today: Date = Calendar.current.today()
-		let todayDayObj: Day = _pc.fetchDayEntity(forDate: today) as! Day
-		
-		if let priority = Priority.init(rawValue: _task.priority) {
-			switch priority {
-				case Priority.high:
-					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.highPriorityLimit) {
-						return (.Exceeded, "High")
-					}
-				case Priority.medium:
-					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.mediumPriorityLimit) {
-						return (.Exceeded, "Medium")
-					}
-				case Priority.low:
-					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.lowPriorityLimit) {
-						return (.Exceeded, "Low")
-					}
-				case Priority.none:
-					return (.Exceeded, "None")
-			}
-		}
-		
-		return (.WithinLimit, "Sucess")
-	}
-
+//	func checkPrioriy(persistentContainer: PersistentContainer?, task: Task?) -> (PriorityLimitThreshold, String) {
+//		guard let _pc = persistentContainer else { return (.Exceeded, "Persistent Container Error") }
+//		guard let _task = task else { return (.Exceeded, "Task Error") }
+//		let today: Date = Calendar.current.today()
+//		let todayDayObj: Day = _pc.fetchDayEntity(forDate: today) as! Day
+//
+//		if let priority = Priority.init(rawValue: _task.priority) {
+//			switch priority {
+//				case Priority.high:
+//					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.highPriorityLimit) {
+//						return (.Exceeded, "High")
+//					}
+//				case Priority.medium:
+//					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.mediumPriorityLimit) {
+//						return (.Exceeded, "Medium")
+//					}
+//				case Priority.low:
+//					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.lowPriorityLimit) {
+//						return (.Exceeded, "Low")
+//					}
+//				case Priority.none:
+//					return (.Exceeded, "None")
+//			}
+//		}
+//
+//		return (.WithinLimit, "Sucess")
+//	}
+	
+//	func resolvePriorityCount(persistentContainer: PersistentContainer) {
+//		guard let _dayEntity = dayEntity else { return }
+//		let today: Date = Calendar.current.today()
+//		let todayDayObj: Day = persistentContainer.fetchDayEntity(forDate: today) as! Day
+//
+//		let tasks = _dayEntity.dayToTask as! Set<Task>
+//		let todayTasks = todayDayObj.dayToTask as! Set<Task>
+//
+//		for task in tasks {
+//			priorityCount[Int(task.priority)] = (priorityCount[Int(task.priority)] ?? 0) + 1
+//		}
+//
+//		for task in todayTasks {
+//			todaysPriorityCount[Int(task.priority)] = (todaysPriorityCount[Int(task.priority)] ?? 0) + 1
+//		}
+//	}
 }
 
