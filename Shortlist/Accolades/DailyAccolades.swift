@@ -64,6 +64,8 @@ class DailyAccolades: NSObject {
 		
 		if (_stats.totalCompleted == _stats.totalTasks && _stats.totalCompleted != 0) {
 			awardList.append(AwardsList.Complete.TheCompletionist)
+			awardList.append(AwardsList.Complete.TheOneManBand)
+			awardList.append(AwardsList.Complete.TheHighAchiever)
 			return
 		}
 		
@@ -75,8 +77,9 @@ class DailyAccolades: NSObject {
 			awardList.append(AwardsList.Complete.TheGoGetter)
 		} else if (percentageComplete >= 0.3 && percentageComplete < 0.7) {
 			awardList.append(AwardsList.Complete.TheBusyBee)
-			awardList.append(AwardsList.Complete.ThePowerHouse)
+			awardList.append(AwardsList.Complete.TheGrunt)
 		} else {
+			awardList.append(AwardsList.Complete.ThePowerHouse)
 			awardList.append(AwardsList.Complete.TheExecutor)
 			awardList.append(AwardsList.Complete.TheHustler)
 		}
@@ -127,9 +130,9 @@ class DailyAccolades: NSObject {
 					awardList.append(AwardsList.HighPriority.TheTopBrass)
 					awardList.append(AwardsList.HighPriority.TheBoss)
 				case .medium:
-					awardList.append(AwardsList.MediumPriority.TheTerminator)
+					awardList.append(AwardsList.MediumPriority.TheToiler)
 					awardList.append(AwardsList.MediumPriority.TheWorkHorse)
-					awardList.append(AwardsList.MediumPriority.TheSilverMedal)
+					awardList.append(AwardsList.MediumPriority.TheSlogger)
 				case .low:
 					awardList.append(AwardsList.LowPriority.TheProcrastinator)
 					awardList.append(AwardsList.LowPriority.TheLoafer)

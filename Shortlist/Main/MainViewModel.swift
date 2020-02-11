@@ -107,6 +107,7 @@ class MainViewModel {
 		cell.setupCellLayout()
 		cell.persistentContainer = persistentContainer
 		cell.task = taskForRow(indexPath: indexPath)
+		
         cell.adjustDailyTaskComplete = { (task) in
 			if (task.complete) {
 				dayObject.dayToStats?.totalCompleted += 1
@@ -135,6 +136,27 @@ class MainViewModel {
 				stat?.removeFromCategoryACompleteTask(category: task.category)
             }
             persistentContainer?.saveContext()
+		}
+		
+		cell.updateBackLog = { (task) in
+			guard let _persistentContainer = persistentContainer else { return }
+			let category = task.category
+			
+			if (task.complete) {
+				if (_persistentContainer.categoryExistsInBackLog(category)) {
+					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
+						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
+						backLog.removeFromBackLogToTask(taskObj)
+					}
+				}
+			} else {
+				if (_persistentContainer.categoryExistsInBackLog(category)) {
+					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
+						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
+						backLog.addToBackLogToTask(taskObj)
+					}
+				}
+			}
 		}
 
         cell.updateWatch = { (task) in

@@ -27,7 +27,9 @@ class TaskCell: UITableViewCell {
     var adjustDailyTaskComplete: ((Task) -> ())? = nil
     
 	var updateStats: ((Task) -> ())? = nil
-	    
+	   
+	var updateBackLog: ((Task) -> ())? = nil
+	
 	var isNew: Bool = false
 	
 	private let isEditable: Bool = false
@@ -198,16 +200,20 @@ class TaskCell: UITableViewCell {
         task.complete = taskButton.taskState
         adjustDailyTaskComplete?(task)
 		updateStats?(task)
-		
+		updateBackLog?(task)
         // save to core data
         saveTaskState()
 		
 		// sync with the watch
         updateWatch?(task)
         
-        if (taskButton.taskState) {
-            taskName.attributedText = NSAttributedString(string: "\(task.name!)", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
-        }
+		
+		if (task.complete) {
+			self.contentView.alpha = 0.7
+		} else {
+			self.contentView.alpha = 1.0
+			
+		}
     }
 
     func configure(with task: Task?) {
@@ -219,12 +225,6 @@ class TaskCell: UITableViewCell {
 			let detailsAttributedStr = NSMutableAttributedString(string: detailsStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
 			self.contentView.alpha = 1.0
 
-			
-            if (task.complete) {
-				self.contentView.alpha = 0.7
-                nameAttributedStr.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, nameAttributedStr.length))
-            }
-			
             taskName.attributedText = nameAttributedStr
 			details.attributedText = detailsAttributedStr
             taskButton.taskState = task.complete

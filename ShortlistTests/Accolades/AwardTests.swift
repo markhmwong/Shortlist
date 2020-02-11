@@ -182,8 +182,8 @@ class AwardTests: XCTestCase {
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
 			AwardsList.MediumPriority.TheWorkHorse,
-			AwardsList.MediumPriority.TheSilverMedal,
-			AwardsList.MediumPriority.TheTerminator,
+			AwardsList.MediumPriority.TheSlogger,
+			AwardsList.MediumPriority.TheToiler,
 			AwardsList.Incomplete.TheCouchPotato,
 			AwardsList.Complete.TheBusyBee,
 			AwardsList.Complete.ThePowerHouse,
@@ -216,9 +216,9 @@ class AwardTests: XCTestCase {
 		let awards = accolades.retrieveAwards()
 		print(awards)
 		let testAwards: [String] = [
-			AwardsList.MediumPriority.TheTerminator,
+			AwardsList.MediumPriority.TheToiler,
 			AwardsList.MediumPriority.TheWorkHorse,
-			AwardsList.MediumPriority.TheSilverMedal,
+			AwardsList.MediumPriority.TheSlogger,
 			AwardsList.Complete.TheCompletionist
 		]
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
@@ -283,9 +283,9 @@ class AwardTests: XCTestCase {
 		let testAwards: [String] = [
 			AwardsList.Complete.TheBusyBee,
 			AwardsList.Complete.ThePowerHouse,
-			AwardsList.MediumPriority.TheTerminator,
+			AwardsList.MediumPriority.TheToiler,
 			AwardsList.MediumPriority.TheWorkHorse,
-			AwardsList.MediumPriority.TheSilverMedal,
+			AwardsList.MediumPriority.TheSlogger,
 			AwardsList.Incomplete.TheCouchPotato,
 		]
 		print(awards)
@@ -320,9 +320,9 @@ class AwardTests: XCTestCase {
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
 			AwardsList.Incomplete.TheCouchPotato,
-			AwardsList.MediumPriority.TheTerminator,
+			AwardsList.MediumPriority.TheToiler,
 			AwardsList.MediumPriority.TheWorkHorse,
-			AwardsList.MediumPriority.TheSilverMedal,
+			AwardsList.MediumPriority.TheSlogger,
 			AwardsList.Complete.TheBusyBee,
 			AwardsList.Complete.ThePowerHouse,
 			
@@ -358,9 +358,9 @@ class AwardTests: XCTestCase {
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
 			AwardsList.Incomplete.ThePolitician,
-			AwardsList.MediumPriority.TheTerminator,
+			AwardsList.MediumPriority.TheToiler,
 			AwardsList.MediumPriority.TheWorkHorse,
-			AwardsList.MediumPriority.TheSilverMedal,
+			AwardsList.MediumPriority.TheSlogger,
 			AwardsList.Complete.TheDoer,
 			AwardsList.Complete.TheGoGetter,
 		]

@@ -23,9 +23,9 @@ struct AwardsList {
 	}
 	
 	struct MediumPriority {
-		static var TheTerminator: String = "The Terminator"
+		static var TheToiler: String = "The Toiler"
 		static var TheWorkHorse: String = "The Workhorse"
-		static var TheSilverMedal: String = "The Silver Medal"
+		static var TheSlogger: String = "The Slogger"
 	}
 	
 	struct LowPriority {
@@ -69,18 +69,17 @@ struct AwardsList {
 		// min ~70% of tasks complete
 		static var TheExecutor: String = "The Executor"
 		static var TheHustler: String = "The Hustler"
+		static var ThePowerHouse: String = "The Power House"
 		
 		// min 50% tasks complete
 		static var TheBusyBee: String = "The Busy Bee"
-		static var ThePowerHouse: String = "The Power House"
+		static var TheGrunt: String = "The Grunt"
+
 		
 		// completed all tasks today
 		static var TheCompletionist: String = "The Completionist"
 		static var TheHighAchiever: String = "The High Achiever"
-		
-		// compeleted tasks that were carried over
-//		static var TheAvenger: String = "The Avenger"
-//		static var TheReturnOfTheKing: String = "The Return Of The King"
+		static var TheOneManBand: String = "The One Man Band"
 	}
 	
 	// to do
@@ -98,8 +97,14 @@ struct AwardsList {
 		static var ThePlanner: String = "The Planner"
 	}
 	
-	// to do
+	
 	struct Delete {
 		static var TheRejecter: String = "The Rejecter"
 	}
 }
+		// compeleted tasks that were carried over
+//		static var TheAvenger: String = "The Avenger"
+//		static var TheReturnOfTheKing: String = "The Return Of The King"
+//		The Temrinator
+//		The Silver Medal
+//		https://www.wordhippo.com/what-is/another-word-for/workhorse.html
