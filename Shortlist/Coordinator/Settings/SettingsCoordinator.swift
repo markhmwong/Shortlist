@@ -87,10 +87,12 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 	}
 	
 	func dimiss() {
-		let topMostVc = getTopMostViewController()
-		topMostVc?.dismiss(animated: true, completion: {
-			//
-		})
+		navigationController.dismiss(animated: true) {
+		}
+	}
+	
+	func cleanChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(NavigationObserverKey.ReturnFromSettings.rawValue), object: self)
 	}
 	
     func getTopMostViewController() -> UIViewController? {
@@ -109,8 +111,9 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
             }
         }
 	}
-    
+	
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+
         guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
         
         if navigationController.viewControllers.contains(fromViewController) {

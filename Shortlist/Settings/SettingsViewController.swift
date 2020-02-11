@@ -18,7 +18,7 @@ class SettingsViewController: UIViewController {
     
     var viewModel: SettingsViewModel?
     
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
 		let view = UITableView(frame: .zero, style: UITableView.Style.plain)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.dataSource = self
@@ -65,8 +65,14 @@ class SettingsViewController: UIViewController {
         header.grabTipsProducts()
     }
 	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		
+	}
+	
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		
 	}
 	
 	override func viewWillLayoutSubviews() {
@@ -76,9 +82,7 @@ class SettingsViewController: UIViewController {
     
     @objc
     func handleDismiss() {
-		navigationController?.dismiss(animated: true, completion: {
-
-		})
+		coordinator?.dimiss()
     }
     
     func emailFeedback() {
@@ -156,8 +160,12 @@ class SettingsViewController: UIViewController {
 		DispatchQueue.main.async {
 			self.tableView.reloadData()
 		}
-		
 	}
+	
+	deinit {
+		coordinator?.cleanChildCoordinator()
+	}
+	
 }
 
 extension SettingsViewController: MFMailComposeViewControllerDelegate {

@@ -107,6 +107,11 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		print("viewdidAppear")
+	}
     
 	// clean up
     override func viewDidLoad() {
@@ -119,6 +124,8 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		loadData()
 		setupView()
 		AppStoreReviewManager.requestReviewIfAppropriate()
+		
+
 		
 		keyboardNotifications()
 		initialiseStatEntity()
@@ -179,15 +186,11 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	func keyboardNotifications() {
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
+		
+
 	}
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
 	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
+
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()

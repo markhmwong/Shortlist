@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+enum NavigationObserverKey: String {
+	case ReturnFromSettings = "ReturnToFromSettings"
+}
+
 protocol MainCoordinatorProtocol { }
 
 class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol {
@@ -25,6 +29,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
+		NotificationCenter.default.addObserver(self, selector: #selector(handleViewControllerDidAppear), name: Notification.Name(rawValue: NavigationObserverKey.ReturnFromSettings.rawValue), object: nil)
         navigationController.delegate = self
 		let viewModel = MainViewModel()
 		let vc = MainViewController(persistentContainer: persistentContainer, viewModel: viewModel)
@@ -137,7 +142,6 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     }
     
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-		 print("didShow")
         guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
        
         if navigationController.viewControllers.contains(fromViewController) {
@@ -148,4 +152,14 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
             childDidFinish(statsViewController.coordinator!)
         }
     }
+	
+	@objc func handleViewControllerDidAppear(_ notification: Notification) {
+		
+		// may be use dict to identify which coordinator
+		if let c = notification.object as? SettingsCoordinator {
+			print(childCoordinators.count)
+			childDidFinish(c)
+			print(childCoordinators.count)
+		}
+	}
 }

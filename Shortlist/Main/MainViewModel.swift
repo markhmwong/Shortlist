@@ -114,7 +114,7 @@ class MainViewModel {
             } else {
 				dayObject.dayToStats?.totalCompleted -= 1
             }
-            persistentContainer?.saveContext()
+//            persistentContainer?.saveContext()
         }
 		
 		cell.updateStats = { (task) in
@@ -135,7 +135,7 @@ class MainViewModel {
 				// category specific stat
 				stat?.removeFromCategoryACompleteTask(category: task.category)
             }
-            persistentContainer?.saveContext()
+//            persistentContainer?.saveContext()
 		}
 		
 		cell.updateBackLog = { (task) in

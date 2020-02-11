@@ -207,13 +207,7 @@ class TaskCell: UITableViewCell {
 		// sync with the watch
         updateWatch?(task)
         
-		
-		if (task.complete) {
-			self.contentView.alpha = 0.7
-		} else {
-			self.contentView.alpha = 1.0
-			
-		}
+		self.contentView.alpha = task.complete ? 1.0 : 0.7
     }
 
     func configure(with task: Task?) {

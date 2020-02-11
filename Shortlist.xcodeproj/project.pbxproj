@@ -920,7 +920,6 @@
 		4D6E7561236045A100C67B8F /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				4D4F0C93231FD1E400E71BE9 /* SettingsCoordinator.swift */,
 				4D6E755723599C9A00C67B8F /* CategoryTasksCoordinator.swift */,
 				4DA5D0DE23AF6ADD00373F6F /* PreplanCoordinator.swift */,
 				4D6DA23B2330B1B4006B1663 /* ReviewCoordinator.swift */,
@@ -1056,6 +1055,7 @@
 		4DAFBC8C2320938600A6F189 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				4D4F0C93231FD1E400E71BE9 /* SettingsCoordinator.swift */,
 				4D953B67230A9DF90048C247 /* StatsCoordinator.swift */,
 				4DAFBC8D232093A200A6F189 /* TaskLimitCoordinator.swift */,
 				4D646B3B2323C1B400073FD6 /* AboutCoordinator.swift */,
