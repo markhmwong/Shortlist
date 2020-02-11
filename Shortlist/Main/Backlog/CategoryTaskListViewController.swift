@@ -146,12 +146,7 @@ class BackLogTaskListViewController: UIViewController {
 			today.addToDayToTask(task)
 			today.dayToStats?.totalTasks = (today.dayToStats?.totalTasks ?? 0) + 1
 			
-			let newReminderDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: task.reminder! as Date)!
-			
-			//create notification
-			if (newReminderDate.timeIntervalSince(task.createdAt! as Date) > 0.0) {
-				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: task.createdAt! as Date, notificationContent: [NotificationKeys.Title : task.name ?? ""], timeRemaining: newReminderDate.timeIntervalSince(Date()))
-			}
+			//note about reminder : To be remained cleared, as this allows the user to enter a new reminder without fear of the original reminder copied over
 			
 			//background thread - todo fetchBack log witht he option to be on a child context
 			//https://medium.com/@aliakhtar_16369/mastering-in-coredata-part-14-multithreading-concurrency-strategy-parent-child-context-305d986f1ac3

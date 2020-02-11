@@ -301,6 +301,15 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         var dayObject: Day? = persistentContainer.fetchDayManagedObject(forDate: todaysDate)
         
         if let _dayObject = dayObject {
+			let dayStats = DayStats(context: persistentContainer.viewContext)
+			dayStats.totalCompleted = 0
+			dayStats.totalTasks = 0
+			dayStats.highPriority = 0
+			dayStats.lowPriority = 0
+			dayStats.mediumPriority = 0
+			dayStats.accolade = ""
+			_dayObject.dayToStats = dayStats
+			persistentContainer.saveContext()
 			initialiseData(_dayObject)
 		} else {
             dayObject = Day(context: persistentContainer.viewContext)
@@ -312,6 +321,13 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
             dayObject?.year = Calendar.current.yearToInt() // Stats
             dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats
 			dayObject?.dayToTask = Set<Task>() as NSSet
+			let dayStats = DayStats(context: persistentContainer.viewContext)
+			dayStats.totalCompleted = 0
+			dayStats.totalTasks = 0
+			dayStats.highPriority = 0
+			dayStats.lowPriority = 0
+			dayStats.mediumPriority = 0
+			dayStats.accolade = ""
 		}
 		persistentContainer.saveContext()
 		

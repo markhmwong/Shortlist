@@ -26,7 +26,6 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
         navigationController.delegate = self
-
 		let viewModel = MainViewModel()
 		let vc = MainViewController(persistentContainer: persistentContainer, viewModel: viewModel)
 		
@@ -138,8 +137,9 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     }
     
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+		 print("didShow")
         guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
+       
         if navigationController.viewControllers.contains(fromViewController) {
             return
         }

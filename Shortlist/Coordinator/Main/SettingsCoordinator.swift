@@ -13,7 +13,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     
 	typealias DeletionClosure = () -> ()
 	
-	var rootViewController: SettingsViewController? = nil
+	weak var rootViewController: SettingsViewController? = nil
 	
     weak var parentCoordinator: MainCoordinator?
     
@@ -27,11 +27,11 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 
     // stats viewcontroller begin here
     func start(_ persistentContainer: PersistentContainer?) {
-        navigationController.delegate = self
         guard let persistentContainer = persistentContainer else {
             return
         }
-		
+        navigationController.delegate = self
+
 		let vm = SettingsViewModel()
 		let vc = SettingsViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: vm)
 		rootViewController = vc
@@ -108,7 +108,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
                 break
             }
         }
-    }
+	}
     
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }

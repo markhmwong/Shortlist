@@ -46,9 +46,16 @@ class DailyAccolades: NSObject {
 		// we want to avoid anything that may deter them from being productive
 		// rather we want to encourage them to keep going, so we'll leave these
 		// awards out if they haven't done a high priority task
-		guard let _stats = day?.dayToStats else { return }
+		guard let _stats = day?.dayToStats else {
+			awardList.append(AwardsList.Incomplete.TheUndecided)
+			return
+		}
 		if (!hasHighPriorityTaskBeenCompleted && (Double(_stats.totalCompleted) / Double(_stats.totalTasks)) != 1.0) {
 			resolveIncompleteTasks()
+		}
+		
+		if (awardList.isEmpty) {
+			awardList.append(AwardsList.Incomplete.TheUndecided)
 		}
 	}
 	
@@ -164,15 +171,16 @@ class DailyAccolades: NSObject {
 			}
 		}
 	}
-
-	func retrieveAwards() -> [Award] {
-		return awardList
-	}
 	
 	// Award is a typealias of type String
 	func evaluateFinalAward() -> Award {
 		let max = awardList.count
 		let num = Int.random(in: 0..<max)
 		return awardList[num]
+	}
+	
+	// unit tests
+	func retrieveAwards() -> [Award] {
+		return awardList
 	}
 }
