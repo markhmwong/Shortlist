@@ -15,7 +15,7 @@ class MainInputView: UIView {
 		case CategoryName
 	}
 		
-	var delegate: MainViewControllerProtocol?
+	unowned var delegate: MainViewControllerProtocol?
 	
 	private var priority: Int = Int(Priority.medium.rawValue)
 	
@@ -255,6 +255,10 @@ class MainInputView: UIView {
 			self.priorityButton.layer.backgroundColor = color.cgColor
 			self.priorityButton.setAttributedTitle(NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		}
+	}
+	
+	deinit {
+		print("input view deinit")
 	}
 }
 

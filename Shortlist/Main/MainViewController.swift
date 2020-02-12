@@ -11,7 +11,7 @@ import CoreData
 import WatchConnectivity
 import os
 
-protocol MainViewControllerProtocol {
+protocol MainViewControllerProtocol: AnyObject {
 	func reloadTableView()
 	func showCategory()
 	func showTimePicker()

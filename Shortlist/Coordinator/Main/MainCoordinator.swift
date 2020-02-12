@@ -9,13 +9,7 @@
 import UIKit
 import CoreData
 
-enum NavigationObserverKey: String {
-	case ReturnFromSettings = "ReturnToFromSettings"
-}
-
-protocol MainCoordinatorProtocol { }
-
-class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol {
+class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol, ObserverProtocol {
 	
 	var rootViewController: MainViewController?
 	
@@ -26,11 +20,14 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
     }
+	
+	func addNavigationObserver(_ observerKey: NavigationObserverKey) {
+		NotificationCenter.default.addObserver(self, selector: #selector(handleViewControllerDidAppear), name: Notification.Name(rawValue: observerKey.rawValue), object: nil)
+	}
     
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
-		NotificationCenter.default.addObserver(self, selector: #selector(handleViewControllerDidAppear), name: Notification.Name(rawValue: NavigationObserverKey.ReturnFromSettings.rawValue), object: nil)
-        navigationController.delegate = self
+		navigationController.delegate = self
 		let viewModel = MainViewModel()
 		let vc = MainViewController(persistentContainer: persistentContainer, viewModel: viewModel)
 		
@@ -53,6 +50,8 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     
     // add stats view and coordinator
     func showSettings(_ persistentContainer: PersistentContainer?) {
+		addNavigationObserver(NavigationObserverKey.ReturnFromSettings)
+		
         let child = SettingsCoordinator(navigationController: navigationController)
         child.parentCoordinator = self
         childCoordinators.append(child)
@@ -60,6 +59,8 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     }
 	
 	func showPreplan(_ persistentContainer: PersistentContainer?) {
+		addNavigationObserver(NavigationObserverKey.ReturnFromPreplan)
+		
 		let child = PreplanCoordinator(navigationController: navigationController)
 		child.parentCoordinator = self
 		childCoordinators.append(child)
@@ -153,13 +154,27 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
         }
     }
 	
+	// in the event that the main viewcontroller is the main focus
 	@objc func handleViewControllerDidAppear(_ notification: Notification) {
+		print(notification.name.rawValue)
 		
-		// may be use dict to identify which coordinator
-		if let c = notification.object as? SettingsCoordinator {
-			print(childCoordinators.count)
-			childDidFinish(c)
-			print(childCoordinators.count)
+		if let n = NavigationObserverKey.init(rawValue: notification.name.rawValue) {
+			
+			switch n {
+				case .ReturnFromSettings:
+					// may be use dict to identify which coordinator
+					if let c = notification.object as? SettingsCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+				case .ReturnFromPreplan:
+					if let c = notification.object as? PreplanCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+			}
 		}
 	}
 }

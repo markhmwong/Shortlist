@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 // Uses the Big List entity despite the name
-class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol {
+class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol, CleanupProtocol {
     
     weak var parentCoordinator: MainCoordinator?
 
@@ -22,6 +22,11 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
         self.navigationController = navigationController
     }
 	
+	// called from preplan view controller and notifies observer we have left the preplan view
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(NavigationObserverKey.ReturnFromPreplan.rawValue), object: self)
+	}
+	
 	func transparentBar(_ nav: UINavigationController) {
 		nav.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		nav.navigationBar.shadowImage = UIImage()
@@ -30,11 +35,15 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
     
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
+        guard let _persistentContainer = persistentContainer else {
+            return
+        }
+		
         navigationController.delegate = self
-        let viewModel = MainViewModel()
-		let vc = PreplanViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel)
+        let vm = MainViewModel()
+		let vc = PreplanViewController(persistentContainer: _persistentContainer, coordinator: self, viewModel: vm)
         let nav = UINavigationController(rootViewController: vc)
-		transparentBar(nav)
+//		transparentBar(nav)
 		navigationController.present(nav, animated: true, completion: nil)
     }
 	
@@ -55,7 +64,6 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
     func showAlertBox(_ message: String) {
         let alert = UIAlertController(title: "Hold up!", message: "\(message)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//        navigationController.present(alert, animated: true, completion: nil)
 		DispatchQueue.main.async {
 			self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
         }
@@ -70,7 +78,6 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
 	
     func getTopMostViewController() -> UIViewController? {
 		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
-//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
         
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
@@ -87,17 +94,17 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
         }
     }
     
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
-        if navigationController.viewControllers.contains(fromViewController) {
-            return
-        }
-        
-        if let statsViewController = fromViewController as? StatsViewController {
-            childDidFinish(statsViewController.coordinator!)
-        }
-    }
+//    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+//        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
+//
+//        if navigationController.viewControllers.contains(fromViewController) {
+//            return
+//        }
+//
+//        if let statsViewController = fromViewController as? StatsViewController {
+//            childDidFinish(statsViewController.coordinator!)
+//        }
+//    }
 }
 
 

@@ -154,7 +154,7 @@
 		4D9304A823A9A6650001EC3D /* EditTaskPriorityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9304A723A9A6650001EC3D /* EditTaskPriorityCell.swift */; };
 		4D9304AB23A9A8970001EC3D /* PriorityLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9304AA23A9A8970001EC3D /* PriorityLevel.swift */; };
 		4D953B64230A91910048C247 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B63230A91910048C247 /* MainCoordinator.swift */; };
-		4D953B66230A91AD0048C247 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B65230A91AD0048C247 /* Coordinator.swift */; };
+		4D953B66230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B65230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift */; };
 		4D953B68230A9DF90048C247 /* StatsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B67230A9DF90048C247 /* StatsCoordinator.swift */; };
 		4D953B6B230AA4500048C247 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B6A230AA4500048C247 /* StatsViewController.swift */; };
 		4DA50FBF22E75A8F0059A46F /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA50FBE22E75A8F0059A46F /* CloseButton.swift */; };
@@ -399,7 +399,7 @@
 		4D9304A723A9A6650001EC3D /* EditTaskPriorityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskPriorityCell.swift; sourceTree = "<group>"; };
 		4D9304AA23A9A8970001EC3D /* PriorityLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityLevel.swift; sourceTree = "<group>"; };
 		4D953B63230A91910048C247 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
-		4D953B65230A91AD0048C247 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		4D953B65230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocolsAndEnums.swift; sourceTree = "<group>"; };
 		4D953B67230A9DF90048C247 /* StatsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCoordinator.swift; sourceTree = "<group>"; };
 		4D953B6A230AA4500048C247 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		4DA50FBE22E75A8F0059A46F /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -996,8 +996,8 @@
 		4D953B62230A91720048C247 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				4D953B65230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift */,
 				4D60932523C36B5500A7936E /* OnboardingCoordinator.swift */,
-				4D953B65230A91AD0048C247 /* Coordinator.swift */,
 				4D6D53DF2337B1AD00FA38B4 /* EditTaskCoordinator.swift */,
 				4D6E753C2356388E00C67B8F /* CategoryListCoordinator.swift */,
 				4D6E7561236045A100C67B8F /* Main */,
@@ -1620,7 +1620,7 @@
 				4D6EE35623A87F6F001BBC95 /* StatsCategoryIncomplete+CoreDataProperties.swift in Sources */,
 				4D6E756C2360940500C67B8F /* CategoryList+CoreDataProperties.swift in Sources */,
 				4D6E7556235994F200C67B8F /* CategoryCell.swift in Sources */,
-				4D953B66230A91AD0048C247 /* Coordinator.swift in Sources */,
+				4D953B66230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift in Sources */,
 				4D56220223E56AE2003F7309 /* FirebaseService.swift in Sources */,
 				4DED156923616A2D00FC903E /* SelectCategory+UITableView.swift in Sources */,
 				4D5BA10122E5710000B9B487 /* TaskButton.swift in Sources */,

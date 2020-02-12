@@ -8,6 +8,21 @@
 
 import UIKit
 
+enum NavigationObserverKey: String {
+	case ReturnFromSettings = "Settings"
+	case ReturnFromPreplan = "Preplan"
+}
+
+protocol MainCoordinatorProtocol { }
+
+protocol ObserverProtocol {
+	func addNavigationObserver(_ observerKey: NavigationObserverKey)
+}
+
+protocol CleanupProtocol {
+	func cleanUpChildCoordinator()
+}
+
 protocol Coordinator: AnyObject {
     var childCoordinators: [Coordinator] { get set }
     var navigationController: UINavigationController { get set }

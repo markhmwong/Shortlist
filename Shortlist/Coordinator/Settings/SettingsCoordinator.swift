@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
     
 	typealias DeletionClosure = () -> ()
 	
@@ -27,13 +27,13 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 
     // stats viewcontroller begin here
     func start(_ persistentContainer: PersistentContainer?) {
-        guard let persistentContainer = persistentContainer else {
+        guard let _persistentContainer = persistentContainer else {
             return
         }
         navigationController.delegate = self
 
 		let vm = SettingsViewModel()
-		let vc = SettingsViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: vm)
+		let vc = SettingsViewController(persistentContainer: _persistentContainer, coordinator: self, viewModel: vm)
 		rootViewController = vc
         let nav = UINavigationController(rootViewController: vc)
         navigationController.present(nav, animated: true, completion: nil)
@@ -91,7 +91,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 		}
 	}
 	
-	func cleanChildCoordinator() {
+	func cleanUpChildCoordinator() {
 		NotificationCenter.default.post(name: Notification.Name(NavigationObserverKey.ReturnFromSettings.rawValue), object: self)
 	}
 	

@@ -163,7 +163,7 @@ class SettingsViewController: UIViewController {
 	}
 	
 	deinit {
-		coordinator?.cleanChildCoordinator()
+		coordinator?.cleanUpChildCoordinator()
 	}
 	
 }

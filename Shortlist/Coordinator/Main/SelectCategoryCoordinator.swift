@@ -36,15 +36,30 @@ class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDe
 		let viewModel = SelectCategoryViewModel()
 		let vc = SelectCategoryViewController(persistentContainer, coordinator: self, viewModel: viewModel, mainViewController: mainViewController)
 		let nav = UINavigationController(rootViewController: vc)
-		navigationController.present(nav, animated: true, completion: nil)
+		navigationController.pushViewController(vc, animated: true)
+//		navigationController.present(nav, animated: true, completion: nil)
+//		DispatchQueue.main.async {
+//			self.getTopMostViewController()?.present(nav, animated: true, completion: nil)
+//        }
     }
 	
 	func dimiss(_ persistentContainer: PersistentContainer?) {
 		//get mainviewcontroller delegate
-		navigationController.dismiss(animated: true) {
-			self.mainViewController.updateCategory()
-		}
+		self.mainViewController.updateCategory()
+		navigationController.popViewController(animated: true)
+//		navigationController.dismiss(animated: true) {
+//
+//		}
 	}
+	
+    func getTopMostViewController() -> UIViewController? {
+		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
+        
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
+    }
     
     func childDidFinish(_ child: Coordinator) {
         for (index, coordinator) in childCoordinators.enumerated() {

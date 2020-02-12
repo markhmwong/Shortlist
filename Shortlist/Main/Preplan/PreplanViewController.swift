@@ -30,15 +30,15 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 		return view
 	}()
 	
-	var bottomConstraint: NSLayoutConstraint?
+	var viewModel: MainViewModel? = nil
+	
+	weak var bottomConstraint: NSLayoutConstraint? = nil
     
-	var pickerViewBottomConstraint: NSLayoutConstraint?
-	
-	var viewModel: MainViewModel?
+	weak var pickerViewBottomConstraint: NSLayoutConstraint? = nil
 		
-	weak var persistentContainer: PersistentContainer?
+	weak var persistentContainer: PersistentContainer? = nil
 	
-	weak var coordinator: PreplanCoordinator?
+	weak var coordinator: PreplanCoordinator? = nil
 	
 	private lazy var mainInputView: MainInputView = {
 		let view = MainInputView(delegate: self)
@@ -88,6 +88,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 		self.coordinator = coordinator
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
+		
 	}
 	
 	required init?(coder: NSCoder) {
@@ -96,7 +97,8 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		guard let _viewModel = viewModel else { return }
+
+		guard let _viewModel = self.viewModel else { return }
 		view.backgroundColor = .black
 		title = "Preplan"
         
@@ -192,23 +194,14 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 	@objc
 	func handleAddButton() {
 		guard let vm = viewModel else { return }
-//		guard let day = vm.dayEntity else { return }
 		vm.category = "Uncategorized"
 		self.focusOnNewTask()
-		
-//		if (day.totalTasks < day.taskLimit) {
-//			//        syncWatch()
-//			self.focusOnNewTask()
-//		} else {
-//			// show alert todo
-//			coordinator?.showAlertBox("Over the Limit")
-//		}
 	}
 	
 	func closeTimePicker() {
 		guard let vm = viewModel else { return }
 		pickerViewBottomConstraint?.constant = vm.keyboardSize.height
-		UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut], animations: {
+		UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut], animations: { [unowned self] in
 			self.view.layoutIfNeeded()
 			self.focusOnNewTask()
 		}) { (complete) in
@@ -242,7 +235,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 					bottomConstraint?.constant = 0
 				}
 				
-				UIView.animate(withDuration: 0.0, delay: 0.0, options: .curveEaseInOut, animations: {
+				UIView.animate(withDuration: 0.0, delay: 0.0, options: .curveEaseInOut, animations: { [unowned self] in
 					self.view.layoutIfNeeded()
 				}) { (completed) in
 					
@@ -319,9 +312,6 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 			}
 			persistentContainer.saveContext()
 		}
-
-		
-
 	}
 	
 	func showCategory() {
@@ -336,6 +326,11 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 		pickerViewContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: vm.keyboardSize.height))
 		pickerViewBottomConstraint = NSLayoutConstraint(item: pickerViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
 		view.addConstraint(pickerViewBottomConstraint!)
+	}
+	
+	deinit {
+		print("deinit")
+		coordinator?.cleanUpChildCoordinator()
 	}
 }
 
@@ -361,6 +356,8 @@ extension PreplanViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
     }
+	
+
 }
 
 extension PreplanViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
