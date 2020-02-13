@@ -18,23 +18,11 @@ extension Day {
     }
 
     @NSManaged public var createdAt: NSDate?
-    // Total Task limit for the day
-//    @NSManaged public var taskLimit: Int16
-//    @NSManaged public var lowPriorityLimit: Int16
-//    @NSManaged public var mediumPriorityLimit: Int16
-//    @NSManaged public var highPriorityLimit: Int16
 
     @NSManaged public var year: Int16
     @NSManaged public var month: Int16
-    
     // Represents the date of the month not the day of the week
     @NSManaged public var day: Int16
-    
-    // Total tasks the user has completed
-//    @NSManaged public var totalCompleted: Int16
-    
-    // Total tasks whether they are complete or incomplete
-//    @NSManaged public var totalTasks: Int16
     
     @NSManaged public var dayToTask: NSSet?
 //    @NSManaged public var accolade: String?

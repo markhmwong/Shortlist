@@ -26,12 +26,7 @@
         <attribute name="accolade" optional="YES" attributeType="String"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="day" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="highPriorityLimit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="lowPriorityLimit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="mediumPriorityLimit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="month" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="totalCompleted" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="totalTasks" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="dayToStats" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DayStats" inverseName="statsToDay" inverseEntity="DayStats"/>
         <relationship name="dayToTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="taskToDay" inverseEntity="Task"/>
@@ -86,7 +81,7 @@
         <element name="BackLog" positionX="-168.37109375" positionY="231.5625" width="128" height="88"/>
         <element name="BigListTask" positionX="-461.171875" positionY="129.3984375" width="128" height="223"/>
         <element name="CategoryList" positionX="6.55078125" positionY="-177.7265625" width="128" height="58"/>
-        <element name="Day" positionX="6.375" positionY="-64.6953125" width="128" height="223"/>
+        <element name="Day" positionX="6.375" positionY="-64.6953125" width="128" height="148"/>
         <element name="DayStats" positionX="8.55859375" positionY="232.4140625" width="128" height="148"/>
         <element name="Stats" positionX="-365.7421875" positionY="-178.22265625" width="128" height="193"/>
         <element name="StatsCategoryComplete" positionX="-166.3984375" positionY="-166.56640625" width="128" height="88"/>
