@@ -11,6 +11,8 @@ import UIKit
 enum NavigationObserverKey: String {
 	case ReturnFromSettings = "Settings"
 	case ReturnFromPreplan = "Preplan"
+	case ReturnFromBackLog = "BackLog"
+	case ReturnFromReview = "Review"
 }
 
 protocol MainCoordinatorProtocol { }

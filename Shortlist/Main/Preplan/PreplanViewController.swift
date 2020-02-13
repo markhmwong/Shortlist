@@ -32,11 +32,11 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 	
 	var viewModel: MainViewModel? = nil
 	
-	weak var bottomConstraint: NSLayoutConstraint? = nil
+	private var bottomConstraint: NSLayoutConstraint? = nil
     
-	weak var pickerViewBottomConstraint: NSLayoutConstraint? = nil
+	private var pickerViewBottomConstraint: NSLayoutConstraint? = nil
 		
-	weak var persistentContainer: PersistentContainer? = nil
+	private var persistentContainer: PersistentContainer? = nil
 	
 	weak var coordinator: PreplanCoordinator? = nil
 	
@@ -329,7 +329,6 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 	}
 	
 	deinit {
-		print("deinit")
 		coordinator?.cleanUpChildCoordinator()
 	}
 }

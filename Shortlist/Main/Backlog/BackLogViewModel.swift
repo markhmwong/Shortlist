@@ -13,19 +13,19 @@ class BackLogViewModel {
 	
 	let cellId = "BackLogCellId"
 		
-	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath, data: BackLog) -> CategoryCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellId, for: indexPath) as! CategoryCell
+	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath, data: BackLog) -> BackLogCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellId, for: indexPath) as! BackLogCell
 		cell.textLabel?.text = data.name
 		cell.name = data.name
 		return cell
 	}
 	
 	func registerTableViewCell(_ tableView: UITableView) {
-		tableView.register(CategoryCell.self, forCellReuseIdentifier: cellId)
+		tableView.register(BackLogCell.self, forCellReuseIdentifier: cellId)
 	}
 	
-	func tableViewErrorCell(_ tableView: UITableView, indexPath: IndexPath) -> CategoryCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellId, for: indexPath) as! CategoryCell
+	func tableViewErrorCell(_ tableView: UITableView, indexPath: IndexPath) -> BackLogCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellId, for: indexPath) as! BackLogCell
 		cell.textLabel?.text = "Unknown Cell"
 		return cell
 	}

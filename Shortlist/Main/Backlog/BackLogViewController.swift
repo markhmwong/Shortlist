@@ -41,9 +41,9 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 	
 	var viewModel: BackLogViewModel?
 	
-	var coordinator: CategoryListCoordinator?
+	var coordinator: BackLogCoordinator?
 	
-	var persistentContainer: PersistentContainer?
+	private var persistentContainer: PersistentContainer?
 	
 	var bottomConstraint: NSLayoutConstraint?
 	
@@ -59,7 +59,7 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 	}
 	
-	init(persistentContainer: PersistentContainer?, coordinator: CategoryListCoordinator, viewModel: BackLogViewModel) {
+	init(persistentContainer: PersistentContainer?, coordinator: BackLogCoordinator, viewModel: BackLogViewModel) {
 		super.init(nibName: nil, bundle: nil)
 		self.viewModel = viewModel
 		self.coordinator = coordinator
@@ -78,7 +78,9 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 		keyboardNotifications()
 		prepareNavigationItem()
 		
-		viewModel?.registerTableViewCell(tableView)
+		guard let _viewModel = viewModel else { return }
+		
+		_viewModel.registerTableViewCell(tableView)
 		
 		view.addSubview(tableView)
 		tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
@@ -141,6 +143,7 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 	
 	@objc
 	func handleClose() {
+		inputContainer.shutDownTimer()
 		coordinator?.dismiss()
 	}
 	
@@ -167,6 +170,11 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 				}
 			}
 		}
+	}
+	
+	deinit {
+		print("deinit")
+		coordinator?.cleanUpChildCoordinator()
 	}
 }
 
@@ -212,7 +220,7 @@ extension BackLogViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "delete") { (action, view, complete) in
 			
-			let cell = tableView.cellForRow(at: indexPath) as! CategoryCell
+			let cell = tableView.cellForRow(at: indexPath) as! BackLogCell
 			
 			guard let name = cell.name else {
 				// to do - couldn't delete

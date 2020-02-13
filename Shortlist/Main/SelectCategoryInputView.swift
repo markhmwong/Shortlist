@@ -12,7 +12,7 @@ class SelectCategoryInputView: UIView {
 	
 	private var timer: Timer? = nil
 	
-	private var delegate: CategoryInputViewProtocol?
+	private weak var delegate: CategoryInputViewProtocol?
 	
 	private let padding: CGFloat = 7.0
 		
@@ -125,7 +125,11 @@ class SelectCategoryInputView: UIView {
 	
 	@objc
 	func handlePostCategory() {
-		guard let delegate = delegate else { return }
+		guard let delegate = delegate else {
+			shutDownTimer()
+			return
+		}
+		shutDownTimer()
 		//check if category exists
 		if (!categoryExists) {
 			delegate.addCategory()
@@ -134,9 +138,14 @@ class SelectCategoryInputView: UIView {
 		}
 	}
 	
+	func shutDownTimer() {
+		timer?.invalidate()
+		timer = nil
+	}
+	
 	func liveCategoryCheck(_ textView: UITextView) {
 		timer?.invalidate()
-		timer = Timer.init(timeInterval: 0.5, target: self, selector: #selector(checkCategory), userInfo: ["categoryText" : textView], repeats: false)
+		timer = Timer.init(timeInterval: 0.7, target: self, selector: #selector(checkCategory), userInfo: ["categoryText" : textView], repeats: false)
 		timer?.fire()
 	}
 	

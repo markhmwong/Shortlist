@@ -12,7 +12,7 @@ protocol CellProtocol {
 	func setupCellLayout()
 }
 
-class CategoryCell: UITableViewCell, CellProtocol {
+class BackLogCell: UITableViewCell, CellProtocol {
 	
 	var name: String? = "Unknown"
 	

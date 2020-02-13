@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol CategoryInputViewProtocol {
+protocol CategoryInputViewProtocol: AnyObject {
 	var bottomConstraint: NSLayoutConstraint? { get set }
 	
 	func addCategory()

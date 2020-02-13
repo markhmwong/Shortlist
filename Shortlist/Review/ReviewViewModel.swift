@@ -16,6 +16,8 @@ enum PriorityLimitThreshold {
 
 class ReviewViewModel {
     
+	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
+	
 	typealias PriorityType = Int
 	
 	private var priorityCount: [PriorityType : Int] = [:]
@@ -32,7 +34,7 @@ class ReviewViewModel {
 	
     var buttonArr: [StandardButton] = []
 	
-    let reviewCellId = "reviewCellId"
+    private let reviewCellId = "reviewCellId"
     
 	// set's up the dataSource when yesterday's day object is set
     var dayEntity: Day? = nil {
@@ -44,14 +46,12 @@ class ReviewViewModel {
             }
             
 			reviewTaskSet = sortTasks(dayToTask as? Set<Task>)
-			
-//            taskDataSource = dayToTask.allObjects as! [Task]
-        }
+			}
     }
     
     var reviewTaskSet: [Task]? = []
     
-    let taskSize: Int = 5
+    private let taskSize: Int = 5
     
     var incompleteTasks: Int {
         var count = 0

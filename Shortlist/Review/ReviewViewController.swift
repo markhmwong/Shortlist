@@ -18,7 +18,7 @@ class ReviewViewController: UIViewController {
 
     private var viewModel: ReviewViewModel?
     
-    var reviewCoordinator: ReviewCoordinator?
+    private var coordinator: ReviewCoordinator?
     	
     fileprivate lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
         // Create Fetch Request
@@ -33,7 +33,7 @@ class ReviewViewController: UIViewController {
         return fetchedResultsController
     }()
     
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let view = UITableView()
         view.delegate = self
         view.dataSource = self
@@ -45,7 +45,7 @@ class ReviewViewController: UIViewController {
         return view
     }()
     
-    lazy var doneButton: UIButton = {
+    private lazy var doneButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = Theme.Button.cornerRadius
@@ -58,14 +58,13 @@ class ReviewViewController: UIViewController {
 	
 	// determines whether the review was brought up automatically or manually displayed via the settings menu. This is also used to force an update to the global task count as we only want to update the value once per day
 	private var automatedDisplay: Bool = false
-	
-	private let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
+
     
 	init(persistentContainer: PersistentContainer, coordinator: ReviewCoordinator, viewModel: ReviewViewModel, automatedDisplay: Bool) {
         super.init(nibName: nil, bundle: nil)
         self.persistentContainer = persistentContainer
         self.viewModel = viewModel
-        self.reviewCoordinator = coordinator
+        self.coordinator = coordinator
 		self.automatedDisplay = automatedDisplay
     }
     
@@ -179,7 +178,7 @@ class ReviewViewController: UIViewController {
 		pc.saveContext()
 		
 		//dismiss view
-		reviewCoordinator?.dimissFromMainViewController(persistentContainer)
+		coordinator?.dimissFromMainViewController(persistentContainer)
     }
 	
     func grabTipsProducts() {
@@ -200,14 +199,15 @@ class ReviewViewController: UIViewController {
     }
 	
     func updateTipButtons() {
-        guard let tipProductArr = self.viewModel?.tipProducts else { return } //tips are sorted with didSet observer
+		guard let _viewModel = viewModel else { return }
+        guard let tipProductArr = _viewModel.tipProducts else { return } //tips are sorted with didSet observer
         let buttonArr = viewModel?.buttonArr
         if (buttonArr!.count == tipProductArr.count) {
             for (index, button) in buttonArr!.enumerated() {
                 SettingsHeader.priceFormatter.locale = tipProductArr[index].priceLocale
                 let price = SettingsHeader.priceFormatter.string(from: tipProductArr[index].price)
                 DispatchQueue.main.async {
-                    button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle) \(price!)", attributes: self.attributes), for: .normal)
+                    button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle) \(price!)", attributes: _viewModel.attributes), for: .normal)
                 }
 
                 button.product = tipProductArr[index]
@@ -231,6 +231,10 @@ class ReviewViewController: UIViewController {
 			copiedTask.create(context: pc.viewContext, idNum: Int(task.id), taskName: task.name ?? "Error", categoryName: task.category, createdAt: task.createdAt! as Date, reminderDate: resetReminder, priority: Int(task.priority))
 			today.addToDayToTask(copiedTask)
 		}
+	}
+	
+	deinit {
+		coordinator?.cleanUpChildCoordinator()
 	}
 }
 
@@ -300,7 +304,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 		
 		switch hasLimitExceeded {
 			case .Exceeded:
-				reviewCoordinator?.showAlertBox("Please update your limit from [Settings -> Priority Limit] or remove a \(status) priority task from today's schedule.")
+				coordinator?.showAlertBox("Please update your limit from [Settings -> Priority Limit] or remove a \(status) priority task from today's schedule.")
 			case .WithinLimit:
 				cell.selectedState = !cell.selectedState
 				persistentContainer?.saveContext() // save on done

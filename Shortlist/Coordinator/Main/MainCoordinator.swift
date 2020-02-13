@@ -24,6 +24,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	func addNavigationObserver(_ observerKey: NavigationObserverKey) {
 		NotificationCenter.default.addObserver(self, selector: #selector(handleViewControllerDidAppear), name: Notification.Name(rawValue: observerKey.rawValue), object: nil)
 	}
+	
+	func removeNavigationObserver(_ observerKey: NavigationObserverKey) {
+		NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: observerKey.rawValue), object: nil)
+	}
     
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
@@ -68,13 +72,16 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	}
 	
 	func showBacklog(_ persistentContainer: PersistentContainer?) {
-        let child = CategoryListCoordinator(navigationController: navigationController)
+		addNavigationObserver(NavigationObserverKey.ReturnFromBackLog)
+
+        let child = BackLogCoordinator(navigationController: navigationController)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
 	}
     
 	func showReview(_ persistentContainer: PersistentContainer?, automated: Bool) {
+		addNavigationObserver(NavigationObserverKey.ReturnFromReview)
 		let child = ReviewCoordinator(navigationController: navigationController, mainViewController: rootViewController, automated: automated)
         child.parentCoordinator = self
         childCoordinators.append(child)
@@ -156,10 +163,8 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	
 	// in the event that the main viewcontroller is the main focus
 	@objc func handleViewControllerDidAppear(_ notification: Notification) {
-		print(notification.name.rawValue)
-		
 		if let n = NavigationObserverKey.init(rawValue: notification.name.rawValue) {
-			
+			removeNavigationObserver(n)
 			switch n {
 				case .ReturnFromSettings:
 					// may be use dict to identify which coordinator
@@ -170,6 +175,18 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 					}
 				case .ReturnFromPreplan:
 					if let c = notification.object as? PreplanCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+				case .ReturnFromBackLog:
+					if let c = notification.object as? BackLogCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+				case .ReturnFromReview:
+					if let c = notification.object as? ReviewCoordinator {
 						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
 						print("childCoordinator list \(childCoordinators.count)")

@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 // Uses the Big List entity despite the name
-class CategoryListCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class BackLogCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
     weak var parentCoordinator: MainCoordinator?
 
@@ -21,6 +21,11 @@ class CategoryListCoordinator: NSObject, Coordinator, UINavigationControllerDele
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
     }
+	
+	// called from preplan view controller and notifies observer we have left the preplan view
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(NavigationObserverKey.ReturnFromBackLog.rawValue), object: self)
+	}
     
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
@@ -69,16 +74,16 @@ class CategoryListCoordinator: NSObject, Coordinator, UINavigationControllerDele
         }
     }
     
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
-        if navigationController.viewControllers.contains(fromViewController) {
-            return
-        }
-        
-        if let statsViewController = fromViewController as? StatsViewController {
-            childDidFinish(statsViewController.coordinator!)
-        }
-    }
+//    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+//        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
+//
+//        if navigationController.viewControllers.contains(fromViewController) {
+//            return
+//        }
+//
+//        if let statsViewController = fromViewController as? StatsViewController {
+//            childDidFinish(statsViewController.coordinator!)
+//        }
+//    }
 }
 

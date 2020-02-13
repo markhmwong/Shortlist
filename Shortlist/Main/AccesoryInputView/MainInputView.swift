@@ -15,7 +15,7 @@ class MainInputView: UIView {
 		case CategoryName
 	}
 		
-	unowned var delegate: MainViewControllerProtocol?
+	weak var delegate: MainViewControllerProtocol?
 	
 	private var priority: Int = Int(Priority.medium.rawValue)
 	

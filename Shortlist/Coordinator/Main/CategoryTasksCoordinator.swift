@@ -12,7 +12,7 @@ import UIKit
 
 class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
-    weak var parentCoordinator: CategoryListCoordinator?
+    weak var parentCoordinator: BackLogCoordinator?
     
     var childCoordinators: [Coordinator] = [Coordinator]()
     
@@ -37,7 +37,6 @@ class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDel
 		
 		let viewModel = CategoryTaskListViewModel(categoryName: categoryName)
 		let vc = BackLogTaskListViewController(persistentContainer: persistentContainer, viewModel: viewModel, coordinator: self)
-//		let nav = UINavigationController(rootViewController: vc)
 		parentViewController?.navigationController?.pushViewController(vc, animated: true)
     }
     

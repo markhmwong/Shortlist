@@ -111,11 +111,11 @@
 		4D6DA23E2330C09E006B1663 /* ReviewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6DA23D2330C09E006B1663 /* ReviewHeader.swift */; };
 		4D6E7539235634B300C67B8F /* BackLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E7538235634B300C67B8F /* BackLogViewController.swift */; };
 		4D6E753B235634C100C67B8F /* BackLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E753A235634C100C67B8F /* BackLogViewModel.swift */; };
-		4D6E753D2356388E00C67B8F /* CategoryListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E753C2356388E00C67B8F /* CategoryListCoordinator.swift */; };
+		4D6E753D2356388E00C67B8F /* BackLogCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E753C2356388E00C67B8F /* BackLogCoordinator.swift */; };
 		4D6E754F2358264C00C67B8F /* CategoryList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E75492358264C00C67B8F /* CategoryList+CoreDataClass.swift */; };
 		4D6E75512358264C00C67B8F /* BigListTask+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E754B2358264C00C67B8F /* BigListTask+CoreDataClass.swift */; };
 		4D6E75522358264C00C67B8F /* BigListTask+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E754C2358264C00C67B8F /* BigListTask+CoreDataProperties.swift */; };
-		4D6E7556235994F200C67B8F /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E7555235994F200C67B8F /* CategoryCell.swift */; };
+		4D6E7556235994F200C67B8F /* BackLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E7555235994F200C67B8F /* BackLogCell.swift */; };
 		4D6E755823599C9A00C67B8F /* CategoryTasksCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E755723599C9A00C67B8F /* CategoryTasksCoordinator.swift */; };
 		4D6E755A2359A18E00C67B8F /* CategoryTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E75592359A18E00C67B8F /* CategoryTaskListViewController.swift */; };
 		4D6E755D2359C59E00C67B8F /* BackLog+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E755B2359C59E00C67B8F /* BackLog+CoreDataClass.swift */; };
@@ -355,12 +355,12 @@
 		4D6DA23D2330C09E006B1663 /* ReviewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewHeader.swift; sourceTree = "<group>"; };
 		4D6E7538235634B300C67B8F /* BackLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackLogViewController.swift; sourceTree = "<group>"; };
 		4D6E753A235634C100C67B8F /* BackLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackLogViewModel.swift; sourceTree = "<group>"; };
-		4D6E753C2356388E00C67B8F /* CategoryListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListCoordinator.swift; sourceTree = "<group>"; };
+		4D6E753C2356388E00C67B8F /* BackLogCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackLogCoordinator.swift; sourceTree = "<group>"; };
 		4D6E753E2357699400C67B8F /* FiveModel 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 7.xcdatamodel"; sourceTree = "<group>"; };
 		4D6E75492358264C00C67B8F /* CategoryList+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryList+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D6E754B2358264C00C67B8F /* BigListTask+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BigListTask+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D6E754C2358264C00C67B8F /* BigListTask+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BigListTask+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		4D6E7555235994F200C67B8F /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		4D6E7555235994F200C67B8F /* BackLogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackLogCell.swift; sourceTree = "<group>"; };
 		4D6E755723599C9A00C67B8F /* CategoryTasksCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTasksCoordinator.swift; sourceTree = "<group>"; };
 		4D6E75592359A18E00C67B8F /* CategoryTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTaskListViewController.swift; sourceTree = "<group>"; };
 		4D6E755B2359C59E00C67B8F /* BackLog+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BackLog+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -908,7 +908,7 @@
 			isa = PBXGroup;
 			children = (
 				4D6E7538235634B300C67B8F /* BackLogViewController.swift */,
-				4D6E7555235994F200C67B8F /* CategoryCell.swift */,
+				4D6E7555235994F200C67B8F /* BackLogCell.swift */,
 				4D6E753A235634C100C67B8F /* BackLogViewModel.swift */,
 				4D6E75592359A18E00C67B8F /* CategoryTaskListViewController.swift */,
 				4D242C5523EEB45C00ED1C42 /* BackLogTaskCell.swift */,
@@ -999,7 +999,7 @@
 				4D953B65230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift */,
 				4D60932523C36B5500A7936E /* OnboardingCoordinator.swift */,
 				4D6D53DF2337B1AD00FA38B4 /* EditTaskCoordinator.swift */,
-				4D6E753C2356388E00C67B8F /* CategoryListCoordinator.swift */,
+				4D6E753C2356388E00C67B8F /* BackLogCoordinator.swift */,
 				4D6E7561236045A100C67B8F /* Main */,
 				4DAFBC8C2320938600A6F189 /* Settings */,
 			);
@@ -1036,13 +1036,6 @@
 			path = Preplan;
 			sourceTree = "<group>";
 		};
-		4DA5D0DD23AF675F00373F6F /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Calendar;
-			sourceTree = "<group>";
-		};
 		4DAFBC892320915000A6F189 /* TaskLimit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1067,7 +1060,6 @@
 		4DC0DE3622E087E300B2B8D4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				4DA5D0DD23AF675F00373F6F /* Calendar */,
 				4DA5D0DC23AF670A00373F6F /* Preplan */,
 				4D6E7537235633F200C67B8F /* Backlog */,
 				4D9304A923A9A8850001EC3D /* Priority */,
@@ -1560,7 +1552,7 @@
 				4D4F0C92231FD16400E71BE9 /* SettingsViewController.swift in Sources */,
 				4DAFBC8E232093A200A6F189 /* TaskLimitCoordinator.swift in Sources */,
 				4D71A3E822E3757800FEFB36 /* Task+CoreDataProperties.swift in Sources */,
-				4D6E753D2356388E00C67B8F /* CategoryListCoordinator.swift in Sources */,
+				4D6E753D2356388E00C67B8F /* BackLogCoordinator.swift in Sources */,
 				4D377CFA237D33C50026FB3A /* SettingsCellFactory.swift in Sources */,
 				4D242C4023EBE38C00ED1C42 /* ProductivityTips.swift in Sources */,
 				4DD39ABF23B0AFB50009495B /* PriorityMarker.swift in Sources */,
@@ -1619,7 +1611,7 @@
 				4DAFBC8B2320917300A6F189 /* TaskLimitViewController.swift in Sources */,
 				4D6EE35623A87F6F001BBC95 /* StatsCategoryIncomplete+CoreDataProperties.swift in Sources */,
 				4D6E756C2360940500C67B8F /* CategoryList+CoreDataProperties.swift in Sources */,
-				4D6E7556235994F200C67B8F /* CategoryCell.swift in Sources */,
+				4D6E7556235994F200C67B8F /* BackLogCell.swift in Sources */,
 				4D953B66230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift in Sources */,
 				4D56220223E56AE2003F7309 /* FirebaseService.swift in Sources */,
 				4DED156923616A2D00FC903E /* SelectCategory+UITableView.swift in Sources */,

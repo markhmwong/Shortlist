@@ -26,6 +26,10 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
 		self.mainViewController = mainViewController
 		self.automated = automated
     }
+	
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(NavigationObserverKey.ReturnFromReview.rawValue), object: self)
+	}
     
     // stats viewcontroller begins here
     func start(_ persistentContainer: PersistentContainer?) {
