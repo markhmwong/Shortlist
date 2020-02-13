@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
     
     var parentCoordinator: MainCoordinatorProtocol?
     
@@ -62,12 +62,7 @@ class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDe
         }
     }
     
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
-        if navigationController.viewControllers.contains(fromViewController) {
-            return
-        }
-        
-    }
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(MainNavigationObserverKey.ReturnFromCategorySelection.rawValue), object: self)
+	}
 }

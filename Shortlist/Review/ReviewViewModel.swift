@@ -158,18 +158,18 @@ class ReviewViewModel {
 		let today: Date = Calendar.current.today()
 		let todayDayObj: Day = _pc.fetchDayEntity(forDate: today) as! Day
 		
-		if let priority = Priority.init(rawValue: _task.priority) {
+		if let priority = Priority.init(rawValue: _task.priority), let stats = todayDayObj.dayToStats {
 			switch priority {
 				case Priority.high:
-					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.highPriorityLimit) {
+					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= Int(stats.highPriority)) {
 						return (.Exceeded, "High")
 					}
 				case Priority.medium:
-					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.mediumPriorityLimit) {
+					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= Int(stats.mediumPriority)) {
 						return (.Exceeded, "Medium")
 					}
 				case Priority.low:
-					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= todayDayObj.lowPriorityLimit) {
+					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= Int(stats.lowPriority)) {
 						return (.Exceeded, "Low")
 					}
 				case Priority.none:

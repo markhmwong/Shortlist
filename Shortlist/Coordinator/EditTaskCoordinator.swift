@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
     
     weak var parentCoordinator: MainCoordinator?
     
@@ -74,7 +74,6 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 	
     func getTopMostViewController() -> UIViewController? {
 		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
-//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
 
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
@@ -90,4 +89,8 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         }
         
     }
+	
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(MainNavigationObserverKey.ReturnFromEditing.rawValue), object: self)
+	}
 }

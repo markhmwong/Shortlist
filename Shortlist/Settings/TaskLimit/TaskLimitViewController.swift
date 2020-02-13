@@ -63,6 +63,11 @@ class TaskLimitViewController: UIViewController {
 		coordinator?.dismiss()
 		_pvc.reloadData()
     }
+	
+	deinit {
+		print("task limit deinit")
+		coordinator?.cleanUpChildCoordinator()
+	}
 }
 
 extension TaskLimitViewController: UITableViewDelegate, UITableViewDataSource {

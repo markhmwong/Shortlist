@@ -63,6 +63,9 @@ class OnboardingViewController: UIViewController {
 		collectionView.scrollToItem(at: IndexPath(item: pageControl.currentPage, section: 0), at: .centeredHorizontally, animated: true)
 	}
 	
+	deinit {
+		coordinator?.cleanUpChildCoordinator()
+	}
 }
 
 extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -95,4 +98,6 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
 		
 		return _viewModel.cellForCollectionView(collectionView, indexPath: indexPath, coordinator: coordinator ?? nil)
 	}
+	
+
 }

@@ -123,6 +123,11 @@ class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
 			//
 		})
 	}
+	
+	deinit {
+		print("deinit edittask")
+		coordinator?.cleanUpChildCoordinator()
+	}
 }
 
 extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {

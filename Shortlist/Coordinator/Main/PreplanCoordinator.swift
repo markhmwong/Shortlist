@@ -22,10 +22,7 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
         self.navigationController = navigationController
     }
 	
-	// called from preplan view controller and notifies observer we have left the preplan view
-	func cleanUpChildCoordinator() {
-		NotificationCenter.default.post(name: Notification.Name(NavigationObserverKey.ReturnFromPreplan.rawValue), object: self)
-	}
+
 	
 	func transparentBar(_ nav: UINavigationController) {
 		nav.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -94,17 +91,10 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
         }
     }
     
-//    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-//        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-//
-//        if navigationController.viewControllers.contains(fromViewController) {
-//            return
-//        }
-//
-//        if let statsViewController = fromViewController as? StatsViewController {
-//            childDidFinish(statsViewController.coordinator!)
-//        }
-//    }
+// called from preplan view controller and notifies observer we have left the preplan view
+func cleanUpChildCoordinator() {
+	NotificationCenter.default.post(name: Notification.Name(MainNavigationObserverKey.ReturnFromPreplan.rawValue), object: self)
+}
 }
 
 

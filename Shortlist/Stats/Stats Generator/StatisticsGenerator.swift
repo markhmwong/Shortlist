@@ -37,21 +37,22 @@ class StatisticsGenerator: NSObject {
         }
         
         for day in dayArray {
-			let limit = day.highPriorityLimit + day.mediumPriorityLimit + day.lowPriorityLimit
-            taskLimit = mostAmountOfTasksForDay(currLimit: limit, newLimit: taskLimit)
-			day.dayToStats?.totalCompleted
-			totalCompletedForTimePeriod += day.dayToStats?.totalCompleted ?? 0
-			totalTasksForDay += day.dayToStats?.totalTasks ?? 0
-			incompleteTasks = (day.dayToStats?.totalTasks ?? 0) - (day.dayToStats?.totalCompleted ?? 0)
-            
-            let date = Calendar.current.dayOfWeek(date: day.createdAt! as Date)
-            guard let dayOfWeek = DayOfWeek(rawValue: Int16(date)) else {
-                fatalError("Day Type does not exist")
-            }
-            
-			let dayOverview: DayOverview = DayOverview(dayOfWeek: dayOfWeek, dayDate: Int(day.day), numberOfCompletedTasks: day.dayToStats?.totalCompleted ?? 0, incompleteTasks: incompleteTasks)
-            
-            convertedData[day.createdAt! as Date] = dayOverview
+			if let stats = day.dayToStats {
+				let limit = stats.highPriority + stats.mediumPriority + stats.lowPriority
+				taskLimit = mostAmountOfTasksForDay(currLimit: limit, newLimit: taskLimit)
+				totalCompletedForTimePeriod += stats.totalCompleted
+				totalTasksForDay += stats.totalTasks
+				incompleteTasks = (stats.totalTasks) - (stats.totalCompleted)
+				
+				let date = Calendar.current.dayOfWeek(date: day.createdAt! as Date)
+				guard let dayOfWeek = DayOfWeek(rawValue: Int16(date)) else {
+					fatalError("Day Type does not exist")
+				}
+				
+				let dayOverview: DayOverview = DayOverview(dayOfWeek: dayOfWeek, dayDate: Int(day.day), numberOfCompletedTasks: stats.totalCompleted, incompleteTasks: incompleteTasks)
+				
+				convertedData[day.createdAt! as Date] = dayOverview
+			}
         }
         meanTasksCompleted = meanTasks(Float(totalCompletedForTimePeriod), Float(dayArray.count))
         

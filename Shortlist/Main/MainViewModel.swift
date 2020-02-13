@@ -75,7 +75,6 @@ class MainViewModel {
 		var numberOfPriorityTasks = 0
 		for task in set {
 			if (priorityLevel == task.priority) {
-				
 				numberOfPriorityTasks = numberOfPriorityTasks + 1
 			}
 		}

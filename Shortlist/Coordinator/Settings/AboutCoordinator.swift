@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AboutCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class AboutCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
     
     weak var parentCoordinator: SettingsCoordinator?
     
@@ -37,7 +37,6 @@ class AboutCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
     func getTopMostViewController() -> UIViewController? {
 		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
-//        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
         
         while let presentedViewController = topMostViewController?.presentedViewController {
             topMostViewController = presentedViewController
@@ -54,12 +53,7 @@ class AboutCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         }
     }
     
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
-        if navigationController.viewControllers.contains(fromViewController) {
-            return
-        }
-        
-    }
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(SettingsNavigationObserverKey.ReturnFromInfo.rawValue), object: self)
+	}
 }

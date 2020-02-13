@@ -187,4 +187,9 @@ class StatsViewController: UIViewController {
 		guard let _coordinator = coordinator else { return }
 		_coordinator.dismiss()
     }
+	
+	deinit {
+		print("stats deinit")
+		coordinator?.cleanUpChildCoordinator()
+	}
 }

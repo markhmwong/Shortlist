@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
     
     weak var parentCoordinator: SettingsCoordinator?
     
@@ -55,12 +55,7 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         return topMostViewController
     }
     
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
-        if navigationController.viewControllers.contains(fromViewController) {
-            return
-        }
-        
-    }
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(SettingsNavigationObserverKey.ReturnFromStats.rawValue), object: self)
+	}
 }

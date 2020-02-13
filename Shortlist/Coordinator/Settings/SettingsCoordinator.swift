@@ -9,7 +9,8 @@
 import UIKit
 import MessageUI
 
-class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
+
+class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol, ObserverChildCoordinatorsProtocol {
     
 	typealias DeletionClosure = () -> ()
 	
@@ -41,6 +42,8 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     
     // add stats view and coordinator
     func showTaskLimit(_ persistentContainer: PersistentContainer?) {
+		addNavigationObserver(SettingsNavigationObserverKey.ReturnFromPriorityLimit)
+
 		let child = TaskLimitCoordinator(navigationController: navigationController, parentViewController: rootViewController ?? nil)
         child.parentCoordinator = self
         childCoordinators.append(child)
@@ -49,6 +52,8 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     
     // add contact view
     func showAbout(_ persistentContainer: PersistentContainer?) {
+		addNavigationObserver(SettingsNavigationObserverKey.ReturnFromInfo)
+
 		let child = AboutCoordinator(navigationController: navigationController, parentViewController: rootViewController ?? nil)
         child.parentCoordinator = self
         childCoordinators.append(child)
@@ -63,6 +68,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 	
     // add stats view and coordinator
     func showStats(_ persistentContainer: PersistentContainer?) {
+		addNavigationObserver(SettingsNavigationObserverKey.ReturnFromStats)
 		let child = StatsCoordinator(navigationController: navigationController, parentViewController: rootViewController ?? nil)
         child.parentCoordinator = self
         childCoordinators.append(child)
@@ -91,10 +97,6 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 		}
 	}
 	
-	func cleanUpChildCoordinator() {
-		NotificationCenter.default.post(name: Notification.Name(NavigationObserverKey.ReturnFromSettings.rawValue), object: self)
-	}
-	
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
         while let presentedViewController = topMostViewController?.presentedViewController {
@@ -112,13 +114,54 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         }
 	}
 	
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+	func addNavigationObserver(_ observerKey: ObserveNavigation) {
+		if let key = observerKey as? SettingsNavigationObserverKey {
+			NotificationCenter.default.addObserver(self, selector: #selector(handleViewControllerDidAppear), name: Notification.Name(rawValue: key.rawValue), object: nil)
+		}
+	}
+	
+	func removeNavigationObserver(_ observerKey: ObserveNavigation) {
+		if let key = observerKey as? SettingsNavigationObserverKey {
+			NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: key.rawValue), object: nil)
+		}
+	}
+	
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(MainNavigationObserverKey.ReturnFromSettings.rawValue), object: self)
+	}
 
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
-        if navigationController.viewControllers.contains(fromViewController) {
-            return
-        }
-        
-    }
+	// in the event that the main viewcontroller is the main focus
+	@objc func handleViewControllerDidAppear(_ notification: Notification) {
+		if let n = SettingsNavigationObserverKey.init(rawValue: notification.name.rawValue) {
+			removeNavigationObserver(n)
+			switch n {
+				case .ReturnFromStats:
+					// may be use dict to identify which coordinator
+					if let c = notification.object as? StatsCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+				case .ReturnFromInfo:
+					if let c = notification.object as? AboutCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+//				case .ReturnFromReview:
+//					if let c = notification.object as? ReviewCoordinator {
+//						print("childCoordinator list \(childCoordinators.count)")
+//						childDidFinish(c)
+//						print("childCoordinator list \(childCoordinators.count)")
+//					}
+				case .ReturnFromPriorityLimit:
+					if let c = notification.object as? TaskLimitCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+			}
+		}
+	}
+
 }

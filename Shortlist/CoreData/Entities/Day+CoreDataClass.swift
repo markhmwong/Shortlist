@@ -17,40 +17,60 @@ public class Day: NSManagedObject {
 	func createNewDay(date: Date = Calendar.current.today()) {
         self.createdAt = date as NSDate
 		
-        if let highLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) {
-			self.highPriorityLimit = Int16(highLimit)
+		guard let managedObjectContext = self.managedObjectContext else { return }
+		
+		let dayStats = DayStats(context: managedObjectContext)
+		dayStats.totalCompleted = 0
+		dayStats.totalTasks = 0
+		dayStats.highPriority = 0
+		dayStats.lowPriority = 0
+		dayStats.mediumPriority = 0
+		dayStats.accolade = ""
+		
+		self.dayToStats = dayStats
+		
+		guard let stats = self.dayToStats else { return }
+		
+		if let highLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) {
+			stats.highPriority = Int16(highLimit)
 		} else {
-			self.highPriorityLimit = 0
+			stats.highPriority = 0
 		}
 		
-        if let mediumLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) {
-			self.mediumPriorityLimit = Int16(mediumLimit)
+		if let mediumLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) {
+			stats.mediumPriority = Int16(mediumLimit)
 		} else {
-			self.mediumPriorityLimit = 0
+			stats.mediumPriority = 0
 		}
 		
-        if let lowLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) {
-			self.lowPriorityLimit = Int16(lowLimit)
+		if let lowLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) {
+			stats.lowPriority = Int16(lowLimit)
 		} else {
-			self.lowPriorityLimit = 0
+			stats.lowPriority = 0
 		}
 
-		self.totalCompleted = 0
-        self.totalTasks = 0
+		stats.totalCompleted = 0
+		stats.totalTasks = 0
+		
+		
         self.month = Calendar.current.monthToInt() // Stats
         self.year = Calendar.current.yearToInt() // Stats
         self.day = Int16(Calendar.current.todayToInt()) // Stats
     }
 	
+	func createAssociatedStats() {
+		
+	}
+	
 	func createNewDayAsPaddedDay(date: Date = Calendar.current.today()) {
         self.createdAt = date as NSDate
-		self.totalCompleted = 0
+		self.dayToStats?.totalCompleted = 0
 		
-		self.highPriorityLimit = 1
-		self.mediumPriorityLimit = 5
-		self.lowPriorityLimit = 5
+		self.dayToStats?.highPriority = 1
+		self.dayToStats?.mediumPriority = 5
+		self.dayToStats?.lowPriority = 5
 		
-        self.totalTasks = 0
+		self.dayToStats?.totalTasks = 0
         self.month = Calendar.current.monthToInt() // Stats
         self.year = Calendar.current.yearToInt() // Stats
         self.day = Int16(Calendar.current.todayToInt()) // Stats

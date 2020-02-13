@@ -113,12 +113,12 @@ class ReviewViewController: UIViewController {
 		_viewModel.resolvePriorityCount(persistentContainer: _persistentContainer)
 		_viewModel.registerCells(tableView: tableView)
 		
-		if (_day.accolade == nil) {
+		if (_day.dayToStats?.accolade == nil) {
 			let accolade = _viewModel.resolveAccolade()
-			_viewModel.dayEntity?.accolade = accolade
+			_viewModel.dayEntity?.dayToStats?.accolade = accolade
 			reviewHeader.updateAccoladeLabel(accolade)
 		} else {
-			reviewHeader.updateAccoladeLabel(_day.accolade ?? "Unknown Accolade")
+			reviewHeader.updateAccoladeLabel(_day.dayToStats?.accolade ?? "Unknown Accolade")
 		}
 		
 		// upload total tasks completed
@@ -144,9 +144,9 @@ class ReviewViewController: UIViewController {
         if (dayObject == nil) {
             dayObject = Day(context: persistentContainer.viewContext)
             dayObject?.createdAt = Calendar.current.today() as NSDate
-            dayObject?.lowPriorityLimit = 5 //default limit
-			dayObject?.mediumPriorityLimit = 5 //default limit
-			dayObject?.highPriorityLimit = 5 //default limit
+			dayObject?.dayToStats?.lowPriority = 5 //default limit
+			dayObject?.dayToStats?.mediumPriority = 5 //default limit
+			dayObject?.dayToStats?.highPriority = 5 //default limit
             dayObject?.month = Calendar.current.monthToInt() // Stats
             dayObject?.year = Calendar.current.yearToInt() // Stats
             dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats
@@ -234,6 +234,7 @@ class ReviewViewController: UIViewController {
 	}
 	
 	deinit {
+		// make sure the protocol is subclassed by AnyObject and the Timer is invalidated/nil'ed
 		coordinator?.cleanUpChildCoordinator()
 	}
 }

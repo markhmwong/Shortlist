@@ -44,9 +44,12 @@ Awards (Daily)
 		- preplan : The Planner
 	
 - main features
-	- remove task from backlog when complete and/or readd it when it is incomplete
-
-	- coordinator, remove child coordinators when closed
+	- Notifications
+		- badge marker
+		- description/title fix
+		- remove notification when task is complete
+	- stats check if it's using daytostats relationship
+	
 	- preplan for tomorrow
 		- reminders
 	- card display

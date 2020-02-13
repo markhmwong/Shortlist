@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OnboardingCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class OnboardingCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
 	
     var parentCoordinator: MainCoordinatorProtocol?
 	
@@ -62,5 +62,9 @@ class OnboardingCoordinator: NSObject, Coordinator, UINavigationControllerDelega
 		if navigationController.viewControllers.contains(fromViewController) {
 			return
 		}
+	}
+	
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(MainNavigationObserverKey.ReturnFromOnboarding.rawValue), object: self)
 	}
 }

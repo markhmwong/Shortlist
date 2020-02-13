@@ -62,9 +62,6 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 	
 	var delegate: MainViewControllerProtocol
 	
-//	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-//		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-//	}
 	
 	init(_ persistentContainer: PersistentContainer?, coordinator: SelectCategoryCoordinator, viewModel: SelectCategoryViewModel, mainViewController: MainViewControllerProtocol) {
 		self.delegate = mainViewController
@@ -129,7 +126,6 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 		if (inputContainer.getCategoryFromInputField() != nil) {
 			// add category
 			if (!persistentContainer.categoryExistsInBackLog(category)) {
-//				persistentContainer.createCategoryInCategoryList(category, context: persistentContainer.viewContext)
 				persistentContainer.createCategoryInBackLog(category, context: persistentContainer.viewContext)
 				persistentContainer.saveContext()
 				inputContainer.reisgnInputText()
@@ -140,7 +136,6 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 	@objc
 	func handleClose() {
 		let category = "Uncategorized"
-//		guard let mvc = delegate else { return }
 		guard let vm = delegate.viewModel else { return }
 		vm.category = category
 		inputContainer.updateField(category)
@@ -177,5 +172,9 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 				}
 			}
 		}
+	}
+	
+	deinit {
+		coordinator?.cleanUpChildCoordinator()
 	}
 }

@@ -136,25 +136,26 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 		} else {
             dayObject = Day(context: _pc.viewContext)
 			guard let day = dayObject else { return }
+			guard let stats = day.dayToStats else { return }
 			day.createdAt = viewModel?.tomorrow as NSDate? ?? Calendar.current.forSpecifiedDay(value: 1) as NSDate
 			
 			// we'll use the same limit imposed on tomorrow's day object as today's day object
 			if let highLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) {
-				day.highPriorityLimit = Int16(highLimit)
+				stats.highPriority = Int16(highLimit)
 			} else {
-				day.highPriorityLimit = 0
+				stats.highPriority = 0
 			}
 			
 			if let mediumLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) {
-				day.mediumPriorityLimit = Int16(mediumLimit)
+				stats.mediumPriority = Int16(mediumLimit)
 			} else {
-				day.mediumPriorityLimit = 0
+				stats.mediumPriority = 0
 			}
 			
 			if let lowLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) {
-				day.lowPriorityLimit = Int16(lowLimit)
+				stats.lowPriority = Int16(lowLimit)
 			} else {
-				day.lowPriorityLimit = 0
+				stats.lowPriority = 0
 			}
 
             day.month = Calendar.current.monthToInt() // Stats
@@ -278,9 +279,11 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 			let createdAt: Date = Date()
 			let reminderDate: Date = pickerViewContainer.getValues()
 			
-			dayObject.totalTasks += 1
+			guard let stats = dayObject.dayToStats else { return }
+			
+			stats.totalTasks += 1
 			let task: Task = Task(context: context)
-			task.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
+			task.create(context: context, idNum: Int(stats.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
 			dayObject.addToDayToTask(task)
 			
 			// check if category exists

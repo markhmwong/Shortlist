@@ -145,7 +145,7 @@ class ReviewHeader: UIView {
 		let totalCompleted = _viewModel.dayEntity?.dayToStats?.totalCompleted ?? 0
 		updateCompletedTaskLabel("\(totalCompleted ?? 0)")
 		
-		let totalTasks = _viewModel.dayEntity?.totalTasks
+		let totalTasks = _viewModel.dayEntity?.dayToStats?.totalTasks
 		
 		if (totalTasks != totalCompleted || totalTasks == 0) {
 			completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: reviewTitle.centerXAnchor, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
@@ -189,7 +189,7 @@ class ReviewHeader: UIView {
 	
 	func updateCompletedTaskLabel(_ numberStr: String) {
 		guard let _viewModel = viewModel else { return }
-        let totalTasks = _viewModel.dayEntity?.totalTasks
+		let totalTasks = _viewModel.dayEntity?.dayToStats?.totalTasks
 		
 		DispatchQueue.main.async {
 			self.accoladeLabel.attributedText = NSAttributedString(string: "\(numberStr) / \(totalTasks ?? 5)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])

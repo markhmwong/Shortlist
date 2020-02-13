@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol, ObserverProtocol {
+class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol, ObserverChildCoordinatorsProtocol {
 	
 	var rootViewController: MainViewController?
 	
@@ -21,14 +21,6 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
         self.navigationController = navigationController
     }
 	
-	func addNavigationObserver(_ observerKey: NavigationObserverKey) {
-		NotificationCenter.default.addObserver(self, selector: #selector(handleViewControllerDidAppear), name: Notification.Name(rawValue: observerKey.rawValue), object: nil)
-	}
-	
-	func removeNavigationObserver(_ observerKey: NavigationObserverKey) {
-		NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: observerKey.rawValue), object: nil)
-	}
-    
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
 		navigationController.delegate = self
@@ -45,6 +37,8 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     }
 	
 	func showOnboarding(_ persistentContainer: PersistentContainer?) {
+		addNavigationObserver(MainNavigationObserverKey.ReturnFromOnboarding)
+		
 		guard let rvc = rootViewController else { return }
 		let child = OnboardingCoordinator(navigationController: navigationController, viewController: rvc)
 		child.parentCoordinator = self
@@ -54,7 +48,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     
     // add stats view and coordinator
     func showSettings(_ persistentContainer: PersistentContainer?) {
-		addNavigationObserver(NavigationObserverKey.ReturnFromSettings)
+		addNavigationObserver(MainNavigationObserverKey.ReturnFromSettings)
 		
         let child = SettingsCoordinator(navigationController: navigationController)
         child.parentCoordinator = self
@@ -63,7 +57,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     }
 	
 	func showPreplan(_ persistentContainer: PersistentContainer?) {
-		addNavigationObserver(NavigationObserverKey.ReturnFromPreplan)
+		addNavigationObserver(MainNavigationObserverKey.ReturnFromPreplan)
 		
 		let child = PreplanCoordinator(navigationController: navigationController)
 		child.parentCoordinator = self
@@ -72,7 +66,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	}
 	
 	func showBacklog(_ persistentContainer: PersistentContainer?) {
-		addNavigationObserver(NavigationObserverKey.ReturnFromBackLog)
+		addNavigationObserver(MainNavigationObserverKey.ReturnFromBackLog)
 
         let child = BackLogCoordinator(navigationController: navigationController)
         child.parentCoordinator = self
@@ -81,7 +75,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	}
     
 	func showReview(_ persistentContainer: PersistentContainer?, automated: Bool) {
-		addNavigationObserver(NavigationObserverKey.ReturnFromReview)
+		addNavigationObserver(MainNavigationObserverKey.ReturnFromReview)
 		let child = ReviewCoordinator(navigationController: navigationController, mainViewController: rootViewController, automated: automated)
         child.parentCoordinator = self
         childCoordinators.append(child)
@@ -89,6 +83,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     }
 	
 	func showEditTask(_ persistentContainer: PersistentContainer?, task: Task, fetchedResultsController: NSFetchedResultsController<Day>, mainViewController: MainViewControllerProtocol) {
+		addNavigationObserver(MainNavigationObserverKey.ReturnFromEditing)
 		let child = EditTaskCoordinator(navigationController: navigationController)
 		child.parentCoordinator = self
 		child.task = task
@@ -125,6 +120,8 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     }
 	
 	func showCategory(_ persistentContainer: PersistentContainer?, mainViewController: MainViewController) {
+		addNavigationObserver(MainNavigationObserverKey.ReturnFromCategorySelection)
+
 		let child = SelectCategoryCoordinator(navigationController: navigationController, viewController: mainViewController)
 		child.parentCoordinator = self
 		childCoordinators.append(child)
@@ -161,9 +158,21 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
         }
     }
 	
+	func addNavigationObserver(_ observerKey: ObserveNavigation) {
+		if let key = observerKey as? MainNavigationObserverKey {
+			NotificationCenter.default.addObserver(self, selector: #selector(handleViewControllerDidAppear), name: Notification.Name(rawValue: key.rawValue), object: nil)
+		}
+	}
+	
+	func removeNavigationObserver(_ observerKey: ObserveNavigation) {
+		if let key = observerKey as? MainNavigationObserverKey {
+			NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: key.rawValue), object: nil)
+		}
+	}
+	
 	// in the event that the main viewcontroller is the main focus
 	@objc func handleViewControllerDidAppear(_ notification: Notification) {
-		if let n = NavigationObserverKey.init(rawValue: notification.name.rawValue) {
+		if let n = MainNavigationObserverKey.init(rawValue: notification.name.rawValue) {
 			removeNavigationObserver(n)
 			switch n {
 				case .ReturnFromSettings:
@@ -187,6 +196,24 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 					}
 				case .ReturnFromReview:
 					if let c = notification.object as? ReviewCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+				case .ReturnFromEditing:
+					if let c = notification.object as? EditTaskCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+				case .ReturnFromCategorySelection:
+					if let c = notification.object as? CategoryTasksCoordinator {
+						print("childCoordinator list \(childCoordinators.count)")
+						childDidFinish(c)
+						print("childCoordinator list \(childCoordinators.count)")
+					}
+				case .ReturnFromOnboarding:
+					if let c = notification.object as? OnboardingCoordinator {
 						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
 						print("childCoordinator list \(childCoordinators.count)")

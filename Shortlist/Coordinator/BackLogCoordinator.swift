@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 // Uses the Big List entity despite the name
-class BackLogCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class BackLogCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
     
     weak var parentCoordinator: MainCoordinator?
 
@@ -22,10 +22,7 @@ class BackLogCoordinator: NSObject, Coordinator, UINavigationControllerDelegate 
         self.navigationController = navigationController
     }
 	
-	// called from preplan view controller and notifies observer we have left the preplan view
-	func cleanUpChildCoordinator() {
-		NotificationCenter.default.post(name: Notification.Name(NavigationObserverKey.ReturnFromBackLog.rawValue), object: self)
-	}
+
     
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
@@ -73,6 +70,11 @@ class BackLogCoordinator: NSObject, Coordinator, UINavigationControllerDelegate 
             }
         }
     }
+	
+	// called from preplan view controller and notifies observer we have left the preplan view
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(MainNavigationObserverKey.ReturnFromBackLog.rawValue), object: self)
+	}
     
 //    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
 //        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }

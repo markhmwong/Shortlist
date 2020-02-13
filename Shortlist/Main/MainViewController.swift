@@ -214,9 +214,9 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
                 let totalCompleted = Int.random(in: completedTasksRange)
                 
                 dayObject = Day(context: persistentContainer.viewContext)
-				dayObject?.highPriorityLimit = Int16(Int.random(in: 1...3))
-				dayObject?.mediumPriorityLimit = Int16(Int.random(in: 1...5))
-				dayObject?.lowPriorityLimit = Int16(Int.random(in: 1...5))
+				dayObject?.dayToStats?.highPriority = Int16(Int.random(in: 1...3))
+				dayObject?.dayToStats?.mediumPriority = Int16(Int.random(in: 1...5))
+				dayObject?.dayToStats?.lowPriority = Int16(Int.random(in: 1...5))
                 dayObject?.createdAt = date as NSDate
 				dayObject?.dayToStats?.totalCompleted = Int16(totalCompleted)
 				dayObject?.dayToStats?.totalTasks = Int16(totalTasks)
@@ -316,21 +316,22 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 			initialiseData(_dayObject)
 		} else {
             dayObject = Day(context: persistentContainer.viewContext)
-            dayObject?.createdAt = Calendar.current.today() as NSDate
-			dayObject?.highPriorityLimit = 1
-			dayObject?.mediumPriorityLimit = 3
-			dayObject?.lowPriorityLimit = 3
-            dayObject?.month = Calendar.current.monthToInt() // Stats
-            dayObject?.year = Calendar.current.yearToInt() // Stats
-            dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats
-			dayObject?.dayToTask = Set<Task>() as NSSet
-			let dayStats = DayStats(context: persistentContainer.viewContext)
-			dayStats.totalCompleted = 0
-			dayStats.totalTasks = 0
-			dayStats.highPriority = 0
-			dayStats.lowPriority = 0
-			dayStats.mediumPriority = 0
-			dayStats.accolade = ""
+			guard let day = dayObject else { return }
+            day.createdAt = Calendar.current.today() as NSDate
+			day.dayToStats?.highPriority = 1
+			day.dayToStats?.mediumPriority = 3
+			day.dayToStats?.lowPriority = 3
+            day.month = Calendar.current.monthToInt() // Stats
+            day.year = Calendar.current.yearToInt() // Stats
+            day.day = Int16(Calendar.current.todayToInt()) // Stats
+			day.dayToTask = Set<Task>() as NSSet
+//			let dayStats = DayStats(context: persistentContainer.viewContext)
+//			dayStats.totalCompleted = 0
+//			dayStats.totalTasks = 0
+//			dayStats.highPriority = 0
+//			dayStats.lowPriority = 0
+//			dayStats.mediumPriority = 0
+//			dayStats.accolade = ""
 		}
 		persistentContainer.saveContext()
 		
@@ -406,17 +407,15 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		let dayObject: Day = context.object(with: day.objectID) as! Day
 		let createdAt: Date = Date()
 		let reminderDate: Date = pickerViewContainer.getValues()
-		
-		dayObject.totalTasks += 1
+		guard let stats = dayObject.dayToStats else { return }
+		stats.totalTasks += 1
 		let task: Task = Task(context: context)
-		task.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
+		task.create(context: context, idNum: Int(stats.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
 		dayObject.addToDayToTask(task)
 		
 		// check if category exists
 		if (persistentContainer.categoryExistsInBackLog(category)) {
 			if let backLog: BackLog = persistentContainer.fetchBackLog(forCategory: category) {
-//				let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
-//				bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
 				backLog.addToBackLogToTask(task)
 			}
 		} else {
@@ -424,8 +423,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 			// create category
 			let backLog: BackLog = BackLog(context: persistentContainer.viewContext)
 			backLog.create(name: category)
-//			let bigListTask: BigListTask = BigListTask(context: persistentContainer.viewContext)
-//			bigListTask.create(context: context, idNum: Int(dayObject.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate)
 			backLog.addToBackLogToTask(task)
 			let categoryList: CategoryList = CategoryList(context: persistentContainer.viewContext)
 			categoryList.create(name: category)

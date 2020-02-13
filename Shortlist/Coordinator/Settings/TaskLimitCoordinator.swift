@@ -8,7 +8,9 @@
 
 import UIKit
 
-class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
+class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
+
+	
     
     weak var parentCoordinator: SettingsCoordinator? = nil
     
@@ -57,12 +59,7 @@ class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegat
         }
     }
     
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
-        if navigationController.viewControllers.contains(fromViewController) {
-            return
-        }
-        
-    }
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(SettingsNavigationObserverKey.ReturnFromPriorityLimit.rawValue), object: self)
+	}
 }

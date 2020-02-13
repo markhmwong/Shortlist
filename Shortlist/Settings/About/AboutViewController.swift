@@ -9,7 +9,7 @@
 import UIKit
 
 class AboutViewController: UIViewController {
-    
+
 	var coordinator: AboutCoordinator
 	
     lazy var contact: UITextView = {
@@ -78,4 +78,13 @@ class AboutViewController: UIViewController {
     func handleDismiss() {
 		coordinator.dismiss()
     }
+	
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(SettingsNavigationObserverKey.ReturnFromInfo.rawValue), object: self)
+	}
+	
+	deinit {
+		print("about deinit")
+		coordinator.cleanUpChildCoordinator()
+	}
 }

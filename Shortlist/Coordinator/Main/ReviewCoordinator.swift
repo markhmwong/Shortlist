@@ -26,10 +26,6 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
 		self.mainViewController = mainViewController
 		self.automated = automated
     }
-	
-	func cleanUpChildCoordinator() {
-		NotificationCenter.default.post(name: Notification.Name(NavigationObserverKey.ReturnFromReview.rawValue), object: self)
-	}
     
     // stats viewcontroller begins here
     func start(_ persistentContainer: PersistentContainer?) {
@@ -82,13 +78,8 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         }
     }
     
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
-        if navigationController.viewControllers.contains(fromViewController) {
-            return
-        }
-        
-    }
+	func cleanUpChildCoordinator() {
+		NotificationCenter.default.post(name: Notification.Name(MainNavigationObserverKey.ReturnFromReview.rawValue), object: self)
+	}
 }
 
