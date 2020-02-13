@@ -305,7 +305,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 
 			//create notification
 			if (reminderDate.timeIntervalSince(createdAt) > 0.0) {
-				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [NotificationKeys.Title : taskName], timeRemaining: reminderDate.timeIntervalSince(createdAt))
+				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [LocalNotificationKeys.Title : "\(task.priority)", LocalNotificationKeys.Body : taskName], timeRemaining: reminderDate.timeIntervalSince(createdAt))
 			}
 			
 			// add to stats

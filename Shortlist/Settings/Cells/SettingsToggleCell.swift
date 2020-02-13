@@ -70,7 +70,7 @@ class SettingsToggleCell: CellBase, SettingsStandardCellProtocol {
 					let id = 24 - (hoursRemaining - hour)
 					let timeToNextHour = Date().timeRemainingToHour()
 					let timeRemaining = timeToNextHour + Double(60 * hour)
-					LocalNotificationsService.shared.addAllDayNotification(id: "\(id)", notificationContent: [NotificationKeys.Title : "Frequent Reminder"], timeRemaining: timeRemaining) // add content/body to notification
+					LocalNotificationsService.shared.addAllDayNotification(id: "\(id)", notificationContent: [LocalNotificationKeys.Title : "Frequent Reminder"], timeRemaining: timeRemaining) // add content/body to notification
 				}
 			} else {
 				// remove all notifications

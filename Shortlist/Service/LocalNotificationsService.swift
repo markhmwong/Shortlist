@@ -8,7 +8,7 @@
 import UserNotifications
 import UIKit
 
-enum NotificationKeys: String {
+enum LocalNotificationKeys: String {
     case Title = "title"
     case Body = "body"
 }
@@ -34,19 +34,19 @@ class LocalNotificationsService: NSObject {
     func requestAuth() {
         notificationCenterInstance().requestAuthorization(options: options) {
             (granted, error) in
-            if !granted {
-                print("Local Notifications are off")
-            }
+//            if !granted {
+//                print("Local Notifications are off")
+//            }
         }
     }
     
-    func addReminderNotification(dateIdentifier: Date, notificationContent: [NotificationKeys: String], timeRemaining: Double) {
+    func addReminderNotification(dateIdentifier: Date, notificationContent: [LocalNotificationKeys: String], timeRemaining: Double) {
         requestAuth()
         organiseNotification(timeRemaining, notificationContent)
         addToNotificationCenter(locationNotificationIdentifierFor(dateIdentifier))
     }
 	
-	func addAllDayNotification(id: String, notificationContent: [NotificationKeys : String], timeRemaining: TimeInterval) {
+	func addAllDayNotification(id: String, notificationContent: [LocalNotificationKeys : String], timeRemaining: TimeInterval) {
         requestAuth()
 		organiseNotification(timeRemaining, notificationContent)
         addToNotificationCenter(allDayIdentifier(id))
@@ -72,11 +72,11 @@ class LocalNotificationsService: NSObject {
     }
 
 	// Internal function run from addReminderNotification
-    private func organiseNotification(_ timeRemaining: Double, _ notificationContent: [NotificationKeys: String]) {
+    private func organiseNotification(_ timeRemaining: Double, _ notificationContent: [LocalNotificationKeys: String]) {
         content = nil
         trigger = nil
 
-		content = prepareContent(title: notificationContent[NotificationKeys.Title] ?? "Task - Unknown")
+		content = prepareContent(title: notificationContent[LocalNotificationKeys.Title] ?? "Priority Unknown", content: notificationContent[LocalNotificationKeys.Body] ?? "Task Unknown")
         trigger = prepareTimeInterval(fireIn: timeRemaining)
     }
     
@@ -87,10 +87,10 @@ class LocalNotificationsService: NSObject {
     }
     
 	// Notification details. Displayed when the notification shows on the UI.
-    private func prepareContent(title: String = "Task - Unknown") -> UNMutableNotificationContent? {
+	private func prepareContent(title: String = "Task - Unknown", content: String) -> UNMutableNotificationContent? {
         let c = UNMutableNotificationContent()
-        c.title = "\(title) Reminder"
-        c.body = "Your task reminder"
+        c.title = "\(content) priority Reminder!"
+        c.body = "\(title)"
         c.sound = UNNotificationSound.default
         return c
     }

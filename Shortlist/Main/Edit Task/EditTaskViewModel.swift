@@ -179,7 +179,7 @@ class EditTaskViewModel {
 		if let date = reminderDate {
 			taskManagedObject.reminder = date as NSDate
 			// local notification
-			LocalNotificationsService.shared.addReminderNotification(dateIdentifier: taskManagedObject.createdAt! as Date, notificationContent: [NotificationKeys.Title : taskName], timeRemaining: date.timeIntervalSince(Date()))
+			LocalNotificationsService.shared.addReminderNotification(dateIdentifier: taskManagedObject.createdAt! as Date, notificationContent: [LocalNotificationKeys.Title : taskName], timeRemaining: date.timeIntervalSince(Date()))
 		}
 		persistentContainer?.saveContext()
 	}
