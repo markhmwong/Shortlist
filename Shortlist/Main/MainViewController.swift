@@ -228,6 +228,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		persistentContainer.saveContext()
     }
 	
+	// padding done inside stats
 	private func searchNilDaysOverThirtyDays() {
         guard let persistentContainer = persistentContainer else { return }
 		for day in 1...30 {

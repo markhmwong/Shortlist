@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+// not in use currently
 class BarChart: UIView {
     
     // mainLayer

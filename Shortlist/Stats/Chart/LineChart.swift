@@ -65,8 +65,6 @@ class LineChart: UIView {
 	}
 	
     func prepareChartWithData() {
-        // BarChartGenerator
-        
         guard let monthlyData = monthOverviewChartData else { return }
         chartGenerator = ChartGenerator(data: monthlyData, padding: innerChartPadding)
 
@@ -75,6 +73,7 @@ class LineChart: UIView {
 	
 	private func drawChart() {
 		guard let _chartData = chartData else { return }
+		
 		let (linePath, incompleteLinePath) = createLineFromPoints(_chartData)
 		
 		// draw the chart data lines

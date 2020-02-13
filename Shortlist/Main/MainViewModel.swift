@@ -93,70 +93,70 @@ class MainViewModel {
 		cell.persistentContainer = persistentContainer
 		cell.task = taskForRow(indexPath: indexPath)
 		
-//        cell.adjustDailyTaskComplete = { [weak self] (task) in
-//			guard let _self = self else { return }
-//			if (task.complete) {
-//				_self.dayEntity?.dayToStats?.totalCompleted += 1
-//            } else {
-//				_self.dayEntity?.dayToStats?.totalCompleted -= 1
-//            }
-//        }
-//
-//		cell.updateStats = { (task) in
-//			let stat = persistentContainer?.fetchStatEntity()
-//
-//            if (task.complete) {
-//				// general stat
-//				stat?.addToTotalCompleteTasks(numTasks: 1)
-//				stat?.removeFromTotalIncompleteTasks(numTasks: 1)
-//
-//				// category specific stat
-//				stat?.addToCategoryACompleteTask(category: task.category)
-//
-//            } else {
-//				stat?.addToTotalIncompleteTasks(numTasks: 1)
-//				stat?.removeFromTotalCompleteTasks(numTasks: 1)
-//
-//				// category specific stat
-//				stat?.removeFromCategoryACompleteTask(category: task.category)
-//            }
-//		}
-//
-//		cell.updateBackLog = { (task) in
-//			guard let _persistentContainer = persistentContainer else { return }
-//			let category = task.category
-//
-//			if (task.complete) {
-//				if (_persistentContainer.categoryExistsInBackLog(category)) {
-//					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
-//						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
-//						backLog.removeFromBackLogToTask(taskObj)
-//					}
-//				}
-//			} else {
-//				if (_persistentContainer.categoryExistsInBackLog(category)) {
-//					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
-//						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
-//						backLog.addToBackLogToTask(taskObj)
-//					}
-//				}
-//			}
-//		}
-//
-//        cell.updateWatch = { (task) in
-//            //WCSession
-//            let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
-//            var tempTaskStruct: [TaskStruct] = []
-//            for task in taskList {
-//                tempTaskStruct.append(TaskStruct(id: task.id, name: task.name!, complete: task.complete, priority: task.priority))
-//            }
-//            do {
-//                let data = try JSONEncoder().encode(tempTaskStruct)
-//                WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
-//            } catch (let err) {
-//                print("\(err)")
-//            }
-//        }
+        cell.adjustDailyTaskComplete = { [weak self] (task) in
+			guard let _self = self else { return }
+			if (task.complete) {
+				_self.dayEntity?.dayToStats?.totalCompleted += 1
+            } else {
+				_self.dayEntity?.dayToStats?.totalCompleted -= 1
+            }
+        }
+
+		cell.updateStats = { (task) in
+			let stat = persistentContainer?.fetchStatEntity()
+
+            if (task.complete) {
+				// general stat
+				stat?.addToTotalCompleteTasks(numTasks: 1)
+				stat?.removeFromTotalIncompleteTasks(numTasks: 1)
+
+				// category specific stat
+				stat?.addToCategoryACompleteTask(category: task.category)
+
+            } else {
+				stat?.addToTotalIncompleteTasks(numTasks: 1)
+				stat?.removeFromTotalCompleteTasks(numTasks: 1)
+
+				// category specific stat
+				stat?.removeFromCategoryACompleteTask(category: task.category)
+            }
+		}
+
+		cell.updateBackLog = { (task) in
+			guard let _persistentContainer = persistentContainer else { return }
+			let category = task.category
+
+			if (task.complete) {
+				if (_persistentContainer.categoryExistsInBackLog(category)) {
+					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
+						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
+						backLog.removeFromBackLogToTask(taskObj)
+					}
+				}
+			} else {
+				if (_persistentContainer.categoryExistsInBackLog(category)) {
+					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
+						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
+						backLog.addToBackLogToTask(taskObj)
+					}
+				}
+			}
+		}
+
+        cell.updateWatch = { (task) in
+            //WCSession
+            let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
+            var tempTaskStruct: [TaskStruct] = []
+            for task in taskList {
+                tempTaskStruct.append(TaskStruct(id: task.id, name: task.name!, complete: task.complete, priority: task.priority))
+            }
+            do {
+                let data = try JSONEncoder().encode(tempTaskStruct)
+                WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
+            } catch (let err) {
+                print("\(err)")
+            }
+        }
         
 		return cell
 	}

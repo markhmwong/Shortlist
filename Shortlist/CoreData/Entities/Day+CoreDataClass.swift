@@ -22,9 +22,9 @@ public class Day: NSManagedObject {
 		let dayStats = DayStats(context: managedObjectContext)
 		dayStats.totalCompleted = 0
 		dayStats.totalTasks = 0
-		dayStats.highPriority = 0
-		dayStats.lowPriority = 0
-		dayStats.mediumPriority = 0
+		dayStats.highPriority = 1
+		dayStats.lowPriority = 3
+		dayStats.mediumPriority = 3
 		dayStats.accolade = ""
 		
 		self.dayToStats = dayStats
@@ -34,19 +34,22 @@ public class Day: NSManagedObject {
 		if let highLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) {
 			stats.highPriority = Int16(highLimit)
 		} else {
-			stats.highPriority = 0
+			KeychainWrapper.standard.set(1, forKey: SettingsKeyChainKeys.HighPriorityLimit)
+			stats.highPriority = 1
 		}
 		
 		if let mediumLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) {
 			stats.mediumPriority = Int16(mediumLimit)
 		} else {
-			stats.mediumPriority = 0
+			KeychainWrapper.standard.set(3, forKey: SettingsKeyChainKeys.MediumPriorityLimit)
+			stats.mediumPriority = 3
 		}
 		
 		if let lowLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) {
 			stats.lowPriority = Int16(lowLimit)
 		} else {
-			stats.lowPriority = 0
+			KeychainWrapper.standard.set(3, forKey: SettingsKeyChainKeys.LowPriorityLimit)
+			stats.lowPriority = 3
 		}
 
 		stats.totalCompleted = 0
@@ -57,20 +60,22 @@ public class Day: NSManagedObject {
         self.year = Calendar.current.yearToInt() // Stats
         self.day = Int16(Calendar.current.todayToInt()) // Stats
     }
-	
-	func createAssociatedStats() {
-		
-	}
-	
+
 	func createNewDayAsPaddedDay(date: Date = Calendar.current.today()) {
         self.createdAt = date as NSDate
-		self.dayToStats?.totalCompleted = 0
 		
-		self.dayToStats?.highPriority = 1
-		self.dayToStats?.mediumPriority = 5
-		self.dayToStats?.lowPriority = 5
+		guard let managedObjectContext = self.managedObjectContext else { return }
+		let dayStats = DayStats(context: managedObjectContext)
+
+		dayStats.totalCompleted = 0
+		
+		dayStats.highPriority = 1
+		dayStats.mediumPriority = 3
+		dayStats.lowPriority = 3
 		
 		self.dayToStats?.totalTasks = 0
+		
+		self.dayToStats = dayStats
         self.month = Calendar.current.monthToInt() // Stats
         self.year = Calendar.current.yearToInt() // Stats
         self.day = Int16(Calendar.current.todayToInt()) // Stats

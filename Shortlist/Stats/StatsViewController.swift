@@ -101,26 +101,30 @@ class StatsViewController: UIViewController {
         guard let dayArray = persistentContainer?.fetchRangeOfDays(from: from, to: Calendar.current.today()) else {
             return nil
         }
-		guard let _persitentContainer = persistentContainer else { return nil }
+		guard let _persistentContainer = persistentContainer else { return nil }
         var paddedDayArray = dayArray
 		
 		// fill missing days
 		if (paddedDayArray.count < dayRange) {
 			for day in 1...dayRange {
 				let date = Calendar.current.forSpecifiedDay(value: -day)
-				if (_persitentContainer.fetchDayEntity(forDate: date) == nil) {
+				if (_persistentContainer.fetchDayEntity(forDate: date) == nil) {
 					
 					// create empty day
-					let dayObj = Day(context: _persitentContainer.viewContext)
+					let dayObj = Day(context: _persistentContainer.viewContext)
 					dayObj.createNewDayAsPaddedDay(date: date)
 					paddedDayArray.append(dayObj)
-					_persitentContainer.saveContext()
+					_persistentContainer.saveContext()
 				}
 			}
         }
 		
-        let stats = StatisticsGenerator(withArray: paddedDayArray)
+		let stats: StatisticsGenerator = StatisticsGenerator(withArray: paddedDayArray)
         let calculatedStats: MonthOverviewChartData = stats.calculateStats(chartTitle: title)
+		
+		print(calculatedStats.maxTasks)
+		print("stats \(calculatedStats.data.count)")
+		
 		lineChart = LineChart(inputData: calculatedStats)
 		guard let lineChart = lineChart else { return nil }
         view.addSubview(lineChart)

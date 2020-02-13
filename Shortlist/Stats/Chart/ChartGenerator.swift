@@ -23,7 +23,7 @@ class ChartGenerator {
     
     private var data: [Day]? // Day data over a specific period of time such as a week / month / year
     
-    private var monthlyData: MonthOverviewChartData? // rename
+    private var monthlyData: MonthOverviewChartData?
     
     private var barEntries: [BarProperties] = []
     

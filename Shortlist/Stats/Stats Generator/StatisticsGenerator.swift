@@ -15,6 +15,7 @@ class StatisticsGenerator: NSObject {
     
     init(withArray arr: [Day]) {
         self.dayArray = arr
+		super.init()
     }
     
     // Calculate for year
@@ -32,17 +33,22 @@ class StatisticsGenerator: NSObject {
         var incompleteTasks: Int16 = 0
         let chartTitle: String = chartTitle
         
-        guard let dayArray = dayArray else {
+        guard let _dayArray = dayArray else {
             return MonthOverviewChartData(maxTasks: 0, data: [:], title: chartTitle, mean: 0)
         }
-        
-        for day in dayArray {
+		print(_dayArray.count)
+        for day in _dayArray {
+			print(day.dayToStats)
 			if let stats = day.dayToStats {
+				print("\(stats.highPriority) highPriority")
 				let limit = stats.highPriority + stats.mediumPriority + stats.lowPriority
 				taskLimit = mostAmountOfTasksForDay(currLimit: limit, newLimit: taskLimit)
+				print("\(taskLimit) taskLimit")
 				totalCompletedForTimePeriod += stats.totalCompleted
 				totalTasksForDay += stats.totalTasks
 				incompleteTasks = (stats.totalTasks) - (stats.totalCompleted)
+				
+				print(day.createdAt)
 				
 				let date = Calendar.current.dayOfWeek(date: day.createdAt! as Date)
 				guard let dayOfWeek = DayOfWeek(rawValue: Int16(date)) else {
@@ -52,9 +58,12 @@ class StatisticsGenerator: NSObject {
 				let dayOverview: DayOverview = DayOverview(dayOfWeek: dayOfWeek, dayDate: Int(day.day), numberOfCompletedTasks: stats.totalCompleted, incompleteTasks: incompleteTasks)
 				
 				convertedData[day.createdAt! as Date] = dayOverview
+				print(convertedData.count)
 			}
         }
-        meanTasksCompleted = meanTasks(Float(totalCompletedForTimePeriod), Float(dayArray.count))
+		
+		print(convertedData.count)
+        meanTasksCompleted = meanTasks(Float(totalCompletedForTimePeriod), Float(_dayArray.count))
         
         return MonthOverviewChartData(maxTasks: taskLimit, data: convertedData, title: chartTitle, mean: meanTasksCompleted)
     }

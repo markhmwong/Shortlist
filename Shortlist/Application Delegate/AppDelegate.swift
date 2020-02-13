@@ -43,24 +43,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			
 			mainCoordinator?.start(persistentContainer)
 			mainCoordinator?.showOnboarding(persistentContainer)
+
+			// setup initial priority limits for the keychain numbers are defaults for each priority
+			initialisePriorityKeychain()
 			
 			// create sample
 			// move to Task entity
 			let context = persistentContainer.viewContext
 			let dayObject = Day(context: persistentContainer.viewContext)
-			dayObject.createNewDay(date: Calendar.current.today())
 			
-//			let dayStats = DayStats(context: persistentContainer.viewContext)
-//			dayStats.totalCompleted = 0
-//			dayStats.totalTasks = 0
-//			dayStats.highPriority = 0
-//			dayStats.lowPriority = 0
-//			dayStats.mediumPriority = 0
-//			dayStats.accolade = ""
-//
-//			dayObject.dayToStats = dayStats
+			dayObject.createNewDay(date: Calendar.current.today())
 			guard let stats = dayObject.dayToStats else { return true }
-
 			stats.totalTasks += 3
 			let taskHigh: Task = Task(context: context)
 			
@@ -99,8 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		}
 		
 		
-		// setup initial priority limits for the keychain numbers are defaults for each priority
-		initialisePriorityKeychain()
+
 
         window = UIWindow()
         window?.rootViewController = navController
