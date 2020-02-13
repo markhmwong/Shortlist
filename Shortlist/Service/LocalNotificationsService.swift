@@ -56,6 +56,12 @@ class LocalNotificationsService: NSObject {
 		notificationCenterInstance().removeAllDeliveredNotifications()
 		notificationCenterInstance().removeDeliveredNotifications(withIdentifiers: [allDayIdentifier(id)])
 	}
+	
+	// id use createdAt
+	func removeNotification(id: Date) {
+		notificationCenterInstance().removeAllDeliveredNotifications()
+		notificationCenterInstance().removeDeliveredNotifications(withIdentifiers: [locationNotificationIdentifierFor(id)])
+	}
     
     //Must call prepareNotification first or content and trigger will be empty
     func addToNotificationCenter(_ id: String) {
@@ -92,6 +98,7 @@ class LocalNotificationsService: NSObject {
         c.title = "\(content) priority Reminder!"
         c.body = "\(title)"
         c.sound = UNNotificationSound.default
+		c.badge = NSNumber(value: UIApplication.shared.applicationIconBadgeNumber + 1)
         return c
     }
     
