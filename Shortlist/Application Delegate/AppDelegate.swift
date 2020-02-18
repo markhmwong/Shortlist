@@ -90,9 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				}
 			}
 		}
-		
-		
-
 
         window = UIWindow()
         window?.rootViewController = navController
@@ -140,15 +137,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			}
 		}
     }
-
+	var timer: DispatchSourceTimer?
     func applicationDidBecomeActive(_ application: UIApplication) {
 		
     }
+
 
     func applicationWillTerminate(_ application: UIApplication) {
         persistentContainer.saveContext()
     }
 
-
+	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+		//
+	}
 }
 

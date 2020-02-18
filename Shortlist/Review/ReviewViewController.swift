@@ -139,18 +139,11 @@ class ReviewViewController: UIViewController {
         guard let yesterday = viewModel?.targetDate else { return }
         guard let viewModel = viewModel else { return }
         
-        var dayObject: Day? = persistentContainer.fetchDayManagedObject(forDate: yesterday)
+        let dayObject: Day? = persistentContainer.fetchDayManagedObject(forDate: yesterday)
         
         if (dayObject == nil) {
-            dayObject = Day(context: persistentContainer.viewContext)
-            dayObject?.createdAt = Calendar.current.today() as NSDate
-			dayObject?.dayToStats?.lowPriority = 5 //default limit
-			dayObject?.dayToStats?.mediumPriority = 5 //default limit
-			dayObject?.dayToStats?.highPriority = 5 //default limit
-            dayObject?.month = Calendar.current.monthToInt() // Stats
-            dayObject?.year = Calendar.current.yearToInt() // Stats
-            dayObject?.day = Int16(Calendar.current.todayToInt()) // Stats
-            // possible loading graphic todo
+			dayObject?.createNewDay(date: Calendar.current.yesterday())
+            
             persistentContainer.saveContext()
         }
         
@@ -224,7 +217,6 @@ class ReviewViewController: UIViewController {
 		guard let pc = persistentContainer else { return }
 		let today: Day = pc.fetchDayEntity(forDate: Calendar.current.today()) as! Day
 		
-		// create new day here, incase the app is running in the back ground and a new day hasn't been created in the interim
 		for (_, task) in viewModel.carryOverTaskObjectsArr {
 			let copiedTask = Task(context: pc.viewContext)
 			let resetReminder = Date() // reminder is reset because we don't know exactly when the user will copy an older task
@@ -300,16 +292,20 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 		guard let _viewModel = viewModel else { return }
 
 		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
-		
-		let (hasLimitExceeded, status): (PriorityLimitThreshold, String) = _viewModel.checkPrioriy(persistentContainer: persistentContainer, task: cell.task)
-		
-		switch hasLimitExceeded {
-			case .Exceeded:
-				coordinator?.showAlertBox("Please update your limit from [Settings -> Priority Limit] or remove a \(status) priority task from today's schedule.")
-			case .WithinLimit:
-				cell.selectedState = !cell.selectedState
-				persistentContainer?.saveContext() // save on done
+				
+		_viewModel.checkPriority(persistentContainer: persistentContainer, task: cell.task) { (arg0) in
+			
+			let (threshold, status) = arg0
+			cell.selectedState = !cell.selectedState
+			switch threshold {
+				case .Exceeded:
+					cell.selectedState = !cell.selectedState
+					coordinator?.showAlertBox("Please update your limit from [Settings -> Priority Limit] or remove a \(status) priority task from today's schedule.")
+				case .WithinLimit:
+					persistentContainer?.saveContext() // save on done
+			}
 		}
+		
     }
 	
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

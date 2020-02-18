@@ -76,6 +76,8 @@
 		4D5D7E3F232CF9380088EB5F /* IAPProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E3D232CF9380088EB5F /* IAPProducts.swift */; };
 		4D5D7E42232CFAD40088EB5F /* LocalProductManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */; };
 		4D5D7E44232E121E0088EB5F /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E43232E121E0088EB5F /* StandardButton.swift */; };
+		4D5EA36F23F660CA0059C780 /* PendingOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5EA36E23F660CA0059C780 /* PendingOperations.swift */; };
+		4D5EA37123F692180059C780 /* ConnectivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5EA37023F692180059C780 /* ConnectivityService.swift */; };
 		4D5FD36823114A7E0053E193 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36723114A7E0053E193 /* BarChart.swift */; };
 		4D5FD36A23114AC90053E193 /* ChartGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36923114AC90053E193 /* ChartGenerator.swift */; };
 		4D5FD36D2311505D0053E193 /* TimePeriodStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */; };
@@ -316,6 +318,8 @@
 		4D5D7E3D232CF9380088EB5F /* IAPProducts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPProducts.swift; sourceTree = "<group>"; };
 		4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalProductManager.swift; sourceTree = "<group>"; };
 		4D5D7E43232E121E0088EB5F /* StandardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
+		4D5EA36E23F660CA0059C780 /* PendingOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingOperations.swift; sourceTree = "<group>"; };
+		4D5EA37023F692180059C780 /* ConnectivityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityService.swift; sourceTree = "<group>"; };
 		4D5FD36723114A7E0053E193 /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		4D5FD36923114AC90053E193 /* ChartGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartGenerator.swift; sourceTree = "<group>"; };
 		4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePeriodStructs.swift; sourceTree = "<group>"; };
@@ -558,28 +562,27 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
-				4D61D0BE23E80FAB00A58332 /* GlobalNewsFeed */,
-				4D596EEB22EC42E600B2D21D /* Application Delegate */,
-				4D60932723C43B7300A7936E /* AppUpdate */,
-				4D60932023C3690800A7936E /* Onboarding */,
-				4D5CF92423B65C540020EE22 /* Accolades */,
-				4D377D012384D6BD0026FB3A /* View */,
-				4D5B89DD236AB2E200B38DF5 /* Service */,
-				4D953B62230A91720048C247 /* Coordinator */,
-				4DC0DE3722E087F100B2B8D4 /* CoreData */,
-				4D78AC3722DF16E7001FD57F /* Extensions */,
-				4DC0DE3622E087E300B2B8D4 /* Main */,
-				4D5B5E0322F07FB500C8D9A5 /* Model */,
-				4D953B69230AA4400048C247 /* Stats */,
-				4D5BA10222E5AD9100B9B487 /* Review */,
-				4D4F0C8F231FCF1700E71BE9 /* Settings */,
-				4D596EEF22EC479000B2D21D /* Theme */,
-				4D5B5DFA22F07E5400C8D9A5 /* WatchManager */,
-				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
 				4DF724F022F174D200472072 /* Five.entitlements */,
 				4D45E79D22DDD1AD008AC433 /* Info.plist */,
+				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
+				4D5CF92423B65C540020EE22 /* Accolades */,
+				4D596EEB22EC42E600B2D21D /* Application Delegate */,
+				4D60932723C43B7300A7936E /* AppUpdate */,
+				4D953B62230A91720048C247 /* Coordinator */,
+				4D78AC3722DF16E7001FD57F /* Extensions */,
+				4D61D0BE23E80FAB00A58332 /* GlobalNewsFeed */,
 				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
+				4DC0DE3622E087E300B2B8D4 /* Main */,
 				4D45E79522DDD1AB008AC433 /* Main.storyboard */,
+				4D5B5E0322F07FB500C8D9A5 /* Model */,
+				4D60932023C3690800A7936E /* Onboarding */,
+				4D5BA10222E5AD9100B9B487 /* Review */,
+				4D5B89DD236AB2E200B38DF5 /* Service */,
+				4D4F0C8F231FCF1700E71BE9 /* Settings */,
+				4D953B69230AA4400048C247 /* Stats */,
+				4D596EEF22EC479000B2D21D /* Theme */,
+				4D377D012384D6BD0026FB3A /* View */,
+				4D5B5DFA22F07E5400C8D9A5 /* WatchManager */,
 			);
 			path = Shortlist;
 			sourceTree = "<group>";
@@ -753,6 +756,7 @@
 		4D5B5E0322F07FB500C8D9A5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4DC0DE3722E087F100B2B8D4 /* CoreData */,
 				4D5B5E0422F07FEA00C8D9A5 /* TaskStruct.swift */,
 				4D7028652378F99A003D33E6 /* TaskCharacterLimits.swift */,
 			);
@@ -762,15 +766,16 @@
 		4D5B89DD236AB2E200B38DF5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				4D5A437F22E716AE00E34FAC /* KeyChainHelper */,
+				4D5EA37023F692180059C780 /* ConnectivityService.swift */,
+				4D5EA36C23F659240059C780 /* Firebase */,
 				4D5D7E3B232CF9380088EB5F /* IAP */,
-				4D5D7E40232CFAC80088EB5F /* LocalProductManager */,
-				4D242C3E23EBE37800ED1C42 /* Tips */,
-				4D64C5C5232F628900EE77D0 /* Log.swift */,
-				4D56220123E56AE2003F7309 /* FirebaseService.swift */,
-				4D5B89DE236AB2EC00B38DF5 /* LocalNotificationsService.swift */,
 				4D50EE72238FB821008ACCD8 /* ImpactFeedbackService.swift */,
+				4D5A437F22E716AE00E34FAC /* KeyChainHelper */,
+				4D5B89DE236AB2EC00B38DF5 /* LocalNotificationsService.swift */,
+				4D5D7E40232CFAC80088EB5F /* LocalProductManager */,
+				4D64C5C5232F628900EE77D0 /* Log.swift */,
 				4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */,
+				4D242C3E23EBE37800ED1C42 /* Tips */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -822,6 +827,22 @@
 				4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */,
 			);
 			path = LocalProductManager;
+			sourceTree = "<group>";
+		};
+		4D5EA36C23F659240059C780 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				4D56220123E56AE2003F7309 /* FirebaseService.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		4D5EA36D23F660090059C780 /* PendingFirebaseOperations */ = {
+			isa = PBXGroup;
+			children = (
+				4D5EA36E23F660CA0059C780 /* PendingOperations.swift */,
+			);
+			path = PendingFirebaseOperations;
 			sourceTree = "<group>";
 		};
 		4D5FD3662311461D0053E193 /* Chart */ = {
@@ -1057,6 +1078,7 @@
 		4DC0DE3622E087E300B2B8D4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				4D5EA36D23F660090059C780 /* PendingFirebaseOperations */,
 				4DA5D0DC23AF670A00373F6F /* Preplan */,
 				4D6E7537235633F200C67B8F /* Backlog */,
 				4D9304A923A9A8850001EC3D /* Priority */,
@@ -1563,6 +1585,7 @@
 				4D69039B233A7F6F008DC5D6 /* EditTaskCellFactory.swift in Sources */,
 				4DA50FBF22E75A8F0059A46F /* CloseButton.swift in Sources */,
 				4D5D7E44232E121E0088EB5F /* StandardButton.swift in Sources */,
+				4D5EA36F23F660CA0059C780 /* PendingOperations.swift in Sources */,
 				4D70285F237567E5003D33E6 /* CategoryTaskListViewModel.swift in Sources */,
 				4D5A438222E716AE00E34FAC /* KeychainWrapper.swift in Sources */,
 				4D6EE35323A87F6F001BBC95 /* StatsCategoryComplete+CoreDataClass.swift in Sources */,
@@ -1590,6 +1613,7 @@
 				4D953B6B230AA4500048C247 /* StatsViewController.swift in Sources */,
 				4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */,
 				4D702859236F167D003D33E6 /* EditTaskPickerViewCell.swift in Sources */,
+				4D5EA37123F692180059C780 /* ConnectivityService.swift in Sources */,
 				4D676176233904210029C6EB /* EditTaskTextViewCell.swift in Sources */,
 				4D6D53E02337B1AD00FA38B4 /* EditTaskCoordinator.swift in Sources */,
 				4D60932423C36B4D00A7936E /* OnboardingViewModel.swift in Sources */,

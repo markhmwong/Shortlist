@@ -33,13 +33,7 @@ class AboutViewController: UIViewController {
     lazy var details = """
 	Thanks for using \(appName) v\(appVersion ?? " unknown"), build \(appBuild ?? "unknown").\n
 	\n
-	The kind of app that doesn't allow you to continue adding tasks you won't complete anyway.
-	//need rewrite
-	Ever since the advent of mobile devices inbuilt with large capacities; applications have exploited their generous storage space. I believe we've taken this for granted, made things harder to focus, overwhelmed and less motivated to finish our work. The "openess" we take for granted has geared ourselves towards no direction to the method we complete our tasks; there is no system employed to guide our day.
-	
-	If you're an avid and master at productivity, this app may not be for you, but I encourage you to take a look at your own reminder list and look at the tasks that are lingering from the week/month/year before. It certainly would leave a guilty feeling inside as the task slowly fades far into the past. This app intends to reduce the notion of revisitng old tasks, keep track of incomplete tasks and completed tasks and while focusing on the day's tasks ahead.\n
-	
-	At the end of the day we would rather see 5/5 rather than 5/10 right? It's not only encouraging but motivating, especially for those who struggle to find focus this helps narrow their field of vision (so to speak). Lingering tasks will always be left in the attic collecting dust, and dusting it off may sets you back. Do what you can and only do that for the day to finish on a high note and continue tomorrow.\n
+	The kind of app that doesn't allow you to continue adding tasks.
 	
 	Privacy.\n
 	To be completed. May use Google Analytics to monitor app usage

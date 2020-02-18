@@ -141,19 +141,19 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 			
 			// we'll use the same limit imposed on tomorrow's day object as today's day object
 			if let highLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) {
-				stats.highPriority = Int16(highLimit)
+				stats.highPriority = Int64(highLimit)
 			} else {
 				stats.highPriority = 0
 			}
 			
 			if let mediumLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) {
-				stats.mediumPriority = Int16(mediumLimit)
+				stats.mediumPriority = Int64(mediumLimit)
 			} else {
 				stats.mediumPriority = 0
 			}
 			
 			if let lowLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) {
-				stats.lowPriority = Int16(lowLimit)
+				stats.lowPriority = Int64(lowLimit)
 			} else {
 				stats.lowPriority = 0
 			}

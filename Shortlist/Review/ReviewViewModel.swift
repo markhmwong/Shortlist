@@ -152,31 +152,76 @@ class ReviewViewModel {
 	
 	// A check for the priority limit. Do not allow the user to carry over another task with the same priority type if it has exceeded the daily limit. They can however change their daily limit to allow for it
 	// returns Tuple. The String in the tuple is the priority type in letters
-	func checkPrioriy(persistentContainer: PersistentContainer?, task: Task?) -> (PriorityLimitThreshold, String) {
-		guard let _pc = persistentContainer else { return (.Exceeded, "Persistent Container Error") }
-		guard let _task = task else { return (.Exceeded, "Task Error") }
+	func checkPriority(persistentContainer: PersistentContainer?, task: Task?, completionHandler: ((PriorityLimitThreshold, String)) -> ()) -> Void {
+		var (threshold, message): (PriorityLimitThreshold, String) = (.WithinLimit, "None")
+		
+		guard let _pc = persistentContainer else {
+			completionHandler((.Exceeded, "Persistent Container Error"))
+			return
+		}
+		
+		guard let _task = task else {
+			completionHandler((.Exceeded, "Task Error"))
+			return
+		}
+		
 		let today: Date = Calendar.current.today()
 		let todayDayObj: Day = _pc.fetchDayEntity(forDate: today) as! Day
+		let totalTasks = totalTasksForPriority(todayDayObj, priorityLevel: Int(_task.priority))
+
+		if let p = Priority.init(rawValue: _task.priority) {
+			switch p {
+				case .high:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) ?? totalTasks) {
+						// warning
+						(threshold, message) = (.Exceeded, "High")
+					}
+				case .medium:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? totalTasks) {
+						(threshold, message) = (.Exceeded, "Medium")
+					}
+				case .low:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? totalTasks) {
+						// warning
+						(threshold, message) = (.Exceeded, "Low")
+						return
+					}
+				case .none:
+					(threshold, message) = (.Exceeded, "None")
+			}
+		}
+		completionHandler((threshold, message))
+	}
+	
+	func totalTasksForPriority(_ day: Day, priorityLevel: Int) -> Int {
+		guard let set = sortTasks(day) else {
+			return 0
+		}
 		
-		if let priority = Priority.init(rawValue: _task.priority), let stats = todayDayObj.dayToStats {
-			switch priority {
-				case Priority.high:
-					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= Int(stats.highPriority)) {
-						return (.Exceeded, "High")
-					}
-				case Priority.medium:
-					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= Int(stats.mediumPriority)) {
-						return (.Exceeded, "Medium")
-					}
-				case Priority.low:
-					if (todaysPriorityCount[Int(_task.priority)] ?? 0 >= Int(stats.lowPriority)) {
-						return (.Exceeded, "Low")
-					}
-				case Priority.none:
-					return (.Exceeded, "None")
+		var numberOfPriorityTasks = 0
+		for task in set {
+			if (priorityLevel == task.priority) {
+				numberOfPriorityTasks = numberOfPriorityTasks + 1
 			}
 		}
 		
-		return (.WithinLimit, "Sucess")
+		return numberOfPriorityTasks
+	}
+	
+	func sortTasks(_ day: Day) -> [Task]? {
+		let set = day.dayToTask as? Set<Task>
+		if (!set!.isEmpty) {
+            return set?.sorted(by: { (taskA, taskB) -> Bool in
+				// sort same priority by date
+				if (taskA.priority == taskB.priority) {
+					return ((taskA.createdAt! as Date).compare(taskB.createdAt! as Date) == .orderedAscending)
+				} else {
+					// otherwise order by priority
+					return taskA.priority < taskB.priority
+				}
+            })
+		} else {
+			return nil
+		}
 	}
 }

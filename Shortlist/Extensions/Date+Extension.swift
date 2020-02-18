@@ -39,6 +39,11 @@ extension Date {
 		let diff = tomorrow.timeIntervalSince(now)
 		return diff.truncatingRemainder(dividingBy: 3600) / 60
 	}
+	
+	// time in hour and minute
+//	func timeToString(format: String = "") -> Date {
+//		
+//	}
 }
 
 extension DateFormatter {

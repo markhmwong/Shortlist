@@ -12,17 +12,12 @@ import Foundation
 
 protocol ChartData {
     var title: String { get }
-    var maxTasks: Int16 { get }
+    var maxTasks: Int64 { get }
     var data: [ Int : DayOverview ] { get }
     var average: Int16 { get }
     var minRange: String { get }
     var maxRange: String { get }
 }
-
-// Day Overview
-// Tranposes the data into readable variables
-// We can grab the Date() object from Core Data and convert that into
-// day of the week and a day date representation
 
 struct DayOverview {
     
@@ -31,9 +26,9 @@ struct DayOverview {
     
     let dayDate: Int
     
-    let numberOfCompletedTasks: Int16
+    let numberOfCompletedTasks: Int64
     
-    let incompleteTasks: Int16
+    let incompleteTasks: Int64
 }
 
 // A summary of the last 7 days
@@ -42,7 +37,7 @@ struct DayOverview {
 struct WeekChartData: ChartData {
     
     // Since the app allows for 5 - 15 (not sure of the max amount yet), we'll need to iterate and find the largest value
-    var maxTasks: Int16
+    var maxTasks: Int64
     
     // Should be a maximum of 7 days
     var data: [Int : DayOverview]

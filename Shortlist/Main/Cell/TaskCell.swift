@@ -24,7 +24,7 @@ class TaskCell: UITableViewCell {
     
     var updateWatch: ((Task) -> ())? = nil
     
-    var adjustDailyTaskComplete: ((Task) -> ())? = nil
+    var updateDailyStats: ((Task) -> ())? = nil
     
 	var updateStats: ((Task) -> ())? = nil
 	   
@@ -198,7 +198,7 @@ class TaskCell: UITableViewCell {
 		
         guard let task = task else { return }
         task.complete = taskButton.taskState
-        adjustDailyTaskComplete?(task)
+        updateDailyStats?(task)
 		updateStats?(task)
 		updateBackLog?(task)
         // save to core data

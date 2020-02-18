@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BackLog" representedClassName="BackLog" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="backLogToBigListTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BigListTask" inverseName="bigListTaskToBackLog" inverseEntity="BigListTask"/>
+        <relationship name="backLogToTask" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" inverseName="taskToBackLog" inverseEntity="Task"/>
+    </entity>
+    <entity name="BigListTask" representedClassName="BigListTask" syncable="YES">
+        <attribute name="carryOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isNew" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="reminder" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="reminderState" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="bigListTaskToBackLog" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BackLog" inverseName="backLogToBigListTask" inverseEntity="BackLog"/>
+    </entity>
+    <entity name="CategoryList" representedClassName="CategoryList" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Day" representedClassName="Day" syncable="YES">
+        <attribute name="accolade" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="day" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="highPriorityLimit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lowPriorityLimit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mediumPriorityLimit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="month" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="dayToStats" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DayStats" inverseName="statsToDay" inverseEntity="DayStats"/>
+        <relationship name="dayToTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="taskToDay" inverseEntity="Task"/>
+    </entity>
+    <entity name="DayStats" representedClassName="DayStats" syncable="YES">
+        <attribute name="accolade" optional="YES" attributeType="String"/>
+        <attribute name="highPriority" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lowPriority" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mediumPriority" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalCompleted" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="statsToDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="dayToStats" inverseEntity="Day"/>
+    </entity>
+    <entity name="Stats" representedClassName="Stats" syncable="YES">
+        <attribute name="favoriteTimeToComplete" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalCompleteTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalHighPriorityTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalIncompleteTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalLowPriorityTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalMediumPriorityTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalTasks" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="statsToComplete" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="StatsCategoryComplete" inverseName="completeToStats" inverseEntity="StatsCategoryComplete"/>
+        <relationship name="statsToIncomplete" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="StatsCategoryIncomplete" inverseName="incompleteToStats" inverseEntity="StatsCategoryIncomplete"/>
+    </entity>
+    <entity name="StatsCategoryComplete" representedClassName="StatsCategoryComplete" syncable="YES">
+        <attribute name="completeCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="completeToStats" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Stats" inverseName="statsToComplete" inverseEntity="Stats"/>
+    </entity>
+    <entity name="StatsCategoryIncomplete" representedClassName="StatsCategoryIncomplete" syncable="YES">
+        <attribute name="incompleteCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="incompleteToStats" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Stats" inverseName="statsToIncomplete" inverseEntity="Stats"/>
+    </entity>
+    <entity name="Task" representedClassName="Task" syncable="YES">
+        <attribute name="carryOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isNew" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="reminder" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="reminderState" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="taskToBackLog" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BackLog" inverseName="backLogToTask" inverseEntity="BackLog"/>
+        <relationship name="taskToDay" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Day" inverseName="dayToTask" inverseEntity="Day"/>
+    </entity>
+    <elements>
+        <element name="BackLog" positionX="-168.37109375" positionY="231.5625" width="128" height="88"/>
+        <element name="BigListTask" positionX="-461.171875" positionY="129.3984375" width="128" height="223"/>
+        <element name="CategoryList" positionX="6.55078125" positionY="-177.7265625" width="128" height="58"/>
+        <element name="Day" positionX="6.375" positionY="-64.6953125" width="128" height="193"/>
+        <element name="DayStats" positionX="8.55859375" positionY="232.4140625" width="128" height="148"/>
+        <element name="Stats" positionX="-365.7421875" positionY="-178.22265625" width="128" height="193"/>
+        <element name="StatsCategoryComplete" positionX="-166.3984375" positionY="-166.56640625" width="128" height="88"/>
+        <element name="StatsCategoryIncomplete" positionX="-165.69140625" positionY="-106.76171875" width="128" height="88"/>
+        <element name="Task" positionX="157.875" positionY="-65.9453125" width="128" height="238"/>
+    </elements>
+</model>

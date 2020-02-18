@@ -11,9 +11,9 @@ import UIKit
 class ProgressBarContainer: UIView {
 	
 	struct StatusColor {
-		static var high: UIColor = UIColor.red.adjust(by: -10.0)!
-		static var medium: UIColor = UIColor.yellow.adjust(by: -10.0)!
-		static var low: UIColor = UIColor.green.adjust(by: -10.0)!
+		static var high: UIColor = UIColor(red:0.99, green:0.00, blue:0.47, alpha:1.0).adjust(by: -10.0)!
+		static var medium: UIColor = UIColor(red:0.99, green:0.77, blue:0.00, alpha:1.0).adjust(by: -10.0)!
+		static var low: UIColor = UIColor(red:0.00, green:0.93, blue:0.99, alpha:1.0).adjust(by: -10.0)!
 		static var normal: UIColor = UIColor.white
 	}
 	

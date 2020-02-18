@@ -145,9 +145,9 @@ class TaskLimitViewModel {
 	
 	func updateDayObject(persistentContainer: PersistentContainer) {
 		let today = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-		today.dayToStats?.highPriority = Int16(currentHighPriorityTaskLimit())
-		today.dayToStats?.lowPriority = Int16(currentLowPriorityTaskLimit())
-		today.dayToStats?.mediumPriority = Int16(currentMediumPriorityTaskLimit())
+		today.dayToStats?.highPriority = Int64(currentHighPriorityTaskLimit())
+		today.dayToStats?.lowPriority = Int64(currentLowPriorityTaskLimit())
+		today.dayToStats?.mediumPriority = Int64(currentMediumPriorityTaskLimit())
 	}
 	
 	func updateKeychain(indexPath: IndexPath) {

@@ -93,32 +93,49 @@ class MainViewModel {
 		cell.persistentContainer = persistentContainer
 		cell.task = taskForRow(indexPath: indexPath)
 		
-        cell.adjustDailyTaskComplete = { [weak self] (task) in
+        cell.updateDailyStats = { [weak self] (task) in
 			guard let _self = self else { return }
 			if (task.complete) {
 				_self.dayEntity?.dayToStats?.totalCompleted += 1
             } else {
 				_self.dayEntity?.dayToStats?.totalCompleted -= 1
             }
+			
+			
+			
         }
 
 		cell.updateStats = { (task) in
 			let stat = persistentContainer?.fetchStatEntity()
 
             if (task.complete) {
-				// general stat
+				// ADD TO STATS
+				
+				// completed tasks stat
 				stat?.addToTotalCompleteTasks(numTasks: 1)
 				stat?.removeFromTotalIncompleteTasks(numTasks: 1)
 
 				// category specific stat
 				stat?.addToCategoryACompleteTask(category: task.category)
-
+				
+				//priority task
+				if let priority: Priority = Priority(rawValue: task.priority) {
+					stat?.addToPriority(numTasks: 1, priority: priority)
+				}
             } else {
+				// REMOVE FROM STATS
+				
+				// completed tasks stat
 				stat?.addToTotalIncompleteTasks(numTasks: 1)
 				stat?.removeFromTotalCompleteTasks(numTasks: 1)
 
 				// category specific stat
 				stat?.removeFromCategoryACompleteTask(category: task.category)
+				
+				//priority task
+				if let priority: Priority = Priority(rawValue: task.priority) {
+					stat?.removeFromPriority(numTasks: 1, priority: priority)
+				}
             }
 		}
 

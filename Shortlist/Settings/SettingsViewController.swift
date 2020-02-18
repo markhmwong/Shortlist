@@ -145,9 +145,11 @@ class SettingsViewController: UIViewController {
 		let _ = persistentContainer.deleteAllRecordsIn(entity: Day.self)
 		// Task/BigListTask entity is deletion is cascaded that's why it's missing
 		let _ = persistentContainer.deleteAllRecordsIn(entity: CategoryList.self)
+		let _ = persistentContainer.deleteAllRecordsIn(entity: DayStats.self)
 		let _ = persistentContainer.deleteAllRecordsIn(entity: BackLog.self)
 		let _ = persistentContainer.deleteAllRecordsIn(entity: Stats.self)
 		let _ = persistentContainer.deleteAllRecordsIn(entity: StatsCategoryComplete.self)
+		let _ = persistentContainer.deleteAllRecordsIn(entity: StatsCategoryIncomplete.self)
 	}
 	
 	func deleteCategoryData() {

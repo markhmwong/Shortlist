@@ -22,12 +22,27 @@ protocol MainViewControllerProtocol: AnyObject {
 
 class MainViewController: UIViewController, PickerViewContainerProtocol, MainViewControllerProtocol {
     
+	private var connectivity: Connectivity? = Connectivity()
+	
     weak var coordinator: MainCoordinator? = nil
     
     var viewModel: MainViewModel? = nil
     
     weak var persistentContainer: PersistentContainer? = nil
   
+    private lazy var fetchedResultsController: NSFetchedResultsController<Day>? = {
+        // Create Fetch Request
+        let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
+        // Configure Fetch Request
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        fetchRequest.predicate = NSPredicate(format: "createdAt == %@", argumentArray: [Calendar.current.today()])
+        // Create Fetched Results Controller
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: (self.persistentContainer?.viewContext ?? nil)!, sectionNameKeyPath: nil, cacheName: nil)
+        // Configure Fetched Results Controller
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
+    }()
+	
 	private lazy var mainInputView: MainInputView = {
 		let view = MainInputView(delegate: self)
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -41,19 +56,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
-	
-    private lazy var fetchedResultsController: NSFetchedResultsController<Day>? = {
-        // Create Fetch Request
-        let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
-        // Configure Fetch Request
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
-        fetchRequest.predicate = NSPredicate(format: "createdAt == %@", argumentArray: [Calendar.current.today()])
-        // Create Fetched Results Controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: (self.persistentContainer?.viewContext ?? nil)!, sectionNameKeyPath: nil, cacheName: nil)
-        // Configure Fetched Results Controller
-        fetchedResultsController.delegate = self
-        return fetchedResultsController
-    }()
     
     lazy var tableView: UITableView = {
         let view = UITableView()
@@ -113,37 +115,43 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		print("viewdidAppear")
 	}
     
-	// clean up
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		// to do review these comments in this entire function
 		// background thread fill uninitialised days over the last 30 days - for stats
 //		searchNilDaysOverThirtyDays()
+		let fbs = FirebaseService(dataBaseUrl: nil)
+		
+		connectivity?.start {
+			// this closure runs only if we have an internet connection
+			let status = fbs.status
+			if (status == .Incomplete) {
+				fbs.status = .Complete // set firebase service status. set immediately to avoid further checks
+				
+				fbs.authenticateAnonymously()
+				fbs.getGlobalTasks { [unowned self] (globalTaskValue) in
+					DispatchQueue.main.async {
+						self.newsFeed.updateFeed(str: "\(globalTaskValue)")
+						
+					}
+					UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
+						self.newsFeed.feedLabel.alpha = 1
+						self.view.layoutIfNeeded()
+					}) { (state) in
+						
+					}
+				}
+			}
+		}
 		
 		loadData()
 		setupView()
 		AppStoreReviewManager.requestReviewIfAppropriate()
-		
 
-		
 		keyboardNotifications()
 		initialiseStatEntity()
-		
-		let fbs = FirebaseService(dataBaseUrl: nil)
-		fbs.authenticateAnonymously()
-		fbs.getGlobalTasks { (globalTaskValue) in
-			DispatchQueue.main.async {
-				self.newsFeed.updateFeed(str: "\(globalTaskValue)")
-			}
-			UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
-				self.newsFeed.feedLabel.alpha = 1
-				self.view.layoutIfNeeded()
-			}) { (state) in
 
-			}
-		}
-		
 		// test watch
 		// syncWatch()
 
@@ -156,6 +164,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		_viewModel.sortedSet = _viewModel.sortTasks(dayObject)
 	}
 	
+	//only created if it doesn't exist
 	func initialiseStatEntity() {
 		guard let _persistentContainer = persistentContainer else { return }
 		guard _persistentContainer.fetchStatEntity() != nil else {
@@ -214,12 +223,12 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
                 let totalCompleted = Int.random(in: completedTasksRange)
                 
                 dayObject = Day(context: persistentContainer.viewContext)
-				dayObject?.dayToStats?.highPriority = Int16(Int.random(in: 1...3))
-				dayObject?.dayToStats?.mediumPriority = Int16(Int.random(in: 1...5))
-				dayObject?.dayToStats?.lowPriority = Int16(Int.random(in: 1...5))
+				dayObject?.dayToStats?.highPriority = Int64(Int.random(in: 1...3))
+				dayObject?.dayToStats?.mediumPriority = Int64(Int.random(in: 1...5))
+				dayObject?.dayToStats?.lowPriority = Int64(Int.random(in: 1...5))
                 dayObject?.createdAt = date as NSDate
-				dayObject?.dayToStats?.totalCompleted = Int16(totalCompleted)
-				dayObject?.dayToStats?.totalTasks = Int16(totalTasks)
+				dayObject?.dayToStats?.totalCompleted = Int64(totalCompleted)
+				dayObject?.dayToStats?.totalTasks = Int64(totalTasks)
                 dayObject?.month = Calendar.current.monthToInt(date: date, adjust: -i)
                 dayObject?.year = Calendar.current.yearToInt()
                 dayObject?.day = Int16(Calendar.current.dayDate(date: date))
@@ -326,13 +335,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
             day.year = Calendar.current.yearToInt() // Stats
             day.day = Int16(Calendar.current.todayToInt()) // Stats
 			day.dayToTask = Set<Task>() as NSSet
-//			let dayStats = DayStats(context: persistentContainer.viewContext)
-//			dayStats.totalCompleted = 0
-//			dayStats.totalTasks = 0
-//			dayStats.highPriority = 0
-//			dayStats.lowPriority = 0
-//			dayStats.mediumPriority = 0
-//			dayStats.accolade = ""
+
 		}
 		persistentContainer.saveContext()
 		
