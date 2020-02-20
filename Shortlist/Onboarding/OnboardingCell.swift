@@ -89,7 +89,7 @@ class OnboardingCell: UICollectionViewCell {
 
 		details.anchorView(top: title.bottomAnchor, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 30.0, left: bounds.width / 8, bottom: 0.0, right: -bounds.width / 8), size: .zero)
 		
-		skipButton.anchorView(top: self.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: nil, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -15.0), size: .zero)
+		skipButton.anchorView(top: self.topAnchor, bottom: nil, leading: nil, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -15.0), size: .zero)
 	}
 	
 	private func updateDetails(_ text: String) {

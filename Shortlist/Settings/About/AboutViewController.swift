@@ -33,7 +33,9 @@ class AboutViewController: UIViewController {
     lazy var details = """
 	Thanks for using \(appName) v\(appVersion ?? " unknown"), build \(appBuild ?? "unknown").\n
 	\n
-	The kind of app that doesn't allow you to continue adding tasks.
+	The daily finite To Do List.
+	
+	
 	
 	Privacy.\n
 	To be completed. May use Google Analytics to monitor app usage
@@ -45,7 +47,7 @@ class AboutViewController: UIViewController {
 	Twitter: @markhmwong\nWebsite: https://www.whizbangapps.xyz/\(appName)\n
 	
 	Credits.\n
-	Onboarding graphics authors: Freepik, Pause08, Becris, srip, zlatko-najdenovski, itim2101 @ www.flaticon.com and icons8.com
+	Onboarding assets authors: Freepik, Pause08, Becris, srip, zlatko-najdenovski, itim2101 @ www.flaticon.com and icons8.com
 	"""
     
 	init(coordinator: AboutCoordinator) {

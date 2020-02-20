@@ -8,6 +8,12 @@
 
 import Foundation
 
+struct OnboardingPage {
+	var title: String
+	var details: String
+	var image: String
+}
+
 struct OnboardingDetails {
 	// welcome
 	// limit tasks
@@ -35,10 +41,4 @@ struct OnboardingDetails {
 	]
 }
 
-struct OnboardingPage {
-	
-	var title: String
-	var details: String
-	var image: String
-	
-}
+

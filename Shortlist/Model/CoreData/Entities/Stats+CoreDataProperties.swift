@@ -18,7 +18,7 @@ extension Stats {
     }
 
     @NSManaged public var favoriteTimeToComplete: Date?
-    @NSManaged public var id: Int16
+    @NSManaged public var id: Int64
     @NSManaged public var totalCompleteTasks: Int64
     @NSManaged public var totalIncompleteTasks: Int64
     @NSManaged public var totalTasks: Int64

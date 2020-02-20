@@ -92,17 +92,20 @@ class AwardTests: XCTestCase {
 	// category awards are not counted for uncategorized tasks
 	func testHighPriorityAndCompletedAward() {
 		// create mock day
-		let day = createMockDayObject()
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
 		
 		// create mock tasks
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.high.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.high.rawValue)))
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
+
+		dayToStats.totalTasks = Int64(dayToTask.count)
 		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
+		for task in dayToTask {
 			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
 			}
 		}
 		
@@ -114,6 +117,7 @@ class AwardTests: XCTestCase {
 			AwardsList.Complete.ThePowerHouse,
 			AwardsList.HighPriority.ThePresident,
 			AwardsList.HighPriority.TheTopBrass,
+			AwardsList.Complete.TheGrunt,
 			AwardsList.HighPriority.TheBoss
 		]
 		
@@ -127,23 +131,25 @@ class AwardTests: XCTestCase {
 	// Contains less than 30% compeleted tasks and a high priority task complete
 	func testLowCompletionRateAndHighPriority() {
 		// create mock day
-		let day = createMockDayObject()
-		
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
+
 		// create mock tasks
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.medium.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.low.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.low.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.high.rawValue)))
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
 		
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
-		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
+		dayToStats.totalTasks = Int64(dayToTask.count)
+
+		for task in dayToTask {
 			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
 			}
 		}
-		
+
 		let accolades = DailyAccolades(day: day)
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
@@ -153,31 +159,35 @@ class AwardTests: XCTestCase {
 			AwardsList.HighPriority.TheTopBrass,
 			AwardsList.HighPriority.TheBoss
 		]
-		
+
 		let containsCompleteTasks = awardMatcher(awards: awards, testableAwards: testAwards)
 
 		let awardCorrectCount: Bool = awards.count == testAwards.count
 		print("awards - \(awards)")
 		XCTAssertTrue(containsCompleteTasks && awardCorrectCount, "All task completed including all priorities with no incomplete priorities")
 	}
-	
-	// Should contain complete/incomplete and medium priority awards because a high priority task is not complete. 50% compelete rating
+
+//	// Should contain complete/incomplete and medium priority awards because a high priority task is not complete. 50% compelete rating
 	func testMediumPriorityAndCompletedAward() {
 		// create mock day
-		let day = createMockDayObject()
-		
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
+
 		// create mock tasks
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.medium.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.low.rawValue)))
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
 		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
+		
+		dayToStats.totalTasks = Int64(dayToTask.count)
+
+		for task in dayToTask {
 			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
 			}
 		}
-		
+
 		let accolades = DailyAccolades(day: day)
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
@@ -186,32 +196,36 @@ class AwardTests: XCTestCase {
 			AwardsList.MediumPriority.TheToiler,
 			AwardsList.Incomplete.TheCouchPotato,
 			AwardsList.Complete.TheBusyBee,
-			AwardsList.Complete.ThePowerHouse,
+			AwardsList.Complete.TheGrunt,
 		]
 		print(awards)
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
 		XCTAssertTrue(containsAward && awardCorrectCount, "Contains all the medium priority awards")
-		
+
 	}
-	
-	// Should contain 100% task award despite priority and no incomplete awards
+//
+//	// Should contain 100% task award despite priority and no incomplete awards
 	func testAllTaskCompleted() {
 		// create mock day
-		let day = createMockDayObject()
-		
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
+
 		// create mock tasks
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.medium.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.low.rawValue)))
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
+
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
 		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
+		dayToStats.totalTasks = Int64(dayToTask.count)
+
+		for task in dayToTask {
 			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
 			}
 		}
-		
+
 		let accolades = DailyAccolades(day: day)
 		let awards = accolades.retrieveAwards()
 		print(awards)
@@ -219,36 +233,44 @@ class AwardTests: XCTestCase {
 			AwardsList.MediumPriority.TheToiler,
 			AwardsList.MediumPriority.TheWorkHorse,
 			AwardsList.MediumPriority.TheSlogger,
-			AwardsList.Complete.TheCompletionist
+			AwardsList.Complete.TheCompletionist,
+			AwardsList.Complete.TheOneManBand,
+			AwardsList.Complete.TheHighAchiever
 		]
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
-		
+
 		XCTAssertTrue(containsAward && awardCorrectCount, "All task completed")
 	}
-	
-	// Should contain 100% task award and no incomplete awards. Since all tasks are complete, we choose to reward the user with the highest priority
+//
+//	// Should contain 100% task award and no incomplete awards. Since all tasks are complete, we choose to reward the user with the highest priority
 	func testAllTaskCompletedWithAllPriorities() {
 		// create mock day
-		let day = createMockDayObject()
-		
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
+
 		// create mock tasks
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.medium.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.low.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.high.rawValue)))
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
+
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
 		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
+		dayToStats.totalTasks = Int64(dayToTask.count)
+
+		for task in dayToTask {
 			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
 			}
 		}
-		
+
 		let accolades = DailyAccolades(day: day)
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
 			AwardsList.Complete.TheCompletionist,
+			AwardsList.Complete.TheOneManBand,
+			AwardsList.Complete.TheHighAchiever,
 			AwardsList.HighPriority.ThePresident,
 			AwardsList.HighPriority.TheTopBrass,
 			AwardsList.HighPriority.TheBoss,
@@ -256,66 +278,73 @@ class AwardTests: XCTestCase {
 		print(awards)
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
-		
+
 		XCTAssertTrue(containsAward && awardCorrectCount, "All task completed including all priorities with no incomplete priorities")
 	}
-	
-	// Should contain 75% task award and no incomplete awards. Main focus is to test the priority. In this case we'll should have medium priority rewards, 75% completion rate reward and 1 incomplete task because we did not complete a high priority task
+//
+//	// Should contain 75% task award and no incomplete awards. Main focus is to test the priority. In this case we'll should have medium priority rewards, 75% completion rate reward and 1 incomplete task because we did not complete a high priority task
 	func testAllTaskCompletedWithMediumPriorityRewards() {
 		// create mock day
-		let day = createMockDayObject()
-		
-		// create mock tasks
-		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.medium.rawValue)))
-		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.low.rawValue)))
-		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.high.rawValue)))
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
-		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
-			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
-			}
-		}
-		
-		let accolades = DailyAccolades(day: day)
-		let awards = accolades.retrieveAwards()
-		let testAwards: [String] = [
-			AwardsList.Complete.TheBusyBee,
-			AwardsList.Complete.ThePowerHouse,
-			AwardsList.MediumPriority.TheToiler,
-			AwardsList.MediumPriority.TheWorkHorse,
-			AwardsList.MediumPriority.TheSlogger,
-			AwardsList.Incomplete.TheCouchPotato,
-		]
-		print(awards)
-		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
-		let awardCorrectCount: Bool = awards.count == testAwards.count
-		
-		XCTAssertTrue(containsAward && awardCorrectCount, "All task completed including all priorities with no incomplete priorities")
-	}
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
 
-	// TEST INCOMPLETE AWARDS
-	
-	// Should only have medium awards even though we have two types of priority tasks completed, as we take the highest priority completed task to award the user
-	// 50% completion rate - 50% incompletion rate
-	func testIncompleteAwardWith50PercentCompletionRate() {
-		let day = createMockDayObject()
+		// create mock tasks
+		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.medium.rawValue)))
+		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.low.rawValue)))
+		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.high.rawValue)))
 		
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
+		
+		dayToStats.totalTasks = Int64(dayToTask.count)
+
+		for task in dayToTask {
+			if (task.complete) {
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
+			}
+		}
+
+		let accolades = DailyAccolades(day: day)
+		let awards = accolades.retrieveAwards()
+		let testAwards: [String] = [
+			AwardsList.Complete.TheBusyBee,
+			AwardsList.Complete.TheGrunt,
+			AwardsList.MediumPriority.TheToiler,
+			AwardsList.MediumPriority.TheWorkHorse,
+			AwardsList.MediumPriority.TheSlogger,
+			AwardsList.Incomplete.TheCouchPotato,
+		]
+		print(awards)
+		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
+		let awardCorrectCount: Bool = awards.count == testAwards.count
+
+		XCTAssertTrue(containsAward && awardCorrectCount, "Partially completed including all priorities with no incomplete priorities")
+	}
+//
+//	// TEST INCOMPLETE AWARDS
+//
+//	// Should only have medium awards even though we have two types of priority tasks completed, as we take the highest priority completed task to award the user
+//	// 50% completion rate - 50% incompletion rate
+	func testIncompleteAwardWith50PercentCompletionRate() {
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
+
 		// create mock tasks
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.medium.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.low.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.high.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.high.rawValue)))
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
 		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
+		dayToStats.totalTasks = Int64(dayToTask.count)
+
+		for task in dayToTask {
 			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
 			}
 		}
-		
+
 		let accolades = DailyAccolades(day: day)
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
@@ -324,36 +353,38 @@ class AwardTests: XCTestCase {
 			AwardsList.MediumPriority.TheWorkHorse,
 			AwardsList.MediumPriority.TheSlogger,
 			AwardsList.Complete.TheBusyBee,
-			AwardsList.Complete.ThePowerHouse,
-			
+			AwardsList.Complete.TheGrunt,
 		]
 		print(awards)
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
-		
-		XCTAssertTrue(containsAward && awardCorrectCount, "All task completed including all priorities with no incomplete priorities")
+
+		XCTAssertTrue(containsAward && awardCorrectCount, "Partially completed including all priorities with no incomplete priorities")
 	}
-	
-	// Rewards
-	// 75% incompletion rate - 25% completion rate
-	// 1 priority type - medium
+//
+//	// Rewards
+//	// 75% incompletion rate - 25% completion rate
+//	// 1 priority type - medium
 	func testIncompleteAwardWith75PercentCompletionRate() {
-		let day = createMockDayObject()
-		
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
+
 		// create mock tasks
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.medium.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.low.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.high.rawValue)))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.high.rawValue)))
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
 		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
+		dayToStats.totalTasks = Int64(dayToTask.count)
+
+		for task in dayToTask {
 			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
 			}
 		}
-		
+
 		let accolades = DailyAccolades(day: day)
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
@@ -367,34 +398,38 @@ class AwardTests: XCTestCase {
 		print(awards)
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
-		
-		XCTAssertTrue(containsAward && awardCorrectCount, "All task completed including all priorities with no incomplete priorities")
+
+		XCTAssertTrue(containsAward && awardCorrectCount, "One Task completed including all priorities with no incomplete priorities")
 	}
-	
-	// CATEGORY REWARDS
-	
-	// 75% completion rate
-	// 3+ category types complete
+//
+//	// CATEGORY REWARDS
+//
+//	// 75% completion rate
+//	// 3+ category types complete
 	func testCategoryWithThreeCategories() {
-		let day = createMockDayObject()
-		
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
+
 		// create mock tasks
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.medium.rawValue), category: "Work"))
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.low.rawValue), category: "Work"))
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.high.rawValue), category: "Work"))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.high.rawValue), category: "Work"))
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
 		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
+		dayToStats.totalTasks = Int64(dayToTask.count)
+
+		for task in dayToTask {
 			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
 			}
 		}
-		
+
 		let accolades = DailyAccolades(day: day)
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
+			AwardsList.Complete.ThePowerHouse,
 			AwardsList.Complete.TheExecutor,
 			AwardsList.Complete.TheHustler,
 			AwardsList.HighPriority.ThePresident,
@@ -403,19 +438,20 @@ class AwardTests: XCTestCase {
 			AwardsList.Category.TheSpecialist,
 			AwardsList.Category.TheProfessional,
 		]
-		
+
 		print(awards)
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
-		
-		XCTAssertTrue(containsAward && awardCorrectCount, "All task completed including all priorities with no incomplete priorities")
+
+		XCTAssertTrue(containsAward && awardCorrectCount, "3 / 4 completed tasks including all priorities with no incomplete priorities")
 	}
-	
-	// 75% completion rate
-	// 5 category types complete
+//
+//	// 75% completion rate
+//	// 5 category types complete
 	func testCategoryWithFiveCategories() {
-		let day = createMockDayObject()
-		
+		let day = Day(context: persistentContainer.viewContext)
+		day.createNewDay(date: Calendar.current.today())
+
 		// create mock tasks
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.medium.rawValue), category: "Work"))
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.low.rawValue), category: "Work"))
@@ -423,18 +459,21 @@ class AwardTests: XCTestCase {
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.high.rawValue), category: "Work"))
 		day.addToDayToTask(createMockTasks(day: day, complete: true, priority: Int(Priority.high.rawValue), category: "Work"))
 		day.addToDayToTask(createMockTasks(day: day, complete: false, priority: Int(Priority.high.rawValue), category: "Work"))
-		day.totalTasks = Int16(day.dayToTask?.count ?? 0)
+		guard let dayToStats = day.dayToStats else { return }
+		guard let dayToTask = day.dayToTask as? Set<Task> else { return }
 		
-		guard let tasks = day.dayToTask as? Set<Task> else { return }
-		for task in tasks {
+		dayToStats.totalTasks = Int64(dayToTask.count)
+
+		for task in dayToTask {
 			if (task.complete) {
-				day.totalCompleted = day.totalCompleted + 1
+				dayToStats.totalCompleted = dayToStats.totalCompleted + 1
 			}
 		}
-		
+
 		let accolades = DailyAccolades(day: day)
 		let awards = accolades.retrieveAwards()
 		let testAwards: [String] = [
+			AwardsList.Complete.ThePowerHouse,
 			AwardsList.Complete.TheExecutor,
 			AwardsList.Complete.TheHustler,
 			AwardsList.HighPriority.ThePresident,
@@ -443,11 +482,11 @@ class AwardTests: XCTestCase {
 			AwardsList.Category.TheIceman,
 			AwardsList.Category.TheMaster,
 		]
-		
+
 		print(awards)
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
-		
-		XCTAssertTrue(containsAward && awardCorrectCount, "All task completed including all priorities with no incomplete priorities")
+
+		XCTAssertTrue(containsAward && awardCorrectCount, "90%+ completed including all priorities with no incomplete priorities")
 	}
 }

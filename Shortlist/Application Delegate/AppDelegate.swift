@@ -75,6 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		} else {
 			mainCoordinator?.start(persistentContainer)
+			
 			let today: Int16 = Calendar.current.todayToInt()
 
 			if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {

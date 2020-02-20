@@ -168,7 +168,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		guard let _persistentContainer = persistentContainer else { return }
 		guard _persistentContainer.fetchStatEntity() != nil else {
 			let stat = Stats(context: _persistentContainer.viewContext)
-			stat.id = Int16(0)
+			stat.id = Int64(0)
 			stat.favoriteTimeToComplete = nil
 			stat.totalCompleteTasks = 0
 			stat.totalTasks = 0

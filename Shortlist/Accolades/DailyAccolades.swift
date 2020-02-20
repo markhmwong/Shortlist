@@ -102,7 +102,7 @@ class DailyAccolades: NSObject {
 			awardList.append(AwardsList.Incomplete.TheCouchPotato)
 		} else if (percentageIncomplete >= 0.7 && percentageIncomplete < 0.9) {
 			awardList.append(AwardsList.Incomplete.ThePolitician)
-		} else {
+		} else if (percentageIncomplete >= 0.9) {
 			awardList.append(AwardsList.Incomplete.TheDayDreamer)
 		}
 	}

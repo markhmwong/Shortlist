@@ -34,7 +34,7 @@ class OnboardingViewModel {
 		cell.data = pageDetails
 		cell.coordinator = coordinator
 		if (indexPath.row == dataSource.count - 1) {
-			cell.updateButton("Close")
+			cell.updateButton("Skip")
 		}
 		return cell
 	}

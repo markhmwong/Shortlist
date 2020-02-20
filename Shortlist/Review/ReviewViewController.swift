@@ -69,7 +69,7 @@ class ReviewViewController: UIViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+		super.init(coder: aDecoder)
     }
 	
 	override func viewDidLayoutSubviews() {
@@ -114,11 +114,13 @@ class ReviewViewController: UIViewController {
 		
 		_viewModel.resolvePriorityCount(persistentContainer: _persistentContainer)
 		_viewModel.registerCells(tableView: tableView)
-
+		let accolade = _viewModel.resolveAccolade()
+		_viewModel.dayEntity?.dayToStats?.accolade = accolade
+		persistentContainer?.saveContext()
 		if (_day.dayToStats?.accolade == nil) {
 			let accolade = _viewModel.resolveAccolade()
 			_viewModel.dayEntity?.dayToStats?.accolade = accolade
-			persistentContainer?.saveContext()
+			
 			reviewHeader.updateAccoladeLabel(accolade)
 		} else {
 			reviewHeader.updateAccoladeLabel(_day.dayToStats?.accolade ?? "Unknown Accolade")
@@ -155,7 +157,6 @@ class ReviewViewController: UIViewController {
             try fetchedResultsController.performFetch()
         } catch (let err) {
 			coordinator?.showAlertBox("Unable to load data - \(err)")
-//            print("Unable to perform fetch \(err)")
         }
         
         _viewModel.dayEntity = dayObject
