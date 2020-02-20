@@ -152,10 +152,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		initialiseStatEntity()
 
 		// test watch
-		// syncWatch()
-
-		// mostly testing functions
-//		prepareDayObjectsInAdvance()
+		 syncWatch()
     }
 	
 	func initialiseData(_ dayObject: Day) {
@@ -253,22 +250,20 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	}
     
     // disabled
-//    func syncWatch() {
-//        let today = Calendar.current.today()
+    func syncWatch() {
 //        let taskList: [TaskStruct] = [
-//            TaskStruct(id: 0, name: "Sample Task One", complete: false, priority: 0),
+//            TaskStruct(id: 0, name: "Test One", complete: false, priority: 0),
 //            TaskStruct(id: 1, name: "Sample Task One", complete: false, priority: 1),
 //            TaskStruct(id: 2, name: "Sample Task One", complete: false, priority: 2),
 //        ]
 //
 //        do {
 //            let encodedData = try JSONEncoder().encode(taskList)
-////            let jsonString = String(data: encodedData, encoding: .utf8)
 //            WatchSessionHandler.shared.updateApplicationContext(with: encodedData)
 //        } catch (let err) {
 //            print("Error encoding taskList \(err)")
 //        }
-//    }
+    }
 	
 	
 	var newsFeedTopAnchor: NSLayoutYAxisAnchor?

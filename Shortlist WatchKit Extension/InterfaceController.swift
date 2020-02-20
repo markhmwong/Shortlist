@@ -73,7 +73,6 @@ class InterfaceController: WKInterfaceController {
         dateLabel.setText(str)
     }
     
-    // data: [TaskStruct] is sorted.
     func reloadTable(with data: [TaskStruct]) {
         print("reloadTable")
         taskTable.setNumberOfRows(data.count, withRowType: "TaskRow")
@@ -82,7 +81,7 @@ class InterfaceController: WKInterfaceController {
             controller.task = data[index]
             //task button closure
             controller.updateDataSource = { [unowned self] (task) in
-                self.tableDataSource?[Int(task.id)] = task
+//                self.tableDataSource?[Int(task.id)] = task
                 do {
                     let encodedData = try JSONEncoder().encode(self.tableDataSource)
                     let _ = ["UpdateTaskFromWatch": encodedData]

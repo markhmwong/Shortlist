@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14490.70" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch38" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15505" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38"/>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14490.21"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Five_WatchKit_App" customModuleProvider="target">
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Shortlist_WatchKit_App" customModuleProvider="target">
                     <items>
                         <label width="136" height="19" alignment="left" text="Date Label" textAlignment="left" id="08s-Rf-iSk">
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -20,15 +18,15 @@
                         </label>
                         <table alignment="left" id="Q3R-5O-sCI">
                             <items>
-                                <tableRow identifier="TaskRow" id="3jI-7e-w0F" customClass="TaskRowController" customModule="Five_WatchKit_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="juu-oz-hIk">
+                                <tableRow identifier="TaskRow" id="3jI-7e-w0F" customClass="TaskRowController" customModule="Shortlist_WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="106" alignment="left" id="juu-oz-hIk">
                                         <items>
                                             <button width="19" height="20" alignment="left" verticalAlignment="center" backgroundImage="TaskButtonEnabled" id="mPs-Wd-RI9">
                                                 <connections>
                                                     <action selector="taskComplete" destination="3jI-7e-w0F" id="RLJ-vF-dYe"/>
                                                 </connections>
                                             </button>
-                                            <label alignment="left" verticalAlignment="center" text="Label" id="i0L-N2-CYS"/>
+                                            <label width="106" height="105" alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="i0L-N2-CYS"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -67,16 +65,19 @@
         <!--Notification Controller-->
         <scene sceneID="ZPc-GJ-vnh">
             <objects>
-                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="Five_WatchKit_App" customModuleProvider="target"/>
+                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="Shortlist_WatchKit_App" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="468" y="643"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="Niz-AI-uX2">
             <objects>
-                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="Five_WatchKit_App" customModuleProvider="target"/>
+                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="Shortlist_WatchKit_App" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="481" y="336"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="TaskButtonEnabled" width="36" height="36"/>
+    </resources>
 </document>

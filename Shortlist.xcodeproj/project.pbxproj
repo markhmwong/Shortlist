@@ -427,7 +427,7 @@
 		4DED156A23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectCategoryViewController+NSFetchedResultsController.swift"; sourceTree = "<group>"; };
 		4DED156C23617BA200FC903E /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		4DF724F022F174D200472072 /* Five.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Five.entitlements; sourceTree = "<group>"; };
-		4DF724F122F174F100472072 /* Five WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Five WatchKit App.entitlements"; sourceTree = "<group>"; };
+		4DF724F122F174F100472072 /* Shortlist WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Shortlist WatchKit App.entitlements"; sourceTree = "<group>"; };
 		4DF724FA22F18FEF00472072 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4DF724FB22F1974000472072 /* TaskRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRowController.swift; sourceTree = "<group>"; };
 		501806F0EACC446B29A5E30D /* Pods-Shortlist WatchKit App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shortlist WatchKit App.release.xcconfig"; path = "Pods/Target Support Files/Pods-Shortlist WatchKit App/Pods-Shortlist WatchKit App.release.xcconfig"; sourceTree = "<group>"; };
@@ -612,7 +612,7 @@
 		4D45E7BA22DDD1AD008AC433 /* Shortlist WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
-				4DF724F122F174F100472072 /* Five WatchKit App.entitlements */,
+				4DF724F122F174F100472072 /* Shortlist WatchKit App.entitlements */,
 				4D45E7BB22DDD1AD008AC433 /* Interface.storyboard */,
 				4D45E7BE22DDD1AE008AC433 /* Assets.xcassets */,
 				4D45E7C022DDD1AE008AC433 /* Info.plist */,
@@ -1912,10 +1912,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Five WatchKit App.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shorlist WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
-				IBSC_MODULE = Five_WatchKit_Extension;
+				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1933,10 +1933,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Five WatchKit App.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shorlist WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
-				IBSC_MODULE = Five_WatchKit_Extension;
+				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

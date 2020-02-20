@@ -44,7 +44,5 @@ class TaskRowController: NSObject {
         print("updatetask")
         updateDataSource?(task)
     }
-    
- 
-    
+
 }
