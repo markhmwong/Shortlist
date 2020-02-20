@@ -72,13 +72,14 @@ class DailyAccolades: NSObject {
 		// to be updated with correct awards
 		
 		let percentageComplete: Double = Double(_stats.totalCompleted) / Double(_stats.totalTasks)
+		
 		if (percentageComplete > 0.01 && percentageComplete < 0.3) {
 			awardList.append(AwardsList.Complete.TheDoer)
 			awardList.append(AwardsList.Complete.TheGoGetter)
 		} else if (percentageComplete >= 0.3 && percentageComplete < 0.7) {
 			awardList.append(AwardsList.Complete.TheBusyBee)
 			awardList.append(AwardsList.Complete.TheGrunt)
-		} else {
+		} else if (percentageComplete >= 0.7) {
 			awardList.append(AwardsList.Complete.ThePowerHouse)
 			awardList.append(AwardsList.Complete.TheExecutor)
 			awardList.append(AwardsList.Complete.TheHustler)

@@ -39,10 +39,8 @@ class StatisticsGenerator: NSObject {
 
 		for day in _dayArray {
 			if let stats = day.dayToStats {
-				print("\(stats.highPriority) highPriority")
 				let limit = stats.highPriority + stats.mediumPriority + stats.lowPriority
 				taskLimit = mostAmountOfTasksForDay(currLimit: Int16(limit), newLimit: taskLimit)
-				print("\(taskLimit) taskLimit")
 				totalCompletedForTimePeriod += stats.totalCompleted
 				totalTasksForDay += stats.totalTasks
 				incompleteTasks = (stats.totalTasks) - (stats.totalCompleted)
@@ -56,7 +54,6 @@ class StatisticsGenerator: NSObject {
 				let dayOverview: DayOverview = DayOverview(dayOfWeek: dayOfWeek, dayDate: Int(day.day), numberOfCompletedTasks: Int64(stats.totalCompleted), incompleteTasks: incompleteTasks)
 				
 				convertedData[day.createdAt! as Date] = dayOverview
-				print(convertedData.count)
 			}
         }
 		

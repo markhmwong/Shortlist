@@ -107,15 +107,18 @@ class ReviewViewController: UIViewController {
 		
 		// set accolade
 		guard let _viewModel = viewModel else { return }
-		guard let _day = _viewModel.dayEntity else { return }
+		guard let _day = _viewModel.dayEntity else {
+			return
+		}
 		guard let _persistentContainer = persistentContainer else { return }
 		
 		_viewModel.resolvePriorityCount(persistentContainer: _persistentContainer)
 		_viewModel.registerCells(tableView: tableView)
-		
+
 		if (_day.dayToStats?.accolade == nil) {
 			let accolade = _viewModel.resolveAccolade()
 			_viewModel.dayEntity?.dayToStats?.accolade = accolade
+			persistentContainer?.saveContext()
 			reviewHeader.updateAccoladeLabel(accolade)
 		} else {
 			reviewHeader.updateAccoladeLabel(_day.dayToStats?.accolade ?? "Unknown Accolade")
@@ -135,26 +138,28 @@ class ReviewViewController: UIViewController {
     }
     
     func loadData() {
-        guard let persistentContainer = persistentContainer else { return }
-        guard let yesterday = viewModel?.targetDate else { return }
-        guard let viewModel = viewModel else { return }
+        guard let _persistentContainer = persistentContainer else { return }
+		guard let _viewModel = viewModel else { return }
+        let _yesterday = _viewModel.targetDate
         
-        let dayObject: Day? = persistentContainer.fetchDayManagedObject(forDate: yesterday)
+        
+        var dayObject: Day? = _persistentContainer.fetchDayManagedObject(forDate: _yesterday)
         
         if (dayObject == nil) {
+			dayObject = Day(context: _persistentContainer.viewContext)
 			dayObject?.createNewDay(date: Calendar.current.yesterday())
-            
-            persistentContainer.saveContext()
+            _persistentContainer.saveContext()
         }
         
         do {
             try fetchedResultsController.performFetch()
         } catch (let err) {
-            print("Unable to perform fetch \(err)")
+			coordinator?.showAlertBox("Unable to load data - \(err)")
+//            print("Unable to perform fetch \(err)")
         }
         
-        viewModel.dayEntity = dayObject
-        if (viewModel.dayEntity != nil) {
+        _viewModel.dayEntity = dayObject
+        if (_viewModel.dayEntity != nil) {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -235,18 +240,21 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let dayObjects = fetchedResultsController.fetchedObjects else {
 			tableView.separatorColor = .clear
-			tableView.setEmptyMessage("No tasks in this day!")
+			tableView.setEmptyMessage("No tasks to carry over!")
 			return 0
 		}
 		
 		if let day = dayObjects.first {
+			// this check is true when the user did not use the app the day before. Because no task was set to the dayTotask relationship
 			if (day.dayToTask?.count == 0) {
-				return 1
+				tableView.setEmptyMessage("No tasks to carry over!")
+				return 0
 			} else {
 				tableView.restoreBackgroundView()
 				return day.dayToTask?.count ?? 0
 			}
 		} else {
+			tableView.setEmptyMessage("No tasks to carry over!")
 			return 0
 		}
     }

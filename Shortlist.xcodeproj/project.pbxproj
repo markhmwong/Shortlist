@@ -767,14 +767,14 @@
 			isa = PBXGroup;
 			children = (
 				4D5EA37023F692180059C780 /* ConnectivityService.swift */,
-				4D5EA36C23F659240059C780 /* Firebase */,
-				4D5D7E3B232CF9380088EB5F /* IAP */,
 				4D50EE72238FB821008ACCD8 /* ImpactFeedbackService.swift */,
-				4D5A437F22E716AE00E34FAC /* KeyChainHelper */,
 				4D5B89DE236AB2EC00B38DF5 /* LocalNotificationsService.swift */,
-				4D5D7E40232CFAC80088EB5F /* LocalProductManager */,
 				4D64C5C5232F628900EE77D0 /* Log.swift */,
 				4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */,
+				4D5EA36C23F659240059C780 /* Firebase */,
+				4D5D7E3B232CF9380088EB5F /* IAP */,
+				4D5A437F22E716AE00E34FAC /* KeyChainHelper */,
+				4D5D7E40232CFAC80088EB5F /* LocalProductManager */,
 				4D242C3E23EBE37800ED1C42 /* Tips */,
 			);
 			path = Service;

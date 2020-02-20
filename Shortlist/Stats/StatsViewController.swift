@@ -122,9 +122,6 @@ class StatsViewController: UIViewController {
 		let stats: StatisticsGenerator = StatisticsGenerator(withArray: paddedDayArray)
         let calculatedStats: MonthOverviewChartData = stats.calculateStats(chartTitle: title)
 		
-		print(calculatedStats.maxTasks)
-		print("stats \(calculatedStats.data.count)")
-		
 		lineChart = LineChart(inputData: calculatedStats)
 		guard let lineChart = lineChart else { return nil }
         view.addSubview(lineChart)
@@ -134,57 +131,6 @@ class StatsViewController: UIViewController {
 		lineChart.prepareChartWithData()
 		return lineChart.bottomAnchor
 	}
-	
-	// bar charts no longer in use
-	// Last 7 day overview
-//	func calculateStatsForLastSevenDays() {
-//		let from = Calendar.current.sevenDaysFromToday()
-//		guard let dayArray = persistentContainer?.fetchRangeOfDays(from: from, to: Calendar.current.today()) else {
-//			return
-//		}
-//		var paddedDayArray = dayArray
-//
-//		// fill missing days
-//		if paddedDayArray.count < 7 {
-//			for _ in paddedDayArray.count..<7 {
-//				let day = Day(context: persistentContainer!.viewContext)
-//				day.createNewDay()
-//				paddedDayArray.append(day)
-//				persistentContainer?.saveContext()
-//			}
-//		}
-//
-////        os_log("dayArray %d", log: Log.chart, type: .info, paddedDayArray.count)
-//		let stats: StatisticsGenerator = StatisticsGenerator(withArray: paddedDayArray)
-//		let calculatedStats: MonthOverviewChartData = stats.calculateStats(chartTitle: "Last 7 Days")
-//
-//		weeklyBarChart = BarChart(inputData: calculatedStats)
-//		guard let weeklyBarChart = weeklyBarChart else { return }
-//		view.addSubview(weeklyBarChart)
-//		let paddingTopBottom: CGFloat = 10.0
-//		weeklyBarChart.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: paddingTopBottom, left: 0.0, bottom: paddingTopBottom, right: 0.0), size: CGSize(width: view.bounds.width, height: view.bounds.height / 3.0))
-//		weeklyBarChart.layoutIfNeeded()
-//		// placed after the constraints so the width and height are configured first for the main layer of the chart
-//		weeklyBarChart.prepareChartWithData()
-//	}
-//
-//    // Previous 30 day overview
-//    func calculateStatsForLastThirtyDays() {
-//        let from = Calendar.current.thirtyDaysFromToday()
-//        guard let monthly = persistentContainer?.fetchRangeOfDays(from: from, to: Calendar.current.today()) else {
-//            return
-//        }
-//
-//        let stats = StatisticsGenerator(withArray: monthly)
-//        let monthlyStats: MonthOverviewChartData = stats.calculateStats(chartTitle: "Last 30 Days")
-//
-//        barChart = BarChart(inputData: monthlyStats)
-//        guard let barChart = barChart else { return }
-//        view.addSubview(barChart)
-//        barChart.anchorView(top: weeklyBarChart?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 25.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: view.bounds.width, height: view.bounds.height / 3.0))
-//        barChart.layoutIfNeeded()
-//        barChart.prepareChartWithData()
-//    }
     
     @objc
     func handleDismiss() {

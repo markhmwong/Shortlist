@@ -46,7 +46,7 @@ class ReviewViewModel {
             }
             
 			reviewTaskSet = sortTasks(dayToTask as? Set<Task>)
-			}
+		}
     }
     
     var reviewTaskSet: [Task]? = []
@@ -95,7 +95,7 @@ class ReviewViewModel {
 	}
 	
 	func taskForRow(indexPath: IndexPath) -> Task? {
-		return reviewTaskSet?[indexPath.row]
+		return reviewTaskSet?[indexPath.row] ?? nil
 	}
 	
 	func tableViewCellFor(tableView: UITableView, indexPath: IndexPath) -> ReviewCell {

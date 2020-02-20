@@ -112,7 +112,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		print("viewdidAppear")
 	}
     
 
