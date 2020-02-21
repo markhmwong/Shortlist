@@ -99,6 +99,8 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     
 	var pickerViewBottomConstraint: NSLayoutConstraint?
     
+	var newsFeedTopAnchor: NSLayoutYAxisAnchor?
+	
     init(persistentContainer: PersistentContainer? = nil, viewModel: MainViewModel) {
         self.persistentContainer = persistentContainer
         self.viewModel = viewModel
@@ -191,11 +193,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	func keyboardNotifications() {
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
-		
-
 	}
-	
-
 	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
@@ -264,9 +262,8 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 //            print("Error encoding taskList \(err)")
 //        }
     }
-	
-	
-	var newsFeedTopAnchor: NSLayoutYAxisAnchor?
+
+
 	
     private func setupView() {
 		
@@ -408,7 +405,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		guard let stats = dayObject.dayToStats else { return }
 		stats.totalTasks += 1
 		let task: Task = Task(context: context)
-		task.create(context: context, idNum: Int(stats.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
+		task.create(context: context, taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
 		dayObject.addToDayToTask(task)
 		
 		// check if category exists

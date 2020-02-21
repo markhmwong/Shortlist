@@ -9,9 +9,13 @@
 import Foundation
 
 // Apple Watch struct to transform the data
-struct TaskStruct: Codable {
-    private(set) var id: Int16
+struct TaskStruct: Codable, Equatable {
+	var date: Date //id
     var name: String
     var complete: Bool
-    var priority: Int16 // to do
+    var priority: Int16
+	
+	static func ==(lhs: TaskStruct, rhs: TaskStruct) -> Bool {
+		return lhs.date == rhs.date
+	}
 }

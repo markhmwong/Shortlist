@@ -283,7 +283,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 			
 			stats.totalTasks += 1
 			let task: Task = Task(context: context)
-			task.create(context: context, idNum: Int(stats.totalTasks), taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
+			task.create(context: context, taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
 			dayObject.addToDayToTask(task)
 			
 			// check if category exists

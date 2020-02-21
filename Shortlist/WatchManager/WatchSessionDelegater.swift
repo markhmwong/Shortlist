@@ -41,14 +41,14 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         print("didreceivemessage")
-        persistentContainer?.saveContext()
+//        persistentContainer?.saveContext()
         
         if (message.keys.contains("requestPhoneData")) {
             let todayNSManagedObject = persistentContainer?.fetchDayManagedObject(forDate: Calendar.current.today())
             let taskList: [Task] = todayNSManagedObject?.dayToTask?.allObjects as! [Task]
             var dataList: [TaskStruct] = []
             for task in taskList {
-                let newTask: TaskStruct = TaskStruct(id: task.id, name: task.name!, complete: task.complete, priority: task.priority)
+				let newTask: TaskStruct = TaskStruct(date: task.createdAt as! Date, name: task.name!, complete: task.complete, priority: task.priority)
                 dataList.append(newTask)
             }
 
@@ -67,6 +67,7 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
         
     }
     
+	// updating phone data
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         print("did receive application context from watch")
         let data = applicationContext["UpdateTaskFromWatch"] as! Data
@@ -75,11 +76,19 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
 
             let taskDataPhone = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
 //            taskDataPhone.taskLimit = taskDataPhone.taskLimit + 1 // to be fixed
-            let tasks = taskDataPhone.dayToTask?.sortedArray(using: [NSSortDescriptor(key: "id", ascending: true)]) as! [Task]
-            for task in decodedData {
-                tasks[Int(task.id)].complete = task.complete
+			guard let dayToTask = taskDataPhone.dayToTask else { return }
+            let tasks = dayToTask.sortedArray(using: [NSSortDescriptor(key: "createdAt", ascending: true)]) as! [Task]
+            for watchTask in decodedData {
+				for phoneTask in tasks {
+					if (phoneTask.createdAt as! Date == watchTask.date) {
+						print("match")
+						print("\(phoneTask.complete)")
+						phoneTask.complete = watchTask.complete
+					}
+				}
             }
             persistentContainer?.saveContext(backgroundContext: nil)
+			// KVO?
         } catch (let err) {
             print("Unable to decode data from Watch\(err)")
         }

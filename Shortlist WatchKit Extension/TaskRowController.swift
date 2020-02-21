@@ -41,7 +41,6 @@ class TaskRowController: NSObject {
         }
         
         //Send updated data to phone
-        print("updatetask")
         updateDataSource?(task)
     }
 

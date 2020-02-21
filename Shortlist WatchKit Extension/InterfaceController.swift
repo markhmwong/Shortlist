@@ -74,18 +74,28 @@ class InterfaceController: WKInterfaceController {
     }
     
     func reloadTable(with data: [TaskStruct]) {
-        print("reloadTable")
         taskTable.setNumberOfRows(data.count, withRowType: "TaskRow")
         for index in 0..<taskTable.numberOfRows {
             guard let controller = taskTable.rowController(at: index) as? TaskRowController else { continue }
             controller.task = data[index]
             //task button closure
             controller.updateDataSource = { [unowned self] (task) in
-//                self.tableDataSource?[Int(task.id)] = task
+			
+				guard let tableDataSource = self.tableDataSource else { return }
+				for (index, taskInDataSource) in tableDataSource.enumerated() {
+
+					if (taskInDataSource == task) {
+						print("found")
+						self.tableDataSource?[index] = task
+					}
+
+				}
+				print(self.tableDataSource![0])
+//				self.tableDataSource?[Int(task.priority)] = task // can't use priority
                 do {
                     let encodedData = try JSONEncoder().encode(self.tableDataSource)
-                    let _ = ["UpdateTaskFromWatch": encodedData]
-//                    try self.watchSession?.updateApplicationContext(dataDict)
+                    let dataDict = ["UpdateTaskFromWatch": encodedData]
+                    try self.watchSession?.updateApplicationContext(dataDict)
                 } catch (let err) {
                     print("Error encoding data from watch: \(err)")
                 }

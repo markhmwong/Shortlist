@@ -107,7 +107,7 @@ class PersistentContainer: NSPersistentContainer {
         task.category = "A memorable category (optional)"
 		task.isNew = true
         task.priority = Int16(idNum)
-        task.id = Int16(idNum)
+//        task.id = Int16(idNum)
         day.addToDayToTask(task)
     }
 	
@@ -120,7 +120,7 @@ class PersistentContainer: NSPersistentContainer {
 		task.category = categoryName
 		task.isNew = false 
 		task.priority = Int16(idNum)
-		task.id = Int16(idNum)
+//		task.id = Int16(idNum)
 		task.createdAt = createdAt as NSDate
 		task.reminder = reminderDate as NSDate
 		day.addToDayToTask(task)

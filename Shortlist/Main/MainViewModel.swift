@@ -100,9 +100,7 @@ class MainViewModel {
             } else {
 				_self.dayEntity?.dayToStats?.totalCompleted -= 1
             }
-			
-			
-			
+
         }
 
 		cell.updateStats = { (task) in
@@ -165,7 +163,7 @@ class MainViewModel {
             let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
             var tempTaskStruct: [TaskStruct] = []
             for task in taskList {
-                tempTaskStruct.append(TaskStruct(id: task.id, name: task.name!, complete: task.complete, priority: task.priority))
+				tempTaskStruct.append(TaskStruct(date: task.createdAt as! Date,name: task.name!, complete: task.complete, priority: task.priority))
             }
             do {
                 let data = try JSONEncoder().encode(tempTaskStruct)

@@ -19,7 +19,7 @@ extension Task {
     @NSManaged public var complete: Bool
     @NSManaged public var name: String?
 	@NSManaged public var details: String?
-    @NSManaged public var id: Int16
+//    @NSManaged public var id: Int16
     @NSManaged public var taskToDay: Day?
     @NSManaged public var carryOver: Bool
     @NSManaged public var isNew: Bool
@@ -82,7 +82,7 @@ extension Task {
 		self.createdAt = Date() as NSDate
 		self.details = "Details"
 		self.name = "Task A"
-		self.id = 0
+//		self.id = 0
 		self.isNew = false
 		self.priority = 0
 		self.reminder = Date() as NSDate
@@ -90,14 +90,14 @@ extension Task {
 	}
 	
 	// reminder date - must include a non-nil date, any date placed before the current time will be ignored for notifications
-	func create(context: NSManagedObjectContext, idNum: Int, taskName: String, categoryName: String, createdAt: Date, reminderDate: Date, priority: Int) {
+	func create(context: NSManagedObjectContext, taskName: String, categoryName: String, createdAt: Date, reminderDate: Date, priority: Int) {
 		self.name = taskName
 		self.complete = false
 		self.carryOver = false
 		self.category = categoryName
 		self.isNew = false
 		self.priority = Int16(priority)
-		self.id = Int16(idNum)
+//		self.id = Int16(idNum)
 		self.createdAt = createdAt as NSDate
 		self.reminder = reminderDate as NSDate
 	}
