@@ -151,6 +151,12 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		AppStoreReviewManager.requestReviewIfAppropriate()
 
 		keyboardNotifications()
+		
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(type(of: self).dataDidFlow(_:)),
+			name: .watchDidUpdate, object: nil
+        )
+		
 		initialiseStatEntity()
 
 		// test watch
@@ -530,6 +536,13 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 					
 				}
 			}
+		}
+	}
+	
+	@objc
+    func dataDidFlow(_ notification: Notification) {
+		DispatchQueue.main.async {
+			self.tableView.reloadData()
 		}
 	}
 	

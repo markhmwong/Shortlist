@@ -158,6 +158,9 @@
 		4D953B66230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B65230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift */; };
 		4D953B68230A9DF90048C247 /* StatsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B67230A9DF90048C247 /* StatsCoordinator.swift */; };
 		4D953B6B230AA4500048C247 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D953B6A230AA4500048C247 /* StatsViewController.swift */; };
+		4DA0F6C223FFD67D000A824C /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0F6C123FFD67D000A824C /* UIImage+Extension.swift */; };
+		4DA0F6C323FFD6B7000A824C /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA0F6C123FFD67D000A824C /* UIImage+Extension.swift */; };
+		4DA0F6C423FFEEB8000A824C /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5A438422E7197300E34FAC /* Date+Extension.swift */; };
 		4DA50FBF22E75A8F0059A46F /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA50FBE22E75A8F0059A46F /* CloseButton.swift */; };
 		4DA50FC222E83DD80059A46F /* UIBezierPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA50FC122E83DD80059A46F /* UIBezierPath+Extension.swift */; };
 		4DA50FC422E84BE60059A46F /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA50FC322E84BE60059A46F /* ReviewCell.swift */; };
@@ -404,6 +407,7 @@
 		4D953B65230A91AD0048C247 /* CoordinatorProtocolsAndEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocolsAndEnums.swift; sourceTree = "<group>"; };
 		4D953B67230A9DF90048C247 /* StatsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCoordinator.swift; sourceTree = "<group>"; };
 		4D953B6A230AA4500048C247 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
+		4DA0F6C123FFD67D000A824C /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		4DA50FBE22E75A8F0059A46F /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		4DA50FC122E83DD80059A46F /* UIBezierPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Extension.swift"; sourceTree = "<group>"; };
 		4DA50FC322E84BE60059A46F /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
@@ -1000,6 +1004,7 @@
 				4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */,
 				4D90B5A423D178F70077E756 /* UIViewController+Extension.swift */,
 				4D90B5A623D17D340077E756 /* UIBarButtonItem+Extension.swift */,
+				4DA0F6C123FFD67D000A824C /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1621,6 +1626,7 @@
 				4D9304AB23A9A8970001EC3D /* PriorityLevel.swift in Sources */,
 				4DA5D0DF23AF6ADD00373F6F /* PreplanCoordinator.swift in Sources */,
 				4D5D7E3F232CF9380088EB5F /* IAPProducts.swift in Sources */,
+				4DA0F6C223FFD67D000A824C /* UIImage+Extension.swift in Sources */,
 				4D55B8FD239E0A4300A2E569 /* StatContainer.swift in Sources */,
 				4D6EE34E23A87E25001BBC95 /* Stats+CoreDataProperties.swift in Sources */,
 				4D45E7EA22DDDA00008AC433 /* MainViewModel.swift in Sources */,
@@ -1684,10 +1690,12 @@
 				4DF724F822F1887500472072 /* InterfaceController.swift in Sources */,
 				4DF724F922F1888D00472072 /* Calendar+Extension.swift in Sources */,
 				4D45E7CF22DDD1AE008AC433 /* NotificationController.swift in Sources */,
+				4DA0F6C323FFD6B7000A824C /* UIImage+Extension.swift in Sources */,
 				4D5B5E0622F0838F00C8D9A5 /* TaskStruct.swift in Sources */,
 				4DF724FC22F1974000472072 /* TaskRowController.swift in Sources */,
 				4D5B5DF922F07C4E00C8D9A5 /* PhoneSessionManager.swift in Sources */,
 				4D45E7CD22DDD1AE008AC433 /* ExtensionDelegate.swift in Sources */,
+				4DA0F6C423FFEEB8000A824C /* Date+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

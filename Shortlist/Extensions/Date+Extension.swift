@@ -41,9 +41,12 @@ extension Date {
 	}
 	
 	// time in hour and minute
-//	func timeToString(format: String = "") -> Date {
-//		
-//	}
+	func timeToString(format: String = "HH:mm") -> String {
+		let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+		dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
+        return dateFormatter.string(from: self)
+	}
 }
 
 extension DateFormatter {

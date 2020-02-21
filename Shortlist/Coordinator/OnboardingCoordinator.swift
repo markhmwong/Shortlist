@@ -67,4 +67,6 @@ class OnboardingCoordinator: NSObject, Coordinator, UINavigationControllerDelega
 	func cleanUpChildCoordinator() {
 		NotificationCenter.default.post(name: Notification.Name(MainNavigationObserverKey.ReturnFromOnboarding.rawValue), object: self)
 	}
+	
+
 }

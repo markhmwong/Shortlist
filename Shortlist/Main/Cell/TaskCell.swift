@@ -34,7 +34,14 @@ class TaskCell: UITableViewCell {
 	
 	private let isEditable: Bool = false
 	
-    //convert to textfield
+	lazy var reminderLabel: UILabel = {
+        let label = UILabel()
+		label.text = "test"
+		label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = Theme.Font.DefaultColor.adjust(by: 10)!
+        return label
+	}()
+    
     lazy var taskName: UITextView = {
         let view = UITextView()
         view.backgroundColor = .clear
@@ -166,12 +173,14 @@ class TaskCell: UITableViewCell {
 		contentView.addSubview(priorityMarker)
 		contentView.addSubview(details)
         contentView.addSubview(taskButton)
-
+		contentView.addSubview(reminderLabel)
+		
 		taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 50.0, height: 0.0))
 		taskName.anchorView(top: contentView.topAnchor, bottom: nil, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -5.0, right: -20.0), size: .zero)
 		details.anchorView(top: taskName.bottomAnchor, bottom: categoryTitle.topAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -10.0, right: -20.0), size: .zero)
-		categoryTitle.anchorView(top: nil, bottom: contentView.bottomAnchor, leading: taskName.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -2.0, right: 0.0), size: .zero)
+		categoryTitle.anchorView(top: nil, bottom: contentView.bottomAnchor, leading: taskName.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -5.0, right: 0.0), size: .zero)
 		categoryTitle.textContainerInset = UIEdgeInsets(top: 0.0, left: 5.0, bottom: 0.0, right: 5.0)
+		reminderLabel.anchorView(top: nil, bottom: contentView.bottomAnchor, leading: categoryTitle.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: -5.0, right: 0.0), size: .zero)
 	}
 	
     func animateGradient() {
@@ -226,6 +235,16 @@ class TaskCell: UITableViewCell {
 			
             let categoryAttributedStr = NSMutableAttributedString(string: categoryStr, attributes: [NSAttributedString.Key.foregroundColor : categoryTextColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
 			categoryTitle.attributedText = categoryAttributedStr
+			
+			let reminderDate = task.reminder ?? NSDate()
+			let reminderStr = (reminderDate as Date).timeToString()
+			
+			if (task.reminderState) {
+				reminderLabel.attributedText = NSMutableAttributedString(string: "⏰ \(reminderStr)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
+			} else {
+				reminderLabel.text = ""
+			}
+
 			
 			if (task.isNew) {
 				taskName.textColor = Theme.Font.DefaultColor.adjust(by: -40.0)!

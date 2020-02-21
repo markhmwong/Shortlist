@@ -14,6 +14,9 @@ struct TaskStruct: Codable, Equatable {
     var name: String
     var complete: Bool
     var priority: Int16
+	var category: String
+	var reminder: Date
+	var reminderState: Bool
 	
 	static func ==(lhs: TaskStruct, rhs: TaskStruct) -> Bool {
 		return lhs.date == rhs.date

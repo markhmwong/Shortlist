@@ -19,17 +19,32 @@
                         <table alignment="left" id="Q3R-5O-sCI">
                             <items>
                                 <tableRow identifier="TaskRow" id="3jI-7e-w0F" customClass="TaskRowController" customModule="Shortlist_WatchKit_Extension">
-                                    <group key="rootItem" width="1" height="106" alignment="left" id="juu-oz-hIk">
+                                    <group key="rootItem" width="1" height="78" alignment="left" id="juu-oz-hIk">
                                         <items>
-                                            <button width="19" height="20" alignment="left" verticalAlignment="center" backgroundImage="TaskButtonEnabled" id="mPs-Wd-RI9">
-                                                <connections>
-                                                    <action selector="taskComplete" destination="3jI-7e-w0F" id="RLJ-vF-dYe"/>
-                                                </connections>
-                                            </button>
-                                            <label width="106" height="105" alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="i0L-N2-CYS"/>
+                                            <group width="20" height="107" alignment="left" id="kpN-Rj-0ZY">
+                                                <items>
+                                                    <button width="19" height="20" alignment="left" verticalAlignment="center" backgroundImage="TaskButtonEnabled" id="mPs-Wd-RI9">
+                                                        <connections>
+                                                            <action selector="taskComplete" destination="3jI-7e-w0F" id="RLJ-vF-dYe"/>
+                                                        </connections>
+                                                    </button>
+                                                </items>
+                                            </group>
+                                            <group width="104" height="106" alignment="left" layout="vertical" id="fgm-4d-uNp">
+                                                <items>
+                                                    <label width="106" height="55" alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="i0L-N2-CYS">
+                                                        <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                                                    </label>
+                                                    <label width="104" height="20" alignment="left" verticalAlignment="bottom" text="Label" id="fgF-s9-rL6">
+                                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                    </label>
+                                                </items>
+                                            </group>
                                         </items>
                                     </group>
                                     <connections>
+                                        <outlet property="categoryLabel" destination="fgF-s9-rL6" id="9fl-RR-7Rz"/>
                                         <outlet property="taskButton" destination="mPs-Wd-RI9" id="f3y-m8-PIz"/>
                                         <outlet property="taskLabel" destination="i0L-N2-CYS" id="k4d-xX-qh5"/>
                                     </connections>

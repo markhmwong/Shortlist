@@ -28,27 +28,16 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
     
     func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
         print("did receive from watch")
-
-        
-//        let jsonDecoder = JSONDecoder()
-//        do {
-////            let fridayData = try jsonDecoder.decode(Friday.self, from: messageData)
-////            print(fridayData.isTodayFriday)
-//        } catch (let err) {
-//            print("\(err)")
-//        }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        print("didreceivemessage")
-//        persistentContainer?.saveContext()
         
         if (message.keys.contains("requestPhoneData")) {
             let todayNSManagedObject = persistentContainer?.fetchDayManagedObject(forDate: Calendar.current.today())
             let taskList: [Task] = todayNSManagedObject?.dayToTask?.allObjects as! [Task]
             var dataList: [TaskStruct] = []
             for task in taskList {
-				let newTask: TaskStruct = TaskStruct(date: task.createdAt as! Date, name: task.name!, complete: task.complete, priority: task.priority)
+				let newTask: TaskStruct = TaskStruct(date: task.createdAt! as Date, name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState)
                 dataList.append(newTask)
             }
 
@@ -60,6 +49,8 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
                 print("Error encoding taskList \(err)")
             }
         }
+        persistentContainer?.saveContext()
+
     }
     
     func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
@@ -69,9 +60,9 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
     
 	// updating phone data
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        print("did receive application context from watch")
-        let data = applicationContext["UpdateTaskFromWatch"] as! Data
+		let data = applicationContext["UpdateTaskFromWatch"] as! Data
         do {
+			
             let decodedData = try JSONDecoder().decode([TaskStruct].self, from: data)
 
             let taskDataPhone = persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
@@ -80,17 +71,25 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
             let tasks = dayToTask.sortedArray(using: [NSSortDescriptor(key: "createdAt", ascending: true)]) as! [Task]
             for watchTask in decodedData {
 				for phoneTask in tasks {
-					if (phoneTask.createdAt as! Date == watchTask.date) {
-						print("match")
-						print("\(phoneTask.complete)")
+					if (phoneTask.createdAt! as Date == watchTask.date) {
 						phoneTask.complete = watchTask.complete
 					}
 				}
             }
-            persistentContainer?.saveContext(backgroundContext: nil)
-			// KVO?
+			postNotificationOnMainQueueAsync(name: .watchDidUpdate)
+//            persistentContainer?.saveContext(backgroundContext: nil)
         } catch (let err) {
             print("Unable to decode data from Watch\(err)")
         }
     }
+	
+	private func postNotificationOnMainQueueAsync(name: NSNotification.Name) {
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: name, object: nil)
+        }
+    }
+}
+
+extension Notification.Name {
+    static let watchDidUpdate = Notification.Name("WatchDidUpdate")
 }

@@ -14,7 +14,8 @@ class InterfaceController: WKInterfaceController {
 
     @IBOutlet weak var dateLabel: WKInterfaceLabel!
     @IBOutlet weak var taskTable: WKInterfaceTable!
-    
+	
+	
     private var tableDataSource: [TaskStruct]? = nil {
         didSet {
             guard let tableDataSource = tableDataSource else { return }
@@ -35,7 +36,7 @@ class InterfaceController: WKInterfaceController {
         super.awake(withContext: context)
         // Configure interface objects here.
         watchSession = WCSession.default
-//        emptyData()
+
         loadDate()
     }
     
@@ -46,13 +47,11 @@ class InterfaceController: WKInterfaceController {
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
-        print("WillActivate")
     }
     
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
-        print("didDeactivate")
     }
     
 //    func emptyData() {
@@ -85,13 +84,11 @@ class InterfaceController: WKInterfaceController {
 				for (index, taskInDataSource) in tableDataSource.enumerated() {
 
 					if (taskInDataSource == task) {
-						print("found")
 						self.tableDataSource?[index] = task
 					}
 
 				}
-				print(self.tableDataSource![0])
-//				self.tableDataSource?[Int(task.priority)] = task // can't use priority
+
                 do {
                     let encodedData = try JSONEncoder().encode(self.tableDataSource)
                     let dataDict = ["UpdateTaskFromWatch": encodedData]
@@ -106,7 +103,6 @@ class InterfaceController: WKInterfaceController {
 
 extension InterfaceController: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("Session activation did complete")
         session.sendMessage(["requestPhoneData" : 1], replyHandler: { (response) in
 
             let taskList = response as! [String : Data]
@@ -119,11 +115,9 @@ extension InterfaceController: WCSessionDelegate {
                     // Table reloads in didSet method of tableDataSource var
                     self.tableDataSource = sortedData
                 } catch (let err) {
-                    print("Unable to decode \(err)")
                 }
             }
         }, errorHandler: { (err) in
-            print("Send Message Error \(err) ")
         })
     }
     
