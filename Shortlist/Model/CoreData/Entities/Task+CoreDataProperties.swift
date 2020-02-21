@@ -97,8 +97,8 @@ extension Task {
 		self.category = categoryName
 		self.isNew = false
 		self.priority = Int16(priority)
-//		self.id = Int16(idNum)
 		self.createdAt = createdAt as NSDate
 		self.reminder = reminderDate as NSDate
+		self.reminderState = false
 	}
 }

@@ -408,10 +408,12 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		let dayObject: Day = context.object(with: day.objectID) as! Day
 		let createdAt: Date = Date()
 		let reminderDate: Date = pickerViewContainer.getValues()
+
 		guard let stats = dayObject.dayToStats else { return }
 		stats.totalTasks += 1
 		let task: Task = Task(context: context)
 		task.create(context: context, taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
+		
 		dayObject.addToDayToTask(task)
 		
 		// check if category exists
@@ -431,7 +433,14 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 
 		//create notification
 		if (reminderDate.timeIntervalSince(createdAt) > 0.0) {
-			LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [LocalNotificationKeys.Title : taskName], timeRemaining: reminderDate.timeIntervalSince(createdAt))
+			print(reminderDate.timeIntervalSince(createdAt))
+			task.reminderState = true
+			
+			if let priority = Priority.init(rawValue: Int16(priorityLevel)) {
+				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [LocalNotificationKeys.Body : taskName, LocalNotificationKeys.Title : priority.stringValue], timeRemaining: reminderDate.timeIntervalSince(createdAt))
+			}
+			
+
 		}
 		
 		// add to stats

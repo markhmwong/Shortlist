@@ -1,17 +1,19 @@
 //
-//  NotificationController.swift
-//  Five WatchKit Extension
+//  StaticNotification.swift
+//  Shortlist WatchKit Extension
 //
-//  Created by Mark Wong on 16/7/19.
-//  Copyright © 2019 Mark Wong. All rights reserved.
+//  Created by Mark Wong on 22/2/20.
+//  Copyright © 2020 Mark Wong. All rights reserved.
 //
 
 import WatchKit
 import UserNotifications
 
-class NotificationController: WKUserNotificationInterfaceController {
-
-    override init() {
+class StaticNotificationController: WKUserNotificationInterfaceController {
+	
+	@IBOutlet weak var AlertLabel: WKInterfaceLabel!
+	
+	override init() {
         // Initialize variables here.
         super.init()
         
@@ -33,8 +35,5 @@ class NotificationController: WKUserNotificationInterfaceController {
         // Implement it if you use a dynamic notification interface.
         // Populate your dynamic notification interface as quickly as possible.
     }
-}
-
-class WatchNotificationViewModel {
 	
 }

@@ -33,4 +33,17 @@ enum Priority: Int16 {
 		}
 	}
 	
+	var stringValue: String {
+		switch self {
+			case .high:
+				return "High"
+			case .medium:
+				return "Medium"
+			case .low:
+				return "Low"
+			case .none:
+				return "None"
+		}
+	}
+	
 }

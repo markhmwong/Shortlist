@@ -82,7 +82,7 @@ class LocalNotificationsService: NSObject {
         content = nil
         trigger = nil
 
-		content = prepareContent(title: notificationContent[LocalNotificationKeys.Title] ?? "Priority Unknown", content: notificationContent[LocalNotificationKeys.Body] ?? "Task Unknown")
+		content = prepareContent(title: notificationContent[LocalNotificationKeys.Title] ?? "Task Unknown", content: notificationContent[LocalNotificationKeys.Body] ?? "Priority Unknown")
         trigger = prepareTimeInterval(fireIn: timeRemaining)
     }
     
@@ -93,10 +93,10 @@ class LocalNotificationsService: NSObject {
     }
     
 	// Notification details. Displayed when the notification shows on the UI.
-	private func prepareContent(title: String = "Task - Unknown", content: String) -> UNMutableNotificationContent? {
+	private func prepareContent(title: String, content: String = "Task - Unknown") -> UNMutableNotificationContent? {
         let c = UNMutableNotificationContent()
-        c.title = "\(content) priority Reminder!"
-        c.body = "\(title)"
+        c.title = "\(title) Task Priority Reminder!"
+        c.body = "\(content)"
         c.sound = UNNotificationSound.default
 		c.badge = NSNumber(value: UIApplication.shared.applicationIconBadgeNumber + 1)
         return c
