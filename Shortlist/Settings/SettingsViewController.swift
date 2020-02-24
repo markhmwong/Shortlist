@@ -23,6 +23,8 @@ class SettingsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.dataSource = self
         view.delegate = self
+		view.estimatedRowHeight = 200.0
+		view.rowHeight = UITableView.automaticDimension
         view.separatorStyle = UITableViewCell.SeparatorStyle.none
         view.backgroundColor = .black
         return view
@@ -167,7 +169,6 @@ class SettingsViewController: UIViewController {
 	deinit {
 		coordinator?.cleanUpChildCoordinator()
 	}
-	
 }
 
 extension SettingsViewController: MFMailComposeViewControllerDelegate {
@@ -211,9 +212,13 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 			cell.backgroundColor = .clear
 			return cell
 		}
-		return viewModel.tableViewCell(tableView, indexPath: indexPath)
+		return viewModel.cellForTableView(tableView, indexPath: indexPath, delegate: self)
     }
     
+	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+		
+	}
+	
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }

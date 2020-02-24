@@ -116,37 +116,44 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		super.viewDidAppear(animated)
 	}
     
+	// retrieve global statistics from firebase servers. This feature can be toggled in the settings
+	private func loadFirebaseData() {
+		if let firebaseStatsState = KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.GlobalTasks) {
+			if (firebaseStatsState) {
+				let fbs = FirebaseService(dataBaseUrl: nil)
+				
+				connectivity?.start {
+					// this closure runs only if we have an internet connection
+					let status = fbs.status
+					if (status == .Incomplete) {
+						fbs.status = .Complete // set firebase service status. set immediately to avoid further checks
+						
+						fbs.authenticateAnonymously()
+						fbs.getGlobalTasks { [unowned self] (globalTaskValue) in
+							DispatchQueue.main.async {
+								self.newsFeed.updateFeed(str: "\(globalTaskValue)")
+							}
+							
+							UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
+								self.newsFeed.feedLabel.alpha = 1
+								self.view.layoutIfNeeded()
+							}) { (state) in
+								
+							}
+						}
+					}
+				}
+			}
+		} else {
+			KeychainWrapper.standard.set(false, forKey: SettingsKeyChainKeys.GlobalTasks)
+		}
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		// background thread fill uninitialised days over the last 30 days - for stats
-//		searchNilDaysOverThirtyDays()
-		let fbs = FirebaseService(dataBaseUrl: nil)
-		
-		connectivity?.start {
-			// this closure runs only if we have an internet connection
-			let status = fbs.status
-			if (status == .Incomplete) {
-				fbs.status = .Complete // set firebase service status. set immediately to avoid further checks
-				
-				fbs.authenticateAnonymously()
-				fbs.getGlobalTasks { [unowned self] (globalTaskValue) in
-					DispatchQueue.main.async {
-						self.newsFeed.updateFeed(str: "\(globalTaskValue)")
-						
-					}
-					UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
-						self.newsFeed.feedLabel.alpha = 1
-						self.view.layoutIfNeeded()
-					}) { (state) in
-						
-					}
-				}
-			}
-		}
-		
 		loadData()
+		loadFirebaseData()
 		setupView()
 		AppStoreReviewManager.requestReviewIfAppropriate()
 
@@ -158,9 +165,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         )
 		
 		initialiseStatEntity()
-
-		// test watch
-		 syncWatch()
     }
 	
 	func initialiseData(_ dayObject: Day) {
@@ -253,21 +257,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		}
 	}
     
-    // disabled
-    func syncWatch() {
-//        let taskList: [TaskStruct] = [
-//            TaskStruct(id: 0, name: "Test One", complete: false, priority: 0),
-//            TaskStruct(id: 1, name: "Sample Task One", complete: false, priority: 1),
-//            TaskStruct(id: 2, name: "Sample Task One", complete: false, priority: 2),
-//        ]
-//
-//        do {
-//            let encodedData = try JSONEncoder().encode(taskList)
-//            WatchSessionHandler.shared.updateApplicationContext(with: encodedData)
-//        } catch (let err) {
-//            print("Error encoding taskList \(err)")
-//        }
-    }
 
 
 	
@@ -282,7 +271,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         tableView.tableHeaderView = taskListHeader
         taskListHeader.setNeedsLayout()
         taskListHeader.layoutIfNeeded()
-
 		
 		view.addSubview(tableView)
 		view.addSubview(mainInputView)
@@ -374,10 +362,10 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
             fatalError("Error loading core data manager while loading data")
         }
 		
-		guard let vm = viewModel else { return }
-        guard let day = vm.dayEntity else { return }
+		guard let viewModel = viewModel else { return }
+        guard let dayEntity = viewModel.dayEntity else { return }
 		
-		let totalTasks = vm.totalTasksForPriority(day, priorityLevel: priorityLevel)
+		let totalTasks = viewModel.totalTasksForPriority(dayEntity, priorityLevel: priorityLevel)
 
 		//move to view model
 		if let p = Priority.init(rawValue: Int16(priorityLevel)) {
@@ -405,7 +393,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		}
 
 		let context: NSManagedObjectContext  = persistentContainer.viewContext
-		let dayObject: Day = context.object(with: day.objectID) as! Day
+		let dayObject: Day = context.object(with: dayEntity.objectID) as! Day
 		let createdAt: Date = Date()
 		let reminderDate: Date = pickerViewContainer.getValues()
 
@@ -433,14 +421,10 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 
 		//create notification
 		if (reminderDate.timeIntervalSince(createdAt) > 0.0) {
-			print(reminderDate.timeIntervalSince(createdAt))
 			task.reminderState = true
-			
 			if let priority = Priority.init(rawValue: Int16(priorityLevel)) {
 				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [LocalNotificationKeys.Body : taskName, LocalNotificationKeys.Title : priority.stringValue], timeRemaining: reminderDate.timeIntervalSince(createdAt))
 			}
-			
-
 		}
 		
 		// add to stats
@@ -454,17 +438,17 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	
 	func showTimePicker() {
 		mainInputView.taskResignFirstResponder()
-		guard let vm = viewModel else { return }
+		guard let viewModel = viewModel else { return }
 		
 		view.addSubview(pickerViewContainer)
-		pickerViewContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: vm.keyboardSize.height))
+		pickerViewContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: viewModel.keyboardSize.height))
 		pickerViewBottomConstraint = NSLayoutConstraint(item: pickerViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
 		view.addConstraint(pickerViewBottomConstraint!)
 	}
 
 	func closeTimePicker() {
-		guard let vm = viewModel else { return }
-		pickerViewBottomConstraint?.constant = vm.keyboardSize.height
+		guard let viewModel = viewModel else { return }
+		pickerViewBottomConstraint?.constant = viewModel.keyboardSize.height
 		UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut], animations: {
 			self.view.layoutIfNeeded()
 			self.focusOnNewTask()
@@ -481,10 +465,10 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	
     @objc
     func handleAddButton() {
-        guard let vm = viewModel else { return }
+        guard let viewModel = viewModel else { return }
 		
 		// set the default and initial category as Uncategorized
-		vm.category = "Uncategorized"
+		viewModel.category = "Uncategorized"
 		
 		// attention is brought to the
 		self.focusOnNewTask()
@@ -525,11 +509,11 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		if let info = notification?.userInfo {
 			
 			let isKeyboardShowing = notification?.name == UIResponder.keyboardWillShowNotification
-			guard let vm = viewModel else { return }
+			guard let viewModel = viewModel else { return }
 			
 			let frameEndUserInfoKey = UIResponder.keyboardFrameEndUserInfoKey
 			if let kbFrame = info[frameEndUserInfoKey] as? CGRect {
-				vm.keyboardSize = kbFrame
+				viewModel.keyboardSize = kbFrame
 				
 				if (isKeyboardShowing) {
 					mainInputView.alpha = 1.0
@@ -567,13 +551,13 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 		do {
             try fetchedResultsController?.performFetch()
 			// organise dictionary here
-			guard let _viewModel = viewModel else { return }
+			guard let viewModel = viewModel else { return }
 			guard let dayObject = fetchedResultsController?.fetchedObjects?.first else {
 				return
 			}
 
-			let sortedSet = _viewModel.sortTasks(dayObject)
-			_viewModel.sortedSet = sortedSet
+			let sortedSet = viewModel.sortTasks(dayObject)
+			viewModel.sortedSet = sortedSet
 			
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -582,9 +566,7 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
             print("\(err)")
         }
     }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-    }
+
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {

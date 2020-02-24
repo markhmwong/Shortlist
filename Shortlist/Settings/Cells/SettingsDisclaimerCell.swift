@@ -9,13 +9,6 @@
 import UIKit
 
 class SettingsDisclaimerCell: CellBase {
-
-	lazy var disclaimerLabel: UILabel = {
-		let label = UILabel()
-		label.backgroundColor = .clear
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
-	}()
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,9 +21,17 @@ class SettingsDisclaimerCell: CellBase {
 	
 	override func setupCellLayout() {
 		super.setupCellLayout()
+		isUserInteractionEnabled = false
+		backgroundColor = .clear
 		
-		addSubview(disclaimerLabel)
-		disclaimerLabel.fillSuperView()
+		textLabel?.textColor = Theme.Font.FadedColor
+		textLabel?.numberOfLines = 0
+		textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping;
+		textLabel?.font = UIFont(name: Theme.Font.Bold, size: Theme.Font.StandardSizes.b3.rawValue)
+	}
+	
+	func updateLabel(string: String) {
+		textLabel?.text = string
 	}
 }
 

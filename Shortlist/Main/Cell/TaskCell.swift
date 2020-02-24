@@ -263,7 +263,6 @@ class TaskCell: UITableViewCell {
     }
 	
 	private func priorityColor(_ priorityLevel: Int16) {
-		
 		if let p = Priority.init(rawValue: priorityLevel) {
 			switch p {
 				case .high:

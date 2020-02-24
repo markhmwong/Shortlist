@@ -68,7 +68,6 @@ class ChartGenerator {
 		spacing = w
 		
         let sorted = monthlyData.data.sorted { $0.key < $1.key }
-        
         let barColor: UIColor = UIColor(red:0.36, green:0.94, blue:0.62, alpha:1.0)
         let incompleteColor: UIColor = UIColor(red:0.94, green:0.36, blue:0.44, alpha:1.0)
         
@@ -118,24 +117,6 @@ class ChartGenerator {
 			}
 			
         }
-        
-        // Add extra padding to the chart to pad out the remaining days of the month / week
-//        let numberOfDaysInMonth = Calendar.current.daysInMonth()
-//        if (numberOfDaysInMonth - sorted.count != 0) {
-//            let daysRemaining = numberOfDaysInMonth - sorted.count
-//            let barColor: UIColor = UIColor.clear
-//            for _ in 0..<daysRemaining {
-//                let zeroBar = BarProperties(color: barColor, day: nil, barWidth: barWidth, barHeight: 0.0, origin: .zero)
-//                barEntries.append(zeroBar)
-//            }
-//        }
-        
-//        for bar in barEntries {
-//
-//            print(bar.day?.dayDate)
-//
-//        }
-        
         return (barEntries, incompleteBarEntries)
     }
 	

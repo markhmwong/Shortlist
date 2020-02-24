@@ -47,31 +47,17 @@ class SettingsCellFactory {
 				return cell
 			case .Chevron:
 				let cell = tableView.dequeueReusableCell(withIdentifier: standardCellId, for: indexPath) as! SettingsStandardCell
-//				cell.backgroundColor = .clear
-//				cell.textLabel?.textColor = .white
-//
-//				// chevron image set up
-//				let image = UIImage(named: "ChevronRight.png")?.withRenderingMode(.alwaysTemplate)
-//				let chevron = UIImageView(frame: CGRect(x: 0, y: 0, width: cell.frame.height * 0.5, height: cell.frame.height * 0.5))
-//				chevron.image = image
-//				cell.accessoryView = chevron
-//				cell.tintColor = UIColor.white
 				return cell
 			case .DetailedChevron:
-				let cell = tableView.dequeueReusableCell(withIdentifier: detailedChevronCellId, for: indexPath) as! SettingsDetailedChevronCell
+				let cell = SettingsDetailedChevronCell.init(style: .value1, reuseIdentifier: detailedChevronCellId)
 				return cell
 			case .Toggle:
-				let cell = tableView.dequeueReusableCell(withIdentifier: toggleCellId, for: indexPath)
+				let cell = tableView.dequeueReusableCell(withIdentifier: toggleCellId, for: indexPath) as! SettingsToggleCell
 				cell.backgroundColor = UIColor.clear
 				cell.textLabel?.textColor = .white
 				return cell
 			case .Disclaimer:
-				let cell = tableView.dequeueReusableCell(withIdentifier: disclaimerCellId, for: indexPath)
-				cell.backgroundColor = UIColor.clear
-				cell.textLabel?.textColor = Theme.Font.FadedColor
-				cell.textLabel?.numberOfLines = 0
-				cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping;
-				cell.textLabel?.font = UIFont(name: Theme.Font.Bold, size: Theme.Font.StandardSizes.b3.rawValue)
+				let cell = tableView.dequeueReusableCell(withIdentifier: disclaimerCellId, for: indexPath) as! SettingsDisclaimerCell
 				cell.isUserInteractionEnabled = false
 				return cell
 			case .Warning:

@@ -9,10 +9,7 @@
 import UIKit
 
 protocol SettingsStandardCellProtocol {
-	var nameLabel: UILabel { get set }
-	var iconImage: UIImageView { get set }
 	var chevron: UIImageView? { get set }
-	
 	
 	func updateName(_ name: String)
 	func updateIcon(_ iconName: String)

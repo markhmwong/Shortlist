@@ -59,6 +59,14 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         childCoordinators.append(child)
         child.start(persistentContainer)
     }
+	
+    func showAlertBox(_ message: String) {
+        let alert = UIAlertController(title: "Hold up!", message: "\(message)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+		DispatchQueue.main.async {
+			self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
+    }
     
     func showFeedback(_ viewController: MFMailComposeViewController) {
         DispatchQueue.main.async {
@@ -148,12 +156,6 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 						childDidFinish(c)
 						print("childCoordinator list \(childCoordinators.count)")
 					}
-//				case .ReturnFromReview:
-//					if let c = notification.object as? ReviewCoordinator {
-//						print("childCoordinator list \(childCoordinators.count)")
-//						childDidFinish(c)
-//						print("childCoordinator list \(childCoordinators.count)")
-//					}
 				case .ReturnFromPriorityLimit:
 					if let c = notification.object as? TaskLimitCoordinator {
 						print("childCoordinator list \(childCoordinators.count)")

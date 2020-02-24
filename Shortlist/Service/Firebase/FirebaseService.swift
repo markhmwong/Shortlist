@@ -38,7 +38,7 @@ class FirebaseService {
 		}
 	}
 	
-	func getGlobalTasks(completionHandler: @escaping (Int) -> Void) {
+	func getGlobalTasks(completionHandler: @escaping (Int) -> ()) {
 		let refStats = self.ref.child(STATS_REF)
 		var globalTask: Int = 0
 		let failedValue: Int = 0

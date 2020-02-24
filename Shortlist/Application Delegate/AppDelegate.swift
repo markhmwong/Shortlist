@@ -105,11 +105,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 	
+	// sets up any keychain state if it already hasn't been initialised
 	func initialisePriorityKeychain() {
 		if (KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) == nil) {
+			KeychainWrapper.standard.set(false, forKey: SettingsKeyChainKeys.GlobalTasks)
+			KeychainWrapper.standard.set(false, forKey: SettingsKeyChainKeys.AllDayNotifications)
 			KeychainWrapper.standard.set(1, forKey: SettingsKeyChainKeys.HighPriorityLimit)
 			KeychainWrapper.standard.set(3, forKey: SettingsKeyChainKeys.MediumPriorityLimit)
 			KeychainWrapper.standard.set(3, forKey: SettingsKeyChainKeys.LowPriorityLimit)
+		}
+		
+		if (KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.AllDayNotifications) == nil) {
+			KeychainWrapper.standard.set(false, forKey: SettingsKeyChainKeys.AllDayNotifications)
+		}
+		
+		if (KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.GlobalTasks) == nil) {
+			KeychainWrapper.standard.set(false, forKey: SettingsKeyChainKeys.GlobalTasks)
 		}
 	}
 

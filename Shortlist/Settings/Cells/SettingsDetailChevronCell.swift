@@ -8,29 +8,21 @@
 
 import UIKit
 
-class SettingsDetailedChevronCell: CellBase, SettingsStandardCellProtocol {
-	var chevron: UIImageView? = nil
-
-	lazy var iconImage: UIImageView = {
-		let chevron = UIImageView(frame: .zero)
-		chevron.translatesAutoresizingMaskIntoConstraints = false
-		return chevron
-	}()
-	
-	lazy var nameLabel: UILabel = {
-		let label = UILabel()
-		label.textColor = .white
-		label.translatesAutoresizingMaskIntoConstraints = false
-		return label
-	}()
-
+class SettingsDetailedChevronCell: UITableViewCell, SettingsStandardCellProtocol {
 	lazy var settingsValueLabel: UILabel = {
 		let label = UILabel()
 		label.backgroundColor = .clear
-		label.text = "1, 3, 3"
+		label.text = "1 3 3"
 		label.textColor = Theme.Font.FadedColor
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
+	}()
+	
+	lazy var chevron: UIImageView? = {
+		let image = UIImage(named: "ChevronRight.png")?.withRenderingMode(.alwaysTemplate)
+		let chevron = UIImageView(frame: .zero)
+		chevron.image = image
+		return chevron
 	}()
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -39,56 +31,39 @@ class SettingsDetailedChevronCell: CellBase, SettingsStandardCellProtocol {
 	}
 	
 	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+		super.init(coder: coder)
+		setupCellLayout()
 	}
 	
-	override func setupCellLayout() {
-		super.setupCellLayout()
-		
-		addSubview(nameLabel)
-		addSubview(iconImage)
-		
+	 func setupCellLayout() {
 		tintColor = UIColor.white
 		backgroundColor = .clear
-		textLabel?.textColor = .white
-
-		let image = UIImage(named: "ChevronRight.png")?.withRenderingMode(.alwaysTemplate)
-		let _chevron = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.height * 0.5, height: frame.height * 0.5))
-		_chevron.image = image
-		accessoryView = _chevron
+		textLabel?.textColor = UIColor.white
+		detailTextLabel?.textColor = UIColor.white
 		
-		settingsValueLabel.text = "unknown"
-		addSubview(settingsValueLabel)
-	}
-	
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		iconImage.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 10.0, bottom: -10.0, right: -5.0), size: CGSize(width: bounds.height - 20.0, height: bounds.height - 20.0))
-		nameLabel.anchorView(top: topAnchor, bottom: bottomAnchor, leading: iconImage.trailingAnchor, trailing: settingsValueLabel.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
+		guard let _chevron = chevron else { return }
+		_chevron.frame = CGRect(x: 0, y: 0, width: frame.height * 0.5, height: frame.height * 0.5)
+		accessoryView = _chevron
+
 	}
 	
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
-		let height = bounds.height - 40.0
-
-		imageView?.frame = CGRect(x: 5.0, y: 5.0, width: height, height: height)
-		settingsValueLabel.anchorView(top: topAnchor, bottom: bottomAnchor, leading: nil, trailing: accessoryView?.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -5.0), size: .zero)
+		self.imageView?.bounds = CGRect(x: 0.0, y: 0.0, width: self.contentView.bounds.height * 0.6, height: self.contentView.bounds.height * 0.6)
 	}
 	
 	func updateDetailsLabel(highPriorityLimit: String, mediumPriorityLimit: String, lowPriorityLimit: String) {
 		let limitString = NSMutableAttributedString(string: "\(highPriorityLimit) ", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b0).value)!, NSAttributedString.Key.foregroundColor: Theme.Priority.highColor])
 		limitString.append(NSMutableAttributedString(string: "\(mediumPriorityLimit) ", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b0).value)!, NSAttributedString.Key.foregroundColor: Theme.Priority.mediumColor]))
 		limitString.append(NSMutableAttributedString(string: "\(lowPriorityLimit)", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b0).value)!, NSAttributedString.Key.foregroundColor: Theme.Priority.lowColor]))
-		DispatchQueue.main.async {
-			self.settingsValueLabel.attributedText = limitString
-		}
+		detailTextLabel?.attributedText = limitString
 	}
 	
 	func updateName(_ name: String) {
-		nameLabel.text = name
+		textLabel?.text = name
 	}
 	
 	func updateIcon(_ iconName: String) {
-		iconImage.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+		imageView?.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
 	}
 }

@@ -10,7 +10,9 @@ import Foundation
 
 struct SettingsKeyChainKeys {
     // Settings
-
+	static let GlobalTasks: String = "GlobalTask"
+	static let AllDayNotifications: String = "AllDay"
+	
 	// Priority Keys
     static let HighPriorityLimit: String = "HighPriorityLimit"
     static let MediumPriorityLimit: String = "MediumPriorityLimit"

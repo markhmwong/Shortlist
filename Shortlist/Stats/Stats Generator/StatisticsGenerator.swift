@@ -38,13 +38,13 @@ class StatisticsGenerator: NSObject {
         }
 
 		for day in _dayArray {
+			
 			if let stats = day.dayToStats {
-				let limit = stats.highPriority + stats.mediumPriority + stats.lowPriority
+				let limit = day.highPriorityLimit + day.mediumPriorityLimit + day.lowPriorityLimit
 				taskLimit = mostAmountOfTasksForDay(currLimit: Int16(limit), newLimit: taskLimit)
 				totalCompletedForTimePeriod += stats.totalCompleted
 				totalTasksForDay += stats.totalTasks
 				incompleteTasks = (stats.totalTasks) - (stats.totalCompleted)
-				
 				
 				let date = Calendar.current.dayOfWeek(date: day.createdAt! as Date)
 				guard let dayOfWeek = DayOfWeek(rawValue: Int16(date)) else {

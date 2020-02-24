@@ -21,6 +21,8 @@ class SettingsViewModel {
 		case Review = 0
 		case PriorityLimit
 		case Stats
+		case GlobalTask
+		case GlobalTaskDisclaimer
 		case Notifications
 		case NotificationsDisclaimer
 	}
@@ -39,7 +41,6 @@ class SettingsViewModel {
 	enum About: Int, CaseIterable {
 		case Info = 0
 	}
-
 	
 	let sectionTitles = [
 		"GENERAL",
@@ -54,7 +55,9 @@ class SettingsViewModel {
 		General.PriorityLimit :"Priority Limit",
 		General.Stats : "Stats",
 		General.Notifications : "All Day Notifications", // all day notifications, standard notifications
-		General.NotificationsDisclaimer : "A repeating hourly reminder for the entire day. Useful if you have a list of tasks that require your frequent attention. Every reminder begins on the hour i.e. 1pm, 2pm, 3pm, 4pm and so on. Reminders won't set within 2 hours before the next day."
+		General.NotificationsDisclaimer : "A repeating hourly reminder for the entire day. Useful if you have a list of tasks that require your frequent attention. Every reminder begins on the hour i.e. 1pm, 2pm, 3pm, 4pm and so on. Reminders won't set within 2 hours before the next day.",
+		General.GlobalTask : "Global Task",
+		General.GlobalTaskDisclaimer : "Toggle to participate in accumulating completed tasks with other users of Shortlist around the world with a 500,000 task goal for 2020. No other data is sent other than the tasks completed for the day.",
 	]
 	
 	let aboutTitles = [
@@ -62,7 +65,7 @@ class SettingsViewModel {
 	]
 	
 	let supportTitles = [
-		"Review App (fix link)",
+		"Review App",
 		"Contact / Feedback",
 	]
 	
@@ -117,14 +120,14 @@ class SettingsViewModel {
 		tableView.register(SettingsToggleCell.self, forCellReuseIdentifier: SettingsCellFactory.shared().toggleCellId)
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: SettingsCellFactory.shared().chevronCellId)
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: SettingsCellFactory.shared().defaultCellId)
-		tableView.register(UITableViewCell.self, forCellReuseIdentifier: SettingsCellFactory.shared().disclaimerCellId)
+		tableView.register(SettingsDisclaimerCell.self, forCellReuseIdentifier: SettingsCellFactory.shared().disclaimerCellId)
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: SettingsCellFactory.shared().warningCellId)
 		tableView.register(SettingsDetailedChevronCell.self, forCellReuseIdentifier: SettingsCellFactory.shared().detailedChevronCellId)
 		tableView.register(SettingsStandardCell.self, forCellReuseIdentifier: SettingsCellFactory.shared().standardCellId)
 
 	}
 	
-	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+	func cellForTableView(_ tableView: UITableView, indexPath: IndexPath, delegate: SettingsViewController) -> UITableViewCell {
 		if let _section = Sections.init(rawValue: indexPath.section) {
 			switch _section {
 				case .General:
@@ -150,10 +153,53 @@ class SettingsViewModel {
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Toggle) as! SettingsToggleCell
 								cell.updateName(generalTitles[_general] ?? "Unknown")
 								cell.updateIcon("SettingsNotification.png")
+								cell.updateToggle(KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.AllDayNotifications) ?? false)
+								cell.toggleFunction = { (toggleSwitch) in
+									let hoursRemaining = Date().hoursRemaining()
+									
+									KeychainWrapper.standard.set(toggleSwitch.isOn, forKey: SettingsKeyChainKeys.AllDayNotifications)
+									
+									if (hoursRemaining < 2) {
+										toggleSwitch.isOn = false
+										KeychainWrapper.standard.set(false, forKey: SettingsKeyChainKeys.AllDayNotifications)
+										cell.showWarning?()
+									} else {
+										// don't trigger if hoursRemiaining is less than 2. 2 hours remaining in the day means it's close to 10pm rendering the feature redundant.
+										if (toggleSwitch.isOn) {
+											for hour in 0..<hoursRemaining {
+												let id = 24 - (hoursRemaining - hour)
+												let timeToNextHour = Date().timeRemainingToHour()
+												let timeRemaining = timeToNextHour + Double(60 * hour)
+												LocalNotificationsService.shared.addAllDayNotification(id: "\(id)", notificationContent: [LocalNotificationKeys.Title : "Frequent Reminder"], timeRemaining: timeRemaining) // add content/body to notification
+											}
+										} else {
+											// remove all notifications
+											for hour in 0..<hoursRemaining {
+												let id = 24 - (hoursRemaining - hour)
+												LocalNotificationsService.shared.removeNotification(id: "\(id)")
+											}
+										}
+									}
+								}
+								cell.showWarning = { () in
+									delegate.coordinator?.showAlertBox("All day alerts are no longer allowed for the remainder of the night.")
+								}
 								return cell
 							case .NotificationsDisclaimer:
-								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Disclaimer)
+								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Disclaimer) as! SettingsDisclaimerCell
+								cell.updateLabel(string: generalTitles[_general] ?? "Unknown disclaimer")
+								return cell
+							case .GlobalTask:
+								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Toggle) as! SettingsToggleCell
 								cell.textLabel?.text = generalTitles[_general]
+								cell.updateToggle(KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.GlobalTasks) ?? false)
+								cell.toggleFunction = { (toggleSwitch) in
+									KeychainWrapper.standard.set(toggleSwitch.isOn, forKey: SettingsKeyChainKeys.GlobalTasks)
+								}
+								return cell
+							case .GlobalTaskDisclaimer:
+								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Disclaimer) as! SettingsDisclaimerCell
+								cell.updateLabel(string: generalTitles[_general] ?? "Unknown disclaimer")
 								return cell
 						}
 					}
@@ -171,7 +217,6 @@ class SettingsViewModel {
 					if let _support = Support.init(rawValue: indexPath.row) {
 						let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .SettingsStandardCell) as! SettingsStandardCell
 						cell.updateName(supportTitles[indexPath.row])
-						
 						switch _support {
 							case .ReviewApp:
 								cell.updateIcon("SettingsReviewApp.png")
@@ -185,13 +230,13 @@ class SettingsViewModel {
 					if let _data = Data.init(rawValue: indexPath.row) {
 						switch _data {
 							case .DeleteAllData:
-								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .DefaultCell)
+								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Warning)
 								cell.textLabel?.text = dataTitles[_data]
 								cell.textLabel?.textColor = .red
 								return cell
 							case .DeleteDisclaimer:
-								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Disclaimer)
-								cell.textLabel?.text = dataTitles[_data]
+								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Disclaimer) as! SettingsDisclaimerCell
+								cell.updateLabel(string: dataTitles[_data] ?? "Unknown disclaimer")
 								return cell
 							case .DeleteCategoryData:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Warning)
@@ -215,7 +260,6 @@ class SettingsViewModel {
 			
 			switch _section {
 				case .General:
-				
 					if let _general = General(rawValue: indexPath.row) {
 						switch _general {
 							case .PriorityLimit:
@@ -224,17 +268,10 @@ class SettingsViewModel {
 								delegate.coordinator?.showStats(persistentContainer)
 							case .Review:
 								delegate.dismissAndShowReview()
-							case .Notifications:
-								// all day notifications
-								// key chain
-								// toggle cell
-								// to do
-								()
-							case .NotificationsDisclaimer:
+							case .Notifications, .NotificationsDisclaimer, .GlobalTaskDisclaimer, .GlobalTask:
 								()
 						}
 					}
-				
 				case .Support:
 					if let _support = Support(rawValue: indexPath.row) {
 						switch _support {
@@ -244,7 +281,6 @@ class SettingsViewModel {
 								delegate.writeReview()
 						}
 				}
-				
 				case .About:
 				
 					if let _about = About(rawValue: indexPath.row) {

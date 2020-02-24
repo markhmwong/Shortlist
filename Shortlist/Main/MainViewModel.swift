@@ -45,6 +45,8 @@ class MainViewModel {
 	
 	private var randomTip: String = ""
 	
+	private var connectivity: Connectivity? = Connectivity()
+	
 	func taskForRow(indexPath: IndexPath) -> Task? {
 		return sortedSet?[indexPath.row]
 	}
@@ -203,4 +205,5 @@ class MainViewModel {
 		randomTip = TipsService.shared.randomTip()
 		return randomTip
 	}
+
 }
