@@ -77,7 +77,6 @@ class DayTest: XCTestCase {
 		task.createdAt = Date() as NSDate
 		task.details = "Details"
 		task.name = "Task A"
-		task.id = 0
 		task.isNew = false
 		task.priority = 0
 		task.reminder = Date() as NSDate

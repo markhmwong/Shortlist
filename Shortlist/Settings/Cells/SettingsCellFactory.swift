@@ -43,7 +43,7 @@ class SettingsCellFactory {
 	func cellType(tableView: UITableView, indexPath: IndexPath, cellType: SettingsCellType) -> UITableViewCell {
 		switch cellType {
 			case .SettingsStandardCell:
-				let cell = tableView.dequeueReusableCell(withIdentifier: standardCellId, for: indexPath) as! SettingsStandardCell
+				let cell = SettingsStandardCell.init(style: .default, reuseIdentifier: standardCellId)	
 				return cell
 			case .Chevron:
 				let cell = tableView.dequeueReusableCell(withIdentifier: standardCellId, for: indexPath) as! SettingsStandardCell

@@ -62,14 +62,14 @@ class AwardTests: XCTestCase {
 	
 	func createMockTasks(day: Day, complete: Bool, priority: Int) -> Task {
 		let task = Task.init(context: persistentContainer.viewContext)
-		task.create(context: persistentContainer.viewContext, idNum: 0, taskName: "Test High Priority Task", categoryName: "Uncategorized", createdAt: Date(), reminderDate: Date(), priority: priority)
+		task.create(context: persistentContainer.viewContext, taskName: "Test High Priority Task", categoryName: "Uncategorized", createdAt: Date(), reminderDate: Date(), priority: priority)
 		task.complete = complete
 		return task
 	}
 	
 	func createMockTasks(day: Day, complete: Bool, priority: Int, category: String) -> Task {
 		let task = Task.init(context: persistentContainer.viewContext)
-		task.create(context: persistentContainer.viewContext, idNum: 0, taskName: "Test High Priority Task", categoryName: category, createdAt: Date(), reminderDate: Date(), priority: priority)
+		task.create(context: persistentContainer.viewContext, taskName: "Test High Priority Task", categoryName: category, createdAt: Date(), reminderDate: Date(), priority: priority)
 		task.complete = complete
 		return task
 	}

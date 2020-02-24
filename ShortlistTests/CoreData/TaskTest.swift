@@ -44,7 +44,6 @@ class TaskTest: XCTestCase {
 		task.createdAt = Date() as NSDate
 		task.details = details
 		task.name = name
-		task.id = 0
 		task.isNew = false
 		task.priority = 0
 		task.reminder = Date() as NSDate
@@ -111,18 +110,6 @@ class TaskTest: XCTestCase {
 	func testTaskPriorityAnInvalidNegativeValue() {
 		let task: Task = Task(context: persistentContainer.viewContext)
 		task.priority = -1
-		XCTAssertFalse(task.priority > 0)
-	}
-	
-	func testTaskIdAValidPositiveValue() {
-		let task: Task = Task(context: persistentContainer.viewContext)
-		task.id = 20
-		XCTAssertFalse(task.priority > 0)
-	}
-	
-	func testTaskIdAInvalidNegativeValue() {
-		let task: Task = Task(context: persistentContainer.viewContext)
-		task.id = -1
 		XCTAssertFalse(task.priority > 0)
 	}
 	

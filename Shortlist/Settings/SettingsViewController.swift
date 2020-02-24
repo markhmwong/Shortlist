@@ -55,16 +55,16 @@ class SettingsViewController: UIViewController {
 		viewModel?.registerTableViewCell(tableView)
 		
 		// tableview header setup
-        let settingsHeaderViewModel = SettingsHeaderViewModel()
-        let header = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel)
-        tableView.tableHeaderView = header
-		header.setNeedsLayout()
-		header.layoutIfNeeded()
-        view.addSubview(tableView)
-        tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)		
+        let settingsHeaderViewModel_b = SettingsHeaderViewModel()
+        let header_b = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel_b)
+		view.addSubview(header_b)
+		view.addSubview(tableView)
 		
+		header_b.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: tableView.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+        tableView.anchorView(top: header_b.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+
 		// request tips from Apple
-        header.grabTipsProducts()
+        header_b.grabTipsProducts()
     }
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -79,6 +79,10 @@ class SettingsViewController: UIViewController {
 	
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
+	}
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
 		tableView.updateHeaderViewHeight()
 	}
     

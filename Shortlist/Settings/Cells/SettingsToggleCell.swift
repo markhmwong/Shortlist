@@ -53,9 +53,14 @@ class SettingsToggleCell: CellBase, SettingsStandardCellProtocol {
 		toggle.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: nil, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -20.0), size: .zero)
 	}
 	
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		imageView?.bounds = CGRect(x: 0.0, y: 0.0, width: bounds.height * 0.6, height: bounds.height * 0.6)
+
+	}
+	
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
-		imageView?.bounds = CGRect(x: 0.0, y: 0.0, width: bounds.height * 0.6, height: bounds.height * 0.6)
 	}
 	
 	@objc func handleToggle() {

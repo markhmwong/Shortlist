@@ -27,17 +27,22 @@ class SettingsStandardCell: UITableViewCell, SettingsStandardCellProtocol {
 	}
 	
 	func setupCellLayout() {
-		
 		guard let _chevron = chevron else { return }
 		_chevron.frame = CGRect(x: 0, y: 0, width: frame.height * 0.5, height: frame.height * 0.5)
 		accessoryView = _chevron
 		tintColor = .white
 		backgroundColor = .clear
+		textLabel?.textColor = UIColor.white
+	}
+	
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		imageView?.bounds = CGRect(x: 0.0, y: 0.0, width: bounds.height * 0.6, height: bounds.height * 0.6)
+
 	}
 	
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
-		imageView?.bounds = CGRect(x: 0.0, y: 0.0, width: bounds.height * 0.6, height: bounds.height * 0.6)
 	}
 	
 	func updateIcon(_ iconName: String) {

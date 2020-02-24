@@ -181,6 +181,8 @@
 		4DED156923616A2D00FC903E /* SelectCategory+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED156823616A2D00FC903E /* SelectCategory+UITableView.swift */; };
 		4DED156B23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED156A23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift */; };
 		4DED156D23617BA200FC903E /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED156C23617BA200FC903E /* UITextView+Extension.swift */; };
+		4DF3E3722403E01F002B402C /* ScreenshotTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3712403E01F002B402C /* ScreenshotTester.swift */; };
+		4DF3E3792403E0F2002B402C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3592403DB62002B402C /* SnapshotHelper.swift */; };
 		4DF724F822F1887500472072 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */; };
 		4DF724F922F1888D00472072 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */; };
 		4DF724FC22F1974000472072 /* TaskRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF724FB22F1974000472072 /* TaskRowController.swift */; };
@@ -216,6 +218,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4D45E7C422DDD1AE008AC433;
 			remoteInfo = "Five WatchKit Extension";
+		};
+		4DF3E3742403E01F002B402C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4D45E78622DDD1AB008AC433 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4D45E78D22DDD1AB008AC433;
+			remoteInfo = Shortlist;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -432,6 +441,10 @@
 		4DED156823616A2D00FC903E /* SelectCategory+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectCategory+UITableView.swift"; sourceTree = "<group>"; };
 		4DED156A23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectCategoryViewController+NSFetchedResultsController.swift"; sourceTree = "<group>"; };
 		4DED156C23617BA200FC903E /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
+		4DF3E3592403DB62002B402C /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
+		4DF3E36F2403E01F002B402C /* ScreenshotTester.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScreenshotTester.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DF3E3712403E01F002B402C /* ScreenshotTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTester.swift; sourceTree = "<group>"; };
+		4DF3E3732403E01F002B402C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DF724F022F174D200472072 /* Five.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Five.entitlements; sourceTree = "<group>"; };
 		4DF724F122F174F100472072 /* Shortlist WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Shortlist WatchKit App.entitlements"; sourceTree = "<group>"; };
 		4DF724FA22F18FEF00472072 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -480,6 +493,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B85CFB1E7D7D9A3B2ACFF8EA /* Pods_Shortlist_WatchKit_Extension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DF3E36C2403E01F002B402C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,6 +567,7 @@
 				4D45E7B022DDD1AD008AC433 /* ShortlistUITests */,
 				4D45E7BA22DDD1AD008AC433 /* Shortlist WatchKit App */,
 				4D45E7C922DDD1AE008AC433 /* Shortlist WatchKit Extension */,
+				4DF3E3702403E01F002B402C /* ScreenshotTester */,
 				4D45E78F22DDD1AB008AC433 /* Products */,
 				FB99041BBC17CA1761219DA7 /* Pods */,
 				9363496DED945781F5C48D70 /* Frameworks */,
@@ -561,6 +582,7 @@
 				4D45E7AD22DDD1AD008AC433 /* ShortlistUITests.xctest */,
 				4D45E7B622DDD1AD008AC433 /* Shortlist WatchKit App.app */,
 				4D45E7C522DDD1AE008AC433 /* Shortlist WatchKit Extension.appex */,
+				4DF3E36F2403E01F002B402C /* ScreenshotTester.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1140,6 +1162,16 @@
 			path = Keys;
 			sourceTree = "<group>";
 		};
+		4DF3E3702403E01F002B402C /* ScreenshotTester */ = {
+			isa = PBXGroup;
+			children = (
+				4DF3E3592403DB62002B402C /* SnapshotHelper.swift */,
+				4DF3E3712403E01F002B402C /* ScreenshotTester.swift */,
+				4DF3E3732403E01F002B402C /* Info.plist */,
+			);
+			path = ScreenshotTester;
+			sourceTree = "<group>";
+		};
 		9363496DED945781F5C48D70 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1220,6 +1252,7 @@
 				4D45E7A922DDD1AD008AC433 /* Sources */,
 				4D45E7AA22DDD1AD008AC433 /* Frameworks */,
 				4D45E7AB22DDD1AD008AC433 /* Resources */,
+				6CAB9FA0AEC7E98D729B6BB0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1268,13 +1301,31 @@
 			productReference = 4D45E7C522DDD1AE008AC433 /* Shortlist WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
 		};
+		4DF3E36E2403E01F002B402C /* ScreenshotTester */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DF3E3762403E01F002B402C /* Build configuration list for PBXNativeTarget "ScreenshotTester" */;
+			buildPhases = (
+				4DF3E36B2403E01F002B402C /* Sources */,
+				4DF3E36C2403E01F002B402C /* Frameworks */,
+				4DF3E36D2403E01F002B402C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4DF3E3752403E01F002B402C /* PBXTargetDependency */,
+			);
+			name = ScreenshotTester;
+			productName = ScreenshotTester;
+			productReference = 4DF3E36F2403E01F002B402C /* ScreenshotTester.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		4D45E78622DDD1AB008AC433 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1120;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Mark Wong";
 				TargetAttributes = {
@@ -1305,6 +1356,10 @@
 					4D45E7C422DDD1AE008AC433 = {
 						CreatedOnToolsVersion = 10.2;
 					};
+					4DF3E36E2403E01F002B402C = {
+						CreatedOnToolsVersion = 11.2;
+						TestTargetID = 4D45E78D22DDD1AB008AC433;
+					};
 				};
 			};
 			buildConfigurationList = 4D45E78922DDD1AB008AC433 /* Build configuration list for PBXProject "Shortlist" */;
@@ -1325,6 +1380,7 @@
 				4D45E7AC22DDD1AD008AC433 /* ShortlistUITests */,
 				4D45E7B522DDD1AD008AC433 /* Shortlist WatchKit App */,
 				4D45E7C422DDD1AE008AC433 /* Shortlist WatchKit Extension */,
+				4DF3E36E2403E01F002B402C /* ScreenshotTester */,
 			);
 		};
 /* End PBXProject section */
@@ -1373,6 +1429,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D45E7D122DDD1AF008AC433 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DF3E36D2403E01F002B402C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1465,6 +1528,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6CAB9FA0AEC7E98D729B6BB0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ShortlistUITests/Pods-ShortlistUITests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ShortlistUITests/Pods-ShortlistUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		72215A709BDE77F0A025964F /* [CP] Check Pods Manifest.lock */ = {
@@ -1711,6 +1804,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4DF3E36B2403E01F002B402C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DF3E3722403E01F002B402C /* ScreenshotTester.swift in Sources */,
+				4DF3E3792403E0F2002B402C /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1733,6 +1835,11 @@
 			isa = PBXTargetDependency;
 			target = 4D45E7C422DDD1AE008AC433 /* Shortlist WatchKit Extension */;
 			targetProxy = 4D45E7C722DDD1AE008AC433 /* PBXContainerItemProxy */;
+		};
+		4DF3E3752403E01F002B402C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4D45E78D22DDD1AB008AC433 /* Shortlist */;
+			targetProxy = 4DF3E3742403E01F002B402C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2072,9 +2179,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.FiveUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Five;
+				TEST_TARGET_NAME = Shortlist;
 			};
 			name = Debug;
 		};
@@ -2094,9 +2202,50 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.FiveUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Five;
+				TEST_TARGET_NAME = Shortlist;
+			};
+			name = Release;
+		};
+		4DF3E3772403E01F002B402C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GEKZN86RYS;
+				INFOPLIST_FILE = ScreenshotTester/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.ScreenshotTester;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Shortlist;
+			};
+			name = Debug;
+		};
+		4DF3E3782403E01F002B402C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GEKZN86RYS;
+				INFOPLIST_FILE = ScreenshotTester/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.ScreenshotTester;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Shortlist;
 			};
 			name = Release;
 		};
@@ -2153,6 +2302,15 @@
 			buildConfigurations = (
 				4D45E7E522DDD1AF008AC433 /* Debug */,
 				4D45E7E622DDD1AF008AC433 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4DF3E3762403E01F002B402C /* Build configuration list for PBXNativeTarget "ScreenshotTester" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DF3E3772403E01F002B402C /* Debug */,
+				4DF3E3782403E01F002B402C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
