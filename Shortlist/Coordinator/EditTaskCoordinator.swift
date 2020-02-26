@@ -31,7 +31,6 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     func start(_ persistentContainer: PersistentContainer?) {
         navigationController.delegate = self
         guard let persistentContainer = persistentContainer else {
-            print("Persistent Container not loaded")
             return
         }
 		let viewModel = EditTaskViewModel(with: task)

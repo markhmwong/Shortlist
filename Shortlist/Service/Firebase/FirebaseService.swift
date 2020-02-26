@@ -44,7 +44,6 @@ class FirebaseService {
 		let failedValue: Int = 0
 		queue.enter()
 		refStats.observeSingleEvent(of: .value) { (snapshot) in
-			print(snapshot)
 			guard let dictionary = snapshot.value as? [String: Any] else {
 				globalTask = failedValue
 				self.queue.leave()

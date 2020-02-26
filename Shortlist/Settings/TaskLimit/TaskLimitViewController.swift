@@ -65,7 +65,6 @@ class TaskLimitViewController: UIViewController {
     }
 	
 	deinit {
-		print("task limit deinit")
 		coordinator?.cleanUpChildCoordinator()
 	}
 }

@@ -31,7 +31,6 @@ class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDel
     func start(_ persistentContainer: PersistentContainer?) {
         navigationController.delegate = self
         guard let persistentContainer = persistentContainer else {
-            print("Persistent Container not loaded")
             return
         }
 		

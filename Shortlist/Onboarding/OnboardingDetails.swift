@@ -26,9 +26,6 @@ struct OnboardingDetails {
 	typealias Details = OnboardingPage
 	typealias Log = [ Details ]
 	
-	
-	// redo the image with a 2x2 or 3x3 list of images maybe create the image in illustrator
-	
 	static var deltaLogs: [ Version : Log ] = [
 		1.00 :
 			[

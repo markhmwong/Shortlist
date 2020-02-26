@@ -79,7 +79,6 @@ public class Stats: NSManagedObject {
 		let setComplete = statsToComplete?.filtered(using: predicate) as! Set<StatsCategoryComplete>
 		if let category = setComplete.first {
 			category.completeCount = category.completeCount + 1
-			print(category.completeCount)
 		}
 	}
 	
@@ -88,7 +87,6 @@ public class Stats: NSManagedObject {
 		let setComplete = statsToComplete?.filtered(using: predicate) as! Set<StatsCategoryComplete>
 		if let category = setComplete.first {
 			category.completeCount = category.completeCount + 1
-			print(category.completeCount)
 		}
 	}
 }

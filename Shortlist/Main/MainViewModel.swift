@@ -22,7 +22,7 @@ class MainViewModel {
 		case LowPriority // Touch and Go
 	}
 	
-	var taskName: String = "An interesting task.."
+	
 	
 	var keyboardSize: CGRect = .zero
 	
@@ -34,7 +34,10 @@ class MainViewModel {
     
     let cellHeight: CGFloat = 70.0
 	
+	// task inputs
 	var category: String? = ""
+	var taskName: String = "An interesting task.."
+	var priority: Priority = .high
 	
 	typealias SectionNumber = Int16 // This is based on the attribute property 'priority'
 	
@@ -170,8 +173,7 @@ class MainViewModel {
             do {
                 let data = try JSONEncoder().encode(tempTaskStruct)
                 WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
-            } catch (let err) {
-                print("\(err)")
+            } catch (_) {
             }
         }
         
@@ -205,5 +207,4 @@ class MainViewModel {
 		randomTip = TipsService.shared.randomTip()
 		return randomTip
 	}
-
 }

@@ -12,7 +12,6 @@
 		4B390D9A6A1FF084D47A1101 /* Pods_ShortlistUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F61ED63A603888FDD2D46B46 /* Pods_ShortlistUITests.framework */; };
 		4D015E4722FC621A007E2536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
 		4D106A9023B7988F00AB1895 /* DailyAccolades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */; };
-		4D1079E323A74B0D002CDF3A /* PricingStructure in Resources */ = {isa = PBXBuildFile; fileRef = 4D1079E223A74B0D002CDF3A /* PricingStructure */; };
 		4D242C3D23EBCB2B00ED1C42 /* TipsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C3C23EBCB2B00ED1C42 /* TipsService.swift */; };
 		4D242C4023EBE38C00ED1C42 /* ProductivityTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C3F23EBE38C00ED1C42 /* ProductivityTips.swift */; };
 		4D242C4223EC06EA00ED1C42 /* TemporaryStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */; };
@@ -76,7 +75,6 @@
 		4D5D7E3F232CF9380088EB5F /* IAPProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E3D232CF9380088EB5F /* IAPProducts.swift */; };
 		4D5D7E42232CFAD40088EB5F /* LocalProductManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */; };
 		4D5D7E44232E121E0088EB5F /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E43232E121E0088EB5F /* StandardButton.swift */; };
-		4D5EA36F23F660CA0059C780 /* PendingOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5EA36E23F660CA0059C780 /* PendingOperations.swift */; };
 		4D5EA37123F692180059C780 /* ConnectivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5EA37023F692180059C780 /* ConnectivityService.swift */; };
 		4D5FD36823114A7E0053E193 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36723114A7E0053E193 /* BarChart.swift */; };
 		4D5FD36A23114AC90053E193 /* ChartGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36923114AC90053E193 /* ChartGenerator.swift */; };
@@ -88,8 +86,6 @@
 		4D60932923C43C0D00A7936E /* ApplicationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D60932823C43C0D00A7936E /* ApplicationDetails.swift */; };
 		4D60932B23C4537800A7936E /* OnboardingDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D60932A23C4537800A7936E /* OnboardingDetails.swift */; };
 		4D60932D23C5BF1900A7936E /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D60932C23C5BF1900A7936E /* OnboardingCell.swift */; };
-		4D61A5422335CE3200F81EB5 /* Marketing in Resources */ = {isa = PBXBuildFile; fileRef = 4D61A5412335CE3200F81EB5 /* Marketing */; };
-		4D61A5442335CE4000F81EB5 /* Todo in Resources */ = {isa = PBXBuildFile; fileRef = 4D61A5432335CE4000F81EB5 /* Todo */; };
 		4D61D0BD23E7AE7600A58332 /* SettingsDetailChevronCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D61D0BC23E7AE7600A58332 /* SettingsDetailChevronCell.swift */; };
 		4D61D0C023E8119100A58332 /* NewsFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D61D0BF23E8119100A58332 /* NewsFeed.swift */; };
 		4D62366B231D7962001CBF1C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D62366A231D7962001CBF1C /* String+Extension.swift */; };
@@ -258,7 +254,6 @@
 		1C327C0B68C7027F7AB99204 /* Pods-Shortlist WatchKit Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shortlist WatchKit Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Shortlist WatchKit Extension/Pods-Shortlist WatchKit Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		33CB3CDBD499A319B24EDFB1 /* Pods-ShortlistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortlistTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShortlistTests/Pods-ShortlistTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAccolades.swift; sourceTree = "<group>"; };
-		4D1079E223A74B0D002CDF3A /* PricingStructure */ = {isa = PBXFileReference; lastKnownFileType = text; path = PricingStructure; sourceTree = "<group>"; };
 		4D242C3C23EBCB2B00ED1C42 /* TipsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsService.swift; sourceTree = "<group>"; };
 		4D242C3F23EBE38C00ED1C42 /* ProductivityTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductivityTips.swift; sourceTree = "<group>"; };
 		4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryStorageService.swift; sourceTree = "<group>"; };
@@ -331,7 +326,6 @@
 		4D5D7E3D232CF9380088EB5F /* IAPProducts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPProducts.swift; sourceTree = "<group>"; };
 		4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalProductManager.swift; sourceTree = "<group>"; };
 		4D5D7E43232E121E0088EB5F /* StandardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
-		4D5EA36E23F660CA0059C780 /* PendingOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingOperations.swift; sourceTree = "<group>"; };
 		4D5EA37023F692180059C780 /* ConnectivityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityService.swift; sourceTree = "<group>"; };
 		4D5FD36723114A7E0053E193 /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		4D5FD36923114AC90053E193 /* ChartGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartGenerator.swift; sourceTree = "<group>"; };
@@ -343,8 +337,6 @@
 		4D60932823C43C0D00A7936E /* ApplicationDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDetails.swift; sourceTree = "<group>"; };
 		4D60932A23C4537800A7936E /* OnboardingDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDetails.swift; sourceTree = "<group>"; };
 		4D60932C23C5BF1900A7936E /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
-		4D61A5412335CE3200F81EB5 /* Marketing */ = {isa = PBXFileReference; lastKnownFileType = text; path = Marketing; sourceTree = "<group>"; };
-		4D61A5432335CE4000F81EB5 /* Todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = Todo; sourceTree = "<group>"; };
 		4D61D0BC23E7AE7600A58332 /* SettingsDetailChevronCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDetailChevronCell.swift; sourceTree = "<group>"; };
 		4D61D0BF23E8119100A58332 /* NewsFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeed.swift; sourceTree = "<group>"; };
 		4D62366A231D7962001CBF1C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -514,13 +506,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4D1079E423A77855002CDF3A /* AccesoryInputView */ = {
+		4D1079E423A77855002CDF3A /* TaskInputView */ = {
 			isa = PBXGroup;
 			children = (
 				4D6E755F235DB16700C67B8F /* MainInputView.swift */,
 				4D6E75662360648000C67B8F /* SelectCategory */,
 			);
-			path = AccesoryInputView;
+			path = TaskInputView;
 			sourceTree = "<group>";
 		};
 		4D242C3E23EBE37800ED1C42 /* Tips */ = {
@@ -558,9 +550,6 @@
 			isa = PBXGroup;
 			children = (
 				4D56220323E56AE8003F7309 /* GoogleService-Info.plist */,
-				4D1079E223A74B0D002CDF3A /* PricingStructure */,
-				4D61A5412335CE3200F81EB5 /* Marketing */,
-				4D61A5432335CE4000F81EB5 /* Todo */,
 				4DF724FA22F18FEF00472072 /* README.md */,
 				4D45E79022DDD1AB008AC433 /* Shortlist */,
 				4D45E7A522DDD1AD008AC433 /* ShortlistTests */,
@@ -866,14 +855,6 @@
 			path = Firebase;
 			sourceTree = "<group>";
 		};
-		4D5EA36D23F660090059C780 /* PendingFirebaseOperations */ = {
-			isa = PBXGroup;
-			children = (
-				4D5EA36E23F660CA0059C780 /* PendingOperations.swift */,
-			);
-			path = PendingFirebaseOperations;
-			sourceTree = "<group>";
-		};
 		4D5FD3662311461D0053E193 /* Chart */ = {
 			isa = PBXGroup;
 			children = (
@@ -1108,12 +1089,11 @@
 		4DC0DE3622E087E300B2B8D4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				4D5EA36D23F660090059C780 /* PendingFirebaseOperations */,
 				4DA5D0DC23AF670A00373F6F /* Preplan */,
 				4D6E7537235633F200C67B8F /* Backlog */,
 				4D9304A923A9A8850001EC3D /* Priority */,
 				4DD39ABD23B0AF9F0009495B /* Cell */,
-				4D1079E423A77855002CDF3A /* AccesoryInputView */,
+				4D1079E423A77855002CDF3A /* TaskInputView */,
 				4D5D7E2D232B08550088EB5F /* Edit Task */,
 				4D6E756D2360AAF000C67B8F /* EmptyCollectionView.swift */,
 				4D45E79322DDD1AB008AC433 /* MainViewController.swift */,
@@ -1331,6 +1311,7 @@
 				TargetAttributes = {
 					4D45E78D22DDD1AB008AC433 = {
 						CreatedOnToolsVersion = 10.2;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -1339,14 +1320,17 @@
 					};
 					4D45E7A122DDD1AD008AC433 = {
 						CreatedOnToolsVersion = 10.2;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 4D45E78D22DDD1AB008AC433;
 					};
 					4D45E7AC22DDD1AD008AC433 = {
 						CreatedOnToolsVersion = 10.2;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 4D45E78D22DDD1AB008AC433;
 					};
 					4D45E7B522DDD1AD008AC433 = {
 						CreatedOnToolsVersion = 10.2;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -1355,9 +1339,11 @@
 					};
 					4D45E7C422DDD1AE008AC433 = {
 						CreatedOnToolsVersion = 10.2;
+						ProvisioningStyle = Automatic;
 					};
 					4DF3E36E2403E01F002B402C = {
 						CreatedOnToolsVersion = 11.2;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 4D45E78D22DDD1AB008AC433;
 					};
 				};
@@ -1390,12 +1376,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D61A5422335CE3200F81EB5 /* Marketing in Resources */,
 				4D56220423E56AE9003F7309 /* GoogleService-Info.plist in Resources */,
-				4D1079E323A74B0D002CDF3A /* PricingStructure in Resources */,
 				4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */,
 				4D45E79922DDD1AD008AC433 /* Assets.xcassets in Resources */,
-				4D61A5442335CE4000F81EB5 /* Todo in Resources */,
 				4D45E79722DDD1AB008AC433 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1694,7 +1677,6 @@
 				4D69039B233A7F6F008DC5D6 /* EditTaskCellFactory.swift in Sources */,
 				4DA50FBF22E75A8F0059A46F /* CloseButton.swift in Sources */,
 				4D5D7E44232E121E0088EB5F /* StandardButton.swift in Sources */,
-				4D5EA36F23F660CA0059C780 /* PendingOperations.swift in Sources */,
 				4D70285F237567E5003D33E6 /* CategoryTaskListViewModel.swift in Sources */,
 				4D5A438222E716AE00E34FAC /* KeychainWrapper.swift in Sources */,
 				4D6EE35323A87F6F001BBC95 /* StatsCategoryComplete+CoreDataClass.swift in Sources */,
@@ -1992,7 +1974,9 @@
 			baseConfigurationReference = 1C327C0B68C7027F7AB99204 /* Pods-Shortlist WatchKit Extension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2002,10 +1986,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
 				WATCHOS_DEPLOYMENT_TARGET = 5.2;
 			};
 			name = Debug;
@@ -2015,7 +2001,9 @@
 			baseConfigurationReference = FC95EAEA601D319511C1AA8E /* Pods-Shortlist WatchKit Extension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2025,10 +2013,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
 				WATCHOS_DEPLOYMENT_TARGET = 5.2;
 			};
 			name = Release;
@@ -2040,16 +2030,20 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
 				WATCHOS_DEPLOYMENT_TARGET = 5.2;
 			};
 			name = Debug;
@@ -2061,16 +2055,20 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
 				WATCHOS_DEPLOYMENT_TARGET = 5.2;
 			};
 			name = Release;
@@ -2081,7 +2079,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2091,8 +2091,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -2102,7 +2104,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2112,8 +2116,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};

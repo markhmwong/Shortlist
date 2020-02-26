@@ -54,12 +54,6 @@ class InterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
     
-//    func emptyData() {
-//        self.taskTable.setNumberOfRows(1, withRowType: "TaskRow")
-//        guard let controller = self.taskTable.rowController(at: 0) as? TaskRowController else { return }
-//        controller.taskLabel.setText("No tasks available")
-//    }
-    
     func loadDate() {
         let today = Calendar.current.today()
         let monthNameFormatter = DateFormatter()
@@ -93,8 +87,8 @@ class InterfaceController: WKInterfaceController {
                     let encodedData = try JSONEncoder().encode(self.tableDataSource)
                     let dataDict = ["UpdateTaskFromWatch": encodedData]
                     try self.watchSession?.updateApplicationContext(dataDict)
-                } catch (let err) {
-                    print("Error encoding data from watch: \(err)")
+                } catch (_) {
+//                    print("Error encoding data from watch: \(err)")
                 }
             }
         }
@@ -114,7 +108,7 @@ extension InterfaceController: WCSessionDelegate {
                     }
                     // Table reloads in didSet method of tableDataSource var
                     self.tableDataSource = sortedData
-                } catch (let err) {
+                } catch (_) {
                 }
             }
         }, errorHandler: { (err) in
@@ -122,12 +116,10 @@ extension InterfaceController: WCSessionDelegate {
     }
     
     func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
-        print("didRecieve Message Data")
-        print(messageData)
-    }
+		//
+	}
 
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        print("watch received app context: ", applicationContext)
         let key = applicationContext.keys.sorted()
 //         <- sort this first.
 //        the data is sending but the order of the dictionary is incorrect, the force_send key sometimes is in index 0

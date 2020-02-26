@@ -175,8 +175,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 				if (_viewModel.dayEntity != nil) {
 					self.tableView.reloadData()
 				}
-			} catch (let err) {
-				print("Unable to perform fetch \(err)")
+			} catch (_) {
 			}
 		}
 	}

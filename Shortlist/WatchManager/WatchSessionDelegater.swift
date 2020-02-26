@@ -14,20 +14,16 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
     var persistentContainer: PersistentContainer?
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("did become active")
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        print("did become inactive")
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
-        print("did deactivate")
         session.activate()
     }
     
     func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
-        print("did receive from watch")
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
@@ -54,7 +50,6 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
     }
     
     func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
-        print("messageData")
         
     }
     
@@ -77,7 +72,6 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
 				}
             }
 			postNotificationOnMainQueueAsync(name: .watchDidUpdate)
-//            persistentContainer?.saveContext(backgroundContext: nil)
         } catch (let err) {
             print("Unable to decode data from Watch\(err)")
         }

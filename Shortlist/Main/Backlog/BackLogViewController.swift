@@ -173,7 +173,6 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 	}
 	
 	deinit {
-		print("deinit")
 		coordinator?.cleanUpChildCoordinator()
 	}
 }

@@ -256,10 +256,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 			}
 		}
 	}
-    
 
-
-	
     private func setupView() {
 		
         guard let viewModel = viewModel else { return }
@@ -332,8 +329,8 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 				if (viewModel.dayEntity != nil) {
 					self.tableView.reloadData()
 				}
-			} catch (let err) {
-				print("Unable to perform fetch \(err)")
+			} catch (_) {
+				
 			}
 		}
     }
@@ -562,8 +559,8 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
-        } catch (let err) {
-            print("\(err)")
+        } catch (_) {
+            
         }
     }
 
@@ -625,6 +622,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
 				
 				dayManagedObject.dayToStats?.totalTasks = (dayManagedObject.dayToStats?.totalTasks ?? 0) - 1
 				
+				let backLog = self.persistentContainer?.fetchBackLog(forCategory: taskManagedObject.category)
+				backLog?.removeFromBackLogToTask(taskManagedObject)
+				
 				if task.complete {
 					dayManagedObject.dayToStats?.totalCompleted = (dayManagedObject.dayToStats?.totalCompleted ?? 0) - 1
 				}
@@ -651,18 +651,19 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
 	
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 		
-		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-        let set = dayManagedObject.dayToTask as? Set<Task>
-		
-        let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
-            return taskA.priority < taskB.priority
-        })
-
-        let sourceTask = sortedSet?[sourceIndexPath.section]
-        let destTask = sortedSet?[destinationIndexPath.section]
-        let tempDestinationPriority = destTask?.priority
-        destTask?.priority = sourceTask!.priority
-        sourceTask?.priority = tempDestinationPriority!
+//		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+//        let set = dayManagedObject.dayToTask as? Set<Task>
+//
+//        let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
+//            return taskA.priority < taskB.priority
+//        })
+		guard let viewModel = viewModel else { return }
+		guard let sortedSet = viewModel.sortedSet else { return }
+        let sourceTask = sortedSet[sourceIndexPath.section]
+        let destTask = sortedSet[destinationIndexPath.section]
+        let tempDestinationPriority = destTask.priority
+        destTask.priority = sourceTask.priority
+        sourceTask.priority = tempDestinationPriority
         persistentContainer?.saveContext()
 		self.loadData()
     }
@@ -681,15 +682,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		guard let persistentContainer = persistentContainer else { return }
-		//place in viewmodel
-		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-        let set = dayManagedObject.dayToTask as? Set<Task>
-        let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
-            return taskA.priority < taskB.priority
-        })
-		
-		guard let task = sortedSet?[indexPath.row] else { return }
+		guard let viewModel = viewModel else { return }
+		guard let task = viewModel.sortedSet?[indexPath.row] else { return }
 		guard let fetchedResultsController = fetchedResultsController else { return }
+		
 		coordinator?.showEditTask(persistentContainer, task: task, fetchedResultsController: fetchedResultsController, mainViewController: self)
 		tableView.deselectRow(at: indexPath, animated: true)
 	}

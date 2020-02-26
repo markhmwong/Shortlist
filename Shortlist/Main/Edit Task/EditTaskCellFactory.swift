@@ -61,7 +61,6 @@ class EditTaskCellFactory {
 				cell.isUserInteractionEnabled = false
 				return cell
 			case .Priority:
-//				let cell = tableView.dequeueReusableCell(withIdentifier: priorityId, for: indexPath)
 				let cell = EditTaskPriorityCell.init(style: .default, reuseIdentifier: priorityId)
 				return cell
 			case .DefaultCell:

@@ -125,7 +125,6 @@ class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
 	}
 	
 	deinit {
-		print("deinit edittask")
 		coordinator?.cleanUpChildCoordinator()
 	}
 }

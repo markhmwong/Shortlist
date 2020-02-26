@@ -336,8 +336,7 @@ extension ReviewViewController: NSFetchedResultsControllerDelegate {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
-        } catch (let err) {
-            print("\(err)")
+        } catch (_) {
         }
     }
     

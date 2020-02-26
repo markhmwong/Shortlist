@@ -30,7 +30,7 @@ class EditTaskTextViewCell: CellBase {
 	lazy var inputTextView: UITextView = {
         let view = UITextView()
         view.delegate = self
-		view.backgroundColor = Theme.Cell.textFieldBackground
+		view.backgroundColor = .clear
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
 		view.textColor = Theme.Font.DefaultColor
@@ -65,14 +65,14 @@ class EditTaskTextViewCell: CellBase {
 	override func setupCellLayout() {
 		super.setupCellLayout()
 		let backgroundView = UIView()
-		backgroundView.backgroundColor = .clear
+		backgroundView.backgroundColor = UIColor(red:0.1, green:0.1, blue:0.1, alpha:1.0)
 		selectedBackgroundView = backgroundView
-		backgroundColor = .clear
+		backgroundColor = UIColor(red:0.35, green:0.35, blue:0.35, alpha:1.0)
 		
         addSubview(inputTextView)
 		addSubview(textLimitContainer)
 		
-		inputTextView.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: textLimitContainer.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 8.0, bottom: -10.0, right: -8.0), size: CGSize(width: 0, height: 0.0))
+		inputTextView.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: textLimitContainer.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: -8.0), size: CGSize(width: 0, height: 0.0))
 		textLimitContainer.anchorView(top: inputTextView.topAnchor, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -5.0), size: CGSize(width: 18.0, height: 18.0))
 		
 		textLimitContainer.updateColor(0.0)

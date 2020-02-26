@@ -355,7 +355,6 @@ class AwardTests: XCTestCase {
 			AwardsList.Complete.TheBusyBee,
 			AwardsList.Complete.TheGrunt,
 		]
-		print(awards)
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
 
@@ -395,7 +394,6 @@ class AwardTests: XCTestCase {
 			AwardsList.Complete.TheDoer,
 			AwardsList.Complete.TheGoGetter,
 		]
-		print(awards)
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
 
@@ -483,7 +481,6 @@ class AwardTests: XCTestCase {
 			AwardsList.Category.TheMaster,
 		]
 
-		print(awards)
 		let containsAward = awardMatcher(awards: awards, testableAwards: testAwards)
 		let awardCorrectCount: Bool = awards.count == testAwards.count
 

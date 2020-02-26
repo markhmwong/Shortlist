@@ -43,7 +43,7 @@ class SettingsViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		
+		isModalInPresentation = false
 		// view
 		view.backgroundColor = .black
 		
@@ -56,16 +56,15 @@ class SettingsViewController: UIViewController {
 		
 		// tableview header setup
         let settingsHeaderViewModel_b = SettingsHeaderViewModel()
-        let header_b = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel_b)
-		view.addSubview(header_b)
+        let header = SettingsHeader(delegate: self, viewModel: settingsHeaderViewModel_b)
+		addChild(header)
+		view.addSubview(header.view)
 		view.addSubview(tableView)
 		
-		header_b.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: tableView.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
-        tableView.anchorView(top: header_b.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
-
-		// request tips from Apple
-        header_b.grabTipsProducts()
+		header.view.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: tableView.topAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
+        tableView.anchorView(top: header.view.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
     }
+	
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)

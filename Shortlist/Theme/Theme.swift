@@ -78,14 +78,14 @@ struct Theme {
     
     struct GeneralView {
 		static var background: UIColor = UIColor.black
-		static var headerBackground: UIColor = UIColor(red:0.02, green:0.12, blue:0.20, alpha:1.0)
+		static var headerBackground: UIColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:1.0)
     }
 	
 	struct Button {
 		static var backgroundColor: UIColor = UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
 		static var textColor: UIColor = UIColor.black
 		static var cornerRadius: CGFloat = 15.0
-		static var donationButtonBackgroundColor: UIColor = UIColor(red:1.00, green:0.24, blue:0.00, alpha:1.0)
+		static var donationButtonBackgroundColor: UIColor = UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0)
 	}
 	
 	struct Chart {

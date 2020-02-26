@@ -75,7 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		} else {
 			mainCoordinator?.start(persistentContainer)
-			
 			let today: Int16 = Calendar.current.todayToInt()
 
 			if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
@@ -96,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = navController
         window?.makeKeyAndVisible()
         if (!WatchSessionHandler.shared.isSupported()) {
-            print("WCSession not supported")
+			//
         }
         
         /// Observer for handling In App Product key events
@@ -133,7 +132,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-		print("will enter foreground")
 		let today: Int16 = Calendar.current.todayToInt()
 
 		if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {

@@ -56,8 +56,8 @@ class SettingsViewModel {
 		General.Stats : "Stats",
 		General.Notifications : "All Day Notifications", // all day notifications, standard notifications
 		General.NotificationsDisclaimer : "A repeating hourly reminder for the entire day. Useful if you have a list of tasks that require your frequent attention. Every reminder begins on the hour i.e. 1pm, 2pm, 3pm, 4pm and so on. Reminders won't set within 2 hours before the next day.",
-		General.GlobalTask : "Global Task",
-		General.GlobalTaskDisclaimer : "Toggle to participate in accumulating completed tasks with other users of Shortlist around the world with a 500,000 task goal for 2020. No other data is sent other than the tasks completed for the day.",
+		General.GlobalTask : "Global Task Tally",
+		General.GlobalTaskDisclaimer : "Toggle to participate in accumulating completed tasks with other users of Shortlist around the world to see how far we can reach to the end of 2020. No other data is sent other than the tasks completed for the day.",
 	]
 	
 	let aboutTitles = [
@@ -192,6 +192,7 @@ class SettingsViewModel {
 							case .GlobalTask:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Toggle) as! SettingsToggleCell
 								cell.textLabel?.text = generalTitles[_general]
+								cell.updateIcon("SettingsTaskTally.png")
 								cell.updateToggle(KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.GlobalTasks) ?? false)
 								cell.toggleFunction = { (toggleSwitch) in
 									KeychainWrapper.standard.set(toggleSwitch.isOn, forKey: SettingsKeyChainKeys.GlobalTasks)

@@ -20,7 +20,7 @@ class SettingsHeaderViewModel {
     var buttonArr: [StandardButton] = []
 }
 
-class SettingsHeader: UIView {
+class SettingsHeader: UIViewController {
     
     static let priceFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -85,61 +85,46 @@ class SettingsHeader: UIView {
 		return view
 	}()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
     init(delegate: SettingsViewController, viewModel: SettingsHeaderViewModel) {
-        super.init(frame: .zero)
         self.viewModel = viewModel
-        self.setupView()
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+		super.init(coder: aDecoder)
     }
 	
-	override func layoutIfNeeded() {
-		super.layoutIfNeeded()
-		// button container
-
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
 	}
+
     
-    func setupView() {
-        translatesAutoresizingMaskIntoConstraints = false
-		backgroundColor = Theme.GeneralView.headerBackground
-		addSubview(tipButtonContainer)
+    override func viewDidLoad() {
+		super.viewDidLoad()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = Theme.GeneralView.headerBackground
+		view.addSubview(tipButtonContainer)
 		tipButtonContainer.addArrangedSubview(coffeeTip)
 		tipButtonContainer.addArrangedSubview(generousTip)
 		tipButtonContainer.addArrangedSubview(amazingTip)
-		addSubview(tipDisclaimer)
+		view.addSubview(tipDisclaimer)
 		
 		guard let _viewModel = viewModel else { return }
 		
         _viewModel.buttonArr.append(coffeeTip)
         _viewModel.buttonArr.append(generousTip)
         _viewModel.buttonArr.append(amazingTip)
-		
-
-		// text
 
 		//buttons
-		let buttonHeight: CGFloat = UIScreen.main.bounds.height * 0.05
-		let buttonWidth: CGFloat = UIScreen.main.bounds.width * 0.25
+		print(view.bounds.height)
+		let buttonHeight: CGFloat = view.bounds.height * 0.05
+//		let buttonWidth: CGFloat = UIScreen.main.bounds.width * 0.25
 		
-		tipDisclaimer.anchorView(top: topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
+		tipDisclaimer.anchorView(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
 		
-		tipButtonContainer.anchorView(top: tipDisclaimer.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
-		print(tipButtonContainer.frame)
+		tipButtonContainer.anchorView(top: tipDisclaimer.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 20.0, bottom: -20.0, right: -20.0), size: CGSize(width: 0.0, height: buttonHeight))
 		
-		
-		
-//		coffeeTip.anchorView(top: generousTip.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: generousTip.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -10.0), size: .zero)
-//
-//		generousTip.anchorView(top: tipButtonContainer.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: tipButtonContainer.centerXAnchor, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: 0.0, right: -10.0), size: .zero)
-//
-//		amazingTip.anchorView(top: generousTip.topAnchor, bottom: tipButtonContainer.bottomAnchor, leading: generousTip.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0), size: .zero)
-		
+		grabTipsProducts()
     }
     
     func grabTipsProducts() {
@@ -154,6 +139,7 @@ class SettingsHeader: UIView {
                 self.updateTipButtons()
             } else {
                 // requires internet access
+				// hide buttons? or fill it with defaults
             }
         }
     }
@@ -161,12 +147,15 @@ class SettingsHeader: UIView {
     func updateTipButtons() {
         guard let tipProductArr = self.viewModel?.tipProducts else { return } //tips are sorted with didSet observer
         let buttonArr = viewModel?.buttonArr
+		
+		print(buttonArr!.count)
+		
         if (buttonArr!.count == tipProductArr.count) {
             for (index, button) in buttonArr!.enumerated() {
                 SettingsHeader.priceFormatter.locale = tipProductArr[index].priceLocale
                 let price = SettingsHeader.priceFormatter.string(from: tipProductArr[index].price)
                 DispatchQueue.main.async {
-                    button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle) \(price!)", attributes: self.attributes), for: .normal)
+                    button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle)\n\(price!)", attributes: self.attributes), for: .normal)
                 }
 
                 button.product = tipProductArr[index]

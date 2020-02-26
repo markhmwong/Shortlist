@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BackLog" representedClassName="BackLog" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="backLogToBigListTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BigListTask" inverseName="bigListTaskToBackLog" inverseEntity="BigListTask"/>

@@ -80,7 +80,6 @@ class AboutViewController: UIViewController {
 	}
 	
 	deinit {
-		print("about deinit")
 		coordinator.cleanUpChildCoordinator()
 	}
 }

@@ -30,9 +30,9 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		vc.coordinator = self
 		rootViewController = vc
 		
-		self.navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-		self.navigationController.navigationBar.shadowImage = UIImage()
-		self.navigationController.navigationBar.isTranslucent = true
+		navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+		navigationController.navigationBar.shadowImage = UIImage()
+		navigationController.navigationBar.isTranslucent = true
 		navigationController.pushViewController(vc, animated: false)
     }
 	
@@ -170,6 +170,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		}
 	}
 	
+	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+		print("willshow")
+	}
+	
 	// in the event that the main viewcontroller is the main focus
 	@objc func handleViewControllerDidAppear(_ notification: Notification) {
 		if let n = MainNavigationObserverKey.init(rawValue: notification.name.rawValue) {
@@ -178,45 +182,31 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 				case .ReturnFromSettings:
 					// may be use dict to identify which coordinator
 					if let c = notification.object as? SettingsCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 				case .ReturnFromPreplan:
 					if let c = notification.object as? PreplanCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 				case .ReturnFromBackLog:
 					if let c = notification.object as? BackLogCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 				case .ReturnFromReview:
 					if let c = notification.object as? ReviewCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 				case .ReturnFromEditing:
 					if let c = notification.object as? EditTaskCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 				case .ReturnFromCategorySelection:
 					if let c = notification.object as? CategoryTasksCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 				case .ReturnFromOnboarding:
 					if let c = notification.object as? OnboardingCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 			}
 		}

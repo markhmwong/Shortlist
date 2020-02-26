@@ -12,15 +12,15 @@ class OnboardingViewModel {
 
 	let version: String = ApplicationDetails.shared.currentVersion()
 	
-	var dataSource: [ OnboardingPage ] = []
+	var dataSource: [OnboardingPage] = []
 	
 	let cellId: String = "onboardCellId"
 	
 	init() {
 		//convert string to int, if previous version is higher than the current use the newest update details
 		let details = OnboardingDetails.deltaLogs
-		let versionAsDouble = ApplicationDetails.shared.currentVersionAsDouble()
-		dataSource = details[versionAsDouble] ?? [OnboardingPage(title: "Unknown", details: "Unknown", image: "Unknown")]
+//		let versionAsDouble = ApplicationDetails.shared.currentVersionAsDouble()
+		dataSource = details[1.00] ?? [OnboardingPage(title: "Unknown", details: "Unknown", image: "Unknown")]
 	}
 	
 	func registerCells(_ collView: UICollectionView) {

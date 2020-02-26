@@ -18,7 +18,24 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
-    build_app(workspace: "Shortlist.xcworkspace", scheme: "Shortlist")
+    enable_automatic_code_signing
+    increment_build_number
+    build_app(
+      workspace: "Shortlist.xcworkspace",
+      scheme: "Shortlist",
+      include_bitcode: true,
+      export_xcargs: "-allowProvisioningUpdates",
+    )
     upload_to_testflight
+  end
+
+  desc "Code Signing"
+  lane :codeSign do
+    cert(
+        username: "markhmwong@gmail.com"
+        )
+    sigh(
+        force: true, username: "markhmwong@gmail.com"
+        )
   end
 end

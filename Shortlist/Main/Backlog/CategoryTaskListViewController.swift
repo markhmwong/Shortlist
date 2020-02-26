@@ -33,8 +33,7 @@ class BackLogTaskListViewController: UIViewController {
 			return fetchedResultsController
 		}
 		
-		//relationship query needs fix for all predicates in app
-		fetchRequest.predicate = NSPredicate(format: "name == %@", argumentArray: [vm.categoryName])
+		fetchRequest.predicate = NSPredicate(format: "name == %@", argumentArray: [vm.categoryName ?? "Uncategorized"])
 
         // Create Fetched Results Controller
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: (self.persistentContainer?.viewContext ?? nil)!, sectionNameKeyPath: nil, cacheName: nil)
@@ -113,7 +112,7 @@ class BackLogTaskListViewController: UIViewController {
 	// create test task
 	@objc
 	func createTestTask() {
-		guard let backLog: BackLog = fetchedResultsController?.fetchedObjects?.first else {
+		guard let _: BackLog = fetchedResultsController?.fetchedObjects?.first else {
 			return
 		}
 		

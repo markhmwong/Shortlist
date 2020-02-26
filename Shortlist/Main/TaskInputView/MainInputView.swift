@@ -17,7 +17,7 @@ class MainInputView: UIView {
 		
 	weak var delegate: MainViewControllerProtocol?
 	
-	private var priority: Int = Int(Priority.medium.rawValue)
+	private var priority: Int = Int(Priority.high.rawValue)
 	
 	private var categoryName: String? = ""
 	
@@ -172,20 +172,27 @@ class MainInputView: UIView {
 		if (taskTextView.text != defaultText) {
 			taskTextView.attributedText = taskNamePlaceholder
 			vm.taskName = defaultText
+			vm.priority = .high
+			vm.category = "Uncategorized"
+			priority = Int(Priority(rawValue: 0)?.rawValue ?? 0)
+			
+			updatePriorityButton(string: "H", color: Theme.Priority.highColor)
+			categoryButton.setAttributedTitle(NSMutableAttributedString(string: "\(vm.category ?? "Uncategorized")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		}
 	}
 
 	/// Buttons
 	// Saves and posts task when the arrow is selected
-	//let viewmodel handle this
+	// let viewmodel handle user input data.
 	@objc
 	func handlePostTask() {
 		guard let delegate = delegate else { return }
 		guard let vm = delegate.viewModel else { return }
 		taskTextView.resignFirstResponder()
 		vm.taskName = taskTextView.text
+		vm.priority = Priority(rawValue: Int16(priority)) ?? .high
 		categoryName = delegate.viewModel?.category ?? "Uncategorized"
-		delegate.postTask(taskName: vm.taskName, category: categoryName ?? "Uncategorized", priorityLevel: priority)
+		delegate.postTask(taskName: vm.taskName, category: categoryName ?? "Uncategorized", priorityLevel: Int(vm.priority.rawValue))
 		resetTextView()
 	}
 	
@@ -258,7 +265,6 @@ class MainInputView: UIView {
 	}
 	
 	deinit {
-		print("input view deinit")
 	}
 }
 

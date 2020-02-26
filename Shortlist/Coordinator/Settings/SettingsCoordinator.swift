@@ -100,8 +100,11 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         }
 	}
 	
+	
+	
 	func dimiss() {
 		navigationController.dismiss(animated: true) {
+			
 		}
 	}
 	
