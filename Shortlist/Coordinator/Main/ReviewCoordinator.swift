@@ -47,7 +47,7 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
 			guard let mvc = self.mainViewController else {
 				return
 			}
-			mvc.loadData()
+			mvc.loadDayData()
 		}
 	}
 	

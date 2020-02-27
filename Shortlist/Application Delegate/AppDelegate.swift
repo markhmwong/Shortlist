@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			dayObject.addToDayToTask(taskHigh)
 			let taskMed: Task = Task(context: context)
 
-			taskMed.create(context: context, taskName: "📕 Think of this as a meeting with work colleagues, friends, family, grocery shopping, initial design or prototype.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.medium.value))
+			taskMed.create(context: context, taskName: "📕 A meeting with work colleagues, friends, family, grocery shopping, initial design or prototype.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.medium.value))
 			taskMed.details = "The limit on a medium priority task is 1 - 3."
 			dayObject.addToDayToTask(taskMed)
 			

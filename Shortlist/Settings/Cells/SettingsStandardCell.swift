@@ -38,7 +38,6 @@ class SettingsStandardCell: UITableViewCell, SettingsStandardCellProtocol {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		imageView?.bounds = CGRect(x: 0.0, y: 0.0, width: bounds.height * 0.6, height: bounds.height * 0.6)
-
 	}
 	
 	override func layoutIfNeeded() {
@@ -47,6 +46,7 @@ class SettingsStandardCell: UITableViewCell, SettingsStandardCellProtocol {
 	
 	func updateIcon(_ iconName: String) {
 		imageView?.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+		imageView?.tintColor = Theme.Cell.iconColor
 	}
 	
 	func updateName(_ name: String) {

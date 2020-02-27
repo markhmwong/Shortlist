@@ -116,9 +116,7 @@ class SettingsHeader: UIViewController {
         _viewModel.buttonArr.append(amazingTip)
 
 		//buttons
-		print(view.bounds.height)
 		let buttonHeight: CGFloat = view.bounds.height * 0.05
-//		let buttonWidth: CGFloat = UIScreen.main.bounds.width * 0.25
 		
 		tipDisclaimer.anchorView(top: view.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 15.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
 		
@@ -147,8 +145,6 @@ class SettingsHeader: UIViewController {
     func updateTipButtons() {
         guard let tipProductArr = self.viewModel?.tipProducts else { return } //tips are sorted with didSet observer
         let buttonArr = viewModel?.buttonArr
-		
-		print(buttonArr!.count)
 		
         if (buttonArr!.count == tipProductArr.count) {
             for (index, button) in buttonArr!.enumerated() {

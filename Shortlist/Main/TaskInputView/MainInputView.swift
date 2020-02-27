@@ -25,7 +25,7 @@ class MainInputView: UIView {
 	
 	private let defaultText: String = "An interesting task.."
 	
-	private let taskNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "An interesting task..", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
+	private let taskNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "An interesting task..", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -30.0), NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	
 	private let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	

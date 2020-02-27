@@ -74,11 +74,12 @@ struct Theme {
         static var inProgress: UIColor = .yellow
 		static var taskCompleteColor: UIColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
 		static var highlighted: UIColor = UIColor(red:0.26, green:0.75, blue:0.46, alpha:0.8)
+		static var iconColor: UIColor = UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0).adjust(by: -10.0)!
     }
     
     struct GeneralView {
 		static var background: UIColor = UIColor.black
-		static var headerBackground: UIColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:1.0)
+		static var headerBackground: UIColor = UIColor.black
     }
 	
 	struct Button {

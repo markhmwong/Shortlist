@@ -149,21 +149,15 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 				case .ReturnFromStats:
 					// may be use dict to identify which coordinator
 					if let c = notification.object as? StatsCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 				case .ReturnFromInfo:
 					if let c = notification.object as? AboutCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 				case .ReturnFromPriorityLimit:
 					if let c = notification.object as? TaskLimitCoordinator {
-						print("childCoordinator list \(childCoordinators.count)")
 						childDidFinish(c)
-						print("childCoordinator list \(childCoordinators.count)")
 					}
 			}
 		}

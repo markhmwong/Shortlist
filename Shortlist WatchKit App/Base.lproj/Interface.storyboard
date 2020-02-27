@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15505" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15705" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch38"/>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
     </dependencies>
     <scenes>
@@ -42,6 +42,7 @@
                                                 </items>
                                             </group>
                                         </items>
+                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </group>
                                     <connections>
                                         <outlet property="categoryLabel" destination="fgF-s9-rL6" id="9fl-RR-7Rz"/>
@@ -50,6 +51,7 @@
                                     </connections>
                                 </tableRow>
                             </items>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </table>
                     </items>
                     <connections>
@@ -95,4 +97,5 @@
     <resources>
         <image name="TaskButtonEnabled" width="36" height="36"/>
     </resources>
+    <color key="tintColor" red="1" green="0.23462728128344135" blue="0.24527235753244481" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

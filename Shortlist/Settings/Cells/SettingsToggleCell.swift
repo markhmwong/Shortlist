@@ -14,19 +14,6 @@ class SettingsToggleCell: CellBase, SettingsStandardCellProtocol {
 	
 	var toggleFunction: ((UISwitch) -> ())? = nil
 	
-//	lazy var nameLabel: UILabel = {
-//		let label = UILabel()
-//		label.textColor = Theme.Font.DefaultColor
-//		label.translatesAutoresizingMaskIntoConstraints = false
-//		return label
-//	}()
-//
-//	lazy var iconImage: UIImageView = {
-//		let image = UIImageView(frame: .zero)
-//		image.translatesAutoresizingMaskIntoConstraints = false
-//		return image
-//	}()
-	
 	lazy var chevron: UIImageView? = nil
 	
 	lazy var toggle: UISwitch = {
@@ -77,6 +64,7 @@ class SettingsToggleCell: CellBase, SettingsStandardCellProtocol {
 	
 	func updateIcon(_ iconName: String) {
 		imageView?.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+		imageView?.tintColor = Theme.Cell.iconColor
 	}
 }
 

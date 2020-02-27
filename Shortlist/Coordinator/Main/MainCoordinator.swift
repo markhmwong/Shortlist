@@ -171,7 +171,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	}
 	
 	func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-		print("willshow")
+		//
 	}
 	
 	// in the event that the main viewcontroller is the main focus

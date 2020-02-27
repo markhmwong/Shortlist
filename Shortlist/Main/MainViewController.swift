@@ -152,19 +152,17 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		loadData()
+		loadDayData()
 		loadFirebaseData()
 		setupView()
 		AppStoreReviewManager.requestReviewIfAppropriate()
-
-		keyboardNotifications()
+		prepareKeyboardNotifications()
+		initialiseStatEntity()
 		
         NotificationCenter.default.addObserver(
             self, selector: #selector(type(of: self).dataDidFlow(_:)),
 			name: .watchDidUpdate, object: nil
         )
-		
-		initialiseStatEntity()
     }
 	
 	func initialiseData(_ dayObject: Day) {
@@ -200,7 +198,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		}
 	}
 	
-	func keyboardNotifications() {
+	func prepareKeyboardNotifications() {
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillHideNotification, object: nil)
 	}
@@ -287,7 +285,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		newsFeed.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))		
     }
     
-    func loadData() {
+    func loadDayData() {
         //load today's current data into dayEntity
         guard let persistentContainer = persistentContainer else { return }
         guard let viewModel = viewModel else { return }
@@ -431,6 +429,18 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		}
 		persistentContainer.saveContext()
 		
+		//sync watch - to be refactored. This block of code is repeated in cell.updateWatch in the viewModel
+		let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
+		var taskStruct: [TaskStruct] = []
+		for task in taskList {
+			taskStruct.append(TaskStruct(date: task.createdAt! as Date,name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState))
+		}
+		do {
+			let data = try JSONEncoder().encode(taskStruct)
+			WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
+		} catch (_) {
+			//
+		}
 	}
 	
 	func showTimePicker() {
@@ -614,15 +624,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "delete") { (action, view, complete) in
             let cell = tableView.cellForRow(at: indexPath) as! TaskCell
-            let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+			guard let persistentContainer = self.persistentContainer else { return }
+            let dayManagedObject = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
             
             if let task = cell.task {
-                let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
+                let taskManagedObject = persistentContainer.viewContext.object(with: task.objectID) as! Task
                 dayManagedObject.removeFromDayToTask(taskManagedObject)
 				
 				dayManagedObject.dayToStats?.totalTasks = (dayManagedObject.dayToStats?.totalTasks ?? 0) - 1
 				
-				let backLog = self.persistentContainer?.fetchBackLog(forCategory: taskManagedObject.category)
+				let backLog = persistentContainer.fetchBackLog(forCategory: taskManagedObject.category)
 				backLog?.removeFromBackLogToTask(taskManagedObject)
 				
 				if task.complete {
@@ -639,6 +650,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
 				}
 				
                 self.persistentContainer?.saveContext()
+				
+				// perform sync with watch
+				if let viewModel = self.viewModel {
+					viewModel.syncWithWatchData(fetchedResultsController: self.fetchedResultsController)
+				}
+				
             }
             complete(true)
         }
@@ -650,13 +667,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
     }
 	
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-		
-//		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-//        let set = dayManagedObject.dayToTask as? Set<Task>
-//
-//        let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
-//            return taskA.priority < taskB.priority
-//        })
 		guard let viewModel = viewModel else { return }
 		guard let sortedSet = viewModel.sortedSet else { return }
         let sourceTask = sortedSet[sourceIndexPath.section]
@@ -665,7 +675,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
         destTask.priority = sourceTask.priority
         sourceTask.priority = tempDestinationPriority
         persistentContainer?.saveContext()
-		self.loadData()
+		self.loadDayData()
     }
     
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {

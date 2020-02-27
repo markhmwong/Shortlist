@@ -65,5 +65,6 @@ class SettingsDetailedChevronCell: UITableViewCell, SettingsStandardCellProtocol
 	
 	func updateIcon(_ iconName: String) {
 		imageView?.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+		imageView?.tintColor = Theme.Cell.iconColor
 	}
 }

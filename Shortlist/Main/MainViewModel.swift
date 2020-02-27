@@ -163,18 +163,8 @@ class MainViewModel {
 			}
 		}
 
-        cell.updateWatch = { (task) in
-            //WCSession
-            let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
-            var tempTaskStruct: [TaskStruct] = []
-            for task in taskList {
-				tempTaskStruct.append(TaskStruct(date: task.createdAt! as Date,name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState))
-            }
-            do {
-                let data = try JSONEncoder().encode(tempTaskStruct)
-                WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
-            } catch (_) {
-            }
+        cell.updateWatch = { (tasks) in
+			self.syncWithWatchData(fetchedResultsController: fetchedResultsController)
         }
         
 		return cell
@@ -206,5 +196,19 @@ class MainViewModel {
 	func getRandomTip() -> String {
 		randomTip = TipsService.shared.randomTip()
 		return randomTip
+	}
+	
+	func syncWithWatchData(fetchedResultsController: NSFetchedResultsController<Day>?) {
+		let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
+		var taskStruct: [TaskStruct] = []
+		for task in taskList {
+			taskStruct.append(TaskStruct(date: task.createdAt! as Date,name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState))
+		}
+		do {
+			let data = try JSONEncoder().encode(taskStruct)
+			WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
+		} catch (_) {
+			//
+		}
 	}
 }

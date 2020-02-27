@@ -76,11 +76,9 @@ class InterfaceController: WKInterfaceController {
 			
 				guard let tableDataSource = self.tableDataSource else { return }
 				for (index, taskInDataSource) in tableDataSource.enumerated() {
-
 					if (taskInDataSource == task) {
 						self.tableDataSource?[index] = task
 					}
-
 				}
 
                 do {
@@ -88,8 +86,8 @@ class InterfaceController: WKInterfaceController {
                     let dataDict = ["UpdateTaskFromWatch": encodedData]
                     try self.watchSession?.updateApplicationContext(dataDict)
                 } catch (_) {
-//                    print("Error encoding data from watch: \(err)")
-                }
+					//
+				}
             }
         }
     }
