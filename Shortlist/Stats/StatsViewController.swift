@@ -126,7 +126,7 @@ class StatsViewController: UIViewController {
 		guard let lineChart = lineChart else { return nil }
         view.addSubview(lineChart)
         let paddingTopBottom: CGFloat = 20.0
-		lineChart.anchorView(top: bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: paddingTopBottom, left: 0.0, bottom: paddingTopBottom, right: 0.0), size: CGSize(width: view.bounds.width, height: view.bounds.height / 4.5))
+		lineChart.anchorView(top: bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: paddingTopBottom, left: 0.0, bottom: paddingTopBottom, right: 0.0), size: CGSize(width: view.bounds.width, height: view.bounds.height / 4))
         lineChart.layoutIfNeeded()
 		lineChart.prepareChartWithData()
 		return lineChart.bottomAnchor

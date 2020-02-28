@@ -82,6 +82,28 @@ public class Day: NSManagedObject {
         self.day = Int16(Calendar.current.todayToInt()) // Stats
 	}
 	
+	// Used to create fake statistics mainly for screenshots to show off the stats page
+	func createMockDay(date: Date = Calendar.current.today()) {
+        self.createdAt = date as NSDate
+		
+		guard let managedObjectContext = self.managedObjectContext else { return }
+		let dayStats = DayStats(context: managedObjectContext)
+		dayStats.totalTasks = Int64.random(in: 2...8)
+		dayStats.totalCompleted = Int64.random(in: 2...dayStats.totalTasks)
+		
+		dayStats.highPriority = Int64.random(in: 1...2)
+		dayStats.mediumPriority = Int64.random(in: 1...3)
+		dayStats.lowPriority = Int64.random(in: 1...3)
+		
+		self.highPriorityLimit = 2
+		self.mediumPriorityLimit = 3
+		self.lowPriorityLimit = 3
+		self.dayToStats = dayStats
+        self.month = Calendar.current.monthToInt() // Stats
+        self.year = Calendar.current.yearToInt() // Stats
+        self.day = Int16(Calendar.current.todayToInt()) // Stats
+	}
+
 	func updateTotalComplete(numTasks: Int64) {
 		guard let _stats = self.dayToStats else { return }
 		_stats.totalCompleted += numTasks

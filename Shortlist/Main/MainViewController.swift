@@ -151,7 +151,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+		createMockStatisticalData()
 		loadDayData()
 		loadFirebaseData()
 		setupView()
@@ -240,16 +240,15 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     }
 	
 	// padding done inside stats
-	private func searchNilDaysOverThirtyDays() {
+	private func createMockStatisticalData() {
         guard let persistentContainer = persistentContainer else { return }
 		for day in 1...30 {
 			let date = Calendar.current.forSpecifiedDay(value: -day)
-			
 			if (persistentContainer.fetchDayEntity(forDate: date) == nil) {
 				
 				// create empty day
 				let dayObj = Day(context: persistentContainer.viewContext)
-				dayObj.createNewDayAsPaddedDay(date: date)
+				dayObj.createMockDay(date: date)
 				persistentContainer.saveContext()
 			}
 		}

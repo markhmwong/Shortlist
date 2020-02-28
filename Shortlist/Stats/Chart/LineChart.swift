@@ -34,7 +34,7 @@ class LineChart: UIView {
     private var chartData: [DotProperties]? {
         didSet {
             mainLayer.sublayers?.forEach({$0.removeFromSuperlayer()})
-			mainLayer.frame = CGRect(x: 8.0, y: 0, width: bounds.width - 16.0, height: bounds.height)
+			mainLayer.frame = CGRect(x: 8.0, y: 0, width: bounds.width - 16.0, height: bounds.height + 16.0)
             chartGenerator?.calculateHeightOfMean(viewHeight: mainLayer.frame.height)
             chartGenerator?.calculateHeightOfMax(viewHeight: mainLayer.frame.height)
             drawChart()
@@ -135,6 +135,10 @@ class LineChart: UIView {
 	// returns a tuple (completepath, incompletepath)
 	func createLineFromPoints(_ chartData: [DotProperties]) -> (UIBezierPath, UIBezierPath) {
 		
+		// the height where the y axis is 0 - bottom of the graph
+		// I use this to draw the straight line at the bottom of the graph, as it seems the curved algorithm won't connect the lines together
+		let zeroHeight = bounds.maxY
+		
 		let curvedPathComplete = UIBezierPath()
 		let curvedPathIncomplete = UIBezierPath()
 		
@@ -149,14 +153,42 @@ class LineChart: UIView {
 		let curvedSegA = controlPointsFrom(points: completePoints)
 		let curvedSegB = controlPointsFrom(points: incompletePoints)
 		
+		// move to the beginning (starting from the left
 		curvedPathComplete.move(to: completePoints[0])
 		curvedPathIncomplete.move(to: incompletePoints[0])
 		
+		var prevPoint: CGPoint = .zero
+		var prevPointIncomplete: CGPoint = .zero
 		for i in 1..<completePoints.count {
-			curvedPathComplete.addCurve(to: completePoints[i], controlPoint1: curvedSegA[i-1].controlPoint1, controlPoint2: curvedSegA[i-1].controlPoint2)
-			curvedPathIncomplete.addCurve(to: incompletePoints[i], controlPoint1: curvedSegB[i-1].controlPoint1, controlPoint2: curvedSegB[i-1].controlPoint2)
+			
+			// the next two if conditions are dedicated to draw the straight lines at the 0 y points
+			// we check for equality if the y points are the same, which means we need to draw a straight line but we only need the straight line at the bottom of the graph not at the top, which is why the zeroHeight variable is needed to ensure we are at the bottom of the graph
+			if (i > 1) {
+				prevPoint = completePoints[i-1]
+				
+				if prevPoint.y == completePoints[i].y && zeroHeight == completePoints[i].y {
+					curvedPathComplete.addLine(to: completePoints[i])
+				} else {
+					curvedPathComplete.addCurve(to: completePoints[i], controlPoint1: curvedSegA[i-1].controlPoint1, controlPoint2: curvedSegA[i-1].controlPoint2)
+				}
+			} else {
+				curvedPathComplete.addCurve(to: completePoints[i], controlPoint1: curvedSegA[i-1].controlPoint1, controlPoint2: curvedSegA[i-1].controlPoint2)
+			}
+			
+			if (i > 1) {
+				prevPointIncomplete = incompletePoints[i-1]
+				
+				if prevPointIncomplete.y == incompletePoints[i].y && zeroHeight == incompletePoints[i].y {
+					curvedPathIncomplete.addLine(to: incompletePoints[i])
+				} else {
+					curvedPathIncomplete.addCurve(to: incompletePoints[i], controlPoint1: curvedSegB[i-1].controlPoint1, controlPoint2: curvedSegB[i-1].controlPoint2)
+				}
+			} else {
+				curvedPathIncomplete.addCurve(to: incompletePoints[i], controlPoint1: curvedSegB[i-1].controlPoint1, controlPoint2: curvedSegB[i-1].controlPoint2)
+			}
+
 		}
-		
+
 		for (_, data) in chartData.enumerated() {
 			drawDot(point: data.incompleteTasksPointOrigin, color: Theme.Chart.lineTaskIncompleteColor)
 			drawDot(point: data.completedTaskPointOrigin, color: Theme.Chart.lineTaskCompleteColor)
@@ -164,6 +196,7 @@ class LineChart: UIView {
 		return (curvedPathComplete, curvedPathIncomplete)
 	}
 	
+	// chart lateral indicator lines
 	private func drawLine(path: CGPath, color: UIColor) {
 		let shapeLayer = CAShapeLayer()
 		shapeLayer.path = path
@@ -183,7 +216,7 @@ class LineChart: UIView {
 	}
 	
 	private func drawDot(point: CGPoint, color: UIColor) {
-		let pointSize: CGFloat = 1.0
+		let pointSize: CGFloat = 0.8
 		let circlePath = UIBezierPath(arcCenter: point, radius: pointSize, startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
 		let shapeLayer = CAShapeLayer()
 			shapeLayer.path = circlePath.cgPath
