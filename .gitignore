@@ -1,11 +1,12 @@
 Tips
+*.mobileprovision
 Gemfile.lock
 Podfile.lock
-.ipa
-.zip
+*.ipa
+*.zip
 screenshots
 Todo
 PricingStructure
-.pages
+*.pages
 AppStoreMedia
 GoogleService-Info.plist

@@ -159,6 +159,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		prepareKeyboardNotifications()
 		initialiseStatEntity()
 		
+		// Apple watch
         NotificationCenter.default.addObserver(
             self, selector: #selector(type(of: self).dataDidFlow(_:)),
 			name: .watchDidUpdate, object: nil
@@ -335,7 +336,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	func updateCategory() {
 		guard let vm = viewModel else { return }
 		DispatchQueue.main.async {
-			self.mainInputView.categoryButton.setAttributedTitle(NSMutableAttributedString(string: "\(vm.category ?? "Uncategorized")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
+			self.mainInputView.categoryButton.setAttributedTitle(NSMutableAttributedString(string: "\(vm.category ?? "Uncategorized")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -70)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		}
 	}
 	
@@ -426,6 +427,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 			stats.addToTotalTasks(numTasks: 1)
 			stats.addToTotalIncompleteTasks(numTasks: 1)
 		}
+		dayObject.dayToStats = stats
 		persistentContainer.saveContext()
 		
 		//sync watch - to be refactored. This block of code is repeated in cell.updateWatch in the viewModel

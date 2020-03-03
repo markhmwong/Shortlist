@@ -136,7 +136,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
 			if (today != Int16(reviewDate)) {
-//			if true {
+				
+				// Apply all day local notifications if the app hasn't initiated it yet
+				let hoursRemaining = Date().hoursRemaining()
+				
+				if let allDayNotifications = KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.AllDayNotifications) {
+					
+					if allDayNotifications {
+						if (hoursRemaining > 2) {
+							for hour in 0..<hoursRemaining {
+								let id = 24 - (hoursRemaining - hour)
+								let timeToNextHour = Date().timeRemainingToHour()
+								let timeRemaining = timeToNextHour + Double(60 * hour)
+								LocalNotificationsService.shared.addAllDayNotification(id: "\(id)", notificationContent: [LocalNotificationKeys.Title : "Frequent Reminder"], timeRemaining: timeRemaining) // add content/body to notification
+							}
+						}
+					}
+				}
+				
 				// update keychain
 				KeychainWrapper.standard.set(Int(today), forKey: SettingsKeyChainKeys.ReviewDate)
 				

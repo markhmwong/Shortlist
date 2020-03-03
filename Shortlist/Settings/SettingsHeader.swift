@@ -66,7 +66,7 @@ class SettingsHeader: UIViewController {
     
     lazy var tipDisclaimer: UILabel = {
         let view = UILabel()
-        view.attributedText = NSAttributedString(string: "Sharing, reviewing, and donating motivates me. If you find this app helped you in a part of your life, show your support by doing one of the three. There's no major marketing budget, just a one man crew. Cheers.", attributes: attributes)
+        view.attributedText = NSAttributedString(string: "Sharing, reviewing, and tipping helps out a lot. If you find this app helped you in a part of your life, show your support by doing one of the three.", attributes: attributes)
         view.backgroundColor = .clear
         view.lineBreakMode = .byWordWrapping
 		view.numberOfLines = 0
@@ -133,25 +133,37 @@ class SettingsHeader: UIViewController {
             if (success) {
                 guard let products = products else { return }
                 self.viewModel?.tipProducts = products
+				for product in products {
+					print(product.localizedTitle)
+				}
                 //update buttons
                 self.updateTipButtons()
             } else {
-                // requires internet access
-				// hide buttons? or fill it with defaults
+
+				self.hideTipButtons()
             }
         }
     }
+	
+	func hideTipButtons() {
+        guard let tipProductArr = self.viewModel?.tipProducts else { return } //tips are sorted with didSet observer
+		let buttonArr = viewModel?.buttonArr
+        if (buttonArr!.count == tipProductArr.count) {
+            for (index, button) in buttonArr!.enumerated() {
+				button.isHidden = true
+			}
+		}
+	}
     
     func updateTipButtons() {
         guard let tipProductArr = self.viewModel?.tipProducts else { return } //tips are sorted with didSet observer
         let buttonArr = viewModel?.buttonArr
-		
         if (buttonArr!.count == tipProductArr.count) {
             for (index, button) in buttonArr!.enumerated() {
                 SettingsHeader.priceFormatter.locale = tipProductArr[index].priceLocale
                 let price = SettingsHeader.priceFormatter.string(from: tipProductArr[index].price)
                 DispatchQueue.main.async {
-                    button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle)\n\(price!)", attributes: self.attributes), for: .normal)
+                    button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle) \(price!)", attributes: self.attributes), for: .normal)
                 }
 
                 button.product = tipProductArr[index]

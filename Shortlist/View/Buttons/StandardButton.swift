@@ -44,9 +44,13 @@ class StandardButton: UIButton {
     func updateLabel(string: String) {
         setAttributedTitle(NSAttributedString(string: string, attributes: attributes), for: .normal)
     }
+	
+	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+		print("moved")
+	}
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        UIView.animate(withDuration: 0.6, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.8, options: [.allowUserInteraction], animations: {
+        UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.8, options: [.allowUserInteraction], animations: {
             self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         }) { (state) in
             ()
@@ -55,7 +59,7 @@ class StandardButton: UIButton {
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        UIView.animate(withDuration: 0.6, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.8, options: [.allowUserInteraction], animations: {
+        UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.8, options: [.allowUserInteraction], animations: {
             self.transform = .identity
         }) { (state) in
             ()

@@ -410,6 +410,7 @@
 		4D953B67230A9DF90048C247 /* StatsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCoordinator.swift; sourceTree = "<group>"; };
 		4D953B6A230AA4500048C247 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		4D9C6919240015CA00B2961F /* StaticNotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticNotificationController.swift; sourceTree = "<group>"; };
+		4D9E024C240C0FDF0005291C /* Shortlist WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Shortlist WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		4DA0F6C123FFD67D000A824C /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		4DA50FBE22E75A8F0059A46F /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		4DA50FC122E83DD80059A46F /* UIBezierPath+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Extension.swift"; sourceTree = "<group>"; };
@@ -640,6 +641,7 @@
 		4D45E7C922DDD1AE008AC433 /* Shortlist WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				4D9E024C240C0FDF0005291C /* Shortlist WatchKit Extension.entitlements */,
 				4D9C6919240015CA00B2961F /* StaticNotificationController.swift */,
 				4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */,
 				4DF724FB22F1974000472072 /* TaskRowController.swift */,
@@ -1974,9 +1976,10 @@
 			baseConfigurationReference = 1C327C0B68C7027F7AB99204 /* Pods-Shortlist WatchKit Extension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2001,9 +2004,10 @@
 			baseConfigurationReference = FC95EAEA601D319511C1AA8E /* Pods-Shortlist WatchKit Extension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2032,7 +2036,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
@@ -2057,7 +2061,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
@@ -2081,7 +2085,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2106,7 +2110,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

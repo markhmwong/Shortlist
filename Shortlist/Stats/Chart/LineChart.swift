@@ -34,7 +34,7 @@ class LineChart: UIView {
     private var chartData: [DotProperties]? {
         didSet {
             mainLayer.sublayers?.forEach({$0.removeFromSuperlayer()})
-			mainLayer.frame = CGRect(x: 8.0, y: 0, width: bounds.width - 16.0, height: bounds.height + 16.0)
+			mainLayer.frame = CGRect(x: 8.0, y: 0, width: bounds.width - 16.0, height: bounds.height)
             chartGenerator?.calculateHeightOfMean(viewHeight: mainLayer.frame.height)
             chartGenerator?.calculateHeightOfMax(viewHeight: mainLayer.frame.height)
             drawChart()

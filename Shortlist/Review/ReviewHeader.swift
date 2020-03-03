@@ -42,7 +42,7 @@ class ReviewHeader: UIView {
 	
 	lazy var tipDisclaimer: UILabel = {
 		let label = UILabel()
-		label.attributedText = NSMutableAttributedString(string: "Consider this a nagging pop up when you don't complete the tasks you have set out to do. Show your support by reviewing on the App Store, emailing me feedback, or easily donating below.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: 0.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
+		label.attributedText = NSMutableAttributedString(string: "Consider this a nagging pop up when you don't complete the tasks you have set out to do. Show your support by reviewing on the App Store, emailing me feedback, or easily tipping below.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: 0.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.lineBreakMode = .byWordWrapping
 		label.numberOfLines = 0
@@ -189,8 +189,8 @@ class ReviewHeader: UIView {
 	
 	func updateCompletedTaskLabel(_ numberStr: String) {
 		guard let _viewModel = viewModel else { return }
-		let totalTasks = _viewModel.dayEntity?.dayToStats?.totalTasks
 		
+		let totalTasks = _viewModel.dayEntity?.dayToStats?.totalTasks
 		DispatchQueue.main.async {
 			self.completedTasks.attributedText = NSAttributedString(string: "\(numberStr) / \(totalTasks ?? 5)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])
 		}

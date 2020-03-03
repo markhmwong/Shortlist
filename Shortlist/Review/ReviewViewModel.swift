@@ -208,6 +208,7 @@ class ReviewViewModel {
 		return numberOfPriorityTasks
 	}
 	
+	//duplicate
 	func sortTasks(_ day: Day) -> [Task]? {
 		let set = day.dayToTask as? Set<Task>
 		if (!set!.isEmpty) {

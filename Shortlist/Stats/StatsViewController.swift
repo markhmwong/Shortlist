@@ -76,6 +76,9 @@ class StatsViewController: UIViewController {
 		guard let vm = viewModel else { return }
 		guard let persistentContainer = persistentContainer else { return }
 
+		navigationController?.navigationBar.barTintColor = UIColor.black
+		navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+		
         view.backgroundColor = .black
 		navigationItem.title = "Stats"
         navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 2)
@@ -139,7 +142,6 @@ class StatsViewController: UIViewController {
     }
 	
 	deinit {
-		print("stats deinit")
 		coordinator?.cleanUpChildCoordinator()
 	}
 }
