@@ -151,7 +151,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		createMockStatisticalData()
 		loadDayData()
 		loadFirebaseData()
 		setupView()

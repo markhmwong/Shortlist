@@ -36,7 +36,7 @@ class SettingsHeader: UIViewController {
     let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!]
     
     lazy var coffeeTip: StandardButton = {
-        let button = StandardButton(title: "Short Tip N/A")
+        let button = StandardButton(title: "Small Tip N/A")
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         button.addTarget(self, action: #selector(handleCoffeeTip), for: .touchUpInside)
@@ -45,7 +45,7 @@ class SettingsHeader: UIViewController {
     }()
     
     lazy var generousTip: StandardButton = {
-        let button = StandardButton(title: "Tall Tip N/A")
+        let button = StandardButton(title: "Medium Tip N/A")
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         
@@ -55,7 +55,7 @@ class SettingsHeader: UIViewController {
     }()
     
     lazy var amazingTip: StandardButton = {
-        let button = StandardButton(title: "Grande Tip N/A")
+        let button = StandardButton(title: "Large Tip N/A")
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.titleLabel?.textAlignment = .center
         
