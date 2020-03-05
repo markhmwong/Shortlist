@@ -46,6 +46,7 @@
                                     </group>
                                     <connections>
                                         <outlet property="categoryLabel" destination="fgF-s9-rL6" id="9fl-RR-7Rz"/>
+                                        <outlet property="group" destination="juu-oz-hIk" id="Mxf-Ic-kN3"/>
                                         <outlet property="taskButton" destination="mPs-Wd-RI9" id="f3y-m8-PIz"/>
                                         <outlet property="taskLabel" destination="i0L-N2-CYS" id="k4d-xX-qh5"/>
                                     </connections>

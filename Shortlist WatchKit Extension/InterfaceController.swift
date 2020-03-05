@@ -15,7 +15,6 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet weak var dateLabel: WKInterfaceLabel!
     @IBOutlet weak var taskTable: WKInterfaceTable!
 	
-	
     private var tableDataSource: [TaskStruct]? = nil {
         didSet {
             guard let tableDataSource = tableDataSource else { return }
@@ -37,8 +36,19 @@ class InterfaceController: WKInterfaceController {
         // Configure interface objects here.
         watchSession = WCSession.default
 
+		// Initial
         loadDate()
+		loadTableWithMessage()
     }
+	
+	func loadTableWithMessage() {
+		print("empty message")
+		if (tableDataSource?.isEmpty ?? true) {
+			let task = TaskStruct(date: Date(), name: "Be with you soon..", complete: false, priority: -1, category: "", reminder: Date(), reminderState: false)
+			reloadTable(with: [task])
+		}
+		
+	}
     
     override func didAppear() {
         super.didAppear()
@@ -68,10 +78,13 @@ class InterfaceController: WKInterfaceController {
     
     func reloadTable(with data: [TaskStruct]) {
         taskTable.setNumberOfRows(data.count, withRowType: "TaskRow")
+		
         for index in 0..<taskTable.numberOfRows {
+			
             guard let controller = taskTable.rowController(at: index) as? TaskRowController else { continue }
             controller.task = data[index]
-            //task button closure
+			
+			//task button closure
             controller.updateDataSource = { [unowned self] (task) in
 			
 				guard let tableDataSource = self.tableDataSource else { return }
@@ -119,9 +132,7 @@ extension InterfaceController: WCSessionDelegate {
 
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         let key = applicationContext.keys.sorted()
-//         <- sort this first.
-//        the data is sending but the order of the dictionary is incorrect, the force_send key sometimes is in index 0
-        // **** priority fix it for the watch
+
         switch key.first {
             case ReceiveApplicationContextKey.TaskListObject.rawValue:
                 let jsonDecoder = JSONDecoder()

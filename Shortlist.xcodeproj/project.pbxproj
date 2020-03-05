@@ -12,6 +12,7 @@
 		4B390D9A6A1FF084D47A1101 /* Pods_ShortlistUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F61ED63A603888FDD2D46B46 /* Pods_ShortlistUITests.framework */; };
 		4D015E4722FC621A007E2536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
 		4D106A9023B7988F00AB1895 /* DailyAccolades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */; };
+		4D1327702410C918005FF9B6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7EF22DE0882008AC433 /* UIColor+Extension.swift */; };
 		4D242C3D23EBCB2B00ED1C42 /* TipsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C3C23EBCB2B00ED1C42 /* TipsService.swift */; };
 		4D242C4023EBE38C00ED1C42 /* ProductivityTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C3F23EBE38C00ED1C42 /* ProductivityTips.swift */; };
 		4D242C4223EC06EA00ED1C42 /* TemporaryStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */; };
@@ -1778,6 +1779,7 @@
 				4DF724F822F1887500472072 /* InterfaceController.swift in Sources */,
 				4DF724F922F1888D00472072 /* Calendar+Extension.swift in Sources */,
 				4D9C691A240015CA00B2961F /* StaticNotificationController.swift in Sources */,
+				4D1327702410C918005FF9B6 /* UIColor+Extension.swift in Sources */,
 				4D45E7CF22DDD1AE008AC433 /* NotificationController.swift in Sources */,
 				4DA0F6C323FFD6B7000A824C /* UIImage+Extension.swift in Sources */,
 				4D5B5E0622F0838F00C8D9A5 /* TaskStruct.swift in Sources */,
