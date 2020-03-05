@@ -97,24 +97,21 @@ class StatContainer: UIView {
 		switch type {
 			case .CompleteTasks:
 				if let stat: Stats = persistentContainer?.fetchStatEntity() {
-//					statNumber.text = "\(stat.totalCompleteTasks)"
-					statNumber.text = "47"
+					statNumber.text = "\(stat.totalCompleteTasks)"
 				} else {
 					statNumber.text = "0"
 				}
 				statTitle.text = "Complete"
 			case .IncompleteTasks:
 				if let stat: Stats = persistentContainer?.fetchStatEntity() {
-//					statNumber.text = "\(stat.totalIncompleteTasks)"
-					statNumber.text = "23"
+					statNumber.text = "\(stat.totalIncompleteTasks)"
 				} else {
 					statNumber.text = "0"
 				}
 				statTitle.text = "Incomplete"
 			case .TotalTasks:
 				if let stat: Stats = persistentContainer?.fetchStatEntity() {
-//					statNumber.text = "\(stat.totalTasks)"
-					statNumber.text = "70"
+					statNumber.text = "\(stat.totalTasks)"
 				} else {
 					statNumber.text = "0"
 				}

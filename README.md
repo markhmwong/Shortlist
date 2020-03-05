@@ -1,4 +1,4 @@
-Shortlist
+Shortlist (Readme WIP)
 ======
 
 # Demo
