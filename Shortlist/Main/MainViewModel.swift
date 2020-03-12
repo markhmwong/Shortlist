@@ -202,7 +202,7 @@ class MainViewModel {
 		let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
 		var taskStruct: [TaskStruct] = []
 		for task in taskList {
-			taskStruct.append(TaskStruct(date: task.createdAt! as Date,name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState))
+			taskStruct.append(TaskStruct(date: task.createdAt! as Date,name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState, details: task.details ?? ""))
 		}
 		do {
 			let data = try JSONEncoder().encode(taskStruct)

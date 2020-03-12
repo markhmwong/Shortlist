@@ -17,6 +17,7 @@ struct TaskStruct: Codable, Equatable {
 	var category: String
 	var reminder: Date
 	var reminderState: Bool
+	var details: String
 	
 	static func ==(lhs: TaskStruct, rhs: TaskStruct) -> Bool {
 		return lhs.date == rhs.date

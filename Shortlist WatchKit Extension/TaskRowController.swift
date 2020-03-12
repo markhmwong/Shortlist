@@ -16,10 +16,23 @@ enum Priority: Int16 {
 }
 
 struct PriorityColor {
-	static var highColor: UIColor = UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+	static var highColor: UIColor = UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: -10.0)!
 	static var mediumColor: UIColor = UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
 	static var lowColor: UIColor = UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
 	static var noneColor: UIColor = UIColor.black
+	
+	static func colorForRow(_ priority: Int16) -> UIColor {
+		switch Priority.init(rawValue: priority) {
+			case .high:
+				return PriorityColor.highColor
+			case .medium:
+				return PriorityColor.mediumColor
+			case .low:
+				return PriorityColor.lowColor
+			case .none:
+				return PriorityColor.noneColor
+		}
+	}
 }
 
 class TaskRowController: NSObject {
@@ -34,7 +47,8 @@ class TaskRowController: NSObject {
     var task: TaskStruct? {
         didSet {
 			
-			taskRowColor(task?.priority ?? 0)
+			group.setBackgroundColor(PriorityColor.colorForRow(task?.priority ?? 0))
+			
 			let image = UIImage(named: "TaskButtonEnabled")?.withRenderingMode(.alwaysTemplate)
 
             if (task!.complete) {
@@ -51,26 +65,12 @@ class TaskRowController: NSObject {
 			
 			if (Date().timeIntervalSince(task.reminder) <= 0) {
 				categoryLabel.setText("⏰ \(task.reminder.timeToString())")
-				
 			} else {
 				categoryLabel.setText(task.category)
 			}
 			
         }
     }
-	
-	func taskRowColor(_ priority: Int16) {
-		switch Priority.init(rawValue: priority) {
-			case .high:
-				group.setBackgroundColor(PriorityColor.highColor)
-			case .medium:
-				group.setBackgroundColor(PriorityColor.mediumColor)
-			case .low:
-				group.setBackgroundColor(PriorityColor.lowColor)
-			case .none:
-				group.setBackgroundColor(PriorityColor.noneColor)
-		}
-	}
     
     @IBAction func taskComplete() {
         task!.complete = !task!.complete

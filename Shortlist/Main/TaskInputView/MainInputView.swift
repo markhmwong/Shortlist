@@ -154,7 +154,7 @@ class MainInputView: UIView {
 	}
 	
 	func sizeIconsInInputField() {
-		let height = buttonContainer.frame.height - buttonContainer.frame.height * 0.55
+		let height = buttonContainer.frame.height - buttonContainer.frame.height * 0.45
 		postTaskButton.heightAnchor.constraint(equalToConstant: height).isActive = true
 		postTaskButton.widthAnchor.constraint(equalToConstant: height).isActive = true
 		

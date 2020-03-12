@@ -44,7 +44,7 @@ class InterfaceController: WKInterfaceController {
 	func loadTableWithMessage() {
 
 		if (tableDataSource?.isEmpty ?? true) {
-			let task = TaskStruct(date: Date(), name: "Be with you soon..", complete: false, priority: -1, category: "", reminder: Date(), reminderState: false)
+			let task = TaskStruct(date: Date(), name: "Be with you soon..", complete: false, priority: -1, category: "", reminder: Date(), reminderState: false, details:  "")
 			reloadTable(with: [task])
 		}
 		
@@ -107,6 +107,7 @@ class InterfaceController: WKInterfaceController {
 }
 
 extension InterfaceController: WCSessionDelegate {
+	
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         session.sendMessage(["requestPhoneData" : 1], replyHandler: { (response) in
 
@@ -162,6 +163,11 @@ extension InterfaceController: WCSessionDelegate {
             ()
         }
     }
+	
+	//navigation
+	override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
+		pushController(withName: "ShowTaskDetails", context: ["data" : tableDataSource, "row": rowIndex])
+	}
 }
 
 

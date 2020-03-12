@@ -36,7 +36,7 @@
                                                         <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
                                                     </label>
                                                     <label width="104" height="20" alignment="left" verticalAlignment="bottom" text="Label" id="fgF-s9-rL6">
-                                                        <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                     </label>
                                                 </items>
@@ -61,7 +61,51 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="220" y="345"/>
+            <point key="canvasLocation" x="169" y="306"/>
+        </scene>
+        <!--ShowTaskDetails-->
+        <scene sceneID="GDf-DU-SpG">
+            <objects>
+                <controller identifier="ShowTaskDetails" id="AFZ-GA-zeb" customClass="TaskFullDetailInterfaceController" customModule="Shortlist_WatchKit_Extension">
+                    <items>
+                        <group width="1" alignment="left" layout="vertical" id="cnH-dg-bFo">
+                            <items>
+                                <separator alignment="left" alpha="0.0" id="GIn-2z-StP"/>
+                                <label alignment="left" text="Task" textAlignment="left" numberOfLines="0" id="etB-ab-ytW">
+                                    <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                                </label>
+                                <separator alignment="left" alpha="0.0" id="OuK-Gd-DiO"/>
+                                <label alignment="left" text="Notes" textAlignment="left" id="YlF-Gq-SCm">
+                                    <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                                </label>
+                                <separator alignment="left" alpha="0.0" id="NuV-kX-9Mb"/>
+                                <label width="136" alignment="left" text="Category" id="NDe-0T-m6g">
+                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                </label>
+                                <separator alignment="left" alpha="0.0" id="9Zo-ll-7WH"/>
+                                <label alignment="left" text="Reminder" id="yme-id-A8s">
+                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                </label>
+                                <separator alignment="left" alpha="0.0" id="5gO-hH-QnL"/>
+                            </items>
+                        </group>
+                        <button width="1" alignment="left" title="Mark as Done" id="dQ2-kU-CPl">
+                            <connections>
+                                <action selector="handleMarkAsDone" destination="AFZ-GA-zeb" id="mpp-ry-DT0"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="markAsDoneButton" destination="dQ2-kU-CPl" id="0pb-aD-1k3"/>
+                        <outlet property="taskCategory" destination="NDe-0T-m6g" id="51G-VN-3Yt"/>
+                        <outlet property="taskGroup" destination="cnH-dg-bFo" id="9Ru-mr-OeB"/>
+                        <outlet property="taskName" destination="etB-ab-ytW" id="dBH-Un-kdj"/>
+                        <outlet property="taskNotes" destination="YlF-Gq-SCm" id="n3y-4o-Kcb"/>
+                        <outlet property="taskReminder" destination="yme-id-A8s" id="fyq-Vo-6gw"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="439" y="306"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
@@ -92,7 +136,7 @@
             <objects>
                 <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="Shortlist_WatchKit_App" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="481" y="336"/>
+            <point key="canvasLocation" x="462" y="950"/>
         </scene>
     </scenes>
     <resources>
