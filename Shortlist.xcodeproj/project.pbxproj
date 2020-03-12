@@ -255,6 +255,7 @@
 		1C327C0B68C7027F7AB99204 /* Pods-Shortlist WatchKit Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shortlist WatchKit Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Shortlist WatchKit Extension/Pods-Shortlist WatchKit Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		33CB3CDBD499A319B24EDFB1 /* Pods-ShortlistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortlistTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShortlistTests/Pods-ShortlistTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAccolades.swift; sourceTree = "<group>"; };
+		4D1B4D0B241A3A3400C9E8CE /* BUGFIXES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BUGFIXES.md; sourceTree = "<group>"; };
 		4D242C3C23EBCB2B00ED1C42 /* TipsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsService.swift; sourceTree = "<group>"; };
 		4D242C3F23EBE38C00ED1C42 /* ProductivityTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductivityTips.swift; sourceTree = "<group>"; };
 		4D242C4123EC06EA00ED1C42 /* TemporaryStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryStorageService.swift; sourceTree = "<group>"; };
@@ -551,6 +552,7 @@
 		4D45E78522DDD1AB008AC433 = {
 			isa = PBXGroup;
 			children = (
+				4D1B4D0B241A3A3400C9E8CE /* BUGFIXES.md */,
 				4D56220323E56AE8003F7309 /* GoogleService-Info.plist */,
 				4DF724FA22F18FEF00472072 /* README.md */,
 				4D45E79022DDD1AB008AC433 /* Shortlist */,
@@ -1981,7 +1983,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1989,6 +1991,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2009,7 +2012,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2017,6 +2020,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2038,10 +2042,11 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2063,10 +2068,11 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2087,7 +2093,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2095,6 +2101,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2112,7 +2119,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2120,6 +2127,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -8,13 +8,20 @@
 
 import UIKit
 
+enum TaskInputState {
+	case writing
+	case closed
+}
+
 class MainInputView: UIView {
 	
 	enum TextViewTag: Int {
 		case TaskName = 0
 		case CategoryName
 	}
-		
+	
+	private var state: TaskInputState = .closed
+	
 	weak var delegate: MainViewControllerProtocol?
 	
 	private var priority: Int = Int(Priority.high.rawValue)
@@ -25,7 +32,7 @@ class MainInputView: UIView {
 	
 	private let defaultText: String = "An interesting task.."
 	
-	private let taskNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "An interesting task..", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -30.0), NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
+	private let taskNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "An interesting task..", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -30.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	
 	private let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	
@@ -101,6 +108,7 @@ class MainInputView: UIView {
 	init(delegate: MainViewControllerProtocol) {
 		self.delegate = delegate
 		super.init(frame: .zero)
+		state = .closed
 		setupView()
 	}
 	
@@ -186,6 +194,7 @@ class MainInputView: UIView {
 	// let viewmodel handle user input data.
 	@objc
 	func handlePostTask() {
+		state = .closed
 		guard let delegate = delegate else { return }
 		guard let vm = delegate.viewModel else { return }
 		taskTextView.resignFirstResponder()
@@ -296,7 +305,8 @@ extension MainInputView: UITextViewDelegate {
 		
 		// Replaces placeholder text with user entered text
 		if let tag = TextViewTag.init(rawValue: textView.tag) {
-			if (tag == TextViewTag.TaskName && textView.textColor == UIColor.lightGray) {
+			if (tag == TextViewTag.TaskName && state == .closed) {
+				state = .writing
 				textView.clearTextOnFirstInput(Theme.Font.DefaultColor)
 			}
 		}
@@ -309,12 +319,14 @@ extension MainInputView: UITextViewDelegate {
 	}
 	
 	func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+		
 		guard let vm = delegate?.viewModel else { return false }
 		textView.text = vm.taskName
 		return true
 	}
 	
 	func textViewDidEndEditing(_ textView: UITextView) {
+		state = .closed
 		guard let vm = delegate?.viewModel else { return }
 		vm.taskName = textView.text
 		

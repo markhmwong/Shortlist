@@ -42,7 +42,7 @@ class InterfaceController: WKInterfaceController {
     }
 	
 	func loadTableWithMessage() {
-		print("empty message")
+
 		if (tableDataSource?.isEmpty ?? true) {
 			let task = TaskStruct(date: Date(), name: "Be with you soon..", complete: false, priority: -1, category: "", reminder: Date(), reminderState: false)
 			reloadTable(with: [task])
