@@ -157,6 +157,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				// update keychain
 				KeychainWrapper.standard.set(Int(today), forKey: SettingsKeyChainKeys.ReviewDate)
 				
+				// Ensure a Day object has been created
+				if let mainVC = mainCoordinator?.rootViewController {
+					mainVC.loadDayData()
+				}
+				
 				// show review page
 				DispatchQueue.main.async {
 					self.mainCoordinator?.showReview(self.persistentContainer, automated: true)
