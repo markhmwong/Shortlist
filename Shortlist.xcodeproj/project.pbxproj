@@ -1999,7 +1999,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2028,7 +2028,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2058,7 +2058,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
@@ -2084,7 +2084,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
@@ -2109,7 +2109,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2135,7 +2135,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

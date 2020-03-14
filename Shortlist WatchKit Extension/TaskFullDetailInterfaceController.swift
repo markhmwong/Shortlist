@@ -51,12 +51,12 @@ class TaskFullDetailInterfaceController: WKInterfaceController {
 	
 	func loadData(task: TaskStruct?) {
 		if let task = task {
-			taskName.setText(task.name)
+			taskName.setText("task.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.name")
 			
-			taskNotes.setText(task.details)
+			taskNotes.setText("task.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.details")
 			taskCategory.setText(task.category)
 			if (task.reminderState) {
-				taskReminder.setText("⏰ \(task.reminder)")
+				taskReminder.setText("⏰ \(task.reminder.timeToString())")
 			} else {
 				taskReminder.setText("⏰ No Reminder Set")
 			}
@@ -65,9 +65,8 @@ class TaskFullDetailInterfaceController: WKInterfaceController {
 			// setup mark as done button
 			if task.complete {
 				markAsDoneButton.setBackgroundColor(UIColor.green.darker())
-				
 			} else {
-				markAsDoneButton.setBackgroundColor(UIColor.black)
+				markAsDoneButton.setBackgroundColor(UIColor.black.adjust(by: 10))
 			}
 		} else {
 			taskName.setText("Task could be read")

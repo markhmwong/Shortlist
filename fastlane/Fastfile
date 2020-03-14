@@ -54,15 +54,19 @@ platform :ios do
     get_provisioning_profile(app_identifier: "com.whizbang.shortlist.watchkitapp.watchkitextension")
 
     increment_build_number
-    # increment_version_number(
-    #  bump_type: "minor"
-    #)
+    increment_version_number(
+      #bump_type: "minor"
+      version_number: "1.2"
+    )
+
     build_app(
       workspace: "Shortlist.xcworkspace",
       scheme: "Shortlist",
       include_bitcode: true,
       export_xcargs: "-allowProvisioningUpdates",
-    )
+    ) 
+    
+
     upload_to_app_store
   end
 end
