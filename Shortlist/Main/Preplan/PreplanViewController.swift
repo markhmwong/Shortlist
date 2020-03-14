@@ -65,7 +65,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
         view.dragDelegate = self
         view.dropDelegate = self
         view.dragInteractionEnabled = true
-        view.backgroundColor = .clear
+		view.backgroundColor = Theme.GeneralView.background
         view.separatorStyle = .none
         view.isEditing = false
         view.estimatedRowHeight = viewModel?.cellHeight ?? 100.0

@@ -24,7 +24,6 @@ extension UITableView {
 		  return
 		}
 		
-//		headerView.anchorView(top: self.topAnchor, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		headerView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
 		
 		let size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
@@ -35,19 +34,6 @@ extension UITableView {
 			headerView.setNeedsLayout()
 			headerView.layoutIfNeeded()
 		}
-
-
-//		if let headerView = self.tableHeaderView {
-//			let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-//			var headerFrame = headerView.frame
-//
-//			// comparison necessary to avoid infinite loop
-////			if height != headerFrame.size.height {
-//				headerFrame.size.height = height
-//				headerView.frame = headerFrame
-//				self.tableHeaderView = headerView
-////			}
-//		}
 	}
 	
 }

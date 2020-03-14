@@ -27,7 +27,7 @@ class EditTaskPriorityCell: CellBase {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
 		//attributed text
-		button.setAttributedTitle(NSAttributedString(string: "Medium", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!, NSAttributedString.Key.foregroundColor: UIColor.white]), for: .normal)
+		button.setAttributedTitle(NSAttributedString(string: "Medium", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!, NSAttributedString.Key.foregroundColor: Theme.Font.DefaultColor]), for: .normal)
 		button.layer.backgroundColor = Theme.Priority.mediumColor.cgColor
 		button.layer.cornerRadius = 5.0
 		button.addTarget(self, action: #selector(handlePriority), for: .touchUpInside)

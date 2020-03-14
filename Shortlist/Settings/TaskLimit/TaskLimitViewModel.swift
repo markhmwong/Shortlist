@@ -119,7 +119,7 @@ class TaskLimitViewModel {
 		cell.accessoryType = cellCheckmark(section: indexPath.section, row: row)
 
         cell.textLabel?.text = "\(row)"
-        cell.textLabel?.textColor = UIColor.white
+        cell.textLabel?.textColor = Theme.Font.DefaultColor
         return cell
 	}
 	

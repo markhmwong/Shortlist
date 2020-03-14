@@ -51,7 +51,7 @@ class StatsViewController: UIViewController {
 	
 	lazy var statStackView: UIStackView = {
 		let view = UIStackView()
-		view.backgroundColor = .red
+		view.backgroundColor = Theme.GeneralView.background
 		view.alignment = .fill
 		view.distribution = .fillEqually
 		view.axis = .horizontal
@@ -76,10 +76,10 @@ class StatsViewController: UIViewController {
 		guard let vm = viewModel else { return }
 		guard let persistentContainer = persistentContainer else { return }
 
-		navigationController?.navigationBar.barTintColor = UIColor.black
-		navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+		navigationController?.navigationBar.barTintColor = Theme.GeneralView.background
+		navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: Theme.Font.DefaultColor]
 		
-        view.backgroundColor = .black
+        view.backgroundColor = Theme.GeneralView.background
 		navigationItem.title = "Stats"
         navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 2)
 		

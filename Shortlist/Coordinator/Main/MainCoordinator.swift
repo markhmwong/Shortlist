@@ -29,10 +29,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		
 		vc.coordinator = self
 		rootViewController = vc
-		
-		navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-		navigationController.navigationBar.shadowImage = UIImage()
-		navigationController.navigationBar.isTranslucent = true
+	
+		//background color of navigation bar
+		navigationController.navigationBar.isTranslucent = false
+		navigationController.navigationBar.backgroundColor = .orange
 		navigationController.pushViewController(vc, animated: false)
     }
 	

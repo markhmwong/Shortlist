@@ -14,7 +14,7 @@ extension UIBarButtonItem {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: imageName), for: .normal)
         button.addTarget(target, action: action, for: .touchUpInside)
-		button.tintColor = UIColor.white
+		button.tintColor = Theme.Font.DefaultColor
 		
         let menuBarItem = UIBarButtonItem(customView: button)
         menuBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false

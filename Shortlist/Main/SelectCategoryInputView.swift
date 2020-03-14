@@ -20,13 +20,13 @@ class SelectCategoryInputView: UIView {
 	
 	private weak var persistentContainer: PersistentContainer?
 	
-	private let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "A new category..", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
+	private let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "A new category..", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Placeholder, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	
 	private lazy var categoryInputTextView: UITextView = {
 		let view = UITextView()
 		view.delegate = self
 		view.backgroundColor = Theme.Cell.textFieldBackground
-        view.keyboardAppearance = UIKeyboardAppearance.dark
+        view.keyboardAppearance = UIKeyboardAppearance.default
 		view.keyboardType = UIKeyboardType.default
 		view.isEditable = true
 		view.isUserInteractionEnabled = true

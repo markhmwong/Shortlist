@@ -10,9 +10,9 @@ import UIKit
 
 class OnboardingCell: UICollectionViewCell {
 	
-	let attributedTextKeysDetails: [NSMutableAttributedString.Key : Any] = [NSMutableAttributedString.Key.font : UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!, NSMutableAttributedString.Key.foregroundColor : UIColor.white]
+	let attributedTextKeysDetails: [NSMutableAttributedString.Key : Any] = [NSMutableAttributedString.Key.font : UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!, NSMutableAttributedString.Key.foregroundColor : Theme.Font.DefaultColor]
 	
-	let attributedTextKeysTitle: [NSMutableAttributedString.Key : Any] = [NSMutableAttributedString.Key.font : UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!, NSMutableAttributedString.Key.foregroundColor : UIColor.white]
+	let attributedTextKeysTitle: [NSMutableAttributedString.Key : Any] = [NSMutableAttributedString.Key.font : UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!, NSMutableAttributedString.Key.foregroundColor : Theme.Font.DefaultColor]
 	
 	var data: OnboardingPage? = nil {
 		didSet {
@@ -39,7 +39,7 @@ class OnboardingCell: UICollectionViewCell {
 		label.text = "Unknown"
 		label.lineBreakMode = .byWordWrapping
 		label.numberOfLines = 0
-		label.textColor = UIColor.black
+		label.textColor = Theme.Font.DefaultColor
 		label.sizeToFit()
 		return label
 	}()
@@ -48,14 +48,14 @@ class OnboardingCell: UICollectionViewCell {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.text = "Unknown"
-		label.textColor = UIColor.black
+		label.textColor = Theme.Font.DefaultColor
 		return label
 	}()
 	
 	lazy var image: UIImageView = {
 		let image = UIImage(named: "stats.png")?.withRenderingMode(.alwaysTemplate)
 		let view = UIImageView(image: image)
-		view.tintColor = UIColor.white
+		view.tintColor = Theme.Font.DefaultColor
 		view.image?.withRenderingMode(.alwaysTemplate)
 		view.contentMode = .scaleAspectFit
 		view.translatesAutoresizingMaskIntoConstraints = false

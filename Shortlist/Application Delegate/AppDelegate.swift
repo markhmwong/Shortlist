@@ -160,7 +160,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				// Ensure a Day object has been created
 				if let mainVC = mainCoordinator?.rootViewController {
 					mainVC.loadDayData()
+					mainVC.loadFirebaseData()
 				}
+				
+				// Task Tally update
+				
 				
 				// show review page
 				DispatchQueue.main.async {

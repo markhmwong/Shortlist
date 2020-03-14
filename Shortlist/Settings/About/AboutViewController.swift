@@ -15,7 +15,7 @@ class AboutViewController: UIViewController {
     lazy var contact: UITextView = {
         let view = UITextView()
         view.backgroundColor = .clear
-        view.textColor = UIColor.white
+		view.textColor = Theme.Font.DefaultColor
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isSelectable = false
         view.isEditable = false
@@ -38,7 +38,7 @@ class AboutViewController: UIViewController {
 	
 	
 	Privacy.\n
-	To be completed. May use Google Analytics to monitor app usage
+	This app uses Firebase to track Worldwide task tallys. Task details are not sent to the server, only a count of the total tallies is tracked.
 	
 	Bugs.\n
 	Please report any bugs to hello@whizbangapps.xyz
@@ -62,7 +62,7 @@ class AboutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		navigationItem.title = "About"
-        view.backgroundColor = UIColor.black
+		view.backgroundColor = Theme.GeneralView.background
         navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 2)
         
         contact.attributedText = NSAttributedString(string: "\(details)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!])

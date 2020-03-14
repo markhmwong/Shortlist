@@ -46,7 +46,7 @@ class BackLogTaskListViewController: UIViewController {
 		let view = UITableView()
 		view.delegate = self
 		view.dataSource = self
-		view.backgroundColor = UIColor.black
+		view.backgroundColor = Theme.GeneralView.background
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
@@ -68,7 +68,7 @@ class BackLogTaskListViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.backgroundColor = UIColor.black
+		view.backgroundColor = Theme.GeneralView.background
 		navigationItem.title = "Tasks"
 		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleClose), imageName: "Back", height: self.topBarHeight / 1.8)
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Copy", style: .plain, target: self, action: #selector(handleCopyTask))

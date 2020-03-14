@@ -21,14 +21,6 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
     }
-	
-
-	
-	func transparentBar(_ nav: UINavigationController) {
-		nav.navigationBar.setBackgroundImage(UIImage(), for: .default)
-		nav.navigationBar.shadowImage = UIImage()
-		nav.navigationBar.isTranslucent = true
-	}
     
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {

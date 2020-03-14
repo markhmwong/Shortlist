@@ -30,9 +30,9 @@ class EditTaskTextViewCell: CellBase {
 	lazy var inputTextView: UITextView = {
         let view = UITextView()
         view.delegate = self
-		view.backgroundColor = .clear
+		view.backgroundColor = Theme.GeneralView.background
         view.keyboardType = UIKeyboardType.default
-        view.keyboardAppearance = UIKeyboardAppearance.dark
+        view.keyboardAppearance = UIKeyboardAppearance.default
 		view.textColor = Theme.Font.DefaultColor
         view.returnKeyType = UIReturnKeyType.done
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +67,7 @@ class EditTaskTextViewCell: CellBase {
 		let backgroundView = UIView()
 		backgroundView.backgroundColor = UIColor(red:0.1, green:0.1, blue:0.1, alpha:1.0)
 		selectedBackgroundView = backgroundView
-		backgroundColor = UIColor(red:0.1, green:0.1, blue:0.1, alpha:1.0)
+		backgroundColor = Theme.GeneralView.background
 		
         addSubview(inputTextView)
 		addSubview(textLimitContainer)
@@ -81,16 +81,16 @@ class EditTaskTextViewCell: CellBase {
 	
 	func configure(with text: String?) {
 		if let text = text {
-			let nameAttributedStr = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: size)!])
+			let nameAttributedStr = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: size)!])
             inputTextView.attributedText = nameAttributedStr
 		} else {
-			let nameAttributedStr = NSMutableAttributedString(string: "unknown", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: size)!])
+			let nameAttributedStr = NSMutableAttributedString(string: "unknown", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: size)!])
             inputTextView.attributedText = nameAttributedStr
 		}
     }
 	
 	func updateTask(taskNameString: String) {
-		let nameAttributedStr = NSMutableAttributedString(string: taskNameString, attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: size)!])
+		let nameAttributedStr = NSMutableAttributedString(string: taskNameString, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: size)!])
 		inputTextView.attributedText = nameAttributedStr
 		determineProgressBar(count: taskNameString.count)
 	 }

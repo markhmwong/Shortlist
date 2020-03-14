@@ -52,5 +52,6 @@ class EditTaskDisclaimerCell: CellBase {
 	
 	func updateLabel(name: String) {
 		textLabel?.text = name
+		textLabel?.textColor = Theme.Font.FadedColor
 	}
 }

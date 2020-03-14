@@ -43,7 +43,7 @@ class ReviewCell: UITableViewCell {
         view.isScrollEnabled = false
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
-        view.textColor = UIColor.white
+        view.textColor = Theme.Font.DefaultColor
         view.returnKeyType = UIReturnKeyType.done
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textContainerInset = UIEdgeInsets.zero
@@ -59,7 +59,7 @@ class ReviewCell: UITableViewCell {
         view.backgroundColor = .clear
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
-        view.textColor = UIColor.white
+        view.textColor = Theme.Font.DefaultColor
         view.returnKeyType = UIReturnKeyType.done
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textContainerInset = UIEdgeInsets.zero
@@ -154,7 +154,7 @@ class ReviewCell: UITableViewCell {
     
     func configure(with task: Task?) {
         if let task = task {
-            stateColor = task.complete ? UIColor.white.darker(by: 40.0) : UIColor.white
+            stateColor = task.complete ? Theme.Font.DefaultColor.darker(by: 40.0) : Theme.Font.DefaultColor
             let nameStr = "\(task.name!)"
             let nameAttributedStr = NSMutableAttributedString(string: nameStr, attributes: [NSAttributedString.Key.foregroundColor : stateColor!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
             

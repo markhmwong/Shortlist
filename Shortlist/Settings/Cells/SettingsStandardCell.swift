@@ -30,9 +30,9 @@ class SettingsStandardCell: UITableViewCell, SettingsStandardCellProtocol {
 		guard let _chevron = chevron else { return }
 		_chevron.frame = CGRect(x: 0, y: 0, width: frame.height * 0.5, height: frame.height * 0.5)
 		accessoryView = _chevron
-		tintColor = .white
+		tintColor = Theme.Cell.iconColor
 		backgroundColor = .clear
-		textLabel?.textColor = UIColor.white
+		textLabel?.textColor = Theme.Font.DefaultColor
 	}
 	
 	override func layoutSubviews() {

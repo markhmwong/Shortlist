@@ -54,7 +54,7 @@ class EditTaskCellFactory {
 				return cell
 			case .Disclaimer:
 				let cell = tableView.dequeueReusableCell(withIdentifier: disclaimerId, for: indexPath)
-				cell.textLabel?.textColor = UIColor.white.adjust(by: -30.0)
+				cell.textLabel?.textColor = Theme.Font.DefaultColor.adjust(by: -30.0)
 				cell.textLabel?.numberOfLines = 0
 				cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping;
 				cell.textLabel?.font = UIFont(name: Theme.Font.Bold, size: Theme.Font.StandardSizes.b3.rawValue)

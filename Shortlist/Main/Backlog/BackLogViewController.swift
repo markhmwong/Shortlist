@@ -34,7 +34,7 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 		let view = UITableView()
 		view.delegate = self
 		view.dataSource = self
-		view.backgroundColor = .black
+		view.backgroundColor = Theme.GeneralView.background
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
@@ -72,7 +72,7 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.backgroundColor = .black
+		view.backgroundColor = Theme.GeneralView.background
 		navigationItem.title = "Backlog"
 		
 		keyboardNotifications()

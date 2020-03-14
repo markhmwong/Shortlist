@@ -89,7 +89,7 @@ class TaskListHeader: UIView {
         self.date = date
         self.delegate = delegate
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .clear
+		backgroundColor = Theme.GeneralView.background
         reviewLabelState = reviewState
         setupView()
     }
@@ -100,7 +100,6 @@ class TaskListHeader: UIView {
     
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor(red:0.05, green:0.05, blue:0.05, alpha:1.0)
 		
 		heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.04).isActive = true
         widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true

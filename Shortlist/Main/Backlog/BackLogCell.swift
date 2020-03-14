@@ -27,7 +27,7 @@ class BackLogCell: UITableViewCell, CellProtocol {
 	
 	func setupCellLayout() {
 		backgroundColor = .clear
-		textLabel?.textColor = UIColor.white
+		textLabel?.textColor = Theme.Font.DefaultColor
 		layer.cornerRadius = 10.0
 	}
 }

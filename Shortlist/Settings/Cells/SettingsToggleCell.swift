@@ -35,9 +35,9 @@ class SettingsToggleCell: CellBase, SettingsStandardCellProtocol {
 	
 	override func setupCellLayout() {
 		super.setupCellLayout()
-		tintColor = UIColor.white
-		contentView.addSubview(toggle)
-		toggle.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: nil, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -20.0), size: .zero)
+		backgroundColor = Theme.GeneralView.background
+		tintColor = Theme.Font.DefaultColor
+		accessoryView = toggle
 	}
 	
 	override func layoutSubviews() {

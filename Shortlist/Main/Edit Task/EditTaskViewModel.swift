@@ -81,7 +81,7 @@ class EditTaskViewModel {
 	
 	func tableViewTextViewCell(tableView: UITableView, indexPath: IndexPath, fontSize: CGFloat = Theme.Font.FontSize.Standard(.b0).value) -> EditTaskTextViewCell {
 		let cell = EditTaskCellFactory.shared().getEditTaskCellType(tableView: tableView, indexPath: indexPath, cellType: .TextView) as! EditTaskTextViewCell
-		cell.inputTextView.textColor = UIColor.white
+		cell.inputTextView.textColor = Theme.Font.DefaultColor
 		cell.inputTextView.text = task?.name ?? "Unknown Task"
 		cell.size = fontSize
 		return cell
@@ -94,7 +94,7 @@ class EditTaskViewModel {
 	
 	func tableViewLabelCell(tableView: UITableView, indexPath: IndexPath) -> EditTaskLabelCell {
 		let cell = EditTaskCellFactory.shared().getEditTaskCellType(tableView: tableView, indexPath: indexPath, cellType: .Label) as! EditTaskLabelCell
-		cell.textLabel?.textColor = UIColor.white
+		cell.textLabel?.textColor = Theme.Font.DefaultColor
 		return cell
 	}
 	
@@ -118,7 +118,7 @@ class EditTaskViewModel {
 	func defaultCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
 		// unknown cell
 		let cell = EditTaskCellFactory.shared().getEditTaskCellType(tableView: tableView, indexPath: indexPath, cellType: .DefaultCell)
-		cell.textLabel?.textColor = UIColor.white
+		cell.textLabel?.textColor = Theme.Font.DefaultColor
 		cell.textLabel?.text = "Unknown Task" // possible error in viewmodel not being initialised
 		return cell
 	}

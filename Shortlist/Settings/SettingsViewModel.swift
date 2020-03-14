@@ -325,6 +325,7 @@ class SettingsViewModel {
 		
 		let size: CGFloat = Theme.Font.FontSize.Standard(.b5).value
 		headerView.textLabel?.font = UIFont(name: Theme.Font.Regular, size: size)
+		headerView.textLabel?.textColor = Theme.Font.DefaultColor
 	}
 	
     func currentHighPriorityTaskLimit() -> Int {

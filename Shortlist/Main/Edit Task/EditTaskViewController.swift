@@ -139,9 +139,9 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 		let view = view as! UITableViewHeaderFooterView
 		
 		if #available(iOS 10, *) {
-			view.contentView.backgroundColor = .black
+			view.contentView.backgroundColor = Theme.GeneralView.background
 		} else {
-			view.backgroundView?.backgroundColor = .black
+			view.backgroundView?.backgroundColor = Theme.GeneralView.background
 		}
 		
 		let size: CGFloat = Theme.Font.FontSize.Standard(.b4).value
@@ -150,8 +150,8 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = UITableViewHeaderFooterView()
-		view.textLabel?.textColor = .white
-		view.backgroundView?.backgroundColor = .black
+		view.textLabel?.textColor = Theme.Font.DefaultColor
+		view.backgroundView?.backgroundColor = Theme.GeneralView.background
 		return view
 	}
 	
@@ -191,8 +191,6 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-// to do - viewmodel should hold the count of rows
-//		guard let vm = viewModel else { return 0 }
 		if let row = Sections.init(rawValue: section) {
 			switch row {
 				case .Label:
@@ -205,7 +203,6 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 					return PrioritySection.allCases.count
 				case .Reminder:
 					return ReminderSection.allCases.count
-//					return vm.rowsInSections[EditTaskSections.Reminder] ?? 1 // to do could be 1 or 2 based on reminder state
 			}
 		}
 		return 1
@@ -217,7 +214,7 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 				
 		guard let viewModel = viewModel else {
 			let cell = EditTaskCellFactory.shared().getEditTaskCellType(tableView: tableView, indexPath: indexPath, cellType: .DefaultCell) as! EditTaskTextViewCell
-			cell.inputTextView.textColor = UIColor.white
+			cell.inputTextView.textColor = Theme.Font.DefaultColor
 			cell.inputTextView.text = "Unknown Task"
 			return cell
 		}

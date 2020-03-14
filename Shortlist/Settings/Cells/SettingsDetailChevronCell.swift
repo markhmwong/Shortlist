@@ -36,10 +36,10 @@ class SettingsDetailedChevronCell: UITableViewCell, SettingsStandardCellProtocol
 	}
 	
 	 func setupCellLayout() {
-		tintColor = UIColor.white
-		backgroundColor = .clear
-		textLabel?.textColor = UIColor.white
-		detailTextLabel?.textColor = UIColor.white
+		backgroundColor = Theme.GeneralView.background
+		tintColor = Theme.Cell.iconColor
+		textLabel?.textColor = Theme.Font.DefaultColor
+		detailTextLabel?.textColor = Theme.Font.DefaultColor
 		
 		guard let _chevron = chevron else { return }
 		_chevron.frame = CGRect(x: 0, y: 0, width: frame.height * 0.5, height: frame.height * 0.5)

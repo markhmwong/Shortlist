@@ -36,7 +36,7 @@ class TaskCell: UITableViewCell {
 	
 	lazy var reminderLabel: UILabel = {
         let label = UILabel()
-		label.text = "test"
+		label.text = ""
 		label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Theme.Font.DefaultColor.adjust(by: 10)!
         return label
@@ -47,7 +47,7 @@ class TaskCell: UITableViewCell {
         view.backgroundColor = .clear
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
-		view.textColor = UIColor.white.adjust(by: -50.0)
+		view.textColor = Theme.Font.DefaultColor.adjust(by: -50.0)
         view.returnKeyType = UIReturnKeyType.done
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textContainerInset = UIEdgeInsets.zero
@@ -224,7 +224,7 @@ class TaskCell: UITableViewCell {
 			let nameAttributedStr = NSMutableAttributedString(string: nameStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!, ])
             
 			let detailsStr = "\(task.details ?? "Empty Notes")"
-			let detailsAttributedStr = NSMutableAttributedString(string: detailsStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
+			let detailsAttributedStr = NSMutableAttributedString(string: detailsStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
 			self.contentView.alpha = 1.0
 
             taskName.attributedText = nameAttributedStr
@@ -233,7 +233,7 @@ class TaskCell: UITableViewCell {
 				
 			let categoryStr = "\(task.category)"
 			
-            let categoryAttributedStr = NSMutableAttributedString(string: categoryStr, attributes: [NSAttributedString.Key.foregroundColor : categoryTextColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
+            let categoryAttributedStr = NSMutableAttributedString(string: categoryStr, attributes: [NSAttributedString.Key.foregroundColor : categoryTextColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
 			categoryTitle.attributedText = categoryAttributedStr
 			
 			let reminderDate = task.reminder ?? NSDate()

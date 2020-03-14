@@ -19,7 +19,7 @@ class EditTaskPickerViewCell: CellBase {
 		view.minimumDate = Calendar.current.date(byAdding: .day, value: 0, to: Date())
 		view.maximumDate = Date().endOfDay
 		view.datePickerMode = .time
-		view.setValue(UIColor.white, forKey: "textColor")
+		view.setValue(Theme.Font.DefaultColor, forKey: "textColor")
 		view.addTarget(self, action: #selector(handleDatePicker), for: .valueChanged)
 		return view
 	}()

@@ -1,7 +1,12 @@
 #  Bug Fixes
 
 ### 1.2
-Fix "New Day" bug
+Fix "New Day" bug @done
+Fix task tally @done
+Light mode
+Event kit
+Complication watch
+chart not getting data
 
 ### 1.1
 Small update but I think still worthy of your efforts

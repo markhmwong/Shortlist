@@ -133,9 +133,6 @@ class SettingsHeader: UIViewController {
             if (success) {
                 guard let products = products else { return }
                 self.viewModel?.tipProducts = products
-				for product in products {
-					print(product.localizedTitle)
-				}
                 //update buttons
                 self.updateTipButtons()
             } else {
@@ -149,7 +146,7 @@ class SettingsHeader: UIViewController {
         guard let tipProductArr = self.viewModel?.tipProducts else { return } //tips are sorted with didSet observer
 		let buttonArr = viewModel?.buttonArr
         if (buttonArr!.count == tipProductArr.count) {
-            for (index, button) in buttonArr!.enumerated() {
+            for (_, button) in buttonArr!.enumerated() {
 				button.isHidden = true
 			}
 		}

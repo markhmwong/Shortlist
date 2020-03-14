@@ -19,8 +19,8 @@ class StatContainer: UIView {
 	lazy var statNumber: UILabel = {
 		let view = UILabel()
 		view.textAlignment = .center
-		view.backgroundColor = UIColor.clear
-		view.textColor = .white
+		view.backgroundColor = .clear
+		view.textColor = Theme.Font.DefaultColor
 		view.font = UIFont(name: Theme.Font.Bold, size: 32.0)!
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
@@ -29,8 +29,8 @@ class StatContainer: UIView {
 	lazy var statTitle: UILabel = {
 		let view = UILabel()
 		view.textAlignment = .center
-		view.backgroundColor = UIColor.clear
-		view.textColor = .white
+		view.backgroundColor = .clear
+		view.textColor = Theme.Font.DefaultColor
 		view.font = UIFont(name: Theme.Font.Bold, size: 12.0)!
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
@@ -44,7 +44,7 @@ class StatContainer: UIView {
 	
 	lazy var circleBorder: CAShapeLayer = {
 		let shape = CAShapeLayer()
-		shape.fillColor = UIColor.white.adjust(by: -10.0)!.cgColor
+		shape.fillColor = Theme.Chart.chartBackgroundColor.adjust(by: -10.0)!.cgColor
 		return shape
 	}()
 	
@@ -68,7 +68,7 @@ class StatContainer: UIView {
 	
 	private func setupView() {
 		translatesAutoresizingMaskIntoConstraints = false
-		backgroundColor = .clear
+		backgroundColor = Theme.GeneralView.background
 		
 		// grab values from Core Data
 		configureStatType(type: type)

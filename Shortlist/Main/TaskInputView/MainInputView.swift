@@ -32,9 +32,9 @@ class MainInputView: UIView {
 	
 	private let defaultText: String = "An interesting task.."
 	
-	private let taskNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "An interesting task..", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -30.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
+	private let taskNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "An interesting task..", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Placeholder, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	
-	private let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
+	private let categoryNamePlaceholder: NSMutableAttributedString = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.Placeholder, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!])
 	
 	lazy var taskTextView: UITextView = {
 		let view = UITextView()
@@ -47,7 +47,7 @@ class MainInputView: UIView {
 		view.isScrollEnabled = false
 		view.returnKeyType = UIReturnKeyType.default
         view.textColor = Theme.Font.DefaultColor
-        view.keyboardAppearance = UIKeyboardAppearance.dark
+		view.keyboardAppearance = UIKeyboardAppearance.default
 		view.keyboardType = UIKeyboardType.default
 		view.attributedText = taskNamePlaceholder
 		view.tag = 0
@@ -64,7 +64,8 @@ class MainInputView: UIView {
 	private lazy var postTaskButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.setImage(UIImage(named:"Send.png"), for: .normal)
+		let image = UIImage(named:"Send.png")?.withTintColor(Theme.Font.DefaultColor, renderingMode: UIImage.RenderingMode.alwaysTemplate)
+		button.setImage(image, for: .normal)
 		button.addTarget(self, action: #selector(handlePostTask), for: .touchUpInside)
 		return button
 	}()
@@ -72,7 +73,8 @@ class MainInputView: UIView {
 	private lazy var reminderButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.setImage(UIImage(named:"Alarm.png"), for: .normal)
+		let image = UIImage(named:"Alarm.png")?.withTintColor(Theme.Font.DefaultColor, renderingMode: UIImage.RenderingMode.alwaysTemplate)
+		button.setImage(image, for: .normal)
 		button.addTarget(self, action: #selector(handleReminder), for: .touchUpInside)
 		return button
 	}()

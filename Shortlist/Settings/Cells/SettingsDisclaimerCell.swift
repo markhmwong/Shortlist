@@ -22,8 +22,7 @@ class SettingsDisclaimerCell: CellBase {
 	override func setupCellLayout() {
 		super.setupCellLayout()
 		isUserInteractionEnabled = false
-		backgroundColor = .clear
-		
+		backgroundColor = Theme.GeneralView.background
 		textLabel?.textColor = Theme.Font.FadedColor
 		textLabel?.numberOfLines = 0
 		textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping;

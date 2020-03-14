@@ -85,10 +85,10 @@ class LineChart: UIView {
 			// add mean number indicator
 			let meanHeight: CGFloat = chartGenerator!.meanHeight
 			let meanNumberStr: NSString = "\(monthOverviewChartData!.mean)" as NSString
-			let meanSizeStr = meanNumberStr.size(withAttributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!])
+			let meanSizeStr = meanNumberStr.size(withAttributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!])
 			let meanFrame: CGRect = CGRect(x: frame.width - xPadding - meanSizeStr.width, y: meanHeight, width: meanSizeStr.width, height: meanSizeStr.height)
 			
-			mainLayer.addChartTitleLayer(frame: meanFrame, color: UIColor.white.cgColor, fontSize: Theme.Font.FontSize.Standard(.b3).value, text: meanNumberStr as String)
+			mainLayer.addChartTitleLayer(frame: meanFrame, color: Theme.Font.DefaultColor.cgColor, fontSize: Theme.Font.FontSize.Standard(.b3).value, text: meanNumberStr as String)
 
 			// mean height indicator. We add this after the bars are added to the view, so that the line covers the bottom of the bars
 			mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: meanHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: meanHeight)), width: meanLineWidth, color: Theme.Chart.meanLineColor.cgColor)
@@ -101,7 +101,7 @@ class LineChart: UIView {
 
         // include max number indicator
         let maxIndicatorNumberStr: NSString = "\(monthOverviewChartData!.maxTasks)" as NSString
-        let sizeStr = maxIndicatorNumberStr.size(withAttributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b5).value)!])
+		let sizeStr = maxIndicatorNumberStr.size(withAttributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b5).value)!])
 		let maxFrame: CGRect = CGRect(x: frame.width - xPadding - sizeStr.width, y: 10.0, width: sizeStr.width, height: sizeStr.height)
 		
 		mainLayer.addChartTitleLayer(frame: maxFrame, color: Theme.Chart.chartTitleColor.cgColor, fontSize: Theme.Font.FontSize.Standard(.b5).value, text: maxIndicatorNumberStr as String)

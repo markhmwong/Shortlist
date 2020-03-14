@@ -33,7 +33,7 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 	
 	lazy var tableView: UITableView = {
 		let view = UITableView()
-		view.backgroundColor = UIColor.black
+		view.backgroundColor = Theme.GeneralView.background
 		view.delegate = self
 		view.dataSource = self
 		view.estimatedRowHeight = 100.0

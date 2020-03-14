@@ -64,7 +64,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         view.dragDelegate = self
         view.dropDelegate = self
         view.dragInteractionEnabled = true
-        view.backgroundColor = .clear
+		view.backgroundColor = Theme.GeneralView.background
         view.separatorStyle = .none
         view.isEditing = false
         view.estimatedRowHeight = viewModel?.cellHeight ?? 100.0
@@ -117,7 +117,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	}
     
 	// retrieve global statistics from firebase servers. This feature can be toggled in the settings
-	private func loadFirebaseData() {
+	public func loadFirebaseData() {
 		if let firebaseStatsState = KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.GlobalTasks) {
 			if (firebaseStatsState) {
 				let fbs = FirebaseService(dataBaseUrl: nil)

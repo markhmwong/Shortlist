@@ -16,8 +16,73 @@ struct Theme {
 		static var TitleRegular: String = "Georgia"
 		static var TitleBold: String = "Georgia-Bold"
 		
-        static var DefaultColor: UIColor = .white
-		static var FadedColor: UIColor = UIColor.white.adjust(by: -40.0)!
+		static let Warning: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return .red
+						case .light:
+							return .red
+						@unknown default:
+							return .red
+					}
+				}
+			} else {
+				return .red
+			}
+		}()
+		
+		static let Placeholder: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.white.adjust(by: 40.0)!
+						case .light:
+							return UIColor.black.adjust(by: 40.0)!
+						@unknown default:
+							return UIColor.white.adjust(by: 40.0)!
+					}
+				}
+			} else {
+				return UIColor.white.adjust(by: 40.0)!
+			}
+		}()
+		
+		static let DefaultColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return .white
+						case .light:
+							return .black
+						@unknown default:
+							return .white
+					}
+				}
+			} else {
+				return .white
+			}
+		}()
+		
+		static let FadedColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.white.adjust(by: -40.0)!
+						case .light:
+							return UIColor.black.adjust(by: -40.0)!
+						@unknown default:
+							return UIColor.white.adjust(by: -40.0)!
+					}
+				}
+			} else {
+				return UIColor.white.adjust(by: -40.0)!
+			}
+		}()
 		
         enum StandardSizes: CGFloat {
             //title sizes
@@ -61,47 +126,409 @@ struct Theme {
         }
     }
     
-    struct Navigation {
-        static var background: UIColor = UIColor(red:0.11, green:0.11, blue:0.11, alpha:1.0)
-        static var text: UIColor = UIColor.white
-    }
-    
     struct Cell {
-		static var background: UIColor = UIColor(red:0.0, green:0.0, blue:0.0, alpha:1.0)
-        static var text: UIColor = UIColor(red:0.91, green:0.53, blue:0.04, alpha:1.0)
-		static var textFieldBackground: UIColor = UIColor.black.adjust(by: 3)!
-        static var idle: UIColor = .green
-        static var inProgress: UIColor = .yellow
-		static var taskCompleteColor: UIColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
-		static var highlighted: UIColor = UIColor(red:0.26, green:0.75, blue:0.46, alpha:0.8)
-		static var iconColor: UIColor = UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0).adjust(by: -10.0)!
+
+		static let background: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return .black
+						case .light:
+							return .white
+						@unknown default:
+							return .black
+					}
+				}
+			} else {
+				return .black
+			}
+		}()
+
+		static let text: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.91, green:0.53, blue:0.04, alpha:1.0)
+						case .light:
+							return UIColor(red:0.91, green:0.53, blue:0.04, alpha:1.0)
+						@unknown default:
+							return UIColor(red:0.91, green:0.53, blue:0.04, alpha:1.0)
+					}
+				}
+			} else {
+				return UIColor(red:0.91, green:0.53, blue:0.04, alpha:1.0)
+			}
+		}()
+		
+		static let textFieldBackground: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.black.adjust(by: 3)!
+						case .light:
+							return UIColor.white.adjust(by: -3)!
+						@unknown default:
+							return UIColor.black.adjust(by: 3)!
+					}
+				}
+			} else {
+				return UIColor.black.adjust(by: 3)!
+			}
+		}()
+		static let idle: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return .green
+						case .light:
+							return .green
+						@unknown default:
+							return .green
+					}
+				}
+			} else {
+				return .green
+			}
+		}()
+		
+		static let inProgress: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return .yellow
+						case .light:
+							return .yellow
+						@unknown default:
+							return .yellow
+					}
+				}
+			} else {
+				return .yellow
+			}
+		}()
+		static let taskCompleteColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
+						case .light:
+							return UIColor(red:0.05, green:0.05, blue:0.05, alpha:1.0)
+						@unknown default:
+							return UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
+					}
+				}
+			} else {
+				return UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
+			}
+		}()
+		
+		static let highlighted: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.26, green:0.75, blue:0.46, alpha:0.8)
+						case .light:
+							return UIColor(red:0.26, green:0.75, blue:0.46, alpha:0.8)
+						@unknown default:
+							return UIColor(red:0.26, green:0.75, blue:0.46, alpha:0.8)
+					}
+				}
+			} else {
+				return UIColor(red:0.26, green:0.75, blue:0.46, alpha:0.8)
+			}
+		}()
+		
+		static let iconColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0).adjust(by: 0.0)!
+						case .light:
+							return UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0).adjust(by: -10.0)!
+						@unknown default:
+							return UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0).adjust(by: 0.0)!
+					}
+				}
+			} else {
+				return UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0).adjust(by: 0.0)!
+			}
+		}()
     }
     
     struct GeneralView {
-		static var background: UIColor = UIColor.black
-		static var headerBackground: UIColor = UIColor.black
+
+		static let background: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.black
+						case .light:
+							return UIColor.white
+						@unknown default:
+							return UIColor.black
+					}
+				}
+			} else {
+				return UIColor.black
+			}
+		}()
+		
+		static let headerBackground: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.black
+						case .light:
+							return UIColor.white
+						@unknown default:
+							return UIColor.black
+					}
+				}
+			} else {
+				return UIColor.black
+			}
+		}()
     }
 	
 	struct Button {
-		static var backgroundColor: UIColor = UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
-		static var textColor: UIColor = UIColor.black
-		static var cornerRadius: CGFloat = 15.0
-		static var donationButtonBackgroundColor: UIColor = UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0)
+		
+		static let backgroundColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
+						case .light:
+							return UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
+						@unknown default:
+							return UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
+					}
+				}
+			} else {
+				return UIColor(red:0.90, green:0.90, blue:0.90, alpha:1.0)
+			}
+		}()
+		
+		static let textColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.black
+						case .light:
+							return UIColor.black
+						@unknown default:
+							return UIColor.black
+					}
+				}
+			} else {
+				return UIColor.black
+			}
+		}()
+		
+		static let cornerRadius: CGFloat = 15.0
+		
+		static let donationButtonBackgroundColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0)
+						case .light:
+							return UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0)
+						@unknown default:
+							return UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0)
+					}
+				}
+			} else {
+				return UIColor(red:0.23, green:0.70, blue:0.89, alpha:1.0)
+			}
+		}()
 	}
 	
 	struct Chart {
-		static var lineTaskCompleteColor: UIColor = UIColor(red:0.00, green:0.82, blue:1.00, alpha:1.0)
-		static var lineTaskIncompleteColor: UIColor = UIColor(red:1.00, green:0.24, blue:0.00, alpha:1.0).adjust(by: 0.0)!
-		static var chartLineColor: UIColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
-		static var meanLineColor: UIColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
-		static var chartTitleColor: UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6)
-		static var chartBackgroundColor: UIColor = UIColor(red:0.08, green:0.08, blue:0.08, alpha:1.0)
+		static let lineTaskCompleteColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.00, green:0.82, blue:1.00, alpha:1.0)
+						case .light:
+							return UIColor(red:0.00, green:0.82, blue:1.00, alpha:1.0)
+						@unknown default:
+							return UIColor(red:0.00, green:0.82, blue:1.00, alpha:1.0)
+					}
+				}
+			} else {
+				return UIColor(red:0.00, green:0.82, blue:1.00, alpha:1.0)
+			}
+		}()
+		
+		static let lineTaskIncompleteColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:1.00, green:0.24, blue:0.00, alpha:1.0).adjust(by: 0.0)!
+						case .light:
+							return UIColor(red:1.00, green:0.24, blue:0.00, alpha:1.0).adjust(by: 0.0)!
+						@unknown default:
+							return UIColor(red:1.00, green:0.24, blue:0.00, alpha:1.0).adjust(by: 0.0)!
+					}
+				}
+			} else {
+				return UIColor(red:1.00, green:0.24, blue:0.00, alpha:1.0).adjust(by: 0.0)!
+			}
+		}()
+		
+		static let chartLineColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+						case .light:
+							return UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+						@unknown default:
+							return UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+					}
+				}
+			} else {
+				return UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+			}
+		}()
+		
+		static let meanLineColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+						case .light:
+							return UIColor(red:0.15, green:0.15, blue:0.15, alpha:0.8)
+						@unknown default:
+							return UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+					}
+				}
+			} else {
+				return UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+			}
+		}()
+		
+		static let chartTitleColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6)
+						case .light:
+							return UIColor(red:0.05, green:0.05, blue:0.05, alpha:0.8)
+						@unknown default:
+							return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6)
+					}
+				}
+			} else {
+				return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6)
+			}
+		}()
+		
+		static let chartBackgroundColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.08, green:0.08, blue:0.08, alpha:1.0)
+						case .light:
+							return UIColor(red:0.99, green:0.99, blue:0.99, alpha:1.0)
+						@unknown default:
+							return UIColor(red:0.08, green:0.08, blue:0.08, alpha:1.0)
+					}
+				}
+			} else {
+				return UIColor(red:0.08, green:0.08, blue:0.08, alpha:1.0)
+			}
+		}()
 	}
 	
 	struct Priority {
-		static var highColor: UIColor = UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
-		static var mediumColor: UIColor = UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
-		static var lowColor: UIColor = UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
-		static var noneColor: UIColor = UIColor.white.adjust(by: -30.0)!
+		
+		static let highColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+						case .light:
+							return UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+						@unknown default:
+							return UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+					}
+				}
+			} else {
+				return UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+			}
+		}()
+		
+		static let mediumColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
+						case .light:
+							return UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
+						@unknown default:
+							return UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
+					}
+				}
+			} else {
+				return UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
+			}
+		}()
+		
+		static let lowColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+						case .light:
+							return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+						@unknown default:
+							return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+					}
+				}
+			} else {
+				return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+			}
+		}()
+		
+		static let noneColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.white.adjust(by: -30.0)!
+						case .light:
+							return UIColor.white.adjust(by: -30.0)!
+						@unknown default:
+							return UIColor.white.adjust(by: -30.0)!
+					}
+				}
+			} else {
+				return UIColor.white.adjust(by: -30.0)!
+			}
+		}()
+
 	}
 }

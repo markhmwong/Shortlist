@@ -30,7 +30,7 @@ extension SelectCategoryViewController: UITableViewDataSource, UITableViewDelega
 			let cell = tableView.dequeueReusableCell(withIdentifier: "SelectCategoryCellId", for: indexPath)
 			cell.textLabel?.text = "No Categories"
 			cell.backgroundColor = UIColor.red
-			cell.textLabel?.textColor = UIColor.white
+			cell.textLabel?.textColor = Theme.Font.DefaultColor
 			return cell
 		}
 		
@@ -38,7 +38,7 @@ extension SelectCategoryViewController: UITableViewDataSource, UITableViewDelega
 			let cell = tableView.dequeueReusableCell(withIdentifier: "SelectCategoryCellId", for: indexPath)
 			cell.textLabel?.text = "No Categories"
 			cell.backgroundColor = UIColor.red
-			cell.textLabel?.textColor = UIColor.white
+			cell.textLabel?.textColor = Theme.Font.DefaultColor
 			return cell
 		}
 

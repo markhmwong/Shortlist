@@ -41,7 +41,7 @@ class NewsFeed: UIView {
 	
 	func setupView() {
 		translatesAutoresizingMaskIntoConstraints = false
-		backgroundColor = .clear
+		backgroundColor = Theme.GeneralView.background
 		
 		addSubview(feedLabel)
 		feedLabel.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)

@@ -32,9 +32,6 @@ class OnboardingCoordinator: NSObject, Coordinator, UINavigationControllerDelega
         let nav = UINavigationController(rootViewController: vc)
 
 		DispatchQueue.main.async {
-			nav.navigationBar.setBackgroundImage(UIImage(), for: .default)
-			nav.navigationBar.shadowImage = UIImage()
-			nav.navigationBar.isTranslucent = true
 			nav.navigationBar.isHidden = true
 			self.navigationController.present(nav, animated: false, completion: nil)
 		}

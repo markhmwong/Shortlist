@@ -17,7 +17,7 @@ class PickerViewContainer: UIView {
 		view.minimumDate = Calendar.current.date(byAdding: .day, value: 0, to: Date())
 		view.maximumDate = Date().endOfDay
 		view.datePickerMode = .time
-		view.setValue(UIColor.yellow, forKey: "textColor")
+		view.setValue(Theme.Font.DefaultColor, forKey: "textColor")
 		return view
 	}()
 	

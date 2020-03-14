@@ -516,6 +516,7 @@
 		4D1079E423A77855002CDF3A /* TaskInputView */ = {
 			isa = PBXGroup;
 			children = (
+				4D57856023696C9300842C50 /* PickerViewContainer.swift */,
 				4D6E755F235DB16700C67B8F /* MainInputView.swift */,
 				4D6E75662360648000C67B8F /* SelectCategory */,
 			);
@@ -1117,7 +1118,6 @@
 				4D6E756D2360AAF000C67B8F /* EmptyCollectionView.swift */,
 				4D45E79322DDD1AB008AC433 /* MainViewController.swift */,
 				4D45E7E922DDDA00008AC433 /* MainViewModel.swift */,
-				4D57856023696C9300842C50 /* PickerViewContainer.swift */,
 				4DC0DE5622E2220F00B2B8D4 /* TaskListHeader.swift */,
 				4D646B3D2326203200073FD6 /* AppStoreReviewManager.swift */,
 			);

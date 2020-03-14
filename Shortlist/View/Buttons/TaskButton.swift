@@ -45,14 +45,14 @@ class TaskButton: UIButton {
 				DispatchQueue.main.async {
 					self.button.changeColor(Theme.Cell.taskCompleteColor)
 					self.button.updateProgressBar(1.0)
-					self.button.changeWidth(5.0)
+					self.button.changeWidth(7.0)
 				}
 
             } else {
 				DispatchQueue.main.async {
 					self.button.changeColor(Theme.Cell.taskCompleteColor)
 					self.button.updateProgressBar(0.0)
-					self.button.changeWidth(5.0)
+					self.button.changeWidth(7.0)
 				}
             }
             setNeedsDisplay()

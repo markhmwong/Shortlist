@@ -16,7 +16,7 @@ class TaskLimitViewController: UIViewController {
         view.delegate = self
         view.dataSource = self
         view.separatorStyle = UITableViewCell.SeparatorStyle.none
-        view.backgroundColor = .black
+		view.backgroundColor = Theme.GeneralView.background
         return view
     }()
     
@@ -45,7 +45,7 @@ class TaskLimitViewController: UIViewController {
         super.viewDidLoad()
         guard let vm = viewModel else { return }
 		
-        view.backgroundColor = .black
+        view.backgroundColor = Theme.GeneralView.background
         navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 2)
         title = "Daily Limit"
         
@@ -96,7 +96,7 @@ extension TaskLimitViewController: UITableViewDelegate, UITableViewDataSource {
 			cell.backgroundColor = .clear
 			cell.accessoryType = .none
 			cell.textLabel?.text = "\(indexPath.row)"
-			cell.textLabel?.textColor = UIColor.white
+			cell.textLabel?.textColor = Theme.Font.DefaultColor
 			return cell
 		}
 		return _viewModel.tableViewCell(tableView, indexPath: indexPath)

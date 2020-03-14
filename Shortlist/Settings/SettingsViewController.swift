@@ -26,7 +26,7 @@ class SettingsViewController: UIViewController {
 		view.estimatedRowHeight = 200.0
 		view.rowHeight = UITableView.automaticDimension
         view.separatorStyle = UITableViewCell.SeparatorStyle.none
-        view.backgroundColor = .black
+        view.backgroundColor = Theme.GeneralView.background
         return view
     }()
 
@@ -45,7 +45,7 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
 		isModalInPresentation = false
 		// view
-		view.backgroundColor = .black
+		view.backgroundColor = Theme.GeneralView.background
 		
 		// navigation
 		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 1.8)

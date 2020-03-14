@@ -38,7 +38,6 @@ class StatisticsGenerator: NSObject {
         }
 
 		for day in _dayArray {
-			
 			if let stats = day.dayToStats {
 				let limit = day.highPriorityLimit + day.mediumPriorityLimit + day.lowPriorityLimit
 				taskLimit = mostAmountOfTasksForDay(currLimit: Int16(limit), newLimit: taskLimit)
@@ -87,6 +86,7 @@ class StatisticsGenerator: NSObject {
             guard let dayType = DayOfWeek(rawValue: day.day) else {
                 fatalError("Day Type does not exist")
             }
+			
 			incompleteTasks = (day.dayToStats?.totalTasks ?? 0) - (day.dayToStats?.totalCompleted ?? 0)
 			let dayStruct: DayOverview = DayOverview(dayOfWeek: dayType, dayDate: Int(day.day), numberOfCompletedTasks: day.dayToStats?.totalCompleted ?? 0, incompleteTasks: incompleteTasks)
             weekData.append(dayStruct)

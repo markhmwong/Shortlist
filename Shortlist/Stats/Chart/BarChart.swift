@@ -26,7 +26,7 @@ class BarChart: UIView {
     
     let meanLineWidth: CGFloat = 2.0
     
-    let chartBackgroundColor: UIColor = UIColor(red:0.08, green:0.08, blue:0.08, alpha:1.0)
+	let chartBackgroundColor: UIColor = Theme.Chart.chartBackgroundColor
     
     // barEntries tuple (completed tasks, incomplete Tasks)
     private var chartData: ([BarProperties], [BarProperties])? {
@@ -75,19 +75,19 @@ class BarChart: UIView {
         guard let (chartData, incompleteTaskChartData) = chartData else { return }
         let maxIndicatorHeight = chartGenerator!.maxIndicatorHeight
         let meanHeight = chartGenerator!.meanHeight
-        let lineColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:0.8)
+		let lineColor = Theme.Chart.chartLineColor
         
         // add chart title
         let charTitleStr = "\(monthOverviewChartData?.title ?? "chartTitle")"
         let titleWidth = charTitleStr.width(withConstrainedHeight: 50.0, font: UIFont.systemFont(ofSize: 16.0))
         let titleFrame: CGRect = CGRect(x: xPadding, y: 0.0, width: titleWidth, height: 20.0)
-        mainLayer.addChartTitleLayer(frame: titleFrame, color: UIColor.white.cgColor, fontSize: 16.0, text: monthOverviewChartData?.title ?? "_month_")
+		mainLayer.addChartTitleLayer(frame: titleFrame, color: Theme.Font.DefaultColor.cgColor, fontSize: 16.0, text: monthOverviewChartData?.title ?? "_month_")
         
         // add average stat
         let averageStr: String = "Daily Average \(monthOverviewChartData!.mean)"
         let width = averageStr.width(withConstrainedHeight: 20.0, font: UIFont.systemFont(ofSize: 16.0))
         let averageFrame = CGRect(x: titleFrame.minX, y: titleFrame.maxY + 5.0, width: width, height: 20.0)
-        mainLayer.addChartTitleLayer(frame: averageFrame, color: UIColor.white.cgColor, fontSize: 12.0, text: averageStr)
+        mainLayer.addChartTitleLayer(frame: averageFrame, color: Theme.Font.DefaultColor.cgColor, fontSize: 12.0, text: averageStr)
         
         // draw bars for incomplete tasks
         for (_, bar) in incompleteTaskChartData.enumerated() {
@@ -101,20 +101,20 @@ class BarChart: UIView {
             
 			// x axis labels
             let day = bar.day!.dayOfWeek.shortHand
-            mainLayer.xAxisLabels(frame: xAxisLabelFrame, color: UIColor.white.cgColor, fontSize: 12.0, text: "\(day)")
+            mainLayer.xAxisLabels(frame: xAxisLabelFrame, color: Theme.Font.DefaultColor.cgColor, fontSize: 12.0, text: "\(day)")
         }
         
         // include max number indicator
         let maxIndicatorNumberStr: NSString = "\(monthOverviewChartData!.maxTasks)" as NSString
         let sizeStr = maxIndicatorNumberStr.size(withAttributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!])
         let maxFrame: CGRect = CGRect(x: frame.width - xPadding - sizeStr.width, y: maxIndicatorHeight, width: sizeStr.width, height: sizeStr.height)
-        mainLayer.addChartTitleLayer(frame: maxFrame, color: UIColor.white.cgColor, fontSize: Theme.Font.FontSize.Standard(.b3).value, text: maxIndicatorNumberStr as String)
+        mainLayer.addChartTitleLayer(frame: maxFrame, color: Theme.Font.DefaultColor.cgColor, fontSize: Theme.Font.FontSize.Standard(.b3).value, text: maxIndicatorNumberStr as String)
         
         // add mean number indicator
         let meanNumberStr: NSString = "\(monthOverviewChartData!.mean)" as NSString
         let meanSizeStr = meanNumberStr.size(withAttributes: [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!])
         let meanFrame: CGRect = CGRect(x: frame.width - xPadding - meanSizeStr.width, y: meanHeight, width: meanSizeStr.width, height: meanSizeStr.height)
-        mainLayer.addChartTitleLayer(frame: meanFrame, color: UIColor.white.cgColor, fontSize: Theme.Font.FontSize.Standard(.b3).value, text: meanNumberStr as String)
+        mainLayer.addChartTitleLayer(frame: meanFrame, color: Theme.Font.DefaultColor.cgColor, fontSize: Theme.Font.FontSize.Standard(.b3).value, text: meanNumberStr as String)
 		
 		// bottom line indicator. We add this after the bars are added to the view, so that the line covers the bottom of the bars
 		mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: meanHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: meanHeight)), width: meanLineWidth, color: lineColor.cgColor)

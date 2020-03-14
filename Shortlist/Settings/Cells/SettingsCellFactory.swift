@@ -53,8 +53,7 @@ class SettingsCellFactory {
 				return cell
 			case .Toggle:
 				let cell = tableView.dequeueReusableCell(withIdentifier: toggleCellId, for: indexPath) as! SettingsToggleCell
-				cell.backgroundColor = UIColor.clear
-				cell.textLabel?.textColor = .white
+				cell.textLabel?.textColor = Theme.Font.DefaultColor
 				return cell
 			case .Disclaimer:
 				let cell = tableView.dequeueReusableCell(withIdentifier: disclaimerCellId, for: indexPath) as! SettingsDisclaimerCell
@@ -62,13 +61,12 @@ class SettingsCellFactory {
 				return cell
 			case .Warning:
 				let cell = tableView.dequeueReusableCell(withIdentifier: warningCellId, for: indexPath)
-				cell.backgroundColor = UIColor.clear
-				cell.textLabel?.textColor = .red
+				cell.backgroundColor = Theme.GeneralView.background
+				cell.textLabel?.textColor = Theme.Font.Warning
 				return cell
 			case .DefaultCell:
 				let cell = tableView.dequeueReusableCell(withIdentifier: defaultCellId, for: indexPath)
-				cell.backgroundColor = UIColor.clear
-				cell.textLabel?.textColor = .white
+				cell.textLabel?.textColor = Theme.Font.DefaultColor
 				return cell
 		}
 	}
