@@ -9,6 +9,8 @@
 import UIKit
 
 class SelectCategoryInputView: UIView {
+
+	private var inputState: TaskInputState = .closed
 	
 	private var timer: Timer? = nil
 	
@@ -43,7 +45,8 @@ class SelectCategoryInputView: UIView {
 		let button = UIButton()
 		button.backgroundColor = .clear
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.setImage(UIImage(named:"Send.png"), for: .normal)
+		let image = UIImage(named:"Send.png")?.withTintColor(Theme.Font.DefaultColor, renderingMode: UIImage.RenderingMode.alwaysTemplate)
+		button.setImage(image, for: .normal)
 		button.addTarget(self, action: #selector(handlePostCategory), for: .touchUpInside)
 		return button
 	}()
@@ -125,11 +128,12 @@ class SelectCategoryInputView: UIView {
 	
 	@objc
 	func handlePostCategory() {
+		inputState = .closed
 		guard let delegate = delegate else {
 			shutDownTimer()
 			return
 		}
-		shutDownTimer()
+		shutDownTimer() // for category check
 		//check if category exists
 		if (!categoryExists) {
 			delegate.addCategory()
@@ -157,6 +161,10 @@ class SelectCategoryInputView: UIView {
 }
 
 extension SelectCategoryInputView: UITextViewDelegate {
+	func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+		
+		return true
+	}
 	
 	// We're using this to dynamically adjust task name height when typing
     func textViewDidChange(_ textView: UITextView) {
@@ -173,19 +181,32 @@ extension SelectCategoryInputView: UITextViewDelegate {
 		
 		let currLimit: CGFloat = CGFloat(textView.text.count) / CGFloat(TaskCharacterLimits.taskCategoryMaximumCharacterLimit)
 		progressBar.updateProgressBar(currLimit)
+		progressBar.updateColor(currLimit)
     }
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-		if (textView.text.count + (text.count - range.length) >= TaskCharacterLimits.taskCategoryMaximumCharacterLimit && textView.textColor == Theme.Font.DefaultColor) {
+		
+		if (text == "\n" && text == categoryNamePlaceholder.string) {
+			ImpactFeedbackService.shared.impactType(feedBackStyle: .heavy)
+			return false
+		}
+		
+		if (text == "\n" && text != categoryNamePlaceholder.string) {
+			handlePostCategory()
+			textView.resignFirstResponder()
+		}
+		
+		if (textView.text.count + (text.count - range.length) >= TaskCharacterLimits.taskCategoryMaximumCharacterLimit) {
 			ImpactFeedbackService.shared.impactType(feedBackStyle: .heavy)
 			return false
 		}
 
 		// Replaces placeholder text with user entered text
-		if (textView.textColor == UIColor.lightGray) {
-			textView.text = nil
-			textView.textColor = Theme.Font.DefaultColor
+		if (inputState == .closed) {
+			inputState = .writing
+			textView.clearTextOnFirstInput(Theme.Font.DefaultColor)
 		}
+		
 		return true
 	}
 }

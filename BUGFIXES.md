@@ -1,6 +1,15 @@
 #  Bug Fixes
 
 ### 1.3
+
+Apologies if you found it difficult to add a category but here's the changes I've made.
+Category Input Fixes
+	- Post button now coloured correctly
+	- Keyboard Done button now submits
+	- Placeholder text also removed once typing
+	- Character limit correctly colored based on length
+	- Character limit re-enforced
+
 Event kit
 Complication watch
 chart not getting data
