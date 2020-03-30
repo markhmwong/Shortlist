@@ -221,7 +221,8 @@ class TaskCell: UITableViewCell {
     func configure(with task: Task?) {
         if let task = task {
 			let nameStr = "\(task.name ?? "unknown")"
-			let nameAttributedStr = NSMutableAttributedString(string: nameStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!, ])
+			
+			let nameAttributedStr = NSMutableAttributedString(string: nameStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
             
 			let detailsStr = "\(task.details ?? "Empty Notes")"
 			let detailsAttributedStr = NSMutableAttributedString(string: detailsStr, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
@@ -233,7 +234,7 @@ class TaskCell: UITableViewCell {
 				
 			let categoryStr = "\(task.category)"
 			
-            let categoryAttributedStr = NSMutableAttributedString(string: categoryStr, attributes: [NSAttributedString.Key.foregroundColor : categoryTextColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
+			let categoryAttributedStr = NSMutableAttributedString(string: categoryStr, attributes: [NSAttributedString.Key.foregroundColor : categoryTextColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
 			categoryTitle.attributedText = categoryAttributedStr
 			
 			let reminderDate = task.reminder ?? NSDate()
@@ -245,15 +246,6 @@ class TaskCell: UITableViewCell {
 				reminderLabel.text = ""
 			}
 
-			
-			if (task.isNew) {
-				taskName.textColor = Theme.Font.DefaultColor.adjust(by: -40.0)!
-				categoryTitle.textColor = UIColor.lightGray
-			} else {
-				taskName.textColor = Theme.Font.DefaultColor
-				categoryTitle.textColor = categoryTextColor
-			}
-			
 			priorityColor(task.priority)
         } else {
             taskName.attributedText = NSAttributedString(string: "Unknown Task", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])

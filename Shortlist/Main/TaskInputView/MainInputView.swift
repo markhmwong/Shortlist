@@ -199,12 +199,12 @@ class MainInputView: UIView {
 		state = .closed
 		guard let delegate = delegate else { return }
 		guard let vm = delegate.viewModel else { return }
-		taskTextView.resignFirstResponder()
+
 		vm.taskName = taskTextView.text
 		vm.priority = Priority(rawValue: Int16(priority)) ?? .high
 		categoryName = delegate.viewModel?.category ?? "Uncategorized"
 		delegate.postTask(taskName: vm.taskName, category: categoryName ?? "Uncategorized", priorityLevel: Int(vm.priority.rawValue))
-		resetTextView()
+
 	}
 	
 	@objc
@@ -273,6 +273,10 @@ class MainInputView: UIView {
 			self.priorityButton.layer.backgroundColor = color.cgColor
 			self.priorityButton.setAttributedTitle(NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
 		}
+	}
+	
+	func updateInputState(_ state: TaskInputState) {
+		self.state = state
 	}
 	
 	deinit {

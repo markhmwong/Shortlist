@@ -192,7 +192,7 @@ class ReviewHeader: UIView {
 		
 		let totalTasks = _viewModel.dayEntity?.dayToStats?.totalTasks
 		DispatchQueue.main.async {
-			self.completedTasks.attributedText = NSAttributedString(string: "\(numberStr) / \(totalTasks ?? 5)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])
+			self.completedTasks.attributedText = NSAttributedString(string: "\(numberStr) / \(totalTasks ?? 0)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])
 		}
 	}
 	

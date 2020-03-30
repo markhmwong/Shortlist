@@ -103,6 +103,7 @@ class ReviewCell: UITableViewCell {
 			}
 			guard let t = task else { return }
 			self.isSelected = selectedState
+			print(t.name)
 			carryTaskOver?(t)
 		}
 	}

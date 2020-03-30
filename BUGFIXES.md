@@ -1,6 +1,9 @@
 #  Bug Fixes
 
-### 1.3
+### 1.2.2
+When an error occurs, all input data is lost. Keep the data instead (read email from Carlos) @done
+
+### 1.2.1
 
 Apologies if you found it difficult to add a category but here's the changes I've made.
 Category Input Fixes

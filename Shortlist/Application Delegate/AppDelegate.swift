@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// initialise root coordinator
         let navController = UINavigationController()
 		mainCoordinator = MainCoordinator(navigationController: navController)
-		
+
 		// Recognise whether this is the first time the app has been booted/installed via KeyChain
 		if (TemporaryStorageService.shared.firstLoad()) {
 			
@@ -74,6 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			persistentContainer.saveContext()
 
 		} else {
+			
 			mainCoordinator?.start(persistentContainer)
 			let today: Int16 = Calendar.current.todayToInt()
 
@@ -90,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				}
 			}
 		}
-
+		
         window = UIWindow()
         window?.rootViewController = navController
         window?.makeKeyAndVisible()

@@ -12,6 +12,7 @@ import WatchConnectivity
 import os
 
 protocol MainViewControllerProtocol: AnyObject {
+	func showAlert(_ message: String)
 	func reloadTableView()
 	func showCategory()
 	func showTimePicker()
@@ -333,6 +334,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     }
 	
 	func updateCategory() {
+		mainInputView.updateInputState(.writing)
 		guard let vm = viewModel else { return }
 		DispatchQueue.main.async {
 			self.mainInputView.categoryButton.setAttributedTitle(NSMutableAttributedString(string: "\(vm.category ?? "Uncategorized")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -70)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!]), for: .normal)
@@ -349,6 +351,10 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		coordinator?.showCategory(persistentContainer, mainViewController: self)
 	}
 	
+	func showAlert(_ message: String) {
+		coordinator?.showAlertBox(message)
+	}
+	
 	//move to viewmodel
 	func postTask(taskName: String, category: String, priorityLevel: Int) {
 		// to do add priority
@@ -358,88 +364,70 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		
 		guard let viewModel = viewModel else { return }
         guard let dayEntity = viewModel.dayEntity else { return }
-		
-		let totalTasks = viewModel.totalTasksForPriority(dayEntity, priorityLevel: priorityLevel)
 
-		//move to view model
-		if let p = Priority.init(rawValue: Int16(priorityLevel)) {
-			switch p {
-				case Priority.high:
-					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) ?? totalTasks) {
-						// warning
-						coordinator?.showAlertBox("High Priority Limit Reached")
-						return
-					}
-				case Priority.medium:
-					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? totalTasks) {
-						coordinator?.showAlertBox("Medium Priority Limit Reached")
-						return
-					}
-				case Priority.low:
-					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? totalTasks) {
-						// warning
-						coordinator?.showAlertBox("Low Priority Limit Reached")
-						return
-					}
-				case Priority.none:
-				()
-			}
-		}
-
-		let context: NSManagedObjectContext  = persistentContainer.viewContext
-		let dayObject: Day = context.object(with: dayEntity.objectID) as! Day
-		let createdAt: Date = Date()
-		let reminderDate: Date = pickerViewContainer.getValues()
-
-		guard let stats = dayObject.dayToStats else { return }
-		stats.totalTasks += 1
-		let task: Task = Task(context: context)
-		task.create(context: context, taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
+		// check the number of priority level tasks
+		let priorityLimitState = viewModel.checkPriorityLimit(persistentContainer: persistentContainer, priorityLevel: priorityLevel, delegate: self)
 		
-		dayObject.addToDayToTask(task)
-		
-		// check if category exists
-		if (persistentContainer.categoryExistsInBackLog(category)) {
-			if let backLog: BackLog = persistentContainer.fetchBackLog(forCategory: category) {
-				backLog.addToBackLogToTask(task)
-			}
-		} else {
+		if (priorityLimitState) {
+			let context: NSManagedObjectContext  = persistentContainer.viewContext
+			let dayObject: Day = context.object(with: dayEntity.objectID) as! Day
+			let createdAt: Date = Date()
+			let reminderDate: Date = pickerViewContainer.getValues()
+
+			guard let stats = dayObject.dayToStats else { return }
+			stats.totalTasks += 1
+			let task: Task = Task(context: context)
+			task.create(context: context, taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
 			
-			// create category
-			let backLog: BackLog = BackLog(context: persistentContainer.viewContext)
-			backLog.create(name: category)
-			backLog.addToBackLogToTask(task)
-			let categoryList: CategoryList = CategoryList(context: persistentContainer.viewContext)
-			categoryList.create(name: category)
-		}
-
-		//create notification
-		if (reminderDate.timeIntervalSince(createdAt) > 0.0) {
-			task.reminderState = true
-			if let priority = Priority.init(rawValue: Int16(priorityLevel)) {
-				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [LocalNotificationKeys.Body : taskName, LocalNotificationKeys.Title : priority.stringValue], timeRemaining: reminderDate.timeIntervalSince(createdAt))
+			dayObject.addToDayToTask(task)
+			
+			// check if category exists
+			if (persistentContainer.categoryExistsInBackLog(category)) {
+				if let backLog: BackLog = persistentContainer.fetchBackLog(forCategory: category) {
+					backLog.addToBackLogToTask(task)
+				}
+			} else {
+				
+				// create category
+				let backLog: BackLog = BackLog(context: persistentContainer.viewContext)
+				backLog.create(name: category)
+				backLog.addToBackLogToTask(task)
+				let categoryList: CategoryList = CategoryList(context: persistentContainer.viewContext)
+				categoryList.create(name: category)
 			}
-		}
-		
-		// add to stats
-		if let stats: Stats = persistentContainer.fetchStatEntity() {
-			stats.addToTotalTasks(numTasks: 1)
-			stats.addToTotalIncompleteTasks(numTasks: 1)
-		}
-		dayObject.dayToStats = stats
-		persistentContainer.saveContext()
-		
-		//sync watch - to be refactored. This block of code is repeated in cell.updateWatch in the viewModel
-		let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
-		var taskStruct: [TaskStruct] = []
-		for task in taskList {
-			taskStruct.append(TaskStruct(date: task.createdAt! as Date,name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState, details: task.details ?? ""))
-		}
-		do {
-			let data = try JSONEncoder().encode(taskStruct)
-			WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
-		} catch (_) {
-			//
+
+			//create notification
+			if (reminderDate.timeIntervalSince(createdAt) > 0.0) {
+				task.reminderState = true
+				if let priority = Priority.init(rawValue: Int16(priorityLevel)) {
+					LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [LocalNotificationKeys.Body : taskName, LocalNotificationKeys.Title : priority.stringValue], timeRemaining: reminderDate.timeIntervalSince(createdAt))
+				}
+			}
+			
+			// add to stats
+			if let stats: Stats = persistentContainer.fetchStatEntity() {
+				stats.addToTotalTasks(numTasks: 1)
+				stats.addToTotalIncompleteTasks(numTasks: 1)
+			}
+			dayObject.dayToStats = stats
+			persistentContainer.saveContext()
+			
+			mainInputView.resignFirstResponder()
+			mainInputView.resetTextView()
+			
+			//sync watch - to be refactored. This block of code is repeated in cell.updateWatch in the viewModel
+			let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
+			var taskStruct: [TaskStruct] = []
+			for task in taskList {
+				taskStruct.append(TaskStruct(date: task.createdAt! as Date,name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState, details: task.details ?? ""))
+			}
+			
+			do {
+				let data = try JSONEncoder().encode(taskStruct)
+				WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
+			} catch (_) {
+				//
+			}
 		}
 	}
 	

@@ -21,6 +21,7 @@ class OnboardingViewController: UIViewController {
 		view.dataSource = self
 		view.delegate = self
 		view.isPagingEnabled = true
+		view.backgroundColor = Theme.GeneralView.background
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
@@ -28,6 +29,7 @@ class OnboardingViewController: UIViewController {
 	lazy var pageControl: UIPageControl = {
 		let pageControl = UIPageControl()
 		pageControl.translatesAutoresizingMaskIntoConstraints = false
+		pageControl.tintColor = Theme.Font.DefaultColor
 		pageControl.currentPage = 0
 		pageControl.numberOfPages = 5
 		pageControl.addTarget(self, action: #selector(handlePage), for: .touchUpInside)

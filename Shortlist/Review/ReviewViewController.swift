@@ -227,6 +227,7 @@ class ReviewViewController: UIViewController {
 			let resetReminder = Date() // reminder is reset because we don't know exactly when the user will copy an older task
 			copiedTask.create(context: pc.viewContext, taskName: task.name ?? "Error", categoryName: task.category, createdAt: task.createdAt! as Date, reminderDate: resetReminder, priority: Int(task.priority))
 			today.addToDayToTask(copiedTask)
+			today.dayToStats?.totalTasks = (today.dayToStats?.totalTasks ?? 0) + 1
 		}
 	}
 	
@@ -304,6 +305,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 		_viewModel.checkPriority(persistentContainer: persistentContainer, task: cell.task) { (arg0) in
 			
 			let (threshold, status) = arg0
+			// selectedState copies task in didSet method
 			cell.selectedState = !cell.selectedState
 			switch threshold {
 				case .Exceeded:

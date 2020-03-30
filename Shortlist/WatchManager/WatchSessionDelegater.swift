@@ -14,6 +14,7 @@ class WatchSessionDelegater: NSObject, WCSessionDelegate {
     var persistentContainer: PersistentContainer?
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+		
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {

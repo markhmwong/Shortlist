@@ -135,9 +135,10 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 			initialiseData(_dayObject)
 		} else {
             dayObject = Day(context: _pc.viewContext)
+			dayObject?.createNewDay(date: viewModel?.tomorrow ?? Calendar.current.forSpecifiedDay(value: 1))
 			guard let day = dayObject else { return }
 			guard let stats = day.dayToStats else { return }
-			day.createdAt = viewModel?.tomorrow as NSDate? ?? Calendar.current.forSpecifiedDay(value: 1) as NSDate
+//			day.createdAt = viewModel?.tomorrow as NSDate? ?? Calendar.current.forSpecifiedDay(value: 1) as NSDate
 			
 			// we'll use the same limit imposed on tomorrow's day object as today's day object
 			if let highLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) {
@@ -251,46 +252,35 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 		}
 	}
 	
-	
 	func postTask(taskName: String, category: String, priorityLevel: Int) {
-		guard let persistentContainer = persistentContainer else {
-		 fatalError("Error loading core data manager while loading data")
-		}
-		 
-		guard let vm = viewModel else { return }
-		guard let day = vm.dayEntity else { return }
-
-		let totalTasks = vm.totalTasksForPriority(day, priorityLevel: priorityLevel)
+		// to do add priority
+        guard let persistentContainer = persistentContainer else {
+            fatalError("Error loading core data manager while loading data")
+        }
 		
-		//move to view model
-		if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) ?? totalTasks) {
-			// warning
-			coordinator?.showAlertBox("High Priority Limit Reached")
-			return
-		} else if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? totalTasks) {
-			coordinator?.showAlertBox("Medium Priority Limit Reached")
-		} else if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? totalTasks) {
-			// warning
-			coordinator?.showAlertBox("Low Priority Limit Reached")
-		} else {
+		guard let viewModel = viewModel else { return }
+        guard let dayEntity = viewModel.dayEntity else { return }
+
+		// check the number of priority level tasks
+		let priorityLimitState = viewModel.checkPriorityLimit(persistentContainer: persistentContainer, priorityLevel: priorityLevel, delegate: self)
+		
+		if (priorityLimitState) {
 			let context: NSManagedObjectContext  = persistentContainer.viewContext
-			let dayObject: Day = context.object(with: day.objectID) as! Day
+			let dayObject: Day = context.object(with: dayEntity.objectID) as! Day
 			let createdAt: Date = Date()
 			let reminderDate: Date = pickerViewContainer.getValues()
-			
+
 			guard let stats = dayObject.dayToStats else { return }
-			
 			stats.totalTasks += 1
 			let task: Task = Task(context: context)
 			task.create(context: context, taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel)
+			
 			dayObject.addToDayToTask(task)
 			
 			// check if category exists
 			if (persistentContainer.categoryExistsInBackLog(category)) {
 				if let backLog: BackLog = persistentContainer.fetchBackLog(forCategory: category) {
 					backLog.addToBackLogToTask(task)
-				} else {
-					//failed - pop up
 				}
 			} else {
 				
@@ -304,7 +294,10 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 
 			//create notification
 			if (reminderDate.timeIntervalSince(createdAt) > 0.0) {
-				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [LocalNotificationKeys.Title : "\(task.priority)", LocalNotificationKeys.Body : taskName], timeRemaining: reminderDate.timeIntervalSince(createdAt))
+				task.reminderState = true
+				if let priority = Priority.init(rawValue: Int16(priorityLevel)) {
+					LocalNotificationsService.shared.addReminderNotification(dateIdentifier: createdAt, notificationContent: [LocalNotificationKeys.Body : taskName, LocalNotificationKeys.Title : priority.stringValue], timeRemaining: reminderDate.timeIntervalSince(createdAt))
+				}
 			}
 			
 			// add to stats
@@ -312,7 +305,25 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 				stats.addToTotalTasks(numTasks: 1)
 				stats.addToTotalIncompleteTasks(numTasks: 1)
 			}
+			dayObject.dayToStats = stats
 			persistentContainer.saveContext()
+			
+			mainInputView.resignFirstResponder()
+			mainInputView.resetTextView()
+			
+			//sync watch - to be refactored. This block of code is repeated in cell.updateWatch in the viewModel
+			let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
+			var taskStruct: [TaskStruct] = []
+			for task in taskList {
+				taskStruct.append(TaskStruct(date: task.createdAt! as Date,name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState, details: task.details ?? ""))
+			}
+			
+			do {
+				let data = try JSONEncoder().encode(taskStruct)
+				WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
+			} catch (_) {
+				//
+			}
 		}
 	}
 	
@@ -328,6 +339,10 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 		pickerViewContainer.anchorView(top: nil, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: vm.keyboardSize.height))
 		pickerViewBottomConstraint = NSLayoutConstraint(item: pickerViewContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
 		view.addConstraint(pickerViewBottomConstraint!)
+	}
+	
+	func showAlert(_ message: String) {
+		coordinator?.showAlertBox(message)
 	}
 	
 	deinit {

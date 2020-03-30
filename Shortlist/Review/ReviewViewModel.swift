@@ -18,11 +18,11 @@ class ReviewViewModel {
     
 	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
 	
-	typealias PriorityType = Int
+	typealias PriorityCount = Int
 	
-	private var priorityCount: [PriorityType : Int] = [:]
+	private var priorityCount: [PriorityCount : Int] = [:]
 	
-	private var todaysPriorityCount: [PriorityType : Int] = [:]
+	private var todaysPriorityCount: [PriorityCount : Int] = [:]
 	
     var tipProducts: [SKProduct]? {
         didSet {
@@ -72,6 +72,8 @@ class ReviewViewModel {
 	
 	var accolade: String = ""
 
+	typealias PriorityType = String
+	
 	var carryOverTaskObjectsArr: [PriorityType: Task] = [:]
 	
 	// tasks are sorted by priority then by date
@@ -119,12 +121,14 @@ class ReviewViewModel {
 	}
 	
 	func handleCarryOver(task: Task, cell: ReviewCell) {
-		let key: Int = Int(task.priority)
+		let key: String = task.objectID.uriRepresentation().relativeString
+
 		if cell.selectedState {
 			carryOverTaskObjectsArr[key] = task
 		} else {
 			carryOverTaskObjectsArr.removeValue(forKey: key)
 		}
+		
 	}
 	
 	func resolveAccolade() -> String {
@@ -193,6 +197,7 @@ class ReviewViewModel {
 		completionHandler((threshold, message))
 	}
 	
+	// In conjunction with the checkPriority() method
 	func totalTasksForPriority(_ day: Day, priorityLevel: Int) -> Int {
 		guard let set = sortTasks(day) else {
 			return 0

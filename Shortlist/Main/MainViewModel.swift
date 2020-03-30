@@ -211,4 +211,41 @@ class MainViewModel {
 			//
 		}
 	}
+	
+	func checkPriorityLimit(persistentContainer: PersistentContainer, priorityLevel: Int, delegate: MainViewControllerProtocol) -> Bool {
+		
+		guard let dayEntity = dayEntity else {
+			delegate.showAlert("Internal Error with Day Model")
+			return false
+		}
+
+		
+		let totalTasks = totalTasksForPriority(dayEntity, priorityLevel: priorityLevel)
+		
+		if let p = Priority.init(rawValue: Int16(priorityLevel)) {
+			switch p {
+				case Priority.high:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) ?? totalTasks) {
+						// warning
+						delegate.showAlert("High Priority Limit Reached")
+						return false
+					}
+				case Priority.medium:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? totalTasks) {
+						delegate.showAlert("Medium Priority Limit Reached")
+						return false
+					}
+				case Priority.low:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? totalTasks) {
+						// warning
+						delegate.showAlert("Low Priority Limit Reached")
+						return false
+					}
+				case Priority.none:
+				()
+			}
+			return true
+		}
+		return true
+	}
 }

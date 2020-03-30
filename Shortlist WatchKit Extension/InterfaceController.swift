@@ -10,6 +10,11 @@ import WatchKit
 import Foundation
 import WatchConnectivity
 
+enum TableState {
+	case empty
+	case notEmpty
+}
+
 class InterfaceController: WKInterfaceController {
 
     @IBOutlet weak var dateLabel: WKInterfaceLabel!
@@ -31,6 +36,8 @@ class InterfaceController: WKInterfaceController {
         }
     }
     
+	var tableState: TableState = .empty
+	
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         // Configure interface objects here.
@@ -44,8 +51,11 @@ class InterfaceController: WKInterfaceController {
 	func loadTableWithMessage() {
 
 		if (tableDataSource?.isEmpty ?? true) {
+			tableState = .empty
 			let task = TaskStruct(date: Date(), name: "Be with you soon..", complete: false, priority: -1, category: "", reminder: Date(), reminderState: false, details:  "")
 			reloadTable(with: [task])
+		} else {
+			tableState = .notEmpty
 		}
 		
 	}
@@ -98,8 +108,8 @@ class InterfaceController: WKInterfaceController {
                     let encodedData = try JSONEncoder().encode(self.tableDataSource)
                     let dataDict = ["UpdateTaskFromWatch": encodedData]
                     try self.watchSession?.updateApplicationContext(dataDict)
-                } catch (_) {
-					//
+                } catch (let err) {
+					print("could not send application context \(err)")
 				}
             }
         }
@@ -109,6 +119,7 @@ class InterfaceController: WKInterfaceController {
 extension InterfaceController: WCSessionDelegate {
 	
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+		tableState = .notEmpty
         session.sendMessage(["requestPhoneData" : 1], replyHandler: { (response) in
 
             let taskList = response as! [String : Data]
@@ -133,7 +144,7 @@ extension InterfaceController: WCSessionDelegate {
 
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         let key = applicationContext.keys.sorted()
-
+		tableState = .notEmpty
         switch key.first {
             case ReceiveApplicationContextKey.TaskListObject.rawValue:
                 let jsonDecoder = JSONDecoder()
@@ -166,7 +177,13 @@ extension InterfaceController: WCSessionDelegate {
 	
 	//navigation
 	override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
-		pushController(withName: "ShowTaskDetails", context: ["data" : tableDataSource, "row": rowIndex])
+		
+		switch tableState {
+			case .notEmpty:
+				pushController(withName: "ShowTaskDetails", context: ["data" : tableDataSource, "row": rowIndex])
+			case .empty:
+				()
+		}
 	}
 }
 

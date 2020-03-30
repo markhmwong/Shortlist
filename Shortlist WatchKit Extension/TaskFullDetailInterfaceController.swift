@@ -51,9 +51,9 @@ class TaskFullDetailInterfaceController: WKInterfaceController {
 	
 	func loadData(task: TaskStruct?) {
 		if let task = task {
-			taskName.setText("task.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.nametask.name")
+			taskName.setText("\(task.name)")
 			
-			taskNotes.setText("task.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.detailstask.details")
+			taskNotes.setText("\(task.details)")
 			taskCategory.setText(task.category)
 			if (task.reminderState) {
 				taskReminder.setText("⏰ \(task.reminder.timeToString())")

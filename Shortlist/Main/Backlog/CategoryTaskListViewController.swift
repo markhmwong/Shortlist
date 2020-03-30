@@ -156,9 +156,6 @@ class BackLogTaskListViewController: UIViewController {
 			
 			backlog?.removeFromBackLogToTask(taskManagedObject)
 			
-
-			
-			
 			pc.saveContext()
 		}
 		
