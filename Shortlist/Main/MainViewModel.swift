@@ -8,9 +8,11 @@
 
 import UIKit
 import CoreData
+import EventKit
 
 class MainViewModel {
     
+	// MARK: - ENUMS Priority and Cell
 	enum CellType {
 		case Regular
 		case Available
@@ -22,8 +24,7 @@ class MainViewModel {
 		case LowPriority // Touch and Go
 	}
 	
-	
-	
+	// MARK: - Class variables
 	var keyboardSize: CGRect = .zero
 	
     let taskListCellId = "taskCellId"
@@ -50,26 +51,16 @@ class MainViewModel {
 	
 	private var connectivity: Connectivity? = Connectivity()
 	
+	private var reminderService: ReminderService = ReminderService()
+	
+	// MARK: - Helper Methods
 	func taskForRow(indexPath: IndexPath) -> Task? {
 		return sortedSet?[indexPath.row]
 	}
 	
 	// tasks are sorted by priority then by date
 	func sortTasks(_ day: Day) -> [Task]? {
-		let set = day.dayToTask as? Set<Task>
-		if (!set!.isEmpty) {
-            return set?.sorted(by: { (taskA, taskB) -> Bool in
-				// sort same priority by date
-				if (taskA.priority == taskB.priority) {
-					return ((taskA.createdAt! as Date).compare(taskB.createdAt! as Date) == .orderedAscending)
-				} else {
-					// otherwise order by priority
-					return taskA.priority < taskB.priority
-				}
-            })
-		} else {
-			return nil
-		}
+		return day.sortTasks()
 	}
 	
 	func totalTasksForPriority(_ day: Day, priorityLevel: Int) -> Int {
@@ -86,11 +77,61 @@ class MainViewModel {
 		
 		return numberOfPriorityTasks
 	}
+	
+	func numberOfSections() -> Int {
+		return SectionType.allCases.count
+	}
+	
+	func getRandomTip() -> String {
+		randomTip = TipsService.shared.randomTip()
+		return randomTip
+	}
+	
 
+	
+	func checkPriorityLimit(persistentContainer: PersistentContainer, priorityLevel: Int, delegate: MainViewControllerProtocol) -> Bool {
+		
+		guard let dayEntity = dayEntity else {
+			delegate.showAlert("Internal Error with Day Model")
+			return false
+		}
+
+		
+		let totalTasks = totalTasksForPriority(dayEntity, priorityLevel: priorityLevel)
+		
+		if let p = Priority.init(rawValue: Int16(priorityLevel)) {
+			switch p {
+				case Priority.high:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) ?? totalTasks) {
+						// warning
+						delegate.showAlert("High Priority Limit Reached")
+						return false
+					}
+				case Priority.medium:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? totalTasks) {
+						delegate.showAlert("Medium Priority Limit Reached")
+						return false
+					}
+				case Priority.low:
+					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? totalTasks) {
+						// warning
+						delegate.showAlert("Low Priority Limit Reached")
+						return false
+					}
+				case Priority.none:
+				()
+			}
+			return true
+		}
+		return true
+	}
+
+	// MARK: - TableView Methods
 	func registerCell(_ tableView: UITableView) {
         tableView.register(TaskCell.self, forCellReuseIdentifier: taskListCellId)
 	}
 	
+	// MARK: - Cell Layout
 	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath, fetchedResultsController: NSFetchedResultsController<Day>?, persistentContainer: PersistentContainer?) -> TaskCell {
 		
 		let cell = tableView.dequeueReusableCell(withIdentifier: taskListCellId, for: indexPath) as! TaskCell
@@ -166,7 +207,20 @@ class MainViewModel {
         cell.updateWatch = { (tasks) in
 			self.syncWithWatchData(fetchedResultsController: fetchedResultsController)
         }
-        
+		
+		cell.updateReminder = { (task) in
+			if let id = task.reminderId {
+				self.reminderService.fetchReminders { (reminders) in
+					guard let reminders = reminders else { return }
+					for reminder in reminders {
+						if (reminder.calendarItemIdentifier == id) {
+							reminder.isCompleted = task.complete
+							self.reminderService.commitChanges(reminder: reminder)
+						}
+					}
+				}
+			}
+		}
 		return cell
 	}
 	
@@ -189,15 +243,9 @@ class MainViewModel {
 		return view
 	}
 	
-	func numberOfSections() -> Int {
-		return SectionType.allCases.count
-	}
+
 	
-	func getRandomTip() -> String {
-		randomTip = TipsService.shared.randomTip()
-		return randomTip
-	}
-	
+	// MARK: - Apple Watch
 	func syncWithWatchData(fetchedResultsController: NSFetchedResultsController<Day>?) {
 		let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
 		var taskStruct: [TaskStruct] = []
@@ -210,42 +258,5 @@ class MainViewModel {
 		} catch (_) {
 			//
 		}
-	}
-	
-	func checkPriorityLimit(persistentContainer: PersistentContainer, priorityLevel: Int, delegate: MainViewControllerProtocol) -> Bool {
-		
-		guard let dayEntity = dayEntity else {
-			delegate.showAlert("Internal Error with Day Model")
-			return false
-		}
-
-		
-		let totalTasks = totalTasksForPriority(dayEntity, priorityLevel: priorityLevel)
-		
-		if let p = Priority.init(rawValue: Int16(priorityLevel)) {
-			switch p {
-				case Priority.high:
-					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) ?? totalTasks) {
-						// warning
-						delegate.showAlert("High Priority Limit Reached")
-						return false
-					}
-				case Priority.medium:
-					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? totalTasks) {
-						delegate.showAlert("Medium Priority Limit Reached")
-						return false
-					}
-				case Priority.low:
-					if (totalTasks >= KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? totalTasks) {
-						// warning
-						delegate.showAlert("Low Priority Limit Reached")
-						return false
-					}
-				case Priority.none:
-				()
-			}
-			return true
-		}
-		return true
 	}
 }

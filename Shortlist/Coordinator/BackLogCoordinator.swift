@@ -21,8 +21,6 @@ class BackLogCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
     }
-	
-
     
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {

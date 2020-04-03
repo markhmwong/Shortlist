@@ -26,5 +26,4 @@ class BackLogTaskListTableViewCell: UITableViewCell, CellProtocol {
 		textLabel?.textColor = Theme.Font.DefaultColor
 		layer.cornerRadius = 10.0
 	}
-	
 }

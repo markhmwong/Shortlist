@@ -314,6 +314,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 				case .WithinLimit:
 					persistentContainer?.saveContext() // save on done
 			}
+			persistentContainer?.saveContext() // save on done
 		}
 		
     }
@@ -323,7 +324,6 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
 		cell.selectedState = !cell.selectedState
 		persistentContainer?.saveContext() // save on done
-
 	}
 	
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {

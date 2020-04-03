@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 
 enum EditTaskSections: Int, CaseIterable {
 	case Details = 0
@@ -66,12 +67,35 @@ class EditTaskViewModel {
 	
 	var priorityLevel: Priority = .medium
 	
+	var reminderService: ReminderService? {
+		didSet {
+			if let reminderId = task?.reminderId {
+				grabTaskFromEventStore(reminderId)
+			}
+		}
+	}
+	
+	var ekReminder: EKReminder?
+	
 	private let sections: Int = 4
 	
-	init(with task: Task?) {
+	init(with task: Task?, reminderService: ReminderService) {
 		// deferred so the didSet closure will trigger
 		defer {
 			self.task = task
+			self.reminderService = reminderService
+		}
+	}
+	
+	func grabTaskFromEventStore(_ reminderId: String) {
+		guard let reminderService = reminderService else { return }
+		reminderService.fetchReminders { (reminders) in
+			guard let reminders = reminders else { return }
+			for reminder in reminders {
+				if (reminderId == reminder.calendarItemIdentifier) {
+					self.ekReminder = reminder
+				}
+			}
 		}
 	}
 	
@@ -182,6 +206,17 @@ class EditTaskViewModel {
 			LocalNotificationsService.shared.addReminderNotification(dateIdentifier: taskManagedObject.createdAt! as Date, notificationContent: [LocalNotificationKeys.Title : taskName], timeRemaining: date.timeIntervalSince(Date()))
 		}
 		persistentContainer?.saveContext()
+	}
+	
+	func commitChangesToReminder(task: Task) {
+		guard let reminderService = reminderService, let ekReminder = ekReminder else { return }
+		
+		ekReminder.title = task.name
+		ekReminder.notes = task.details
+		ekReminder.isCompleted = task.complete
+		ekReminder.priority = task.convertShortlistPriorityToApple()
+		
+		reminderService.commitChanges(reminder: ekReminder)
 	}
 }
 

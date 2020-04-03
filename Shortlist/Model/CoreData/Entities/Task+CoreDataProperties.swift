@@ -9,6 +9,7 @@
 
 import Foundation
 import CoreData
+import EventKit
 
 extension Task {
 
@@ -19,14 +20,14 @@ extension Task {
     @NSManaged public var complete: Bool
     @NSManaged public var name: String?
 	@NSManaged public var details: String?
-//    @NSManaged public var id: Int16
     @NSManaged public var taskToDay: Day?
     @NSManaged public var carryOver: Bool
     @NSManaged public var isNew: Bool
 	@NSManaged public var createdAt: NSDate?
 	@NSManaged public var reminder: NSDate?
     @NSManaged public var reminderState: Bool
-
+	// a unique string provided by the Apple Reminder app. Used to match existing tasks
+	@NSManaged public var reminderId: String?
     // The priority level beginning from 0 as the highest
     @NSManaged public var priority: Int16
     
@@ -101,4 +102,68 @@ extension Task {
 		self.reminder = reminderDate as NSDate
 		self.reminderState = false
 	}
+	
+	func ekReminderToTask(reminder: EKReminder) {
+		//CoreData Task entity needs to include a EKReminder unique identifier
+		self.name = reminder.title // cap title to character limit
+		self.complete = reminder.isCompleted
+		self.details = reminder.notes // cap description to character limit
+		self.createdAt = Calendar.current.today() as NSDate
+		self.priority = convertApplePriorityToShortlist(applePriority: reminder.priority)
+		
+		self.carryOver = false
+		self.isNew = false
+		
+		self.reminderState = reminder.hasAlarms
+		if (reminder.hasAlarms) {
+			self.reminder = self.createdAt
+		}
+		
+		self.reminderId = reminder.calendarItemIdentifier
+	}
+	
+	// Apple's Priority standard - 0 none/9 low 5 medium 1 high
+	func convertApplePriorityToShortlist(applePriority: Int) -> Int16 {
+		switch applePriority {
+			case 0: // low/none
+				return Priority.low.rawValue
+			case 5:
+				return Priority.medium.rawValue
+			case 1:
+				return Priority.high.rawValue
+			case 9:
+				return Priority.low.rawValue
+			default:
+				return Priority.low.rawValue
+		}
+	}
+	
+	func convertShortlistPriorityToApple() -> Int {
+		
+		if let p = Priority.init(rawValue: self.priority) {
+			
+			switch p {
+				case .low, .none:
+					return 9
+				case .medium:
+					return 5
+				case .high:
+					return 1
+			}
+		}
+		
+		return 0
+	}
+	
+	
+//	func setReminder(reminder: EKReminder) {
+		
+//		if (reminder.hasAlarms) {
+//			self.reminder = reminder.alarms?[0].absoluteDate
+//			self.reminderState = reminder.hasAlarms
+//		}
+		
+//	}
+	
+
 }

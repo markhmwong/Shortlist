@@ -29,6 +29,7 @@ enum MainNavigationObserverKey: String, ObserveNavigation {
 	case ReturnFromEditing = "Edit"
 	case ReturnFromOnboarding = "Onboarding"
 	case ReturnFromCategorySelection = "Category"
+	case ReturnFromReminders = "Reminders"
 }
 
 enum SettingsNavigationObserverKey: String, ObserveNavigation {

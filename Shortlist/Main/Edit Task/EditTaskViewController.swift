@@ -116,8 +116,9 @@ class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
 	
 	@objc
 	func handleSave() {
-		guard let delegate = delegate, let viewModel = viewModel else { return }
+		guard let delegate = delegate, let viewModel = viewModel, let task = viewModel.task else { return }
 		viewModel.onDoneSaveToTaskObject(persistentContainer)
+		viewModel.commitChangesToReminder(task: task)
 		delegate.reloadTableView()
 		navigationController?.dismiss(animated: true, completion: {
 			//

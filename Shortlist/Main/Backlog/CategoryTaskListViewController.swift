@@ -195,10 +195,19 @@ extension BackLogTaskListViewController: UITableViewDelegate, UITableViewDataSou
 		guard let _viewModel = viewModel else { return }
 		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
 		
-//		_viewModel.checkPrioriy(persistentContainer: persistentContainer, task: cell.task)
-		
-		cell.selectedState = !cell.selectedState
-		cell.setSelected(cell.selectedState, animated: false)
+		_viewModel.checkPriority(persistentContainer: persistentContainer, task: cell.task) { (arg0) in
+			
+			let (threshold, status) = arg0
+			// selectedState copies task in didSet method
+			cell.selectedState = !cell.selectedState
+			switch threshold {
+				case .Exceeded:
+					cell.selectedState = !cell.selectedState
+					coordinator?.showAlertBox("Please update your limit from [Settings -> Priority Limit] or remove a \(status) priority task from today's schedule.")
+				case .WithinLimit:
+					persistentContainer?.saveContext() // save on done
+			}
+		}
 	}
 }
 
@@ -222,7 +231,7 @@ extension BackLogTaskListViewController: NSFetchedResultsControllerDelegate {
                 self.tableView.reloadData()
             }
         } catch (let err) {
-            print("\(err)")
+            print("Error: \(err)")
         }
     }
     

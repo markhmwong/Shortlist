@@ -17,6 +17,7 @@ protocol MainViewControllerProtocol: AnyObject {
 	func showCategory()
 	func showTimePicker()
 	func updateCategory()
+	func syncWithAppleWatch()
 	func postTask(taskName: String, category: String, priorityLevel: Int)
 	var viewModel: MainViewModel? { get set }
 }
@@ -31,7 +32,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     
     weak var persistentContainer: PersistentContainer? = nil
   
-    private lazy var fetchedResultsController: NSFetchedResultsController<Day>? = {
+    lazy var fetchedResultsController: NSFetchedResultsController<Day>? = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
         // Configure Fetch Request
@@ -166,6 +167,8 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         )
     }
 	
+	// MARK: - Data Initialisation
+	
 	func initialiseData(_ dayObject: Day) {
 		guard let _viewModel = viewModel else { return }
 		_viewModel.sortedSet = _viewModel.sortTasks(dayObject)
@@ -239,21 +242,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         }
 		persistentContainer.saveContext()
     }
-	
-	// padding done inside stats
-	private func createMockStatisticalData() {
-        guard let persistentContainer = persistentContainer else { return }
-		for day in 1...30 {
-			let date = Calendar.current.forSpecifiedDay(value: -day)
-			if (persistentContainer.fetchDayEntity(forDate: date) == nil) {
-				
-				// create empty day
-				let dayObj = Day(context: persistentContainer.viewContext)
-				dayObj.createMockDay(date: date)
-				persistentContainer.saveContext()
-			}
-		}
-	}
 
     private func setupView() {
 		
@@ -347,13 +335,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		}
 	}
 	
-	func showCategory() {
-		coordinator?.showCategory(persistentContainer, mainViewController: self)
-	}
-	
-	func showAlert(_ message: String) {
-		coordinator?.showAlertBox(message)
-	}
+
 	
 	//move to viewmodel
 	func postTask(taskName: String, category: String, priorityLevel: Int) {
@@ -381,13 +363,12 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 			
 			dayObject.addToDayToTask(task)
 			
-			// check if category exists
+			// check if category exists then add the task to that category
 			if (persistentContainer.categoryExistsInBackLog(category)) {
 				if let backLog: BackLog = persistentContainer.fetchBackLog(forCategory: category) {
 					backLog.addToBackLogToTask(task)
 				}
 			} else {
-				
 				// create category
 				let backLog: BackLog = BackLog(context: persistentContainer.viewContext)
 				backLog.create(name: category)
@@ -415,22 +396,12 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 			mainInputView.resignFirstResponder()
 			mainInputView.resetTextView()
 			
-			//sync watch - to be refactored. This block of code is repeated in cell.updateWatch in the viewModel
-			let taskList = fetchedResultsController?.fetchedObjects?.first?.dayToTask as! Set<Task>
-			var taskStruct: [TaskStruct] = []
-			for task in taskList {
-				taskStruct.append(TaskStruct(date: task.createdAt! as Date,name: task.name!, complete: task.complete, priority: task.priority, category: task.category, reminder: task.reminder! as Date, reminderState: task.reminderState, details: task.details ?? ""))
-			}
-			
-			do {
-				let data = try JSONEncoder().encode(taskStruct)
-				WatchSessionHandler.shared.updateApplicationContext(with: ReceiveApplicationContextKey.UpdateTaskListFromPhone.rawValue, data: data)
-			} catch (_) {
-				//
-			}
+			//sync watch
+			viewModel.syncWithWatchData(fetchedResultsController: fetchedResultsController)
 		}
 	}
 	
+	// MARK: - Keybaord methods. Open and close time picker for reminder/alarm and category
 	func showTimePicker() {
 		mainInputView.taskResignFirstResponder()
 		guard let viewModel = viewModel else { return }
@@ -452,12 +423,15 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		}
 	}
 	
-	func reloadTableView() {
-		DispatchQueue.main.async {
-			self.tableView.reloadData()
-		}
+	func showCategory() {
+		coordinator?.showCategory(persistentContainer, mainViewController: self)
 	}
 	
+	func showAlert(_ message: String) {
+		coordinator?.showAlertBox(message)
+	}
+	
+	// MARK: - Add button and animation
     @objc
     func handleAddButton() {
         guard let viewModel = viewModel else { return }
@@ -484,22 +458,21 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		}
 	}
 	
-    @objc
-    func handleSettings() {
+	// MARK: - Top navigation bar button selectors
+    @objc func handleSettings() {
         guard let coordinator = coordinator else { return }
         coordinator.showSettings(persistentContainer)
     }
     
-    @objc
-    func handleOptions() {
+    @objc func handleOptions() {
 		// change from backlog to show a list of options
 		
 		guard let coordinator = self.coordinator else { return }
 		coordinator.showOptions(persistentContainer)
     }
 	
-	@objc
-	func handleKeyboardNotification(_ notification : Notification?) {
+	// MARK: - Keyboard Notification
+	@objc func handleKeyboardNotification(_ notification : Notification?) {
 		
 		if let info = notification?.userInfo {
 			
@@ -527,18 +500,46 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		}
 	}
 	
-	@objc
-    func dataDidFlow(_ notification: Notification) {
+	// MARK: - Table View Reload
+	@objc func dataDidFlow(_ notification: Notification) {
 		DispatchQueue.main.async {
 			self.tableView.reloadData()
 		}
 	}
 	
+	func reloadTableView() {
+		DispatchQueue.main.async {
+			self.tableView.reloadData()
+		}
+	}
+	
+	// MARK: Table View preview parameter when dragging
     private func previewParameters(forItemAt indexPath:IndexPath, tableView:UITableView) -> UIDragPreviewParameters?     {
         let previewParameters = UIDragPreviewParameters()
         previewParameters.backgroundColor = .black
         return previewParameters
     }
+	
+	// MARK: - Apple Watch
+	func syncWithAppleWatch() {
+		guard let viewModel = viewModel else { return }
+		viewModel.syncWithWatchData(fetchedResultsController: fetchedResultsController)
+	}
+	
+		// padding done inside stats
+	//	private func createMockStatisticalData() {
+	//        guard let persistentContainer = persistentContainer else { return }
+	//		for day in 1...30 {
+	//			let date = Calendar.current.forSpecifiedDay(value: -day)
+	//			if (persistentContainer.fetchDayEntity(forDate: date) == nil) {
+	//
+	//				// create empty day
+	//				let dayObj = Day(context: persistentContainer.viewContext)
+	//				dayObj.createMockDay(date: date)
+	//				persistentContainer.saveContext()
+	//			}
+	//		}
+	//	}
 }
 
 extension MainViewController: NSFetchedResultsControllerDelegate {
@@ -564,6 +565,7 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 
 }
 
+// MARK: - Table View Delegate Methods, DataSource, DragDelegate, DropDelegate
 extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
 	
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

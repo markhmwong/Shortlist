@@ -26,6 +26,10 @@
 	<string>35</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>To retrieve reminders</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>To retrieve reminders</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>processing</string>

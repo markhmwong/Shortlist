@@ -96,6 +96,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	func showOptions(_ persistentContainer: PersistentContainer?) {
 		let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
+		alert.addAction(UIAlertAction(title: "Reminders", style: .default) { _ in
+			self.showReminders(persistentContainer: persistentContainer)
+		})
+		
 		alert.addAction(UIAlertAction(title: "Preplan", style: .default) { _ in
 			self.showPreplan(persistentContainer)
 		})
@@ -109,6 +113,15 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		})
 
 		navigationController.present(alert, animated: true)
+	}
+	
+	func showReminders(persistentContainer: PersistentContainer?) {
+		addNavigationObserver(MainNavigationObserverKey.ReturnFromReminders)
+		guard let rootViewController = rootViewController else { return }
+		let child = ReminderCoordinator(navigationController: navigationController, viewController: rootViewController)
+		child.parentCoordinator = self
+		childCoordinators.append(child)
+		child.start(persistentContainer)
 	}
     
     func showAlertBox(_ message: String) {
@@ -206,6 +219,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 					}
 				case .ReturnFromOnboarding:
 					if let c = notification.object as? OnboardingCoordinator {
+						childDidFinish(c)
+					}
+				case .ReturnFromReminders:
+					if let c = notification.object as? ReminderCoordinator {
 						childDidFinish(c)
 					}
 			}

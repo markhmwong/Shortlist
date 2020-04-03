@@ -20,6 +20,9 @@
 		4D242C5323EC498800ED1C42 /* DayStats+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C5123EC498800ED1C42 /* DayStats+CoreDataClass.swift */; };
 		4D242C5423EC498800ED1C42 /* DayStats+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C5223EC498800ED1C42 /* DayStats+CoreDataProperties.swift */; };
 		4D242C5623EEB45C00ED1C42 /* BackLogTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D242C5523EEB45C00ED1C42 /* BackLogTaskCell.swift */; };
+		4D2A3AB6243226CF001DF700 /* ReminderDataSourceStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2A3AB5243226CF001DF700 /* ReminderDataSourceStructs.swift */; };
+		4D2A3AB824322BE8001DF700 /* ReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2A3AB724322BE8001DF700 /* ReminderViewModel.swift */; };
+		4D2A3ABA2434155C001DF700 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2A3AB92434155C001DF700 /* ReminderService.swift */; };
 		4D377CF6237D2A810026FB3A /* AppMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF5237D2A810026FB3A /* AppMetaData.swift */; };
 		4D377CF8237D2AC10026FB3A /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */; };
 		4D377CFA237D33C50026FB3A /* SettingsCellFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */; };
@@ -176,6 +179,9 @@
 		4DD2D78B232F7C4D005A6208 /* SettingsKeyChainKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD2D78A232F7C4D005A6208 /* SettingsKeyChainKeys.swift */; };
 		4DD39ABF23B0AFB50009495B /* PriorityMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD39ABE23B0AFB50009495B /* PriorityMarker.swift */; };
 		4DD8C76E23BF50CE00098A02 /* 7to8.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4DD8C76D23BF50CE00098A02 /* 7to8.xcmappingmodel */; };
+		4DED00082435D1A6009BA525 /* ReminderCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED00072435D1A6009BA525 /* ReminderCoordinator.swift */; };
+		4DED000B24361062009BA525 /* 8to9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4DED000A24361062009BA525 /* 8to9.xcmappingmodel */; };
+		4DED000D24362C4E009BA525 /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED000C24362C4E009BA525 /* ReminderCell.swift */; };
 		4DED15662361335A00FC903E /* SelectCategoryInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED15652361335A00FC903E /* SelectCategoryInputView.swift */; };
 		4DED156923616A2D00FC903E /* SelectCategory+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED156823616A2D00FC903E /* SelectCategory+UITableView.swift */; };
 		4DED156B23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED156A23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift */; };
@@ -265,6 +271,9 @@
 		4D242C5123EC498800ED1C42 /* DayStats+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DayStats+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D242C5223EC498800ED1C42 /* DayStats+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DayStats+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4D242C5523EEB45C00ED1C42 /* BackLogTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackLogTaskCell.swift; sourceTree = "<group>"; };
+		4D2A3AB5243226CF001DF700 /* ReminderDataSourceStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDataSourceStructs.swift; sourceTree = "<group>"; };
+		4D2A3AB724322BE8001DF700 /* ReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewModel.swift; sourceTree = "<group>"; };
+		4D2A3AB92434155C001DF700 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		4D377CF5237D2A810026FB3A /* AppMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMetaData.swift; sourceTree = "<group>"; };
 		4D377CF7237D2AC10026FB3A /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		4D377CF9237D33C50026FB3A /* SettingsCellFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellFactory.swift; sourceTree = "<group>"; };
@@ -436,6 +445,10 @@
 		4DD39ABE23B0AFB50009495B /* PriorityMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityMarker.swift; sourceTree = "<group>"; };
 		4DD8C76C23BF139800098A02 /* FiveModel 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 8.xcdatamodel"; sourceTree = "<group>"; };
 		4DD8C76D23BF50CE00098A02 /* 7to8.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 7to8.xcmappingmodel; sourceTree = "<group>"; };
+		4DED00072435D1A6009BA525 /* ReminderCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCoordinator.swift; sourceTree = "<group>"; };
+		4DED000924361031009BA525 /* FiveModel 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 9.xcdatamodel"; sourceTree = "<group>"; };
+		4DED000A24361062009BA525 /* 8to9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 8to9.xcmappingmodel; sourceTree = "<group>"; };
+		4DED000C24362C4E009BA525 /* ReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		4DED15652361335A00FC903E /* SelectCategoryInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryInputView.swift; sourceTree = "<group>"; };
 		4DED156823616A2D00FC903E /* SelectCategory+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectCategory+UITableView.swift"; sourceTree = "<group>"; };
 		4DED156A23616A7E00FC903E /* SelectCategoryViewController+NSFetchedResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectCategoryViewController+NSFetchedResultsController.swift"; sourceTree = "<group>"; };
@@ -527,6 +540,10 @@
 			isa = PBXGroup;
 			children = (
 				4D1B4D0D241A3D2A00C9E8CE /* ReminderViewController.swift */,
+				4D2A3AB5243226CF001DF700 /* ReminderDataSourceStructs.swift */,
+				4D2A3AB724322BE8001DF700 /* ReminderViewModel.swift */,
+				4D2A3AB92434155C001DF700 /* ReminderService.swift */,
+				4DED000C24362C4E009BA525 /* ReminderCell.swift */,
 			);
 			path = Reminder;
 			sourceTree = "<group>";
@@ -596,15 +613,15 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
-				4DF724F022F174D200472072 /* Five.entitlements */,
-				4D45E79D22DDD1AD008AC433 /* Info.plist */,
-				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
 				4D5CF92423B65C540020EE22 /* Accolades */,
 				4D596EEB22EC42E600B2D21D /* Application Delegate */,
 				4D60932723C43B7300A7936E /* AppUpdate */,
+				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
 				4D953B62230A91720048C247 /* Coordinator */,
 				4D78AC3722DF16E7001FD57F /* Extensions */,
+				4DF724F022F174D200472072 /* Five.entitlements */,
 				4D61D0BE23E80FAB00A58332 /* GlobalNewsFeed */,
+				4D45E79D22DDD1AD008AC433 /* Info.plist */,
 				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
 				4DC0DE3622E087E300B2B8D4 /* Main */,
 				4D45E79522DDD1AB008AC433 /* Main.storyboard */,
@@ -723,6 +740,7 @@
 			isa = PBXGroup;
 			children = (
 				4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */,
+				4DED000A24361062009BA525 /* 8to9.xcmappingmodel */,
 				4DD8C76D23BF50CE00098A02 /* 7to8.xcmappingmodel */,
 				4DC6950E234CD76600CB4A6E /* 4to6.xcmappingmodel */,
 				4DC69510234CD78B00CB4A6E /* FourToSixCustomMigration.swift */,
@@ -973,6 +991,7 @@
 				4D6DA23B2330B1B4006B1663 /* ReviewCoordinator.swift */,
 				4D6E75622360463400C67B8F /* SelectCategoryCoordinator.swift */,
 				4D953B63230A91910048C247 /* MainCoordinator.swift */,
+				4DED00072435D1A6009BA525 /* ReminderCoordinator.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1641,6 +1660,7 @@
 				4D702857236ED593003D33E6 /* PickerViewContainerProtocol.swift in Sources */,
 				4D6D53DE2337AFB300FA38B4 /* EditTaskViewController.swift in Sources */,
 				4D5B5E0022F07E5500C8D9A5 /* WatchSessionHandler.swift in Sources */,
+				4D2A3ABA2434155C001DF700 /* ReminderService.swift in Sources */,
 				4D59E26522EAEECA00B40E34 /* ReviewViewModel.swift in Sources */,
 				4D6E75682360649400C67B8F /* SelectCategoryViewModel.swift in Sources */,
 				4D6A57C9230AF0E40055C16F /* Day+CoreDataProperties.swift in Sources */,
@@ -1677,6 +1697,8 @@
 				4D90B5A123CD54380077E756 /* SettingsStandardCell.swift in Sources */,
 				4D67DCF72363003F0008AE98 /* CircularProgressBar.swift in Sources */,
 				4D6EE34D23A87E25001BBC95 /* Stats+CoreDataClass.swift in Sources */,
+				4D2A3AB6243226CF001DF700 /* ReminderDataSourceStructs.swift in Sources */,
+				4DED000D24362C4E009BA525 /* ReminderCell.swift in Sources */,
 				4D64C5C6232F628900EE77D0 /* Log.swift in Sources */,
 				4D4F0C98231FFF6600E71BE9 /* SettingsHeader.swift in Sources */,
 				4D4F0C92231FD16400E71BE9 /* SettingsViewController.swift in Sources */,
@@ -1687,6 +1709,7 @@
 				4D242C4023EBE38C00ED1C42 /* ProductivityTips.swift in Sources */,
 				4DD39ABF23B0AFB50009495B /* PriorityMarker.swift in Sources */,
 				4D5FD36D2311505D0053E193 /* TimePeriodStructs.swift in Sources */,
+				4D2A3AB824322BE8001DF700 /* ReminderViewModel.swift in Sources */,
 				4D242C3D23EBCB2B00ED1C42 /* TipsService.swift in Sources */,
 				4D953B64230A91910048C247 /* MainCoordinator.swift in Sources */,
 				4D676178233904340029C6EB /* EditTaskViewModel.swift in Sources */,
@@ -1713,6 +1736,7 @@
 				4D50EE772395132E008ACCD8 /* BarProperties.swift in Sources */,
 				4D69039D233B18D8008DC5D6 /* EditTaskLabelCell.swift in Sources */,
 				4D6E755E2359C59E00C67B8F /* BackLog+CoreDataProperties.swift in Sources */,
+				4DED00082435D1A6009BA525 /* ReminderCoordinator.swift in Sources */,
 				4D5BA10422E5ADA200B9B487 /* ReviewViewController.swift in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
 				4D90B5A523D178F70077E756 /* UIViewController+Extension.swift in Sources */,
@@ -1766,6 +1790,7 @@
 				4D60932623C36B5500A7936E /* OnboardingCoordinator.swift in Sources */,
 				4D6E756E2360AAF000C67B8F /* EmptyCollectionView.swift in Sources */,
 				4D6EE35523A87F6F001BBC95 /* StatsCategoryIncomplete+CoreDataClass.swift in Sources */,
+				4DED000B24361062009BA525 /* 8to9.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2356,6 +2381,7 @@
 		4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4DED000924361031009BA525 /* FiveModel 9.xcdatamodel */,
 				4DD8C76C23BF139800098A02 /* FiveModel 8.xcdatamodel */,
 				4D6E753E2357699400C67B8F /* FiveModel 7.xcdatamodel */,
 				4DC6950B234CD09B00CB4A6E /* FiveModel 6.xcdatamodel */,
@@ -2365,7 +2391,7 @@
 				4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */,
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
 			);
-			currentVersion = 4DD8C76C23BF139800098A02 /* FiveModel 8.xcdatamodel */;
+			currentVersion = 4DED000924361031009BA525 /* FiveModel 9.xcdatamodel */;
 			path = ShortlistModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

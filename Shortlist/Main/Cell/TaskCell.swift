@@ -12,7 +12,7 @@ class TaskCell: UITableViewCell {
 	
     let minHeight: CGFloat = 70.0
     
-	let categoryTextColor: UIColor = Theme.Font.DefaultColor.adjust(by: -70)!
+	let categoryTextColor: UIColor = Theme.Font.DefaultColor
 	
     var persistentContainer: PersistentContainer?
     
@@ -21,6 +21,8 @@ class TaskCell: UITableViewCell {
             configure(with: task)
         }
     }
+	
+    var updateReminder: ((Task) -> ())? = nil
     
     var updateWatch: ((Task) -> ())? = nil
     
@@ -99,9 +101,9 @@ class TaskCell: UITableViewCell {
 		view.backgroundColor = UIColor.clear
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.dark
-        view.textColor = Theme.Font.DefaultColor.adjust(by: -70)!
+        view.textColor = Theme.Font.DefaultColor
 		view.layer.cornerRadius = 4.0
-		view.layer.backgroundColor = UIColor.black.adjust(by: 80)?.cgColor
+		view.layer.backgroundColor = UIColor.black.adjust(by: 40)?.cgColor
         view.returnKeyType = UIReturnKeyType.done
         view.textContainerInset = UIEdgeInsets.zero
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -214,7 +216,10 @@ class TaskCell: UITableViewCell {
 		
 		// sync with the watch
         updateWatch?(task)
-        
+		
+		// update Reminder
+        updateReminder?(task)
+		
 		self.contentView.alpha = task.complete ? 0.7 : 1.0
     }
 

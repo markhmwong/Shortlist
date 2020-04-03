@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class PreplanViewController: UIViewController, MainViewControllerProtocol, PickerViewContainerProtocol {
-	
+
     private lazy var fetchedResultsController: NSFetchedResultsController<Day>? = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<Day> = Day.fetchRequest()
@@ -476,4 +476,8 @@ extension PreplanViewController: UITableViewDelegate, UITableViewDataSource, UIT
         }
         return UISwipeActionsConfiguration(actions: [delete])
     }
+	
+	func syncWithAppleWatch() {
+		// do nothing
+	}
 }

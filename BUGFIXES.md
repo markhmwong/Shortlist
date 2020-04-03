@@ -1,5 +1,14 @@
 #  Bug Fixes
 
+### 1.3
+- Added support for Reminders to to Shortlist. 
+	- Alarms will have to be manually set (for the moment). 
+	- Lists are added as Categories.
+	- Marking task as complete in Shortlist will also mark the task complete in Reminders
+	- Changes made to the title, notes, completion and priority will also be reflected in the Reminders app. To avoid duplicate alarms, alarms will need to be set manually through your preferred app.
+- Increased the category character limit to support longer list names carried over from Apple's Reminder app (as some use emails)
+
+
 ### 1.2.2
 When an error occurs, all input data is lost. Keep the data instead (read email from Carlos) @done
 

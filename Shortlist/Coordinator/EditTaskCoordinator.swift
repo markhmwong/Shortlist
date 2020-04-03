@@ -33,7 +33,7 @@ class EditTaskCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         guard let persistentContainer = persistentContainer else {
             return
         }
-		let viewModel = EditTaskViewModel(with: task)
+		let viewModel = EditTaskViewModel(with: task, reminderService: ReminderService())
 		let vc = EditTaskViewController(viewModel: viewModel, persistentContainer: persistentContainer, fetchedResultsController: fetchedResultsController!, delegate: mainViewController!, coordinator: self)
         let nav = UINavigationController(rootViewController: vc)
         navigationController.present(nav, animated: true, completion: nil)

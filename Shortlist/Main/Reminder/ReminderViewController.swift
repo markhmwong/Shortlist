@@ -12,16 +12,35 @@
 import EventKit
 import UIKit
 
-struct ReminderViewModel {
-	
-}
-
 class ReminderViewController: UIViewController {
+	
+	let coordinator: ReminderCoordinator
+	
+	let persistentContainer: PersistentContainer
 	
 	var viewModel: ReminderViewModel
 	
-	init(viewModel: ReminderViewModel) {
+	let reminderService: ReminderService
+	
+	var delegate: MainViewControllerProtocol?
+	
+	lazy var tableView: UITableView = {
+		let view = UITableView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = Theme.GeneralView.background
+		view.delegate = self
+		view.rowHeight = UITableView.automaticDimension
+		view.separatorStyle = .none
+		view.estimatedRowHeight = 150.0
+		view.allowsMultipleSelection = true
+		return view
+	}()
+	
+	init(viewModel: ReminderViewModel, reminderService: ReminderService, persistentContainer: PersistentContainer, coordinator: ReminderCoordinator) {
 		self.viewModel = viewModel
+		self.reminderService = reminderService
+		self.persistentContainer = persistentContainer
+		self.coordinator = coordinator
 		super.init(nibName: nil, bundle: nil)
 	}
 	
@@ -31,10 +50,129 @@ class ReminderViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Selected Tasks", style: .plain, target: self, action: #selector(handleCopy))
+		navigationItem.rightBarButtonItem?.isEnabled = false
+		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleClose), imageName: "Back", height: self.topBarHeight / 1.8)
 		setupView()
 	}
 	
 	func setupView() {
-		// ask for persmission
+		view.backgroundColor = Theme.GeneralView.background
+		viewModel.registerCells(tableView)
+		viewModel.configureDiffableDatasource(tableView: tableView)
+		view.addSubview(tableView)
+		
+		tableView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		
+		reminderService.fetchReminders { (reminders) in
+			guard let reminders = reminders else { return }
+			self.viewModel.updateReminderData(reminders: reminders)
+			self.viewModel.updateDatasourceSnapshot()
+		}
+	}
+	
+	@objc func handleCopy() {
+		
+		var taskArr: [Task] = []
+		if let selectedRows = tableView.indexPathsForSelectedRows {
+			for index in selectedRows {
+				let task = Task(context: persistentContainer.viewContext)
+				let ekReminder = viewModel.reminderFor(row: index.row)
+				task.ekReminderToTask(reminder: ekReminder)
+				
+				let category = ekReminder.calendar.title
+				task.category = category
+				if (persistentContainer.categoryExistsInBackLog(category)) {
+					// category exists, just add the task
+					if let backLog: BackLog = persistentContainer.fetchBackLog(forCategory: category) {
+						backLog.addToBackLogToTask(task)
+					}
+				} else {
+					// create category
+					let backLog: BackLog = BackLog(context: persistentContainer.viewContext)
+					backLog.create(name: category)
+					backLog.addToBackLogToTask(task)
+					let categoryList: CategoryList = CategoryList(context: persistentContainer.viewContext)
+					categoryList.create(name: category)
+				}
+				
+				taskArr.append(task)
+			}
+		}
+		
+		let today: Day = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+		
+		for task in taskArr {
+			today.addToDayToTask(task)
+			today.dayToStats?.totalTasks = (today.dayToStats?.totalTasks ?? 0) + 1
+		}
+
+		persistentContainer.saveContext()
+		delegate?.reloadTableView()
+		delegate?.syncWithAppleWatch()
+		coordinator.dismiss()
+	}
+	
+	@objc func handleClose() {
+		coordinator.dismiss()
+	}
+}
+
+extension ReminderViewController: UITableViewDelegate {
+	
+	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+		// enable/disable top right nav button
+		guard let indexPaths = tableView.indexPathsForSelectedRows else {
+			navigationItem.rightBarButtonItem?.isEnabled = false
+			return
+		}
+		if (indexPaths.count == 0) {
+			navigationItem.rightBarButtonItem?.isEnabled = false
+		} else {
+			navigationItem.rightBarButtonItem?.isEnabled = true
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+		// check if it exceeds priority limit
+		let reminder = viewModel.reminderAtTableViewCell(indexPath: indexPath)
+		
+		viewModel.checkPriority(persistentContainer: persistentContainer, reminder: reminder) { (arg0) in
+			tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+			let (threshold, status) = arg0
+
+			switch threshold {
+				case .Exceeded:
+					tableView.deselectRow(at: indexPath, animated: true)
+					coordinator.showAlertBox(message: "Please update your limit from [Settings -> Priority Limit] or remove a \(status) priority task from today's schedule.")
+				case .WithinLimit:
+					// check if task already exists today
+					let today: Day = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+					let ekReminder = viewModel.reminderFor(row: indexPath.row)
+					tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+					if let tasks = today.dayToTask as? Set<Task> {
+						for task in tasks {
+							if (task.reminderId == ekReminder.calendarItemIdentifier) {
+								//show alert box item already exists
+								coordinator.showAlertBox(message: viewModel.getQuote())
+								// unselect
+								tableView.deselectRow(at: indexPath, animated: true)
+							}
+						}
+					}
+			}
+			
+			// enable/disable top right nav button
+			guard let indexPaths = tableView.indexPathsForSelectedRows else {
+				navigationItem.rightBarButtonItem?.isEnabled = false
+				return
+			}
+			if (indexPaths.count == 0) {
+				navigationItem.rightBarButtonItem?.isEnabled = false
+			} else {
+				navigationItem.rightBarButtonItem?.isEnabled = true
+			}
+		}
 	}
 }

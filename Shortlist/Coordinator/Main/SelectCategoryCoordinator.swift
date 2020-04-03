@@ -18,6 +18,7 @@ class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDe
     
 	var mainViewController: MainViewControllerProtocol
 	
+	// main view controller is passed here to update the main screen when the category is selected
 	init(navigationController:UINavigationController, viewController: MainViewControllerProtocol) {
         self.navigationController = navigationController
 		self.mainViewController = viewController
@@ -43,15 +44,6 @@ class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDe
 		self.mainViewController.updateCategory()
 		navigationController.popViewController(animated: true)
 	}
-	
-    func getTopMostViewController() -> UIViewController? {
-		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController
-        
-        while let presentedViewController = topMostViewController?.presentedViewController {
-            topMostViewController = presentedViewController
-        }
-        return topMostViewController
-    }
     
     func childDidFinish(_ child: Coordinator) {
         for (index, coordinator) in childCoordinators.enumerated() {

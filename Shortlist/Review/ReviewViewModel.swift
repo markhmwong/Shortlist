@@ -128,7 +128,6 @@ class ReviewViewModel {
 		} else {
 			carryOverTaskObjectsArr.removeValue(forKey: key)
 		}
-		
 	}
 	
 	func resolveAccolade() -> String {
@@ -199,7 +198,7 @@ class ReviewViewModel {
 	
 	// In conjunction with the checkPriority() method
 	func totalTasksForPriority(_ day: Day, priorityLevel: Int) -> Int {
-		guard let set = sortTasks(day) else {
+		guard let set = day.sortTasks() else {
 			return 0
 		}
 		
@@ -211,23 +210,5 @@ class ReviewViewModel {
 		}
 		
 		return numberOfPriorityTasks
-	}
-	
-	//duplicate
-	func sortTasks(_ day: Day) -> [Task]? {
-		let set = day.dayToTask as? Set<Task>
-		if (!set!.isEmpty) {
-            return set?.sorted(by: { (taskA, taskB) -> Bool in
-				// sort same priority by date
-				if (taskA.priority == taskB.priority) {
-					return ((taskA.createdAt! as Date).compare(taskB.createdAt! as Date) == .orderedAscending)
-				} else {
-					// otherwise order by priority
-					return taskA.priority < taskB.priority
-				}
-            })
-		} else {
-			return nil
-		}
 	}
 }
