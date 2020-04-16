@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 class PersistentContainer: NSPersistentContainer {
     
     func saveContext(backgroundContext: NSManagedObjectContext? = nil) {

@@ -149,18 +149,14 @@ extension ReminderViewController: UITableViewDelegate {
 				case .WithinLimit:
 					// check if task already exists today
 					let today: Day = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-					let ekReminder = viewModel.reminderFor(row: indexPath.row)
-					tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-					if let tasks = today.dayToTask as? Set<Task> {
-						for task in tasks {
-							if (task.reminderId == ekReminder.calendarItemIdentifier) {
-								//show alert box item already exists
-								coordinator.showAlertBox(message: viewModel.getQuote())
-								// unselect
-								tableView.deselectRow(at: indexPath, animated: true)
-							}
-						}
+					do {
+						try viewModel.doesTaskExist(for: today, in: tableView, at: indexPath)
+					} catch let reminderError as ReminderError {
+						coordinator.showAlertBox(message: reminderError.localizedDescription)
+					} catch let err {
+						coordinator.showAlertBox(message: err.localizedDescription)
 					}
+				
 			}
 			
 			// enable/disable top right nav button

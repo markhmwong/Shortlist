@@ -14,24 +14,9 @@ class ReminderViewModel {
 	
 	private var cellId: String = "ReminderCellId"
 	
-	
 	private var ekReminders: [EKReminder]? = []
 	
 	private var selectedReminders: [Int] = []
-	
-	private let randomDuplicates: [String] = [
-		"this task already exists in Today's list!",
-		"do you really want to do the same task twice?",
-		"duplicate found.",
-		"you may have done this already.",
-		"you shall not pass.",
-		"stop touching me.",
-		"be nice.",
-		"I may ask you to tip me..",
-		"Settings -> Tip",
-		"01001110 01101111",
-		"I can't believe they're making Matrix 4."
-	]
 	
 	private var maxQuoteIndex: Int = 0
 	
@@ -91,15 +76,7 @@ class ReminderViewModel {
 		})
 	}
 	
-	func getQuote() -> String {
-		
-		if (maxQuoteIndex % randomDuplicates.count == 0) {
-			maxQuoteIndex = 0
-		}
-		let quote = randomDuplicates[maxQuoteIndex]
-		maxQuoteIndex = maxQuoteIndex + 1
-		return quote
-	}
+
 	
 	// A check for the priority limit. Do not allow the user to carry over another task with the same priority type if it has exceeded the daily limit. They can however change their daily limit to allow for it
 	// returns Tuple. The String in the tuple is the priority type in letters
@@ -174,5 +151,30 @@ class ReminderViewModel {
 		}
 		
 		return numberOfPriorityTasks
+	}
+	
+	func doesTaskExist(for day: Day, in tableView: UITableView, at indexPath: IndexPath) throws {
+		let ekReminder = reminderFor(row: indexPath.row)
+		tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+		
+		if let tasks = day.dayToTask as? Set<Task> {
+			for task in tasks {
+				if let reminderId = task.reminderId {
+					if (reminderId == ekReminder.calendarItemIdentifier) {
+						tableView.deselectRow(at: indexPath, animated: true)
+						if (maxQuoteIndex % ReminderError.allCases.count == 0) {
+							maxQuoteIndex = 0
+						}
+						
+						// postfix increment
+						defer {
+							maxQuoteIndex = maxQuoteIndex + 1
+						}
+						throw ReminderError.allCases[maxQuoteIndex]
+					}
+				}
+
+			}
+		}
 	}
 }

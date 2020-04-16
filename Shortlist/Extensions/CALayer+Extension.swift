@@ -73,13 +73,6 @@ extension CALayer {
         textLayer.fontSize = fontSize
         textLayer.string = text
         self.addSublayer(textLayer)
-        
-//        if animated, let oldFrame = oldFrame {
-//            // "frame" property is not animatable in CALayer, so, I use "position" instead
-//            // Position is at the center of the frame (if you don't change the anchor point)
-//            let oldPosition = CGPoint(x: oldFrame.midX, y: oldFrame.midY)
-//            textLayer.animate(fromValue: oldPosition, toValue: textLayer.position, keyPath: "position")
-//        }
     }
     
     func addRectangleLayer(frame: CGRect, color: UIColor) {
@@ -90,11 +83,7 @@ extension CALayer {
         layer.borderWidth = 2.0
         layer.cornerRadius = 3.0
         self.addSublayer(layer)
-        
-//        if animated, let oldFrame = oldFrame {
-//            layer.animate(fromValue: CGPoint(x: oldFrame.midX, y: oldFrame.midY), toValue: layer.position, keyPath: "position")
-////            layer.animate(fromValue: CGRect(x: 0, y: 0, width: oldFrame.width, height: oldFrame.height), toValue: layer.bounds, keyPath: "bounds")
-//        }
+
     }
     
     func animate(fromValue: Any, toValue: Any, keyPath: String) {

@@ -81,6 +81,8 @@
 		4D5D7E42232CFAD40088EB5F /* LocalProductManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */; };
 		4D5D7E44232E121E0088EB5F /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5D7E43232E121E0088EB5F /* StandardButton.swift */; };
 		4D5EA37123F692180059C780 /* ConnectivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5EA37023F692180059C780 /* ConnectivityService.swift */; };
+		4D5ECA37243D587C00BFA88E /* ErrorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ECA36243D587C00BFA88E /* ErrorProtocol.swift */; };
+		4D5ECA39243D591800BFA88E /* ReminderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ECA38243D591800BFA88E /* ReminderError.swift */; };
 		4D5FD36823114A7E0053E193 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36723114A7E0053E193 /* BarChart.swift */; };
 		4D5FD36A23114AC90053E193 /* ChartGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36923114AC90053E193 /* ChartGenerator.swift */; };
 		4D5FD36D2311505D0053E193 /* TimePeriodStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */; };
@@ -341,6 +343,8 @@
 		4D5D7E41232CFAD40088EB5F /* LocalProductManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalProductManager.swift; sourceTree = "<group>"; };
 		4D5D7E43232E121E0088EB5F /* StandardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
 		4D5EA37023F692180059C780 /* ConnectivityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityService.swift; sourceTree = "<group>"; };
+		4D5ECA36243D587C00BFA88E /* ErrorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorProtocol.swift; sourceTree = "<group>"; };
+		4D5ECA38243D591800BFA88E /* ReminderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderError.swift; sourceTree = "<group>"; };
 		4D5FD36723114A7E0053E193 /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		4D5FD36923114AC90053E193 /* ChartGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartGenerator.swift; sourceTree = "<group>"; };
 		4D5FD36C2311505D0053E193 /* TimePeriodStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePeriodStructs.swift; sourceTree = "<group>"; };
@@ -613,6 +617,7 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
+				4D5ECA35243D586F00BFA88E /* Error */,
 				4D5CF92423B65C540020EE22 /* Accolades */,
 				4D596EEB22EC42E600B2D21D /* Application Delegate */,
 				4D60932723C43B7300A7936E /* AppUpdate */,
@@ -890,6 +895,15 @@
 				4D56220123E56AE2003F7309 /* FirebaseService.swift */,
 			);
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		4D5ECA35243D586F00BFA88E /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				4D5ECA36243D587C00BFA88E /* ErrorProtocol.swift */,
+				4D5ECA38243D591800BFA88E /* ReminderError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		4D5FD3662311461D0053E193 /* Chart */ = {
@@ -1697,6 +1711,7 @@
 				4D90B5A123CD54380077E756 /* SettingsStandardCell.swift in Sources */,
 				4D67DCF72363003F0008AE98 /* CircularProgressBar.swift in Sources */,
 				4D6EE34D23A87E25001BBC95 /* Stats+CoreDataClass.swift in Sources */,
+				4D5ECA39243D591800BFA88E /* ReminderError.swift in Sources */,
 				4D2A3AB6243226CF001DF700 /* ReminderDataSourceStructs.swift in Sources */,
 				4DED000D24362C4E009BA525 /* ReminderCell.swift in Sources */,
 				4D64C5C6232F628900EE77D0 /* Log.swift in Sources */,
@@ -1761,6 +1776,7 @@
 				4D45E7EA22DDDA00008AC433 /* MainViewModel.swift in Sources */,
 				4DD8C76E23BF50CE00098A02 /* 7to8.xcmappingmodel in Sources */,
 				4D6E755823599C9A00C67B8F /* CategoryTasksCoordinator.swift in Sources */,
+				4D5ECA37243D587C00BFA88E /* ErrorProtocol.swift in Sources */,
 				4D61D0C023E8119100A58332 /* NewsFeed.swift in Sources */,
 				4D598B6422EEBE480020076D /* PersistentContainer.swift in Sources */,
 				4D6E75522358264C00C67B8F /* BigListTask+CoreDataProperties.swift in Sources */,
@@ -2023,7 +2039,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2052,7 +2068,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2082,7 +2098,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
@@ -2108,7 +2124,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
@@ -2133,7 +2149,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2141,7 +2157,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2159,7 +2175,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 35;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2167,7 +2183,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

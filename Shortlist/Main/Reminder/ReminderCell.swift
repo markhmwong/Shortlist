@@ -96,7 +96,6 @@ class ReminderCell: UITableViewCell {
 	
     func configure(with reminder: EKReminder?) {
 		if let reminder = reminder {
-			print(reminder.priority)
 			let nameAttributedStr = NSMutableAttributedString(string: reminder.title, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!])
 			
             taskName.attributedText = nameAttributedStr

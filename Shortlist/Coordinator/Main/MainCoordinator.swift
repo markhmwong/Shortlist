@@ -32,7 +32,6 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	
 		//background color of navigation bar
 		navigationController.navigationBar.isTranslucent = false
-//		navigationController.navigationBar.backgroundColor = .orange
 		navigationController.pushViewController(vc, animated: false)
     }
 	

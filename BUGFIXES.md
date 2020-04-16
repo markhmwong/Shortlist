@@ -1,6 +1,10 @@
 #  Bug Fixes
 
-### 1.3
+### 1.2.4
+- Review page task total tasks showing incorrect total, now fixed. I've added an additional check to ensure it will show the correct total task number.
+- When switching apps, the task color would not match the state of the task. I.e. If the task was completed, the task button would not be drawn thicker and the task itself wouldn't be faded slightly.
+
+### 1.2.3
 - Added support for Reminders to to Shortlist. 
 	- Alarms will have to be manually set (for the moment). 
 	- Lists are added as Categories.

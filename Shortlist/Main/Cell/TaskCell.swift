@@ -9,9 +9,7 @@
 import UIKit
 
 class TaskCell: UITableViewCell {
-	
-    let minHeight: CGFloat = 70.0
-    
+	    
 	let categoryTextColor: UIColor = Theme.Font.DefaultColor
 	
     var persistentContainer: PersistentContainer?
@@ -146,6 +144,7 @@ class TaskCell: UITableViewCell {
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
+		configure(with: task)
 	}
 	
 	override func layoutIfNeeded() {
@@ -220,7 +219,7 @@ class TaskCell: UITableViewCell {
 		// update Reminder
         updateReminder?(task)
 		
-		self.contentView.alpha = task.complete ? 0.7 : 1.0
+		contentView.alpha = task.complete ? 0.7 : 1.0
     }
 
     func configure(with task: Task?) {
@@ -236,7 +235,8 @@ class TaskCell: UITableViewCell {
             taskName.attributedText = nameAttributedStr
 			details.attributedText = detailsAttributedStr
             taskButton.taskState = task.complete
-				
+			contentView.alpha = task.complete ? 0.7 : 1.0
+			
 			let categoryStr = "\(task.category)"
 			
 			let categoryAttributedStr = NSMutableAttributedString(string: categoryStr, attributes: [NSAttributedString.Key.foregroundColor : categoryTextColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])

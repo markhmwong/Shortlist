@@ -280,25 +280,31 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
         //check if there is data for today, if there isn't then create the day
         let todaysDate = Calendar.current.today()
         var dayObject: Day? = persistentContainer.fetchDayManagedObject(forDate: todaysDate)
-        
+
         if let _dayObject = dayObject {
-			let dayStats = DayStats(context: persistentContainer.viewContext)
-			dayStats.totalCompleted = 0
-			dayStats.totalTasks = 0
-			dayStats.highPriority = 0
-			dayStats.lowPriority = 0
-			dayStats.mediumPriority = 0
-			dayStats.accolade = ""
-			_dayObject.dayToStats = dayStats
-			persistentContainer.saveContext()
+			/// day object exists
 			initialiseData(_dayObject)
 		} else {
+			/// first time loading new day
             dayObject = Day(context: persistentContainer.viewContext)
+			let dayStats = DayStats(context: persistentContainer.viewContext)
+
 			guard let day = dayObject else { return }
+
             day.createdAt = Calendar.current.today() as NSDate
-			day.dayToStats?.highPriority = 1
-			day.dayToStats?.mediumPriority = 3
-			day.dayToStats?.lowPriority = 3
+			day.highPriorityLimit = 1
+			day.mediumPriorityLimit = 3
+			day.lowPriorityLimit = 3
+
+			dayStats.totalTasks = 0
+			dayStats.accolade = ""
+			dayStats.totalCompleted = 0
+
+			dayStats.highPriority = 0
+			dayStats.mediumPriority = 0
+			dayStats.lowPriority = 0
+
+			day.dayToStats = dayStats
             day.month = Calendar.current.monthToInt() // Stats
             day.year = Calendar.current.yearToInt() // Stats
             day.day = Int16(Calendar.current.todayToInt()) // Stats
@@ -306,7 +312,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 
 		}
 		persistentContainer.saveContext()
-		
+		print(dayObject?.dayToStats?.totalTasks)
 		//https://stackoverflow.com/questions/14803205/nsfetchedresultscontroller-fetch-in-a-background-thread
 		DispatchQueue.main.async {
 			do {
@@ -439,7 +445,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		// set the default and initial category as Uncategorized
 		viewModel.category = "Uncategorized"
 		
-		// attention is brought to the
+		// attention is brought to the text label
 		self.focusOnNewTask()
 		
 //        os_log("CurrTasks %d, Totaltasks %d", log: Log.task, type: .info, day.totalTasks, day.taskLimit)

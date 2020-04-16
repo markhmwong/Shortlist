@@ -142,12 +142,22 @@ class ReviewHeader: UIView {
 		
 		completedTasksTitle.anchorView(top: accoladeLabel.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: centerXAnchor, padding: UIEdgeInsets(top: 15.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
 		
-		let totalCompleted = _viewModel.dayEntity?.dayToStats?.totalCompleted ?? 0
-		updateCompletedTaskLabel("\(totalCompleted)")
+		guard let dayEntity = _viewModel.dayEntity else { return }
+		guard let dayToStats = _viewModel.dayEntity?.dayToStats else {
+			return }
+		let totalCompleted = dayToStats.totalCompleted
 		
-		let totalTasks = _viewModel.dayEntity?.dayToStats?.totalTasks
+		let totalTasksInSet = dayEntity.dayToTask?.count ?? 0
 		
-		if (totalTasks != totalCompleted || totalTasks == 0) {
+		var totalTasksInStats = dayToStats.totalTasks
+		
+		if totalTasksInSet != totalTasksInStats {
+			totalTasksInStats = Int64(totalTasksInSet)
+		}
+		
+		updateCompletedTaskLabel("\(totalCompleted) / \(totalTasksInStats)")
+		
+		if (totalTasksInStats != totalCompleted || totalTasksInStats == 0) {
 			completedTasks.anchorView(top: completedTasksTitle.bottomAnchor, bottom: nil, leading: nil, trailing: nil, centerY: nil, centerX: reviewTitle.centerXAnchor, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: -20.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
 			
 			addSubview(tipButtonContainer)
@@ -188,11 +198,8 @@ class ReviewHeader: UIView {
 	}
 	
 	func updateCompletedTaskLabel(_ numberStr: String) {
-		guard let _viewModel = viewModel else { return }
-		
-		let totalTasks = _viewModel.dayEntity?.dayToStats?.totalTasks
 		DispatchQueue.main.async {
-			self.completedTasks.attributedText = NSAttributedString(string: "\(numberStr) / \(totalTasks ?? 0)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])
+			self.completedTasks.attributedText = NSAttributedString(string: "\(numberStr)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.h3).value)!])
 		}
 	}
 	

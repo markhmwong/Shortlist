@@ -124,7 +124,7 @@ class ReviewViewController: UIViewController {
 		} else {
 			reviewHeader.updateAccoladeLabel(_day.dayToStats?.accolade ?? "Unknown Accolade")
 		}
-		
+
 		// upload total tasks completed
 		if (automatedDisplay) {
 			let fbs = FirebaseService(dataBaseUrl: nil)

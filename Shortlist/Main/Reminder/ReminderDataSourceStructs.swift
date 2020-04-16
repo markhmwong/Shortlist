@@ -11,7 +11,3 @@ import Foundation
 enum ReminderSection: CaseIterable {
 	case reminder
 }
-
-//struct Reminder: Hashable {
-//	var title: String
-//}

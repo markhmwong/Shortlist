@@ -36,18 +36,15 @@ class ReminderService: NSObject {
 		let predicate: NSPredicate? = self.eventStore.predicateForReminders(in: calendars)
 		eventStore.fetchReminders(matching: predicate!) { (reminder) in
 			
-			guard let r = reminder else { return }
+//			guard let r = reminder else { return }
 				
-//				print(rr.calendarItemIdentifier)
 //				//notes
 //				//startDate
 //				//endData
 //				//alarms
 				//priority
 				//title
-			if (r.isEmpty) {
-				print("empty reminders")
-			}
+
 			completionHandler(reminder)
 		}
 
