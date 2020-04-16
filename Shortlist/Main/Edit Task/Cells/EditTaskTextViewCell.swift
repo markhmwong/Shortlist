@@ -16,10 +16,16 @@ enum EditTaskTextViewType: Int {
 
 class EditTaskTextViewCell: CellBase {
 
+	private var categoryExists: Bool = false
+
+	private var timer: Timer? = nil
+	
 	typealias TaskName = String
 	
 	//updates string in view model
 	var updateTaskString: ((TaskName, IndexPath) -> ())? = nil
+	
+	var updateCategory: ((TaskName, Bool) -> ())? = nil
 	
     weak var persistentContainer: PersistentContainer?
 
@@ -118,6 +124,36 @@ class EditTaskTextViewCell: CellBase {
 		
 	}
 	
+	func shutDownTimer() {
+		timer?.invalidate()
+		timer = nil
+	}
+	
+	func liveCategoryCheck(_ textView: UITextView) {
+		timer?.invalidate()
+		timer = Timer.init(timeInterval: 0.7, target: self, selector: #selector(checkCategory), userInfo: ["categoryText" : textView], repeats: false)
+		timer?.fire()
+	}
+	
+	func updateCategoryInputTextView(_ color: UIColor) {
+		DispatchQueue.main.async {
+			self.inputTextView.textColor = color
+		}
+	}
+	
+	@objc func checkCategory() {
+		guard let pc = persistentContainer else { return }
+		let userInfo = timer?.userInfo as! [String : UITextView]
+		categoryExists = pc.categoryExistsInBackLog(userInfo["categoryText"]?.text ?? "Uncategorized")
+
+		// update view - reflects whether the category
+		updateCategoryInputTextView(categoryExists ? UIColor.blue.adjust(by: 10.0)! : UIColor.green.adjust(by: 30.0)!)
+		updateCategory?(userInfo["categoryText"]?.text ?? "", categoryExists)
+
+		shutDownTimer()
+		
+	}
+	
     override func prepareForReuse() {
         super.prepareForReuse()
 		configure(with: .none)
@@ -173,8 +209,10 @@ extension EditTaskTextViewCell: UITextViewDelegate {
 		
 		guard let indexPath = tableView?.indexPath(for: self) else { return }
 		updateTaskString?(textView.text ?? "", indexPath)
+		liveCategoryCheck(textView)
 		
-        if size.height != newSize.height {
+        
+		if size.height != newSize.height {
             UIView.setAnimationsEnabled(false)
             tableView?.beginUpdates()
             tableView?.endUpdates()

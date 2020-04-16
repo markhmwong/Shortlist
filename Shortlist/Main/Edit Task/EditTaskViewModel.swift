@@ -48,12 +48,15 @@ class EditTaskViewModel {
 	
 	var task: Task? = nil {
 		didSet {
-			//not triggering
 			reminderToggle = task?.reminderState ?? false
 			taskNameStr = task?.name
 			priorityLevel = Priority(rawValue: task?.priority ?? 1)!
 		}
 	}
+	
+	var categoryExists: Bool = false
+	
+	var taskCategoryStr: String? = nil
 	
 	var taskNameStr: String? = nil
 	
@@ -185,6 +188,11 @@ class EditTaskViewModel {
 		}
 	}
 	
+	func updateCategory(category: String) {
+		taskCategoryStr = category
+		// check if category exists
+	}
+	
 	func onDoneSaveToTaskObject(_ persistentContainer: PersistentContainer?) {
 		
 		guard let task = task else { return }
@@ -197,6 +205,12 @@ class EditTaskViewModel {
 			taskManagedObject.details = taskDescription
 		}
 		
+		if (!categoryExists) {
+			addCategory(persistentContainer, category: taskCategoryStr ?? "Uncategorized")
+		}
+		
+		task.category = taskCategoryStr ?? "Uncategorized"
+
 		taskManagedObject.reminderState = reminderToggle
 		taskManagedObject.priority = priorityLevel.value
 		
@@ -217,6 +231,19 @@ class EditTaskViewModel {
 		ekReminder.priority = task.convertShortlistPriorityToApple()
 		
 		reminderService.commitChanges(reminder: ekReminder)
+	}
+	
+	func addCategory(_ persistentContainer: PersistentContainer?, category: String) {
+		guard let persistentContainer = persistentContainer else { return }
+
+		if (!persistentContainer.categoryExistsInBackLog(category)) {
+			persistentContainer.createCategoryInBackLog(category, context: persistentContainer.viewContext)
+			persistentContainer.saveContext()
+		} else {
+			/// pull up warning message
+			
+		}
+		
 	}
 }
 

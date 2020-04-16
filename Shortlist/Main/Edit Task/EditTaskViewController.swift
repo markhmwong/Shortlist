@@ -273,9 +273,13 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 						switch row {
 							case .Category:
 								let cell: EditTaskTextViewCell = viewModel.tableViewTextViewCell(tableView: tableView, indexPath: indexPath, fontSize: Theme.Font.FontSize.Standard(.b2).value)
+								cell.persistentContainer = persistentContainer
 								cell.inputTextView.tag = EditTaskTextViewType.Category.rawValue
 								cell.updateTask(taskNameString: viewModel.task?.category ?? "Unknown Category")
-								
+								cell.updateCategory = { (taskNameStr, categoryExists) in
+									viewModel.updateCategory(category: taskNameStr)
+									viewModel.categoryExists = categoryExists
+								}
 								return cell
 						}
 					}

@@ -77,7 +77,7 @@ class ReviewCell: UITableViewCell {
 	
     lazy var categoryTitle: UILabel = {
         let view = UILabel()
-        view.attributedText = NSAttributedString(string: "Work", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
+        view.attributedText = NSAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!])
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -162,7 +162,8 @@ class ReviewCell: UITableViewCell {
 			
             name.attributedText = nameAttributedStr
 			details.attributedText = detailsAttributedStr
-
+			categoryTitle.attributedText = NSMutableAttributedString(string: "\(task.category)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
+			
             taskButton.taskState = task.complete
 			priorityColor(task.priority)
         } else {

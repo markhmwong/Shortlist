@@ -312,7 +312,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 
 		}
 		persistentContainer.saveContext()
-		print(dayObject?.dayToStats?.totalTasks)
 		//https://stackoverflow.com/questions/14803205/nsfetchedresultscontroller-fetch-in-a-background-thread
 		DispatchQueue.main.async {
 			do {

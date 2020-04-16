@@ -116,18 +116,16 @@ class SelectCategoryInputView: UIView {
 		categoryInputTextView.attributedText = categoryNamePlaceholder
 	}
 	
-	@objc
-	func checkCategory() {
+	@objc func checkCategory() {
 		guard let pc = persistentContainer else { return }
 		let userInfo = timer?.userInfo as! [String : UITextView]
 		categoryExists = pc.categoryExistsInBackLog(userInfo["categoryText"]?.text ?? "Uncategorized")
 
 		// update view - reflects whether the category
-		updateCategoryInputTextView(categoryExists ? UIColor.red.adjust(by: -30.0)! : UIColor.green.adjust(by: -30.0)!)
+		updateCategoryInputTextView(categoryExists ? UIColor.blue.adjust(by: 10.0)! : UIColor.green.adjust(by: 30.0)!)
 	}
 	
-	@objc
-	func handlePostCategory() {
+	@objc func handlePostCategory() {
 		inputState = .closed
 		guard let delegate = delegate else {
 			shutDownTimer()
