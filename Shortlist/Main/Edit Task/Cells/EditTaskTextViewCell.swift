@@ -78,9 +78,9 @@ class EditTaskTextViewCell: CellBase {
 		contentView.addSubview(inputTextView)
 		contentView.addSubview(textLimitContainer)
 
-		let toolbar = UIToolbar()
-		toolbar.items = [UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil), UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDone))]
-		toolbar.sizeToFit()
+		let toolbar = UIToolbar(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 44.0)))
+		toolbar.items = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDone))]
+		toolbar.translatesAutoresizingMaskIntoConstraints = false
 		toolbar.barStyle = .default
 		inputTextView.inputAccessoryView = toolbar
 		
