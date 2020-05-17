@@ -244,7 +244,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     }
 
     private func setupView() {
-		
         guard let viewModel = viewModel else { return }
 		navigationItem.rightBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleOptions), imageName: "More.png", height: self.topBarHeight / 1.8)
 		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleSettings), imageName: "Settings.png", height: self.topBarHeight / 1.8)

@@ -21,17 +21,12 @@ class TaskLimitViewModel {
 	typealias TaskLimit = Int
 
 	var priorityLimits: [PriorityLevel : TaskLimit] = [
-		PriorityLevel.HighPriority : 1,
-		PriorityLevel.MediumPriority : 5,
-		PriorityLevel.LowPriority : 5,
+		PriorityLevel.HighPriority : TaskLimitConstants.highPriority,
+		PriorityLevel.MediumPriority : TaskLimitConstants.mediumPrioirty,
+		PriorityLevel.LowPriority : TaskLimitConstants.lowPriority,
 	]
 	
-	//persistentContainer?
-	init(_ persistentcontainer: PersistentContainer?) {
-		
-		// load priority levels from keychain
-		
-	}
+	init() { }
 
 	let defaultRows = 1
     
@@ -84,11 +79,6 @@ class TaskLimitViewModel {
 
 		return view
 	}
-	
-	// section gradient turned off for now
-//	func updateGradient(layer: CAGradientLayer, color: UIColor) {
-//		layer.colors = [color.adjust(by: -45.0)!.cgColor, color.adjust(by: 0.0)!.cgColor]
-//	}
 
     func currentHighPriorityTaskLimit() -> Int {
         if let taskLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) {

@@ -34,7 +34,7 @@ class ProgressBarContainer: UIView {
 		backgroundColor = UIColor.clear
 		progressBar = CircularProgressBar()
 		progressBarTrack = CircularProgressBar()
-		progressBarTrack?.strokeColor = Theme.Font.DefaultColor.cgColor
+		progressBarTrack?.strokeColor = Theme.ProgressBar.trackColor.cgColor
 		guard let _progressBar = progressBar else { return }
 		guard let _progressBarTrack = progressBarTrack else { return }
 		

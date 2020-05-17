@@ -21,7 +21,7 @@ class EditTaskLabelCell: CellBase {
 	
 	override func setupCellLayout() {
 		super.setupCellLayout()
-		textLabel?.textAlignment = .center
+		textLabel?.textAlignment = .left
 		backgroundColor = .clear
 	}
 	

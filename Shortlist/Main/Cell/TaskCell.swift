@@ -94,23 +94,13 @@ class TaskCell: UITableViewCell {
         return view
     }()
 
-    lazy var categoryTitle: UITextView = {
-        let view = UITextView()
+    lazy var categoryTitle: UILabel = {
+        let view = UILabel()
 		view.backgroundColor = UIColor.clear
-        view.keyboardType = UIKeyboardType.default
-        view.keyboardAppearance = UIKeyboardAppearance.dark
         view.textColor = Theme.Font.DefaultColor
 		view.layer.cornerRadius = 4.0
-		view.layer.backgroundColor = UIColor.black.adjust(by: 40)?.cgColor
-        view.returnKeyType = UIReturnKeyType.done
-        view.textContainerInset = UIEdgeInsets.zero
+		view.layer.backgroundColor = Theme.Cell.categoryBackground.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.textContainerInset = UIEdgeInsets.zero
-        view.textContainer.lineFragmentPadding = 0
-		view.isEditable = isEditable
-		view.isSelectable = isEditable
-		view.isUserInteractionEnabled = isEditable
-		view.isScrollEnabled = false
 		view.tag = 1
         return view
     }()
@@ -180,7 +170,7 @@ class TaskCell: UITableViewCell {
 		taskName.anchorView(top: contentView.topAnchor, bottom: nil, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -5.0, right: -20.0), size: .zero)
 		details.anchorView(top: taskName.bottomAnchor, bottom: categoryTitle.topAnchor, leading: taskButton.trailingAnchor, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 20.0, left: 0.0, bottom: -10.0, right: -20.0), size: .zero)
 		categoryTitle.anchorView(top: nil, bottom: contentView.bottomAnchor, leading: taskName.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -5.0, right: 0.0), size: .zero)
-		categoryTitle.textContainerInset = UIEdgeInsets(top: 0.0, left: 5.0, bottom: 0.0, right: 5.0)
+//		categoryTitle.textContainerInset = UIEdgeInsets(top: 0.0, left: 5.0, bottom: 0.0, right: 5.0)
 		reminderLabel.anchorView(top: nil, bottom: contentView.bottomAnchor, leading: categoryTitle.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 10.0, bottom: -5.0, right: 0.0), size: .zero)
 	}
 	

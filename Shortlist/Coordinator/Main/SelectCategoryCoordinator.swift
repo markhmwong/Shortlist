@@ -31,7 +31,7 @@ class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDe
 			let viewModel = SelectCategoryViewModel()
 			let vc = SelectCategoryViewController(nil, coordinator: self, viewModel: viewModel, mainViewController: mainViewController)
 			let nav = UINavigationController(rootViewController: vc)
-			navigationController.present(nav, animated: true, completion: nil)
+			navigationController.pushViewController(nav, animated: true)
             return
         }
 		let viewModel = SelectCategoryViewModel()

@@ -211,4 +211,10 @@ class ReviewViewModel {
 		
 		return numberOfPriorityTasks
 	}
+	
+	func continueReminder() {
+		let localEveningTime = Calendar.current.sevenDaysFromToday()
+		print(localEveningTime)
+//		LocalNotificationsService.shared.addReminderNotification(dateIdentifier: <#T##Date#>, notificationContent: <#T##[LocalNotificationKeys : String]#>, timeRemaining: <#T##Double#>)
+	}
 }

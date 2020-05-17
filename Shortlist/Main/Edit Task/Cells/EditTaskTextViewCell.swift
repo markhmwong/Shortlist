@@ -68,21 +68,30 @@ class EditTaskTextViewCell: CellBase {
 		super.init(coder: coder)
 	}
 	
+	@objc func handleDone() {
+		inputTextView.resignFirstResponder()
+	}
+	
 	override func setupCellLayout() {
 		super.setupCellLayout()
-		let backgroundView = UIView()
-		backgroundView.backgroundColor = UIColor(red:0.1, green:0.1, blue:0.1, alpha:1.0)
-		selectedBackgroundView = backgroundView
 		backgroundColor = Theme.GeneralView.background
-		
-        addSubview(inputTextView)
-		addSubview(textLimitContainer)
-		
-		inputTextView.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: textLimitContainer.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 8.0, bottom: -10.0, right: -8.0), size: CGSize(width: 0, height: 0.0))
-		textLimitContainer.anchorView(top: inputTextView.topAnchor, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -5.0), size: CGSize(width: 18.0, height: 18.0))
+		contentView.addSubview(inputTextView)
+		contentView.addSubview(textLimitContainer)
+
+		let toolbar = UIToolbar()
+		toolbar.items = [UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil), UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDone))]
+		toolbar.sizeToFit()
+		toolbar.barStyle = .default
+		inputTextView.inputAccessoryView = toolbar
 		
 		textLimitContainer.updateColor(0.0)
 		textLimitContainer.updateProgressBar(0.0)
+	}
+	
+	override func layoutIfNeeded() {
+		super.layoutIfNeeded()
+		inputTextView.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.layoutMarginsGuide.leadingAnchor, trailing: textLimitContainer.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: -10.0, right: -8.0), size: CGSize(width: 0, height: 0.0))
+		textLimitContainer.anchorView(top: inputTextView.topAnchor, bottom: nil, leading: nil, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -5.0), size: CGSize(width: 18.0, height: 18.0))
 	}
 	
 	func configure(with text: String?) {
@@ -96,8 +105,7 @@ class EditTaskTextViewCell: CellBase {
     }
 	
 	func updateTask(taskNameString: String) {
-		let nameAttributedStr = NSMutableAttributedString(string: taskNameString, attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: size)!])
-		inputTextView.attributedText = nameAttributedStr
+		inputTextView.attributedText = NSMutableAttributedString().primaryCellText(text: taskNameString)
 		determineProgressBar(count: taskNameString.count)
 	 }
 	
@@ -171,9 +179,6 @@ extension EditTaskTextViewCell: UITextViewDelegate {
             return table as? UITableView
         }
     }
-	
-	func textViewDidBeginEditing(_ textView: UITextView) {
-	}
 	
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 		let currLimit: Int = textView.text.count + (text.count - range.length)

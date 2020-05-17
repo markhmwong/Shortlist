@@ -108,7 +108,6 @@ class SettingsViewController: UIViewController {
         coordinator?.showFeedback(mailVc)
     }
     
-    //link to be updated
     func writeReview() {
         let productURL = URL(string: "https://apps.apple.com/app/id1480090462")!
         var components = URLComponents(url: productURL, resolvingAgainstBaseURL: false)

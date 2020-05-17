@@ -1,6 +1,6 @@
 //
 //  IAPHelper.swift
-//  EveryTime
+//  Shortlist
 //
 //  Created by Mark Wong on 14/5/19.
 //  Copyright © 2019 Mark Wong. All rights reserved.
@@ -117,7 +117,6 @@ extension IAPHelper: SKPaymentTransactionObserver {
     for transaction in transactions {
       switch (transaction.transactionState) {
           case .purchased:
-            //save to userdefeualts and keychain?
             complete(transaction: transaction)
             queue.finishTransaction(transaction)
             break

@@ -1,10 +1,10 @@
 //
 //  IAPProducts.swift
-//  EveryTime
+//  Shortlist
 //
 //  Created by Mark Wong on 14/5/19.
 //  Copyright © 2019 Mark Wong. All rights reserved.
-//
+//	Base on https://www.raywenderlich.com/5456-in-app-purchase-tutorial-getting-started
 
 import Foundation
 
@@ -31,10 +31,6 @@ public struct IAPProducts {
 
 func resourceNameForProductIdentifier(_ productIdentifier: String) -> String? {
     return productIdentifier.components(separatedBy: ".").last
-}
-
-func resourceNameByCategory(_ productIdentifier: String) -> String? {
-    return productIdentifier.components(separatedBy: ".")[2] // Index 2 is the category - theme, tips
 }
 
 extension IAPProducts {

@@ -9,7 +9,6 @@
 import UIKit
 import MessageUI
 
-
 class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol, ObserverChildCoordinatorsProtocol {
     
 	typealias DeletionClosure = () -> ()

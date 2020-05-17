@@ -16,6 +16,8 @@ extension Calendar {
         return self.startOfDay(for: Date())
     }
 	
+
+	
 	// 0 - today, negatives go back in time as expected
 	func forSpecifiedDay(value: Int) -> Date {
 		return self.startOfDay(for: Calendar.current.date(byAdding: .day, value: value, to: self.today())!)
@@ -64,7 +66,6 @@ extension Calendar {
         let components = calendar.dateComponents([.year, .month, .day], from: date)
         return components.day!
     }
-    
     
     func todayToInt() -> Int16 {
         let today = Calendar.current.date(byAdding: .day, value: 0, to: self.today())

@@ -1,4 +1,16 @@
-#  Bug Fixes
+#  Bug Fixes / Features
+- widgets
+- shortcuts
+- cloudkit
+
+## 1.2.6
+- Clearer intention with the title regarding reminders. "Reminders" has been renamed to "Add From Reminders"
+- End of day reminder @ to do
+- Edit view fixes in regards to alignment, keyboard dismissal and colours. It all feels a lot better now.
+
+### 1.2.5
+- End of day reminder @incomplete - add option to settings
+- reduce medium priority tasks @done
 
 ### 1.2.4
 - Review page task total tasks showing incorrect total, now fixed. I've added an additional check to ensure it will show the correct total task number.

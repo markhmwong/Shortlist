@@ -160,7 +160,6 @@ class SelectCategoryInputView: UIView {
 
 extension SelectCategoryInputView: UITextViewDelegate {
 	func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-		
 		return true
 	}
 	

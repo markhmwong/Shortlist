@@ -31,7 +31,7 @@ class TaskLimitCoordinator: NSObject, Coordinator, UINavigationControllerDelegat
         guard let persistentContainer = persistentContainer else {
             return
         }
-        let viewModel = TaskLimitViewModel(persistentContainer)
+        let viewModel = TaskLimitViewModel()
 		let vc = TaskLimitViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel, parentViewController: parentViewController)
 		parentViewController?.navigationController?.pushViewController(vc, animated: true)
 

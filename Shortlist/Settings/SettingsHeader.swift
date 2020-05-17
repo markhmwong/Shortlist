@@ -24,10 +24,8 @@ class SettingsHeader: UIViewController {
     
     static let priceFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
-        
         formatter.formatterBehavior = .behavior10_4
         formatter.numberStyle = .currency
-        
         return formatter
     }()
     
@@ -97,7 +95,6 @@ class SettingsHeader: UIViewController {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 	}
-
     
     override func viewDidLoad() {
 		super.viewDidLoad()
@@ -157,7 +154,7 @@ class SettingsHeader: UIViewController {
         let buttonArr = viewModel?.buttonArr
         if (buttonArr!.count == tipProductArr.count) {
             for (index, button) in buttonArr!.enumerated() {
-                SettingsHeader.priceFormatter.locale = tipProductArr[index].priceLocale
+				SettingsHeader.priceFormatter.locale = tipProductArr[index].priceLocale
                 let price = SettingsHeader.priceFormatter.string(from: tipProductArr[index].price)
                 DispatchQueue.main.async {
                     button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle) \(price!)", attributes: self.attributes), for: .normal)

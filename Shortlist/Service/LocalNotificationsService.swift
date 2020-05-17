@@ -39,6 +39,10 @@ class LocalNotificationsService: NSObject {
 //            }
         }
     }
+	
+	func removePendingNotification(dateIdentifier: Date) {
+		notificationCenter.removePendingNotificationRequests(withIdentifiers: ["\(dateIdentifier)"])
+	}
     
     func addReminderNotification(dateIdentifier: Date, notificationContent: [LocalNotificationKeys: String], timeRemaining: Double) {
         requestAuth()

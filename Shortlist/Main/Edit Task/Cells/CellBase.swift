@@ -14,7 +14,6 @@ protocol CellBaseProtocol {
 
 class CellBase: UITableViewCell, CellBaseProtocol {
 	
-	
 	let attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b3).value)!]
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

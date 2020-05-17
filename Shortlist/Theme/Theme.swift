@@ -74,7 +74,7 @@ struct Theme {
 						case .dark, .unspecified:
 							return UIColor.white.adjust(by: -40.0)!
 						case .light:
-							return UIColor.black.adjust(by: -40.0)!
+							return UIColor.black.adjust(by: 40.0)!
 						@unknown default:
 							return UIColor.white.adjust(by: -40.0)!
 					}
@@ -91,6 +91,7 @@ struct Theme {
             case h2 = 26.0
             case h3 = 24.0
             case h4 = 20.0
+			case h5 = 18.0
             //body sizes
             case b0 = 15.0
             case b1 = 14.0
@@ -128,6 +129,23 @@ struct Theme {
     
     struct Cell {
 
+		static let categoryBackground: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.black.adjust(by: 40)!
+						case .light:
+							return UIColor.white.adjust(by: -10)!
+						@unknown default:
+							return UIColor.black.adjust(by: 40)!
+					}
+				}
+			} else {
+				return .black
+			}
+		}()
+		
 		static let background: UIColor = {
 			if #available(iOS 13.0, *) {
 				return UIColor.init { (UITraitCollection) -> UIColor in
@@ -263,8 +281,26 @@ struct Theme {
 		}()
     }
     
+	struct ProgressBar {
+		static let trackColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.black.adjust(by: 10)!
+						case .light:
+							return UIColor.white.adjust(by: -10)!
+						@unknown default:
+							return UIColor.black.adjust(by: 10)!
+					}
+				}
+			} else {
+				return UIColor.black
+			}
+		}()
+	}
+	
     struct GeneralView {
-
 		static let background: UIColor = {
 			if #available(iOS 13.0, *) {
 				return UIColor.init { (UITraitCollection) -> UIColor in

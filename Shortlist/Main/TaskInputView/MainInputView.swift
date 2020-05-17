@@ -207,30 +207,26 @@ class MainInputView: UIView {
 
 	}
 	
-	@objc
-	func handleCategory() {
+	@objc func handleCategory() {
 		guard let delegate = delegate else { return }
 		delegate.showCategory()
 		// build coordinator and show list of categories
 	}
 	
-	@objc
-	func handleKeyboardNotification(_ notification : Notification?) {
+	@objc func handleKeyboardNotification(_ notification : Notification?) {
 		let isKeyboardHidden = notification?.name == UIResponder.keyboardDidHideNotification
 		if (isKeyboardHidden && taskTextView.text == defaultText) {
 			defaultTaskTextViewState()
 		}
 	}
 	
-	@objc
-	func handleReminder() {
+	@objc func handleReminder() {
 		guard let delegate = delegate else { return }
 		delegate.showTimePicker()
 	}
 	
 	// cycles between three priority levels
-	@objc
-	func handlePriority() {
+	@objc func handlePriority() {
 		
 		if (priority != Int(Priority.low.rawValue)) {
 			priority = priority + 1
@@ -280,6 +276,7 @@ class MainInputView: UIView {
 	}
 	
 	deinit {
+		
 	}
 }
 

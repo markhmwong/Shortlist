@@ -42,7 +42,7 @@ class ReviewHeader: UIView {
 	
 	lazy var tipDisclaimer: UILabel = {
 		let label = UILabel()
-		label.attributedText = NSMutableAttributedString(string: "Consider this a nagging pop up when you don't complete the tasks you have set out to do. Show your support by reviewing on the App Store, emailing me feedback, or easily tipping below.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: 0.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
+		label.attributedText = NSMutableAttributedString(string: "The incomplete task tax. A small gesture to show your support for this app.", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.FadedColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.lineBreakMode = .byWordWrapping
 		label.numberOfLines = 0
@@ -163,7 +163,7 @@ class ReviewHeader: UIView {
 			addSubview(tipButtonContainer)
 			tipButtonContainer.addSubview(tipDisclaimer)
 
-			tipDisclaimer.anchorView(top: tipButtonContainer.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
+			tipDisclaimer.anchorView(top: tipButtonContainer.topAnchor, bottom: nil, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 40.0, left: 20.0, bottom: 0.0, right: -20.0), size: CGSize(width: 0.0, height: 0.0))
 
 			tipButtonContainer.addSubview(coffeeTip)
 			tipButtonContainer.addSubview(generousTip)

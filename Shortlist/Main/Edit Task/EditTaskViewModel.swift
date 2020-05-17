@@ -23,7 +23,7 @@ class EditTaskViewModel {
 		"Details",
 		"Priority",
 		"Label",
-		"Reminder",
+		"Alarm",
 		"Delete",
 	]
 	

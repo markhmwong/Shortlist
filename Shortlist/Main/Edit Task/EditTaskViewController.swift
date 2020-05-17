@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
+class EditTaskViewController: UITableViewController, PickerViewContainerProtocol {
 	func closeTimePicker() {
 		// close
 	}
@@ -56,18 +56,18 @@ class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
 	
 	var delegate: MainViewControllerProtocol?
 	
-	lazy var tableView: UITableView = {
-		let view = UITableView()
-		view.backgroundColor = .clear
-		view.delegate = self
-		view.dataSource = self
-		view.separatorStyle = .none
-		view.estimatedRowHeight = viewModel?.cellHeight ?? 100.0
-		view.translatesAutoresizingMaskIntoConstraints = false
-		return view
+	lazy var toolBar: UIToolbar = {
+		let bar = UIToolbar()
+		bar.barStyle = .default
+		bar.translatesAutoresizingMaskIntoConstraints = false
+		let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDone))
+		bar.setItems([doneButton], animated: false)
+		return bar
 	}()
 	
-
+	@objc func handleDone() {
+		//
+	}
 	
 	init(viewModel: EditTaskViewModel, persistentContainer: PersistentContainer, fetchedResultsController: NSFetchedResultsController<Day>, delegate: MainViewControllerProtocol, coordinator: EditTaskCoordinator) {
 		self.persistentContainer = persistentContainer
@@ -75,7 +75,8 @@ class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
 		self.fetchedResultsController = fetchedResultsController // to remove
 		self.delegate = delegate
 		self.coordinator = coordinator
-		super.init(nibName: nil, bundle: nil)
+		
+		super.init(style: .grouped)
 	}
 	
 	required init?(coder: NSCoder) {
@@ -93,16 +94,15 @@ class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-			
+		tableView.separatorColor = .clear
+		
 		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleCancel), imageName: "Back", height: self.topBarHeight / 1.8)
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
 		view.backgroundColor = Theme.GeneralView.background
 		navigationItem.prompt = "Make changes to your Task"
-		
+
 		guard let vm = viewModel else { return }
 		vm.registerCells(tableView: tableView)
-		view.addSubview(tableView)
-		tableView.fillSuperView()
 	}
 	
 	@objc
@@ -128,15 +128,17 @@ class EditTaskViewController: UIViewController, PickerViewContainerProtocol {
 	deinit {
 		coordinator?.cleanUpChildCoordinator()
 	}
-}
 
-extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
-	
-	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return tableView.sectionHeaderHeight + 65
+	}
+	// MARK: SECTION Title string / UI
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		return viewModel?.sectionTitles[section]
 	}
 	
-	func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+	override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+		
 		let view = view as! UITableViewHeaderFooterView
 		
 		if #available(iOS 10, *) {
@@ -144,24 +146,20 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 		} else {
 			view.backgroundView?.backgroundColor = Theme.GeneralView.background
 		}
-		
-		let size: CGFloat = Theme.Font.FontSize.Standard(.b4).value
-		view.textLabel?.font = UIFont(name: Theme.Font.Bold, size: size)
+		view.textLabel?.font = UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.h5).value)
 	}
 	
-	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+	override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = UITableViewHeaderFooterView()
 		view.textLabel?.textColor = Theme.Font.DefaultColor
 		view.backgroundView?.backgroundColor = Theme.GeneralView.background
 		return view
 	}
 	
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+	override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		if let section = Sections.init(rawValue: indexPath.section) {
 			switch section {
-				case .Details:
-					return UITableView.automaticDimension
-				case .Priority:
+				case .Details, .Priority, .Label:
 					return UITableView.automaticDimension
 				case .Delete:
 					return 60.0
@@ -179,19 +177,17 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 								return UITableView.automaticDimension
 						}
 					}
-				case .Label:
-					return UITableView.automaticDimension
 			}
 		}
         return UITableView.automaticDimension
     }
 	
-	func numberOfSections(in tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		guard let vm = viewModel else { return 4 }
 		return vm.numberOfSections()
 	}
 	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if let row = Sections.init(rawValue: section) {
 			switch row {
 				case .Label:
@@ -211,7 +207,7 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 	
 //	selecting the label textfield should give the option for the user to see a list of saved categories and should create a new category if it hasn't been done already.
 	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 				
 		guard let viewModel = viewModel else {
 			let cell = EditTaskCellFactory.shared().getEditTaskCellType(tableView: tableView, indexPath: indexPath, cellType: .DefaultCell) as! EditTaskTextViewCell
@@ -303,7 +299,7 @@ extension EditTaskViewController: UITableViewDelegate, UITableViewDataSource {
 		return cell
 	}
 	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if let section = Sections.init(rawValue: indexPath.section) {
 			switch section {
 				case .Delete:

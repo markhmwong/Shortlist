@@ -91,6 +91,10 @@ class ReviewViewController: UIViewController {
 		
 		// LOAD DATA
         loadData()
+		
+		// set up alarms for next 3 days, including today if it hasn't been set already
+		prepareEveningAlarms()
+		
 		let reviewHeader = ReviewHeader(date: Calendar.current.yesterday(), viewModel: self.viewModel!)
 		tableView.tableHeaderView = reviewHeader
 		reviewHeader.setNeedsLayout()
@@ -133,6 +137,19 @@ class ReviewViewController: UIViewController {
 			}
 		}
     }
+	
+	func prepareEveningAlarms() {
+		for days in 0...3 {
+			let now = Date().localDate()
+			let eveningInFuture = Date().eveningTime(daysAfter: days)
+			let delta = now.timeIntervalSince(eveningInFuture)
+			
+			if (delta >= 0) {
+				LocalNotificationsService.shared.removePendingNotification(dateIdentifier: eveningInFuture)
+				LocalNotificationsService.shared.addReminderNotification(dateIdentifier: eveningInFuture, notificationContent: [LocalNotificationKeys.Title : "Daily Evening Reminder", .Body : "Evening Reminder"], timeRemaining: delta)
+			}
+		}
+	}
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

@@ -32,7 +32,6 @@ class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate,
         let vm = MainViewModel()
 		let vc = PreplanViewController(persistentContainer: _persistentContainer, coordinator: self, viewModel: vm)
         let nav = UINavigationController(rootViewController: vc)
-//		transparentBar(nav)
 		navigationController.present(nav, animated: true, completion: nil)
     }
 	

@@ -42,7 +42,7 @@ class EditTaskToggleCell: CellBase {
 		backgroundView.backgroundColor = .clear
 		selectedBackgroundView = backgroundView
 		backgroundColor = .clear
-		textLabel?.attributedText = NSMutableAttributedString(string: "Remind me", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b1).value)!])
+		textLabel?.attributedText = NSMutableAttributedString(string: "Remind me", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b1).value)!])
 		
 		addSubview(toggleView)
 		toggleView.anchorView(top: nil, bottom: nil, leading: nil, trailing: trailingAnchor, centerY: centerYAnchor, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -20.0), size: .zero)
