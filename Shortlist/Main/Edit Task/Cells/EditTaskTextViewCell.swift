@@ -36,7 +36,7 @@ class EditTaskTextViewCell: CellBase {
 	lazy var inputTextView: UITextView = {
         let view = UITextView()
         view.delegate = self
-		view.backgroundColor = Theme.GeneralView.background
+		view.backgroundColor = Theme.GeneralView.textFieldBackground
         view.keyboardType = UIKeyboardType.default
         view.keyboardAppearance = UIKeyboardAppearance.default
 		view.textColor = Theme.Font.DefaultColor
@@ -78,6 +78,7 @@ class EditTaskTextViewCell: CellBase {
 		contentView.addSubview(inputTextView)
 		contentView.addSubview(textLimitContainer)
 
+		//constraint fix - https://stackoverflow.com/questions/58530406/unable-to-simultaneously-satisfy-constraints-when-uitoolbarcontentview-is-presen
 		let toolbar = UIToolbar(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 44.0)))
 		toolbar.items = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(handleDone))]
 		toolbar.translatesAutoresizingMaskIntoConstraints = false
@@ -90,7 +91,7 @@ class EditTaskTextViewCell: CellBase {
 	
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
-		inputTextView.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.layoutMarginsGuide.leadingAnchor, trailing: textLimitContainer.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: -10.0, right: -8.0), size: CGSize(width: 0, height: 0.0))
+		inputTextView.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.layoutMarginsGuide.leadingAnchor, trailing: textLimitContainer.leadingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 10.0, left: 0.0, bottom: -5.0, right: -8.0), size: CGSize(width: 0, height: 0.0))
 		textLimitContainer.anchorView(top: inputTextView.topAnchor, bottom: nil, leading: nil, trailing: contentView.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: -5.0), size: CGSize(width: 18.0, height: 18.0))
 	}
 	

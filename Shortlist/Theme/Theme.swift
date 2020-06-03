@@ -301,6 +301,23 @@ struct Theme {
 	}
 	
     struct GeneralView {
+		static let textFieldBackground: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.black.adjust(by: 10)!
+						case .light:
+							return UIColor.white.adjust(by: -10)!
+						@unknown default:
+							return UIColor.black.adjust(by: 10)!
+					}
+				}
+			} else {
+				return UIColor.black
+			}
+		}()
+		
 		static let background: UIColor = {
 			if #available(iOS 13.0, *) {
 				return UIColor.init { (UITraitCollection) -> UIColor in

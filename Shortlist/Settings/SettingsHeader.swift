@@ -124,16 +124,13 @@ class SettingsHeader: UIViewController {
     
     func grabTipsProducts() {
         IAPProducts.tipStore.requestProducts { [weak self](success, products) in
-            
             guard let self = self else { return }
-            
             if (success) {
                 guard let products = products else { return }
                 self.viewModel?.tipProducts = products
                 //update buttons
                 self.updateTipButtons()
             } else {
-
 				self.hideTipButtons()
             }
         }

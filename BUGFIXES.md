@@ -2,6 +2,7 @@
 - widgets
 - shortcuts
 - cloudkit
+- SMTP how is this any better than local notifications? End of week review? https://github.com/IBM-Swift/Swift-SMTP
 
 ## 1.2.6
 - Clearer intention with the title regarding reminders. "Reminders" has been renamed to "Add From Reminders"

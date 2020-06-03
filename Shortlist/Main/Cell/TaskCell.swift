@@ -94,16 +94,23 @@ class TaskCell: UITableViewCell {
         return view
     }()
 
-    lazy var categoryTitle: UILabel = {
-        let view = UILabel()
-		view.backgroundColor = UIColor.clear
+    lazy var categoryTitle: TagLabel = {
+        let view = TagLabel(bgColor: Theme.Cell.categoryBackground)
         view.textColor = Theme.Font.DefaultColor
-		view.layer.cornerRadius = 4.0
-		view.layer.backgroundColor = Theme.Cell.categoryBackground.cgColor
-        view.translatesAutoresizingMaskIntoConstraints = false
 		view.tag = 1
         return view
     }()
+	
+//    lazy var categoryTitle: UILabel = {
+//        let view = UILabel()
+//		view.backgroundColor = UIColor.clear
+//        view.textColor = Theme.Font.DefaultColor
+//		view.layer.cornerRadius = 4.0
+//		view.layer.backgroundColor = Theme.Cell.categoryBackground.cgColor
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//		view.tag = 1
+//        return view
+//    }()
     
     lazy var taskButton: TaskButton = {
         let button = TaskButton()

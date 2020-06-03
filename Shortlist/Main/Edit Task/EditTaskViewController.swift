@@ -105,8 +105,7 @@ class EditTaskViewController: UITableViewController, PickerViewContainerProtocol
 		vm.registerCells(tableView: tableView)
 	}
 	
-	@objc
-	func handleCancel() {
+	@objc func handleCancel() {
 		guard let viewModel = viewModel else { return }
 		guard let _coordinator = coordinator else { return }
 		// confirm to cancel
@@ -114,8 +113,7 @@ class EditTaskViewController: UITableViewController, PickerViewContainerProtocol
 
 	}
 	
-	@objc
-	func handleSave() {
+	@objc func handleSave() {
 		guard let delegate = delegate, let viewModel = viewModel, let task = viewModel.task else { return }
 		viewModel.onDoneSaveToTaskObject(persistentContainer)
 		viewModel.commitChangesToReminder(task: task)
