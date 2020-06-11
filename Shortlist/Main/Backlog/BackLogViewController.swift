@@ -94,7 +94,7 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 	}
 	
 	func prepareNavigationItem() {
-		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleClose), imageName: "Back", height: self.topBarHeight / 1.8)
+		navigationItem.leftBarButtonItem = UIBarButtonItem().backButton(target: self, action: #selector(handleDismiss))
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Category", style: .plain, target: self, action: #selector(handleAddCategory))
 		navigationController?.title = "List"
 	}
@@ -142,7 +142,7 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 	}
 	
 	@objc
-	func handleClose() {
+	func handleDismiss() {
 		inputContainer.shutDownTimer()
 		coordinator?.dismiss()
 	}

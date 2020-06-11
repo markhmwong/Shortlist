@@ -39,16 +39,7 @@ class SettingsToggleCell: CellBase, SettingsStandardCellProtocol {
 		tintColor = Theme.Font.DefaultColor
 		accessoryView = toggle
 	}
-	
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		imageView?.bounds = CGRect(x: 0.0, y: 0.0, width: bounds.height * 0.6, height: bounds.height * 0.6)
 
-	}
-	
-	override func layoutIfNeeded() {
-		super.layoutIfNeeded()
-	}
 	
 	@objc func handleToggle() {
 		toggleFunction?(toggle)
@@ -63,7 +54,7 @@ class SettingsToggleCell: CellBase, SettingsStandardCellProtocol {
 	}
 	
 	func updateIcon(_ iconName: String) {
-		imageView?.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+		imageView?.image = UIImage(systemName: iconName)?.withRenderingMode(.alwaysTemplate)
 		imageView?.tintColor = Theme.Cell.iconColor
 	}
 }

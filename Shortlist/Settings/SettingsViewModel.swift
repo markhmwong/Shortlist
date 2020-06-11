@@ -136,23 +136,23 @@ class SettingsViewModel {
 							case .PriorityLimit:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .DetailedChevron) as! SettingsDetailedChevronCell
 								cell.updateName(generalTitles[_general] ?? "Unknown")
-								cell.updateIcon("SettingsPriority.png")
+								cell.updateIcon("exclamationmark.circle.fill")
 								cell.updateDetailsLabel(highPriorityLimit: "\(currentHighPriorityTaskLimit())", mediumPriorityLimit: "\(currentMediumPriorityTaskLimit())", lowPriorityLimit: "\(currentLowPriorityTaskLimit())")
 								return cell
 							case .Stats:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .SettingsStandardCell) as! SettingsStandardCell
 								cell.updateName(generalTitles[_general] ?? "Unknown")
-								cell.updateIcon("SettingsStats.png")
+								cell.updateIcon("waveform.path.ecg")
 								return cell
 							case .Review:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .SettingsStandardCell) as! SettingsStandardCell
 								cell.updateName(generalTitles[_general] ?? "Unknown")
-								cell.updateIcon("SettingsReview.png")
+								cell.updateIcon("magnifyingglass")
 								return cell
 							case .Notifications:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Toggle) as! SettingsToggleCell
 								cell.updateName(generalTitles[_general] ?? "Unknown")
-								cell.updateIcon("SettingsNotification.png")
+								cell.updateIcon("sunrise.fill")
 								cell.updateToggle(KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.AllDayNotifications) ?? false)
 								cell.toggleFunction = { (toggleSwitch) in
 									let hoursRemaining = Date().hoursRemaining()
@@ -192,7 +192,7 @@ class SettingsViewModel {
 							case .GlobalTask:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .Toggle) as! SettingsToggleCell
 								cell.textLabel?.text = generalTitles[_general]
-								cell.updateIcon("SettingsTaskTally.png")
+								cell.updateIcon("globe")
 								cell.updateToggle(KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.GlobalTasks) ?? false)
 								cell.toggleFunction = { (toggleSwitch) in
 									KeychainWrapper.standard.set(toggleSwitch.isOn, forKey: SettingsKeyChainKeys.GlobalTasks)
@@ -210,7 +210,7 @@ class SettingsViewModel {
 							case .Info:
 								let cell = SettingsCellFactory.shared().cellType(tableView: tableView, indexPath: indexPath, cellType: .SettingsStandardCell) as! SettingsStandardCell
 								cell.updateName(aboutTitles[indexPath.row])
-								cell.updateIcon("SettingsInfo.png")
+								cell.updateIcon("info.circle.fill")
 								return cell
 						}
 					}
@@ -220,10 +220,10 @@ class SettingsViewModel {
 						cell.updateName(supportTitles[indexPath.row])
 						switch _support {
 							case .ReviewApp:
-								cell.updateIcon("SettingsReviewApp.png")
+								cell.updateIcon("text.bubble.fill")
 								return cell
 							case .Contact:
-								cell.updateIcon("SettingsContact.png")
+								cell.updateIcon("envelope.fill")
 								return cell
 						}
 					}

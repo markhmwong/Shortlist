@@ -83,7 +83,7 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 		
 		navigationItem.title = "Categories"
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAddCategory))
-		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleClose), imageName: "Back", height: self.topBarHeight / 1.8)
+		navigationItem.leftBarButtonItem = UIBarButtonItem().backButton(target: self, action: #selector(handleDismiss))
 
 		viewModel.tableViewRegisterCell(tableView)
 		view.addSubview(tableView)
@@ -134,7 +134,7 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 	}
 	
 	@objc
-	func handleClose() {
+	func handleDismiss() {
 		let category = "Uncategorized"
 		guard let vm = delegate.viewModel else { return }
 		vm.category = category

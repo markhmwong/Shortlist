@@ -95,7 +95,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	func showOptions(_ persistentContainer: PersistentContainer?) {
 		let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-		alert.addAction(UIAlertAction(title: "Add from Reminders", style: .default) { _ in
+		alert.addAction(UIAlertAction(title: "Add Task from Reminders", style: .default) { _ in
 			self.showReminders(persistentContainer: persistentContainer)
 		})
 		

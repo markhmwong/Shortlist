@@ -10,7 +10,7 @@ import Foundation
 import StoreKit
 
 enum AppStoreReviewManager {
-    static let minimumReviewWorthyActionCount = 10
+    static let minimumReviewWorthyActionCount = 5
     
     static func requestReviewIfAppropriate() {
         let defaults = UserDefaults.standard

@@ -64,7 +64,7 @@ class MainInputView: UIView {
 	private lazy var postTaskButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
-		let image = UIImage(named:"Send.png")?.withTintColor(Theme.Font.DefaultColor, renderingMode: UIImage.RenderingMode.alwaysTemplate)
+		let image = UIImage(systemName:"paperplane.fill")?.withTintColor(Theme.Font.DefaultColor, renderingMode: UIImage.RenderingMode.alwaysTemplate)
 		button.setImage(image, for: .normal)
 		button.addTarget(self, action: #selector(handlePostTask), for: .touchUpInside)
 		return button
@@ -73,7 +73,7 @@ class MainInputView: UIView {
 	private lazy var reminderButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
-		let image = UIImage(named:"Alarm.png")?.withTintColor(Theme.Font.DefaultColor, renderingMode: UIImage.RenderingMode.alwaysTemplate)
+		let image = UIImage(systemName:"alarm.fill")?.withTintColor(Theme.Font.DefaultColor, renderingMode: UIImage.RenderingMode.alwaysTemplate)
 		button.setImage(image, for: .normal)
 		button.addTarget(self, action: #selector(handleReminder), for: .touchUpInside)
 		return button
@@ -131,9 +131,9 @@ class MainInputView: UIView {
 		buttonContainer.anchorView(top: taskTextView.bottomAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 35.0)) // update height for varied screens
 		postTaskButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: nil, trailing: buttonContainer.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -padding, right: -padding), size: .zero)
 		reminderButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: buttonContainer.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: padding, bottom: -padding, right: 0.0), size: .zero)
-		categoryButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: buttonContainer.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -padding / 2.0, right: 0.0), size: .zero)
+		categoryButton.anchorView(top: nil, bottom: nil, leading: nil, trailing: nil, centerY: postTaskButton.centerYAnchor, centerX: buttonContainer.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
 		progressBar.anchorView(top: taskTextView.topAnchor, bottom: nil, leading: taskTextView.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: padding, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))
-		priorityButton.anchorView(top: nil, bottom: buttonContainer.bottomAnchor, leading: reminderButton.trailingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: padding, bottom: -padding / 2.0, right: 0.0), size: .zero)
+		priorityButton.anchorView(top: nil, bottom: nil, leading: reminderButton.trailingAnchor, trailing: nil, centerY: postTaskButton.centerYAnchor, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: padding, bottom: 0.0, right: 0.0), size: .zero)
 		keyoardNotification()
 		initialisePriorityButton()
 	}

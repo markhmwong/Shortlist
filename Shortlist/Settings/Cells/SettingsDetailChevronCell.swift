@@ -49,7 +49,7 @@ class SettingsDetailedChevronCell: UITableViewCell, SettingsStandardCellProtocol
 	
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
-		self.imageView?.bounds = CGRect(x: 0.0, y: 0.0, width: self.contentView.bounds.height * 0.6, height: self.contentView.bounds.height * 0.6)
+//		self.imageView?.bounds = CGRect(x: 0.0, y: 0.0, width: self.contentView.bounds.height * 0.6, height: self.contentView.bounds.height * 0.6)
 	}
 	
 	func updateDetailsLabel(highPriorityLimit: String, mediumPriorityLimit: String, lowPriorityLimit: String) {
@@ -64,7 +64,7 @@ class SettingsDetailedChevronCell: UITableViewCell, SettingsStandardCellProtocol
 	}
 	
 	func updateIcon(_ iconName: String) {
-		imageView?.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+		imageView?.image = UIImage(systemName: iconName)?.withRenderingMode(.alwaysTemplate)
 		imageView?.tintColor = Theme.Cell.iconColor
 	}
 }

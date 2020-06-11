@@ -48,7 +48,7 @@ class SettingsViewController: UIViewController {
 		view.backgroundColor = Theme.GeneralView.background
 		
 		// navigation
-		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleDismiss), imageName: "Back", height: self.topBarHeight / 1.8)
+		navigationItem.leftBarButtonItem = UIBarButtonItem().backButton(target: self, action: #selector(handleDismiss))
 		navigationItem.title = "Settings"
 
 		// register cells for tableview

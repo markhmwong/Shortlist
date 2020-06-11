@@ -66,7 +66,7 @@ class EditTaskViewController: UITableViewController, PickerViewContainerProtocol
 	}()
 	
 	@objc func handleDone() {
-		//
+		// Dismisses keyboard
 	}
 	
 	init(viewModel: EditTaskViewModel, persistentContainer: PersistentContainer, fetchedResultsController: NSFetchedResultsController<Day>, delegate: MainViewControllerProtocol, coordinator: EditTaskCoordinator) {
@@ -96,7 +96,7 @@ class EditTaskViewController: UITableViewController, PickerViewContainerProtocol
 		super.viewDidLoad()
 		tableView.separatorColor = .clear
 		
-		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleCancel), imageName: "Back", height: self.topBarHeight / 1.8)
+		navigationItem.leftBarButtonItem = UIBarButtonItem().backButton(target: self, action: #selector(handleDismiss))
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
 		view.backgroundColor = Theme.GeneralView.background
 		navigationItem.prompt = "Make changes to your Task"
@@ -105,7 +105,8 @@ class EditTaskViewController: UITableViewController, PickerViewContainerProtocol
 		vm.registerCells(tableView: tableView)
 	}
 	
-	@objc func handleCancel() {
+	// cancel actions
+	@objc func handleDismiss() {
 		guard let viewModel = viewModel else { return }
 		guard let _coordinator = coordinator else { return }
 		// confirm to cancel

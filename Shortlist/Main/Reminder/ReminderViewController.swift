@@ -52,7 +52,7 @@ class ReminderViewController: UIViewController {
 		super.viewDidLoad()
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Selected Tasks", style: .plain, target: self, action: #selector(handleCopy))
 		navigationItem.rightBarButtonItem?.isEnabled = false
-		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleClose), imageName: "Back", height: self.topBarHeight / 1.8)
+		navigationItem.leftBarButtonItem = UIBarButtonItem().backButton(target: self, action: #selector(handleDismiss))
 		setupView()
 	}
 	
@@ -113,7 +113,7 @@ class ReminderViewController: UIViewController {
 		coordinator.dismiss()
 	}
 	
-	@objc func handleClose() {
+	@objc func handleDismiss() {
 		coordinator.dismiss()
 	}
 }

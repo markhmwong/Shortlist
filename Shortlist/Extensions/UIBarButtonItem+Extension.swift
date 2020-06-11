@@ -10,18 +10,19 @@ import UIKit.UIBarButtonItem
 
 extension UIBarButtonItem {
 	
-	static func menuButton(_ target: Any?, action: Selector, imageName: String, height: CGFloat) -> UIBarButtonItem {
+	func backButton(target: Any?, action: Selector) -> UIBarButtonItem {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: imageName), for: .normal)
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.addTarget(target, action: action, for: .touchUpInside)
 		button.tintColor = Theme.Font.DefaultColor
-		
-        let menuBarItem = UIBarButtonItem(customView: button)
-        menuBarItem.customView?.translatesAutoresizingMaskIntoConstraints = false
-        menuBarItem.customView?.heightAnchor.constraint(equalToConstant: height).isActive = true
-        menuBarItem.customView?.widthAnchor.constraint(equalToConstant: height).isActive = true
-
-        return menuBarItem
-    }
+        return UIBarButtonItem(customView: button)
+	}
 	
+	static func menuButton(_ target: Any?, action: Selector, imageName: String) -> UIBarButtonItem {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: imageName), for: .normal)
+        button.addTarget(target, action: action, for: .touchUpInside)
+		button.tintColor = Theme.Font.DefaultColor
+        return UIBarButtonItem(customView: button)
+    }
 }

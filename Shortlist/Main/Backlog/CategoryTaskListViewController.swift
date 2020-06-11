@@ -70,7 +70,8 @@ class BackLogTaskListViewController: UIViewController {
 		super.viewDidLoad()
 		view.backgroundColor = Theme.GeneralView.background
 		navigationItem.title = "Tasks"
-		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleClose), imageName: "Back", height: self.topBarHeight / 1.8)
+		
+		navigationItem.leftBarButtonItem = UIBarButtonItem().backButton(target: self, action: #selector(handleDismiss))
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Copy", style: .plain, target: self, action: #selector(handleCopyTask))
 
 		guard let _vm = viewModel else { return }
@@ -119,7 +120,7 @@ class BackLogTaskListViewController: UIViewController {
 	}
 	
 	@objc
-	func handleClose() {
+	func handleDismiss() {
 		coordinator?.dismiss()
 	}
 	
