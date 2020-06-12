@@ -1372,6 +1372,7 @@
 				TargetAttributes = {
 					4D45E78D22DDD1AB008AC433 = {
 						CreatedOnToolsVersion = 10.2;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -2051,7 +2052,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2080,7 +2081,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit Extension/Shortlist WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = "Shortlist WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2110,7 +2111,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
@@ -2136,7 +2137,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Shortlist WatchKit App/Shortlist WatchKit App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				IBSC_MODULE = Shortlist_WatchKit_Extension;
 				INFOPLIST_FILE = "Shortlist WatchKit App/Info.plist";
@@ -2161,7 +2162,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2169,7 +2170,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.5;
+				MARKETING_VERSION = 1.2.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2187,7 +2188,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 41;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2195,7 +2196,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.5;
+				MARKETING_VERSION = 1.2.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

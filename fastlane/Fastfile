@@ -59,18 +59,41 @@ platform :ios do
 
     increment_build_number
     increment_version_number(
-      #bump_type: "minor"
-      version_number: "1.2.5"
+      bump_type: "patch"
+      #version_number: "1.2.5"
     )
 
     build_app(
       workspace: "Shortlist.xcworkspace",
       scheme: "Shortlist",
+      output_directiory: "./fastlane/builds",
       include_bitcode: true,
       export_xcargs: "-allowProvisioningUpdates",
-    ) 
-    
-
+    )
+    # upload
     upload_to_app_store
   end
+
+
+	desc "Build App"
+	lane :build do
+    ensure_git_status_clean
+		increment_build_number
+		increment_version_number(
+			bump_type: "patch"
+			#version_number: "1.2.5"
+		)
+		gym
+	end
+
+  #Uses the gymfile with the "build" command
+	desc "App Store Release Update 11/06/2020"
+	lane :ReleaseTheKraken do
+    ensure_git_status_clean
+		get_certificates
+		get_provisioning_profile
+		build
+		upload_to_app_store
+	end
+
 end
