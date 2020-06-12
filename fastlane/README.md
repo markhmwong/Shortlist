@@ -31,6 +31,16 @@ fastlane ios certs
 fastlane ios release
 ```
 App Store Release
+### ios build
+```
+fastlane ios build
+```
+Build App
+### ios ReleaseTheKraken
+```
+fastlane ios ReleaseTheKraken
+```
+App Store Release Update 11/06/2020
 
 ----
 
