@@ -59,14 +59,14 @@ platform :ios do
 
     increment_build_number
     increment_version_number(
-      bump_type: "patch"
-      #version_number: "1.2.5"
+      # bump_type: "patch"
+      version_number: "1.2.6"
     )
 
     build_app(
       workspace: "Shortlist.xcworkspace",
       scheme: "Shortlist",
-      output_directiory: "./fastlane/builds",
+      output_directory: "./fastlane/builds",
       include_bitcode: true,
       export_xcargs: "-allowProvisioningUpdates",
     )
