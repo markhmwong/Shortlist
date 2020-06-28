@@ -45,12 +45,12 @@ class NewsFeed: UIView {
 		
 		addSubview(feedLabel)
 		feedLabel.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: .zero)
-		feedLabel.restartLabel()
+//		feedLabel.restartLabel()
 	}
 	
 	func updateFeed(str: String) {
 		feedLabel.attributedText = NSMutableAttributedString(string: "Global Task Tally: \(str)", attributes: [NSAttributedString.Key.foregroundColor: Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
-		feedLabel.restartLabel()
+//		feedLabel.restartLabel()
 	}
 	
 }

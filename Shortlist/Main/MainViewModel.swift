@@ -10,6 +10,20 @@ import UIKit
 import CoreData
 import EventKit
 
+final class RunFireBaseOnce {
+	private var hasRun: Bool = false
+	
+	typealias ActionClosure = () -> ()
+	
+	func run(action: ActionClosure) {
+		guard hasRun == false else { return }
+		
+		action()
+		hasRun = true
+	}
+	
+}
+
 class MainViewModel {
     
 	// MARK: - ENUMS Priority and Cell
@@ -24,6 +38,8 @@ class MainViewModel {
 		case LowPriority // Touch and Go
 	}
 	
+	var runReviewOnce: RunFireBaseOnce = RunFireBaseOnce()
+	
 	// MARK: - Class variables
 	var keyboardSize: CGRect = .zero
 	
@@ -34,6 +50,8 @@ class MainViewModel {
     let taskSizeLimit: Int = 100
     
     let cellHeight: CGFloat = 70.0
+	
+	var globalTaskAmount: Int = 0
 	
 	// task inputs
 	var category: String? = ""
@@ -86,8 +104,6 @@ class MainViewModel {
 		randomTip = TipsService.shared.randomTip()
 		return randomTip
 	}
-	
-
 	
 	func checkPriorityLimit(persistentContainer: PersistentContainer, priorityLevel: Int, delegate: MainViewControllerProtocol) -> Bool {
 		

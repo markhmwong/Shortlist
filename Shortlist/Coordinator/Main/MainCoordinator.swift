@@ -17,6 +17,8 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     
     var navigationController: UINavigationController
     
+	var reviewFlag: Bool = false
+	
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
     }

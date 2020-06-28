@@ -14,6 +14,8 @@ import CoreData
 // Allows to carry over tasks to today.
 class ReviewViewController: UIViewController {
  	
+	var onDoneBlock: (() -> Void)? = nil
+	
     private weak var persistentContainer: PersistentContainer?
 
     private var viewModel: ReviewViewModel?
@@ -80,6 +82,15 @@ class ReviewViewController: UIViewController {
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
 		tableView.updateHeaderViewHeight()
+	}
+	
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		onDoneBlock?()
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
 	}
     
     override func viewDidLoad() {
