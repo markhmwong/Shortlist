@@ -119,48 +119,59 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	}
     
 	// retrieve global statistics from firebase servers. This feature can be toggled in the settings
-	public func loadFirebaseData() {
-		if let firebaseStatsState = KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.GlobalTasks) {
-			if (firebaseStatsState) {
-				let fbs = FirebaseService(dataBaseUrl: nil)
-				
-				connectivity?.start {
-					// this closure runs only if we have an internet connection
-					let status = fbs.status
-					if (status == .Incomplete) {
-						fbs.status = .Complete // set firebase service status. set immediately to avoid further checks
+	func loadFirebaseData() {
+		if (!(coordinator?.reviewFlag ?? false)) {
+			viewModel?.runReviewOnce.run {
+				if let firebaseStatsState = KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.GlobalTasks) {
+					if (firebaseStatsState) {
+						let fbs = FirebaseService(dataBaseUrl: nil)
 						
-						fbs.authenticateAnonymously()
-						fbs.getGlobalTasks { [unowned self] (globalTaskValue) in
-							DispatchQueue.main.async {
-								self.newsFeed.updateFeed(str: "\(globalTaskValue)")
-							}
-							
-							UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
-								self.newsFeed.feedLabel.alpha = 1
-								self.view.layoutIfNeeded()
-							}) { (state) in
+						connectivity?.start {
+							// this closure runs only if we have an internet connection
+							let status = fbs.status
+							if (status == .Incomplete) {
+								fbs.status = .Complete // set firebase service status. set immediately to avoid further checks
 								
+								fbs.authenticateAnonymously()
+								fbs.getGlobalTasks { [unowned self] (globalTaskValue) in
+									print(globalTaskValue)
+									self.viewModel?.globalTaskAmount = globalTaskValue
+									DispatchQueue.main.async {
+										self.newsFeed.updateFeed(str: "\(globalTaskValue)")
+									}
+									
+									UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
+										self.newsFeed.feedLabel.alpha = 1
+										self.view.layoutIfNeeded()
+									}) { (state) in
+										
+									}
+								}
 							}
 						}
 					}
+				} else {
+					KeychainWrapper.standard.set(false, forKey: SettingsKeyChainKeys.GlobalTasks)
 				}
 			}
-		} else {
-			KeychainWrapper.standard.set(false, forKey: SettingsKeyChainKeys.GlobalTasks)
 		}
+		
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		loadFirebaseData()
 	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		loadDayData()
-		loadFirebaseData()
+		loadData()
 		setupView()
 		AppStoreReviewManager.requestReviewIfAppropriate()
 		prepareKeyboardNotifications()
 		initialiseStatEntity()
 		
-		// Apple watch
+		// Apple watch observer
         NotificationCenter.default.addObserver(
             self, selector: #selector(type(of: self).dataDidFlow(_:)),
 			name: .watchDidUpdate, object: nil
@@ -272,7 +283,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		newsFeed.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 0.0))		
     }
     
-    func loadDayData() {
+    func loadData() {
         //load today's current data into dayEntity
         guard let persistentContainer = persistentContainer else { return }
         guard let viewModel = viewModel else { return }
@@ -338,8 +349,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 			self.mainInputView.taskFirstResponder()
 		}
 	}
-	
-
 	
 	//move to viewmodel
 	func postTask(taskName: String, category: String, priorityLevel: Int) {
@@ -669,7 +678,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITabl
         destTask.priority = sourceTask.priority
         sourceTask.priority = tempDestinationPriority
         persistentContainer?.saveContext()
-		self.loadDayData()
+		self.loadData()
     }
     
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {

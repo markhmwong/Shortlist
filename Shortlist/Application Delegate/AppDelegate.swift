@@ -56,8 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			guard let stats = dayObject.dayToStats else { return true }
 			stats.totalTasks += 3
 			let taskHigh: Task = Task(context: context)
-			
-			
+
 			taskHigh.create(context: context, taskName: "📬 An important task, preferably something you must accomplish today.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value))
 			taskHigh.details = "These tasks are very limited of 1 - 2. Important and may take most of the day to complete."
 			dayObject.addToDayToTask(taskHigh)
@@ -74,21 +73,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			persistentContainer.saveContext()
 
 		} else {
-			
-			mainCoordinator?.start(persistentContainer)
 			let today: Int16 = Calendar.current.todayToInt()
 
+			// open app with review
 			if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
 				if (today != Int16(reviewDate)) {
-					
+
+					mainCoordinator?.reviewFlag = true
+					mainCoordinator?.start(persistentContainer)
+
 					// update keychain
 					KeychainWrapper.standard.set(Int(today), forKey: SettingsKeyChainKeys.ReviewDate)
-					
+
 					// show review page
 					DispatchQueue.main.async {
 						self.mainCoordinator?.showReview(self.persistentContainer, automated: true)
 					}
+				} else {
+					// open app without review
+					mainCoordinator?.start(persistentContainer)
 				}
+			} else {
+				// open app without review
+				mainCoordinator?.start(persistentContainer)
 			}
 		}
 		
@@ -160,7 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				
 				// Ensure a Day object has been created
 				if let mainVC = mainCoordinator?.rootViewController {
-					mainVC.loadDayData()
+					mainVC.loadData()
 					mainVC.loadFirebaseData()
 				}
 				

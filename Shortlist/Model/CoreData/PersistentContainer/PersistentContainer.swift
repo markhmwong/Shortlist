@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class PersistentContainer: NSPersistentContainer {
+class PersistentContainer: NSPersistentCloudKitContainer {
     
     func saveContext(backgroundContext: NSManagedObjectContext? = nil) {
         let context = backgroundContext ?? viewContext

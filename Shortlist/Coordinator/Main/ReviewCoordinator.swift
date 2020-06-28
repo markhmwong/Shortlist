@@ -36,6 +36,12 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         }
         let viewModel = ReviewViewModel()
         let vc = ReviewViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel, automatedDisplay: automated)
+		vc.onDoneBlock = { [weak self] in
+			guard let self = self else { return }
+			// reload global tally text
+//			let amount = self.mainViewController?.load
+			self.mainViewController?.loadFirebaseData()
+		}
 		navigationController.modalPresentationStyle = .fullScreen
 		navigationController.present(vc, animated: true, completion: nil)
     }
@@ -47,7 +53,7 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
 			guard let mvc = self.mainViewController else {
 				return
 			}
-			mvc.loadDayData()
+			mvc.loadData()
 		}
 	}
 	
