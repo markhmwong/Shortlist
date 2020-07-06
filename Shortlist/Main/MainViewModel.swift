@@ -21,7 +21,6 @@ final class RunFireBaseOnce {
 		action()
 		hasRun = true
 	}
-	
 }
 
 class MainViewModel {
