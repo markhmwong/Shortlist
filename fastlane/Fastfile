@@ -60,7 +60,7 @@ platform :ios do
     increment_build_number
     increment_version_number(
       # bump_type: "patch"
-      version_number: "1.2.6"
+      version_number: "1.2.7" # update this each release
     )
 
     build_app(
@@ -80,8 +80,8 @@ platform :ios do
     ensure_git_status_clean
 		increment_build_number
 		increment_version_number(
-			bump_type: "patch"
-			#version_number: "1.2.5"
+			#bump_type: "patch"
+			version_number: "1.2.7"
 		)
 		gym
 	end
