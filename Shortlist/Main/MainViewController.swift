@@ -59,22 +59,24 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		return view
 	}()
     
-    lazy var tableView: UITableView = {
-        let view = UITableView()
-        view.delegate = self
-        view.dataSource = self
-        view.dragDelegate = self
-        view.dropDelegate = self
-        view.dragInteractionEnabled = true
-		view.backgroundColor = Theme.GeneralView.background
-        view.separatorStyle = .none
-        view.isEditing = false
-        view.estimatedRowHeight = viewModel?.cellHeight ?? 100.0
-        view.rowHeight = UITableView.automaticDimension
-        view.translatesAutoresizingMaskIntoConstraints = false
-		view.keyboardDismissMode = .onDrag
-        return view
-    }()
+//    lazy var tableView: UITableView = {
+//        let view = UITableView()
+//        view.delegate = self
+//        view.dataSource = self
+//        view.dragDelegate = self
+//        view.dropDelegate = self
+//        view.dragInteractionEnabled = true
+//		view.backgroundColor = Theme.GeneralView.background
+//        view.separatorStyle = .none
+//        view.isEditing = false
+//        view.estimatedRowHeight = viewModel?.cellHeight ?? 100.0
+//        view.rowHeight = UITableView.automaticDimension
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//		view.keyboardDismissMode = .onDrag
+//        return view
+//    }()
+	
+	var collectionView: UICollectionView! = nil
     
     lazy var addButton: StandardButton = {
         let button = StandardButton(title: "AddTask")
@@ -97,9 +99,9 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		return feed
 	}()
 	
-	var bottomConstraint: NSLayoutConstraint?
+	private var bottomConstraint: NSLayoutConstraint?
     
-	var pickerViewBottomConstraint: NSLayoutConstraint?
+	private var pickerViewBottomConstraint: NSLayoutConstraint?
     
 	var newsFeedTopAnchor: NSLayoutYAxisAnchor?
 	
@@ -256,21 +258,26 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 
     private func setupView() {
         guard let viewModel = viewModel else { return }
-		navigationItem.rightBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleOptions), imageName: "ellipsis")
+		navigationItem.rightBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleSettings), imageName: "ellipsis")
 		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleSettings), imageName: "gear")
 		
-		viewModel.registerCell(tableView)
+//		viewModel.registerCell(tableView)
 
-        tableView.tableHeaderView = taskListHeader
-        taskListHeader.setNeedsLayout()
-        taskListHeader.layoutIfNeeded()
+//        tableView.tableHeaderView = taskListHeader
+//        taskListHeader.setNeedsLayout()
+//        taskListHeader.layoutIfNeeded()
 		
-		view.addSubview(tableView)
+		collectionView = createCollectionView()
+		
+		view.addSubview(collectionView)
+//		view.addSubview(tableView)
 		view.addSubview(mainInputView)
 		view.addSubview(addButton)
 		view.addSubview(newsFeed)
 		
-		tableView.anchorView(top: newsFeed.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
+		collectionView.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
+		
+//		tableView.anchorView(top: newsFeed.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: 0.0, height: 0.0))
 		
 		let addButtonWidth: CGFloat = addButton.titleLabel?.text?.widthOfString(usingFont: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b2).value)!) ?? 0.0
         addButton.anchorView(top: nil, bottom: view.bottomAnchor, leading: nil, trailing: nil, centerY: nil, centerX: view.centerXAnchor, padding: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -80.0, right: 0.0), size: CGSize(width: addButtonWidth + 40, height: 0.0))
@@ -328,7 +335,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 				try self.fetchedResultsController?.performFetch()
 				viewModel.dayEntity = dayObject
 				if (viewModel.dayEntity != nil) {
-					self.tableView.reloadData()
+//					self.tableView.reloadData()
 				}
 			} catch (_) {
 				
@@ -516,13 +523,13 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	// MARK: - Table View Reload
 	@objc func dataDidFlow(_ notification: Notification) {
 		DispatchQueue.main.async {
-			self.tableView.reloadData()
+//			self.tableView.reloadData()
 		}
 	}
 	
 	func reloadTableView() {
 		DispatchQueue.main.async {
-			self.tableView.reloadData()
+//			self.tableView.reloadData()
 		}
 	}
 	
@@ -569,137 +576,152 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 			viewModel.sortedSet = sortedSet
 			
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+//                self.tableView.reloadData()
             }
         } catch (_) {
             
         }
     }
-
 }
 
-// MARK: - Table View Delegate Methods, DataSource, DragDelegate, DropDelegate
-extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
-	
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		guard let _viewModel = viewModel else {
-			tableView.separatorColor = .clear
-			tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
-			emphasiseAddButton()
-			return 0
+// MARK: - Collection View Methods
+extension MainViewController {
+	private func createCollectionView() -> UICollectionView {
+		guard let viewModel = viewModel else {
+			let collectionView = UICollectionView()
+			collectionView.translatesAutoresizingMaskIntoConstraints = false
+			return collectionView
 		}
-		
-        guard let _dayObjects = fetchedResultsController?.fetchedObjects else {
-			tableView.separatorColor = .clear
-			tableView.setEmptyMessage(_viewModel.getRandomTip())
-			return 0
-		}
-		
-		if let _day = _dayObjects.first {
-			if (_day.dayToTask?.count == 0) {
-				emphasiseAddButton()
-				tableView.separatorColor = .clear
-				tableView.setEmptyMessage(_viewModel.getRandomTip())
-				return 0
-			} else {
-				tableView.restoreBackgroundView()
-				return _day.dayToTask?.count ?? 0
-			}
-		} else {
-			return 0
-		}
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let _viewModel = viewModel else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "taskCellId", for: indexPath) as! TaskCell
-			cell.textLabel?.text = "Unknown Task"
-            return cell
-        }
-		let cell: TaskCell = _viewModel.tableViewCell(tableView, indexPath: indexPath, fetchedResultsController: fetchedResultsController, persistentContainer: persistentContainer)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "delete") { (action, view, complete) in
-            let cell = tableView.cellForRow(at: indexPath) as! TaskCell
-			guard let persistentContainer = self.persistentContainer else { return }
-            let dayManagedObject = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-            
-            if let task = cell.task {
-                let taskManagedObject = persistentContainer.viewContext.object(with: task.objectID) as! Task
-                dayManagedObject.removeFromDayToTask(taskManagedObject)
-				
-				dayManagedObject.dayToStats?.totalTasks = (dayManagedObject.dayToStats?.totalTasks ?? 0) - 1
-				
-				let backLog = persistentContainer.fetchBackLog(forCategory: taskManagedObject.category)
-				backLog?.removeFromBackLogToTask(taskManagedObject)
-				
-				if task.complete {
-					dayManagedObject.dayToStats?.totalCompleted = (dayManagedObject.dayToStats?.totalCompleted ?? 0) - 1
-				}
-				
-				if let stats: Stats = self.persistentContainer?.fetchStatEntity() {
-					stats.removeFromTotalTasks(numTasks: 1)
-					if (task.complete) {
-						stats.removeFromTotalCompleteTasks(numTasks: 1)
-					} else {
-						stats.removeFromTotalIncompleteTasks(numTasks: 1)
-					}
-				}
-				
-                self.persistentContainer?.saveContext()
-				
-				// perform sync with watch
-				if let viewModel = self.viewModel {
-					viewModel.syncWithWatchData(fetchedResultsController: self.fetchedResultsController)
-				}
-				
-            }
-            complete(true)
-        }
-        return UISwipeActionsConfiguration(actions: [delete])
-    }
-    
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-	
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-		guard let viewModel = viewModel else { return }
-		guard let sortedSet = viewModel.sortedSet else { return }
-        let sourceTask = sortedSet[sourceIndexPath.section]
-        let destTask = sortedSet[destinationIndexPath.section]
-        let tempDestinationPriority = destTask.priority
-        destTask.priority = sourceTask.priority
-        sourceTask.priority = tempDestinationPriority
-        persistentContainer?.saveContext()
-		self.loadData()
-    }
-    
-    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        return [UIDragItem(itemProvider: NSItemProvider())]
-    }
-    
-    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-        //
-    }
-    
-    func tableView(_ tableView: UITableView, dragPreviewParametersForRowAt indexPath: IndexPath) -> UIDragPreviewParameters? {
-        return previewParameters(forItemAt: indexPath, tableView: tableView)
-    }
-	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let persistentContainer = persistentContainer else { return }
-		guard let viewModel = viewModel else { return }
-		guard let task = viewModel.sortedSet?[indexPath.row] else { return }
-		guard let fetchedResultsController = fetchedResultsController else { return }
-		
-		coordinator?.showEditTask(persistentContainer, task: task, fetchedResultsController: fetchedResultsController, mainViewController: self)
-		tableView.deselectRow(at: indexPath, animated: true)
+		let layout = viewModel.createCompositionalLayout()
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		collectionView.translatesAutoresizingMaskIntoConstraints = false
+		return collectionView
 	}
 }
+
+
+// MARK: - Table View Delegate Methods, DataSource, DragDelegate, DropDelegate
+//extension MainViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//		guard let _viewModel = viewModel else {
+//			tableView.separatorColor = .clear
+//			tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
+//			emphasiseAddButton()
+//			return 0
+//		}
+//
+//        guard let _dayObjects = fetchedResultsController?.fetchedObjects else {
+//			tableView.separatorColor = .clear
+//			tableView.setEmptyMessage(_viewModel.getRandomTip())
+//			return 0
+//		}
+//
+//		if let _day = _dayObjects.first {
+//			if (_day.dayToTask?.count == 0) {
+//				emphasiseAddButton()
+//				tableView.separatorColor = .clear
+//				tableView.setEmptyMessage(_viewModel.getRandomTip())
+//				return 0
+//			} else {
+//				tableView.restoreBackgroundView()
+//				return _day.dayToTask?.count ?? 0
+//			}
+//		} else {
+//			return 0
+//		}
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        guard let _viewModel = viewModel else {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "taskCellId", for: indexPath) as! TaskCell
+//			cell.textLabel?.text = "Unknown Task"
+//            return cell
+//        }
+//		let cell: TaskCell = _viewModel.tableViewCell(tableView, indexPath: indexPath, fetchedResultsController: fetchedResultsController, persistentContainer: persistentContainer)
+//        return cell
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
+//
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let delete = UIContextualAction(style: .destructive, title: "delete") { (action, view, complete) in
+//            let cell = tableView.cellForRow(at: indexPath) as! TaskCell
+//			guard let persistentContainer = self.persistentContainer else { return }
+//            let dayManagedObject = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+//
+//            if let task = cell.task {
+//                let taskManagedObject = persistentContainer.viewContext.object(with: task.objectID) as! Task
+//                dayManagedObject.removeFromDayToTask(taskManagedObject)
+//
+//				dayManagedObject.dayToStats?.totalTasks = (dayManagedObject.dayToStats?.totalTasks ?? 0) - 1
+//
+//				let backLog = persistentContainer.fetchBackLog(forCategory: taskManagedObject.category)
+//				backLog?.removeFromBackLogToTask(taskManagedObject)
+//
+//				if task.complete {
+//					dayManagedObject.dayToStats?.totalCompleted = (dayManagedObject.dayToStats?.totalCompleted ?? 0) - 1
+//				}
+//
+//				if let stats: Stats = self.persistentContainer?.fetchStatEntity() {
+//					stats.removeFromTotalTasks(numTasks: 1)
+//					if (task.complete) {
+//						stats.removeFromTotalCompleteTasks(numTasks: 1)
+//					} else {
+//						stats.removeFromTotalIncompleteTasks(numTasks: 1)
+//					}
+//				}
+//
+//                self.persistentContainer?.saveContext()
+//
+//				// perform sync with watch
+//				if let viewModel = self.viewModel {
+//					viewModel.syncWithWatchData(fetchedResultsController: self.fetchedResultsController)
+//				}
+//
+//            }
+//            complete(true)
+//        }
+//        return UISwipeActionsConfiguration(actions: [delete])
+//    }
+//
+//    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
+//
+//    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+//		guard let viewModel = viewModel else { return }
+//		guard let sortedSet = viewModel.sortedSet else { return }
+//        let sourceTask = sortedSet[sourceIndexPath.section]
+//        let destTask = sortedSet[destinationIndexPath.section]
+//        let tempDestinationPriority = destTask.priority
+//        destTask.priority = sourceTask.priority
+//        sourceTask.priority = tempDestinationPriority
+//        persistentContainer?.saveContext()
+//		self.loadData()
+//    }
+//
+//    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+//        return [UIDragItem(itemProvider: NSItemProvider())]
+//    }
+//
+//    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+//        //
+//    }
+//
+//    func tableView(_ tableView: UITableView, dragPreviewParametersForRowAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+//        return previewParameters(forItemAt: indexPath, tableView: tableView)
+//    }
+//
+//	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//		guard let persistentContainer = persistentContainer else { return }
+//		guard let viewModel = viewModel else { return }
+//		guard let task = viewModel.sortedSet?[indexPath.row] else { return }
+//		guard let fetchedResultsController = fetchedResultsController else { return }
+//
+//		coordinator?.showEditTask(persistentContainer, task: task, fetchedResultsController: fetchedResultsController, mainViewController: self)
+//		tableView.deselectRow(at: indexPath, animated: true)
+//	}
+//}

@@ -9,7 +9,11 @@
 import UIKit
 import CoreData
 
-class PreplanViewController: UIViewController, MainViewControllerProtocol, PickerViewContainerProtocol {
+class PreplanViewController: UIViewController, PickerViewContainerProtocol, MainViewControllerProtocol {
+	func syncWithAppleWatch() {
+		//
+	}
+	
 
     private lazy var fetchedResultsController: NSFetchedResultsController<Day>? = {
         // Create Fetch Request
@@ -60,10 +64,10 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 	
     lazy var tableView: UITableView = {
         let view = UITableView()
-        view.delegate = self
-        view.dataSource = self
-        view.dragDelegate = self
-        view.dropDelegate = self
+//        view.delegate = self
+//        view.dataSource = self
+//        view.dragDelegate = self
+//        view.dropDelegate = self
         view.dragInteractionEnabled = true
 		view.backgroundColor = Theme.GeneralView.background
         view.separatorStyle = .none
@@ -174,7 +178,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 				try self.fetchedResultsController?.performFetch()
 
 				if (_viewModel.dayEntity != nil) {
-					self.tableView.reloadData()
+//					self.tableView.reloadData()
 				}
 			} catch (_) {
 			}
@@ -212,7 +216,7 @@ class PreplanViewController: UIViewController, MainViewControllerProtocol, Picke
 	
 	func reloadTableView() {
 		DispatchQueue.main.async {
-			self.tableView.reloadData()
+//			self.tableView.reloadData()
 		}
 	}
 	
@@ -363,7 +367,7 @@ extension PreplanViewController: NSFetchedResultsControllerDelegate {
 			let sortedSet = _viewModel.sortTasks(dayObject)
 			_viewModel.sortedSet = sortedSet
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+//                self.tableView.reloadData()
             }
         } catch (let err) {
             print("\(err)")
@@ -376,108 +380,108 @@ extension PreplanViewController: NSFetchedResultsControllerDelegate {
 
 }
 
-extension PreplanViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
-	//set up cells
-	func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-		return [UIDragItem(itemProvider: NSItemProvider())]
-	}
+//extension PreplanViewController: UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
+//	//set up cells
+//	func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+//		return [UIDragItem(itemProvider: NSItemProvider())]
+//	}
+//
+//	func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+//		//
+//	}
+//
+//    func tableView(_ tableView: UITableView, dragPreviewParametersForRowAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+//        return previewParameters(forItemAt: indexPath, tableView: tableView)
+//    }
+//
+//    private func previewParameters(forItemAt indexPath:IndexPath, tableView:UITableView) -> UIDragPreviewParameters?     {
+//        let previewParameters = UIDragPreviewParameters()
+//        previewParameters.backgroundColor = .black
+//        return previewParameters
+//    }
 	
-	func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-		//
-	}
+//	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//		guard let _viewModel = viewModel else {
+//			tableView.separatorColor = .clear
+//			tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
+//			return 0
+//		}
+//
+//        guard let _dayObjects = fetchedResultsController?.fetchedObjects else {
+//			tableView.separatorColor = .clear
+//			tableView.setEmptyMessage(_viewModel.getRandomTip())
+//			return 0
+//		}
+//
+//		if let day = _dayObjects.first {
+//			if (day.dayToTask?.count == 0) {
+//				tableView.separatorColor = .clear
+//				tableView.setEmptyMessage(_viewModel.getRandomTip())
+//				return 0
+//			} else {
+//				tableView.restoreBackgroundView()
+//				return day.dayToTask?.count ?? 0
+//			}
+//		} else {
+//			return 0
+//		}
+//	}
 	
-    func tableView(_ tableView: UITableView, dragPreviewParametersForRowAt indexPath: IndexPath) -> UIDragPreviewParameters? {
-        return previewParameters(forItemAt: indexPath, tableView: tableView)
-    }
+//	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//		guard let _viewModel = viewModel else {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "taskCellId", for: indexPath) as! TaskCell
+//			cell.textLabel?.text = "Unknown Task"
+//            return cell
+//        }
+//		let cell: TaskCell = _viewModel.tableViewCell(tableView, indexPath: indexPath, fetchedResultsController: fetchedResultsController, persistentContainer: persistentContainer)
+//        return cell
+//	}
 	
-    private func previewParameters(forItemAt indexPath:IndexPath, tableView:UITableView) -> UIDragPreviewParameters?     {
-        let previewParameters = UIDragPreviewParameters()
-        previewParameters.backgroundColor = .black
-        return previewParameters
-    }
+//	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//		guard let persistentContainer = persistentContainer else { return }
+//		//place in viewmodel
+//		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
+//        let set = dayManagedObject.dayToTask as? Set<Task>
+//        let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
+//            return taskA.priority < taskB.priority
+//        })
+//
+//		guard let task = sortedSet?[indexPath.row] else { return }
+//		guard let fetchedResultsController = fetchedResultsController else { return }
+//		coordinator?.showEditTask(persistentContainer, task: task, fetchedResultsController: fetchedResultsController, mainViewController: self)
+//		tableView.deselectRow(at: indexPath, animated: true)
+//	}
 	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		guard let _viewModel = viewModel else {
-			tableView.separatorColor = .clear
-			tableView.setEmptyMessage("Start something great by tapping the 'Add' button below")
-			return 0
-		}
-		
-        guard let _dayObjects = fetchedResultsController?.fetchedObjects else {
-			tableView.separatorColor = .clear
-			tableView.setEmptyMessage(_viewModel.getRandomTip())
-			return 0
-		}
-		
-		if let day = _dayObjects.first {
-			if (day.dayToTask?.count == 0) {
-				tableView.separatorColor = .clear
-				tableView.setEmptyMessage(_viewModel.getRandomTip())
-				return 0
-			} else {
-				tableView.restoreBackgroundView()
-				return day.dayToTask?.count ?? 0
-			}
-		} else {
-			return 0
-		}
-	}
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let delete = UIContextualAction(style: .destructive, title: "delete") { (action, view, complete) in
+//            let cell = tableView.cellForRow(at: indexPath) as! TaskCell
+//			let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: self.viewModel?.tomorrow ?? Calendar.current.forSpecifiedDay(value: 1)) as! Day
+//
+//            if let task = cell.task {
+//                let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
+//                dayManagedObject.removeFromDayToTask(taskManagedObject)
+//				dayManagedObject.dayToStats?.totalTasks = (dayManagedObject.dayToStats?.totalTasks ?? 0) - 1
+//				if task.complete {
+//					dayManagedObject.dayToStats?.totalCompleted = (dayManagedObject.dayToStats?.totalCompleted ?? 0) - 1
+//				}
+//
+//				if let stats: Stats = self.persistentContainer?.fetchStatEntity() {
+//					stats.removeFromTotalTasks(numTasks: 1)
+//					if (task.complete) {
+//						stats.removeFromTotalCompleteTasks(numTasks: 1)
+//					} else {
+//						stats.removeFromTotalIncompleteTasks(numTasks: 1)
+//					}
+//				}
+//
+//                self.persistentContainer?.saveContext()
+//            }
+//            complete(true)
+//        }
+//        return UISwipeActionsConfiguration(actions: [delete])
+//    }
 	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let _viewModel = viewModel else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "taskCellId", for: indexPath) as! TaskCell
-			cell.textLabel?.text = "Unknown Task"
-            return cell
-        }
-		let cell: TaskCell = _viewModel.tableViewCell(tableView, indexPath: indexPath, fetchedResultsController: fetchedResultsController, persistentContainer: persistentContainer)
-        return cell
-	}
-	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let persistentContainer = persistentContainer else { return }
-		//place in viewmodel
-		let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-        let set = dayManagedObject.dayToTask as? Set<Task>
-        let sortedSet = set?.sorted(by: { (taskA, taskB) -> Bool in
-            return taskA.priority < taskB.priority
-        })
-		
-		guard let task = sortedSet?[indexPath.row] else { return }
-		guard let fetchedResultsController = fetchedResultsController else { return }
-		coordinator?.showEditTask(persistentContainer, task: task, fetchedResultsController: fetchedResultsController, mainViewController: self)
-		tableView.deselectRow(at: indexPath, animated: true)
-	}
-	
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "delete") { (action, view, complete) in
-            let cell = tableView.cellForRow(at: indexPath) as! TaskCell
-			let dayManagedObject = self.persistentContainer?.fetchDayEntity(forDate: self.viewModel?.tomorrow ?? Calendar.current.forSpecifiedDay(value: 1)) as! Day
-            
-            if let task = cell.task {
-                let taskManagedObject = self.persistentContainer?.viewContext.object(with: task.objectID) as! Task
-                dayManagedObject.removeFromDayToTask(taskManagedObject)
-				dayManagedObject.dayToStats?.totalTasks = (dayManagedObject.dayToStats?.totalTasks ?? 0) - 1
-				if task.complete {
-					dayManagedObject.dayToStats?.totalCompleted = (dayManagedObject.dayToStats?.totalCompleted ?? 0) - 1
-				}
-				
-				if let stats: Stats = self.persistentContainer?.fetchStatEntity() {
-					stats.removeFromTotalTasks(numTasks: 1)
-					if (task.complete) {
-						stats.removeFromTotalCompleteTasks(numTasks: 1)
-					} else {
-						stats.removeFromTotalIncompleteTasks(numTasks: 1)
-					}
-				}
-				
-                self.persistentContainer?.saveContext()
-            }
-            complete(true)
-        }
-        return UISwipeActionsConfiguration(actions: [delete])
-    }
-	
-	func syncWithAppleWatch() {
-		// do nothing
-	}
-}
+//	func syncWithAppleWatch() {
+//		// do nothing
+//	}
+//}

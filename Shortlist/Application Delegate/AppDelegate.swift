@@ -76,27 +76,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			let today: Int16 = Calendar.current.todayToInt()
 
 			// open app with review
-			if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
-				if (today != Int16(reviewDate)) {
-
-					mainCoordinator?.reviewFlag = true
-					mainCoordinator?.start(persistentContainer)
-
-					// update keychain
-					KeychainWrapper.standard.set(Int(today), forKey: SettingsKeyChainKeys.ReviewDate)
-
-					// show review page
-					DispatchQueue.main.async {
-						self.mainCoordinator?.showReview(self.persistentContainer, automated: true)
-					}
-				} else {
-					// open app without review
-					mainCoordinator?.start(persistentContainer)
-				}
-			} else {
+//			if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
+//				if (today != Int16(reviewDate)) {
+//
+//					mainCoordinator?.reviewFlag = true
+//					mainCoordinator?.start(persistentContainer)
+//
+//					// update keychain
+//					KeychainWrapper.standard.set(Int(today), forKey: SettingsKeyChainKeys.ReviewDate)
+//
+//					// show review page
+//					DispatchQueue.main.async {
+//						self.mainCoordinator?.showReview(self.persistentContainer, automated: true)
+//					}
+//				} else {
+//					// open app without review
+//					mainCoordinator?.start(persistentContainer)
+//				}
+//			} else {
 				// open app without review
 				mainCoordinator?.start(persistentContainer)
-			}
+//			}
 		}
 		
         window = UIWindow()

@@ -147,115 +147,137 @@ class MainViewModel {
 	}
 	
 	// MARK: - Cell Layout
-	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath, fetchedResultsController: NSFetchedResultsController<Day>?, persistentContainer: PersistentContainer?) -> TaskCell {
-		
-		let cell = tableView.dequeueReusableCell(withIdentifier: taskListCellId, for: indexPath) as! TaskCell
-		cell.setupCellLayout()
-		cell.persistentContainer = persistentContainer
-		cell.task = taskForRow(indexPath: indexPath)
-		
-        cell.updateDailyStats = { [weak self] (task) in
-			guard let _self = self else { return }
-			if (task.complete) {
-				_self.dayEntity?.dayToStats?.totalCompleted += 1
-            } else {
-				_self.dayEntity?.dayToStats?.totalCompleted -= 1
-            }
-
-        }
-
-		cell.updateStats = { (task) in
-			let stat = persistentContainer?.fetchStatEntity()
-
-            if (task.complete) {
-				// ADD TO STATS
-				
-				// completed tasks stat
-				stat?.addToTotalCompleteTasks(numTasks: 1)
-				stat?.removeFromTotalIncompleteTasks(numTasks: 1)
-
-				// category specific stat
-				stat?.addToCategoryACompleteTask(category: task.category)
-				
-				//priority task
-				if let priority: Priority = Priority(rawValue: task.priority) {
-					stat?.addToPriority(numTasks: 1, priority: priority)
-				}
-            } else {
-				// REMOVE FROM STATS
-				
-				// completed tasks stat
-				stat?.addToTotalIncompleteTasks(numTasks: 1)
-				stat?.removeFromTotalCompleteTasks(numTasks: 1)
-
-				// category specific stat
-				stat?.removeFromCategoryACompleteTask(category: task.category)
-				
-				//priority task
-				if let priority: Priority = Priority(rawValue: task.priority) {
-					stat?.removeFromPriority(numTasks: 1, priority: priority)
-				}
-            }
-		}
-
-		cell.updateBackLog = { (task) in
-			guard let _persistentContainer = persistentContainer else { return }
-			let category = task.category
-
-			if (task.complete) {
-				if (_persistentContainer.categoryExistsInBackLog(category)) {
-					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
-						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
-						backLog.removeFromBackLogToTask(taskObj)
-					}
-				}
-			} else {
-				if (_persistentContainer.categoryExistsInBackLog(category)) {
-					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
-						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
-						backLog.addToBackLogToTask(taskObj)
-					}
-				}
-			}
-		}
-
-        cell.updateWatch = { (tasks) in
-			self.syncWithWatchData(fetchedResultsController: fetchedResultsController)
-        }
-		
-		cell.updateReminder = { (task) in
-			if let id = task.reminderId {
-				self.reminderService.fetchReminders { (reminders) in
-					guard let reminders = reminders else { return }
-					for reminder in reminders {
-						if (reminder.calendarItemIdentifier == id) {
-							reminder.isCompleted = task.complete
-							self.reminderService.commitChanges(reminder: reminder)
-						}
-					}
-				}
-			}
-		}
-		return cell
-	}
+//	func tableViewCell(_ tableView: UITableView, indexPath: IndexPath, fetchedResultsController: NSFetchedResultsController<Day>?, persistentContainer: PersistentContainer?) -> TaskCell {
+//
+//		let cell = tableView.dequeueReusableCell(withIdentifier: taskListCellId, for: indexPath) as! TaskCell
+//		cell.setupCellLayout()
+//		cell.persistentContainer = persistentContainer
+//		cell.task = taskForRow(indexPath: indexPath)
+//
+//        cell.updateDailyStats = { [weak self] (task) in
+//			guard let _self = self else { return }
+//			if (task.complete) {
+//				_self.dayEntity?.dayToStats?.totalCompleted += 1
+//            } else {
+//				_self.dayEntity?.dayToStats?.totalCompleted -= 1
+//            }
+//
+//        }
+//
+//		cell.updateStats = { (task) in
+//			let stat = persistentContainer?.fetchStatEntity()
+//
+//            if (task.complete) {
+//				// ADD TO STATS
+//
+//				// completed tasks stat
+//				stat?.addToTotalCompleteTasks(numTasks: 1)
+//				stat?.removeFromTotalIncompleteTasks(numTasks: 1)
+//
+//				// category specific stat
+//				stat?.addToCategoryACompleteTask(category: task.category)
+//
+//				//priority task
+//				if let priority: Priority = Priority(rawValue: task.priority) {
+//					stat?.addToPriority(numTasks: 1, priority: priority)
+//				}
+//            } else {
+//				// REMOVE FROM STATS
+//
+//				// completed tasks stat
+//				stat?.addToTotalIncompleteTasks(numTasks: 1)
+//				stat?.removeFromTotalCompleteTasks(numTasks: 1)
+//
+//				// category specific stat
+//				stat?.removeFromCategoryACompleteTask(category: task.category)
+//
+//				//priority task
+//				if let priority: Priority = Priority(rawValue: task.priority) {
+//					stat?.removeFromPriority(numTasks: 1, priority: priority)
+//				}
+//            }
+//		}
+//
+//		cell.updateBackLog = { (task) in
+//			guard let _persistentContainer = persistentContainer else { return }
+//			let category = task.category
+//
+//			if (task.complete) {
+//				if (_persistentContainer.categoryExistsInBackLog(category)) {
+//					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
+//						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
+//						backLog.removeFromBackLogToTask(taskObj)
+//					}
+//				}
+//			} else {
+//				if (_persistentContainer.categoryExistsInBackLog(category)) {
+//					if let backLog: BackLog = _persistentContainer.fetchBackLog(forCategory: category) {
+//						let taskObj: Task = _persistentContainer.viewContext.object(with: task.objectID) as! Task
+//						backLog.addToBackLogToTask(taskObj)
+//					}
+//				}
+//			}
+//		}
+//
+//        cell.updateWatch = { (tasks) in
+//			self.syncWithWatchData(fetchedResultsController: fetchedResultsController)
+//        }
+//
+//		cell.updateReminder = { (task) in
+//			if let id = task.reminderId {
+//				self.reminderService.fetchReminders { (reminders) in
+//					guard let reminders = reminders else { return }
+//					for reminder in reminders {
+//						if (reminder.calendarItemIdentifier == id) {
+//							reminder.isCompleted = task.complete
+//							self.reminderService.commitChanges(reminder: reminder)
+//						}
+//					}
+//				}
+//			}
+//		}
+//		return cell
+//	}
 	
-	func headerForSection(_tableView: UITableView, section: Int) -> UIView {
-		let view = UITableViewHeaderFooterView()
-		
-		if let sectionType = SectionType.init(rawValue: section) {
-			switch sectionType {
-				case .HighPriority:
-					view.tintColor = UIColor.orange.adjust(by: -30.0) ?? UIColor.orange
-					view.textLabel?.attributedText = NSMutableAttributedString(string: "Pressing", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b5).value)!, NSAttributedString.Key.foregroundColor: UIColor.orange.adjust(by: 20.0) ?? Theme.Font.DefaultColor])
-				case .MediumPriority:
-					view.tintColor = UIColor.purple.adjust(by: -20.0) ?? UIColor.purple
-					view.textLabel?.attributedText = NSMutableAttributedString(string: "Doable", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b5).value)!, NSAttributedString.Key.foregroundColor: UIColor.purple.adjust(by: 20.0) ?? Theme.Font.DefaultColor])
-				case .LowPriority:
-					view.tintColor = UIColor.blue.adjust(by: -20.0) ?? UIColor.blue
-					view.textLabel?.attributedText = NSMutableAttributedString(string: "Touch and go", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b5).value)!, NSAttributedString.Key.foregroundColor: UIColor.blue.adjust(by: 60.0) ?? Theme.Font.DefaultColor])
-			}
+//	func headerForSection(_tableView: UITableView, section: Int) -> UIView {
+//		let view = UITableViewHeaderFooterView()
+//
+//		if let sectionType = SectionType.init(rawValue: section) {
+//			switch sectionType {
+//				case .HighPriority:
+//					view.tintColor = UIColor.orange.adjust(by: -30.0) ?? UIColor.orange
+//					view.textLabel?.attributedText = NSMutableAttributedString(string: "Pressing", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b5).value)!, NSAttributedString.Key.foregroundColor: UIColor.orange.adjust(by: 20.0) ?? Theme.Font.DefaultColor])
+//				case .MediumPriority:
+//					view.tintColor = UIColor.purple.adjust(by: -20.0) ?? UIColor.purple
+//					view.textLabel?.attributedText = NSMutableAttributedString(string: "Doable", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b5).value)!, NSAttributedString.Key.foregroundColor: UIColor.purple.adjust(by: 20.0) ?? Theme.Font.DefaultColor])
+//				case .LowPriority:
+//					view.tintColor = UIColor.blue.adjust(by: -20.0) ?? UIColor.blue
+//					view.textLabel?.attributedText = NSMutableAttributedString(string: "Touch and go", attributes: [NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b5).value)!, NSAttributedString.Key.foregroundColor: UIColor.blue.adjust(by: 60.0) ?? Theme.Font.DefaultColor])
+//			}
+//		}
+//		return view
+//	}
+	
+	// MARK: - Collection View Methods
+	func createCompositionalLayout() -> UICollectionViewLayout {
+		let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+			
+			// item
+			let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.93), heightDimension: .fractionalHeight(1.0))
+
+			let item = NSCollectionLayoutItem(layoutSize: itemSize)
+			
+			// group
+			let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+			
+			let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+			
+			let section = NSCollectionLayoutSection(group: group)
+			section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+			
+			return section
 		}
-		return view
+		return layout
 	}
 	
 

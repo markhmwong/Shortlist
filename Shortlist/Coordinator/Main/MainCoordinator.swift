@@ -26,14 +26,14 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
 		navigationController.delegate = self
-		let viewModel = MainViewModel()
-		let vc = MainViewController(persistentContainer: persistentContainer, viewModel: viewModel)
-		
+//		let viewModel = MainViewModel()
+//		let vc = MainViewController(persistentContainer: persistentContainer, viewModel: viewModel)
+		let vc = MainViewControllerWithCollectionView(viewModel: MainViewModelWithCollectionView(), persistentContainer: persistentContainer)
 		vc.coordinator = self
-		rootViewController = vc
+//		rootViewController = vc
 	
 		//background color of navigation bar
-		navigationController.navigationBar.isTranslucent = false
+		
 		navigationController.pushViewController(vc, animated: false)
     }
 	
@@ -94,6 +94,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
         child.start(persistentContainer)
 	}
 	
+	// Additional Options
 	func showOptions(_ persistentContainer: PersistentContainer?) {
 		let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
