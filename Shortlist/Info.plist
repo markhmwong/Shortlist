@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>To retrieve reminders</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Take media to attach to task</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>To retrieve reminders</string>
 	<key>UIBackgroundModes</key>

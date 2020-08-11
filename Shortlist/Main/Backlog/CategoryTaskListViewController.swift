@@ -102,7 +102,7 @@ class BackLogTaskListViewController: UIViewController {
 				try self.fetchedResultsController?.performFetch()
 				self.prepareData() // needs fix by updating the predicate query
 				
-				self.tableView.reloadData()
+//				self.tableView.reloadData()
 			} catch (let err) {
 				print("Unable to perform fetch \(err)")
 			}
@@ -229,7 +229,7 @@ extension BackLogTaskListViewController: NSFetchedResultsControllerDelegate {
 			_viewModel.initaliseData(data: tasks as! Set<Task>)
 			
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+//                self.tableView.reloadData()
             }
         } catch (let err) {
             print("Error: \(err)")

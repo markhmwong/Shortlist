@@ -103,7 +103,7 @@ class BackLogViewController: UIViewController, CategoryInputViewProtocol {
 		DispatchQueue.main.async {
 			do {
 				try self.fetchedResultsController?.performFetch()
-				self.tableView.reloadData()
+//				self.tableView.reloadData()
 			} catch (let err) {
 				print("Unable to perform fetch \(err)")
 			}
@@ -244,7 +244,7 @@ extension BackLogViewController: NSFetchedResultsControllerDelegate {
 		do {
             try fetchedResultsController?.performFetch()
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+//                self.tableView.reloadData()
             }
         } catch (let err) {
             print("\(err)")

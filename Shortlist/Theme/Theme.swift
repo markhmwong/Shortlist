@@ -69,14 +69,15 @@ struct Theme {
 		
 		static let FadedColor: UIColor = {
 			if #available(iOS 13.0, *) {
+				let fade: CGFloat = 50.0
 				return UIColor.init { (UITraitCollection) -> UIColor in
 					switch (UITraitCollection.userInterfaceStyle) {
 						case .dark, .unspecified:
-							return UIColor.white.adjust(by: -40.0)!
+							return UIColor.white.adjust(by: -fade)!
 						case .light:
-							return UIColor.black.adjust(by: 40.0)!
+							return UIColor.black.adjust(by: fade)!
 						@unknown default:
-							return UIColor.white.adjust(by: -40.0)!
+							return UIColor.white.adjust(by: -fade)!
 					}
 				}
 			} else {

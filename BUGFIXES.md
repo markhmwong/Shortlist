@@ -4,6 +4,15 @@
 - cloudkit
 - SMTP how is this any better than local notifications? End of week review? https://github.com/IBM-Swift/Swift-SMTP
 
+# 1.3
+- how did you feel?
+- UI Rebuild
+- Context Menu
+- Adding image/video to task
+- Widget
+- Context menu on home screen through the App Icon
+
+
 ## 1.2.6
 - Replaced icons with Apple's SF Symbols
 - Vertical alignment in the input view toolbar

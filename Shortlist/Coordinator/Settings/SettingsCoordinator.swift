@@ -28,7 +28,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     // stats viewcontroller begin here
     func start(_ persistentContainer: PersistentContainer?) {
         guard let _persistentContainer = persistentContainer else {
-            return
+			fatalError("Persistent Container Nil")
         }
         navigationController.delegate = self
 

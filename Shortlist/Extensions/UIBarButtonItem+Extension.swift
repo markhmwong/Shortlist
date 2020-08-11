@@ -10,6 +10,14 @@ import UIKit.UIBarButtonItem
 
 extension UIBarButtonItem {
 	
+	func optionsButton(target: Any?, action: Selector) -> UIBarButtonItem {
+		let button = UIButton(type: .system)
+		button.setImage(UIImage(systemName: "gearshape.2.fill"), for: .normal)
+		button.addTarget(target, action: action, for: .touchUpInside)
+		button.tintColor = Theme.Font.DefaultColor
+		return UIBarButtonItem(customView: button)
+	}
+	
 	func backButton(target: Any?, action: Selector) -> UIBarButtonItem {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
