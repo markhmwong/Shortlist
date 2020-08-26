@@ -60,6 +60,7 @@ class TaskDetailViewModel: NSObject {
 			
 		})
 		
+		//Supplementary Views
 		let headerRegistration = UICollectionView.SupplementaryRegistration
 		<HeaderSupplementaryView>(elementKind: "SectionHeader") { [weak self]
 			(supplementaryView, string, indexPath) in
@@ -101,7 +102,6 @@ class TaskDetailViewModel: NSObject {
 		snapshot.appendItems([DataItem.title(titleItem)], toSection: .title)
 		snapshot.appendItems([DataItem.notes(notesItem)], toSection: .note)
 		snapshot.appendItems([DataItem.reminder(reminderItem)], toSection: .reminder)
-		
 		for item in photoItem {
 			snapshot.appendItems([DataItem.photo(item)], toSection: .photos)
 		}

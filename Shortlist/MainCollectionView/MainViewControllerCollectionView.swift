@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 class MainViewControllerWithCollectionView: UIViewController {
 	
@@ -47,7 +48,6 @@ class MainViewControllerWithCollectionView: UIViewController {
 		collectionView = BaseCollectionView(frame: .zero, collectionViewLayout: viewModel.createCollectionViewLayout())
 		collectionView.delegate = self
 		view.addSubview(collectionView)
-		
 		// layout
 		collectionView.anchorView(top: view.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
 	}
@@ -68,6 +68,30 @@ class MainViewControllerWithCollectionView: UIViewController {
 	@objc func handleSettings() {
 		coordinator?.showSettings(persistentContainer)
 	}
+	
+	func biometrics(item: TaskItem) {
+		let context = LAContext()
+		var error: NSError?
+
+		if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+			let reason = "Identify yourself!"
+
+			context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) {
+				[weak self] success, authenticationError in
+				guard let self = self else { return }
+				DispatchQueue.main.async {
+					if success {
+						guard let coordinator = self.coordinator else { return }
+						coordinator.showTaskDetails(with: item, persistentContainer: self.persistentContainer)
+					} else {
+						// error
+					}
+				}
+			}
+		} else {
+			// no biometry
+		}
+	}
 }
 
 extension MainViewControllerWithCollectionView: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -77,9 +101,17 @@ extension MainViewControllerWithCollectionView: UIImagePickerControllerDelegate,
 extension MainViewControllerWithCollectionView: UICollectionViewDelegate {
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		let item = viewModel.itemForSelection(indexPath: indexPath)
-		let taskCoordinator = TaskDetailCoordinator(navigationController: coordinator?.navigationController ?? UINavigationController(), task: item)
-		taskCoordinator.start(nil)
+		let item: TaskItem = viewModel.itemForSelection(indexPath: indexPath)
+
+		// check biometrics first before unlocking task
+		switch item.redacted {
+			case .censor:
+				// run biometrics
+				biometrics(item: item)
+			case .disclose:
+				guard let coordinator = coordinator else { return }
+				coordinator.showTaskDetails(with: item, persistentContainer: persistentContainer)
+		}
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {

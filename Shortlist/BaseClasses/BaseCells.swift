@@ -18,7 +18,9 @@ protocol BaseCellProtocol {
 //}
 
 protocol NeumorphicShadow {
+	associatedtype T
 	func castNeumorphicShadow()
+	func configureCell(with item: T)
 }
 
 // MARK: Standard Base Cell
@@ -50,3 +52,13 @@ class BaseCollectionViewCell<T>: UICollectionViewCell, BaseCellProtocol {
 	}
 }
 
+// MARK: Standard Base List Cell
+class BaseTableListCell<T>: UICollectionViewListCell, BaseCellProtocol {
+	func setupCellProperties() {
+		
+	}
+	
+	func setupCellViews() {
+		
+	}
+}

@@ -44,17 +44,18 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	func setupViewAdditionalViews() {
+	private func setupViewAdditionalViews() {
 		// layout cell details
 		let padding: CGFloat = 15.0
 		self.staticTitleLabel.text = "Task At Hand"
 		
 		contentView.addSubview(staticTitleLabel)
+		contentView.addSubview(bodyLabel)
+		
 		staticTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
 		staticTitleLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 0.0).isActive = true
 		staticTitleLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: 0.0).isActive = true
 		
-		contentView.addSubview(bodyLabel)
 		bodyLabel.topAnchor.constraint(equalTo: staticTitleLabel.bottomAnchor, constant: 10.0).isActive = true
 		bodyLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor).isActive = true
 		bodyLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -padding).isActive = true
@@ -178,12 +179,24 @@ class TaskDetailPhotoCell: BaseCollectionViewCell<PhotoItem> {
 // MARK: - Reminder Cell
 class TaskDetailReminderCell: BaseCollectionViewCell<ReminderItem> {
 	
-	let notesLabel: UILabel = {
+	private let notesLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.backgroundColor = .clear
+		label.font = UIFont.init(name: "HelveticaNeue", size: 13)
+		label.textColor = UIColor.black.lighter(by: 40.0)!
 		label.numberOfLines = 0
+		label.textAlignment = .center
 		return label
+	}()
+	
+	private let icon: UIImageView = {
+		let config = UIImage.SymbolConfiguration(pointSize: 13.0)
+		let image = UIImage(systemName: "deskclock.fill", withConfiguration: config)?.withRenderingMode(.alwaysTemplate)
+		let imageView = UIImageView(image: image)
+		imageView.tintColor = UIColor.systemRed
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		return imageView
 	}()
 	
 	override init(frame: CGRect) {
@@ -195,15 +208,28 @@ class TaskDetailReminderCell: BaseCollectionViewCell<ReminderItem> {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	override func draw(_ rect: CGRect) {
+		super.draw(rect)
+		layer.cornerRadius = rect.height / 2
+		layer.borderWidth = 2.0
+		layer.borderColor = UIColor.systemRed.cgColor
+	}
+	
 	override func setupCellViews() {
 		super.setupCellViews()
-		backgroundColor = .orange
 		
 		contentView.addSubview(notesLabel)
-		notesLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-		notesLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-		notesLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-		notesLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+		contentView.addSubview(icon)
+		
+		notesLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0.0).isActive = true
+		notesLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0.0).isActive = true
+		icon.trailingAnchor.constraint(equalTo: notesLabel.leadingAnchor).isActive = true
+		icon.centerYAnchor.constraint(equalTo: notesLabel.centerYAnchor).isActive = true
+
+//		notesLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20.0).isActive = true
+//		notesLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.0).isActive = true
+//		notesLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20.0).isActive = true
+//		notesLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20.0).isActive = true
 	}
 	
 	override func configureCell(with item: ReminderItem) {

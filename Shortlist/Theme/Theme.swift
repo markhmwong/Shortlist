@@ -11,8 +11,8 @@ import UIKit
 struct Theme {
     
     struct Font {
-        static var Regular: String = "AvenirNext-Medium"
-        static var Bold: String = "Avenir-Black"
+        static var Regular: String = "HelveticaNeue"
+        static var Bold: String = "HelveticaNeue-Bold"
 		static var TitleRegular: String = "Georgia"
 		static var TitleBold: String = "Georgia-Bold"
 		

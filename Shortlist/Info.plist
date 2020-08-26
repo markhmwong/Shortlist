@@ -30,6 +30,8 @@
 	<string>To retrieve reminders</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Take media to attach to task</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Used to uncensor Task</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>To retrieve reminders</string>
 	<key>UIBackgroundModes</key>

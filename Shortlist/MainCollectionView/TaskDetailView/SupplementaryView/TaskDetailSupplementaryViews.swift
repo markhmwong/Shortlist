@@ -174,3 +174,4 @@ class FooterSupplementaryView: UICollectionReusableView {
 		NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "TaskCompletionNotification")))
 	}
 }
+

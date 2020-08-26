@@ -49,6 +49,6 @@ class TaskDetailViewController: UIViewController {
 
 extension TaskDetailViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		print("works")
+		
 	}
 }

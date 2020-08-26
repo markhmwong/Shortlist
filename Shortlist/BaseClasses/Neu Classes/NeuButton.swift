@@ -44,7 +44,7 @@ class NeuButton: UIButton {
 		
 		layer.masksToBounds = false
 
-		let cornerRadius: CGFloat = 9.0
+		let cornerRadius: CGFloat = rect.height / 2
 		let shadowRadius: CGFloat = 6.0
 		
 		darkShadow.frame = bounds
