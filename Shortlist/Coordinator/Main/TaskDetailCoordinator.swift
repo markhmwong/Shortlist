@@ -11,9 +11,14 @@ import UIKit
 class TaskDetailCoordinator: NSObject, Coordinator {
 	var childCoordinators: [Coordinator] = []
 	
+	// parent navigationController
 	var navigationController: UINavigationController
 	
 	var task: TaskItem
+	
+	var persistentContainer: PersistentContainer?
+	
+	var navController: UINavigationController?
 	
 	init(navigationController: UINavigationController, task: TaskItem) {
 		self.navigationController = navigationController
@@ -22,12 +27,22 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 	}
 	
 	func start(_ persistentContainer: PersistentContainer?) {
+		
+		guard let persistentContainer = persistentContainer else {
+			fatalError("PersistentContainer cannot be loaded")
+		}
+		self.persistentContainer = persistentContainer
+		
 		let viewModel = TaskDetailViewModel(task: task)
 		let vc = TaskDetailViewController(viewModel: viewModel, coordinator: self)
-		let nav = UINavigationController(rootViewController: vc)
+		
+		self.navController = UINavigationController(rootViewController: vc)
+		
+		guard let navController = navController else { return }
+		
 		vc.navigationItem.leftBarButtonItem = UIBarButtonItem().backButton(target: self, action: #selector(handleDismiss))
-		vc.navigationItem.rightBarButtonItem = UIBarButtonItem().optionsButton(target: self, action: #selector(handleTaskOptions))
-		navigationController.present(nav, animated: true) {
+		vc.navigationItem.rightBarButtonItem = UIBarButtonItem().taskOptionsButton(target: self, action: #selector(handleTaskOptions))
+		navigationController.present(navController, animated: true) {
 			//
 		}
 	}
@@ -39,7 +54,12 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 	}
 	
 	@objc func handleTaskOptions() {
-		print("task options to do")
-		// options should include - redacted mode, priority change, reminder, task title/note editing
+		guard let persistentContainer = persistentContainer else {
+			fatalError("PersistentContainer cannot be loaded")
+		}
+		guard let navController = navController else { return }
+
+		let taskOptionsCoordinator = TaskOptionsCoordinator(navigationController: navController, data: task)
+		taskOptionsCoordinator.start(persistentContainer)
 	}
 }

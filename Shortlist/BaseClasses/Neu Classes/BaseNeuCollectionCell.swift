@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Neumorphic Style Collection View Cell
-class BaseNeuCell<T>: UICollectionViewCell, BaseCellProtocol, NeumorphicShadow {
+class BaseNeuCollectionViewCell<T>: UICollectionViewCell, BaseCellProtocol, NeumorphicShadow {
 	
 	private var lightShadow: CALayer? = nil
 	
@@ -49,10 +49,8 @@ class BaseNeuCell<T>: UICollectionViewCell, BaseCellProtocol, NeumorphicShadow {
 	
 	internal func setupCellProperties() {
 		translatesAutoresizingMaskIntoConstraints = false
-		backgroundColor = UIColor.clear
+		backgroundColor = UIColor.offWhite
 		clipsToBounds = true
-//		layer.borderColor = UIColor.clear.cgColor
-//		layer.borderWidth = 2.0
 		layer.cornerRadius = 14.0
 	}
 	
@@ -65,11 +63,11 @@ class BaseNeuCell<T>: UICollectionViewCell, BaseCellProtocol, NeumorphicShadow {
 		layer.insertSublayer(darkShadow!, at: 0)
 		layer.insertSublayer(lightShadow!, at: 0)
 
-//		contentView.addSubview(headerContainer)
-//		headerContainer.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-//		headerContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15.0).isActive = true
-//		headerContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15.0).isActive = true
-//		headerContainer.bottomAnchor.constraint(equalTo: bodyContainer.topAnchor, constant: -15.0).isActive = true
+		contentView.addSubview(headerContainer)
+		headerContainer.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+		headerContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15.0).isActive = true
+		headerContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15.0).isActive = true
+		headerContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15.0).isActive = true
 //
 //		contentView.addSubview(bodyContainer)
 //		bodyContainer.topAnchor.constraint(equalTo: headerContainer.bottomAnchor).isActive = true

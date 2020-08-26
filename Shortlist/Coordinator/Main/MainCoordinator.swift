@@ -117,6 +117,12 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		navigationController.present(alert, animated: true)
 	}
 	
+	// MARK: - Show Details
+	func showTaskDetails(with item: TaskItem, persistentContainer: PersistentContainer?) {
+		let taskCoordinator = TaskDetailCoordinator(navigationController: navigationController ?? UINavigationController(), task: item)
+		taskCoordinator.start(persistentContainer)
+	}
+	
 	func showReminders(persistentContainer: PersistentContainer?) {
 		addNavigationObserver(MainNavigationObserverKey.ReturnFromReminders)
 		guard let rootViewController = rootViewController else { return }

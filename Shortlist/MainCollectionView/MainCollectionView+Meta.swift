@@ -14,10 +14,16 @@ enum TaskSection: Int, CaseIterable {
 	case low
 }
 
+enum RedactState: Int {
+	case censor
+	case disclose
+}
+
 struct TaskItem: Hashable {
 	var title: String
 	var notes: String
 	var priority: Priority
 	var completionStatus: Bool
 	var reminder: String
+	var redacted: RedactState
 }

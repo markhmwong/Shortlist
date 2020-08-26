@@ -16,6 +16,8 @@ class TaskFeatureIcons: UIStackView {
 
 	private var neuViewNote = NeuIcon(frame: .zero, symbol: "note.text", neumorphic: false)
 	
+	private var neuViewLock = NeuIcon(frame: .zero, symbol: "lock.fill", neumorphic: false)
+	
 //	private var neuViewReminder: UIImageView! = nil
 //
 //	private var neuViewPhoto: UIImageView! = nil
@@ -50,15 +52,21 @@ class TaskFeatureIcons: UIStackView {
 		neuViewNote.widthAnchor.constraint(equalToConstant: 30).isActive = true
 		neuViewNote.heightAnchor.constraint(equalToConstant: 30).isActive = true
 		
+		neuViewLock.widthAnchor.constraint(equalToConstant: 30).isActive = true
+		neuViewLock.heightAnchor.constraint(equalToConstant: 30).isActive = true
+		
 		addArrangedSubview(neuViewReminder)
 		addArrangedSubview(neuViewPhoto)
 		addArrangedSubview(neuViewNote)
+		addArrangedSubview(neuViewLock)
 		
 		setCustomSpacing(15.0, after: neuViewReminder)
 		setCustomSpacing(15.0, after: neuViewPhoto)
+		setCustomSpacing(15.0, after: neuViewNote)
 	}
 }
 
+// Circle on the Task cell
 class PriorityIndicator: UIView {
 	
 	// priorityMarkers primitives
@@ -163,5 +171,4 @@ class PriorityIndicator: UIView {
 //		outerCircle.widthAnchor.constraint(equalToConstant: rect.width).isActive = true
 //		outerCircle.layer.cornerRadius = bounds.height / 2
 	}
-	
 }
