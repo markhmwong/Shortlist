@@ -77,6 +77,7 @@ class TaskOptionsViewController: UIViewController {
 
 extension TaskOptionsViewController: UICollectionViewDelegate {
 	
+	// MARK: - Did Select
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
 		if let section = TaskOptionsSection(rawValue: indexPath.section) {
@@ -95,6 +96,10 @@ extension TaskOptionsViewController: UICollectionViewDelegate {
 				case .redact:
 					if indexPath.item == TaskOptionsSection.ConcealSection.redact.rawValue {
 						
+					}
+					
+					if indexPath.item == TaskOptionsSection.ConcealSection.redactStyle.rawValue {
+						coordinator.showRedactStyle()
 					}
 				case .reminder:
 					if indexPath.item == TaskOptionsSection.ReminderSection.alarm.rawValue {

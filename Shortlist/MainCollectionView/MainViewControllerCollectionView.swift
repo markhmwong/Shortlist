@@ -85,6 +85,9 @@ class MainViewControllerWithCollectionView: UIViewController {
 						coordinator.showTaskDetails(with: item, persistentContainer: self.persistentContainer)
 					} else {
 						// error
+						context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { (success, authenticationError) in
+							print("numpad")
+						}
 					}
 				}
 			}
@@ -102,15 +105,16 @@ extension MainViewControllerWithCollectionView: UICollectionViewDelegate {
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let item: TaskItem = viewModel.itemForSelection(indexPath: indexPath)
-
-		// check biometrics first before unlocking task
-		switch item.redacted {
-			case .censor:
-				// run biometrics
-				biometrics(item: item)
+		
+		
+		
+		switch item.redaction.redactStyle {
 			case .disclose:
 				guard let coordinator = coordinator else { return }
 				coordinator.showTaskDetails(with: item, persistentContainer: persistentContainer)
+			case .star, .highlight:
+				// run biometrics to request an unlock
+				biometrics(item: item)
 		}
 	}
 	
@@ -133,8 +137,7 @@ extension MainViewControllerWithCollectionView: UICollectionViewDelegate {
 			let delete = UIAction(title: "Delete Task", image: UIImage(systemName: "minus.circle.fill"), identifier: UIAction.Identifier(rawValue: "delete"), discoverabilityTitle: nil, attributes: .destructive, state: .off, handler: {action in
 				print("delete ")
 			})
-						
-			
+
 			return UIMenu(title: "Task Menu", image: nil, identifier: nil, children: [open, camera, complete, delete])
 		}
 		

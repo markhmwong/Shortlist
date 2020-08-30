@@ -130,6 +130,9 @@ class TaskCollectionViewCell: BaseNeuCollectionViewCell<TaskItem> {
 		print("Camera")
 	}
 	
+	//temp
+	private var state: RedactState?
+	
 	// MARK: - Configure Cell
 	override func configureCell(with item: TaskItem?) {
 		
@@ -139,10 +142,16 @@ class TaskCollectionViewCell: BaseNeuCollectionViewCell<TaskItem> {
 			return
 		}
 		// a fully configure cell
-//		self.titleLabel.text = item.title
+		
+		// highlight the priority marker with the correct color
 		self.priorityMarker.updatePriorityColor(with: item.priority)
 		
 		// censor text
-		self.titleLabel.redactText(with: item.title, redact: item.redacted)
+		self.titleLabel.redactText(with: "\(item.title)", redactWithEffect: item.redaction.effect)
+//		self.titleLabel.redactText(with: item.title, state: item.redacted, style: RedactStyle.stars, rType: RSStars())
+		// in core data make a new entity for redact style, 1-1
+		
+		// enable disable icons
+		featureStack.enableIcons(with: item)
 	}
 }

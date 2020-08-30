@@ -64,7 +64,13 @@ class TaskFeatureIcons: UIStackView {
 		setCustomSpacing(15.0, after: neuViewPhoto)
 		setCustomSpacing(15.0, after: neuViewNote)
 	}
+	
+	func enableIcons(with item: TaskItem) {
+		neuViewLock.alpha = item.redaction.iconStatus
+	}
 }
+
+
 
 // Circle on the Task cell
 class PriorityIndicator: UIView {

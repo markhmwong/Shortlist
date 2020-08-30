@@ -55,8 +55,10 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 		
 	}
 	
-	func showRedact() {
-		
+	func showRedactStyle() {
+		let viewModel = RedactStyleViewModel()
+		let vc = RedactStyleViewController(viewModel: viewModel)
+		navigationController.pushViewController(vc, animated: true)
 	}
 	
 	func showDeleteTask() {

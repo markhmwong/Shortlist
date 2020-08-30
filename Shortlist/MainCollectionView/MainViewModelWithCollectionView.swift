@@ -39,7 +39,6 @@ class MainViewModelWithCollectionView: NSObject {
 		let cellConfig = UICollectionView.CellRegistration<TaskCollectionViewCell, TaskItem> { (cell, indexPath, item) in
 			// configure cell
 			cell.configureCell(with: item)
-
 			// item 2, 3, 4, buttons for completing task, photo, category, delete
 
 			// slide left to complete
@@ -79,7 +78,7 @@ class MainViewModelWithCollectionView: NSObject {
 	
 	func itemForSelection(indexPath: IndexPath) -> TaskItem {
 		guard let item = diffableDataSource.itemIdentifier(for: indexPath) else {
-			return TaskItem(title: "Unknown", notes: "Unknown", priority: .high, completionStatus: true, reminder: "Reminder", redacted: .disclose)
+			return TaskItem(title: "Unknown", notes: "Unknown", priority: .high, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: .disclose))
 		}
 		return item
 	}
@@ -87,10 +86,10 @@ class MainViewModelWithCollectionView: NSObject {
 	// MARK: - Prepare data source
 	private func prepareDataSource() {
 		tempDataSource = [
-			TaskItem(title: "First Task. Fire Merlin Engine at full capacity. Stress test #1", notes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum fdsfds dfs fds f.", priority: .high, completionStatus: true, reminder: "Reminder", redacted: .censor),
-			TaskItem(title: "Second Task. A longer title to test the dynamic height of the Task Collection View Cell. Second Task. A longer title to test the dynamic height of the Task Collection View Cell. ", notes: "Note two", priority: .medium, completionStatus: false, reminder: "Reminder", redacted: .disclose),
-			TaskItem(title: "Third Task", notes: "Note three", priority: .high, completionStatus: false, reminder: "Reminder", redacted: .disclose),
-			TaskItem(title: "Fourth Task", notes: "Note four", priority: .low, completionStatus: true, reminder: "Reminder", redacted: .disclose),
+			TaskItem(title: "First Task. Fire Merlin Engine at full capacity. Stress test #1", notes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially 상쾌한. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum fdsfds dfs fds f.", priority: .high, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.disclose)),
+			TaskItem(title: "Second Task. A longer title to test 상쾌한 the dynamic height of the Task Collection View Cell. Second Task. A longer title to test the dynamic height of the Task Collection View Cell. ", notes: "Note two", priority: .medium, completionStatus: false, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.star)),
+			TaskItem(title: "Third Task", notes: "Note three", priority: .high, completionStatus: false, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.highlight)),
+			TaskItem(title: "Fourth Task", notes: "Note four", priority: .low, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.disclose)),
 		]
 	}
 }

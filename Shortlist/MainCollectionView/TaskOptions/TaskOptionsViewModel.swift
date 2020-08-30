@@ -52,6 +52,7 @@ enum TaskOptionsSection: Int, CaseIterable {
 	
 	enum ConcealSection: Int {
 		case redact
+		case redactStyle
 	}
 	
 	enum ReminderSection: Int {
@@ -60,13 +61,26 @@ enum TaskOptionsSection: Int, CaseIterable {
 	}
 }
 
+//enum RedactStyle {
+//	case censored
+//	case stars
+//
+//	
+//}
+
 struct TaskOptionsItem: Hashable {
+	static func == (lhs: TaskOptionsItem, rhs: TaskOptionsItem) -> Bool {
+		return lhs.id == rhs.id
+	}
+	
+	var id: UUID = UUID()
 	var name: String
 	var icon: String
 	var section: TaskOptionsSection
 	var isAllDay: Bool?
 	var isRedacted: Bool?
 	var delete: Bool?
+	var redactStyle: RedactState?
 	// store data
 }
 
@@ -154,11 +168,11 @@ class TaskOptionsViewModel: NSObject {
 		reminderItem = TaskOptionsItem(name: "Alarm", icon: "deskclock.fill", section: .reminder)
 		let allDayItem = TaskOptionsItem(name: "All Day", icon: "sunrise.fill", section: .reminder, isAllDay: false) // update data
 		let redactedItem = TaskOptionsItem(name: "Redact", icon: "eye.slash.fill", section: .redact, isRedacted: false) // update data
-		
+		let redactedStyleItem = TaskOptionsItem(name: "Style", icon: "eyeglasses", section: .redact, redactStyle: RedactState.censor) // update data
 		let deleteItem = TaskOptionsItem(name: "Delete Task", icon: "xmark.bin.fill", section: .data, delete: false)
 
 		guard let reminderItem = reminderItem else { return [] }
-		return [titleItem, notesItem, reminderItem, allDayItem, redactedItem, deleteItem]
+		return [titleItem, notesItem, reminderItem, allDayItem, redactedItem, redactedStyleItem, deleteItem]
 	}
 	
 	// MARK: - Register Cell
@@ -207,7 +221,6 @@ class TaskOptionsViewModel: NSObject {
 	
 	private func configureCalendarCellRegistration() -> UICollectionView.CellRegistration<CalendarCell, TaskOptionsItem> {
 		let cellConfig = UICollectionView.CellRegistration<CalendarCell, TaskOptionsItem> { (cell, indexPath, item) in
-
 		}
 		return cellConfig
 	}
