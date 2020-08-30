@@ -35,7 +35,7 @@ class NeuIcon: UIView {
 		backgroundColor = .offWhite
 		clipsToBounds = true
 		layer.borderColor = UIColor.red.lighter(by: 40.0)!.cgColor
-		layer.borderWidth = 2.0
+		layer.borderWidth = 1.0
 
 		setupSubViews()
 	}
@@ -76,11 +76,6 @@ class NeuIcon: UIView {
 		addSubview(icon)
 		icon.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 		icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-		
-//		icon.topAnchor.constraint(equalTo: topAnchor).isActive = true
-//		icon.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-//		icon.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-//		icon.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
 	}
 	
 	// Neumorphic lighting

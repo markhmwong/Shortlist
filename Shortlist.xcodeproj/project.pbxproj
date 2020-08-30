@@ -196,6 +196,7 @@
 		4DC6181D24D02E18008BFBE6 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC6181C24D02E18008BFBE6 /* TaskDetailViewController.swift */; };
 		4DC6950F234CD76600CB4A6E /* 4to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4DC6950E234CD76600CB4A6E /* 4to6.xcmappingmodel */; };
 		4DC69511234CD78B00CB4A6E /* FourToSixCustomMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC69510234CD78B00CB4A6E /* FourToSixCustomMigration.swift */; };
+		4DC99F7824F8D1B500F44611 /* RedactStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC99F7724F8D1B500F44611 /* RedactStyleViewController.swift */; };
 		4DC9E59E24DC676A0046D653 /* TaskFeatureIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC9E59D24DC676A0046D653 /* TaskFeatureIcons.swift */; };
 		4DCECD3224F5035600DEE314 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCECD3124F5035600DEE314 /* AlarmViewController.swift */; };
 		4DCECD3524F5037E00DEE314 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCECD3424F5037E00DEE314 /* CalendarCell.swift */; };
@@ -497,6 +498,7 @@
 		4DC6950B234CD09B00CB4A6E /* FiveModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 6.xcdatamodel"; sourceTree = "<group>"; };
 		4DC6950E234CD76600CB4A6E /* 4to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 4to6.xcmappingmodel; sourceTree = "<group>"; };
 		4DC69510234CD78B00CB4A6E /* FourToSixCustomMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourToSixCustomMigration.swift; sourceTree = "<group>"; };
+		4DC99F7724F8D1B500F44611 /* RedactStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedactStyleViewController.swift; sourceTree = "<group>"; };
 		4DC9E59D24DC676A0046D653 /* TaskFeatureIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskFeatureIcons.swift; sourceTree = "<group>"; };
 		4DCECD3124F5035600DEE314 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		4DCECD3424F5037E00DEE314 /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
@@ -1245,16 +1247,10 @@
 			path = Content;
 			sourceTree = "<group>";
 		};
-		4DB7E29024EFA28A006A8B05 /* Reminder */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Reminder;
-			sourceTree = "<group>";
-		};
 		4DB7E29124EFA28F006A8B05 /* Conceal */ = {
 			isa = PBXGroup;
 			children = (
+				4DC99F7724F8D1B500F44611 /* RedactStyleViewController.swift */,
 			);
 			path = Conceal;
 			sourceTree = "<group>";
@@ -1327,8 +1323,8 @@
 			isa = PBXGroup;
 			children = (
 				4D60F13924C888D500979912 /* TaskCollectionViewCell.swift */,
-				4DC9E59D24DC676A0046D653 /* TaskFeatureIcons.swift */,
 				4D96F5C924F6560E00BCF13A /* RedactedLabel.swift */,
+				4DC9E59D24DC676A0046D653 /* TaskFeatureIcons.swift */,
 			);
 			path = TaskCell;
 			sourceTree = "<group>";
@@ -1357,7 +1353,6 @@
 			children = (
 				4DB7E29224EFB18C006A8B05 /* SupplementaryView */,
 				4DB7E29124EFA28F006A8B05 /* Conceal */,
-				4DB7E29024EFA28A006A8B05 /* Reminder */,
 				4DB7E28F24EFA285006A8B05 /* Content */,
 				4DCECD3024F5032D00DEE314 /* Alarm */,
 				4DD0F20D24EC280C0058F465 /* TaskOptionsViewController.swift */,
@@ -1885,6 +1880,7 @@
 				4DD0F21024EC284E0058F465 /* TaskOptionsViewModel.swift in Sources */,
 				4D6E7560235DB16700C67B8F /* MainInputView.swift in Sources */,
 				4D5BA10622E5EC1600B9B487 /* Calendar+Extension.swift in Sources */,
+				4DC99F7824F8D1B500F44611 /* RedactStyleViewController.swift in Sources */,
 				4D98F49424D8F5D0000692AE /* BaseCollectionView.swift in Sources */,
 				4DF30BF324D40D0D005EA860 /* TaskDetailSupplementaryViews.swift in Sources */,
 				4D6E755A2359A18E00C67B8F /* CategoryTaskListViewController.swift in Sources */,

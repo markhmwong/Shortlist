@@ -9,6 +9,19 @@
 import UIKit
 
 extension String {
+	
+	// Replace all characters except spaces (and other space types such as tabs etc)
+	// to be tested
+	
+	// Regular expression break down
+	// "\" - escape the following backslash.. because Swift wraps strings with quotations
+	// "\S" - matches all non whitespace characters
+	// This replaces each character with a * except for white spaces
+
+	func replaceAllCharacters(with: String) -> String {
+		return self.replacingOccurrences(of: "\\S", with: "*", options: .regularExpression)
+	}
+	
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)

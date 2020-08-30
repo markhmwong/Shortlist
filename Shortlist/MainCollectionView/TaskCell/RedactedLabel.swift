@@ -8,19 +8,20 @@
 
 import UIKit
 
+
 class RedactedLabel: BaseLabel {
 	
-	func redactText(with text: String, redact: RedactState) {
-		switch redact {
-			case .censor:
-				let redactedColor: UIColor = UIColor.black.withAlphaComponent(0.7)
-				let attributes: NSMutableAttributedString = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.backgroundColor: redactedColor, NSAttributedString.Key.foregroundColor: UIColor.clear])
-				attributedText = attributes
-			case .disclose:
-				let redactedColor: UIColor = UIColor.black.withAlphaComponent(0.7)
-				let attributes: NSMutableAttributedString = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor: redactedColor])
-				attributedText = attributes
-		}
-
+	override init(frame: CGRect) {
+		super.init(frame: .zero)
+		translatesAutoresizingMaskIntoConstraints = false
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	func redactText(with text: String, redactWithEffect effect: RedactEffect) {
+		let attributes = effect.styleText(with: text)
+		attributedText = attributes
 	}
 }
