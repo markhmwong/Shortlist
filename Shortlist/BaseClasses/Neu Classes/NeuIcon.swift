@@ -27,15 +27,18 @@ class NeuIcon: UIView {
 		icon = UIImageView(image: image)
 		icon.contentMode = .scaleAspectFit
 		icon.translatesAutoresizingMaskIntoConstraints = false
-		icon.tintColor = UIColor.red.lighter(by: 40.0)!
-		super.init(frame: frame)
+		icon.tintColor = UIColor.red.lighter(by: 20.0)!
 		
+		super.init(frame: frame)
+
 		// View properties
 		translatesAutoresizingMaskIntoConstraints = false
-		backgroundColor = .offWhite
 		clipsToBounds = true
-		layer.borderColor = UIColor.red.lighter(by: 40.0)!.cgColor
-		layer.borderWidth = 1.0
+		layoutMargins = .zero
+//		backgroundColor = .offWhite
+		
+//		layer.borderColor = UIColor.red.lighter(by: 40.0)!.cgColor
+//		layer.borderWidth = 1.0
 
 		setupSubViews()
 	}
@@ -44,11 +47,11 @@ class NeuIcon: UIView {
 		let config = UIImage.SymbolConfiguration(pointSize: 12.0)
 		let image = UIImage(systemName: "deskclock.fill", withConfiguration: config)
 		icon = UIImageView(image: image)
-		icon.contentMode = .scaleAspectFit
+		icon.contentMode = .scaleAspectFill
 		icon.translatesAutoresizingMaskIntoConstraints = false
 		icon.tintColor = UIColor.red.lighter(by: 40.0)!
 		super.init(frame: frame)
-		
+
 		// View properties
 		translatesAutoresizingMaskIntoConstraints = false
 		backgroundColor = .offWhite
@@ -65,9 +68,9 @@ class NeuIcon: UIView {
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
 		layer.cornerRadius = bounds.height / 2
-		if (neumorphicState) {
-			castNeumorphicShadow()
-		}
+//		if (neumorphicState) {
+//			castNeumorphicShadow()
+//		}
 		
 //		castInnerNeumorphicShadow()
 	}

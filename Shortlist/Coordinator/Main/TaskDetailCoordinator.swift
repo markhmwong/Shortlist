@@ -14,13 +14,14 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 	// parent navigationController
 	var navigationController: UINavigationController
 	
-	var task: TaskItem
+	var task: Task
 	
 	var persistentContainer: PersistentContainer?
 	
-	var navController: UINavigationController?
+	// New navigation stack
+//	var navController: UINavigationController?
 	
-	init(navigationController: UINavigationController, task: TaskItem) {
+	init(navigationController: UINavigationController, task: Task) {
 		self.navigationController = navigationController
 		self.task = task
 		super.init()
@@ -36,30 +37,21 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 		let viewModel = TaskDetailViewModel(task: task)
 		let vc = TaskDetailViewController(viewModel: viewModel, coordinator: self)
 		
-		self.navController = UINavigationController(rootViewController: vc)
-		
-		guard let navController = navController else { return }
-		
-		vc.navigationItem.leftBarButtonItem = UIBarButtonItem().backButton(target: self, action: #selector(handleDismiss))
 		vc.navigationItem.rightBarButtonItem = UIBarButtonItem().taskOptionsButton(target: self, action: #selector(handleTaskOptions))
-		navigationController.present(navController, animated: true) {
-			//
-		}
+		navigationController.pushViewController(vc, animated: true)
+
 	}
 	
 	@objc func handleDismiss() {
-		navigationController.dismiss(animated: true) {
-			//
-		}
+		navigationController.dismiss(animated: true) { }
 	}
 	
 	@objc func handleTaskOptions() {
 		guard let persistentContainer = persistentContainer else {
 			fatalError("PersistentContainer cannot be loaded")
 		}
-		guard let navController = navController else { return }
 
-		let taskOptionsCoordinator = TaskOptionsCoordinator(navigationController: navController, data: task)
+		let taskOptionsCoordinator = TaskOptionsCoordinator(navigationController: navigationController, data: task)
 		taskOptionsCoordinator.start(persistentContainer)
 	}
 }

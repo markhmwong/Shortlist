@@ -11,22 +11,11 @@ import UIKit
 // MARK: - Title Cell
 class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
 	
-	private lazy var staticTitleLabel: BaseStaticLabel = BaseStaticLabel(frame: .zero, fontSize: 13)
-
 	// private variables
-	private lazy var editButton: UIButton = {
-		let button = UIButton()
-		button.translatesAutoresizingMaskIntoConstraints = false
-		button.setTitle("Edit", for: .normal)
-		button.setTitleColor(.blue, for: .normal)
-		button.addTarget(self, action: #selector(handleEditButton), for: .touchDown)
-		return button
-	}()
-	
 	private lazy var bodyLabel: UILabel = {
 		let label = UILabel()
-		label.font = UIFont.init(name: "HelveticaNeue-Bold", size: 18)
-		label.textColor = UIColor.black.lighter(by: 20.0)!
+		label.font = ThemeV2.CellProperties.HeadingBoldFont
+		label.textColor = ThemeV2.TextColor.DefaultColor
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.numberOfLines = 0
 		return label
@@ -45,18 +34,15 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
 	}
 	
 	private func setupViewAdditionalViews() {
+		layer.cornerRadius = 5.0
+		clipsToBounds = true
+		
 		// layout cell details
 		let padding: CGFloat = 15.0
-		self.staticTitleLabel.text = "Task At Hand"
 		
-		contentView.addSubview(staticTitleLabel)
 		contentView.addSubview(bodyLabel)
 		
-		staticTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
-		staticTitleLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 0.0).isActive = true
-		staticTitleLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: 0.0).isActive = true
-		
-		bodyLabel.topAnchor.constraint(equalTo: staticTitleLabel.bottomAnchor, constant: 10.0).isActive = true
+		bodyLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
 		bodyLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor).isActive = true
 		bodyLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -padding).isActive = true
 		bodyLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: 0.0).isActive = true
@@ -70,69 +56,97 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
 		super.prepareForReuse()
 		bodyLabel.text = nil
 	}
-	
-	@objc func handleEditButton() {
-		editClosure?()
-	}
-	
-	// mark as complete, photo button, redact task (eye open/close), change priority, how to edit??
-	// reminder
 }
 
 // MARK: - Notes Cell
-class TaskDetailNotesCell: BaseCollectionViewCell<NotesItem> {
+extension UICellConfigurationState {
+	var notesItem: NotesItem? {
+		set { self[.notesItem] = newValue }
+		get { return self[.notesItem] as? NotesItem }
+	}
+}
+
+fileprivate extension UIConfigurationStateCustomKey {
+	static let notesItem = UIConfigurationStateCustomKey("com.whizbang.state.notes")
+}
+
+class TaskDetailNotesCell: BaseListCell<NotesItem> {
 	
-	private lazy var staticTitleLabel: BaseStaticLabel = BaseStaticLabel(frame: .zero, fontSize: 13)
+	override var configurationState: UICellConfigurationState {
+		var state = super.configurationState
+		state.notesItem = self.item
+		return state
+	}
 	
-	private lazy var bodyLabel: UITextView = {
-		let label = UITextView(frame: .zero)
-		label.font = UIFont.init(name: "HelveticaNeue", size: 13)
-		label.textColor = UIColor.black.lighter(by: 40.0)!
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.isEditable = false
-		label.backgroundColor = .clear
-		label.layoutMargins = .zero
-		label.textContainerInset = .zero
-		label.textContainer.lineFragmentPadding = 0
-		return label
+	private func defaultListContentConfiguration() -> UIListContentConfiguration {
+		return .subtitleCell()
+	}
+	
+	private var viewConstraintCheck: NSLayoutConstraint? = nil
+
+	private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
+
+	private lazy var textColor: UIColor = ThemeV2.TextColor.DefaultColor
+	
+	private var highlight: CAShapeLayer = CAShapeLayer()
+	
+	private lazy var button: UIButton = {
+		let button = UIButton()
+		button.setTitle("Add Photo", for: .normal)
+		button.setTitleColor(ThemeV2.TextColor.DefaultColor, for: .normal)
+		button.addTarget(self, action: #selector(handleAddPhoto), for: .touchDown)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		return button
 	}()
 	
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-		self.setupViewAdditionalViews()
-	}
-	
-	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	
-	func setupViewAdditionalViews() {
-		staticTitleLabel.text = "Brain Storm Notes"
+	private func setupViewsIfNeeded() {
+		guard viewConstraintCheck == nil else { return }
+		contentView.backgroundColor = ThemeV2.Background
 		
-		let padding: CGFloat = 15.0
+		listContentView.translatesAutoresizingMaskIntoConstraints = false
+		contentView.addSubview(listContentView)
+		contentView.layer.addSublayer(highlight)
 		
-		contentView.addSubview(staticTitleLabel)
-		staticTitleLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10.0).isActive = true
-		staticTitleLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 0.0).isActive = true
+		highlight.fillColor = UIColor.systemTeal.cgColor
 		
-		contentView.addSubview(bodyLabel)
-		bodyLabel.topAnchor.constraint(equalTo: staticTitleLabel.bottomAnchor, constant: padding).isActive = true
-		bodyLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor).isActive = true
-		bodyLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -padding).isActive = true
-		bodyLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -5.0).isActive = true
+		listContentView.backgroundColor = ThemeV2.Background
+		listContentView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0).isActive = true
+		listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
+		listContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
+		
+		// attach the bottom constraint so when the condition is met above the view isn't repeatedly attached to the cell
+		viewConstraintCheck = listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+		viewConstraintCheck?.isActive = true
 	}
 	
-	override func configureCell(with item: NotesItem) {
-		bodyLabel.text = item.notes
+	override func draw(_ rect: CGRect) {
+		super.draw(rect)
+		highlight.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: rect.width * 0.01, height: rect.height)).cgPath
 	}
 	
-	override func prepareForReuse() {
-		super.prepareForReuse()
-		bodyLabel.text = nil
+	override func updateConfiguration(using state: UICellConfigurationState) {
+		setupViewsIfNeeded()
+		var content = defaultListContentConfiguration().updated(for: state)
+		content.textProperties.color = textColor
+		content.textProperties.font = ThemeV2.CellProperties.PrimaryFont
+		let emptyText = "Notes are empty"
+
+		if (state.notesItem != nil) {
+			if (state.notesItem?.isButton ?? false) {
+				content.text = "Add Notes"
+				highlight.fillColor = UIColor.clear.cgColor
+			} else {
+				content.text = "\(state.notesItem?.notes ?? emptyText)"
+			}
+		} else {
+			content.text = emptyText
+		}
+		
+		listContentView.configuration = content
 	}
 	
-	@objc func handleEditButton() {
-		print("test notes")
+	@objc func handleAddPhoto() {
+		print("Add Photo Button")
 	}
 }
 
@@ -179,24 +193,15 @@ class TaskDetailPhotoCell: BaseCollectionViewCell<PhotoItem> {
 // MARK: - Reminder Cell
 class TaskDetailReminderCell: BaseCollectionViewCell<ReminderItem> {
 	
-	private let notesLabel: UILabel = {
+	private let reminderLabel: UILabel = {
 		let label = UILabel()
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.backgroundColor = .clear
-		label.font = UIFont.init(name: "HelveticaNeue", size: 13)
-		label.textColor = UIColor.black.lighter(by: 40.0)!
+		label.font = ThemeV2.CellProperties.HeadingBoldFont
+		label.textColor = ThemeV2.TextColor.DefaultColor
 		label.numberOfLines = 0
 		label.textAlignment = .center
 		return label
-	}()
-	
-	private let icon: UIImageView = {
-		let config = UIImage.SymbolConfiguration(pointSize: 13.0)
-		let image = UIImage(systemName: "deskclock.fill", withConfiguration: config)?.withRenderingMode(.alwaysTemplate)
-		let imageView = UIImageView(image: image)
-		imageView.tintColor = UIColor.systemRed
-		imageView.translatesAutoresizingMaskIntoConstraints = false
-		return imageView
 	}()
 	
 	override init(frame: CGRect) {
@@ -211,20 +216,20 @@ class TaskDetailReminderCell: BaseCollectionViewCell<ReminderItem> {
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
 		layer.cornerRadius = rect.height / 2
-		layer.borderWidth = 2.0
-		layer.borderColor = UIColor.systemRed.cgColor
+		layer.borderWidth = 4.0
+		layer.borderColor = ThemeV2.TextColor.DefaultColor.cgColor
 	}
 	
 	override func setupCellViews() {
 		super.setupCellViews()
 		
-		contentView.addSubview(notesLabel)
-		contentView.addSubview(icon)
+		contentView.addSubview(reminderLabel)
+//		contentView.addSubview(icon)
 		
-		notesLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0.0).isActive = true
-		notesLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0.0).isActive = true
-		icon.trailingAnchor.constraint(equalTo: notesLabel.leadingAnchor).isActive = true
-		icon.centerYAnchor.constraint(equalTo: notesLabel.centerYAnchor).isActive = true
+		reminderLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0.0).isActive = true
+		reminderLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0.0).isActive = true
+//		icon.trailingAnchor.constraint(equalTo: notesLabel.leadingAnchor).isActive = true
+//		icon.centerYAnchor.constraint(equalTo: notesLabel.centerYAnchor).isActive = true
 
 //		notesLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20.0).isActive = true
 //		notesLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.0).isActive = true
@@ -233,12 +238,12 @@ class TaskDetailReminderCell: BaseCollectionViewCell<ReminderItem> {
 	}
 	
 	override func configureCell(with item: ReminderItem) {
-		notesLabel.text = item.reminder
+		reminderLabel.text = "12:30pm"//item.reminder
 	}
 	
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		notesLabel.text = nil
+		reminderLabel.text = nil
 	}
 }
 

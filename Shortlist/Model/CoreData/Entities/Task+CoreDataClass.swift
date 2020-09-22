@@ -1,9 +1,8 @@
 //
 //  Task+CoreDataClass.swift
-//  Five
+//  
 //
-//  Created by Mark Wong on 21/7/19.
-//  Copyright © 2019 Mark Wong. All rights reserved.
+//  Created by Mark Wong on 21/9/20.
 //
 //
 

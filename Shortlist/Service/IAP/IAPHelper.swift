@@ -140,7 +140,8 @@ extension IAPHelper: SKPaymentTransactionObserver {
 
   private func complete(transaction: SKPaymentTransaction) {
     deliverPurchaseNotificationFor(identifier: transaction.payment.productIdentifier)
-    NotificationCenter.default.post(name: .IAPHelperPurchaseCompleteNotification, object: nil)
+	NotificationCenter.default.post(name: .IAPHelperPurchaseCompleteNotification, object: nil, userInfo: [IAPProducts.tipProducts[transaction.payment.productIdentifier] : transaction.payment.productIdentifier])
+	// Save KeyChain
     savePurchaseToKeyChain(productIdentifier: transaction.payment.productIdentifier)
     SKPaymentQueue.default().finishTransaction(transaction)
   }
@@ -154,7 +155,6 @@ extension IAPHelper: SKPaymentTransactionObserver {
 
   private func fail(transaction: SKPaymentTransaction) {
     NotificationCenter.default.post(name: .IAPHelperPurchaseCancelledNotification, object: nil)
-
     if let transactionError = transaction.error as NSError?,
       let _ = transaction.error?.localizedDescription,
         transactionError.code != SKError.paymentCancelled.rawValue {

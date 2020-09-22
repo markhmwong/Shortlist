@@ -191,7 +191,12 @@ Graph uses a combination of CAShapeLayers, Bezier paths to draw the lines. First
 
 ### URLSession and Firebase
 
-## Temp todo
-event kit integration
-watch complication
-light theme
+## Main Components Updated 17/9/2020
+Add Task component
+Add Photos
+Add Note
+Connect Core Data (Task)
+Add Tips to Top Right
+Add Review Page to settings
+Photo library in settings not showingd
+Stats

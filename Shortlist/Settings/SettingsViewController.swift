@@ -65,21 +65,6 @@ class SettingsViewController: UIViewController {
         tableView.anchorView(top: header.view.bottomAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
     }
 	
-	
-	override func viewWillDisappear(_ animated: Bool) {
-		super.viewWillDisappear(animated)
-		
-	}
-	
-	override func viewDidDisappear(_ animated: Bool) {
-		super.viewDidDisappear(animated)
-		
-	}
-	
-	override func viewWillLayoutSubviews() {
-		super.viewWillLayoutSubviews()
-	}
-	
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		tableView.updateHeaderViewHeight()
@@ -130,17 +115,17 @@ class SettingsViewController: UIViewController {
 	}
 	
 	func confirmDeleteCategoryData() {
-		let closure = { () in
+		_ = { () in
 			self.deleteCategoryData()
 		}
-		coordinator?.deleteBox(self, deletionClosure: closure, title: "Would you like to delete all categories?", message: "Data is unrecoverable")
+//		coordinator?.deleteBox(self, deletionClosure: closure, title: "Would you like to delete all categories?", message: "Data is unrecoverable")
 	}
 	
 	func confirmDeleteAllData() {
-		let closure = { () in
+		_ = { () in
 			self.deleteAllData()
 		}
-		coordinator?.deleteBox(self, deletionClosure: closure, title: "Would you like to delete all data?", message: "Data is unrecoverable")
+//		coordinator?.deleteBox(self, deletionClosure: closure, title: "Would you like to delete all data?", message: "Data is unrecoverable")
 	}
 	
 	// viewModel?

@@ -17,18 +17,18 @@ class NeuButton: UIButton {
 	init(title: String) {
 		super.init(frame: .zero)
 		setTitle("\(title)", for: .normal)
-		titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2).with(weight: .bold)
+		titleLabel?.font = ThemeV2.CellProperties.HeadingBoldFont
 		translatesAutoresizingMaskIntoConstraints = false
-		setTitleColor(.black, for: .normal)
+		setTitleColor(ThemeV2.TextColor.DefaultColor, for: .normal)
 		layer.cornerRadius = 16.0
-		backgroundColor = UIColor.offWhite
+		backgroundColor = UIColor.systemTeal
 		clipsToBounds = true
 	}
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		layer.cornerRadius = 16.0
-		backgroundColor = UIColor.offWhite
+		backgroundColor = UIColor.systemTeal
 		clipsToBounds = true
 	}
 	
@@ -40,31 +40,31 @@ class NeuButton: UIButton {
 		super.draw(rect)
 //		layer.backgroundColor = UIColor.clear.cgColor
 
-		imageView?.isUserInteractionEnabled = false
+//		imageView?.isUserInteractionEnabled = false
 		
-		layer.masksToBounds = false
-
-		let cornerRadius: CGFloat = rect.height / 2
-		let shadowRadius: CGFloat = 6.0
+//		layer.masksToBounds = false
+//
+//		let cornerRadius: CGFloat = rect.height / 2
+//		let shadowRadius: CGFloat = 6.0
 		
-		darkShadow.frame = bounds
-		darkShadow.backgroundColor = backgroundColor?.cgColor
-		darkShadow.shadowColor = UIColor.black.lighter(by: 90)!.cgColor
-		darkShadow.cornerRadius = cornerRadius
-		darkShadow.shadowOffset = CGSize(width: shadowRadius, height: shadowRadius)
-		darkShadow.shadowOpacity = 1.0
-		darkShadow.shadowRadius = shadowRadius
-		layer.insertSublayer(darkShadow, at: 0)
-
-		
-		lightShadow.frame = bounds
-		lightShadow.backgroundColor = UIColor.white.cgColor
-		lightShadow.shadowColor = UIColor.white.cgColor
-		lightShadow.cornerRadius = cornerRadius
-		lightShadow.shadowOffset = CGSize(width: -shadowRadius, height: -shadowRadius)
-		lightShadow.shadowOpacity = 1.0
-		lightShadow.shadowRadius = shadowRadius
-		layer.insertSublayer(lightShadow, at: 0)
+//		darkShadow.frame = bounds
+//		darkShadow.backgroundColor = backgroundColor?.cgColor
+//		darkShadow.shadowColor = UIColor.black.lighter(by: 90)!.cgColor
+//		darkShadow.cornerRadius = cornerRadius
+//		darkShadow.shadowOffset = CGSize(width: shadowRadius, height: shadowRadius)
+//		darkShadow.shadowOpacity = 1.0
+//		darkShadow.shadowRadius = shadowRadius
+//		layer.insertSublayer(darkShadow, at: 0)
+//
+//
+//		lightShadow.frame = bounds
+//		lightShadow.backgroundColor = UIColor.white.cgColor
+//		lightShadow.shadowColor = UIColor.white.cgColor
+//		lightShadow.cornerRadius = cornerRadius
+//		lightShadow.shadowOffset = CGSize(width: -shadowRadius, height: -shadowRadius)
+//		lightShadow.shadowOpacity = 1.0
+//		lightShadow.shadowRadius = shadowRadius
+//		layer.insertSublayer(lightShadow, at: 0)
 	}
 	
 	func pressedAnimation() {

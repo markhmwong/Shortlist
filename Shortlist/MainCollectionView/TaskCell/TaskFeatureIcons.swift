@@ -40,6 +40,8 @@ class TaskFeatureIcons: UIStackView {
 		alignment = .leading
 		distribution = .fillEqually
 		axis = .horizontal
+		layoutMargins = .zero
+		isLayoutMarginsRelativeArrangement = true
 	}
 	
 	private func setupIcons() {
@@ -60,9 +62,9 @@ class TaskFeatureIcons: UIStackView {
 		addArrangedSubview(neuViewNote)
 		addArrangedSubview(neuViewLock)
 		
-		setCustomSpacing(15.0, after: neuViewReminder)
-		setCustomSpacing(15.0, after: neuViewPhoto)
-		setCustomSpacing(15.0, after: neuViewNote)
+		setCustomSpacing(5.0, after: neuViewReminder)
+		setCustomSpacing(5.0, after: neuViewPhoto)
+		setCustomSpacing(5.0, after: neuViewNote)
 	}
 	
 	func enableIcons(with item: TaskItem) {
@@ -129,7 +131,7 @@ class PriorityIndicator: UIView {
 			case .low:
 				innerCircle.backgroundColor = .systemBlue
 			default:
-				innerCircle.backgroundColor = .systemBlue
+				innerCircle.backgroundColor = .systemGray
 		}
 	}
 	
@@ -142,7 +144,7 @@ class PriorityIndicator: UIView {
 			case .low:
 				innerCircle.backgroundColor = .systemBlue
 			default:
-				innerCircle.backgroundColor = .systemBlue
+				innerCircle.backgroundColor = .systemGray
 		}
 	}
 	

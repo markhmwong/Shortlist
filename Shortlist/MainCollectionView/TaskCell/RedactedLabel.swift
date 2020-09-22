@@ -21,7 +21,6 @@ class RedactedLabel: BaseLabel {
 	}
 	
 	func redactText(with text: String, redactWithEffect effect: RedactEffect) {
-		let attributes = effect.styleText(with: text)
-		attributedText = attributes
+		attributedText = effect.styleText(with: text)
 	}
 }

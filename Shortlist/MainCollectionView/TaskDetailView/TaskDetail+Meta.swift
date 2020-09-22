@@ -11,7 +11,7 @@ import Foundation
 enum TaskDetailSections: Int, CaseIterable {
 	case title = 0
 	case note
-	case reminder
+//	case reminder
 	case photos
 //	case options
 }
@@ -20,12 +20,13 @@ enum DataItem: Hashable {
 	case title(TitleItem)
 	case notes(NotesItem)
 	case photo(PhotoItem)
-	case reminder(ReminderItem)
+//	case reminder(ReminderItem)
 //	case options(OptionItem)
 }
 
 struct PhotoItem: Hashable {
 	var photo: String
+	var isButton: Bool
 }
 
 struct TitleItem: Hashable {
@@ -33,7 +34,9 @@ struct TitleItem: Hashable {
 }
 
 struct NotesItem: Hashable {
+	let id: UUID = UUID()
 	var notes: String
+	var isButton: Bool
 }
 
 struct OptionItem: Hashable {
