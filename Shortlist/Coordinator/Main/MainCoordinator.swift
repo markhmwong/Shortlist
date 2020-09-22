@@ -26,16 +26,28 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
 		navigationController.delegate = self
+		// Deprecated 1.2.x
 //		let viewModel = MainViewModel()
 //		let vc = MainViewController(persistentContainer: persistentContainer, viewModel: viewModel)
+		
+		// 2.0
+		guard let persistentContainer = persistentContainer else { return }
 		let vc = MainViewControllerWithCollectionView(viewModel: MainViewModelWithCollectionView(), persistentContainer: persistentContainer)
 		vc.coordinator = self
-//		rootViewController = vc
-	
-		//background color of navigation bar
-		
 		navigationController.pushViewController(vc, animated: false)
     }
+	
+	/*
+	
+		//MARK: - Navigation Methods
+	
+	*/
+	func showTipJar() {
+		let vc = TipsViewController(viewModel: TipsViewModel(), coordinator: nil)
+		navigationController.present(vc, animated: true) {
+			//
+		}
+	}
 	
 	func showOnboarding(_ persistentContainer: PersistentContainer?) {
 		addNavigationObserver(MainNavigationObserverKey.ReturnFromOnboarding)
@@ -76,9 +88,9 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	}
     
 	func showReview(_ persistentContainer: PersistentContainer?, automated: Bool) {
-		addNavigationObserver(MainNavigationObserverKey.ReturnFromReview)
-		let child = ReviewCoordinator(navigationController: navigationController, mainViewController: rootViewController, automated: automated)
-        child.parentCoordinator = self
+//		addNavigationObserver(MainNavigationObserverKey.ReturnFromReview)
+		let child = ReviewCoordinator(navigationController: navigationController, automated: automated)
+//        child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
     }
@@ -117,8 +129,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		navigationController.present(alert, animated: true)
 	}
 	
-	// MARK: - Show Details
-	func showTaskDetails(with item: TaskItem, persistentContainer: PersistentContainer?) {
+	func showTaskDetails(with item: Task, persistentContainer: PersistentContainer?) {
 		let taskCoordinator = TaskDetailCoordinator(navigationController: navigationController ?? UINavigationController(), task: item)
 		taskCoordinator.start(persistentContainer)
 	}
@@ -148,6 +159,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		childCoordinators.append(child)
 		child.start(persistentContainer)
 	}
+	
 	
     func getTopMostViewController() -> UIViewController? {
 		var topMostViewController = UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.rootViewController

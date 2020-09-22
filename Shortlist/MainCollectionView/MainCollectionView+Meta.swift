@@ -20,70 +20,9 @@ enum RedactState: Int {
 }
 
 enum RedactStyle: Int {
-	case star = 0 //hidden
+	case disclose = 0 //hidden
 	case highlight // hidden
-	case disclose // total transparency
-}
-
-struct RedactComponent: Hashable {
-	var redactStyle: RedactStyle
-	
-	// Effect Factory
-	var effect: RedactEffect {
-		switch redactStyle {
-			case .star:
-				return RedactStar()
-			case .highlight:
-				return RedactHighlight()
-			case .disclose:
-				return RedactNone()
-		}
-	}
-	
-	// alpha level of feature icons on the home task cells
-	var iconStatus: CGFloat {
-		switch redactStyle {
-			case .star, .highlight:
-				return 1.0
-			case .disclose:
-				return 0.3
-		}
-	}
-	
-}
-
-protocol RedactEffect {
-	var effect: [NSAttributedString.Key : Any] { get }
-	func styleText(with text: String) -> NSMutableAttributedString?
-}
-
-
-
-struct RedactStar: RedactEffect {
-	
-	var effect: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black]
-	
-	func styleText(with text: String) -> NSMutableAttributedString? {
-		// replace string with stars. \\S
-		return NSMutableAttributedString(string: text.replaceAllCharacters(with: "*"), attributes: effect)
-	}
-}
-
-struct RedactHighlight: RedactEffect {
-	
-	var effect: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.backgroundColor: UIColor.black]
-
-	func styleText(with text: String) -> NSMutableAttributedString? {
-		return NSMutableAttributedString(string: text, attributes: effect)
-	}
-}
-
-struct RedactNone: RedactEffect {
-	var effect: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.backgroundColor: UIColor.clear]
-
-	func styleText(with text: String) -> NSMutableAttributedString? {
-		return NSMutableAttributedString(string: text, attributes: effect)
-	}
+	case star // total transparency
 }
 
 struct TaskItem: Hashable {

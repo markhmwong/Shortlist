@@ -120,8 +120,8 @@ class PersistentContainer: NSPersistentCloudKitContainer {
 		task.isNew = false 
 		task.priority = Int16(idNum)
 //		task.id = Int16(idNum)
-		task.createdAt = createdAt as NSDate
-		task.reminder = reminderDate as NSDate
+		task.createdAt = createdAt
+		task.reminder = reminderDate
 		day.addToDayToTask(task)
 	}
     
@@ -214,14 +214,14 @@ class PersistentContainer: NSPersistentCloudKitContainer {
         }
     }
     
+	// Do not use 18/9/2020
     func fetchDayEntity(forDate date: Date) -> NSManagedObject? {
-        let context = viewContext
         let dayRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Day")
         dayRequest.returnsObjectsAsFaults = false
         dayRequest.predicate = NSPredicate(format: "createdAt == %@", date as NSDate)
         
         do {
-            let fetchedResults = try context.fetch(dayRequest)
+            let fetchedResults = try viewContext.fetch(dayRequest)
             return fetchedResults.first as? NSManagedObject
         } catch let error as NSError {
             print("Day entity could not be fetched \(error)")

@@ -7,12 +7,145 @@
 //
 
 import UIKit
-
-// to do
-// task title
-// notes
+// To do
 // complete button
+// long press actions
 
+// These two extensions must be individually classified for each cell. You'll also find these extensions at WhatsNewCell and PermissionsCell
+// Declare an extension on the cell state struct to provide a typed property for this custom state.
+private extension UICellConfigurationState {
+	var taskItem: Task? {
+		set {
+			self[.taskItem] = newValue
+		}
+		get { return self[.taskItem] as? Task }
+	}
+}
+
+fileprivate extension UIConfigurationStateCustomKey {
+	static let taskItem = UIConfigurationStateCustomKey("com.whizbang.state.task")
+}
+// MARK: - Task Cell Version 2
+class TaskCellV2: BaseListCell<Task> {
+	
+	private let completeText: String = "Complete"
+	
+	private let incompleteText: String = "Incomplete"
+	
+	private lazy var categoryLabel: UILabel = {
+		let label = UILabel()
+		label.text = "Category • Complete"
+		label.textColor = ThemeV2.TextColor.DefaultColorWithAlpha1
+		label.font = ThemeV2.CellProperties.SecondaryFont
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.layoutMargins = .zero
+		return label
+	}()
+	
+	private lazy var featureStack: TaskFeatureIcons = TaskFeatureIcons(frame: .zero)
+
+	override var configurationState: UICellConfigurationState {
+		var state = super.configurationState
+		state.taskItem = self.item
+		return state
+	}
+	
+	private func defaultListContentConfiguration() -> UIListContentConfiguration {
+		return .subtitleCell()
+	}
+	
+	private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
+
+	private var viewConstraintCheck: NSLayoutConstraint? = nil
+
+	private var priorityMarker: PriorityIndicator = PriorityIndicator(frame: .zero, priority: .none)
+
+	private func setupViewsIfNeeded() {
+		guard viewConstraintCheck == nil else { return }
+		backgroundColor = ThemeV2.CellProperties.Background
+		layer.cornerRadius = 10.0
+		clipsToBounds = true
+		
+		listContentView.translatesAutoresizingMaskIntoConstraints = false
+		
+		contentView.addSubview(listContentView)
+		contentView.addSubview(categoryLabel)
+		contentView.addSubview(priorityMarker)
+		
+		categoryLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+		categoryLabel.leadingAnchor.constraint(equalTo: listContentView.layoutMarginsGuide.leadingAnchor, constant: 0.0).isActive = true
+		categoryLabel.trailingAnchor.constraint(equalTo: listContentView.layoutMarginsGuide.trailingAnchor).isActive = true
+		
+		listContentView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 0).isActive = true
+		viewConstraintCheck = listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0.0)
+		viewConstraintCheck?.isActive = true
+		listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.0).isActive = true
+		listContentView.trailingAnchor.constraint(equalTo: priorityMarker.leadingAnchor, constant: -10.0).isActive = true
+		
+		priorityMarker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0.0).isActive = true
+		priorityMarker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15.0).isActive = true
+		priorityMarker.heightAnchor.constraint(equalToConstant: 10.0).isActive = true
+		priorityMarker.widthAnchor.constraint(equalToConstant: 10.0).isActive = true
+
+		layer.borderWidth = 2.0
+		layer.borderColor = ThemeV2.CellProperties.Border.cgColor
+	}
+	
+	override func updateConfiguration(using state: UICellConfigurationState) {
+		setupViewsIfNeeded()
+		var content = defaultListContentConfiguration().updated(for: state)
+		content.textProperties.color = ThemeV2.TextColor.DefaultColor
+
+		if let style = state.taskItem?.redactionStyle() {
+			/// Path for 2.0 shortlist users
+			// Category label
+
+			categoryLabel.attributedText = state.taskItem?.redactedText(with:"Category • \(completionText(state.taskItem?.complete ?? false))")
+			
+			// Content label
+			// apply redaction style to font
+			content.attributedText = state.taskItem?.redactedText(with: state.taskItem?.name ?? "None")
+
+			// if redacted, then hide the priority color with grey
+			switch style {
+				case .highlight, .star:
+					priorityMarker.updatePriorityColor(with: .none)
+				case .disclose:
+					if let priority = Priority.init(rawValue: Int16(state.taskItem?.priority ?? 0)) {
+						priorityMarker.updatePriorityColor(with: priority)
+					}
+			}
+		} else {
+			/// A path for pre-2.0 Shortlist users where redaction was not a feature.
+			
+			// Category label
+			categoryLabel.text = "Category • Complete"
+			
+			// Content label
+			content.text = state.taskItem?.name ?? "None"
+			
+			if let priority = Priority.init(rawValue: Int16(state.taskItem?.priority ?? 0)) {
+				priorityMarker.updatePriorityColor(with: priority)
+			}
+		}
+		
+		listContentView.configuration = content
+//		// enable disable icons
+//		guard let item = state.taskItem else { return }
+//		featureStack.enableIcons(with: item)
+
+	}
+	
+	func completionText(_ state: Bool) -> String {
+		if (state) {
+			return completeText
+		} else {
+			return incompleteText
+		}
+	}
+}
+
+// MARK: - Deprecated to be removed
 class TaskCollectionViewCell: BaseNeuCollectionViewCell<TaskItem> {
 	
 	// stackview with icons to show the task features
@@ -42,7 +175,7 @@ class TaskCollectionViewCell: BaseNeuCollectionViewCell<TaskItem> {
 	
 	private var priorityMarker: PriorityIndicator = PriorityIndicator(frame: .zero, priority: .none)
 	
-	private var item: TaskItem? = nil
+//	private var item: TaskItem? = nil
 	
 	override init(frame: CGRect) {
 		super.init(frame: .zero)
@@ -85,42 +218,6 @@ class TaskCollectionViewCell: BaseNeuCollectionViewCell<TaskItem> {
 		priorityMarker.widthAnchor.constraint(equalToConstant: 10.0).isActive = true
 	}
 	
-//	func createCompletionButton() -> UIButton {
-//		let button = UIButton()
-//		button.addTarget(self, action: #selector(handleCompleteButton), for: .touchDown)
-//		let config = UIImage.SymbolConfiguration(pointSize: 20.0)
-//		let image = UIImage(systemName: "checkmark.circle.fill", withConfiguration: config)
-//
-//		image?.withTintColor(.green, renderingMode: .alwaysOriginal)
-//		button.setImage(image, for: .normal)
-//
-//		button.tintColor = UIColor.green.darker(by: 10.0)!
-//		button.translatesAutoresizingMaskIntoConstraints = false
-//		return button
-//	}
-//
-//	func createCameraButton() -> UIButton {
-//		let button = UIButton()
-//		button.addTarget(self, action: #selector(handleCompleteButton), for: .touchDown)
-//		let config = UIImage.SymbolConfiguration(pointSize: 20.0)
-//
-//		let image = UIImage(systemName: "camera.fill", withConfiguration: config)
-//		image?.withTintColor(.green, renderingMode: .alwaysOriginal)
-//		button.setImage(image, for: .normal)
-//		button.tintColor = UIColor.green.darker(by: 10.0)!
-//		button.translatesAutoresizingMaskIntoConstraints = false
-//		return button
-//	}
-//
-//	func createImageView() -> UIImageView {
-//		let config = UIImage.SymbolConfiguration(pointSize: 20.0)
-//		let image = UIImage(systemName: "folder.fill", withConfiguration: config)
-//		image?.withTintColor(.brown, renderingMode: .alwaysOriginal)
-//		let view = UIImageView(image: image)
-//		view.translatesAutoresizingMaskIntoConstraints = false
-//		return view
-//	}
-	
 	/// Button Handlers
 	@objc func handleCompleteButton() {
 		print("taskCompleteButton")
@@ -147,11 +244,11 @@ class TaskCollectionViewCell: BaseNeuCollectionViewCell<TaskItem> {
 		self.priorityMarker.updatePriorityColor(with: item.priority)
 		
 		// censor text
-		self.titleLabel.redactText(with: "\(item.title)", redactWithEffect: item.redaction.effect)
+//		self.titleLabel.redactText(with: "\(item.title)", redactWithEffect: item.redaction.effect)
 //		self.titleLabel.redactText(with: item.title, state: item.redacted, style: RedactStyle.stars, rType: RSStars())
 		// in core data make a new entity for redact style, 1-1
 		
 		// enable disable icons
-		featureStack.enableIcons(with: item)
+//		featureStack.enableIcons(with: item)
 	}
 }

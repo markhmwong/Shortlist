@@ -253,7 +253,9 @@ class ReviewViewController: UIViewController {
 		for (_, task) in viewModel.carryOverTaskObjectsArr {
 			let copiedTask = Task(context: pc.viewContext)
 			let resetReminder = Date() // reminder is reset because we don't know exactly when the user will copy an older task
-			copiedTask.create(context: pc.viewContext, taskName: task.name ?? "Error", categoryName: task.category, createdAt: task.createdAt! as Date, reminderDate: resetReminder, priority: Int(task.priority))
+			let redact = task.redactStyle
+			
+			copiedTask.create(context: pc.viewContext, taskName: task.name ?? "Error", categoryName: task.category ?? "General", createdAt: task.createdAt! as Date, reminderDate: resetReminder, priority: Int(task.priority), redact: Int(redact))
 			today.addToDayToTask(copiedTask)
 			today.dayToStats?.totalTasks = (today.dayToStats?.totalTasks ?? 0) + 1
 		}

@@ -21,7 +21,9 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     
     var navigationController: UINavigationController
     
-    init(navigationController:UINavigationController) {
+	var settingsNavController: UINavigationController?
+	
+    init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
@@ -32,32 +34,75 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         }
         navigationController.delegate = self
 
-		let vm = SettingsViewModel()
-		let vc = SettingsViewController(persistentContainer: _persistentContainer, coordinator: self, viewModel: vm)
-		rootViewController = vc
-        let nav = UINavigationController(rootViewController: vc)
-        navigationController.present(nav, animated: true, completion: nil)
+		// Shortlist 2.0 new Settings View
+		let vc = SettingsListViewController(viewModel: SettingsListViewModel(persistentContainer: _persistentContainer, coordinator: self), persistentContainer: _persistentContainer, coordinator: self) // add persistent container
+		vc.navigationItem.title = "Settings"
+		settingsNavController = UINavigationController(rootViewController: vc)
+		
+		if let nav = settingsNavController {
+			navigationController.present(nav, animated: true) {
+				//
+			}
+		}
+		
+		
+		// Shortlist 1.x.x OLD VIEW CONTROLLER
+//		let vm = SettingsViewModel()
+//		let vc = SettingsViewController(persistentContainer: _persistentContainer, coordinator: self, viewModel: vm)
+//		rootViewController = vc
+//        let nav = UINavigationController(rootViewController: vc)
+//        navigationController.present(nav, animated: true, completion: nil)
     }
+	
+	func showTipJar() {
+		if let nav = settingsNavController {
+			let vc = TipsViewController(viewModel: TipsViewModel(), coordinator: nil)
+			nav.pushViewController(vc, animated: true)
+		}
+	}
+	
+	func showPermissions() {
+		if let nav = settingsNavController {
+			let viewModel = PermissionsViewModel(privacyPermissions: PrivacyPermissionsService())
+			let vc = PermissionsViewController(viewModel: viewModel)
+			nav.pushViewController(vc, animated: true)
+		}
+	}
     
     // add stats view and coordinator
-    func showTaskLimit(_ persistentContainer: PersistentContainer?) {
+	func showTaskLimit(_ persistentContainer: PersistentContainer?, item: SettingsListItem) {
 		addNavigationObserver(SettingsNavigationObserverKey.ReturnFromPriorityLimit)
 
-		let child = TaskLimitCoordinator(navigationController: navigationController, parentViewController: rootViewController ?? nil)
-        child.parentCoordinator = self
-        childCoordinators.append(child)
-        child.start(persistentContainer)
+		guard let persistentContainer = persistentContainer else { return }
+		let vc = PriorityLimitViewController(item: item, viewModel: PriorityLimitViewModel(persistentContainer: persistentContainer))
+		
+		if let nav = settingsNavController {
+			nav.pushViewController(vc, animated: true)
+		}
     }
     
     // add contact view
     func showAbout(_ persistentContainer: PersistentContainer?) {
 		addNavigationObserver(SettingsNavigationObserverKey.ReturnFromInfo)
-
-		let child = AboutCoordinator(navigationController: navigationController, parentViewController: rootViewController ?? nil)
-        child.parentCoordinator = self
-        childCoordinators.append(child)
-        child.start(persistentContainer)
+		if let nav = settingsNavController {
+			let vc = AboutViewController()
+			nav.pushViewController(vc, animated: true)
+		}
     }
+	
+	func showWhatsNew() {
+		if let nav = settingsNavController {
+			let vc = WhatsNewViewController(viewModel: WhatsNewViewModel())
+			nav.pushViewController(vc, animated: true)
+		}
+	}
+	
+	func showPrivacy() {
+		if let nav = settingsNavController {
+			let vc = PrivacyViewController()
+			nav.pushViewController(vc, animated: true)
+		}
+	}
 	
     func showAlertBox(_ message: String) {
         let alert = UIAlertController(title: "Hold up!", message: "\(message)", preferredStyle: .alert)
@@ -73,6 +118,14 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         }
     }
 	
+	func showReview(_ persistentContainer: PersistentContainer?, automated: Bool) {
+//		addNavigationObserver(MainNavigationObserverKey.ReturnFromReview)
+//		let child = ReviewCoordinator(navigationController: navigationController, automated: automated)
+//		child.parentCoordinator = self
+//		childCoordinators.append(child)
+//		child.start(persistentContainer)
+	}
+	
     // add stats view and coordinator
     func showStats(_ persistentContainer: PersistentContainer?) {
 		addNavigationObserver(SettingsNavigationObserverKey.ReturnFromStats)
@@ -82,7 +135,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         child.start(persistentContainer)
     }
 	
-	func deleteBox(_ delegate: SettingsViewController, deletionClosure: @escaping DeletionClosure, title: String, message: String) {
+	func deleteBox(deletionClosure: @escaping DeletionClosure, title: String, message: String) {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		let delete = UIAlertAction(title: "Delete", style: .destructive) { (action) in
 			deletionClosure()
@@ -98,8 +151,6 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
             self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
         }
 	}
-	
-	
 	
 	func dimiss() {
 		navigationController.dismiss(animated: true) {

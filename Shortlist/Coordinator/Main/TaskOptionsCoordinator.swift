@@ -14,9 +14,11 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 	// parent navcontroller
 	internal var navigationController: UINavigationController
 	
-	private var data: TaskItem
+	var rootNavigationController: UINavigationController? = nil
 	
-	init(navigationController: UINavigationController, data: TaskItem) {
+	private var data: Task
+	
+	init(navigationController: UINavigationController, data: Task) {
 		self.data = data
 		self.navigationController = navigationController
 		super.init()
@@ -29,26 +31,33 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 		
 		let viewModel = TaskOptionsViewModel(data: data, persistentContainer: persistentContainer)
 		let vc = TaskOptionsViewController(viewModel: viewModel, coordinator: self)
-		vc.title = "Settings"
-		navigationController.pushViewController(vc, animated: true)
+		vc.title = "Task Options"
+		
+		let nav = UINavigationController(rootViewController: vc)
+		rootNavigationController = nav
+		navigationController.present(nav, animated: true)
 	}
-	
 	
 	// selected options
 	func showName() {
+		guard let r = rootNavigationController else { return }
 		let vc = ContentViewController(editType: .name, data: data)
-		navigationController.pushViewController(vc, animated: true)
+		r.pushViewController(vc, animated: true)
 	}
 	
 	func showNotes() {
+		guard let r = rootNavigationController else { return }
+
 		let vc = ContentViewController(editType: .notes, data: data)
-		navigationController.pushViewController(vc, animated: true)
+		r.pushViewController(vc, animated: true)
 	}
 	
 	func showAlarm() {
+		guard let r = rootNavigationController else { return }
+
 		let viewModel = AlarmViewModel()
 		let vc = AlarmViewController(viewModel: viewModel)
-		navigationController.pushViewController(vc, animated: true)
+		r.pushViewController(vc, animated: true)
 	}
 	
 	func showAllDay() {
@@ -56,13 +65,15 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 	}
 	
 	func showRedactStyle() {
+		guard let r = rootNavigationController else { return }
 		let viewModel = RedactStyleViewModel()
 		let vc = RedactStyleViewController(viewModel: viewModel)
-		navigationController.pushViewController(vc, animated: true)
+		r.pushViewController(vc, animated: true)
 	}
 	
 	func showDeleteTask() {
-		
+		guard let r = rootNavigationController else { return }
+
 	}
 }
 

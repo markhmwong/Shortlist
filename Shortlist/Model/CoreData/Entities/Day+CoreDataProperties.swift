@@ -49,20 +49,5 @@ extension Day {
     @objc(removeDayToTask:)
     @NSManaged public func removeFromDayToTask(_ values: NSSet)
 
-	func sortTasks() -> [Task]? {
-		let set = self.dayToTask as? Set<Task>
-		if (!set!.isEmpty) {
-            return set?.sorted(by: { (taskA, taskB) -> Bool in
-				// sort same priority by date
-				if (taskA.priority == taskB.priority) {
-					return ((taskA.createdAt! as Date).compare(taskB.createdAt! as Date) == .orderedAscending)
-				} else {
-					// otherwise order by priority
-					return taskA.priority < taskB.priority
-				}
-            })
-		} else {
-			return nil
-		}
-	}
+
 }

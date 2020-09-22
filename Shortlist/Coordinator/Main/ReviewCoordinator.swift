@@ -12,48 +12,59 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     
     weak var parentCoordinator: MainCoordinator?
     
+	weak var parentCoordinatorFromSettings: SettingsCoordinator?
+	
     var childCoordinators: [Coordinator] = [Coordinator]()
     
     var navigationController: UINavigationController
     
-	weak var mainViewController: MainViewController? = nil
+//	weak var mainViewController: MainViewController? = nil
 	
-	// also used to determine whether the app will update the global count
-	private var automated: Bool = false
+	// Used to determine whether the app will update the global task count
+	private var automatedUpdateTaskCount: Bool = false
+	
+	init(navigationController:UINavigationController, automated: Bool) {
+		self.navigationController = navigationController
+		self.automatedUpdateTaskCount = automated
+	}
 	
 	init(navigationController:UINavigationController, mainViewController: MainViewController?, automated: Bool) {
         self.navigationController = navigationController
-		self.mainViewController = mainViewController
-		self.automated = automated
+//		self.mainViewController = mainViewController
+		self.automatedUpdateTaskCount = automated
     }
     
     // stats viewcontroller begins here
     func start(_ persistentContainer: PersistentContainer?) {
-        navigationController.delegate = self
-        guard let persistentContainer = persistentContainer else {
-            print("Persistent Container not loaded")
-            return
-        }
-        let viewModel = ReviewViewModel()
-        let vc = ReviewViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel, automatedDisplay: automated)
-		vc.onDoneBlock = { [weak self] in
-			guard let self = self else { return }
-			// reload global tally text
-//			let amount = self.mainViewController?.load
-			self.mainViewController?.loadFirebaseData()
-		}
-		navigationController.modalPresentationStyle = .fullScreen
+		// to do add persistent container
+		let vc = ReviewCollectionListViewController(viewModel: ReviewCollectionListViewModel())
 		navigationController.present(vc, animated: true, completion: nil)
+		
+//        navigationController.delegate = self
+//        guard let persistentContainer = persistentContainer else {
+//            print("Persistent Container not loaded")
+//            return
+//        }
+//        let viewModel = ReviewViewModel()
+//        let vc = ReviewViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: viewModel, automatedDisplay: automatedUpdateTaskCount)
+//		vc.onDoneBlock = { [weak self] in
+////			guard let self = self else { return }
+//			// reload global tally text
+////			let amount = self.mainViewController?.load
+////			self.mainViewController?.loadFirebaseData()
+//		}
+//		navigationController.modalPresentationStyle = .fullScreen
+//		navigationController.present(vc, animated: true, completion: nil)
     }
 	
 	func dimissFromMainViewController(_ persistentContainer: PersistentContainer?) {
 		//get mainviewcontroller delegate
 		
 		navigationController.dismiss(animated: true) {
-			guard let mvc = self.mainViewController else {
-				return
-			}
-			mvc.loadData()
+//			guard let mvc = self.mainViewController else {
+//				return
+//			}
+//			mvc.loadData()
 		}
 	}
 	

@@ -162,7 +162,7 @@ class ReviewCell: UITableViewCell {
 			
             name.attributedText = nameAttributedStr
 			details.attributedText = detailsAttributedStr
-			categoryTitle.attributedText = NSMutableAttributedString(string: "\(task.category)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
+			categoryTitle.attributedText = NSMutableAttributedString(string: "\(task.category ?? "General")", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])
 			
             taskButton.taskState = task.complete
 			priorityColor(task.priority)

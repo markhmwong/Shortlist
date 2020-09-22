@@ -15,9 +15,7 @@ extension Calendar {
     func today() -> Date {
         return self.startOfDay(for: Date())
     }
-	
 
-	
 	// 0 - today, negatives go back in time as expected
 	func forSpecifiedDay(value: Int) -> Date {
 		return self.startOfDay(for: Calendar.current.date(byAdding: .day, value: value, to: self.today())!)
@@ -45,7 +43,7 @@ extension Calendar {
     
     // Week starts on Sunday
     func startOfWeek() -> Date {
-        let today = todayToInt() - 1 // -1 for including today
+        let today = todayToInt() - 1 // "- 1" for including today
         if today > 0 {
             let date = Calendar.current.date(byAdding: .day, value: Int(-today), to: self.today())
             return date!

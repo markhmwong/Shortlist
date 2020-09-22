@@ -149,8 +149,8 @@ class DailyAccolades: NSObject {
 		guard let _task = task else { return }
 		// track highest most category complete
 		for t in _task {
-			if (t.complete && t.category != "Uncategorized") {
-				categoryTracker[t.category] = (categoryTracker[t.category] ?? 0) + 1
+			if (t.complete && t.category != "General") {
+				categoryTracker[t.category ?? "General"] = (categoryTracker[t.category ?? "General"] ?? 0) + 1
 			}
 		}
 		if let maxValue = categoryTracker.values.max() {

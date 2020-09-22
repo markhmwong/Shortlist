@@ -13,8 +13,8 @@ class BaseStaticLabel: UILabel {
 	
 	init(frame: CGRect, fontSize: CGFloat) {
 		super.init(frame: frame)
-		font = UIFont.init(name: "HelveticaNeue-Bold", size: fontSize)
-		textColor = UIColor.black.lighter(by: 50.0)!
+		font = ThemeV2.CellProperties.HeadingFont
+		textColor = ThemeV2.TextColor.DefaultColor
 		text = "Unknown"
 		translatesAutoresizingMaskIntoConstraints = false
 		numberOfLines = 0
@@ -22,8 +22,8 @@ class BaseStaticLabel: UILabel {
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		font = UIFont.init(name: "HelveticaNeue-Bold", size: 13)
-		textColor = UIColor.black.lighter(by: 50.0)!
+		font = ThemeV2.CellProperties.HeadingFont
+		textColor = ThemeV2.TextColor.DefaultColor
 		text = "Unknown"
 		translatesAutoresizingMaskIntoConstraints = false
 		numberOfLines = 0
@@ -40,7 +40,7 @@ class BaseLabel: UILabel {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		font = UIFont.init(name: "HelveticaNeue", size: 20)?.with(weight: .bold)
-		textColor = UIColor.black.lighter(by: 30)!
+//		textColor = UIColor.black.lighter(by: 30)!
 		translatesAutoresizingMaskIntoConstraints = false
 		numberOfLines = 0
 	}

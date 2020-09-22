@@ -49,10 +49,10 @@ class SettingsViewModel {
 		"DATA",
 	]
 	
-	// dict
+	// general items
 	let generalTitles: [General : String] = [
 		General.Review : "Review",
-		General.PriorityLimit :"Priority Limit",
+		General.PriorityLimit :"Priority Limiter",
 		General.Stats : "Stats",
 		General.Notifications : "All Day Notifications", // all day notifications, standard notifications
 		General.NotificationsDisclaimer : "A repeating hourly reminder for the entire day. Useful if you have a list of tasks that require your frequent attention. Every reminder begins on the hour i.e. 1pm, 2pm, 3pm, 4pm and so on. Reminders won't set within 2 hours before the next day.",
@@ -264,7 +264,8 @@ class SettingsViewModel {
 					if let _general = General(rawValue: indexPath.row) {
 						switch _general {
 							case .PriorityLimit:
-								delegate.coordinator?.showTaskLimit(persistentContainer)
+								()
+//								delegate.coordinator?.showTaskLimit(persistentContainer)
 							case .Stats:
 								delegate.coordinator?.showStats(persistentContainer)
 							case .Review:

@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.7</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>59</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -29,9 +29,13 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>To retrieve reminders</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Take media to attach to task</string>
+	<string>Capture media to attach to task</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Used to uncensor Task</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Used to attach photos to a Task</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to attach photos to a Task</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>To retrieve reminders</string>
 	<key>UIBackgroundModes</key>

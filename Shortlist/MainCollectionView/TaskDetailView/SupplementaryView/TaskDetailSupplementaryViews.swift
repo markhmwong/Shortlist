@@ -20,72 +20,34 @@ class HeaderSupplementaryView: UICollectionReusableView {
 		return view
 	}()
 	
-	lazy var reminderIcon: UIImageView = {
-		let config = UIImage.SymbolConfiguration(pointSize: 13.0)
-		let image = UIImage(systemName: "deskclock.fill", withConfiguration: config)?.withRenderingMode(.alwaysTemplate)
-		let imageView = UIImageView(image: image)
-		imageView.tintColor = UIColor.green.darker()!
-		imageView.contentMode = .scaleAspectFit
-		imageView.translatesAutoresizingMaskIntoConstraints = false
-		return imageView
+	private lazy var alarmLabel: UILabel = {
+		let label = UILabel()
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.font = ThemeV2.CellProperties.HeadingBoldFont
+		label.textColor = ThemeV2.TextColor.DefaultColor
+		label.text = "12:30pm"
+		return label
 	}()
 	
-	lazy var photoIcon: UIImageView = {
-		let config = UIImage.SymbolConfiguration(pointSize: 13.0)
-		let image = UIImage(systemName: "photo.fill.on.rectangle.fill", withConfiguration: config)?.withRenderingMode(.alwaysTemplate)
-		let imageView = UIImageView(image: image)
-		imageView.tintColor = UIColor.green.darker()!
-		imageView.contentMode = .scaleAspectFit
-		imageView.translatesAutoresizingMaskIntoConstraints = false
-		return imageView
-	}()
+	private lazy var priorityFont: UIFont = UIFont.preferredFont(forTextStyle: .largeTitle).with(weight: .bold)
 	
-	lazy var noteIcon: UIImageView = {
-		let config = UIImage.SymbolConfiguration(pointSize: 13)
-		let image = UIImage(systemName: "note.text", withConfiguration: config)?.withRenderingMode(.alwaysTemplate)
-		let imageView = UIImageView(image: image)
-		imageView.tintColor = UIColor.green.darker()!
-		imageView.contentMode = .scaleAspectFit
-		imageView.translatesAutoresizingMaskIntoConstraints = false
-		return imageView
-	}()
-	
-	lazy var staticPriorityLabel: UILabel = {
+	private lazy var staticPriorityLabel: UILabel = {
 		let label = UILabel(frame: .zero)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.adjustsFontForContentSizeCategory = true
-		label.textColor = .white
-		label.text = "Priority"
-		label.font = UIFont.preferredFont(forTextStyle: .largeTitle).with(weight: .bold)
+		label.textColor = ThemeV2.TextColor.DefaultColor
+		label.text = " Priority"
+		label.font = priorityFont
 		return label
 	}()
 	
 	lazy var priorityLabel: UILabel = {
 		let label = UILabel(frame: .zero)
-		label.textColor = .black
+		label.textColor = ThemeV2.TextColor.DefaultColor
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.adjustsFontForContentSizeCategory = true
-		label.font = UIFont.preferredFont(forTextStyle: .largeTitle).with(weight: .bold)
+		label.font = priorityFont
 		return label
-	}()
-	
-	lazy var dateLabel: UILabel = {
-		let label = UILabel(frame: .zero)
-		label.textColor = .black
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.adjustsFontForContentSizeCategory = true
-		label.font = UIFont.preferredFont(forTextStyle: .caption1).with(weight: .medium)
-		return label
-	}()
-	
-	lazy var stackView: UIStackView = {
-		let view = UIStackView()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.alignment = .leading
-		view.distribution = .fillEqually
-		view.spacing = 10.0
-		view.axis = .horizontal
-		return view
 	}()
 	
 	static let reuseIdentifier = "title-supplementary-reuse-identifier"
@@ -99,24 +61,20 @@ class HeaderSupplementaryView: UICollectionReusableView {
 	}
 	
 	func configure() {
+		addSubview(alarmLabel)
 		addSubview(completionIcon)
 		addSubview(priorityLabel)
-		addSubview(dateLabel)
 		addSubview(staticPriorityLabel)
-		
-		// temp
-		dateLabel.text = "31/7/2020"
-		dateLabel.alpha = 0.4
 		
 		completionIcon.centerYAnchor.constraint(equalTo: priorityLabel.centerYAnchor).isActive = true
 		completionIcon.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -15.0).isActive = true
 		
 		NSLayoutConstraint.activate([
-			priorityLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20.0),
+			priorityLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10.0),
 			priorityLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 15.0),
-			dateLabel.leadingAnchor.constraint(equalTo: priorityLabel.leadingAnchor),
-			dateLabel.topAnchor.constraint(equalTo: priorityLabel.bottomAnchor),
-			dateLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20.0),
+			alarmLabel.leadingAnchor.constraint(equalTo: priorityLabel.leadingAnchor),
+			alarmLabel.topAnchor.constraint(equalTo: priorityLabel.bottomAnchor),
+			alarmLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20.0),
 			staticPriorityLabel.leadingAnchor.constraint(equalTo: priorityLabel.trailingAnchor),
 			staticPriorityLabel.topAnchor.constraint(equalTo: priorityLabel.topAnchor)
 		])

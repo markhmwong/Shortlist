@@ -9,13 +9,13 @@
 import UIKit
 
 // MARK: - Neumorphic Style Collection View Cell
-class BaseNeuCollectionViewCell<T>: UICollectionViewCell, BaseCellProtocol, NeumorphicShadow {
+class BaseNeuCollectionViewCell<T: Equatable>: UICollectionViewCell, BaseCellProtocol, NeumorphicShadow {
 	
 	private var lightShadow: CALayer? = nil
 	
 	private var darkShadow: CALayer? = nil
 	
-	private var item: T?
+	var item: T? = nil
 	
 	lazy var headerContainer: UIView = {
 		let view = UIView()
@@ -44,50 +44,46 @@ class BaseNeuCollectionViewCell<T>: UICollectionViewCell, BaseCellProtocol, Neum
 	// MARK: - Override draw
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-		castNeumorphicShadow()
+//		castNeumorphicShadow()
 	}
 	
 	internal func setupCellProperties() {
 		translatesAutoresizingMaskIntoConstraints = false
-		backgroundColor = UIColor.offWhite
+		backgroundColor = UIColor.clear
 		clipsToBounds = true
 		layer.cornerRadius = 14.0
 	}
 	
 	internal func setupCellViews() {
-		guard darkShadow == nil, lightShadow == nil else {
-			return
-		}
-		darkShadow = CALayer()
-		lightShadow = CALayer()
-		layer.insertSublayer(darkShadow!, at: 0)
-		layer.insertSublayer(lightShadow!, at: 0)
-
-		contentView.addSubview(headerContainer)
-		headerContainer.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-		headerContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15.0).isActive = true
-		headerContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15.0).isActive = true
-		headerContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15.0).isActive = true
+//		guard darkShadow == nil, lightShadow == nil else {
+//			return
+//		}
+//		darkShadow = CALayer()
+//		lightShadow = CALayer()
+//		layer.insertSublayer(darkShadow!, at: 0)
+//		layer.insertSublayer(lightShadow!, at: 0)
 //
-//		contentView.addSubview(bodyContainer)
-//		bodyContainer.topAnchor.constraint(equalTo: headerContainer.bottomAnchor).isActive = true
-//		bodyContainer.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor).isActive = true
-//		bodyContainer.trailingAnchor.constraint(equalTo: headerContainer.trailingAnchor).isActive = true
-//		bodyContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+//		contentView.addSubview(headerContainer)
+//		headerContainer.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+//		headerContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15.0).isActive = true
+//		headerContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15.0).isActive = true
+//		headerContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15.0).isActive = true
+
 	}
 	
 	// Neumorphic lighting
 	internal func castNeumorphicShadow() {
-		layer.masksToBounds = false
+		layer.masksToBounds = true
 
 		let cornerRadius: CGFloat = 14.0
 		let shadowRadius: CGFloat = 8.0
 
 		if let ds = darkShadow {
 			ds.frame = bounds
-			ds.backgroundColor = UIColor.offWhite.cgColor
+			ds.backgroundColor = UIColor.white.cgColor
 			ds.shadowColor = UIColor.black.cgColor
 			ds.cornerRadius = cornerRadius
+			ds.masksToBounds = false
 			ds.shadowOffset = CGSize(width: shadowRadius, height: shadowRadius)
 			ds.shadowOpacity = 0.2
 			ds.shadowRadius = shadowRadius
@@ -96,8 +92,9 @@ class BaseNeuCollectionViewCell<T>: UICollectionViewCell, BaseCellProtocol, Neum
 		
 		if let ls = lightShadow {
 			ls.frame = bounds
-			ls.backgroundColor = UIColor.offWhite.cgColor
+			ls.backgroundColor = UIColor.white.cgColor
 			ls.shadowColor = UIColor.white.cgColor
+			ls.masksToBounds = false
 			ls.cornerRadius = cornerRadius
 			ls.shadowOffset = CGSize(width: -shadowRadius, height: -shadowRadius)
 			ls.shadowOpacity = 0.75
@@ -107,6 +104,7 @@ class BaseNeuCollectionViewCell<T>: UICollectionViewCell, BaseCellProtocol, Neum
 	}
 	
 	func configureCell(with item: T) {
-		
+		guard self.item != item else { return }
+		self.item = item
 	}
 }

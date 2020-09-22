@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import PhotosUI
 
-class TaskDetailViewController: UIViewController {
+class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate {
+
+	private var itemProviders = [NSItemProvider]()
 	
 	private var viewModel: TaskDetailViewModel
 	
@@ -45,10 +48,65 @@ class TaskDetailViewController: UIViewController {
 		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 	}
+	
+	private func presentPicker(filter: PHPickerFilter) {
+		var configuration = PHPickerConfiguration()
+		configuration.filter = filter
+		configuration.selectionLimit = 0
+		
+		let picker = PHPickerViewController(configuration: configuration)
+		picker.delegate = self
+		present(picker, animated: true)
+	}
+	
+	func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+		dismiss(animated: true, completion: nil)
+				guard !results.isEmpty else { return }
+		//https://developer.apple.com/videos/play/wwdc2020/10652/
+		print("to do - connect to core data. Take photo, select photo, save photo, save thumbnail and reference to original image")
+		// connect it to core data to do
+//		dismiss(animated: true) {
+//			//
+//		}
+//		itemProviders = results.map(\.itemProvider)
+//		let itemProvidersIterator = itemProviders.makeIterator()
+		
+//		if provider.canLoadObject(ofClass: UIImage.self) {
+//			 provider.loadObject(ofClass: UIImage.self) { (image, error) in
+//					 DispatchQueue.main.async {
+//						 if let image = image as? UIImage {
+//							  self.imageView.image = image
+//						 }
+//					 }
+//			}
+//		 }
+
+	}
 }
 
+// MARK: - Collection View Delegate
 extension TaskDetailViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath)
 		
+		let itemsInSection = collectionView.numberOfItems(inSection: indexPath.section) - 1
+		let section = TaskDetailSections.init(rawValue: indexPath.section)
+		
+		switch section {
+			case .note:
+				if (itemsInSection == indexPath.row) {
+					print("last note")
+				}
+			case .photos:
+				if (itemsInSection == indexPath.row) {
+					print("last photo")
+					//https://nemecek.be/blog/30/checking-out-the-new-phpickerviewcontroller-in-ios-14-to-select-photos-or-videos
+					presentPicker(filter: PHPickerFilter.images)
+				}
+			case .title:
+				() // do nothing
+			case .none:
+				()
+		}
 	}
 }
