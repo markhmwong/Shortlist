@@ -79,6 +79,8 @@ class MainViewModelWithCollectionView: NSObject {
 	}
 	
 	// MARK: - Core Data Methods
+	
+	// MOCK DATA
 	func addMockData(persistentContainer: PersistentContainer) {
 		let today = Date().startOfDay
 
@@ -89,14 +91,14 @@ class MainViewModelWithCollectionView: NSObject {
 			
 			// Task 1
 			let task: Task = Task(context: persistentContainer.viewContext)
-			task.create(context: persistentContainer.viewContext, taskName: "Task One", categoryName: "Work", createdAt: Date(), reminderDate: Date(), priority: Int(Priority.high.rawValue), redact: 0)
+			task.create(context: persistentContainer.viewContext, taskName: "Task One", categoryName: "Work", createdAt: Date(), reminderDate: Date(), priority: Int(Priority.high.rawValue), redact: RedactStyle.highlight.rawValue)
 			task.complete = false
 			dayObject?.addTask(with: task)
 		}
 
 		// Task 2
 		let task: Task = Task(context: persistentContainer.viewContext)
-		task.create(context: persistentContainer.viewContext, taskName: "Task Two", categoryName: "Recreation", createdAt: Date(), reminderDate: Date(), priority: Int(Priority.high.rawValue), redact: 1)
+		task.create(context: persistentContainer.viewContext, taskName: "Task Two", categoryName: "Recreation", createdAt: Date(), reminderDate: Date(), priority: Int(Priority.high.rawValue), redact: RedactStyle.none.rawValue)
 		let note: TaskNotes = TaskNotes(context: persistentContainer.viewContext)
 		note.createNotes(note: "Test Note One", isButton: false)
 		task.addToTaskToNotes(note)
@@ -105,5 +107,6 @@ class MainViewModelWithCollectionView: NSObject {
 		dayObject?.addTask(with: task)
 		
 		persistentContainer.saveContext()
+//		persistentContainer.deleteAllRecordsIn(entity: Task.self)
 	}
 }

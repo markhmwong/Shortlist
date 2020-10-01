@@ -8,8 +8,4 @@
 
 import Foundation
 
-struct TaskLimitConstants {
-	static let highPriority: Int = 1
-	static let mediumPrioirty: Int = 3
-	static let lowPriority: Int = 5
-}
+

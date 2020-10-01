@@ -17,7 +17,7 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 	var rootNavigationController: UINavigationController? = nil
 	
 	private var data: Task
-	
+		
 	init(navigationController: UINavigationController, data: Task) {
 		self.data = data
 		self.navigationController = navigationController
@@ -39,23 +39,26 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 	}
 	
 	// selected options
-	func showName() {
+	func showName(data: Task) {
 		guard let r = rootNavigationController else { return }
 		let vc = ContentViewController(editType: .name, data: data)
 		r.pushViewController(vc, animated: true)
 	}
 	
-	func showNotes() {
+	func showNotes(data: Task, persistentContainer: PersistentContainer) {
 		guard let r = rootNavigationController else { return }
-
-		let vc = ContentViewController(editType: .notes, data: data)
+		
+		let viewModel = OptionsNotesViewModel(data: data, persistentContainer: persistentContainer)
+		let vc = OptionsNotesViewController(viewModel: viewModel)
 		r.pushViewController(vc, animated: true)
+//		let vc = ContentViewController(editType: .notes, data: data)
+//		r.pushViewController(vc, animated: true)
 	}
 	
-	func showAlarm() {
+	func showAlarm(data: Task) {
 		guard let r = rootNavigationController else { return }
 
-		let viewModel = AlarmViewModel()
+		let viewModel = AlarmViewModel(data: data)
 		let vc = AlarmViewController(viewModel: viewModel)
 		r.pushViewController(vc, animated: true)
 	}
@@ -64,9 +67,9 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 		
 	}
 	
-	func showRedactStyle() {
+	func showRedactStyle(data: Task, persistentContainer: PersistentContainer) {
 		guard let r = rootNavigationController else { return }
-		let viewModel = RedactStyleViewModel()
+		let viewModel = RedactStyleViewModel(data: data, persistentContainer: persistentContainer)
 		let vc = RedactStyleViewController(viewModel: viewModel)
 		r.pushViewController(vc, animated: true)
 	}

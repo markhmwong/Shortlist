@@ -34,14 +34,30 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 		}
 		self.persistentContainer = persistentContainer
 		
-		let viewModel = TaskDetailViewModel(task: task)
+		let viewModel = TaskDetailViewModel(task: task, persistentContainer: persistentContainer)
 		let vc = TaskDetailViewController(viewModel: viewModel, coordinator: self)
 		
 		vc.navigationItem.rightBarButtonItem = UIBarButtonItem().taskOptionsButton(target: self, action: #selector(handleTaskOptions))
 		navigationController.pushViewController(vc, animated: true)
-
 	}
 	
+	func showPhoto(item: PhotoItem) {
+		guard let persistentContainer = persistentContainer else {
+			fatalError("PersistentContainer cannot be loaded")
+		}
+		
+		let vc = PhotoViewController(item: item, persistentContainer: persistentContainer)
+		let nav = UINavigationController(rootViewController: vc)
+		vc.navigationController?.transparent()
+		
+		navigationController.present(nav, animated: true)
+	}
+	
+	/*
+	
+		Handler Methods
+	
+	*/	
 	@objc func handleDismiss() {
 		navigationController.dismiss(animated: true) { }
 	}

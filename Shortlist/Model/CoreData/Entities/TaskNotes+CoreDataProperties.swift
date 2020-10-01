@@ -2,7 +2,7 @@
 //  TaskNotes+CoreDataProperties.swift
 //  
 //
-//  Created by Mark Wong on 21/9/20.
+//  Created by Mark Wong on 22/9/20.
 //
 //
 
@@ -17,6 +17,7 @@ extension TaskNotes {
     }
 
     @NSManaged public var note: String?
+    @NSManaged public var isButton: Bool
     @NSManaged public var taskNotesToTask: Task?
-	@NSManaged public var isButton: Bool
+
 }

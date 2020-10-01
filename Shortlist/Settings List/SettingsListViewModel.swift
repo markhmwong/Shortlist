@@ -56,7 +56,7 @@ class SettingsListViewModel: NSObject, MFMailComposeViewControllerDelegate {
 		let mediumPriorityLimit = (KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) ?? 0) + 1
 		let lowPriorityLimit = (KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) ?? 0) + 1
 		
-		let priorityLimitItem = SettingsListItem(title: "Priority Limiter", subtitle: "High:\(highPriorityLimit)  Med:\(mediumPriorityLimit)  Low:\(lowPriorityLimit)", section: SettingsListSection.general, icon: "exclamationmark.circle.fill", disclosure: true, item: .priorityLimit)
+		let priorityLimitItem = SettingsListItem(title: "Priority Limiter", subtitle: "High : \(highPriorityLimit)  Med : \(mediumPriorityLimit)  Low : \(lowPriorityLimit)", section: SettingsListSection.general, icon: "exclamationmark.circle.fill", disclosure: true, item: .priorityLimit)
 		let statsItem = SettingsListItem(title: "Stats", section: SettingsListSection.general, icon: "waveform.path.ecg", disclosure: true, item: .stats)
 		let taskReviewItem = SettingsListItem(title: "Yesterday's Brief", section: SettingsListSection.general, icon: "briefcase.fill", disclosure: true, item: .taskReview)
 		

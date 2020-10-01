@@ -26,5 +26,42 @@ extension UIImage {
 
 		return newImage!
 	}
+	
+	func scalePhotoToThumbnail(image: UIImage, width: Double, height: Double) -> UIImage {
+		var imageHeight = image.size.height
+		var imageWidth = image.size.width
+
+		//square crop
+		if imageHeight > imageWidth {
+			imageHeight = imageWidth
+		}
+		else {
+			imageWidth = imageHeight
+		}
+
+		let size = CGSize(width: imageWidth, height: imageHeight)
+
+		let refWidth : CGFloat = CGFloat(image.cgImage!.width)
+		
+		let refHeight : CGFloat = CGFloat(image.cgImage!.height)
+
+		let x = (refWidth - size.width) / 2
+		let y = (refHeight - size.height) / 2
+		
+		let cropRect = CGRect(x: x, y: y, width: size.height, height: size.width)
+		return UIImage(cgImage: image.cgImage!.cropping(to: cropRect)!, scale: 1, orientation: image.imageOrientation)
+	}
+	
+	func imageWithInsets(insets: UIEdgeInsets) -> UIImage? {
+		UIGraphicsBeginImageContextWithOptions(
+			CGSize(width: self.size.width + insets.left + insets.right,
+				   height: self.size.height + insets.top + insets.bottom), false, self.scale)
+		let _ = UIGraphicsGetCurrentContext()
+		let origin = CGPoint(x: insets.left, y: insets.top)
+		self.draw(at: origin)
+		let imageWithInsets = UIGraphicsGetImageFromCurrentImageContext()
+		UIGraphicsEndImageContext()
+		return imageWithInsets
+	}
 }
 

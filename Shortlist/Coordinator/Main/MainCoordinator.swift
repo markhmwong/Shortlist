@@ -49,6 +49,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		}
 	}
 	
+	func showCreateTask() {
+		print("To do - Create Task")
+	}
+	
 	func showOnboarding(_ persistentContainer: PersistentContainer?) {
 		addNavigationObserver(MainNavigationObserverKey.ReturnFromOnboarding)
 		

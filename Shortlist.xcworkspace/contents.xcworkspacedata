@@ -2,16 +2,28 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/TaskNotes+CoreDataClass.swift">
+      location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/TaskReminder+CoreDataClass.swift">
    </FileRef>
    <FileRef
-      location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/TaskNotes+CoreDataProperties.swift">
+      location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/TaskReminder+CoreDataProperties.swift">
    </FileRef>
    <FileRef
       location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/Task+CoreDataClass.swift">
    </FileRef>
    <FileRef
       location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/Task+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/TaskNotes+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/TaskNotes+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/TaskPhotos+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/TaskPhotos+CoreDataProperties.swift">
    </FileRef>
    <FileRef
       location = "group:Shortlist.xcodeproj">

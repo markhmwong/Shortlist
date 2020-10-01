@@ -70,10 +70,10 @@ class ReviewCollectionListViewModel: NSObject {
 	
 	func prepareDataSource() -> [TaskItem] {
 		// map task to TaskItem
-		return [TaskItem(title: "First Task. Fire Merlin Engine at full capacity. Stress test #1", notes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially 상쾌한. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum fdsfds dfs fds f.", priority: .high, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.disclose)),
-			TaskItem(title: "Second Task", notes: "Second task's notes", priority: .medium, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.disclose)),
-			TaskItem(title: "Second Task", notes: "Second task's notes", priority: .medium, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.disclose)),
-			TaskItem(title: "Second Task", notes: "Second task's notes", priority: .low, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.disclose)),
+		return [TaskItem(title: "First Task. Fire Merlin Engine at full capacity. Stress test #1", notes: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially 상쾌한. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum fdsfds dfs fds f.", priority: .high, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.none)),
+			TaskItem(title: "Second Task", notes: "Second task's notes", priority: .medium, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.none)),
+			TaskItem(title: "Second Task", notes: "Second task's notes", priority: .medium, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.none)),
+			TaskItem(title: "Second Task", notes: "Second task's notes", priority: .low, completionStatus: true, reminder: "Reminder", redaction: RedactComponent(redactStyle: RedactStyle.none)),
 		]
 	}
 	

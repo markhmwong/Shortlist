@@ -24,8 +24,11 @@ enum DataItem: Hashable {
 //	case options(OptionItem)
 }
 
+// Maps to TaskPhotos in Core Data
 struct PhotoItem: Hashable {
-	var photo: String
+	var id: UUID
+	var photo: Data?
+	var thumbnail: Data?
 	var isButton: Bool
 }
 

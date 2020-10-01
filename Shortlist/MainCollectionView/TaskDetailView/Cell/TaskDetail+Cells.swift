@@ -86,7 +86,7 @@ class TaskDetailNotesCell: BaseListCell<NotesItem> {
 
 	private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
 
-	private lazy var textColor: UIColor = ThemeV2.TextColor.DefaultColor
+//	private lazy var textColor: UIColor = ThemeV2.TextColor.DefaultColor
 	
 	private var highlight: CAShapeLayer = CAShapeLayer()
 	
@@ -127,7 +127,7 @@ class TaskDetailNotesCell: BaseListCell<NotesItem> {
 	override func updateConfiguration(using state: UICellConfigurationState) {
 		setupViewsIfNeeded()
 		var content = defaultListContentConfiguration().updated(for: state)
-		content.textProperties.color = textColor
+		content.textProperties.color = self.textColor
 		content.textProperties.font = ThemeV2.CellProperties.PrimaryFont
 		let emptyText = "Notes are empty"
 
@@ -151,42 +151,75 @@ class TaskDetailNotesCell: BaseListCell<NotesItem> {
 }
 
 // MARK: - Photo Cell
-class TaskDetailPhotoCell: BaseCollectionViewCell<PhotoItem> {
+extension UICellConfigurationState {
+	var photoItem: PhotoItem? {
+		set { self[.photoItem] = newValue }
+		get { return self[.photoItem] as? PhotoItem }
+	}
+}
+
+fileprivate extension UIConfigurationStateCustomKey {
+	static let photoItem = UIConfigurationStateCustomKey("com.whizbang.state.photo")
+}
+
+class TaskDetailPhotoCell: BaseListCell<PhotoItem> {
 	
-	let notesLabel: UILabel = {
-		let label = UILabel()
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.backgroundColor = .clear
-		label.numberOfLines = 0
-		return label
+	override var configurationState: UICellConfigurationState {
+		var state = super.configurationState
+		state.photoItem = self.item
+		return state
+	}
+	
+//	private func defaultListContentConfiguration() -> UIListContentConfiguration {
+//		return .subtitleCell()
+//	}
+	
+//	private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
+	
+	private var imageView: UIImageView = {
+		let imageView = UIImageView()
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageView.contentMode = .scaleAspectFill
+		return imageView
 	}()
 	
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-		setupCellViews()
-	}
-	
-	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
-	
-	override func setupCellViews() {
-		super.setupCellViews()
-		contentView.addSubview(notesLabel)
+	private func setupViewsIfNeeded() {
+		clipsToBounds = true
+		layer.cornerRadius = self.bounds.height * 0.1
+		contentView.backgroundColor = ThemeV2.Background
 
-		notesLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-		notesLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-		notesLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-		notesLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+		contentView.addSubview(imageView)
+
+		imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant:0).isActive = true
+		imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+		imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+		imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 	}
 	
-	override func configureCell(with item: PhotoItem) {
-		notesLabel.text = item.photo
+	override func updateConfiguration(using state: UICellConfigurationState) {
+		setupViewsIfNeeded()
+		
+		guard let item = state.photoItem else {
+			imageView.removeFromSuperview()
+			return
+		}
+		
+		if (item.isButton) {
+			let config = UIImage.SymbolConfiguration(pointSize: 20.0)
+			let image = UIImage(systemName: "camera.fill", withConfiguration: config)?.imageWithInsets(insets: UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15))?.withTintColor(ThemeV2.TextColor.DefaultColor)
+			imageView.backgroundColor = ThemeV2.Background
+			imageView.image = image
+			imageView.contentScaleFactor = 0.5
+		} else {
+			if let photo = item.thumbnail {
+				let p = UIImage(data: photo)
+				imageView.image = p
+			}
+		}
 	}
 	
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		notesLabel.text = nil
 	}
 }
 
@@ -224,17 +257,9 @@ class TaskDetailReminderCell: BaseCollectionViewCell<ReminderItem> {
 		super.setupCellViews()
 		
 		contentView.addSubview(reminderLabel)
-//		contentView.addSubview(icon)
 		
 		reminderLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0.0).isActive = true
 		reminderLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0.0).isActive = true
-//		icon.trailingAnchor.constraint(equalTo: notesLabel.leadingAnchor).isActive = true
-//		icon.centerYAnchor.constraint(equalTo: notesLabel.centerYAnchor).isActive = true
-
-//		notesLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20.0).isActive = true
-//		notesLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.0).isActive = true
-//		notesLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20.0).isActive = true
-//		notesLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20.0).isActive = true
 	}
 	
 	override func configureCell(with item: ReminderItem) {
@@ -246,7 +271,3 @@ class TaskDetailReminderCell: BaseCollectionViewCell<ReminderItem> {
 		reminderLabel.text = nil
 	}
 }
-
-// MARK: - Options Cell ?
-
-// to do

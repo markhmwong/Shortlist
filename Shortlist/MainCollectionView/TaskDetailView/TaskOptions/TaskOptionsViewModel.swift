@@ -52,13 +52,13 @@ enum TaskOptionsSection: Int, CaseIterable {
 	}
 	
 	enum ConcealSection: Int {
-		case redact
+//		case redact
 		case redactStyle
 	}
 	
 	enum ReminderSection: Int {
 		case alarm
-		case allday
+//		case allday
 	}
 }
 
@@ -88,9 +88,9 @@ class TaskOptionsViewModel: NSObject {
 	var calendarItem: TaskOptionsItem?
 	
 	// Model
-	private var data: Task
+	var data: Task
 	
-	private var persistentContainer: PersistentContainer
+	var persistentContainer: PersistentContainer
 	
 	private var diffableDataSource: UICollectionViewDiffableDataSource<TaskOptionsSection, TaskOptionsItem>! = nil
 	
@@ -100,7 +100,6 @@ class TaskOptionsViewModel: NSObject {
 		// reminder, notes etc
 		super.init()
 	}
-	
 
 	// MARK: - Diffable Datasource
 	func configureSnapshot() -> NSDiffableDataSourceSnapshot<TaskOptionsSection, TaskOptionsItem> {
@@ -161,14 +160,12 @@ class TaskOptionsViewModel: NSObject {
 		let titleItem = TaskOptionsItem(title: "Name", description: "Edit the name", image: "pencil.circle.fill", section: .content)
 		let notesItem = TaskOptionsItem(title: "Notes", description: "Edit the notes", image: "doc.append.fill", section: .content)
 		reminderItem = TaskOptionsItem(title: "Alarm", description: "Edit the alarm time to set a notification to remind you", image: "deskclock.fill", section: .reminder)
-		let allDayItem = TaskOptionsItem(title: "All Day", description: "An all day reminder that sets itself every 2 hours", image: "sunrise.fill", section: .reminder, isAllDay: false) // update data
-		let redactedItem = TaskOptionsItem(title: "Redact", description: "Add another layer of security by hiding text and locking the task with biometrics.", image: "eye.slash.fill", section: .redact, isRedacted: false) // update data
-		let redactedStyleItem = TaskOptionsItem(title: "Style", description: "Change up the style of censor", image: "eyeglasses", section: .redact, redactStyle: RedactState.censor) // update data
-		let deleteItem = TaskOptionsItem(title: "Delete Task", description: "Remove task from today's list", image: "xmark.bin.fill", section: .data, delete: false)
-		let photoItem = TaskOptionsItem(title: "Add from Photo Library", description: "Attach a photo from your library", image: "photo.fill", section: .content, delete: false)
+		let redactedStyleItem = TaskOptionsItem(title: "Redact", description: "Censor the task", image: "eye.slash.fill", section: .redact, redactStyle: RedactState.censor) // update data
+		let deleteItem = TaskOptionsItem(title: "Delete Task", description: "Remove task from today's list", image: "xmark.bin.fill", section: .data, delete: true)
+		let photoItem = TaskOptionsItem(title: "Add from Photo Library", description: "Attach a photo from your library", image: "photo.fill", section: .content)
 		
 		guard let reminderItem = reminderItem else { return [] }
-		return [titleItem, notesItem, photoItem, reminderItem, allDayItem, redactedItem, redactedStyleItem, deleteItem]
+		return [titleItem, notesItem, photoItem, reminderItem, redactedStyleItem, deleteItem]
 	}
 	
 	// MARK: - Register Cell
@@ -181,8 +178,8 @@ class TaskOptionsViewModel: NSObject {
 	}
 
 	
-	private func configureCalendarCellRegistration() -> UICollectionView.CellRegistration<CalendarCell, TaskOptionsItem> {
-		let cellConfig = UICollectionView.CellRegistration<CalendarCell, TaskOptionsItem> { (cell, indexPath, item) in
+	private func configureCalendarCellRegistration() -> UICollectionView.CellRegistration<AlarmCell, TaskOptionsItem> {
+		let cellConfig = UICollectionView.CellRegistration<AlarmCell, TaskOptionsItem> { (cell, indexPath, item) in
 		}
 		return cellConfig
 	}

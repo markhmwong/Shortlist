@@ -118,8 +118,35 @@ struct ThemeV2 {
 		}()
 	}
 	
+	/*
 	
-	// MARK: - Text Color
+		Colors
+	
+	*/
+	struct ButtonColor {
+		static let DonateColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return .systemOrange
+						case .light:
+							return .systemOrange
+						@unknown default:
+							return .systemOrange
+					}
+				}
+			} else {
+				return .white
+			}
+		}()
+	}
+	
+	/*
+	
+		MARK: - Text Color
+	
+	*/
 	struct TextColor {
 		static let DefaultColor: UIColor = {
 			if #available(iOS 13.0, *) {
@@ -143,11 +170,11 @@ struct ThemeV2 {
 				return UIColor.init { (UITraitCollection) -> UIColor in
 					switch (UITraitCollection.userInterfaceStyle) {
 						case .dark, .unspecified:
-							return UIColor.white.withAlphaComponent(0.6)
+							return UIColor.white.withAlphaComponent(0.1)
 						case .light:
 							return .black
 						@unknown default:
-							return UIColor.white.withAlphaComponent(0.6)
+							return UIColor.white.withAlphaComponent(0.1)
 					}
 				}
 			} else {

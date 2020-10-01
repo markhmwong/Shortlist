@@ -8,9 +8,30 @@
 
 import UIKit
 import PhotosUI
+import CoreData
 
 class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate {
 
+	// Core Data
+	private lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
+		// Create Fetch Request
+		let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+		
+		// Configure Fetch Request
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+		fetchRequest.predicate = NSPredicate(format: "createdAt == %@", argumentArray: [viewModel.taskCreationDate()])
+		
+		// Create Fetched Results Controller
+		let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewModel.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+		
+		// Configure Fetched Results Controller
+		fetchedResultsController.delegate = self
+		return fetchedResultsController
+	}()
+	
+	// Core Data
+	private var mainFetcher: MainFetcher<Task>! = nil
+	
 	private var itemProviders = [NSItemProvider]()
 	
 	private var viewModel: TaskDetailViewModel
@@ -23,6 +44,7 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		self.viewModel = viewModel
 		self.coordinator = coordinator
 		super.init(nibName: nil, bundle: nil)
+		self.mainFetcher = MainFetcher(controller: fetchedResultsController)
 	}
 	
 	required init?(coder: NSCoder) {
@@ -34,7 +56,8 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		navigationController?.transparent()
 		
 		createCollectionView()
-		viewModel.configureDataSource(collectionView: collectionView)
+		mainFetcher.initFetchedObjects() // must be called first
+		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
 	}
 	
 	// create collection view
@@ -59,33 +82,65 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		present(picker, animated: true)
 	}
 	
+	/*
+	
+		MARK: - Image Picker
+	
+	*/
 	func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 		dismiss(animated: true, completion: nil)
 				guard !results.isEmpty else { return }
-		//https://developer.apple.com/videos/play/wwdc2020/10652/
-		print("to do - connect to core data. Take photo, select photo, save photo, save thumbnail and reference to original image")
-		// connect it to core data to do
-//		dismiss(animated: true) {
-//			//
-//		}
-//		itemProviders = results.map(\.itemProvider)
-//		let itemProvidersIterator = itemProviders.makeIterator()
+		let result = results[0]
+		let provider = result.itemProvider
+		let state = provider.canLoadObject(ofClass: UIImage.self)
 		
-//		if provider.canLoadObject(ofClass: UIImage.self) {
-//			 provider.loadObject(ofClass: UIImage.self) { (image, error) in
-//					 DispatchQueue.main.async {
-//						 if let image = image as? UIImage {
-//							  self.imageView.image = image
-//						 }
-//					 }
-//			}
-//		 }
-
+		if state {
+			provider.loadObject(ofClass: UIImage.self) { (image, error) in
+				if let i = image as? UIImage {					
+					self.viewModel.saveImage(imageData: i)
+				}
+			}
+		}
+	}
+	
+	func handleRemoveImage(_ cell: TaskDetailPhotoCell) {
+		if let item = cell.item {
+			viewModel.removeImage(item: item)
+		}
 	}
 }
 
 // MARK: - Collection View Delegate
 extension TaskDetailViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+		
+		if let section = TaskDetailSections.init(rawValue: indexPath.section) {
+			switch section {
+				case .note, .title:
+					()
+				case .photos:
+					let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
+						// from camera or camera roll
+						let delete = UIAction(title: "Remove Photo", image: UIImage(systemName: "trash"), identifier: UIAction.Identifier(rawValue: "remove"), discoverabilityTitle: nil, attributes: .destructive, state: .off) { (action) in
+							let cell = collectionView.cellForItem(at: indexPath)
+							self.handleRemoveImage(cell as! TaskDetailPhotoCell)
+						}
+						
+						let view = UIAction(title: "View Photo", image: UIImage(systemName: "eye.fill"), identifier: UIAction.Identifier(rawValue: "view")) {_ in
+							let cell = collectionView.cellForItem(at: indexPath) as! TaskDetailPhotoCell
+							guard let photoItem = cell.item else { return }
+							self.coordinator.showPhoto(item: photoItem)
+						}
+						
+						return UIMenu(title: "Photo Options", image: nil, identifier: nil, children: [view, delete])
+					}
+					return config
+			}
+		}
+		return nil
+	}
+
+	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath)
 		
@@ -99,14 +154,31 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 				}
 			case .photos:
 				if (itemsInSection == indexPath.row) {
-					print("last photo")
+					// Add Photo
 					//https://nemecek.be/blog/30/checking-out-the-new-phpickerviewcontroller-in-ios-14-to-select-photos-or-videos
 					presentPicker(filter: PHPickerFilter.images)
+				} else {
+					// Show existing photo saved inside Core Data
+					let photoCell = cell as! TaskDetailPhotoCell
+					guard let photoItem = photoCell.item else { return }
+					self.coordinator.showPhoto(item: photoItem)
 				}
 			case .title:
 				() // do nothing
 			case .none:
 				()
 		}
+	}
+}
+
+/*
+
+	MARK: - Fetched Results Controller
+
+*/
+
+extension TaskDetailViewController: NSFetchedResultsControllerDelegate {
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
+		viewModel.updateSnapshot()
 	}
 }

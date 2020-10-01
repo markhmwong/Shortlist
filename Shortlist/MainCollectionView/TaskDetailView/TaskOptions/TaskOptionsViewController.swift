@@ -86,9 +86,9 @@ extension TaskOptionsViewController: UICollectionViewDelegate {
 			switch section {
 				case .content:
 					if indexPath.item == TaskOptionsSection.ContentSection.name.rawValue {
-						coordinator.showName()
+						coordinator.showName(data: viewModel.data)
 					} else if indexPath.item == TaskOptionsSection.ContentSection.notes.rawValue {
-						coordinator.showNotes()
+						coordinator.showNotes(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
 					}
 				case .data:
 					if indexPath.item == TaskOptionsSection.DataSection.delete.rawValue {
@@ -96,18 +96,14 @@ extension TaskOptionsViewController: UICollectionViewDelegate {
 						// ui action sheet / drawer from bottom
 					}
 				case .redact:
-					if indexPath.item == TaskOptionsSection.ConcealSection.redact.rawValue {
-						
-					}
 					if indexPath.item == TaskOptionsSection.ConcealSection.redactStyle.rawValue {
-						coordinator.showRedactStyle()
+						coordinator.showRedactStyle(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
 					}
 				case .reminder:
 					if indexPath.item == TaskOptionsSection.ReminderSection.alarm.rawValue {
-						coordinator.showAlarm()
-					} else if indexPath.item == TaskOptionsSection.ReminderSection.allday.rawValue {
-						
+						coordinator.showAlarm(data: viewModel.data)
 					}
+
 			}
 		}
 	}

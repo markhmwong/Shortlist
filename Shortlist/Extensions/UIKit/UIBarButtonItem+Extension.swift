@@ -12,7 +12,7 @@ extension UIBarButtonItem {
 	
 	func taskOptionsButton(target: Any?, action: Selector) -> UIBarButtonItem {
 		let button = UIButton(type: .system)
-		button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+		button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
 		button.addTarget(target, action: action, for: .touchUpInside)
 		button.tintColor = Theme.Font.DefaultColor
 		return UIBarButtonItem(customView: button)
@@ -26,11 +26,19 @@ extension UIBarButtonItem {
 		return UIBarButtonItem(customView: button)
 	}
 	
+	func createTaskButton(target: Any?, action: Selector) -> UIBarButtonItem {
+		let button = UIButton(type: .system)
+		button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+		button.addTarget(target, action: action, for: .touchUpInside)
+		button.tintColor = Theme.Font.DefaultColor
+		return UIBarButtonItem(customView: button)
+	}
+	
 	func donateButton(target: Any?, action: Selector) -> UIBarButtonItem {
 		let button = UIButton(type: .system)
-		button.setImage(UIImage(systemName: "dollarsign.circle.fill"), for: .normal)
+		button.setImage(UIImage(systemName: "gift.fill"), for: .normal)
 		button.addTarget(target, action: action, for: .touchUpInside)
-		button.tintColor = UIColor.systemYellow
+		button.tintColor = ThemeV2.ButtonColor.DonateColor
 		return UIBarButtonItem(customView: button)
 	}
 	

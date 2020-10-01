@@ -192,11 +192,16 @@ Graph uses a combination of CAShapeLayers, Bezier paths to draw the lines. First
 ### URLSession and Firebase
 
 ## Main Components Updated 17/9/2020
+
+Add Photos @done
+Add Note @done
+Connect Core Data (Task) @done
+Add Tips to Top Right @done
+Add Review Page to settings @done
+Photo library in settings not showing @done
+Update Task Options - Move All day option inside Alarm setting
+Update Task Options - Remove Style. Have Redact option show None, Style1, Style2, Style3 etc
+Tie task options to core data
 Add Task component
-Add Photos
-Add Note
-Connect Core Data (Task)
-Add Tips to Top Right
-Add Review Page to settings
-Photo library in settings not showingd
+Add 
 Stats

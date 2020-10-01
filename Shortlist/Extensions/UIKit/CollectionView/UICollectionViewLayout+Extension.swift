@@ -12,21 +12,28 @@ extension UICollectionViewLayout {
 	// TaskOptionsViewController.CollectionListConstants.header.rawValue
 	// This is collection view in a list format. Only one extra feature is included which is the header title
 	// Height sizes are fixed for cells
-	func createListLayout(appearance: UICollectionLayoutListConfiguration.Appearance = .insetGrouped, separators: Bool = true, header: Bool = true, headerElementKind: String = TaskOptionsViewController.CollectionListConstants.header.rawValue) -> UICollectionViewLayout {
+	func createListLayout(appearance: UICollectionLayoutListConfiguration.Appearance = .insetGrouped, separators: Bool = true, header: Bool = true, headerElementKind: String = TaskOptionsViewController.CollectionListConstants.header.rawValue, footer: Bool = false, footerElementKind: String = "") -> UICollectionViewLayout {
 		let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
 
 			var configuration = UICollectionLayoutListConfiguration(appearance: appearance)
 			configuration.showsSeparators = separators
 			
 			let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
+			let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44.0))
+			
+			var suppView: [NSCollectionLayoutBoundarySupplementaryItem] = []
 			
 			if (header) {
-				let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44.0))
-				let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize, elementKind: headerElementKind, alignment: .top)
-				section.boundarySupplementaryItems = [header]
+				let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: size, elementKind: headerElementKind, alignment: .top)
+				suppView.append(headerItem)
 			}
 			
-
+			if (footer) {
+				let footerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: size, elementKind: footerElementKind, alignment: .bottom)
+				suppView.append(footerItem)
+			}
+			
+			section.boundarySupplementaryItems = suppView
 			return section
 		}
 		return layout

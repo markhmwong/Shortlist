@@ -118,7 +118,9 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 		// save based on edit Type
 		switch editType {
 			case .name:
-				()
+				if !dataView.text.isEmpty {
+					data.name = dataView.text
+				}
 			case .notes:
 				()
 			case .photo:
@@ -128,7 +130,12 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 	
 	private func updateCharacterLimit() {
 		let currCount: Int = dataView.text.count
-		characterLimit.text = "\(currCount)/\(maxLimit)"
+		let limit = (maxLimit - currCount)
+		formatCharacterLimit("\(limit)")
+	}
+	
+	private func formatCharacterLimit(_ text: String) {
+		characterLimit.text = text
 	}
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -142,7 +149,7 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 		
 		let currCount = textView.text.count + (text.count - range.length)
 		if currCount <= maxLimit {
-			characterLimit.text = "\(currCount)/\(maxLimit)"
+			updateCharacterLimit()
 			return true
 		} else {
 			return false
@@ -151,11 +158,7 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 	
 }
 
-// MARK: - Constants
-struct CharacterLimitConstants {
-	static var titleLimit: Int = 100
-	static var noteLimit: Int = 250
-}
+
 
 
 

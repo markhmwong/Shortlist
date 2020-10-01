@@ -19,10 +19,21 @@ enum RedactState: Int {
 	case disclose
 }
 
-enum RedactStyle: Int {
-	case disclose = 0 //hidden
+enum RedactStyle: Int, CaseIterable {
+	case none = 0//hidden
 	case highlight // hidden
 	case star // total transparency
+	
+	var stringValue: String {
+		switch self {
+			case .none:
+				return "None"
+			case .highlight:
+				return "Censored"
+			case .star:
+				return "Password"
+		}
+	}
 }
 
 struct TaskItem: Hashable {

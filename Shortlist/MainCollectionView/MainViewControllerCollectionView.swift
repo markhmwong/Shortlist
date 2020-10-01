@@ -69,6 +69,18 @@ class MainViewControllerWithCollectionView: UIViewController {
 	
 	private var persistentContainer: PersistentContainer
 	
+	private lazy var createTaskButton: UIButton = {
+		let button = UIButton()
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.backgroundColor = UIColor.clear
+		let config = UIImage.SymbolConfiguration(font: ThemeV2.CellProperties.LargeBoldFont)
+		let image = UIImage(systemName: "plus.circle.fill", withConfiguration: config)
+		button.setImage(image, for: .normal)
+		button.tintColor = ThemeV2.TextColor.DefaultColor
+		button.addTarget(self, action: #selector(handleCreateTask), for: .touchDown)
+		return button
+	}()
+	
 	init(viewModel: MainViewModelWithCollectionView, persistentContainer: PersistentContainer) {
 		self.viewModel = viewModel
 		self.persistentContainer = persistentContainer
@@ -82,9 +94,13 @@ class MainViewControllerWithCollectionView: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		navigationItem.title = "Today"
 		navigationController?.transparent()
 		navigationItem.leftBarButtonItem = UIBarButtonItem().optionsButton(target: self, action: #selector(handleSettings))
-		navigationItem.rightBarButtonItem = UIBarButtonItem().donateButton(target: self, action: #selector(handleDonation))
+		
+		let donate = UIBarButtonItem().donateButton(target: self, action: #selector(handleDonation))
+
+		navigationItem.rightBarButtonItems = [ donate ]
 		// make collectionview
 		createCollectionView()
 
@@ -94,6 +110,11 @@ class MainViewControllerWithCollectionView: UIViewController {
 
 		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
 //		coordinator?.showReview(nil, automated: false) // add persistent container
+		
+		//create task button
+		view.addSubview(createTaskButton)
+		createTaskButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20.0).isActive = true
+		createTaskButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20.0).isActive = true
 	}
 	
 	// collectionview
@@ -107,9 +128,14 @@ class MainViewControllerWithCollectionView: UIViewController {
 	
 	/*
 	
-		MARK: - Navigation Selectors
-	
+		MARK: - Handlers Selectors
+		
 	*/
+	@objc func handleCreateTask() {
+		guard let c = coordinator else { return }
+		c.showCreateTask()
+	}
+	
 	@objc func handleDonation() {
 		guard let c = coordinator else { return }
 		c.showTipJar()
@@ -156,12 +182,15 @@ extension MainViewControllerWithCollectionView: UICollectionViewDelegate {
 		let item: Task = viewModel.itemForSelection(indexPath: indexPath)
 		
 		switch item.redactionStyle() {
-			case .disclose:
+			case .none:
 				guard let coordinator = coordinator else { return }
 				coordinator.showTaskDetails(with: item, persistentContainer: persistentContainer)
 			case .star, .highlight:
-				// run biometrics to request an unlock
-				biometrics(item: item)
+				guard let coordinator = coordinator else { return }
+				coordinator.showTaskDetails(with: item, persistentContainer: self.persistentContainer)
+			// run biometrics to request an unlock
+				//temp biometrics is turned off
+//				biometrics(item: item)
 		}
 	}
 	
