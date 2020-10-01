@@ -11,6 +11,18 @@ import CoreData
 
 class PersistentContainer: NSPersistentCloudKitContainer {
     
+	// create queue
+	let cdQueue = DispatchQueue(label: "com.whizbang.queue.coredata", qos: .utility)
+	
+	// MARK: - Save photo
+	func savePhoto(data: Task, fullRes: Data, thumbnail: Data) {
+		let photo = TaskPhotos(context: viewContext)
+		photo.id = UUID()
+		photo.photo = fullRes
+		photo.thumbnail = thumbnail
+		data.addToTaskToPhotos(photo)
+	}
+	
     func saveContext(backgroundContext: NSManagedObjectContext? = nil) {
         let context = backgroundContext ?? viewContext
         guard context.hasChanges else { return }
@@ -99,7 +111,6 @@ class PersistentContainer: NSPersistentCloudKitContainer {
     
     func createSampleTask(toEntity day: Day, context: NSManagedObjectContext, idNum: Int) {
         let task: Task = Task(context: context)
-//		print("\(idNum), \(idNum.numberToWord())")
 		task.name = "An interesting task"
         task.complete = false
         task.carryOver = false
@@ -125,9 +136,29 @@ class PersistentContainer: NSPersistentCloudKitContainer {
 		day.addToDayToTask(task)
 	}
     
+	/*
+	
+		MARK: - Category Methods
+	
+	*/
 	func createCategoryInBackLog(_ name: String, context: NSManagedObjectContext) {
 		let category: BackLog = BackLog(context: context)
 		category.name = name
+	}
+	
+	func deletePhoto(withId id: UUID) {
+		let request: NSFetchRequest<TaskPhotos> = TaskPhotos.fetchRequest()
+		request.returnsObjectsAsFaults = false
+		request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+
+		do {
+			let fetchedResults = try viewContext.fetch(request)
+			if let object = fetchedResults.first {
+				viewContext.delete(object)
+			}
+		} catch let error as NSError {
+			print("Category entity could not be fetched \(error)")
+		}
 	}
 	
 	func deleteCategory(forName categoryName: String) -> Bool {
@@ -166,7 +197,6 @@ class PersistentContainer: NSPersistentCloudKitContainer {
         }
 	}
 	
-	
 	func categoryExistsInBackLog(_ name: String) -> Bool {
 		let context = viewContext
 		let categoryRequest: NSFetchRequest<BackLog> = BackLog.fetchRequest()
@@ -199,6 +229,11 @@ class PersistentContainer: NSPersistentCloudKitContainer {
         return count
     }
 	
+	/*
+	
+		MARK: - Back Log
+	
+	*/
     func fetchBackLog(forCategory categoryName: String) -> BackLog? {
         let context = viewContext
         let request = NSFetchRequest<NSFetchRequestResult>.init(entityName: "BackLog")

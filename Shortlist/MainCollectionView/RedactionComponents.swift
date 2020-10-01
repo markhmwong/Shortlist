@@ -19,7 +19,7 @@ struct RedactComponent: Hashable {
 				return RedactStar()
 			case .highlight:
 				return RedactHighlight()
-			case .disclose:
+			case .none:
 				return RedactNone()
 		}
 	}
@@ -29,7 +29,7 @@ struct RedactComponent: Hashable {
 		switch redactStyle {
 			case .star, .highlight:
 				return 1.0
-			case .disclose:
+			case .none:
 				return 0.3
 		}
 	}

@@ -10,6 +10,8 @@ import UIKit
 
 class TaskDetailViewModel: NSObject {
 	
+	private let photoLimit = 4
+	
 	private let sectionIdHeader: String = "com.whizbang.taskdetail.sectionid.header"
 	
 	private let sectionIdFooter: String = "com.whizbang.taskdetail.sectionid.footer"
@@ -26,34 +28,92 @@ class TaskDetailViewModel: NSObject {
 	
 	private var diffableDataSource: UICollectionViewDiffableDataSource<TaskDetailSections, DataItem>! = nil
 	
-	init(task: Task) {
+	private var snapshot: NSDiffableDataSourceSnapshot<TaskDetailSections, DataItem>! = nil
+	
+	var persistentContainer: PersistentContainer
+	
+	private var mainFetcher: MainFetcher<Task>! = nil
+	
+	init(task: Task, persistentContainer: PersistentContainer) {
 		self.data = task
 		self.completionStatus = task.complete
-		
-		self.titleItem = TitleItem(title: task.name ?? "None")
-		
+		self.persistentContainer = persistentContainer
+		self.titleItem = TitleItem(title: "Oops no name!")
+		self.notesItem = []
+		self.photoItem = []
 		// converts the core data model to a struct
-		if data.taskToNotes == nil {
-			// pre-2.0 catcher for notes
-			self.notesItem = [NotesItem(notes: data.details ?? "None", isButton: false)]
-		} else {
-			// post-2.0
-			var noteArray: [NotesItem] = []
-			if let notes = data.taskToNotes {
-				for note in notes.array as! [TaskNotes] {
-					noteArray.append(NotesItem(notes: note.note ?? "None", isButton: false))
-				}
-			}
-			self.notesItem = noteArray
-		}
+//		if data.taskToNotes == nil {
+//			// pre-2.0 catcher for notes
+//			self.notesItem = [NotesItem(notes: data.details ?? "None", isButton: false)]
+//		} else {
+//			// post-2.0
+//			var noteArray: [NotesItem] = []
+//			if let notes = data.taskToNotes {
+//				for note in notes.array as! [TaskNotes] {
+//					noteArray.append(NotesItem(notes: note.note ?? "None", isButton: false))
+//				}
+//			}
+//			self.notesItem = noteArray
+//		}
 		
-		
-		self.photoItem = [PhotoItem(photo: "Photo1", isButton: false), PhotoItem(photo: "Photo2", isButton: false), PhotoItem(photo: "Photo3", isButton: false), PhotoItem(photo: "Photo4", isButton: false), PhotoItem(photo: "Photo5", isButton: false), PhotoItem(photo: "Photo6", isButton: true), PhotoItem(photo: "Photo7", isButton: false), PhotoItem(photo: "Add Photo", isButton: true)] // temp
+		// Assign photos
+//		if data.taskToPhotos == nil {
+//			self.photoItem = [PhotoItem(id: UUID(),photo: nil, isButton: true)]
+//		} else {
+//			var photoArray: [PhotoItem] = []
+//			if let photoSet = data.taskToPhotos?.array {
+//				for photo in photoSet as! [TaskPhotos] {
+//					photoArray.append(PhotoItem(id: photo.id ?? UUID(), photo: photo.photo, thumbnail: photo.thumbnail, isButton: false))
+//				}
+//			}
+//
+//			// Include "Add" button
+//			if photoArray.count < 4 && photoArray.count >= 0 {
+//				photoArray.append(PhotoItem(id: UUID(), photo: nil, isButton: true))
+//			}
+//			self.photoItem = photoArray
+//		}
 		super.init()
 	}
 	
-	// MARK: - DataSource methods
-	func configureDataSource(collectionView: UICollectionView) {
+	func taskCreationDate() -> Date {
+		return data.createdAt ?? Date()
+	}
+	
+	/*
+	
+		MARK: - Image Methods
+	
+	*/
+	// MARK: - Process image
+	func saveImage(imageData: UIImage) {
+		// scale photo
+		
+		let thumbnail = UIImage().scalePhotoToThumbnail(image: imageData, width: Double(imageData.size.width), height: Double(imageData.size.height))
+		
+		// convert to jpeg
+		guard let i = imageData.jpegData(compressionQuality: 1.0), let thumbnailData = thumbnail.jpegData(compressionQuality: 0.5) else {
+			// handle failed conversion
+			print("jpg error")
+			return
+		}
+		
+		// save process
+		persistentContainer.savePhoto(data: data, fullRes: i, thumbnail: thumbnailData)
+		persistentContainer.saveContext()
+	}
+	
+	func removeImage(item: PhotoItem) {
+		persistentContainer.deletePhoto(withId: item.id)
+	}
+	
+	/*
+
+		MARK: - DataSource methods
+		Called during Initial setup
+	*/
+	func configureDataSource(collectionView: UICollectionView, resultsController: MainFetcher<Task>) {
+		mainFetcher = resultsController
 
 		diffableDataSource = UICollectionViewDiffableDataSource<TaskDetailSections, DataItem>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
 			
@@ -101,27 +161,92 @@ class TaskDetailViewModel: NSObject {
 			return nil
 		}
 		
-		diffableDataSource.apply(configureSnapshot(), animatingDifferences: false) {
-			//
-		}
+		updateSnapshot()
+
 	}
 	
-	private func configureSnapshot() -> NSDiffableDataSourceSnapshot<TaskDetailSections, DataItem> {
-		var snapshot = NSDiffableDataSourceSnapshot<TaskDetailSections, DataItem>()
+	/*
+	
+		MARK: - Update Snapshot
+		Public method, exposed to the viewcontroller to be called when the data has mutated
+	*/
+	func updateSnapshot() {
+		self.snapshot = NSDiffableDataSourceSnapshot<TaskDetailSections, DataItem>()
+		
 		snapshot.appendSections(TaskDetailSections.allCases) // add remaining sections
-		snapshot.appendItems([DataItem.title(titleItem)], toSection: .title)
+		
+		// This is required, as the variable is forced unwrapped during creation. The second problem is that the order of operation - mainFetcher is not yet initialised because of NSFetchedResultsController being called when it calls .performFetch()
+		guard let mainFetcher = self.mainFetcher else { return }
+		
+		if let task = mainFetcher.fetchRequestedObjects()?.first {
+			
+			let title = TitleItem(title: task.name ?? "None")
+			
+			snapshot.appendItems([DataItem.title(title)], toSection: .title)
+			
 
-		for item in notesItem {
-			snapshot.appendItems([DataItem.notes(item)], toSection: .note)
-		}
-
-		for item in photoItem {
-			snapshot.appendItems([DataItem.photo(item)], toSection: .photos)
+			// converts the core data model to a struct
+			if task.taskToNotes == nil {
+				// pre-2.0 catcher for notes
+				self.notesItem = [NotesItem(notes: data.details ?? "None", isButton: false)]
+			} else {
+				// post-2.0
+				var noteArray: [NotesItem] = []
+				
+				if let notes = task.taskToNotes {
+					
+					if notes.count != 0 {
+						for note in notes.array as! [TaskNotes] {
+							let notesItem = NotesItem(notes: note.note ?? "None", isButton: false)
+							let dataItem = DataItem.notes(notesItem)
+							noteArray.append(notesItem)
+							snapshot.appendItems([dataItem], toSection: .note)
+						}
+					} else {
+						// empty notes
+						let notesItem = NotesItem(notes: "No notes yet!", isButton: false)
+						let dataItem = DataItem.notes(notesItem)
+						noteArray.append(notesItem)
+						snapshot.appendItems([dataItem], toSection: .note)
+					}
+					
+				} else {
+					// empty notes
+					let notesItem = NotesItem(notes: "No notes yet!", isButton: false)
+					let dataItem = DataItem.notes(notesItem)
+					noteArray.append(notesItem)
+					snapshot.appendItems([dataItem], toSection: .note)
+				}
+			}
+			
+			// Assign photos
+			if task.taskToPhotos == nil {
+				self.photoItem = [PhotoItem(id: UUID(),photo: nil, isButton: true)]
+			} else {
+				var photoArray: [PhotoItem] = []
+				if let photoSet = task.taskToPhotos?.array {
+					for photo in photoSet as! [TaskPhotos] {
+						let photoItem = PhotoItem(id: photo.id ?? UUID(), photo: photo.photo, thumbnail: photo.thumbnail, isButton: false)
+						photoArray.append(photoItem)
+						let dataItem = DataItem.photo(photoItem)
+						snapshot.appendItems([dataItem], toSection: .photos)
+					}
+				}
+				
+				// Include "Add" button
+				if photoArray.count < 4 && photoArray.count >= 0 {
+					let photoItem = PhotoItem(id: UUID(), photo: nil, isButton: true)
+					let dataItem = DataItem.photo(photoItem)
+					photoArray.append(photoItem)
+					snapshot.appendItems([dataItem], toSection: .photos)
+				}
+				self.photoItem = photoArray
+			}
 		}
 		
-		// TO DOoptions - delete
-		
-		return snapshot
+		diffableDataSource.apply(self.snapshot, animatingDifferences: false) {
+			//
+		}
 	}
 	
 	// MARK: - Cell Registration
@@ -217,7 +342,7 @@ class TaskDetailViewModel: NSObject {
 	// MARK: - Layout title Header
 	private func createLayoutForTitleSection() -> NSCollectionLayoutSection {
 		let estimatedHeight: CGFloat = 100.0
-		let contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+		let contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
 		
 		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(estimatedHeight))
 
@@ -237,17 +362,19 @@ class TaskDetailViewModel: NSObject {
 		return sectionLayout
 	}
 	
-	// MARK: - Photos layout - includes the footer
+	// MARK: - Photos layout -
+	// includes the footer
 	private func createLayoutForPhotoSection() -> NSCollectionLayoutSection {
-		let estimatedHeight: CGFloat = 150.0
-
-		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(estimatedHeight))
+		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.23), heightDimension: .fractionalWidth(0.23))
 
 		let item = NSCollectionLayoutItem(layoutSize: size)
-		item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(20), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
+		item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(10), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
+		item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
 		
-		let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 4)
-		group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.3))
+		
+		let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 4)
+		group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
 		
 		// Footer
 		let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),

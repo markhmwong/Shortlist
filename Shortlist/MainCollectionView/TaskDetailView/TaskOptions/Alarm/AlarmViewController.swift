@@ -9,15 +9,19 @@
 import UIKit
 
 // MARK: - Alarm ViewController
-class AlarmViewController: UIViewController {
+class AlarmViewController: UIViewController, UICollectionViewDelegate {
+	
+	enum AlarmViewSupplementaryIds: String {
+		case headerId = "com.whizbang.header.alarm"
+		case footerId = "com.whizbang.footer.alarm"
+	}
 	
 	// custom and preset times
 	private lazy var tableView: BaseCollectionView = {
-		let view = BaseCollectionView(frame: .zero, collectionViewLayout: createLayout())
+		let view = BaseCollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout().createListLayout(appearance: .insetGrouped, separators: false, header: true, headerElementKind: AlarmViewSupplementaryIds.headerId.rawValue, footer: true, footerElementKind: AlarmViewSupplementaryIds.footerId.rawValue))
 		view.translatesAutoresizingMaskIntoConstraints = false
-//		view.delegate = self
+		view.delegate = self
 		view.backgroundColor = .black
-		
 		return view
 	}()
 	
@@ -34,8 +38,8 @@ class AlarmViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		navigationItem.title = "Alarm"
 		view.backgroundColor = .offWhite
-
 		
 		view.addSubview(tableView)
 		tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -44,18 +48,5 @@ class AlarmViewController: UIViewController {
 		tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 		
 		viewModel.configureDataSource(collectionView: tableView)
-	}
-	
-	private func createLayout() -> UICollectionViewLayout {
-		let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-
-			var configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-			configuration.showsSeparators = true
-			
-			let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
-
-			return section
-		}
-		return layout
 	}
 }

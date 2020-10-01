@@ -83,6 +83,7 @@
         <relationship name="taskToDay" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Day" inverseName="dayToTask" inverseEntity="Day"/>
         <relationship name="taskToNotes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskNotes" inverseName="taskNotesToTask" inverseEntity="TaskNotes"/>
         <relationship name="taskToPhotos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskPhotos" inverseName="photosToTask" inverseEntity="TaskPhotos"/>
+        <relationship name="taskToReminder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TaskReminder" inverseName="reminderToTask" inverseEntity="TaskReminder"/>
     </entity>
     <entity name="TaskNotes" representedClassName="TaskNotes" syncable="YES">
         <attribute name="isButton" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -96,6 +97,11 @@
         <attribute name="thumbnail" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <relationship name="photosToTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="taskToPhotos" inverseEntity="Task"/>
     </entity>
+    <entity name="TaskReminder" representedClassName="TaskReminder" syncable="YES">
+        <attribute name="isAllDay" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="reminder" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="reminderToTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="taskToReminder" inverseEntity="Task"/>
+    </entity>
     <elements>
         <element name="BackLog" positionX="-168.37109375" positionY="231.5625" width="128" height="88"/>
         <element name="BigListTask" positionX="-461.171875" positionY="129.3984375" width="128" height="223"/>
@@ -105,8 +111,9 @@
         <element name="Stats" positionX="-365.7421875" positionY="-178.22265625" width="128" height="193"/>
         <element name="StatsCategoryComplete" positionX="-166.3984375" positionY="-166.56640625" width="128" height="88"/>
         <element name="StatsCategoryIncomplete" positionX="-165.69140625" positionY="-106.76171875" width="128" height="88"/>
-        <element name="Task" positionX="157.875" positionY="-65.9453125" width="128" height="298"/>
+        <element name="Task" positionX="157.875" positionY="-65.9453125" width="128" height="313"/>
         <element name="TaskNotes" positionX="-153" positionY="81" width="128" height="88"/>
         <element name="TaskPhotos" positionX="-252" positionY="-27" width="128" height="118"/>
+        <element name="TaskReminder" positionX="-261" positionY="-36" width="128" height="88"/>
     </elements>
 </model>

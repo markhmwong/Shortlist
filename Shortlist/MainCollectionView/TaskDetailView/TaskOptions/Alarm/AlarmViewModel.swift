@@ -12,26 +12,19 @@ class AlarmViewModel: NSObject {
 	
 	private var diffableDataSource: UICollectionViewDiffableDataSource<AlarmSection, AlarmItem>! = nil
 	
-	override init() {
+	private var dataSource: [AlarmItem] = []
+	
+	private var data: Task
+	
+	init(data: Task) {
+		self.data = data
 		super.init()
 	}
 	
 	// MARK: - Register Cell
-	private func configureCellRegistration() -> UICollectionView.CellRegistration<BaseTableListCell<AlarmItem>, AlarmItem> {
-		let cellConfig = UICollectionView.CellRegistration<BaseTableListCell<AlarmItem>, AlarmItem> { (cell, indexPath, item) in
-
-			// configure cell
-			var content: UIListContentConfiguration = cell.defaultContentConfiguration()
-			content.text = item.name
-			cell.contentConfiguration = content
-
-		}
-		return cellConfig
-	}
-	
-	private func configureCalendarCellRegistration() -> UICollectionView.CellRegistration<CalendarCell, AlarmItem> {
-		let cellConfig = UICollectionView.CellRegistration<CalendarCell, AlarmItem> { (cell, indexPath, item) in
-			
+	private func configureCellRegistration() -> UICollectionView.CellRegistration<AlarmCell, AlarmItem> {
+		let cellConfig = UICollectionView.CellRegistration<AlarmCell, AlarmItem> { (cell, indexPath, item) in
+			cell.configureCell(with: item)
 		}
 		return cellConfig
 	}
@@ -41,72 +34,98 @@ class AlarmViewModel: NSObject {
 		var snapshot = NSDiffableDataSourceSnapshot<AlarmSection, AlarmItem>()
 		snapshot.appendSections(AlarmSection.allCases)
 		
-		let data = prepareDataSource()
+		prepareDataSource()
 		
-		for d in data {
+		for d in dataSource {
 			snapshot.appendItems([d], toSection: d.section)
 		}
 		
 		return snapshot
 	}
 	
+	func updateSnapshot(allDay: Bool) {
+		var currentSnapshot = NSDiffableDataSourceSnapshot<AlarmSection, AlarmItem>()
+		let filteredItems = dataSource.filter { (item) -> Bool in
+			if !allDay {
+				return true // return all
+			} else {
+				return item.section == .AllDay
+			}
+		}
+		
+		// this won't work inside filteredItems
+		if !allDay {
+			currentSnapshot.appendSections(AlarmSection.allCases)
+		} else {
+			currentSnapshot.appendSections([.AllDay])
+		}
+		
+		for item in filteredItems {
+			currentSnapshot.appendItems([ item ], toSection: item.section)
+		}
+
+		diffableDataSource.apply(currentSnapshot)
+	}
+	
 	func configureDataSource(collectionView: UICollectionView) {
 		diffableDataSource = UICollectionViewDiffableDataSource<AlarmSection, AlarmItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewListCell? in
+			let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
 			
-			if indexPath.section == AlarmSection.Custom.rawValue {
-				let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCalendarCellRegistration(), for: indexPath, item: item)
-				return cell
-			} else {
-				let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
-				return cell
+			cell.allDayClosure = { (buttonState) in
+				self.updateSnapshot(allDay: buttonState)
 			}
+			return cell
 		}
 		
-		//Supplementary Views
-		let headerRegistration = UICollectionView.SupplementaryRegistration
-		<BaseCollectionViewListHeader>(elementKind: TaskOptionsViewController.CollectionListConstants.header.rawValue) {
-			(supplementaryView, string, indexPath) in
-			if let section = TaskOptionsSection(rawValue: indexPath.section) {
-				supplementaryView.updateLabel(with: "\(section.value)")
+		let headerRegistration = UICollectionView.SupplementaryRegistration<BaseCollectionViewListHeader>(elementKind: AlarmViewController.AlarmViewSupplementaryIds.headerId.rawValue) { (supplementaryView, string, indexPath) in
+			if let section = AlarmSection(rawValue: indexPath.section) {
+				supplementaryView.updateLabel(with: section.headerTitle)
 			}
 			supplementaryView.backgroundColor = .clear
 		}
 		
-		let footerRegistration = UICollectionView.SupplementaryRegistration
-		<BaseCollectionViewListFooter>(elementKind: TaskOptionsViewController.CollectionListConstants.footer.rawValue) {
-			(supplementaryView, string, indexPath) in
-			if let section = TaskOptionsSection(rawValue: indexPath.section) {
-				supplementaryView.updateLabel(with: "\(section.footerValue)")
+		let footerRegistration = UICollectionView.SupplementaryRegistration<BaseCollectionViewListFooter>(elementKind: AlarmViewController.AlarmViewSupplementaryIds.footerId.rawValue) { (supplementaryView, string, indexPath) in
+			if let section = AlarmSection(rawValue: indexPath.section) {
+				supplementaryView.updateLabel(with: section.footerDescription)
 			}
 			supplementaryView.backgroundColor = .clear
 		}
 		
-		diffableDataSource.supplementaryViewProvider = { (view, kind, index) in
-			switch TaskOptionsViewController.CollectionListConstants.init(rawValue: kind) {
-				case .header:
+		diffableDataSource.supplementaryViewProvider = { (_ , kind, index) in
+			switch AlarmViewController.AlarmViewSupplementaryIds.init(rawValue: kind) {
+				case .headerId:
 					return collectionView.dequeueConfiguredReusableSupplementary(using:headerRegistration, for: index)
-				case .footer:
+				case .footerId:
 					return collectionView.dequeueConfiguredReusableSupplementary(using:footerRegistration, for: index)
 				default:
 					return collectionView.dequeueConfiguredReusableSupplementary(using:headerRegistration, for: index)
 			}
 		}
 		
+		let reminder = data.taskToReminder
+		let allDayState = reminder?.isAllDay ?? false
+		
+		prepareDataSource()
+		updateSnapshot(allDay: allDayState)
 		// BUG: using this apply method refreshes the collectionview twice. however using the method with the animating differences won't allow for dynamic heights
-		diffableDataSource.apply(configureSnapshot())
-//		diffableDataSource.apply(configureSnapshot(), animatingDifferences: false) { }
 	}
 	
-	private func prepareDataSource() -> [AlarmItem] {
-		let fiveMin = AlarmItem(name: "5 mins", timeValue: 60*5.0, section: .Preset)
-		let tenMin = AlarmItem(name: "10 mins", timeValue: 60*10.0, section: .Preset)
-		let fifteenMin = AlarmItem(name: "15 mins", timeValue: 60*15.0, section: .Preset)
-		let twentyMin = AlarmItem(name: "20 mins", timeValue: 60*20.0, section: .Preset)
-		let thirtyMin = AlarmItem(name: "30 mins", timeValue: 60*30.0, section: .Preset)
-		let fortyMin = AlarmItem(name: "40 mins", timeValue: 60*40.0, section: .Preset)
-		let fiftyMin = AlarmItem(name: "50 mins", timeValue: 60*50.0, section: .Preset)
+	private func prepareDataSource() {
+		
+		let reminder = data.taskToReminder
+		let allDayState = reminder?.isAllDay ?? false
+		let allDay = AlarmItem(title: "All Day", section: .AllDay, timeValue: 0, isAllDay: allDayState)
+		let custom = AlarmItem(title: "", section: .Custom, timeValue: 0.0, isCustom: true)
+		
+		dataSource.append(contentsOf: [ allDay, custom ])
+		
+		let interval = 5
+		let seconds: Float = 60
+		for i in 1..<13 {
+			let time: Float = seconds * Float(interval) * Float(i)
+			let item = AlarmItem(title: "\(i * interval) mins", section: .Preset, timeValue: time)
+			dataSource.append(item)
+		}
 
-		let custom = AlarmItem(name: "Custom", timeValue: 0.0, section: .Custom)
-		return [fiveMin, tenMin, fifteenMin, twentyMin, thirtyMin, fortyMin, fiftyMin, custom]
 	}
 }

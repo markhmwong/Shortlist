@@ -39,19 +39,6 @@ class SettingsListCell: BaseListCell<SettingsListItem> {
 	
 	private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
 	
-	private lazy var titleLabel: BaseLabel = {
-		let label = BaseLabel()
-		label.textAlignment = .center
-		label.font = UIFont.preferredFont(forTextStyle: .headline).with(weight: .bold)
-		return label
-	}()
-	
-	private lazy var descriptionLabel: BaseLabel = {
-		let label = BaseLabel()
-		label.font = UIFont.preferredFont(forTextStyle: .caption1).with(weight: .regular)
-		return label
-	}()
-	
 	override var configurationState: UICellConfigurationState {
 		var state = super.configurationState
 		state.settingsListItem = self.item
@@ -99,7 +86,7 @@ class SettingsListCell: BaseListCell<SettingsListItem> {
 
 		// highlight the tip button
 		if state.settingsListItem?.item == .tip {
-			content.imageProperties.tintColor = .systemOrange
+			content.imageProperties.tintColor = ThemeV2.ButtonColor.DonateColor
 			let imageView = UIImageView(image: UIImage(systemName: "chevron.right.circle.fill"))
 			let customAccessory = UICellAccessory.CustomViewConfiguration(customView: imageView, placement: .trailing(displayed: .always), tintColor: content.imageProperties.tintColor, maintainsFixedSize: true)
 			accessories = [.customView(configuration: customAccessory)]

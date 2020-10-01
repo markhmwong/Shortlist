@@ -148,6 +148,8 @@ class BaseListCell<T: Equatable>: UICollectionViewListCell {
 	
 	var item: T? = nil
 	
+	let textColor: UIColor = ThemeV2.TextColor.DefaultColor
+	
 	override init(frame: CGRect) {
 		super.init(frame: .zero)
 	}

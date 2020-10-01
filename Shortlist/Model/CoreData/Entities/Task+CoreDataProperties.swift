@@ -2,7 +2,7 @@
 //  Task+CoreDataProperties.swift
 //  
 //
-//  Created by Mark Wong on 21/9/20.
+//  Created by Mark Wong on 30/9/20.
 //
 //
 
@@ -20,7 +20,7 @@ extension Task {
     @NSManaged public var category: String?
     @NSManaged public var complete: Bool
     @NSManaged public var createdAt: Date?
-    @NSManaged public var details: String? // Details were the pre-2.0 notes. It gets changed to taskToNotes where an array of notes are held.
+    @NSManaged public var details: String?
     @NSManaged public var id: Int16
     @NSManaged public var isNew: Bool
     @NSManaged public var name: String?
@@ -32,7 +32,9 @@ extension Task {
     @NSManaged public var taskToBackLog: BackLog?
     @NSManaged public var taskToDay: Day?
     @NSManaged public var taskToNotes: NSOrderedSet?
-	
+    @NSManaged public var taskToPhotos: NSOrderedSet?
+    @NSManaged public var taskToReminder: TaskReminder?
+
 }
 
 // MARK: Generated accessors for taskToNotes
@@ -67,5 +69,40 @@ extension Task {
 
     @objc(removeTaskToNotes:)
     @NSManaged public func removeFromTaskToNotes(_ values: NSOrderedSet)
+
+}
+
+// MARK: Generated accessors for taskToPhotos
+extension Task {
+
+    @objc(insertObject:inTaskToPhotosAtIndex:)
+    @NSManaged public func insertIntoTaskToPhotos(_ value: TaskPhotos, at idx: Int)
+
+    @objc(removeObjectFromTaskToPhotosAtIndex:)
+    @NSManaged public func removeFromTaskToPhotos(at idx: Int)
+
+    @objc(insertTaskToPhotos:atIndexes:)
+    @NSManaged public func insertIntoTaskToPhotos(_ values: [TaskPhotos], at indexes: NSIndexSet)
+
+    @objc(removeTaskToPhotosAtIndexes:)
+    @NSManaged public func removeFromTaskToPhotos(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInTaskToPhotosAtIndex:withObject:)
+    @NSManaged public func replaceTaskToPhotos(at idx: Int, with value: TaskPhotos)
+
+    @objc(replaceTaskToPhotosAtIndexes:withTaskToPhotos:)
+    @NSManaged public func replaceTaskToPhotos(at indexes: NSIndexSet, with values: [TaskPhotos])
+
+    @objc(addTaskToPhotosObject:)
+    @NSManaged public func addToTaskToPhotos(_ value: TaskPhotos)
+
+    @objc(removeTaskToPhotosObject:)
+    @NSManaged public func removeFromTaskToPhotos(_ value: TaskPhotos)
+
+    @objc(addTaskToPhotos:)
+    @NSManaged public func addToTaskToPhotos(_ values: NSOrderedSet)
+
+    @objc(removeTaskToPhotos:)
+    @NSManaged public func removeFromTaskToPhotos(_ values: NSOrderedSet)
 
 }

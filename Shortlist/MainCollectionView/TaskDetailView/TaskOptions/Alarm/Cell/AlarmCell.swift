@@ -1,5 +1,5 @@
 //
-//  CalendarCell.swift
+//  AlarmCell.swift
 //  Shortlist
 //
 //  Created by Mark Wong on 25/8/20.
@@ -16,14 +16,20 @@ private extension UICellConfigurationState {
 }
 
 fileprivate extension UIConfigurationStateCustomKey {
-	static let alarmItem = UIConfigurationStateCustomKey("com.whizbang.state.whatsnew")
+	static let alarmItem = UIConfigurationStateCustomKey("com.whizbang.state.taskalarm")
 }
 
 // MARK: - Calendar Cell
 class AlarmCell: BaseListCell<AlarmItem> {
 	
+	override var configurationState: UICellConfigurationState {
+		var state = super.configurationState
+		state.alarmItem = self.item
+		return state
+	}
+	
 	private func defaultListContentConfiguration() -> UIListContentConfiguration {
-		return .sidebarHeader()
+		return .subtitleCell()
 	}
 	
 	private var viewConstraintCheck: NSLayoutConstraint? = nil
@@ -39,6 +45,10 @@ class AlarmCell: BaseListCell<AlarmItem> {
 		view.contentHorizontalAlignment = .trailing
 		return view
 	}()
+	
+	private var toggle: UISwitch? = nil
+	
+	var allDayClosure : ((Bool) -> ())? = nil
 	
 	override init(frame: CGRect) {
 		super.init(frame: .zero)
@@ -65,35 +75,47 @@ class AlarmCell: BaseListCell<AlarmItem> {
 	override func updateConfiguration(using state: UICellConfigurationState) {
 		setupViewsIfNeeded()
 		var content: UIListContentConfiguration = defaultListContentConfiguration().updated(for: state)
+
+		guard let item = state.alarmItem else {
+			print("cannot load alarm item")
+			return
+		}
 		content.text = "\(state.alarmItem?.title ?? "Unknown")"
 		content.textProperties.font = UIFont.preferredFont(forTextStyle: .body)
-		content.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .caption2)
 		listContentView.configuration = content
 		
-		guard let item = item else { return }
-
 		addSwitch(with: state.alarmItem)
+		addCalendar(with: state.alarmItem)
+	}
+	
+	private func addCalendar(with item: AlarmItem?) {
+		if (item?.isCustom ?? false) {
+			listContentView.addSubview(calendarView)
+			
+			calendarView.topAnchor.constraint(equalTo: listContentView.topAnchor).isActive = true
+			calendarView.bottomAnchor.constraint(equalTo: listContentView.bottomAnchor).isActive = true
+			calendarView.leadingAnchor.constraint(equalTo: listContentView.leadingAnchor).isActive = true
+			calendarView.trailingAnchor.constraint(equalTo: listContentView.trailingAnchor).isActive = true
+		}
 	}
 	
 	private func addSwitch(with item: AlarmItem?) {
 		guard let item = item else { return }
 
 		if let isAllDay = item.isAllDay {
-			let enableAllDayAlarm = UISwitch()
-			enableAllDayAlarm.addTarget(self, action: #selector(handleAllDay), for: .valueChanged)
-			enableAllDayAlarm.isOn = isAllDay // to do update with data
+			self.toggle = UISwitch()
+			guard let toggle = self.toggle else { return }
+			toggle.addTarget(self, action: #selector(handleAllDay), for: .valueChanged)
+			toggle.isOn = isAllDay // to do update with data
 			let customAccessory = UICellAccessory.CustomViewConfiguration(
-			  customView: enableAllDayAlarm,
+			  customView: toggle,
 			  placement: .trailing(displayed: .always))
 			accessories = [.customView(configuration: customAccessory)]
 		}
 	}
 	
 	@objc func handleAllDay() {
-		
+		guard let toggle = self.toggle else { return }
+		allDayClosure?(toggle.isOn)
 	}
-}
-
-class CustomDatePicker: UIDatePicker {
-	
 }

@@ -105,13 +105,6 @@ class PriorityIndicator: UIView {
 	}
 	
 	private func setupSubviews() {
-//		outerCircle.translatesAutoresizingMaskIntoConstraints = false
-//		outerCircle.clipsToBounds = true
-//		outerCircle.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.1)
-//		addSubview(outerCircle)
-//		outerCircle.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-//		outerCircle.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-
 		innerCircle.translatesAutoresizingMaskIntoConstraints = false
 		innerCircle.clipsToBounds = true
 		
@@ -140,7 +133,7 @@ class PriorityIndicator: UIView {
 			case .high:
 				innerCircle.backgroundColor = .systemRed
 			case .medium:
-				innerCircle.backgroundColor = .systemOrange
+				innerCircle.backgroundColor = .systemYellow
 			case .low:
 				innerCircle.backgroundColor = .systemBlue
 			default:

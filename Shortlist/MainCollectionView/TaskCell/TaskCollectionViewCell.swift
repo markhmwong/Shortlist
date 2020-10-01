@@ -72,10 +72,10 @@ class TaskCellV2: BaseListCell<Task> {
 		contentView.addSubview(categoryLabel)
 		contentView.addSubview(priorityMarker)
 		
-		categoryLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+		categoryLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
 		categoryLabel.leadingAnchor.constraint(equalTo: listContentView.layoutMarginsGuide.leadingAnchor, constant: 0.0).isActive = true
 		categoryLabel.trailingAnchor.constraint(equalTo: listContentView.layoutMarginsGuide.trailingAnchor).isActive = true
-		
+
 		listContentView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 0).isActive = true
 		viewConstraintCheck = listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0.0)
 		viewConstraintCheck?.isActive = true
@@ -84,8 +84,8 @@ class TaskCellV2: BaseListCell<Task> {
 		
 		priorityMarker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0.0).isActive = true
 		priorityMarker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15.0).isActive = true
-		priorityMarker.heightAnchor.constraint(equalToConstant: 10.0).isActive = true
-		priorityMarker.widthAnchor.constraint(equalToConstant: 10.0).isActive = true
+		priorityMarker.heightAnchor.constraint(equalToConstant: 20.0).isActive = true
+		priorityMarker.widthAnchor.constraint(equalToConstant: 20.0).isActive = true
 
 		layer.borderWidth = 2.0
 		layer.borderColor = ThemeV2.CellProperties.Border.cgColor
@@ -101,7 +101,6 @@ class TaskCellV2: BaseListCell<Task> {
 			// Category label
 
 			categoryLabel.attributedText = state.taskItem?.redactedText(with:"Category • \(completionText(state.taskItem?.complete ?? false))")
-			
 			// Content label
 			// apply redaction style to font
 			content.attributedText = state.taskItem?.redactedText(with: state.taskItem?.name ?? "None")
@@ -110,7 +109,8 @@ class TaskCellV2: BaseListCell<Task> {
 			switch style {
 				case .highlight, .star:
 					priorityMarker.updatePriorityColor(with: .none)
-				case .disclose:
+				case .none:
+					categoryLabel.alpha = 0.6
 					if let priority = Priority.init(rawValue: Int16(state.taskItem?.priority ?? 0)) {
 						priorityMarker.updatePriorityColor(with: priority)
 					}

@@ -19,7 +19,7 @@ private extension UICellConfigurationState {
 }
 
 fileprivate extension UIConfigurationStateCustomKey {
-	static let item = UIConfigurationStateCustomKey("com.whizbang.state.whatsnew")
+	static let item = UIConfigurationStateCustomKey("com.whizbang.state.taskOptions")
 }
 
 // MARK: - Cell
@@ -74,18 +74,24 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 		content.secondaryText = "\(state.taskOptionsItem?.description ?? "Unknown")" // add task options description
 		content.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .caption2)
 		content.image = UIImage(systemName: state.taskOptionsItem?.image ?? "bandage.fill")
-		listContentView.configuration = content
+
+		guard let item = item else {
+			listContentView.configuration = content
+			return
+		}
 		
-		guard let item = item else { return }
-		if item.delete != nil {
+		if (item.delete != nil || item.delete == true) {
 			accessories = []
-		} else {
 			content.textProperties.color = UIColor.systemRed
 			content.imageProperties.tintColor = UIColor.systemRed
 			content.secondaryTextProperties.color = UIColor.systemRed
+		} else {
+
 			accessories = [.disclosureIndicator()]
 		}
-		addSwitch(with: state.taskOptionsItem)
+		listContentView.configuration = content
+
+//		addSwitch(with: state.taskOptionsItem)
 	}
 	
 	private func addSwitch(with item: TaskOptionsItem?) {

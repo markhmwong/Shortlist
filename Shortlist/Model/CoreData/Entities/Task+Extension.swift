@@ -73,17 +73,24 @@ extension Task {
 	
 	// reminder date - must include a non-nil date, any date placed before the current time will be ignored for notifications
 	func create(context: NSManagedObjectContext, taskName: String, categoryName: String, createdAt: Date, reminderDate: Date, priority: Int, redact: Int) {
+		print("change id to UUID?")
 		self.name = taskName
 		self.complete = false
 		self.carryOver = false
 		self.category = categoryName
 		self.isNew = false
 		self.priority = Int16(priority)
-		self.createdAt = createdAt
+		self.createdAt = createdAt // id
 		self.reminder = reminderDate
 		self.reminderState = false
 		self.redactStyle = Int16(redact)
 		self.taskToNotes = NSOrderedSet()
+		self.taskToPhotos = NSOrderedSet()
+		let reminder = TaskReminder(context: context)
+		// default
+		reminder.isAllDay = false
+		reminder.reminder = nil
+		self.taskToReminder = reminder
 	}
 	
 	func ekReminderToTask(reminder: EKReminder) {
@@ -142,11 +149,11 @@ extension Task {
 			return style
 		}
 		// default case
-		return .disclose
+		return .none
 	}
 	
 	func redactedText(with text: String) -> NSAttributedString? {
-		let component = RedactComponent(redactStyle: RedactStyle(rawValue: Int(redactStyle)) ?? .disclose)
+		let component = RedactComponent(redactStyle: RedactStyle(rawValue: Int(redactStyle)) ?? .none)
 		return component.effect.styleText(with: text)
 	}
 	
