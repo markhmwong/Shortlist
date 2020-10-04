@@ -8,19 +8,46 @@
 
 import UIKit
 
+enum TaskContentEditable {
+	case title
+	case notes
+	case newNote
+}
+
+class ContentViewControllerA<T>: UIViewController, UITextViewDelegate {
+	
+	private var text: T
+	
+	init(text: T) {
+		self.text = text
+		super.init(nibName: nil, bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+	}
+}
+
 // MARK: - Content View Controller
 // Edit written content
 class ContentViewController: UIViewController, UITextViewDelegate {
 	
 	private var maxLimit = 0
 	
-	private var editType: TaskOptionsSection.ContentSection
+	private var editType: TaskContentEditable
 	
-	private var data: Task {
+	private var task: Task {
 		didSet {
-			self.dataView.text = "\(data)"
+			self.dataView.text = "\(task)"
 		}
 	}
+	
+	private var taskNote: TaskNote? = nil
 	
 	private lazy var characterLimit: UILabel = {
 		let label = UILabel()
@@ -52,25 +79,36 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 		return textField
 	}()
 	
-	init(editType: TaskOptionsSection.ContentSection, data: Task) {
+	private var persistentContainer: PersistentContainer
+	
+	private var coordinator: TaskOptionsCoordinator
+	
+	init(editType: TaskContentEditable, task: Task, taskNote: TaskNote? = nil, persistentContainer: PersistentContainer, coordinator: TaskOptionsCoordinator) {
+		self.coordinator = coordinator
+		self.persistentContainer = persistentContainer
 		self.editType = editType
-		self.data = data
+		self.task = task
+		self.taskNote = taskNote
+		
 		super.init(nibName: nil, bundle: nil)
-		// update title label
+		
+		// update UI label and limits as limits are different for Title names and Notes
 		switch editType {
-			case .name:
-				titleLabel.text = "A QUALITY TITLE"
-				dataView.text = data.name
+			case .title:
+				titleLabel.text = "A QUALITY TITLE" // static text
+				dataView.text = task.name
 				maxLimit = CharacterLimitConstants.titleLimit
-				updateCharacterLimit()
 			case .notes:
-				titleLabel.text = "QUICK NOTES"
-				dataView.text = data.details
+				titleLabel.text = "QUICK NOTES" // static text
+				dataView.text = taskNote?.note ?? "Unknown Note"
+				print("data, \(task.name)")
 				maxLimit = CharacterLimitConstants.noteLimit
-				updateCharacterLimit()
-			case .photo:
-				() // do nothing
+			case .newNote:
+				titleLabel.text = "QUICK NOTES" // static text
+				dataView.text = taskNote?.note ?? "Unknown Note"
+				maxLimit = CharacterLimitConstants.noteLimit
 		}
+		updateCharacterLimit()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -84,7 +122,6 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
-
 	}
 	
 	override func viewDidLoad() {
@@ -117,15 +154,21 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 	@objc func handleSave() {
 		// save based on edit Type
 		switch editType {
-			case .name:
+			case .title:
 				if !dataView.text.isEmpty {
-					data.name = dataView.text
+					task.name = dataView.text
 				}
 			case .notes:
-				()
-			case .photo:
-				() // do nothing
+				guard let taskNote = taskNote else { return }
+				taskNote.note = dataView.text
+			case .newNote:
+				guard let taskNote = taskNote else { return }
+				taskNote.note = dataView.text
+				task.addToTaskToNotes(taskNote)
 		}
+		task.updateAt = Date()
+		persistentContainer.saveContext()
+		coordinator.dismissCurrentView()
 	}
 	
 	private func updateCharacterLimit() {
@@ -141,8 +184,10 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 				
 		switch editType {
-			case .name:
+			case .title:
 				maxLimit = CharacterLimitConstants.titleLimit
+			case .notes:
+				()
 			default:
 				maxLimit = CharacterLimitConstants.noteLimit
 		}

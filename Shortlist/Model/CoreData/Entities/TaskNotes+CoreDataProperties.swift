@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 
 
-extension TaskNotes {
+extension TaskNote {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<TaskNotes> {
-        return NSFetchRequest<TaskNotes>(entityName: "TaskNotes")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<TaskNote> {
+        return NSFetchRequest<TaskNote>(entityName: "TaskNote")
     }
 
     @NSManaged public var note: String?

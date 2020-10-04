@@ -170,12 +170,6 @@ class TaskDetailPhotoCell: BaseListCell<PhotoItem> {
 		return state
 	}
 	
-//	private func defaultListContentConfiguration() -> UIListContentConfiguration {
-//		return .subtitleCell()
-//	}
-	
-//	private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
-	
 	private var imageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.translatesAutoresizingMaskIntoConstraints = false

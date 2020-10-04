@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BackLog" representedClassName="BackLog" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="backLogToBigListTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BigListTask" inverseName="bigListTaskToBackLog" inverseEntity="BigListTask"/>
@@ -81,11 +81,11 @@
         <attribute name="reminderState" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="taskToBackLog" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BackLog" inverseName="backLogToTask" inverseEntity="BackLog"/>
         <relationship name="taskToDay" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Day" inverseName="dayToTask" inverseEntity="Day"/>
-        <relationship name="taskToNotes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskNotes" inverseName="taskNotesToTask" inverseEntity="TaskNotes"/>
+        <relationship name="taskToNotes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskNote" inverseName="taskNotesToTask" inverseEntity="TaskNote"/>
         <relationship name="taskToPhotos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="TaskPhotos" inverseName="photosToTask" inverseEntity="TaskPhotos"/>
         <relationship name="taskToReminder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TaskReminder" inverseName="reminderToTask" inverseEntity="TaskReminder"/>
     </entity>
-    <entity name="TaskNotes" representedClassName="TaskNotes" syncable="YES">
+    <entity name="TaskNote" representedClassName="TaskNote" syncable="YES">
         <attribute name="isButton" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
         <relationship name="taskNotesToTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="taskToNotes" inverseEntity="Task"/>
@@ -103,17 +103,17 @@
         <relationship name="reminderToTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="taskToReminder" inverseEntity="Task"/>
     </entity>
     <elements>
-        <element name="BackLog" positionX="-168.37109375" positionY="231.5625" width="128" height="88"/>
-        <element name="BigListTask" positionX="-461.171875" positionY="129.3984375" width="128" height="223"/>
-        <element name="CategoryList" positionX="6.55078125" positionY="-177.7265625" width="128" height="58"/>
-        <element name="Day" positionX="6.375" positionY="-64.6953125" width="128" height="193"/>
-        <element name="DayStats" positionX="8.55859375" positionY="232.4140625" width="128" height="148"/>
-        <element name="Stats" positionX="-365.7421875" positionY="-178.22265625" width="128" height="193"/>
-        <element name="StatsCategoryComplete" positionX="-166.3984375" positionY="-166.56640625" width="128" height="88"/>
-        <element name="StatsCategoryIncomplete" positionX="-165.69140625" positionY="-106.76171875" width="128" height="88"/>
-        <element name="Task" positionX="157.875" positionY="-65.9453125" width="128" height="313"/>
-        <element name="TaskNotes" positionX="-153" positionY="81" width="128" height="88"/>
-        <element name="TaskPhotos" positionX="-252" positionY="-27" width="128" height="118"/>
-        <element name="TaskReminder" positionX="-261" positionY="-36" width="128" height="88"/>
+        <element name="BackLog" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BigListTask" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CategoryList" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Day" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="DayStats" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Stats" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="StatsCategoryComplete" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="StatsCategoryIncomplete" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Task" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TaskNote" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TaskPhotos" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TaskReminder" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

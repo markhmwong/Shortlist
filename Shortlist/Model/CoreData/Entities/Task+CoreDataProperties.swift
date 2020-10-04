@@ -34,6 +34,7 @@ extension Task {
     @NSManaged public var taskToNotes: NSOrderedSet?
     @NSManaged public var taskToPhotos: NSOrderedSet?
     @NSManaged public var taskToReminder: TaskReminder?
+	@NSManaged public var updateAt: Date?
 
 }
 
@@ -41,28 +42,28 @@ extension Task {
 extension Task {
 
     @objc(insertObject:inTaskToNotesAtIndex:)
-    @NSManaged public func insertIntoTaskToNotes(_ value: TaskNotes, at idx: Int)
+    @NSManaged public func insertIntoTaskToNotes(_ value: TaskNote, at idx: Int)
 
     @objc(removeObjectFromTaskToNotesAtIndex:)
     @NSManaged public func removeFromTaskToNotes(at idx: Int)
 
     @objc(insertTaskToNotes:atIndexes:)
-    @NSManaged public func insertIntoTaskToNotes(_ values: [TaskNotes], at indexes: NSIndexSet)
+    @NSManaged public func insertIntoTaskToNotes(_ values: [TaskNote], at indexes: NSIndexSet)
 
     @objc(removeTaskToNotesAtIndexes:)
     @NSManaged public func removeFromTaskToNotes(at indexes: NSIndexSet)
 
     @objc(replaceObjectInTaskToNotesAtIndex:withObject:)
-    @NSManaged public func replaceTaskToNotes(at idx: Int, with value: TaskNotes)
+    @NSManaged public func replaceTaskToNotes(at idx: Int, with value: TaskNote)
 
     @objc(replaceTaskToNotesAtIndexes:withTaskToNotes:)
-    @NSManaged public func replaceTaskToNotes(at indexes: NSIndexSet, with values: [TaskNotes])
+    @NSManaged public func replaceTaskToNotes(at indexes: NSIndexSet, with values: [TaskNote])
 
     @objc(addTaskToNotesObject:)
-    @NSManaged public func addToTaskToNotes(_ value: TaskNotes)
+    @NSManaged public func addToTaskToNotes(_ value: TaskNote)
 
     @objc(removeTaskToNotesObject:)
-    @NSManaged public func removeFromTaskToNotes(_ value: TaskNotes)
+    @NSManaged public func removeFromTaskToNotes(_ value: TaskNote)
 
     @objc(addTaskToNotes:)
     @NSManaged public func addToTaskToNotes(_ values: NSOrderedSet)

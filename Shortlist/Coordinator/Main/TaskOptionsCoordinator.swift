@@ -39,20 +39,26 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 	}
 	
 	// selected options
-	func showName(data: Task) {
-		guard let r = rootNavigationController else { return }
-		let vc = ContentViewController(editType: .name, data: data)
+	func showName(data: Task, persistentContainer: PersistentContainer?) {
+		guard let r = rootNavigationController, let p = persistentContainer else { return }
+		let vc = ContentViewController(editType: .title, task: data, persistentContainer: p, coordinator: self)
 		r.pushViewController(vc, animated: true)
 	}
 	
-	func showNotes(data: Task, persistentContainer: PersistentContainer) {
+	func showNotes(task: Task, note: TaskNote?, persistentContainer: PersistentContainer) {
 		guard let r = rootNavigationController else { return }
 		
-		let viewModel = OptionsNotesViewModel(data: data, persistentContainer: persistentContainer)
-		let vc = OptionsNotesViewController(viewModel: viewModel)
+		guard let note = note else {
+			let newNote = TaskNote(context: persistentContainer.viewContext)
+			newNote.createNotes(note: "Expand on your task", isButton: false)
+			let vc = ContentViewController(editType: .newNote, task: task, taskNote: newNote, persistentContainer: persistentContainer, coordinator: self)
+			r.pushViewController(vc, animated: true)
+			return
+		}
+		
+		let vc = ContentViewController(editType: .notes, task: task, taskNote: note, persistentContainer: persistentContainer, coordinator: self)
 		r.pushViewController(vc, animated: true)
-//		let vc = ContentViewController(editType: .notes, data: data)
-//		r.pushViewController(vc, animated: true)
+
 	}
 	
 	func showAlarm(data: Task) {
@@ -76,7 +82,13 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 	
 	func showDeleteTask() {
 		guard let r = rootNavigationController else { return }
-
+		// dismiss navigation
+		// delete task
+	}
+	
+	func dismissCurrentView() {
+		guard let r = rootNavigationController else { return }
+		r.popViewController(animated: true)
 	}
 }
 

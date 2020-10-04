@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-@objc(TaskNotes)
-public class TaskNotes: NSManagedObject {
+@objc(TaskNote)
+public class TaskNote: NSManagedObject {
 
 }

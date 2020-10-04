@@ -86,6 +86,7 @@ extension Task {
 		self.redactStyle = Int16(redact)
 		self.taskToNotes = NSOrderedSet()
 		self.taskToPhotos = NSOrderedSet()
+		self.updateAt = createdAt //used mainly to force a NSFetchedResultsController trigger
 		let reminder = TaskReminder(context: context)
 		// default
 		reminder.isAllDay = false
