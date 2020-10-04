@@ -99,7 +99,7 @@ class MainViewModelWithCollectionView: NSObject {
 		// Task 2
 		let task: Task = Task(context: persistentContainer.viewContext)
 		task.create(context: persistentContainer.viewContext, taskName: "Task Two", categoryName: "Recreation", createdAt: Date(), reminderDate: Date(), priority: Int(Priority.high.rawValue), redact: RedactStyle.none.rawValue)
-		let note: TaskNotes = TaskNotes(context: persistentContainer.viewContext)
+		let note: TaskNote = TaskNote(context: persistentContainer.viewContext)
 		note.createNotes(note: "Test Note One", isButton: false)
 		task.addToTaskToNotes(note)
 		task.complete = false

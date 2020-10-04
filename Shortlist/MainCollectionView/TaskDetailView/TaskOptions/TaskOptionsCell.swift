@@ -25,6 +25,12 @@ fileprivate extension UIConfigurationStateCustomKey {
 // MARK: - Cell
 class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 	
+	override var configurationState: UICellConfigurationState {
+		var state = super.configurationState
+		state.taskOptionsItem = self.item
+		return state
+	}
+	
 	private func defaultListContentConfiguration() -> UIListContentConfiguration {
 		return .sidebarHeader()
 	}
@@ -46,11 +52,7 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 		return label
 	}()
 	
-	override var configurationState: UICellConfigurationState {
-		var state = super.configurationState
-		state.taskOptionsItem = self.item
-		return state
-	}
+
 	
 	private func setupViewsIfNeeded() {
 		guard viewConstraintCheck == nil else { return }
@@ -90,8 +92,6 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 			accessories = [.disclosureIndicator()]
 		}
 		listContentView.configuration = content
-
-//		addSwitch(with: state.taskOptionsItem)
 	}
 	
 	private func addSwitch(with item: TaskOptionsItem?) {

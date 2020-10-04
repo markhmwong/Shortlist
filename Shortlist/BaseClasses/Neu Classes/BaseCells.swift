@@ -161,5 +161,7 @@ class BaseListCell<T: Equatable>: UICollectionViewListCell {
 	func configureCell(with item: T) {
 		guard self.item != item else { return }
 		self.item = item
+		setNeedsUpdateConfiguration()
+
 	}
 }

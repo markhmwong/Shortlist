@@ -8,7 +8,7 @@
 
 import CoreData
 
-extension TaskNotes {
+extension TaskNote {
 	
 	func createNotes(note: String, isButton: Bool) {
 		self.isButton = false

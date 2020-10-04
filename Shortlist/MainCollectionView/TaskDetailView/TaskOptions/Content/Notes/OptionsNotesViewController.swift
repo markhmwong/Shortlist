@@ -20,9 +20,7 @@ struct OptionsNotesItem: Hashable {
 class OptionsNotesViewModel: NSObject {
 	
 	private var diffableDataSource: UICollectionViewDiffableDataSource<OptionsNotesSection, OptionsNotesItem>! = nil
-	
-//	private var snpashot: NSDiffableDataSourceSnapshot<NotesSection, OptionsNotesItem>! = nil
-	
+		
 	private var data: Task
 	
 	private var persistentContainer: PersistentContainer
@@ -37,9 +35,14 @@ class OptionsNotesViewModel: NSObject {
 		var snapshot = NSDiffableDataSourceSnapshot<OptionsNotesSection, OptionsNotesItem>()
 		snapshot.appendSections(OptionsNotesSection.allCases)
 		
-		let currentData = [OptionsNotesItem.init(note: "Note One"),
-						   OptionsNotesItem.init(note: "Note Two")]
+		var currentData: [OptionsNotesItem] = []
 		
+		if let notes = data.taskToNotes {
+			for note in notes.array as! [TaskNote] {
+				currentData.append(OptionsNotesItem(note: note.note ?? "Enter a helpful note!"))
+			}
+		}
+		currentData.append(OptionsNotesItem(note: data.details ?? "Unknown"))
 		snapshot.appendItems(currentData)
 		diffableDataSource.apply(snapshot)
 	}
@@ -47,9 +50,6 @@ class OptionsNotesViewModel: NSObject {
 	private func configureCellRegistration() -> UICollectionView.CellRegistration<OptionsNotesCell, OptionsNotesItem> {
 		let cellConfig = UICollectionView.CellRegistration<OptionsNotesCell, OptionsNotesItem> { (cell, indexPath, item) in
 			cell.configureCell(with: item)
-//			var config: UIListContentConfiguration = cell.defaultContentConfiguration()
-//			config.text = item.note
-//			cell.contentConfiguration = config
 		}
 		return cellConfig
 	}

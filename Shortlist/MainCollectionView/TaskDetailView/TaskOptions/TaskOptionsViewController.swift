@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 // A collection view of List type
 class TaskOptionsViewController: UIViewController {
 
+
+	
 	enum CollectionListConstants: String {
 		case header = "Shortlist.collectionList.header"
 		case footer = "Shortlist.collectionList.footer"
@@ -27,6 +30,7 @@ class TaskOptionsViewController: UIViewController {
 	private var viewModel: TaskOptionsViewModel
 	
 	private var coordinator: TaskOptionsCoordinator
+	
 	
 	init(viewModel: TaskOptionsViewModel, coordinator: TaskOptionsCoordinator) {
 		self.viewModel = viewModel
@@ -51,7 +55,7 @@ class TaskOptionsViewController: UIViewController {
 		tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
+		
 		viewModel.configureDataSource(collectionView: tableView)
 	}
 
@@ -86,9 +90,21 @@ extension TaskOptionsViewController: UICollectionViewDelegate {
 			switch section {
 				case .content:
 					if indexPath.item == TaskOptionsSection.ContentSection.name.rawValue {
-						coordinator.showName(data: viewModel.data)
-					} else if indexPath.item == TaskOptionsSection.ContentSection.notes.rawValue {
-						coordinator.showNotes(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
+						coordinator.showName(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
+					}
+				case .notes:
+					// create a new note
+					let cell = collectionView.cellForItem(at: indexPath) as! TaskOptionsCell
+					let item = cell.item
+					if item?.title == "Add a Note" {
+						coordinator.showNotes(task: viewModel.data, note: nil, persistentContainer: viewModel.persistentContainer)
+					} else {
+						// display existing note
+						//						coordinator.showName(data: viewModel.data)
+						
+						let note = viewModel.data.taskToNotes?.array[indexPath.row] as! TaskNote
+						coordinator.showNotes(task: viewModel.data, note: note, persistentContainer: viewModel.persistentContainer)
+						print("display existing note")
 					}
 				case .data:
 					if indexPath.item == TaskOptionsSection.DataSection.delete.rawValue {

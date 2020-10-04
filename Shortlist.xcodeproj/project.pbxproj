@@ -117,6 +117,7 @@
 		4D6903A0233B56D2008DC5D6 /* CellBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D69039F233B56D2008DC5D6 /* CellBase.swift */; };
 		4D6A57C8230AF0E40055C16F /* Day+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A57C6230AF0E40055C16F /* Day+CoreDataClass.swift */; };
 		4D6A57C9230AF0E40055C16F /* Day+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6A57C7230AF0E40055C16F /* Day+CoreDataProperties.swift */; };
+		4D6B37F12529D0F90020CB4A /* 12to13.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4D6B37F02529D0F90020CB4A /* 12to13.xcmappingmodel */; };
 		4D6D53DE2337AFB300FA38B4 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6D53DD2337AFB300FA38B4 /* EditTaskViewController.swift */; };
 		4D6D53E02337B1AD00FA38B4 /* EditTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6D53DF2337B1AD00FA38B4 /* EditTaskCoordinator.swift */; };
 		4D6DA23C2330B1B4006B1663 /* ReviewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6DA23B2330B1B4006B1663 /* ReviewCoordinator.swift */; };
@@ -274,6 +275,7 @@
 		4DF724F822F1887500472072 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7CA22DDD1AE008AC433 /* InterfaceController.swift */; };
 		4DF724F922F1888D00472072 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BA10522E5EC1600B9B487 /* Calendar+Extension.swift */; };
 		4DF724FC22F1974000472072 /* TaskRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF724FB22F1974000472072 /* TaskRowController.swift */; };
+		4DF994F02526D26B0072EC32 /* OptionsNotesCell+CellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF994EF2526D26B0072EC32 /* OptionsNotesCell+CellConfiguration.swift */; };
 		5A67950725D867CF25EE6079 /* Pods_Shortlist_WatchKit_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9E934AA3C87870F5559B58 /* Pods_Shortlist_WatchKit_App.framework */; };
 		B85CFB1E7D7D9A3B2ACFF8EA /* Pods_Shortlist_WatchKit_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB1C6C1A798CBF3EDE44E1F /* Pods_Shortlist_WatchKit_Extension.framework */; };
 /* End PBXBuildFile section */
@@ -392,6 +394,7 @@
 		4D45E7EB22DE083D008AC433 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4D45E7ED22DE086D008AC433 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		4D45E7EF22DE0882008AC433 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		4D4DDC7F2529931D0016697D /* FiveModel 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 13.xcdatamodel"; sourceTree = "<group>"; };
 		4D4F0C91231FD16400E71BE9 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4D4F0C93231FD1E400E71BE9 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		4D4F0C95231FFE2500E71BE9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -463,6 +466,7 @@
 		4D69039F233B56D2008DC5D6 /* CellBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellBase.swift; sourceTree = "<group>"; };
 		4D6A57C6230AF0E40055C16F /* Day+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4D6A57C7230AF0E40055C16F /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4D6B37F02529D0F90020CB4A /* 12to13.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 12to13.xcmappingmodel; sourceTree = "<group>"; };
 		4D6D53DD2337AFB300FA38B4 /* EditTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
 		4D6D53DF2337B1AD00FA38B4 /* EditTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskCoordinator.swift; sourceTree = "<group>"; };
 		4D6DA23B2330B1B4006B1663 /* ReviewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCoordinator.swift; sourceTree = "<group>"; };
@@ -630,6 +634,7 @@
 		4DF724F122F174F100472072 /* Shortlist WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Shortlist WatchKit App.entitlements"; sourceTree = "<group>"; };
 		4DF724FA22F18FEF00472072 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4DF724FB22F1974000472072 /* TaskRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRowController.swift; sourceTree = "<group>"; };
+		4DF994EF2526D26B0072EC32 /* OptionsNotesCell+CellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OptionsNotesCell+CellConfiguration.swift"; sourceTree = "<group>"; };
 		501806F0EACC446B29A5E30D /* Pods-Shortlist WatchKit App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shortlist WatchKit App.release.xcconfig"; path = "Pods/Target Support Files/Pods-Shortlist WatchKit App/Pods-Shortlist WatchKit App.release.xcconfig"; sourceTree = "<group>"; };
 		58720DDCAEE29A2BE30D32DC /* Pods-Shortlist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shortlist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Shortlist/Pods-Shortlist.debug.xcconfig"; sourceTree = "<group>"; };
 		6B9E934AA3C87870F5559B58 /* Pods_Shortlist_WatchKit_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shortlist_WatchKit_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -916,6 +921,7 @@
 			isa = PBXGroup;
 			children = (
 				4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */,
+				4D6B37F02529D0F90020CB4A /* 12to13.xcmappingmodel */,
 				4DCD040825239191005B97F1 /* 11to12.xcmappingmodel */,
 				4DC93E762519E7BD002B58AB /* 10to11.xcmappingmodel */,
 				4DC93DF92515E158002B58AB /* 9to10.xcmappingmodel */,
@@ -1611,6 +1617,7 @@
 			children = (
 				4D11C4E42524CCCD00233EB5 /* OptionsNotesViewController.swift */,
 				4DE403C82526168600DF8F2F /* OptionsNotesCell.swift */,
+				4DF994EF2526D26B0072EC32 /* OptionsNotesCell+CellConfiguration.swift */,
 			);
 			path = Notes;
 			sourceTree = "<group>";
@@ -2176,6 +2183,7 @@
 				4D90B5A323CD56650077E756 /* SettingsStandardCellProtocol.swift in Sources */,
 				4DA7ADAC251340C30063B6DD /* ReviewCollectionViewListViewModel.swift in Sources */,
 				4D6EE35423A87F6F001BBC95 /* StatsCategoryComplete+CoreDataProperties.swift in Sources */,
+				4D6B37F12529D0F90020CB4A /* 12to13.xcmappingmodel in Sources */,
 				4D57856123696C9300842C50 /* PickerViewContainer.swift in Sources */,
 				4DCD040925239191005B97F1 /* 11to12.xcmappingmodel in Sources */,
 				4D9304A823A9A6650001EC3D /* EditTaskPriorityCell.swift in Sources */,
@@ -2263,6 +2271,7 @@
 				4D98F49824DA8F3D000692AE /* NeuIcon.swift in Sources */,
 				4D50EE772395132E008ACCD8 /* BarProperties.swift in Sources */,
 				4D69039D233B18D8008DC5D6 /* EditTaskLabelCell.swift in Sources */,
+				4DF994F02526D26B0072EC32 /* OptionsNotesCell+CellConfiguration.swift in Sources */,
 				4D6E755E2359C59E00C67B8F /* BackLog+CoreDataProperties.swift in Sources */,
 				4DC93E372518ABD4002B58AB /* Day+Extension.swift in Sources */,
 				4D98F48B24D51E88000692AE /* NeuButton.swift in Sources */,
@@ -2939,6 +2948,7 @@
 		4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4D4DDC7F2529931D0016697D /* FiveModel 13.xcdatamodel */,
 				4DCD040725239082005B97F1 /* FiveModel 12.xcdatamodel */,
 				4DC93E3525189A16002B58AB /* FiveModel 11.xcdatamodel */,
 				4DC93DF82515E0B8002B58AB /* FiveModel 10.xcdatamodel */,
@@ -2952,7 +2962,7 @@
 				4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */,
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
 			);
-			currentVersion = 4DCD040725239082005B97F1 /* FiveModel 12.xcdatamodel */;
+			currentVersion = 4D4DDC7F2529931D0016697D /* FiveModel 13.xcdatamodel */;
 			path = ShortlistModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

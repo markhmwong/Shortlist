@@ -41,38 +41,6 @@ class TaskDetailViewModel: NSObject {
 		self.titleItem = TitleItem(title: "Oops no name!")
 		self.notesItem = []
 		self.photoItem = []
-		// converts the core data model to a struct
-//		if data.taskToNotes == nil {
-//			// pre-2.0 catcher for notes
-//			self.notesItem = [NotesItem(notes: data.details ?? "None", isButton: false)]
-//		} else {
-//			// post-2.0
-//			var noteArray: [NotesItem] = []
-//			if let notes = data.taskToNotes {
-//				for note in notes.array as! [TaskNotes] {
-//					noteArray.append(NotesItem(notes: note.note ?? "None", isButton: false))
-//				}
-//			}
-//			self.notesItem = noteArray
-//		}
-		
-		// Assign photos
-//		if data.taskToPhotos == nil {
-//			self.photoItem = [PhotoItem(id: UUID(),photo: nil, isButton: true)]
-//		} else {
-//			var photoArray: [PhotoItem] = []
-//			if let photoSet = data.taskToPhotos?.array {
-//				for photo in photoSet as! [TaskPhotos] {
-//					photoArray.append(PhotoItem(id: photo.id ?? UUID(), photo: photo.photo, thumbnail: photo.thumbnail, isButton: false))
-//				}
-//			}
-//
-//			// Include "Add" button
-//			if photoArray.count < 4 && photoArray.count >= 0 {
-//				photoArray.append(PhotoItem(id: UUID(), photo: nil, isButton: true))
-//			}
-//			self.photoItem = photoArray
-//		}
 		super.init()
 	}
 	
@@ -196,7 +164,7 @@ class TaskDetailViewModel: NSObject {
 				if let notes = task.taskToNotes {
 					
 					if notes.count != 0 {
-						for note in notes.array as! [TaskNotes] {
+						for note in notes.array as! [TaskNote] {
 							let notesItem = NotesItem(notes: note.note ?? "None", isButton: false)
 							let dataItem = DataItem.notes(notesItem)
 							noteArray.append(notesItem)
