@@ -240,7 +240,7 @@ class TaskCell: UITableViewCell {
 			categoryTitle.attributedText = categoryAttributedStr
 			
 			let reminderDate = task.reminder ?? Date()
-			let reminderStr = (reminderDate as Date).timeToString()
+			let reminderStr = (reminderDate as Date).timeToStringInHrMin()
 			
 			if (task.reminderState) {
 				reminderLabel.attributedText = NSMutableAttributedString(string: "⏰ \(reminderStr)", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -40.0)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b4).value)!])

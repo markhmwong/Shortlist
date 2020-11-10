@@ -40,13 +40,15 @@ class AboutViewController: UIViewController {
 	}()
 	
 	private lazy var twitterButton: NeuButton = {
-		let label = NeuButton(title: "Twitter : @markhmwong")
-		return label
+		let button = NeuButton(title: "Twitter : @markhmwong")
+		button.backgroundColor = .clear
+		return button
 	}()
 	
 	private lazy var emailButton: NeuButton = {
-		let label = NeuButton(title: "Email : hello@whizbangapps.xyz")
-		return label
+		let button = NeuButton(title: "Email : hello@whizbangapps.xyz")
+		button.backgroundColor = .clear
+		return button
 	}()
 	
     lazy var contact: UITextView = {
@@ -137,7 +139,6 @@ class AboutViewController: UIViewController {
 		emailButton.topAnchor.constraint(equalTo: twitterButton.bottomAnchor, constant: 20).isActive = true
 		emailButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
 		emailButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-		
     }
 	
 	func cleanUpChildCoordinator() {

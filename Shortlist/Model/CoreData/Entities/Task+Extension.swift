@@ -84,15 +84,28 @@ extension Task {
 		self.reminder = reminderDate
 		self.reminderState = false
 		self.redactStyle = Int16(redact)
+		
+		// Relationships
 		self.taskToNotes = NSOrderedSet()
 		self.taskToPhotos = NSOrderedSet()
 		self.updateAt = createdAt //used mainly to force a NSFetchedResultsController trigger
+		
+		// Reminder
 		let reminder = TaskReminder(context: context)
-		// default
+		
+		// reminder's is a bit tricky
+		
 		reminder.isAllDay = false
-		reminder.reminder = nil
+		reminder.reminder = Date()
+		reminder.isCustom = false
+		reminder.isPreset = true
+		reminder.presetType = 2
+		reminder.reminderId = "id"
+		reminder.reminderToTask = self
 		self.taskToReminder = reminder
 	}
+	
+	
 	
 	func ekReminderToTask(reminder: EKReminder) {
 		//CoreData Task entity needs to include a EKReminder unique identifier
@@ -164,9 +177,5 @@ extension Task {
 		}
 		// default
 		return Priority.none.stringValue
-	}
-	
-	func description() {
-		
 	}
 }

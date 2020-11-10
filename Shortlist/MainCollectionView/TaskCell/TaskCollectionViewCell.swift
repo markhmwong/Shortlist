@@ -100,7 +100,7 @@ class TaskCellV2: BaseListCell<Task> {
 			/// Path for 2.0 shortlist users
 			// Category label
 
-			categoryLabel.attributedText = state.taskItem?.redactedText(with:"Category • \(completionText(state.taskItem?.complete ?? false))")
+			categoryLabel.attributedText = state.taskItem?.redactedText(with:"Category • \(completionText(state.taskItem?.complete ?? false)) • \(reminderText(state.taskItem))")
 			// Content label
 			// apply redaction style to font
 			content.attributedText = state.taskItem?.redactedText(with: state.taskItem?.name ?? "None")
@@ -141,6 +141,14 @@ class TaskCellV2: BaseListCell<Task> {
 			return completeText
 		} else {
 			return incompleteText
+		}
+	}
+	
+	func reminderText(_ task: Task?) -> String {
+		if let reminderDate = task?.taskToReminder?.reminder {
+			return "\(reminderDate.timeToStringInHrMin())"
+		} else {
+			return ""
 		}
 	}
 }

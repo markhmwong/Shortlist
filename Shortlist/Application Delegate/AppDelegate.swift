@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 		
 		//Launch firebase
-		FirebaseApp.configure()
+//		FirebaseApp.configure()
 		
 		// initialise root coordinator
         let navController = UINavigationController()

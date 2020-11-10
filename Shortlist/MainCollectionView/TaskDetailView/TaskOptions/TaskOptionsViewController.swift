@@ -12,8 +12,6 @@ import CoreData
 // A collection view of List type
 class TaskOptionsViewController: UIViewController {
 
-
-	
 	enum CollectionListConstants: String {
 		case header = "Shortlist.collectionList.header"
 		case footer = "Shortlist.collectionList.footer"
@@ -30,7 +28,6 @@ class TaskOptionsViewController: UIViewController {
 	private var viewModel: TaskOptionsViewModel
 	
 	private var coordinator: TaskOptionsCoordinator
-	
 	
 	init(viewModel: TaskOptionsViewModel, coordinator: TaskOptionsCoordinator) {
 		self.viewModel = viewModel
@@ -117,9 +114,8 @@ extension TaskOptionsViewController: UICollectionViewDelegate {
 					}
 				case .reminder:
 					if indexPath.item == TaskOptionsSection.ReminderSection.alarm.rawValue {
-						coordinator.showAlarm(data: viewModel.data)
+						coordinator.showAlarm(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
 					}
-
 			}
 		}
 	}

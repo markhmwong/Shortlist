@@ -10,6 +10,14 @@ import UIKit
 
 class HeaderSupplementaryView: UICollectionReusableView {
 	
+	var data: Task? {
+		didSet {
+			self.reminderText()
+			self.priorityLabel.text = "\(data?.priorityText() ?? "None")"
+			self.configureCompletionIcon(with: data?.complete ?? false)
+		}
+	}
+	
 	private lazy var completionIcon: UIImageView = {
 		let config = UIImage.SymbolConfiguration(pointSize: 40.0)
 		let image = UIImage(systemName: "checkmark.circle", withConfiguration: config)?.withRenderingMode(.alwaysTemplate)
@@ -25,7 +33,7 @@ class HeaderSupplementaryView: UICollectionReusableView {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.font = ThemeV2.CellProperties.HeadingBoldFont
 		label.textColor = ThemeV2.TextColor.DefaultColor
-		label.text = "12:30pm"
+		label.text = "None"
 		return label
 	}()
 	
@@ -81,6 +89,16 @@ class HeaderSupplementaryView: UICollectionReusableView {
 		
 		// Task Completion Button Observer
 		NotificationCenter.default.addObserver(self, selector: #selector(handleTaskCompletion), name: Notification.Name("TaskCompletionNotification"), object: nil)
+		
+		
+	}
+	
+	func reminderText() {
+		if let reminder = data?.taskToReminder?.reminder {
+			alarmLabel.text = reminder.timeToStringInHrMin()
+		} else {
+			alarmLabel.text = ""
+		}
 	}
 	
 	func configureCompletionIcon(with status: Bool) {

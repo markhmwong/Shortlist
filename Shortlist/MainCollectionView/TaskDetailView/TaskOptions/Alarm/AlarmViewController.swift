@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - Alarm ViewController
 class AlarmViewController: UIViewController, UICollectionViewDelegate {
-	
+
 	enum AlarmViewSupplementaryIds: String {
 		case headerId = "com.whizbang.header.alarm"
 		case footerId = "com.whizbang.footer.alarm"
@@ -48,5 +48,28 @@ class AlarmViewController: UIViewController, UICollectionViewDelegate {
 		tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 		
 		viewModel.configureDataSource(collectionView: tableView)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! AlarmCell
+		let item = cell.item
+		let section = AlarmSection.init(rawValue: indexPath.section)
+		
+		switch section {
+			case .AllDay:
+				()
+			case .Custom:
+				()
+			case .Preset:
+				// timeValue is in seconds
+				if let value = cell.item?.timeValue {
+					// calculate the preset type
+					
+					let preset: PresetType = PresetType.secondsToType(seconds: value)
+					self.viewModel.presetType = preset
+				}
+			default:
+				()
+		}
 	}
 }

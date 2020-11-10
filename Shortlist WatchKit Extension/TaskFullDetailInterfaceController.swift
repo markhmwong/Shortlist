@@ -56,7 +56,7 @@ class TaskFullDetailInterfaceController: WKInterfaceController {
 			taskNotes.setText("\(task.details)")
 			taskCategory.setText(task.category)
 			if (task.reminderState) {
-				taskReminder.setText("⏰ \(task.reminder.timeToString())")
+				taskReminder.setText("⏰ \(task.reminder.timeToStringInHrMin())")
 			} else {
 				taskReminder.setText("⏰ No Reminder Set")
 			}

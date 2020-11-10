@@ -120,16 +120,18 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 	
 	func showReview(_ persistentContainer: PersistentContainer?, automated: Bool) {
 //		addNavigationObserver(MainNavigationObserverKey.ReturnFromReview)
-//		let child = ReviewCoordinator(navigationController: navigationController, automated: automated)
-//		child.parentCoordinator = self
-//		childCoordinators.append(child)
-//		child.start(persistentContainer)
+		guard let navController = settingsNavController else { return }
+		let child = ReviewCoordinator(navigationController: navController, automated: automated)
+		childCoordinators.append(child)
+		child.start(persistentContainer)
 	}
 	
     // add stats view and coordinator
     func showStats(_ persistentContainer: PersistentContainer?) {
+		guard let navController = settingsNavController else { return }
+
 		addNavigationObserver(SettingsNavigationObserverKey.ReturnFromStats)
-		let child = StatsCoordinator(navigationController: navigationController, parentViewController: rootViewController ?? nil)
+		let child = StatsCoordinator(navigationController: navController, parentViewController: rootViewController ?? nil)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)

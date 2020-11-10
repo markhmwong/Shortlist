@@ -30,7 +30,8 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, C
             return
         }
         let vc = StatsViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: StatsViewModel())
-		parentViewController?.navigationController?.pushViewController(vc, animated: true)
+		navigationController.pushViewController(vc, animated: true)
+//		parentViewController?.navigationController?.pushViewController(vc, animated: true)
     }
 	
 	func dismiss() {

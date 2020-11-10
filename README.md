@@ -199,9 +199,16 @@ Connect Core Data (Task) @done
 Add Tips to Top Right @done
 Add Review Page to settings @done
 Photo library in settings not showing @done
-Update Task Options - Move All day option inside Alarm setting
-Update Task Options - Remove Style. Have Redact option show None, Style1, Style2, Style3 etc
-Tie task options to core data
-Add Task component
-Add 
-Stats
+Update Task Options - Move All day option inside Alarm setting @done
+Update Task Options - Remove Style. Have Redact option show None, Style1, Style2, Style3 etc @done
+Tie task options to core data - do reminder @check with device
+	add reminderID and other attributes to the new entity, differentiate between custom and preset
+Add Task wizard component
+Add Stats - graph work
+widget
+category
+watch
+
+## Marketing
+https://www.youtube.com/watch?v=5VB1RvyfISM
+4 RACHMANINOFF  Symphony No. 2, Op. 27: III. Adagio
