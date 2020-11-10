@@ -9,6 +9,15 @@
 import UIKit
 import CoreData
 
+enum TaskOptionsType: Int, CaseIterable {
+	case name = 0
+	case photo
+	case note
+	case alarm
+	case redact
+	case delete
+}
+
 // Table View Setup
 enum TaskOptionsSection: Int, CaseIterable {
 	case content
@@ -85,6 +94,7 @@ struct TaskOptionsItem: Hashable, BaseDescriptiveItem {
 	var isRedacted: Bool?
 	var delete: Bool?
 	var redactStyle: RedactState?
+	var type: TaskOptionsType
 	// store data
 }
 
@@ -185,8 +195,6 @@ class TaskOptionsViewModel: NSObject {
 					return collectionView.dequeueConfiguredReusableSupplementary(using:headerRegistration, for: index)
 			}
 		}
-		
-
 		configureSnapshot()
 	}
 	
@@ -194,13 +202,13 @@ class TaskOptionsViewModel: NSObject {
 
 		var taskOptionsItems: [TaskOptionsItem] = []
 		
-		let titleItem = TaskOptionsItem(title: "Name", description: "Edit the name", image: "pencil.circle.fill", section: .content)
-		let photoItem = TaskOptionsItem(title: "Add from Photo Library", description: "Attach a photo from your library", image: "photo.fill", section: .content)
+		let titleItem = TaskOptionsItem(title: "Name", description: "Edit the name", image: "pencil.circle.fill", section: .content, type: .name)
+		let photoItem = TaskOptionsItem(title: "Add from Photo Library", description: "Attach a photo from your library", image: "photo.fill", section: .content, type: .photo)
 		
 
-		reminderItem = TaskOptionsItem(title: "Alarm", description: "Edit the alarm time to set a notification to remind you", image: "deskclock.fill", section: .reminder)
-		let redactedStyleItem = TaskOptionsItem(title: "Redact", description: "Censor the task", image: "eye.slash.fill", section: .redact, redactStyle: RedactState.censor) // update data
-		let deleteItem = TaskOptionsItem(title: "Delete Task", description: "Remove task from today's list", image: "xmark.bin.fill", section: .data, delete: true)
+		reminderItem = TaskOptionsItem(title: "Alarm", description: "Edit the alarm time to set a notification to remind you", image: "deskclock.fill", section: .reminder, type: .alarm)
+		let redactedStyleItem = TaskOptionsItem(title: "Redact", description: "Censor the task", image: "eye.slash.fill", section: .redact, redactStyle: RedactState.censor, type: .redact) // update data
+		let deleteItem = TaskOptionsItem(title: "Delete Task", description: "Remove task from today's list", image: "xmark.bin.fill", section: .data, delete: true, type: .delete)
 		
 		// Handle notes and its' items
 		if let task = mainFetcher.fetchRequestedObjects()?.first {
@@ -208,29 +216,26 @@ class TaskOptionsViewModel: NSObject {
 				
 				// No notes
 				if notes.count == 0 {
-					taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Edit the notes", image: "plus.square.fill.on.square.fill", section: .notes))
+					taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Edit the notes", image: "plus.square.fill.on.square.fill", section: .notes, type: .note))
 				} else {
 					// Contains notes
 					for (index, item) in notes.array.enumerated() {
 						// existing note
 						let note = item as! TaskNote
-						taskOptionsItems.append(TaskOptionsItem(title: "\(note.note ?? "Add a Note")", description: "", image: "\(index).circle.fill", section: .notes))
+						taskOptionsItems.append(TaskOptionsItem(title: "\(note.note ?? "Add a Note")", description: "", image: "\(index).circle.fill", section: .notes, type: .note))
 						
 						// add the extra item to allow the user to add a note
 						if (index == notes.array.count - 1) {
-							taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Include additional notes to flesh our the task.", image: "plus.square.fill.on.square.fill", section: .notes))
+							taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Include additional notes to flesh our the task.", image: "plus.square.fill.on.square.fill", section: .notes, type: .note))
 						}
 					}
 					
 				}
 			} else {
 				// nil notes in case we haven't initialised the relationship between Task and Notes
-				taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Edit the notes", image: "plus.square.fill.on.square.fill", section: .notes))
+				taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Edit the notes", image: "plus.square.fill.on.square.fill", section: .notes, type: .note))
 			}
 		}
-
-		
-		
 		guard let reminderItem = reminderItem else { return [] }
 		
 		taskOptionsItems.append(contentsOf: [titleItem, photoItem, reminderItem, redactedStyleItem, deleteItem])
@@ -253,7 +258,6 @@ class TaskOptionsViewModel: NSObject {
 		}
 		return cellConfig
 	}
-
 }
 
 /*

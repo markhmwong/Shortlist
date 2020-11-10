@@ -91,7 +91,7 @@ class LineChart: UIView {
 			mainLayer.addChartTitleLayer(frame: meanFrame, color: Theme.Font.DefaultColor.cgColor, fontSize: Theme.Font.FontSize.Standard(.b3).value, text: meanNumberStr as String)
 
 			// mean height indicator. We add this after the bars are added to the view, so that the line covers the bottom of the bars
-			mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: meanHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: meanHeight)), width: meanLineWidth, color: Theme.Chart.meanLineColor.cgColor)
+//			mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: meanHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: meanHeight)), width: meanLineWidth, color: Theme.Chart.meanLineColor.cgColor)
 		}
 		
 		let maxIndicatorHeight: CGFloat = chartGenerator!.maxIndicatorHeight
@@ -108,12 +108,12 @@ class LineChart: UIView {
 		
 		// middle indicators
 		// to fix when clearing data it causes an error here
-		for i in stride(from: 0, through: monthOverviewChartData!.maxTasks, by: Int(monthOverviewChartData!.maxTasks / 3)) {
-
-			let middleIndicator: CGFloat = bounds.height - ((bounds.height - maxIndicatorHeight) / CGFloat(monthOverviewChartData!.maxTasks)) * CGFloat(i)
-			
-			mainLayer.addChartGuides(lineSegement: LineSegment(startPoint: CGPoint(x: 15.0, y: middleIndicator), endPoint: CGPoint(x: bounds.width - xPadding, y: middleIndicator)), width: lineWidth, color: Theme.Chart.chartLineColor.adjust(by: -70.0)!.cgColor)
-		}
+//		for i in stride(from: 0, through: monthOverviewChartData!.maxTasks, by: Int(monthOverviewChartData!.maxTasks / 3)) {
+//
+//			let middleIndicator: CGFloat = bounds.height - ((bounds.height - maxIndicatorHeight) / CGFloat(monthOverviewChartData!.maxTasks)) * CGFloat(i)
+//
+//			mainLayer.addChartGuides(lineSegement: LineSegment(startPoint: CGPoint(x: 15.0, y: middleIndicator), endPoint: CGPoint(x: bounds.width - xPadding, y: middleIndicator)), width: lineWidth, color: Theme.Chart.chartLineColor.adjust(by: -70.0)!.cgColor)
+//		}
 		
         // add chart title
 		let chartFont = UIFont.init(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b0).value)!
@@ -216,7 +216,7 @@ class LineChart: UIView {
 	}
 	
 	private func drawDot(point: CGPoint, color: UIColor) {
-		let pointSize: CGFloat = 0.8
+		let pointSize: CGFloat = 0.1
 		let circlePath = UIBezierPath(arcCenter: point, radius: pointSize, startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
 		let shapeLayer = CAShapeLayer()
 			shapeLayer.path = circlePath.cgPath

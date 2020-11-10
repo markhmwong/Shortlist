@@ -119,22 +119,35 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 				case .note, .title:
 					()
 				case .photos:
-					let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
-						// from camera or camera roll
-						let delete = UIAction(title: "Remove Photo", image: UIImage(systemName: "trash"), identifier: UIAction.Identifier(rawValue: "remove"), discoverabilityTitle: nil, attributes: .destructive, state: .off) { (action) in
-							let cell = collectionView.cellForItem(at: indexPath)
-							self.handleRemoveImage(cell as! TaskDetailPhotoCell)
-						}
+					
+					if indexPath.last ?? 0 == indexPath.item {
+						let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
 						
-						let view = UIAction(title: "View Photo", image: UIImage(systemName: "eye.fill"), identifier: UIAction.Identifier(rawValue: "view")) {_ in
-							let cell = collectionView.cellForItem(at: indexPath) as! TaskDetailPhotoCell
-							guard let photoItem = cell.item else { return }
-							self.coordinator.showPhoto(item: photoItem)
+							let addPhoto = UIAction(title: "Add Photo", image: UIImage(systemName: "plus"), identifier: UIAction.Identifier(rawValue: "add"), discoverabilityTitle: nil, state: .off) { (action) in
+								self.presentPicker(filter: PHPickerFilter.images)
+							}
+							
+							return UIMenu(title: "Photo Options", image: nil, identifier: nil, children: [addPhoto])
 						}
-						
-						return UIMenu(title: "Photo Options", image: nil, identifier: nil, children: [view, delete])
+						return config
+					} else {
+						let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
+							// from camera or camera roll
+							let delete = UIAction(title: "Remove Photo", image: UIImage(systemName: "trash"), identifier: UIAction.Identifier(rawValue: "remove"), discoverabilityTitle: nil, attributes: .destructive, state: .off) { (action) in
+								let cell = collectionView.cellForItem(at: indexPath)
+								self.handleRemoveImage(cell as! TaskDetailPhotoCell)
+							}
+							
+							let view = UIAction(title: "View Photo", image: UIImage(systemName: "eye.fill"), identifier: UIAction.Identifier(rawValue: "view")) {_ in
+								let cell = collectionView.cellForItem(at: indexPath) as! TaskDetailPhotoCell
+								guard let photoItem = cell.item else { return }
+								self.coordinator.showPhoto(item: photoItem)
+							}
+							
+							return UIMenu(title: "Photo Options", image: nil, identifier: nil, children: [view, delete])
+						}
+						return config
 					}
-					return config
 			}
 		}
 		return nil

@@ -2,7 +2,7 @@
 //  TaskReminder+CoreDataProperties.swift
 //  
 //
-//  Created by Mark Wong on 30/9/20.
+//  Created by Mark Wong on 12/10/20.
 //
 //
 
@@ -16,8 +16,11 @@ extension TaskReminder {
         return NSFetchRequest<TaskReminder>(entityName: "TaskReminder")
     }
 
-    @NSManaged public var reminder: Date?
     @NSManaged public var isAllDay: Bool
+    @NSManaged public var reminder: Date?
+    @NSManaged public var reminderId: String?
+    @NSManaged public var isCustom: Bool
+    @NSManaged public var isPreset: Bool
+    @NSManaged public var presetType: Int16
     @NSManaged public var reminderToTask: Task?
-
 }

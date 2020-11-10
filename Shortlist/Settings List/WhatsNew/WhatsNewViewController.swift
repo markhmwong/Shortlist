@@ -39,5 +39,8 @@ class WhatsNewViewController: UIViewController {
 		tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 		viewModel.configureDiffableDataSource(collectionView: tableView)
 
+		
+
 	}
 }
+

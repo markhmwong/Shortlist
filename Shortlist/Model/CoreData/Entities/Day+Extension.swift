@@ -93,11 +93,10 @@ extension Day {
 		dayStats.highPriority = Int64.random(in: 1...2)
 		dayStats.mediumPriority = Int64.random(in: 1...3)
 		dayStats.lowPriority = Int64.random(in: 1...3)
-		
+		self.dayToStats = dayStats
 		self.highPriorityLimit = 2
 		self.mediumPriorityLimit = 3
 		self.lowPriorityLimit = 3
-		self.dayToStats = dayStats
 		self.month = Calendar.current.monthToInt() // Stats
 		self.year = Calendar.current.yearToInt() // Stats
 		self.day = Int16(Calendar.current.todayToInt()) // Stats

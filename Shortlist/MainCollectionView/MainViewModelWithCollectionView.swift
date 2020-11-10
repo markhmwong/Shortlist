@@ -53,7 +53,7 @@ class MainViewModelWithCollectionView: NSObject {
 		snapshot.appendSections([.high, .medium, .low])
 		let day = mainFetcher.fetchRequestedObjects()?.first
 
-		let tasks = day?.dayToTask?.allObjects as! [Task]
+		let tasks = day?.dayToTask?.allObjects as? [Task] ?? []
 
 		for (_, task) in tasks.enumerated() {
 			snapshot.appendItems([task], toSection: Priority.init(rawValue: task.priority))
@@ -91,14 +91,14 @@ class MainViewModelWithCollectionView: NSObject {
 			
 			// Task 1
 			let task: Task = Task(context: persistentContainer.viewContext)
-			task.create(context: persistentContainer.viewContext, taskName: "Task One", categoryName: "Work", createdAt: Date(), reminderDate: Date(), priority: Int(Priority.high.rawValue), redact: RedactStyle.highlight.rawValue)
+			task.create(context: persistentContainer.viewContext, taskName: "Task One", categoryName: "Work", createdAt: Date(), reminderDate: Date().addingTimeInterval(600.0), priority: Int(Priority.high.rawValue), redact: RedactStyle.highlight.rawValue)
 			task.complete = false
 			dayObject?.addTask(with: task)
 		}
 
 		// Task 2
 		let task: Task = Task(context: persistentContainer.viewContext)
-		task.create(context: persistentContainer.viewContext, taskName: "Task Two", categoryName: "Recreation", createdAt: Date(), reminderDate: Date(), priority: Int(Priority.high.rawValue), redact: RedactStyle.none.rawValue)
+		task.create(context: persistentContainer.viewContext, taskName: "Task 4", categoryName: "Recreation", createdAt: Date(), reminderDate: Date().addingTimeInterval(600.0), priority: Int(Priority.high.rawValue), redact: RedactStyle.none.rawValue)
 		let note: TaskNote = TaskNote(context: persistentContainer.viewContext)
 		note.createNotes(note: "Test Note One", isButton: false)
 		task.addToTaskToNotes(note)
@@ -107,6 +107,23 @@ class MainViewModelWithCollectionView: NSObject {
 		dayObject?.addTask(with: task)
 		
 		persistentContainer.saveContext()
-//		persistentContainer.deleteAllRecordsIn(entity: Task.self)
+		persistentContainer.deleteAllRecordsIn(entity: Task.self)
+	}
+	
+	func createMockStatisticalData(persistentContainer: PersistentContainer) {
+		for day in 1...30 {
+			let date = Calendar.current.forSpecifiedDay(value: -day)
+			let dayA = persistentContainer.fetchDayManagedObject(forDate: date)
+			if dayA?.dayToStats == nil {
+				
+			}
+			if (dayA == nil) {
+
+				// create empty day
+				let dayObj = Day(context: persistentContainer.viewContext)
+				dayObj.createMockDay(date: date)
+				persistentContainer.saveContext()
+			}
+		}
 	}
 }

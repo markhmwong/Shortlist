@@ -328,7 +328,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		guard let _viewModel = viewModel else { return }
+		guard let _viewModel = viewModel, let persistentContainer = persistentContainer else { return }
 
 		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
 				
@@ -342,18 +342,17 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 					cell.selectedState = !cell.selectedState
 					coordinator?.showAlertBox("Please update your limit from [Settings -> Priority Limit] or remove a \(status) priority task from today's schedule.")
 				case .WithinLimit:
-					persistentContainer?.saveContext() // save on done
+					persistentContainer.saveContext() // save on done
 			}
-			persistentContainer?.saveContext() // save on done
+			persistentContainer.saveContext() // save on done
 		}
-		
     }
 	
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-		guard let _viewModel = viewModel else { return }
-		let cell = _viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
+		guard let viewModel = viewModel, let persistentContainer = self.persistentContainer else { return }
+		let cell = viewModel.tableCellAt(tableView: tableView, indexPath: indexPath)
 		cell.selectedState = !cell.selectedState
-		persistentContainer?.saveContext() // save on done
+		persistentContainer.saveContext() // save on done
 	}
 	
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {

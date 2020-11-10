@@ -81,7 +81,6 @@ class StatsViewController: UIViewController {
 		
         view.backgroundColor = Theme.GeneralView.background
 		navigationItem.title = "Stats"
-        navigationItem.leftBarButtonItem = UIBarButtonItem().backButton(target: self, action: #selector(handleDismiss))
 		
 		view.addSubview(statStackView)
 		statStackView.addArrangedSubview(totalTasksStat)
@@ -97,7 +96,6 @@ class StatsViewController: UIViewController {
 		// add category leaderboard
 		vm.completeCategoryList(persistentContainer: persistentContainer)
 		vm.incompleteCategoryList(persistentContainer: persistentContainer)
-		
     }
 	
 	func calculateStatsForLineChart(from: Date, bottomAnchor: NSLayoutYAxisAnchor?, title: String, dayRange: Int) -> NSLayoutYAxisAnchor? {
@@ -134,12 +132,6 @@ class StatsViewController: UIViewController {
 		lineChart.prepareChartWithData()
 		return lineChart.bottomAnchor
 	}
-    
-    @objc
-    func handleDismiss() {
-		guard let _coordinator = coordinator else { return }
-		_coordinator.dismiss()
-    }
 	
 	deinit {
 		coordinator?.cleanUpChildCoordinator()

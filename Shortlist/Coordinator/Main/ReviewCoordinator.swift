@@ -23,7 +23,7 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
 	// Used to determine whether the app will update the global task count
 	private var automatedUpdateTaskCount: Bool = false
 	
-	init(navigationController:UINavigationController, automated: Bool) {
+	init(navigationController: UINavigationController, automated: Bool) {
 		self.navigationController = navigationController
 		self.automatedUpdateTaskCount = automated
 	}
@@ -38,8 +38,8 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     func start(_ persistentContainer: PersistentContainer?) {
 		// to do add persistent container
 		let vc = ReviewCollectionListViewController(viewModel: ReviewCollectionListViewModel())
-		navigationController.present(vc, animated: true, completion: nil)
-		
+//		navigationController.pushViewController(vc, animated: true, completion: nil)
+		navigationController.pushViewController(vc, animated: true)
 //        navigationController.delegate = self
 //        guard let persistentContainer = persistentContainer else {
 //            print("Persistent Container not loaded")

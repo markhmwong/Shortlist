@@ -64,7 +64,7 @@ class TaskRowController: NSObject {
             taskLabel.setText(task.name)
 			
 			if (Date().timeIntervalSince(task.reminder) <= 0) {
-				categoryLabel.setText("⏰ \(task.reminder.timeToString())")
+				categoryLabel.setText("⏰ \(task.reminder.timeToStringInHrMin())")
 			} else {
 				categoryLabel.setText(task.category)
 			}

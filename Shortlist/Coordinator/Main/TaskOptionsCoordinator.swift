@@ -61,10 +61,10 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 
 	}
 	
-	func showAlarm(data: Task) {
+	func showAlarm(data: Task, persistentContainer: PersistentContainer) {
 		guard let r = rootNavigationController else { return }
 
-		let viewModel = AlarmViewModel(data: data)
+		let viewModel = AlarmViewModel(data: data, persistentContainer: persistentContainer)
 		let vc = AlarmViewController(viewModel: viewModel)
 		r.pushViewController(vc, animated: true)
 	}

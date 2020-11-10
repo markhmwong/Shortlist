@@ -72,8 +72,7 @@ extension SettingsListViewController: UICollectionViewDelegate {
 
 		switch item.item {
 			case .taskReview:
-				print("to do task review")
-//				coordinator.show
+				coordinator.showReview(persistentContainer, automated: false)
 			case .priorityLimit:
 				coordinator.showTaskLimit(persistentContainer, item: item)
 			case .stats:
@@ -101,8 +100,4 @@ extension SettingsListViewController: UICollectionViewDelegate {
 		}
 		collectionView.deselectItem(at: indexPath, animated: true)
 	}
-	
-
 }
-
-

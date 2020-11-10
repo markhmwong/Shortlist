@@ -49,17 +49,17 @@ class SupplementaryViewHeader: UICollectionReusableView {
 		addSubview(briefLabel)
 		
 		briefLabel.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 10).isActive = true
-		briefLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-		briefLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+		briefLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15).isActive = true
+		briefLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15).isActive = true
 		briefLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30).isActive = true
 		
 		titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-		titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
-		titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
+		titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15).isActive = true
+		titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15).isActive = true
 		
 		subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10).isActive = true
-		subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-		subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+		subtitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15).isActive = true
+		subtitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15).isActive = true
 
 	}
 	

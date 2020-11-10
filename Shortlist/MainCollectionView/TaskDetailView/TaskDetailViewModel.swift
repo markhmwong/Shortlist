@@ -103,9 +103,8 @@ class TaskDetailViewModel: NSObject {
 		<HeaderSupplementaryView>(elementKind: "SectionHeader") { [weak self]
 			(supplementaryView, string, indexPath) in
 			guard let self = self else { return }
+			supplementaryView.data = self.data
 			supplementaryView.priorityLabel.text = "\(self.data.priorityText())"
-			supplementaryView.backgroundColor = .clear
-			supplementaryView.configureCompletionIcon(with: self.completionStatus)
 		}
 		
 		let footerRegistration = UICollectionView.SupplementaryRegistration

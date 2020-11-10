@@ -26,7 +26,7 @@ struct MainFetcher<T: NSFetchRequestResult>: FetchedDataProtocol {
 		do {
 			try self.controller.performFetch()
 		} catch(let err) {
-			
+			print("\(err)")
 		}
 		
 	}
@@ -86,6 +86,7 @@ class MainViewControllerWithCollectionView: UIViewController {
 		self.persistentContainer = persistentContainer
 		super.init(nibName: nil, bundle: nil)
 		self.mainFetcher = MainFetcher(controller: fetchedResultsController)
+		mainFetcher.initFetchedObjects()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -106,6 +107,8 @@ class MainViewControllerWithCollectionView: UIViewController {
 
 		// prep data
 //		viewModel.addMockData(persistentContainer: persistentContainer)
+		viewModel.createMockStatisticalData(persistentContainer: persistentContainer)
+		
 		mainFetcher.initFetchedObjects() // must be called first
 
 		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
@@ -163,7 +166,7 @@ class MainViewControllerWithCollectionView: UIViewController {
 					} else {
 						// error
 						context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { (success, authenticationError) in
-							print("numpad")
+							print("numpad to do")
 						}
 					}
 				}
@@ -188,6 +191,7 @@ extension MainViewControllerWithCollectionView: UICollectionViewDelegate {
 			case .star, .highlight:
 				guard let coordinator = coordinator else { return }
 				coordinator.showTaskDetails(with: item, persistentContainer: self.persistentContainer)
+				print("biometrics temporarily turned off")
 			// run biometrics to request an unlock
 				//temp biometrics is turned off
 //				biometrics(item: item)

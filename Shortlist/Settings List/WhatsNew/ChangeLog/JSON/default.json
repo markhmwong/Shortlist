@@ -1,0 +1,11 @@
+{
+	"version": "x.0",
+	"date": "10/11/2020",
+	"version_description": "You type away slowly at the keyboard, as you are about to hit the reply button you notice a bug on the wall creeping from behind the curtain. You pause and consider your options, a shoe, newspaper, keyboard.. and continue to swipe through your options in your head. Feeling the pressure of your finger firmly pressed on the mouse button as your eyes slowly track the bug across the wall you notice distinct featuers of the bug that could help me identify what it is too! List what happened and send it to me! ",
+	"feature": [{
+			"title": "Report this bug.",
+			"description": "@markhmwong on twitter or send me an email @ hello@whizbangapps.xyz",
+			"type": 0,
+		},
+	]
+}

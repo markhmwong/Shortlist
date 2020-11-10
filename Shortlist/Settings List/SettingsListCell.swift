@@ -65,7 +65,7 @@ class SettingsListCell: BaseListCell<SettingsListItem> {
 		var content = defaultListContentConfiguration().updated(for: state)
 		content.text = "\(state.settingsListItem?.title ?? "Unknown")"
 		content.textProperties.font = ThemeV2.CellProperties.PrimaryFont
-		content.secondaryText = "\(state.settingsListItem?.subtitle ?? "Unknown")" // add task options description
+		content.secondaryText = "\(state.settingsListItem?.subtitle ?? "")" // add task options description
 		content.secondaryTextProperties.font = ThemeV2.CellProperties.SecondaryFont
 
 		content.image = UIImage(systemName: state.settingsListItem?.icon ?? "bandage.fill")

@@ -152,7 +152,6 @@ class ChartGenerator {
 				let heightInPercentage: CGFloat = CGFloat(data.value.numberOfCompletedTasks) / CGFloat(monthlyData.maxTasks)
 				let heightOfLine = (viewHeight - 0) * heightInPercentage < 0 ? 0 : (viewHeight - 0) * heightInPercentage
 
-//				let heightOfLine = (viewHeight - topPadding) * heightInPercentage < 0 ? 0 : (viewHeight - topPadding) * heightInPercentage
 				let yPos = (viewHeight) - heightOfLine
 				let origin: CGPoint = CGPoint(x: xPos, y: yPos)
 				

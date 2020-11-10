@@ -23,7 +23,7 @@ fileprivate extension UIConfigurationStateCustomKey {
 class WhatsNewCell: BaseListCell<FeatureItem> {
 	
 	private func defaultListContentConfiguration() -> UIListContentConfiguration {
-		return .sidebarHeader()
+		return .subtitleCell()
 	}
 	
 	private var viewConstraintCheck: NSLayoutConstraint? = nil

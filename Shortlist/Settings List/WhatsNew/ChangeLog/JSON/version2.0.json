@@ -1,0 +1,41 @@
+{
+	"version": "2.0",
+	"date": "10/11/2020",
+	"version_description": "Hello all. I've been away for some time as I've found a new job and it's time consuming and although most of my day is spent at said job, I do try to do what I can even if a little on this app. I still believe in this app and the purpose it provides, as it isn't something that is aimed at short term gain rather a long term gain in mental and physical health. I hope you find it useful to keep your life better balanced. Stay safe.",
+	"feature": [{
+			"title": "Redact and Lock Tasks",
+			"description": "Hide sensitive information and increase security from prying eyes and curious creatures.",
+			"type": 0,
+		},
+		{
+			"title": "Multiple Notes",
+			"description": "Organise notes into brief points, with a limit of 5.",
+			"type": 0,
+		},
+		{
+			"title": "Photos",
+			"description": "Capture an important note on the go and attach it to an important daily task.",
+			"type": 0,
+		},
+		{
+			"title": "UI Overhaul",
+			"description": "With the introduction of iOS 14, coalesces the latest UI/UX experience, making all components within the app easier to use and intuitive than before.",
+			"type": 0,
+		},
+		{
+			"title": "What new page",
+			"description": "Keep an eye here to track new updates and patches. Now organised in JSON format, for faster and easier compilation (mainly great for me).",
+			"type": 0,
+		},
+		{
+			"title": "Alarm Presets at 5 minute increments",
+			"description": "Easily select a timer to trigger in the next multiple of 5 minutes within the hour",
+			"type": 0,
+		},
+		{
+			"title": "All day reminder triggers",
+			"description": "Previously would not trigger. Now they do.",
+			"type": 1,
+		},
+	]
+}
