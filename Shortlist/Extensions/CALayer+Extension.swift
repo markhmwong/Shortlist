@@ -28,7 +28,7 @@ extension CALayer {
         textLayer.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
         textLayer.fontSize = fontSize
         textLayer.string = text
-        self.addSublayer(textLayer)
+		self.insertSublayer(textLayer, at: 9)
     }
     
     func addChartLine(lineSegement: LineSegment, width: CGFloat, color: CGColor) {
@@ -37,7 +37,7 @@ extension CALayer {
         layer.fillColor = UIColor.clear.cgColor
         layer.strokeColor = color
         layer.lineWidth = width
-        self.addSublayer(layer)
+		self.insertSublayer(layer, at: 0)
     }
 	
 	func addChartGuides(lineSegement: LineSegment, width: CGFloat, color: CGColor) {
@@ -46,7 +46,7 @@ extension CALayer {
         layer.fillColor = UIColor.clear.cgColor
         layer.strokeColor = color
         layer.lineWidth = width
-        self.addSublayer(layer)
+		self.insertSublayer(layer, at: 9)
 	}
     
     func xAxisLabels(frame: CGRect, color: CGColor, fontSize: CGFloat, text: String) {
@@ -59,7 +59,7 @@ extension CALayer {
         textLayer.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
         textLayer.fontSize = fontSize
         textLayer.string = text
-        self.addSublayer(textLayer)
+		self.insertSublayer(textLayer, at: 9)
     }
     
     func addChartTitleLayer(frame: CGRect, color: CGColor, fontSize: CGFloat, text: String) {
@@ -72,7 +72,8 @@ extension CALayer {
         textLayer.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
         textLayer.fontSize = fontSize
         textLayer.string = text
-        self.addSublayer(textLayer)
+		self.insertSublayer(textLayer, at: 99)
+//        self.addSublayer(textLayer)
     }
     
     func addRectangleLayer(frame: CGRect, color: UIColor) {

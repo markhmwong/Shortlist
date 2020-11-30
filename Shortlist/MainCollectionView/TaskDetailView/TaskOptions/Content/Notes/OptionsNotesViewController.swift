@@ -15,6 +15,7 @@ enum OptionsNotesSection: CaseIterable {
 struct OptionsNotesItem: Hashable {
 	var id: UUID = UUID()
 	var note: String
+	// date
 }
 
 class OptionsNotesViewModel: NSObject {

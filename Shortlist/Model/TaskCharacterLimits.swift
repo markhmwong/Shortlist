@@ -17,5 +17,5 @@ struct TaskCharacterLimits {
 	static let taskDetailsMaximumCharacterLimit: Int = 480
 	
 	static let taskCategoryMinimumCharacterLimit: Int = 1
-	static let taskCategoryMaximumCharacterLimit: Int = 50
+	static let taskCategoryMaximumCharacterLimit: Int = 30
 }

@@ -43,7 +43,7 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 	}()
 	
 	private lazy var inputContainer: SelectCategoryInputView = {
-		let view = SelectCategoryInputView(delegate: self, persistentContainer: persistentContainer ?? nil)
+		let view = SelectCategoryInputView(type: .category, delegate: self, persistentContainer: persistentContainer ?? nil)
 		view.alpha = 0.0
 		view.backgroundColor = Theme.Cell.textFieldBackground
 		view.translatesAutoresizingMaskIntoConstraints = false

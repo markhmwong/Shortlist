@@ -30,9 +30,23 @@ struct ThemeV2 {
 	
 	// MARK: - Cell
 	struct CellProperties {
+		static let TertiaryFont: UIFont = UIFont.preferredFont(forTextStyle: .footnote).with(weight: .regular)
+		
+		static let Title3Font: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .regular)
+
 		static let LargeBoldFont: UIFont = UIFont.preferredFont(forTextStyle: .largeTitle).with(weight: .bold)
 		
-		static let HeadingBoldFont: UIFont = UIFont.preferredFont(forTextStyle: .headline).with(weight: .bold)
+		static let HeadingBoldFont: UIFont = UIFont.preferredFont(forTextStyle: .headline).with(weight: .black)
+		
+		static let Title1Black: UIFont = UIFont.preferredFont(forTextStyle: .title1).with(weight: .black)
+
+		static let Title2Black: UIFont = UIFont.preferredFont(forTextStyle: .title2).with(weight: .black)
+		
+		static let Title3Bold: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .bold)
+		
+		static let Title3Regular: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .regular)
+		
+		static let Title3Light: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .light)
 
 		static let HeadingFont: UIFont = UIFont.preferredFont(forTextStyle: .headline).with(weight: .regular)
 		
@@ -201,5 +215,75 @@ struct ThemeV2 {
 	}()
 	
 
-	
+	struct Priority {
+		
+		static let highColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+						case .light:
+							return UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+						@unknown default:
+							return UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+					}
+				}
+			} else {
+				return UIColor(red:1.00, green:0.00, blue:0.30, alpha:1.0).adjust(by: 0.0)!
+			}
+		}()
+		
+		static let mediumColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
+						case .light:
+							return UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
+						@unknown default:
+							return UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
+					}
+				}
+			} else {
+				return UIColor(red:0.86, green:0.50, blue:0.25, alpha:1.0).adjust(by: -10.0)!
+			}
+		}()
+		
+		static let lowColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+						case .light:
+							return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+						@unknown default:
+							return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+					}
+				}
+			} else {
+				return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+			}
+		}()
+		
+		static let noneColor: UIColor = {
+			if #available(iOS 13.0, *) {
+				return UIColor.init { (UITraitCollection) -> UIColor in
+					switch (UITraitCollection.userInterfaceStyle) {
+						case .dark, .unspecified:
+							return UIColor.white.adjust(by: -30.0)!
+						case .light:
+							return UIColor.white.adjust(by: -30.0)!
+						@unknown default:
+							return UIColor.white.adjust(by: -30.0)!
+					}
+				}
+			} else {
+				return UIColor.white.adjust(by: -30.0)!
+			}
+		}()
+
+	}
 }

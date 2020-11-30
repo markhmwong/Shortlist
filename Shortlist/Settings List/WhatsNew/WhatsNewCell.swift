@@ -50,9 +50,13 @@ class WhatsNewCell: BaseListCell<FeatureItem> {
 	}
 	
 	private func setupViewsIfNeeded() {
+		backgroundColor = .clear
 		guard viewConstraintCheck == nil else { return }
 		contentView.addSubview(listContentView)
-		
+		contentView.backgroundColor = .clear
+		contentView.layer.backgroundColor = UIColor.clear.cgColor
+		listContentView.backgroundColor = .clear
+		listContentView.layer.backgroundColor = UIColor.clear.cgColor
 		listContentView.translatesAutoresizingMaskIntoConstraints = false
 		listContentView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
 		let bottomConstraint = listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
@@ -65,12 +69,15 @@ class WhatsNewCell: BaseListCell<FeatureItem> {
 	
 	override func updateConfiguration(using state: UICellConfigurationState) {
 		setupViewsIfNeeded()
-
+		listContentView.backgroundColor = ThemeV2.Background
 		var content = defaultListContentConfiguration().updated(for: state)
 		content.imageProperties.preferredSymbolConfiguration = .init(font: content.textProperties.font, scale: .large)
 		content.text = "\(state.item?.title ?? "Unknown")"
+		content.textProperties.font = ThemeV2.CellProperties.HeadingFont
 		content.secondaryText = "\(state.item?.description ?? "Unknown")"
 		content.image = UIImage(systemName: state.item?.image ?? "bandage.fill")
 		listContentView.configuration = content
+		
+
 	}
 }

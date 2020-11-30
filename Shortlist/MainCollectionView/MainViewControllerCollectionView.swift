@@ -28,7 +28,6 @@ struct MainFetcher<T: NSFetchRequestResult>: FetchedDataProtocol {
 		} catch(let err) {
 			print("\(err)")
 		}
-		
 	}
 	
 	// Objects requested by the origina descriptors and predicates formed in the fetchedResultsController
@@ -39,6 +38,7 @@ struct MainFetcher<T: NSFetchRequestResult>: FetchedDataProtocol {
 
 class MainViewControllerWithCollectionView: UIViewController {
 
+	
 	// Core Data
 	private lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
 		// Create Fetch Request
@@ -136,7 +136,7 @@ class MainViewControllerWithCollectionView: UIViewController {
 	*/
 	@objc func handleCreateTask() {
 		guard let c = coordinator else { return }
-		c.showCreateTask()
+		c.showCreateTask(persistentContainer)
 	}
 	
 	@objc func handleDonation() {

@@ -102,7 +102,7 @@ class WhatsNewViewModel: NSObject {
 
 // table view methods
 extension WhatsNewViewModel {
-	// configure diffable data source
+	// MARK: - configure diffable data source
 	func configureDiffableDataSource(collectionView: UICollectionView) {
 		diffableDataSource = UICollectionViewDiffableDataSource<FeatureSection, FeatureItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
 			let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)

@@ -105,6 +105,63 @@ extension Task {
 		self.taskToReminder = reminder
 	}
 	
+	/*
+	
+		Create Dynamic Task
+	
+		Above we'll find another method similar in stature, however this method allows for dynamic allocating, as judging by the arguments, we do no require every argument to have a value passed through the method.
+	
+	*/
+	func createDynamicTask(context: NSManagedObjectContext, taskName: String?, categoryName: String = "Uncategorized", priority: Int = 1, redact: Int = 0) {
+		
+		// must have a task name at minimum
+		if let taskName = taskName {
+			self.name = taskName
+			
+			// set as uncategorized if no argument passed
+			self.category = categoryName
+			
+			
+			// set as medium priority if no argument passed
+			self.priority = Int16(priority)
+			
+			
+			self.createdAt = Date() // id
+			
+			// set as off if no argument passed
+			self.redactStyle = Int16(redact)
+			
+			
+			self.complete = false
+			self.carryOver = false
+			self.isNew = false
+
+			// Relationships
+			self.taskToNotes = NSOrderedSet()
+			self.taskToPhotos = NSOrderedSet()
+			
+			print("backlog check - forgot the relationship between the task and backlog")
+			self.updateAt = createdAt //used mainly to force a NSFetchedResultsController trigger
+			
+			// Reminder
+			let reminder = TaskReminder(context: context)
+			
+			// reminder's is a bit tricky
+			
+			reminder.isAllDay = false
+			reminder.reminder = Date()
+			reminder.isCustom = false
+			reminder.isPreset = true
+			reminder.presetType = 2
+			reminder.reminderId = "id"
+			reminder.reminderToTask = self
+			self.taskToReminder = reminder
+			
+		}
+		
+		// show error message?
+	}
+	
 	
 	
 	func ekReminderToTask(reminder: EKReminder) {

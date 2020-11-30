@@ -112,6 +112,7 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 		listContentView.configuration = content
 	}
 	
+	// not required?
 	private func addSwitch(with item: TaskOptionsItem?) {
 		guard let item = item else { return }
 

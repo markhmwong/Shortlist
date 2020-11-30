@@ -56,8 +56,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			guard let stats = dayObject.dayToStats else { return true }
 			stats.totalTasks += 3
 			let taskHigh: Task = Task(context: context)
-
-			taskHigh.create(context: context, taskName: "📬 An important task, preferably something you must accomplish today.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value), redact: 0)
+			
+			if (Bool.random()) {
+				taskHigh.create(context: context, taskName: "📬 Visit mum.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value), redact: 0)
+			} else {
+				taskHigh.create(context: context, taskName: "📬 Visit dad.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value), redact: 0)
+			}
+			
+			// task details are deprecated
 			taskHigh.details = "These tasks are very limited of 1 - 2. Important and may take most of the day to complete."
 			dayObject.addToDayToTask(taskHigh)
 			let taskMed: Task = Task(context: context)

@@ -69,7 +69,6 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 		
 		imageView.set(image: UIImage(data: photo)!)
-
 	}
 	
 	func viewForZooming(in scrollView: UIScrollView) -> UIView? {

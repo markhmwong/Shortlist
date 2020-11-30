@@ -50,6 +50,14 @@ extension UIBarButtonItem {
         return UIBarButtonItem(customView: button)
 	}
 	
+	func cancelButton(target: Any?, action: Selector) -> UIBarButtonItem {
+		let button = UIButton(type: .system)
+		button.setTitle("Dismiss", for: .normal)
+		button.addTarget(target, action: action, for: .touchUpInside)
+		button.tintColor = Theme.Font.DefaultColor
+		return UIBarButtonItem(customView: button)
+	}
+	
 	static func menuButton(_ target: Any?, action: Selector, imageName: String) -> UIBarButtonItem {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: imageName), for: .normal)

@@ -6,11 +6,11 @@
 //  Copyright © 2019 Mark Wong. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 // A enumeration of priority levels available for the user to select
 
-enum Priority: Int16 {
+enum Priority: Int16, CaseIterable {
 	case high = 0 // pressing priority
 	case medium //doable
 	case low // touchandgo priority
@@ -43,6 +43,19 @@ enum Priority: Int16 {
 				return "Low"
 			case .none:
 				return "None"
+		}
+	}
+	
+	var color: UIColor {
+		switch self {
+			case .high:
+				return ThemeV2.Priority.highColor
+			case .medium:
+				return ThemeV2.Priority.mediumColor
+			case .low:
+				return ThemeV2.Priority.lowColor
+			case .none:
+				return ThemeV2.Priority.noneColor
 		}
 	}
 	
