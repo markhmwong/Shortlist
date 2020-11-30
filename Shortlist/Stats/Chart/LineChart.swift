@@ -20,7 +20,9 @@ class LineChart: UIView {
 	
 	private var monthOverviewChartData: MonthOverviewChartData?
 	
-	let innerChartPadding: CGFloat = 20.0
+	let innerHoriztonalPadding: CGFloat = 20.0 // chart padding horizontal
+	
+	let innerHeightPadding: CGFloat = 30.0 // chart padding vertical
 	
 	let xPadding: CGFloat = 30.0
 	
@@ -28,13 +30,15 @@ class LineChart: UIView {
 	
 	let lineWidth: CGFloat = 2.0
 	
+	let mainLayerXPadding: CGFloat = 16.0
+	
 	let chartBackgroundColor: UIColor = Theme.Chart.chartBackgroundColor
 	
     // barEntries tuple (completed tasks, incomplete Tasks)
     private var chartData: [DotProperties]? {
         didSet {
             mainLayer.sublayers?.forEach({$0.removeFromSuperlayer()})
-			mainLayer.frame = CGRect(x: 8.0, y: 0, width: bounds.width - 16.0, height: bounds.height)
+			mainLayer.frame = CGRect(x: mainLayerXPadding / 2, y: 0, width: bounds.width - mainLayerXPadding, height: bounds.height)
             chartGenerator?.calculateHeightOfMean(viewHeight: mainLayer.frame.height)
             chartGenerator?.calculateHeightOfMax(viewHeight: mainLayer.frame.height)
             drawChart()
@@ -66,9 +70,9 @@ class LineChart: UIView {
 	
     func prepareChartWithData() {
         guard let monthlyData = monthOverviewChartData else { return }
-        chartGenerator = ChartGenerator(data: monthlyData, padding: innerChartPadding)
-
-		chartData = chartGenerator?.generateLineData(viewHeight: bounds.height, viewWidth: bounds.width - (innerChartPadding * 2), padding: innerChartPadding)
+        chartGenerator = ChartGenerator(data: monthlyData, padding: innerHoriztonalPadding)
+		
+		chartData = chartGenerator?.generateLineData(viewHeight: bounds.height - innerHeightPadding, viewWidth: bounds.width - (innerHoriztonalPadding * 2), padding: innerHoriztonalPadding)
     }
 	
 	private func drawChart() {
@@ -80,7 +84,7 @@ class LineChart: UIView {
 		drawLine(path: incompleteLinePath.cgPath, color: Theme.Chart.lineTaskIncompleteColor)
 		drawLine(path:  linePath.cgPath, color: Theme.Chart.lineTaskCompleteColor)
 		
-		// draw the mean indicator line if it isn't 0
+		// draw the average indicator line if it isn't 0
 		if (monthOverviewChartData!.mean != 0) {
 			// add mean number indicator
 			let meanHeight: CGFloat = chartGenerator!.meanHeight
@@ -88,6 +92,7 @@ class LineChart: UIView {
 			let meanSizeStr = meanNumberStr.size(withAttributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b3).value)!])
 			let meanFrame: CGRect = CGRect(x: frame.width - xPadding - meanSizeStr.width, y: meanHeight, width: meanSizeStr.width, height: meanSizeStr.height)
 			
+			// average indicator
 			mainLayer.addChartTitleLayer(frame: meanFrame, color: Theme.Font.DefaultColor.cgColor, fontSize: Theme.Font.FontSize.Standard(.b3).value, text: meanNumberStr as String)
 
 			// mean height indicator. We add this after the bars are added to the view, so that the line covers the bottom of the bars
@@ -146,8 +151,10 @@ class LineChart: UIView {
 		var incompletePoints: [CGPoint] = []
 		
 		for (_, data) in chartData.enumerated() {
-			completePoints.append(data.completedTaskPointOrigin)
-			incompletePoints.append(data.incompleteTasksPointOrigin)
+			let adjustedComplete: CGPoint = CGPoint(x: data.completedTaskPointOrigin.x - innerHoriztonalPadding / 2, y: data.completedTaskPointOrigin.y + 10)
+			let adjustedIncomplete: CGPoint = CGPoint(x: data.incompleteTasksPointOrigin.x - innerHoriztonalPadding / 2, y: data.incompleteTasksPointOrigin.y + 10)
+			completePoints.append(adjustedComplete)
+			incompletePoints.append(adjustedIncomplete)
 		}
 		
 		let curvedSegA = controlPointsFrom(points: completePoints)
@@ -190,8 +197,12 @@ class LineChart: UIView {
 		}
 
 		for (_, data) in chartData.enumerated() {
-			drawDot(point: data.incompleteTasksPointOrigin, color: Theme.Chart.lineTaskIncompleteColor)
-			drawDot(point: data.completedTaskPointOrigin, color: Theme.Chart.lineTaskCompleteColor)
+			let incompletePoint: CGPoint = CGPoint(x: data.incompleteTasksPointOrigin.x, y: data.incompleteTasksPointOrigin.y - 10)
+			let completePoint: CGPoint = CGPoint(x: data.incompleteTasksPointOrigin.x, y: data.incompleteTasksPointOrigin.y - 10)
+//			drawDot(point: incompletePoint, color: Theme.Chart.lineTaskIncompleteColor)
+//			drawDot(point: completePoint, color: Theme.Chart.lineTaskCompleteColor)
+			drawDot(point: incompletePoint, color: .clear)
+			drawDot(point: completePoint, color: .clear)
 		}
 		return (curvedPathComplete, curvedPathIncomplete)
 	}
@@ -208,11 +219,12 @@ class LineChart: UIView {
 		gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
 		gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
 
-		gradientLayer.colors = [color.adjust(by: -40.0)!.cgColor, color.cgColor]
+//		gradientLayer.colors = [color.adjust(by: -40.0)!.cgColor, color.cgColor]
+		gradientLayer.colors = [UIColor.purple.cgColor, color.cgColor]
 		gradientLayer.frame = bounds
 		gradientLayer.mask = shapeLayer
 
-		self.layer.addSublayer(gradientLayer)
+		mainLayer.insertSublayer(gradientLayer, at: 1)
 	}
 	
 	private func drawDot(point: CGPoint, color: UIColor) {

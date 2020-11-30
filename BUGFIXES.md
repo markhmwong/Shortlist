@@ -1,11 +1,25 @@
+# Currently working on
+
+- Encapsulate category search into class
+- category
+	- recent categories
+	- Add category to edit task options
+	- update category in main task cell
+	character limitation for title
+character limit on task name
+trophy room (separate update)
+
 #  Bug Fixes / Features
 - widgets
 - shortcuts
 - cloudkit
 - SMTP how is this any better than local notifications? End of week review? https://github.com/IBM-Swift/Swift-SMTP
 
+# 2.0
+- Category Limit reduced to 30 from 50
+
 # 1.3
-- how did you feel?
+- how did you feel? (separate app?)
 - UI Rebuild
 - Context Menu
 - Adding image/video to task

@@ -17,6 +17,7 @@ class MainViewModelWithCollectionView: NSObject {
 	
 	private var mainFetcher: MainFetcher<Day>! = nil
 	
+	
 	override init() {
 		super.init()
 		prepareDataSource()

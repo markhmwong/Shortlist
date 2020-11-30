@@ -15,3 +15,10 @@ extension UITextView {
 		self.textColor = color
 	}
 }
+
+extension UITextField {
+	func clearTextOnFirstInput(_ color: UIColor) {
+		self.text = nil
+		self.textColor = color
+	}
+}

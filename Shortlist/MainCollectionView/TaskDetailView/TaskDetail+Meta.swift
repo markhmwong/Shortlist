@@ -39,6 +39,7 @@ struct TitleItem: Hashable {
 struct NotesItem: Hashable {
 	let id: UUID = UUID()
 	var notes: String
+	// date
 	var isButton: Bool
 }
 

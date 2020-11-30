@@ -49,8 +49,11 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		}
 	}
 	
-	func showCreateTask() {
-		print("To do - Create Task")
+	func showCreateTask(_ persistentContainer: PersistentContainer?) {
+//		print("To do - Create Task")
+		let child = NewTaskCoordinator(navigationController: navigationController)
+		childCoordinators.append(child)
+		child.start(persistentContainer)
 	}
 	
 	func showOnboarding(_ persistentContainer: PersistentContainer?) {

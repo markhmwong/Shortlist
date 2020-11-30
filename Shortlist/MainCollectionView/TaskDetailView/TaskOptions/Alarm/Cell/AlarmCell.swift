@@ -82,13 +82,13 @@ class AlarmHeaderCell: BaseListCell<AlarmItem> {
 
 }
 
-class MyDatePicker: UIDatePicker {
-	
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		print("touched")
-	}
-	
-}
+//class MyDatePicker: UIDatePicker {
+//
+//	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//
+//	}
+//
+//}
 
 // MARK: - Alarm Cell
 class AlarmCell: BaseListCell<AlarmItem> {
@@ -107,8 +107,8 @@ class AlarmCell: BaseListCell<AlarmItem> {
 	
 	private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
 	
-	lazy var calendarView: MyDatePicker = {
-		let view = MyDatePicker()
+	lazy var calendarView: UIDatePicker = {
+		let view = UIDatePicker()
 		view.preferredDatePickerStyle = .compact
 		view.backgroundColor = .clear
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -174,8 +174,7 @@ class AlarmCell: BaseListCell<AlarmItem> {
 			
 			calendarView.topAnchor.constraint(equalTo: listContentView.topAnchor).isActive = true
 			calendarView.bottomAnchor.constraint(equalTo: listContentView.bottomAnchor).isActive = true
-			calendarView.leadingAnchor.constraint(equalTo: listContentView.leadingAnchor).isActive = true
-			calendarView.trailingAnchor.constraint(equalTo: listContentView.trailingAnchor).isActive = true
+			calendarView.centerXAnchor.constraint(equalTo: listContentView.centerXAnchor).isActive = true
 		}
 	}
 	

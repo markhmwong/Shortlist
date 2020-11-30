@@ -41,10 +41,10 @@ extension UICollectionViewLayout {
 	
 	func createListLayoutWithSingleHeader(appearance: UICollectionLayoutListConfiguration.Appearance = .insetGrouped, separators: Bool = true, header: Bool = true, elementKind: String = TaskOptionsViewController.CollectionListConstants.header.rawValue) -> UICollectionViewLayout {
 		let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-
+			
 			var configuration = UICollectionLayoutListConfiguration(appearance: appearance)
 			configuration.showsSeparators = separators
-			
+			configuration.backgroundColor = .clear
 			let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
 			section.interGroupSpacing = 10.0
 			if (header && sectionIndex == 0) {
@@ -52,8 +52,6 @@ extension UICollectionViewLayout {
 				let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize, elementKind: elementKind, alignment: .top)
 				section.boundarySupplementaryItems = [header]
 			}
-			
-
 			return section
 		}
 		return layout

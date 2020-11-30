@@ -45,7 +45,6 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 			}
 		}
 		
-		
 		// Shortlist 1.x.x OLD VIEW CONTROLLER
 //		let vm = SettingsViewModel()
 //		let vc = SettingsViewController(persistentContainer: _persistentContainer, coordinator: self, viewModel: vm)

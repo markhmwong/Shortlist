@@ -62,6 +62,8 @@ class TaskCellV2: BaseListCell<Task> {
 
 	private func setupViewsIfNeeded() {
 		guard viewConstraintCheck == nil else { return }
+		let lateralPadding: CGFloat = 10.0
+		let topAndBottomPadding: CGFloat = 10.0
 		backgroundColor = ThemeV2.CellProperties.Background
 		layer.cornerRadius = 10.0
 		clipsToBounds = true
@@ -76,16 +78,16 @@ class TaskCellV2: BaseListCell<Task> {
 		categoryLabel.leadingAnchor.constraint(equalTo: listContentView.layoutMarginsGuide.leadingAnchor, constant: 0.0).isActive = true
 		categoryLabel.trailingAnchor.constraint(equalTo: listContentView.layoutMarginsGuide.trailingAnchor).isActive = true
 
-		listContentView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 0).isActive = true
-		viewConstraintCheck = listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0.0)
+		listContentView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: topAndBottomPadding).isActive = true
+		viewConstraintCheck = listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -topAndBottomPadding)
 		viewConstraintCheck?.isActive = true
-		listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.0).isActive = true
-		listContentView.trailingAnchor.constraint(equalTo: priorityMarker.leadingAnchor, constant: -10.0).isActive = true
+		listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: lateralPadding).isActive = true
+		listContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -lateralPadding).isActive = true
 		
-		priorityMarker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0.0).isActive = true
-		priorityMarker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15.0).isActive = true
-		priorityMarker.heightAnchor.constraint(equalToConstant: 20.0).isActive = true
-		priorityMarker.widthAnchor.constraint(equalToConstant: 20.0).isActive = true
+		priorityMarker.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 0.0).isActive = true
+		priorityMarker.centerXAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
+		priorityMarker.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+		priorityMarker.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
 
 		layer.borderWidth = 2.0
 		layer.borderColor = ThemeV2.CellProperties.Border.cgColor

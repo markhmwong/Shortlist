@@ -10,7 +10,7 @@ import UIKit
 import PhotosUI
 import CoreData
 
-class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate {
+class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
 	// Core Data
 	private lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
@@ -72,6 +72,29 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 	}
 	
+	func presentCameraOptions() {
+		let alert = UIAlertController(title: "Title", message: "Please Select an Option", preferredStyle: .actionSheet)
+			
+		alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
+			let vc = UIImagePickerController()
+			vc.sourceType = .camera
+			vc.allowsEditing = true
+			vc.delegate = self
+			self.present(vc, animated: true)
+		}))
+		
+		alert.addAction(UIAlertAction(title: "Album", style: .default , handler:{ (UIAlertAction)in
+			self.presentPicker(filter: PHPickerFilter.images)
+		}))
+		
+		//uncomment for iPad Support
+		//alert.popoverPresentationController?.sourceView = self.view
+
+		self.present(alert, animated: true, completion: {
+			print("completion block")
+		})
+	}
+	
 	private func presentPicker(filter: PHPickerFilter) {
 		var configuration = PHPickerConfiguration()
 		configuration.filter = filter
@@ -124,7 +147,6 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 						let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
 						
 							let addPhoto = UIAction(title: "Add Photo", image: UIImage(systemName: "plus"), identifier: UIAction.Identifier(rawValue: "add"), discoverabilityTitle: nil, state: .off) { (action) in
-								self.presentPicker(filter: PHPickerFilter.images)
 							}
 							
 							return UIMenu(title: "Photo Options", image: nil, identifier: nil, children: [addPhoto])
@@ -169,7 +191,7 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 				if (itemsInSection == indexPath.row) {
 					// Add Photo
 					//https://nemecek.be/blog/30/checking-out-the-new-phpickerviewcontroller-in-ios-14-to-select-photos-or-videos
-					presentPicker(filter: PHPickerFilter.images)
+					self.presentCameraOptions()
 				} else {
 					// Show existing photo saved inside Core Data
 					let photoCell = cell as! TaskDetailPhotoCell
