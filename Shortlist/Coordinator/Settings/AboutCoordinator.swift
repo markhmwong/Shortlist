@@ -16,23 +16,20 @@ class AboutCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, C
     
 	// Absolute root nav controller
     var navigationController: UINavigationController
-    
-	weak var parentViewController: SettingsViewController? = nil
-	
-    init(navigationController: UINavigationController, parentViewController: SettingsViewController?) {
+    	
+    init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-		self.parentViewController = parentViewController
     }
     
     // stats viewcontroller begin here
 	func start(_ persistentContainer: PersistentContainer?) {
         navigationController.delegate = self
         let vc = AboutViewController(coordinator: self)
-		parentViewController?.navigationController?.pushViewController(vc, animated: true)
+		navigationController.pushViewController(vc, animated: true)
     }
 	
 	func dismiss() {
-		parentViewController?.navigationController?.popViewController(animated: true)
+		navigationController.popViewController(animated: true)
 	}
     
     func getTopMostViewController() -> UIViewController? {

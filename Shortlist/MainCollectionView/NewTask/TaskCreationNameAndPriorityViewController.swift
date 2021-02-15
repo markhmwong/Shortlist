@@ -16,6 +16,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class KeyboardNavigationContainer: UIView {
 	
@@ -41,24 +42,10 @@ class KeyboardNavigationContainer: UIView {
 		return button
 	}()
 	
-//	private lazy var nextButton: UIButton = {
-//		let button = UIButton()
-//		button.setAttributedTitle(NSAttributedString(string: "Next", attributes: [NSAttributedString.Key.font: ThemeV2.CellProperties.Title3Bold]), for: .normal)
-//		button.translatesAutoresizingMaskIntoConstraints = false
-//		button.addTarget(self, action: #selector(handleNextButton), for: .touchDown)
-//		return button
-//	}()
-	
 	private func setupView() {
 		backgroundColor = .systemGreen
 
 		addSubview(completeButton)
-//		addSubview(nextButton)
-		
-//		nextButton.leadingAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-//		nextButton.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-//		nextButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-//		nextButton.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 
 		completeButton.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
 		completeButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
@@ -82,22 +69,13 @@ class KeyboardNavigationContainer: UIView {
 	MARK: - ViewController Stage 1 - Title and priority
 
 */
-class TaskCreationNameAndPriorityViewController: UIViewController, UITextFieldDelegate, CategoryInputViewProtocol {
-	
+class TaskCreationNameAndPriorityViewController: UIViewController, UITextFieldDelegate, CategoryInputViewProtocol, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
 	func addCategory() {
 		// to do
 	}
 	
 	private var viewModel: TaskCreationViewModel
-	
-//	private lazy var imageView: UIImageView = {
-//		let config = UIImage.SymbolConfiguration(pointSize: ThemeV2.CellProperties.LargeBoldFont.pointSize, weight: .bold, scale: .large)
-//		let image = UIImage(systemName: "doc.append.fill", withConfiguration: config)
-//		let view = UIImageView(image: image)
-//		view.sizeToFit()
-//		view.translatesAutoresizingMaskIntoConstraints = false
-//		return view
-//	}()
 	
 	private lazy var nameLabel: UILabel = {
 		let label = UILabel()
@@ -107,19 +85,7 @@ class TaskCreationNameAndPriorityViewController: UIViewController, UITextFieldDe
 		label.text = "Task Name"
 		return label
 	}()
-	
-//	private lazy var nameInput: PaddedTextField = {
-//		let label = PaddedTextField()
-//		label.backgroundColor = .clear
-//		label.translatesAutoresizingMaskIntoConstraints = false
-//		label.font = ThemeV2.CellProperties.Title3Font
-//		label.textColor = ThemeV2.TextColor.DefaultColor
-//		label.text = ""
-//		label.placeholder = "An interesting title.. "
-//		label.delegate = self
-//		label.becomeFirstResponder()
-//		return label
-//	}()
+
 	
 	private lazy var nameInput: SelectCategoryInputView = {
 		let view = SelectCategoryInputView(type: .name, delegate: self, persistentContainer: viewModel.persistentContainer)
@@ -206,82 +172,92 @@ class TaskCreationNameAndPriorityViewController: UIViewController, UITextFieldDe
 		
 		view.backgroundColor = ThemeV2.Background
 		view.addSubview(taskOptionBar)
-//		view.addSubview(nameLabel)
-//		view.addSubview(imageView)
 		view.addSubview(nameInput)
-//		view.addSubview(priorityLabel)
-//		view.addSubview(nameDescription)
-//		view.addSubview(priorityDescription)
 		view.addSubview(priorityButton)
 		
 		nameInput.becomeFirstResponder()
 		
 		taskOptionBar.categoryButton = {
-			self.coordinator.showCategory(viewModel: self.viewModel)
+//			self.coordinator.showCategory(viewModel: self.viewModel)
 		}
 		
 		taskOptionBar.notesButton = {
-			self.coordinator.showNotes(viewModel: self.viewModel)
+//			self.coordinator.showNotes(viewModel: self.viewModel)
 		}
 		
 		taskOptionBar.photoButton = {
-			self.coordinator.showPhoto(viewModel: self.viewModel)
+			let ac = UIAlertController(title: "Photo Type", message: "Please choose between", preferredStyle: .actionSheet)
+			let albumAction = UIAlertAction(title: "Album", style: .default) { (action) in
+				// show album
+				self.presentPicker(filter: PHPickerFilter.images)
+			}
+			
+			let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
+				// show camera
+				self.presentCamera()
+			}
+			
+			let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+				// show camera
+			}
+			ac.addAction(cancelAction)
+			ac.addAction(albumAction)
+			ac.addAction(cameraAction)
+			self.present(ac, animated: true) {}
+//			self.coordinator.showPhoto(viewModel: self.viewModel)
 		}
 		
 		taskOptionBar.redactButton = {
-//			toggle button instead
-//			self.coordinator.showRedact()
+//			self.coordinator.showRedact(viewModel: self.viewModel)
 		}
 		
 		taskOptionBar.reminderButton = {
-			self.coordinator.showReminder(viewModel: self.viewModel)
+//			self.coordinator.showReminder(viewModel: self.viewModel)
 		}
-		
-//		nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topPadding).isActive = true
-//		nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leftPadding).isActive = true
-		
-//		nameDescription.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: topPadding / 4).isActive = true
-//		nameDescription.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leftPadding).isActive = true
-		
-//		imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topPadding).isActive = true
-//		imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leftPadding).isActive = true
 		
 		nameInput.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.frame.height * 0.20).isActive = true
 		nameInput.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
 		nameInput.widthAnchor.constraint(equalToConstant: view.frame.width * 0.8).isActive = true
 		
-//		priorityLabel.topAnchor.constraint(equalTo: nameInput.bottomAnchor, constant: topPadding).isActive = true
-//		priorityLabel.leadingAnchor.constraint(equalTo: nameInput.leadingAnchor).isActive = true
-//
-//		priorityDescription.topAnchor.constraint(equalTo: priorityLabel.bottomAnchor, constant: topPadding / 4).isActive = true
-//		priorityDescription.leadingAnchor.constraint(equalTo: nameInput.leadingAnchor).isActive = true
-		
 		priorityButton.topAnchor.constraint(equalTo: nameInput.bottomAnchor, constant: interimSpacing).isActive = true
 		priorityButton.centerXAnchor.constraint(equalTo: nameInput.centerXAnchor).isActive = true
 		
 		taskOptionBar.anchorView(top: view.safeAreaLayoutGuide.topAnchor, bottom: nil, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: topPadding, left: 0.0, bottom: 0.0, right: 0.0), size: CGSize(width: 0.0, height: 50.0))
-
-//		bottomConstraint = NSLayoutConstraint(item: nextButtonContainer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-//		view.addConstraint(bottomConstraint!)
 		
 		nameInput.becomeFirstResponder()
 		
 		keyboardNotifications()
 	}
 	
-	@objc func handleNextButton() {
-		// to coordinator
-//		coordinator.showStage2(viewModel: viewModel)
+	// MARK: - Camera Options
+	private func presentPicker(filter: PHPickerFilter) {
+		var configuration = PHPickerConfiguration()
+		configuration.filter = filter
+		configuration.selectionLimit = 0
+		let picker = PHPickerViewController(configuration: configuration)
+		picker.delegate = self
+		present(picker, animated: true)
+	}
+	
+	private func presentCamera() {
+		let vc = UIImagePickerController()
+		vc.sourceType = .camera
+		vc.allowsEditing = true
+		vc.delegate = self
+		self.present(vc, animated: true)
+	}
+	
+	@objc func handleTap() {
+		self.dismiss(animated: true, completion: nil)
 	}
 	
 	@objc func handleDoneButton() {
 		// to coordinator
-		coordinator.dismiss()
+//		coordinator.dismiss()
 	}
 	
 	// MARK: - Text Field Delegate
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//		coordinator.showStage2(viewModel: viewModel)
 		return true
 	}
 	
@@ -301,13 +277,7 @@ class TaskCreationNameAndPriorityViewController: UIViewController, UITextFieldDe
 				
 				if (isKeyboardShowing) {
 					taskOptionBar.alpha = 1.0
-//					bottomConstraint?.constant = -kbFrame.height
-				} else {
-//					taskOptionBar.alpha = 0.5
-//					bottomConstraint?.constant = 0
 				}
-//				taskOptionBar.isUserInteractionEnabled = isKeyboardShowing
-
 			}
 		}
 	}
@@ -344,5 +314,19 @@ class TaskCreationNameAndPriorityViewController: UIViewController, UITextFieldDe
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		viewModel.assignTitle(taskName: textField.text ?? "None")
 		return true
+	}
+	
+	func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+		let result = results[0]
+		let provider = result.itemProvider
+		let state = provider.canLoadObject(ofClass: UIImage.self)
+		
+		if state {
+			provider.loadObject(ofClass: UIImage.self) { (image, error) in
+				if let i = image as? UIImage {
+					self.viewModel.saveImage(imageData: i)
+				}
+			}
+		}
 	}
 }

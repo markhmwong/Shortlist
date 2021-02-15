@@ -32,7 +32,9 @@ enum AppStoreReviewManager {
             return
         }
 
-        SKStoreReviewController.requestReview()
+		if let scene = UIApplication.shared.currentScene {
+			SKStoreReviewController.requestReview(in: scene)
+		}
         
 
         defaults.set(0, forKey: .reviewWorthyActionCount)

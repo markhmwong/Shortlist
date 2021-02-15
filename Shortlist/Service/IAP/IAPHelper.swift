@@ -81,6 +81,7 @@ extension IAPHelper {
 
 extension IAPHelper: SKProductsRequestDelegate {
     public func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+		
     }
     
     public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {

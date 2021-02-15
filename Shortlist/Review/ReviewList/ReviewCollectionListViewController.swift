@@ -62,7 +62,7 @@ class ReviewCollectionListViewController: UIViewController {
 		if let indexPaths = tableView.indexPathsForSelectedItems {
 			for index in indexPaths {
 				let cell = tableView.cellForItem(at: index) as! TaskCellV2
-				let item = cell.item
+				_ = cell.item
 			}
 		}
 		

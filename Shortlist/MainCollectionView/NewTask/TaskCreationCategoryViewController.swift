@@ -12,8 +12,7 @@ class TaskCreationCategoryViewController: UIViewController, UITextFieldDelegate,
 	func addCategory() {
 		//
 	}
-	
-	
+
 	private var viewModel: TaskCreationViewModel
 	
 	private var coordinator: NewTaskCoordinator

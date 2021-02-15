@@ -17,35 +17,19 @@ class MainViewModelWithCollectionView: NSObject {
 	
 	private var mainFetcher: MainFetcher<Day>! = nil
 	
-	
 	override init() {
 		super.init()
 		prepareDataSource()
 	}
 	
 	// MARK: - Configure Datasource
-	func configureDataSource(collectionView: BaseCollectionView, resultsController: MainFetcher<Day>) {
+	func configureDataSource(collectionView: UICollectionView, resultsController: MainFetcher<Day>) {
 		mainFetcher = resultsController
-		
 		diffableDataSource = UICollectionViewDiffableDataSource<Priority, Task>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
 			let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
 			return cell
 		}
-		
-		// BUG: using this apply method refreshes the collectionview twice. however using the method with the animating differences won't allow for dynamic heights
 		diffableDataSource.apply(configureSnapshot())
-//		diffableDataSource.apply(configureSnapshot(), animatingDifferences: false) {
-			//
-//		}
-	}
-	
-	// MARK: - Register
-	private func configureCellRegistration() -> UICollectionView.CellRegistration<TaskCellV2, Task> {
-		let cellConfig = UICollectionView.CellRegistration<TaskCellV2, Task> { (cell, indexPath, item) in
-	
-			cell.configureCell(with: item)
-		}
-		return cellConfig
 	}
 	
 	// MARK: - Snapshot
@@ -53,15 +37,22 @@ class MainViewModelWithCollectionView: NSObject {
 		var snapshot = NSDiffableDataSourceSnapshot<Priority, Task>()
 		snapshot.appendSections([.high, .medium, .low])
 		let day = mainFetcher.fetchRequestedObjects()?.first
-
+		
 		let tasks = day?.dayToTask?.allObjects as? [Task] ?? []
-
 		for (_, task) in tasks.enumerated() {
 			snapshot.appendItems([task], toSection: Priority.init(rawValue: task.priority))
 		}
 		return snapshot
 	}
 	
+	// MARK: - Register
+	private func configureCellRegistration() -> UICollectionView.CellRegistration<TaskCellV2, Task> {
+		let cellConfig = UICollectionView.CellRegistration<TaskCellV2, Task> { (cell, indexPath, item) in
+			cell.configureCell(with: item)
+		}
+		return cellConfig
+	}
+
 	func itemForSelection(indexPath: IndexPath) -> Task {
 		guard let item = diffableDataSource.itemIdentifier(for: indexPath) else {
 			return Task()
@@ -108,7 +99,7 @@ class MainViewModelWithCollectionView: NSObject {
 		dayObject?.addTask(with: task)
 		
 		persistentContainer.saveContext()
-		persistentContainer.deleteAllRecordsIn(entity: Task.self)
+		let _ = persistentContainer.deleteAllRecordsIn(entity: Task.self)
 	}
 	
 	func createMockStatisticalData(persistentContainer: PersistentContainer) {

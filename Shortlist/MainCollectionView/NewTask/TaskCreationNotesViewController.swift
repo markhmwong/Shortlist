@@ -8,53 +8,58 @@
 
 import UIKit
 
-class TaskCreationNotesViewController: UIViewController {
+class NewTaskCoordinator {
+	
+}
+
+class TaskCreationNotesViewController: BaseCollectionViewController {
 	
 	private var viewModel: TaskCreationViewModel
 	
 	private var coordinator: NewTaskCoordinator
 	
-	private lazy var tableView: UICollectionView = {
-		let view = BaseCollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout().createListLayout(appearance: .plain, separators: false, header: false, headerElementKind: "", footer: false, footerElementKind: ""))
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.delegate = self
-		return view
-	}()
+//	private lazy var tableView: UICollectionView = {
+//		let view = BaseCollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout().createListLayout(appearance: .plain, separators: true, header: false, headerElementKind: "", footer: false, footerElementKind: ""))
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.delegate = self
+//		return view
+//	}()
 	
 	init(viewModel: TaskCreationViewModel, coordinator: NewTaskCoordinator) {
 		self.viewModel = viewModel
 		self.coordinator = coordinator
-		super.init(nibName: nil, bundle: nil)
+		super.init(collectionViewLayout: UICollectionViewLayout().createListLayout(appearance: .plain, separators: true, header: false, headerElementKind: "", footer: false, footerElementKind: ""))
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	@objc func handleAddNote() {
+		// add extra note item
+		if let alertController = viewModel.addNoteItem() {
+			
+			self.present(alertController, animated: true) {
+//				completion handler
+			}
+		}
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.backgroundColor = ThemeV2.Background
+//		view.backgroundColor = ThemeV2.Background
+		// configure navigation button
+		navigationItem.rightBarButtonItem = UIBarButtonItem().addButton(self, action: #selector(handleAddNote), imageName: "plus")
 		
-		// make collectionview
-		createCollectionView()
+
 		
 		// prep data
-		viewModel.configureDataSource(collectionView: tableView)
+		viewModel.delegate = self
+		viewModel.configureDataSource(collectionView: self.collectionView)
 	}
 	
-
-	
-	private func createCollectionView() {
-		view.addSubview(tableView)
-		tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-		tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-		tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
-		tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+	func textViewDidChange(newText: String) {
+		collectionView.collectionViewLayout.invalidateLayout()
+//		collectionViewLayout.invalidateLayout()
 	}
-}
-
-extension TaskCreationNotesViewController: UICollectionViewDelegate {
-	
-	
-	
 }

@@ -141,12 +141,12 @@ class ReviewViewController: UIViewController {
 		}
 
 		// upload total tasks completed
-		if (automatedDisplay) {
-			let fbs = FirebaseService(dataBaseUrl: nil)
-			fbs.sendTotalCompletedTasks(amount: Int(_day.dayToStats?.totalCompleted ?? 0)) {
-				
-			}
-		}
+//		if (automatedDisplay) {
+//			let fbs = FirebaseService(dataBaseUrl: nil)
+//			fbs.sendTotalCompletedTasks(amount: Int(_day.dayToStats?.totalCompleted ?? 0)) {
+//
+//			}
+//		}
     }
 	
 	func prepareEveningAlarms() {
@@ -229,18 +229,18 @@ class ReviewViewController: UIViewController {
         guard let tipProductArr = _viewModel.tipProducts else { return } //tips are sorted with didSet observer
         let buttonArr = viewModel?.buttonArr
         if (buttonArr!.count == tipProductArr.count) {
-            for (index, button) in buttonArr!.enumerated() {
-                SettingsHeader.priceFormatter.locale = tipProductArr[index].priceLocale
-                let price = SettingsHeader.priceFormatter.string(from: tipProductArr[index].price)
-                DispatchQueue.main.async {
-                    button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle) \(price!)", attributes: _viewModel.attributes), for: .normal)
-                }
-
-                button.product = tipProductArr[index]
-                button.buyButtonHandler = { product in
-                    IAPProducts.tipStore.buyProduct(product)
-                }
-            }
+//            for (index, button) in buttonArr!.enumerated() {
+//                SettingsHeader.priceFormatter.locale = tipProductArr[index].priceLocale
+//                let price = SettingsHeader.priceFormatter.string(from: tipProductArr[index].price)
+//                DispatchQueue.main.async {
+//                    button.setAttributedTitle(NSAttributedString(string: "\(tipProductArr[index].localizedTitle) \(price!)", attributes: _viewModel.attributes), for: .normal)
+//                }
+//
+//                button.product = tipProductArr[index]
+//                button.buyButtonHandler = { product in
+//                    IAPProducts.tipStore.buyProduct(product)
+//                }
+//            }
         }
     }
 	

@@ -67,7 +67,7 @@ class PrivacyPermissionsService: NSObject {
 	func isPhotosAllowed() -> Bool {
 		let status = PHPhotoLibrary.authorizationStatus()
 		switch status {
-			case .authorized, .restricted:
+			case .authorized, .restricted, .limited:
 				return true
 			case .denied, .notDetermined:
 				return false

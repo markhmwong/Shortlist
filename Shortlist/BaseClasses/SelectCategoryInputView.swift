@@ -226,18 +226,11 @@ extension SelectCategoryInputView: UITextFieldDelegate {
 	}
 
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//		let size = textField.bounds.size
-//		let newSize = textView.sizeThatFits(CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude))
-//		if size.height != newSize.height {
-//			UIView.setAnimationsEnabled(false)
-//			categoryInputTextView.sizeToFit()
-//			UIView.setAnimationsEnabled(true)
-//		}
 		
 		//a real time check if category exists
 		liveCategoryCheck(textField)
 		
-		// detect backspace. not having this "breaks" the textfield
+		// detect backspace. not having the character detection "breaks" the textfield
 		if let char = string.cString(using: String.Encoding.utf8) {
 			let isBackSpace = strcmp(char, "\\b")
 			if (isBackSpace == -92) {

@@ -63,7 +63,7 @@ class WhatsNewViewModel: NSObject {
 						decoder.dateDecodingStrategy = .formatted(dateFormatter)
 						let changes = try decoder.decode(ChangeLog.self, from: data)
 						self.changeLog = changes
-					} catch (let error) {
+					} catch ( _) {
 //						print("\(error)")
 					}
 				}
@@ -77,7 +77,7 @@ class WhatsNewViewModel: NSObject {
 						decoder.dateDecodingStrategy = .formatted(dateFormatter)
 						let changes = try decoder.decode(ChangeLog.self, from: data)
 						self.changeLog = changes
-					} catch (let error) {
+					} catch ( _) {
 //						print("\(error)")
 					}
 				}

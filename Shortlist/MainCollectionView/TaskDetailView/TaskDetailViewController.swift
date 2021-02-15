@@ -18,8 +18,10 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
 		
 		// Configure Fetch Request
-		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
-		fetchRequest.predicate = NSPredicate(format: "createdAt == %@", argumentArray: [viewModel.taskCreationDate()])
+		//this isn't right
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+		fetchRequest.predicate = NSPredicate(format: "id == %@", argumentArray: [viewModel.taskId()])
+		fetchRequest.fetchLimit = 1
 		
 		// Create Fetched Results Controller
 		let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewModel.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -57,6 +59,7 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		
 		createCollectionView()
 		mainFetcher.initFetchedObjects() // must be called first
+		print("Mainfetcher \(mainFetcher)")
 		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
 	}
 	
@@ -72,18 +75,22 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 	}
 	
+	private func presentCamera() {
+		let vc = UIImagePickerController()
+		vc.sourceType = .camera
+		vc.allowsEditing = true
+		vc.delegate = self
+		self.present(vc, animated: true)
+	}
+	
 	func presentCameraOptions() {
 		let alert = UIAlertController(title: "Title", message: "Please Select an Option", preferredStyle: .actionSheet)
 			
-		alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
-			let vc = UIImagePickerController()
-			vc.sourceType = .camera
-			vc.allowsEditing = true
-			vc.delegate = self
-			self.present(vc, animated: true)
+		alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction) in
+			self.presentCamera()
 		}))
 		
-		alert.addAction(UIAlertAction(title: "Album", style: .default , handler:{ (UIAlertAction)in
+		alert.addAction(UIAlertAction(title: "Album", style: .default , handler:{ (UIAlertAction) in
 			self.presentPicker(filter: PHPickerFilter.images)
 		}))
 		
@@ -99,7 +106,6 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		var configuration = PHPickerConfiguration()
 		configuration.filter = filter
 		configuration.selectionLimit = 0
-		
 		let picker = PHPickerViewController(configuration: configuration)
 		picker.delegate = self
 		present(picker, animated: true)
@@ -214,6 +220,7 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 
 extension TaskDetailViewController: NSFetchedResultsControllerDelegate {
 	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
+		guard let mainFetcher = mainFetcher else { return }
 		viewModel.updateSnapshot()
 	}
 }

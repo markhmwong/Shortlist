@@ -52,7 +52,7 @@ class AlarmViewController: UIViewController, UICollectionViewDelegate {
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath) as! AlarmCell
-		let item = cell.item
+		_ = cell.item
 		let section = AlarmSection.init(rawValue: indexPath.section)
 		
 		switch section {

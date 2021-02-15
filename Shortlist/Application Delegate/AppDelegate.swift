@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,9 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-		
-		//Launch firebase
-//		FirebaseApp.configure()
+		window = UIWindow()
 		
 		// initialise root coordinator
         let navController = UINavigationController()
@@ -79,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			persistentContainer.saveContext()
 
 		} else {
-			let today: Int16 = Calendar.current.todayToInt()
+//			let today: Int16 = Calendar.current.todayToInt()
 
 			// open app with review
 //			if let reviewDate = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.ReviewDate) {
@@ -104,10 +101,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				mainCoordinator?.start(persistentContainer)
 //			}
 		}
-		
-        window = UIWindow()
         window?.rootViewController = navController
-        window?.makeKeyAndVisible()
+		window?.windowScene = application.currentScene
+		window?.makeKeyAndVisible()
+
+       
         if (!WatchSessionHandler.shared.isSupported()) {
 			//
         }
@@ -174,7 +172,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				// Ensure a Day object has been created
 				if let mainVC = mainCoordinator?.rootViewController {
 					mainVC.loadData()
-					mainVC.loadFirebaseData()
 				}
 				
 				// Task Tally update

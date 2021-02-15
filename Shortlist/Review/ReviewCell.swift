@@ -22,12 +22,6 @@ class ReviewCell: UITableViewCell {
         }
     }
 	
-	lazy var priorityMarker: PriorityMarker = {
-		let view = PriorityMarker()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		return view
-	}()
-	
 	lazy var fadedBackground: UIView = {
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -123,7 +117,6 @@ class ReviewCell: UITableViewCell {
         contentView.addSubview(name)
         contentView.addSubview(taskButton)
         contentView.addSubview(categoryTitle)
-		contentView.addSubview(priorityMarker)
 		contentView.addSubview(details)
 
         taskButton.anchorView(top: contentView.topAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0), size: CGSize(width: 40.0, height: 0.0))
@@ -134,7 +127,6 @@ class ReviewCell: UITableViewCell {
 	
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
-		priorityMarker.anchorView(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: contentView.bounds.width, height: 10.0))
 		fadedBackground.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 2.0, left: 5.0, bottom: -2.0, right: -5.0), size: .zero)
 
 	}
@@ -189,15 +181,12 @@ class ReviewCell: UITableViewCell {
 			switch p {
 				case .high:
 					fadedBackground.backgroundColor = Theme.Priority.highColor.withAlphaComponent(0.1)
-					priorityMarker.updateGradient(color: Theme.Priority.highColor)
 				case .medium:
 					fadedBackground.backgroundColor = Theme.Priority.mediumColor.withAlphaComponent(0.1)
-					priorityMarker.updateGradient(color: Theme.Priority.mediumColor)
 				case .low:
 					fadedBackground.backgroundColor = Theme.Priority.lowColor.withAlphaComponent(0.1)
-					priorityMarker.updateGradient(color: Theme.Priority.lowColor)
 				case .none:
-					priorityMarker.updateGradient(color: Theme.Priority.noneColor)
+					()
 			}
 		}
 	}

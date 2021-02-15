@@ -115,55 +115,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-	}
-    
-	// retrieve global statistics from firebase servers. This feature can be toggled in the settings
-	func loadFirebaseData() {
-		if (!(coordinator?.reviewFlag ?? false)) {
-			viewModel?.runReviewOnce.run {
-				if let firebaseStatsState = KeychainWrapper.standard.bool(forKey: SettingsKeyChainKeys.GlobalTasks) {
-					if (firebaseStatsState) {
-						let fbs = FirebaseService(dataBaseUrl: nil)
-						
-						connectivity?.start {
-							// this closure runs only if we have an internet connection
-							let status = fbs.status
-							if (status == .Incomplete) {
-								fbs.status = .Complete // set firebase service status. set immediately to avoid further checks
-								
-								fbs.authenticateAnonymously()
-								fbs.getGlobalTasks { [unowned self] (globalTaskValue) in
-									print(globalTaskValue)
-									self.viewModel?.globalTaskAmount = globalTaskValue
-									DispatchQueue.main.async {
-										self.newsFeed.updateFeed(str: "\(globalTaskValue)")
-									}
-									
-									UIView.animate(withDuration: 0.8, delay: 0.5, options: [.curveEaseInOut], animations: {
-										self.newsFeed.feedLabel.alpha = 1
-										self.view.layoutIfNeeded()
-									}) { (state) in
-										
-									}
-								}
-							}
-						}
-					}
-				} else {
-					KeychainWrapper.standard.set(false, forKey: SettingsKeyChainKeys.GlobalTasks)
-				}
-			}
-		}
-		
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		loadFirebaseData()
-	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -257,7 +208,7 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
     }
 
     private func setupView() {
-        guard let viewModel = viewModel else { return }
+		guard viewModel != nil else { return }
 		navigationItem.rightBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleSettings), imageName: "ellipsis")
 		navigationItem.leftBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(handleSettings), imageName: "gear")
 		
@@ -575,9 +526,9 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
 			let sortedSet = viewModel.sortTasks(dayObject)
 			viewModel.sortedSet = sortedSet
 			
-            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-            }
+//            DispatchQueue.main.async {
+////                self.tableView.reloadData()
+//            }
         } catch (_) {
             
         }

@@ -99,7 +99,7 @@ class LineChart: UIView {
 //			mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: meanHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: meanHeight)), width: meanLineWidth, color: Theme.Chart.meanLineColor.cgColor)
 		}
 		
-		let maxIndicatorHeight: CGFloat = chartGenerator!.maxIndicatorHeight
+//		let maxIndicatorHeight: CGFloat = chartGenerator!.maxIndicatorHeight
 
 		// max line indicator
 //		mainLayer.addChartLine(lineSegement: LineSegment(startPoint: CGPoint(x: 5.0, y: maxIndicatorHeight), endPoint: CGPoint(x: bounds.width - xPadding, y: maxIndicatorHeight)), width: lineWidth, color: Theme.Chart.chartLineColor.cgColor)

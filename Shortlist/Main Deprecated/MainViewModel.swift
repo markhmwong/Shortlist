@@ -100,7 +100,7 @@ class MainViewModel {
 	}
 	
 	func getRandomTip() -> String {
-		randomTip = TipsService.shared.randomTip()
+		randomTip = AdviceService.shared.randomTip()
 		return randomTip
 	}
 	

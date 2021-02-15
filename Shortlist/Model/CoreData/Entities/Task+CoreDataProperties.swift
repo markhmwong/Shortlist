@@ -21,7 +21,7 @@ extension Task {
     @NSManaged public var complete: Bool
     @NSManaged public var createdAt: Date?
     @NSManaged public var details: String?
-    @NSManaged public var id: Int16
+    @NSManaged public var id: UUID?
     @NSManaged public var isNew: Bool
     @NSManaged public var name: String?
     @NSManaged public var priority: Int16

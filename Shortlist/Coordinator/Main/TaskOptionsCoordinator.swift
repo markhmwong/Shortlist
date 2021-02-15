@@ -81,7 +81,7 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 	}
 	
 	func showDeleteTask() {
-		guard let r = rootNavigationController else { return }
+		guard rootNavigationController != nil else { return }
 		// dismiss navigation
 		// delete task
 	}

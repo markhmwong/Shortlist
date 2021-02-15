@@ -13,7 +13,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     
 	typealias DeletionClosure = () -> ()
 	
-	weak var rootViewController: SettingsViewController? = nil
+//	weak var rootViewController: SettingsViewController? = nil
 	
     weak var parentCoordinator: MainCoordinator?
     
@@ -130,7 +130,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 		guard let navController = settingsNavController else { return }
 
 		addNavigationObserver(SettingsNavigationObserverKey.ReturnFromStats)
-		let child = StatsCoordinator(navigationController: navController, parentViewController: rootViewController ?? nil)
+		let child = StatsCoordinator(navigationController: navController)
         child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
@@ -194,24 +194,24 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 
 	// in the event that the main viewcontroller is the main focus
 	@objc func handleViewControllerDidAppear(_ notification: Notification) {
-		if let n = SettingsNavigationObserverKey.init(rawValue: notification.name.rawValue) {
-			removeNavigationObserver(n)
-			switch n {
-				case .ReturnFromStats:
-					// may be use dict to identify which coordinator
-					if let c = notification.object as? StatsCoordinator {
-						childDidFinish(c)
-					}
-				case .ReturnFromInfo:
-					if let c = notification.object as? AboutCoordinator {
-						childDidFinish(c)
-					}
-				case .ReturnFromPriorityLimit:
-					if let c = notification.object as? TaskLimitCoordinator {
-						childDidFinish(c)
-					}
-			}
-		}
+//		if let n = SettingsNavigationObserverKey.init(rawValue: notification.name.rawValue) {
+//			removeNavigationObserver(n)
+//			switch n {
+//				case .ReturnFromStats:
+//					// may be use dict to identify which coordinator
+//					if let c = notification.object as? StatsCoordinator {
+//						childDidFinish(c)
+//					}
+//				case .ReturnFromInfo:
+//					if let c = notification.object as? AboutCoordinator {
+//						childDidFinish(c)
+//					}
+//				case .ReturnFromPriorityLimit:
+//					if let c = notification.object as? TaskLimitCoordinator {
+//						childDidFinish(c)
+//					}
+//			}
+//		}
 	}
 
 }

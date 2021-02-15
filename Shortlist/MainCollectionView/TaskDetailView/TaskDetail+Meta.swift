@@ -8,21 +8,20 @@
 
 import Foundation
 
+struct TaskDetailSupplementaryView {
+	static var Header: String = "com.whizbang.taskdetail.header"
+}
+
 enum TaskDetailSections: Int, CaseIterable {
 	case title = 0
 	case note
-//	case reminder
 	case photos
+//	case reminder
+	
 //	case options
 }
 
-enum DataItem: Hashable {
-	case title(TitleItem)
-	case notes(NotesItem)
-	case photo(PhotoItem)
-//	case reminder(ReminderItem)
-//	case options(OptionItem)
-}
+
 
 // Maps to TaskPhotos in Core Data
 struct PhotoItem: Hashable {
@@ -50,4 +49,27 @@ struct OptionItem: Hashable {
 
 struct ReminderItem: Hashable {
 	var reminder: String // change to date
+}
+
+enum DataItem: Hashable {
+//	case header(HeaderItem)
+	case title(TitleItem)
+	case photo(PhotoItem)
+//	case header(NewTaskDetailHeaderItem)
+//	case title(NewTaskDetailTitleItem)
+//	case photo(NewTaskDetailPhotoItem)
+
+//	var section: NewTaskDetailSection {
+//		switch self {
+////			case .header(let item):
+////				return item.section
+////			case .title(let item):
+////				return item.section
+////			case .photo(let item):
+////				return item.section
+//		}
+//	}
+	case notes(NotesItem)
+//	case reminder(ReminderItem)
+//	case options(OptionItem)
 }
