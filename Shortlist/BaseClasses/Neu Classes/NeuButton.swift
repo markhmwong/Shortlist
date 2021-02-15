@@ -17,18 +17,18 @@ class NeuButton: UIButton {
 	init(title: String) {
 		super.init(frame: .zero)
 		setTitle("\(title)", for: .normal)
-		titleLabel?.font = ThemeV2.CellProperties.HeadingBoldFont
+		titleLabel?.font = ThemeV2.CellProperties.Title3Regular
 		translatesAutoresizingMaskIntoConstraints = false
-		setTitleColor(ThemeV2.TextColor.DefaultColor, for: .normal)
+		setTitleColor(UIColor.systemGreen.adjust(by: -70), for: .normal)
 		layer.cornerRadius = 16.0
-		backgroundColor = UIColor.systemTeal
+		backgroundColor = UIColor.systemGreen
 		clipsToBounds = true
 	}
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		layer.cornerRadius = 16.0
-		backgroundColor = UIColor.systemTeal
+		backgroundColor = UIColor.systemGreen
 		clipsToBounds = true
 	}
 	

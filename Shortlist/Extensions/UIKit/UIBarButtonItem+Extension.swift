@@ -65,4 +65,12 @@ extension UIBarButtonItem {
 		button.tintColor = Theme.Font.DefaultColor
         return UIBarButtonItem(customView: button)
     }
+	
+	func addButton(_ target: Any?, action: Selector, imageName: String) -> UIBarButtonItem {
+		let button = UIButton(type: .system)
+		button.setImage(UIImage(systemName: imageName), for: .normal)
+		button.addTarget(target, action: action, for: .touchUpInside)
+		button.tintColor = Theme.Font.DefaultColor
+		return UIBarButtonItem(customView: button)
+	}
 }

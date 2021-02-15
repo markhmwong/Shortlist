@@ -101,7 +101,6 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 			case .notes:
 				titleLabel.text = "QUICK NOTES" // static text
 				dataView.text = taskNote?.note ?? "Unknown Note"
-				print("data, \(task.name)")
 				maxLimit = CharacterLimitConstants.noteLimit
 			case .newNote:
 				titleLabel.text = "QUICK NOTES" // static text

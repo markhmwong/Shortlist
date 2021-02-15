@@ -14,6 +14,17 @@ class PersistentContainer: NSPersistentCloudKitContainer {
 	// create queue
 	let cdQueue = DispatchQueue(label: "com.whizbang.queue.coredata", qos: .utility)
 	
+	func saveContext(backgroundContext: NSManagedObjectContext? = nil) {
+		let context = backgroundContext ?? viewContext
+		guard context.hasChanges else { return }
+		do {
+			try context.save()
+		} catch let error as NSError {
+			print("Error: \(error), \(error.userInfo)")
+		}
+	}
+	
+	
 	// MARK: - Save photo
 	func savePhoto(data: Task, fullRes: Data, thumbnail: Data) {
 		let photo = TaskPhotos(context: viewContext)
@@ -23,15 +34,7 @@ class PersistentContainer: NSPersistentCloudKitContainer {
 		data.addToTaskToPhotos(photo)
 	}
 	
-    func saveContext(backgroundContext: NSManagedObjectContext? = nil) {
-        let context = backgroundContext ?? viewContext
-        guard context.hasChanges else { return }
-        do {
-            try context.save()
-        } catch let error as NSError {
-            print("Error: \(error), \(error.userInfo)")
-        }
-    }
+
     
     func fetchAllTasksByYear(forYear year: Int16) -> [Day] {
         let context = viewContext

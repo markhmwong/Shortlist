@@ -15,12 +15,9 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, C
     var childCoordinators: [Coordinator] = [Coordinator]()
     
     var navigationController: UINavigationController
-    
-	weak var parentViewController: SettingsViewController? = nil
-	
-	init(navigationController: UINavigationController, parentViewController: SettingsViewController?) {
+    	
+	init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-		self.parentViewController = parentViewController
     }
     
     // stats viewcontroller begin here
@@ -31,11 +28,11 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, C
         }
         let vc = StatsViewController(persistentContainer: persistentContainer, coordinator: self, viewModel: StatsViewModel())
 		navigationController.pushViewController(vc, animated: true)
-//		parentViewController?.navigationController?.pushViewController(vc, animated: true)
     }
 	
 	func dismiss() {
-		parentViewController?.navigationController?.popViewController(animated: true)
+		// check
+		navigationController.popViewController(animated: true)
 	}
     
     func childDidFinish(_ child: Coordinator) {

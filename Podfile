@@ -2,10 +2,10 @@
 # platform :ios, '9.0'
 
 def shared_pods
-  pod 'Firebase/Analytics'
-	pod 'Firebase/Auth'
-	pod 'Firebase/Database'
-	pod 'MarqueeLabel'
+  	# pod 'Firebase/Analytics'
+	# pod 'Firebase/Auth'
+	# pod 'Firebase/Database'
+	# pod 'MarqueeLabel'
 end
 
 target 'Shortlist' do

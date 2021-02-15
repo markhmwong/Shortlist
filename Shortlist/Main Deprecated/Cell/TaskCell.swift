@@ -119,12 +119,6 @@ class TaskCell: UITableViewCell {
         return button
     }()
 	
-	lazy var priorityMarker: PriorityMarker = {
-		let view = PriorityMarker()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		return view
-	}()
-	
 	lazy var fadedBackground: UIView = {
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -147,7 +141,6 @@ class TaskCell: UITableViewCell {
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
 		gradientLayer.frame = taskName.bounds
-		priorityMarker.anchorView(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: contentView.bounds.width, height: 10.0))
 		fadedBackground.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 2.0, left: 5.0, bottom: -2.0, right: -5.0), size: .zero)
 	}
 	
@@ -168,7 +161,6 @@ class TaskCell: UITableViewCell {
 		taskName.layer.mask = gradientLayer
         contentView.addSubview(taskName)
         contentView.addSubview(categoryTitle)
-		contentView.addSubview(priorityMarker)
 		contentView.addSubview(details)
         contentView.addSubview(taskButton)
 		contentView.addSubview(reminderLabel)
@@ -234,7 +226,7 @@ class TaskCell: UITableViewCell {
             taskButton.taskState = task.complete
 			contentView.alpha = task.complete ? 0.7 : 1.0
 			
-			let categoryStr = "\(task.category)"
+			let categoryStr = "\(task.category ?? "Unknown")"
 			
 			let categoryAttributedStr = NSMutableAttributedString(string: categoryStr, attributes: [NSAttributedString.Key.foregroundColor : categoryTextColor, NSAttributedString.Key.font: UIFont(name: Theme.Font.Regular, size: Theme.Font.FontSize.Standard(.b4).value)!])
 			categoryTitle.attributedText = categoryAttributedStr
@@ -261,15 +253,12 @@ class TaskCell: UITableViewCell {
 			switch p {
 				case .high:
 					fadedBackground.backgroundColor = Theme.Priority.highColor.withAlphaComponent(0.1)
-					priorityMarker.updateGradient(color: Theme.Priority.highColor)
 				case .medium:
 					fadedBackground.backgroundColor = Theme.Priority.mediumColor.withAlphaComponent(0.1)
-					priorityMarker.updateGradient(color: Theme.Priority.mediumColor)
 				case .low:
 					fadedBackground.backgroundColor = Theme.Priority.lowColor.withAlphaComponent(0.1)
-					priorityMarker.updateGradient(color: Theme.Priority.lowColor)
 				case .none:
-					priorityMarker.updateGradient(color: Theme.Priority.noneColor)
+					()
 			}
 		}
 	}

@@ -46,7 +46,7 @@ extension PermissionsViewModel {
 		
 		//Supplementary Views
 		let headerRegistration = UICollectionView.SupplementaryRegistration
-		<SupplementaryViewHeader>(elementKind: PermissionsViewModel.header) { [weak self]
+		<SupplementaryViewHeader>(elementKind: PermissionsViewModel.header) {
 			(supplementaryView, string, indexPath) in
 			supplementaryView.updateBriefLabel(with: "To Do")
 			supplementaryView.backgroundColor = .clear

@@ -23,6 +23,32 @@ protocol NeumorphicShadow {
 	func configureCell(with item: T)
 }
 
+// Supports use of custom states. Please find the WhatsNewCell/PermissionCell as an example of usage
+class BaseCell<T: Equatable>: UICollectionViewCell {
+	
+	var item: T? = nil
+	
+	let textColor: UIColor = .black
+	
+	override init(frame: CGRect) {
+		super.init(frame: .zero)
+		layer.cornerRadius = 0.0
+		layer.masksToBounds = true
+		layer.shouldRasterize = true
+		layer.rasterizationScale = UIScreen.main.scale
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	func configureCell(with item: T) {
+		guard self.item != item else { return }
+		self.item = item
+		setNeedsUpdateConfiguration()
+	}
+}
+
 // MARK: Standard Base Cell
 class BaseCollectionViewCell<T>: UICollectionViewCell, BaseCellProtocol {
 	
@@ -162,6 +188,5 @@ class BaseListCell<T: Equatable>: UICollectionViewListCell {
 		guard self.item != item else { return }
 		self.item = item
 		setNeedsUpdateConfiguration()
-
 	}
 }

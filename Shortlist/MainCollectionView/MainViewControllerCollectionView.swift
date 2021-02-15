@@ -36,9 +36,8 @@ struct MainFetcher<T: NSFetchRequestResult>: FetchedDataProtocol {
 	}
 }
 
-class MainViewControllerWithCollectionView: UIViewController {
+class MainViewControllerWithCollectionView: BaseCollectionViewController {
 
-	
 	// Core Data
 	private lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
 		// Create Fetch Request
@@ -64,9 +63,7 @@ class MainViewControllerWithCollectionView: UIViewController {
 	
 	// private variables
 	private var viewModel: MainViewModelWithCollectionView! = nil
-	
-	private var collectionView: BaseCollectionView! = nil
-	
+		
 	private var persistentContainer: PersistentContainer
 	
 	private lazy var createTaskButton: UIButton = {
@@ -84,32 +81,29 @@ class MainViewControllerWithCollectionView: UIViewController {
 	init(viewModel: MainViewModelWithCollectionView, persistentContainer: PersistentContainer) {
 		self.viewModel = viewModel
 		self.persistentContainer = persistentContainer
-		super.init(nibName: nil, bundle: nil)
-		self.mainFetcher = MainFetcher(controller: fetchedResultsController)
-		mainFetcher.initFetchedObjects()
+		super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewLayout())
+		collectionView.contentInsetAdjustmentBehavior = .automatic
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		navigationItem.title = "Today"
+		navigationItem.leftBarButtonItem = UIBarButtonItem().optionsButton(target: self, action: #selector(handleSettings))
+		navigationItem.rightBarButtonItems = [ UIBarButtonItem().donateButton(target: self, action: #selector(handleDonation)) ]
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationItem.title = "Today"
-		navigationController?.transparent()
-		navigationItem.leftBarButtonItem = UIBarButtonItem().optionsButton(target: self, action: #selector(handleSettings))
 		
-		let donate = UIBarButtonItem().donateButton(target: self, action: #selector(handleDonation))
-
-		navigationItem.rightBarButtonItems = [ donate ]
-		// make collectionview
-		createCollectionView()
-
+		self.mainFetcher = MainFetcher(controller: fetchedResultsController)
+		mainFetcher.initFetchedObjects()
 		// prep data
 //		viewModel.addMockData(persistentContainer: persistentContainer)
-		viewModel.createMockStatisticalData(persistentContainer: persistentContainer)
-		
-		mainFetcher.initFetchedObjects() // must be called first
+//		viewModel.createMockStatisticalData(persistentContainer: persistentContainer)
 
 		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
 //		coordinator?.showReview(nil, automated: false) // add persistent container
@@ -118,15 +112,6 @@ class MainViewControllerWithCollectionView: UIViewController {
 		view.addSubview(createTaskButton)
 		createTaskButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20.0).isActive = true
 		createTaskButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20.0).isActive = true
-	}
-	
-	// collectionview
-	func createCollectionView() {
-		collectionView = BaseCollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout().createCollectionViewLayout())
-		collectionView.delegate = self
-		view.addSubview(collectionView)
-		// layout
-		collectionView.anchorView(top: view.topAnchor, bottom: view.bottomAnchor, leading: view.leadingAnchor, trailing: view.trailingAnchor, centerY: nil, centerX: nil, padding: .zero, size: .zero)
 	}
 	
 	/*
@@ -178,9 +163,9 @@ class MainViewControllerWithCollectionView: UIViewController {
 }
 
 // MARK: - Collection View Methods
-extension MainViewControllerWithCollectionView: UICollectionViewDelegate {
+extension MainViewControllerWithCollectionView {
 	
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
 		let item: Task = viewModel.itemForSelection(indexPath: indexPath)
 		
@@ -198,7 +183,7 @@ extension MainViewControllerWithCollectionView: UICollectionViewDelegate {
 		}
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+	override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
 		let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
 			
 			// from camera or camera roll
@@ -228,16 +213,6 @@ extension MainViewControllerWithCollectionView: UICollectionViewDelegate {
 extension MainViewControllerWithCollectionView: NSFetchedResultsControllerDelegate {
 	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
 		print("did change content")
-		// won't be structs, will need to change it to the NSManagedObjectID
-//		var snapshot = snapshot as NSDiffableDataSourceSnapshot<TaskSection, Task>
-//		if let day = self.mainFetcher.fetchRequestedObjects()?.first {
-//			if let tasks = day.sortTasks() {
-//				for task in tasks {
-//					let section = TaskSection.init(rawValue: Int(task.priority))
-//					snapshot.appendItems([task], toSection: section)
-//				}
-//			}
-//		}
 		
 	}
 }

@@ -21,7 +21,7 @@ class ReviewCollectionListViewModel: NSObject {
 		
 		//Supplementary Views
 		let headerRegistration = UICollectionView.SupplementaryRegistration
-		<SupplementaryViewHeader>(elementKind: ReviewCollectionListViewController.headerElementKind) { [weak self]
+		<SupplementaryViewHeader>(elementKind: ReviewCollectionListViewController.headerElementKind) {
 			(supplementaryView, string, indexPath) in
 			
 			if indexPath.section == 0 {
@@ -58,7 +58,7 @@ class ReviewCollectionListViewModel: NSObject {
 	func configureSnapshot() -> NSDiffableDataSourceSnapshot<TaskSection, Task> {
 		var snapshot = NSDiffableDataSourceSnapshot<TaskSection, Task>()
 		snapshot.appendSections(TaskSection.allCases)
-		let dataSource = prepareDataSource()
+		_ = prepareDataSource()
 		
 		print("to fix with nsfetchedresultscontroller (mainFetcher)")
 //		for item in dataSource {

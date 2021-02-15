@@ -45,4 +45,9 @@ class TagLabel: UILabel {
         return CGSize(width: width, height: heigth)
 	}
 	
+	func applyColor(color: UIColor) {
+		self.backgroundColor = color.adjust(by: 70)!
+		self.textColor = color
+	}
+	
 }

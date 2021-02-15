@@ -35,6 +35,12 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		let vc = MainViewControllerWithCollectionView(viewModel: MainViewModelWithCollectionView(), persistentContainer: persistentContainer)
 		vc.coordinator = self
 		navigationController.pushViewController(vc, animated: false)
+		
+		navigationController.navigationBar.isHidden = false
+		navigationController.navigationBar.isTranslucent = false
+		navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+		navigationController.navigationBar.shadowImage = UIImage()
+		navigationController.navigationBar.backgroundColor = UIColor.clear
     }
 	
 	/*
@@ -51,9 +57,9 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	
 	func showCreateTask(_ persistentContainer: PersistentContainer?) {
 //		print("To do - Create Task")
-		let child = NewTaskCoordinator(navigationController: navigationController)
-		childCoordinators.append(child)
-		child.start(persistentContainer)
+//		let child = NewTaskCoordinator(navigationController: navigationController)
+//		childCoordinators.append(child)
+//		child.start(persistentContainer)
 	}
 	
 	func showOnboarding(_ persistentContainer: PersistentContainer?) {
@@ -137,7 +143,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	}
 	
 	func showTaskDetails(with item: Task, persistentContainer: PersistentContainer?) {
-		let taskCoordinator = TaskDetailCoordinator(navigationController: navigationController ?? UINavigationController(), task: item)
+		let taskCoordinator = TaskDetailCoordinator(navigationController: navigationController , task: item)
 		taskCoordinator.start(persistentContainer)
 	}
 	

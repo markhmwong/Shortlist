@@ -15,8 +15,12 @@ trophy room (separate update)
 - cloudkit
 - SMTP how is this any better than local notifications? End of week review? https://github.com/IBM-Swift/Swift-SMTP
 
+# 2.1
+- OCR from photos
+
 # 2.0
 - Category Limit reduced to 30 from 50
+- fix ui, add photos, add notes
 
 # 1.3
 - how did you feel? (separate app?)

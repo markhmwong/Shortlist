@@ -34,9 +34,12 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 		}
 		self.persistentContainer = persistentContainer
 		
+//		let vm = NewTaskDetailViewModel(task: task, persistentContainer: persistentContainer)
+//		let vc = NewTaskDetailViewController(coordinator: self, viewModel: vm)
+//		navigationController.pushViewController(vc, animated: true)
 		let viewModel = TaskDetailViewModel(task: task, persistentContainer: persistentContainer)
 		let vc = TaskDetailViewController(viewModel: viewModel, coordinator: self)
-		
+
 		vc.navigationItem.rightBarButtonItem = UIBarButtonItem().taskOptionsButton(target: self, action: #selector(handleTaskOptions))
 		navigationController.pushViewController(vc, animated: true)
 	}

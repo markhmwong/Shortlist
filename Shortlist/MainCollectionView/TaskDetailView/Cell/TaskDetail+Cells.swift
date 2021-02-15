@@ -14,7 +14,7 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
 	// private variables
 	private lazy var bodyLabel: UILabel = {
 		let label = UILabel()
-		label.font = ThemeV2.CellProperties.HeadingBoldFont
+		label.font = ThemeV2.CellProperties.Title1Regular
 		label.textColor = ThemeV2.TextColor.DefaultColor
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.numberOfLines = 0
@@ -51,11 +51,7 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
 	override func configureCell(with item: TitleItem) {
 		bodyLabel.text = item.title
 	}
-	
-	override func prepareForReuse() {
-		super.prepareForReuse()
-		bodyLabel.text = nil
-	}
+
 }
 
 // MARK: - Notes Cell

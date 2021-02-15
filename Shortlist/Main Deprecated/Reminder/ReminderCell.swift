@@ -53,12 +53,7 @@ class ReminderCell: UITableViewCell {
 		view.isScrollEnabled = false
         return view
     }()
-	
-	lazy var priorityMarker: PriorityMarker = {
-		let view = PriorityMarker()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		return view
-	}()
+
 	
 	lazy var fadedBackground: UIView = {
 		let view = UIView()
@@ -76,7 +71,6 @@ class ReminderCell: UITableViewCell {
 	
 	override func layoutIfNeeded() {
 		super.layoutIfNeeded()
-		priorityMarker.anchorView(top: contentView.topAnchor, bottom: nil, leading: contentView.leadingAnchor, trailing: nil, centerY: nil, centerX: nil, padding: .zero, size: CGSize(width: contentView.bounds.width, height: 10.0))
 		fadedBackground.anchorView(top: topAnchor, bottom: bottomAnchor, leading: leadingAnchor, trailing: trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 2.0, left: 5.0, bottom: -2.0, right: -5.0), size: .zero)
 
 	}
@@ -84,7 +78,6 @@ class ReminderCell: UITableViewCell {
 	func setupCell() {
 		backgroundColor = .clear
 		contentView.addSubview(fadedBackground)
-		contentView.addSubview(priorityMarker)
         contentView.addSubview(taskName)
 		contentView.addSubview(categoryTitle)
 		
@@ -131,15 +124,12 @@ class ReminderCell: UITableViewCell {
 			switch p {
 				case .high:
 					fadedBackground.backgroundColor = Theme.Priority.highColor.withAlphaComponent(0.1)
-					priorityMarker.updateGradient(color: Theme.Priority.highColor)
 				case .medium:
 					fadedBackground.backgroundColor = Theme.Priority.mediumColor.withAlphaComponent(0.1)
-					priorityMarker.updateGradient(color: Theme.Priority.mediumColor)
 				case .low:
 					fadedBackground.backgroundColor = Theme.Priority.lowColor.withAlphaComponent(0.1)
-					priorityMarker.updateGradient(color: Theme.Priority.lowColor)
 				case .none:
-					priorityMarker.updateGradient(color: Theme.Priority.noneColor)
+					()
 			}
 		}
 	}

@@ -40,6 +40,12 @@ struct ThemeV2 {
 		
 		static let Title1Black: UIFont = UIFont.preferredFont(forTextStyle: .title1).with(weight: .black)
 
+		static let Title1Regular: UIFont = UIFont.preferredFont(forTextStyle: .title1).with(weight: .regular)
+		
+		static let Title2Regular: UIFont = UIFont.preferredFont(forTextStyle: .title2).with(weight: .regular)
+
+		static let Title2Bold: UIFont = UIFont.preferredFont(forTextStyle: .title2).with(weight: .bold)
+
 		static let Title2Black: UIFont = UIFont.preferredFont(forTextStyle: .title2).with(weight: .black)
 		
 		static let Title3Bold: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .bold)
@@ -92,7 +98,7 @@ struct ThemeV2 {
 	// MARK: - Collection Header
 	struct Header {
 		struct SectionHeader {
-			static var Font: UIFont = UIFont.preferredFont(forTextStyle: .subheadline).with(weight: .regular)
+			static var Font: UIFont = UIFont.preferredFont(forTextStyle: .subheadline).with(weight: .bold)
 		}
 	}
 	
@@ -169,7 +175,7 @@ struct ThemeV2 {
 						case .dark, .unspecified:
 							return .offWhite
 						case .light:
-							return .black
+							return .offBlack
 						@unknown default:
 							return .offWhite
 					}
@@ -214,8 +220,14 @@ struct ThemeV2 {
 		}
 	}()
 	
-
+	// MARK: Priority
 	struct Priority {
+		
+		static let HighPriorityFont: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .regular)
+		
+		static let MediumPriorityFont: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .regular)
+		
+		static let LowPriorityFont: UIFont = UIFont.preferredFont(forTextStyle: .subheadline).with(weight: .regular)
 		
 		static let highColor: UIColor = {
 			if #available(iOS 13.0, *) {

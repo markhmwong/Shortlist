@@ -26,17 +26,38 @@ fileprivate extension UIConfigurationStateCustomKey {
 	static let taskItem = UIConfigurationStateCustomKey("com.whizbang.state.task")
 }
 // MARK: - Task Cell Version 2
-class TaskCellV2: BaseListCell<Task> {
+class TaskCellV2: BaseCell<Task> {
 	
 	private let completeText: String = "Complete"
 	
 	private let incompleteText: String = "Incomplete"
+	
+	lazy var completeStatus: UIImageView = {
+		let config = UIImage.SymbolConfiguration(font: ThemeV2.CellProperties.Title2Regular)
+		let image = UIImage(systemName: "checkmark.circle.fill", withConfiguration: config)?.withRenderingMode(.alwaysTemplate)
+		let view = UIImageView(image: image)
+		view.tintColor = UIColor.systemGreen.darker(by: 0)!
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
 	
 	private lazy var categoryLabel: UILabel = {
 		let label = UILabel()
 		label.text = "Category • Complete"
 		label.textColor = ThemeV2.TextColor.DefaultColorWithAlpha1
 		label.font = ThemeV2.CellProperties.SecondaryFont
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.layoutMargins = .zero
+		label.alpha = 0.7
+		return label
+	}()
+	
+	private lazy var taskNameLabel: UILabel = {
+		let label = UILabel()
+		label.text = ""
+		label.numberOfLines = 0
+		label.textColor = ThemeV2.TextColor.DefaultColor
+		label.font = ThemeV2.CellProperties.Title3Regular
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.layoutMargins = .zero
 		return label
@@ -49,73 +70,89 @@ class TaskCellV2: BaseListCell<Task> {
 		state.taskItem = self.item
 		return state
 	}
-	
-	private func defaultListContentConfiguration() -> UIListContentConfiguration {
-		return .subtitleCell()
-	}
-	
-	private lazy var listContentView = UIListContentView(configuration: defaultListContentConfiguration())
 
 	private var viewConstraintCheck: NSLayoutConstraint? = nil
 
-	private var priorityMarker: PriorityIndicator = PriorityIndicator(frame: .zero, priority: .none)
+	private lazy var dividerLine: UIView = {
+		let view = UIView()
+		view.backgroundColor = UIColor.black.adjust(by: 90)
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
 
 	private func setupViewsIfNeeded() {
 		guard viewConstraintCheck == nil else { return }
-		let lateralPadding: CGFloat = 10.0
-		let topAndBottomPadding: CGFloat = 10.0
-		backgroundColor = ThemeV2.CellProperties.Background
-		layer.cornerRadius = 10.0
+		let lateralPadding: CGFloat = 55.0
+		let topAndBottomPadding: CGFloat = 40.0
+
+		backgroundColor = .clear
+		layer.cornerRadius = 0.0
 		clipsToBounds = true
-		
-		listContentView.translatesAutoresizingMaskIntoConstraints = false
-		
-		contentView.addSubview(listContentView)
-		contentView.addSubview(categoryLabel)
-		contentView.addSubview(priorityMarker)
-		
-		categoryLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-		categoryLabel.leadingAnchor.constraint(equalTo: listContentView.layoutMarginsGuide.leadingAnchor, constant: 0.0).isActive = true
-		categoryLabel.trailingAnchor.constraint(equalTo: listContentView.layoutMarginsGuide.trailingAnchor).isActive = true
-
-		listContentView.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: topAndBottomPadding).isActive = true
-		viewConstraintCheck = listContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -topAndBottomPadding)
-		viewConstraintCheck?.isActive = true
-		listContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: lateralPadding).isActive = true
-		listContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -lateralPadding).isActive = true
-		
-		priorityMarker.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 0.0).isActive = true
-		priorityMarker.centerXAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
-		priorityMarker.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-		priorityMarker.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
-
-		layer.borderWidth = 2.0
+		layer.borderWidth = 0.0
 		layer.borderColor = ThemeV2.CellProperties.Border.cgColor
+		contentView.backgroundColor = .offWhite
+		
+		let bg = UIView()
+		bg.backgroundColor = ThemeV2.CellProperties.Background
+		backgroundView = bg
+		
+		contentView.addSubview(taskNameLabel)
+		contentView.addSubview(categoryLabel)
+		contentView.addSubview(dividerLine)
+		contentView.addSubview(completeStatus)
+
+		categoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topAndBottomPadding).isActive = true
+		categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: lateralPadding).isActive = true
+		categoryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+
+		taskNameLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 12).isActive = true
+		viewConstraintCheck = taskNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -topAndBottomPadding)
+		viewConstraintCheck?.isActive = true
+		taskNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: lateralPadding).isActive = true
+		taskNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -lateralPadding).isActive = true
+		
+		dividerLine.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 0.0).isActive = true
+		dividerLine.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0).isActive = true
+		dividerLine.heightAnchor.constraint(equalToConstant: 3.0).isActive = true
+		dividerLine.widthAnchor.constraint(equalToConstant: bounds.width * 0.1).isActive = true
+		
+		
+		completeStatus.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+		completeStatus.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -13).isActive = true
 	}
 	
 	override func updateConfiguration(using state: UICellConfigurationState) {
 		setupViewsIfNeeded()
-		var content = defaultListContentConfiguration().updated(for: state)
-		content.textProperties.color = ThemeV2.TextColor.DefaultColor
-
+		
+		guard let item = state.taskItem else {
+			
+			return
+		}
+		
 		if let style = state.taskItem?.redactionStyle() {
 			/// Path for 2.0 shortlist users
 			// Category label
 
-			categoryLabel.attributedText = state.taskItem?.redactedText(with:"Category • \(completionText(state.taskItem?.complete ?? false)) • \(reminderText(state.taskItem))")
+//			categoryLabel.attributedText = state.taskItem?.redactedText(with:"Category • \(completionText(state.taskItem?.complete ?? false)) • \(reminderText(state.taskItem))")
+			categoryLabel.attributedText = state.taskItem?.redactedText(with:"Category • \(priorityText(Priority(rawValue: state.taskItem?.priority ?? 0) ?? .low)) • \(reminderText(state.taskItem))")
+			
 			// Content label
 			// apply redaction style to font
-			content.attributedText = state.taskItem?.redactedText(with: state.taskItem?.name ?? "None")
-
-			// if redacted, then hide the priority color with grey
-			switch style {
-				case .highlight, .star:
-					priorityMarker.updatePriorityColor(with: .none)
-				case .none:
-					categoryLabel.alpha = 0.6
-					if let priority = Priority.init(rawValue: Int16(state.taskItem?.priority ?? 0)) {
-						priorityMarker.updatePriorityColor(with: priority)
-					}
+			taskNameLabel.attributedText = state.taskItem?.redactedText(with: state.taskItem?.name ?? "None")
+			
+			if let priority = Priority.init(rawValue: state.taskItem?.priority ?? 0) {
+				// text size
+				switch priority {
+					case .high:
+						taskNameLabel.font = ThemeV2.Priority.HighPriorityFont
+					case .medium:
+						taskNameLabel.font = ThemeV2.Priority.MediumPriorityFont
+					case .low:
+						taskNameLabel.font = ThemeV2.Priority.LowPriorityFont
+					default:
+						taskNameLabel.font = ThemeV2.Priority.HighPriorityFont
+				}
+				
 			}
 		} else {
 			/// A path for pre-2.0 Shortlist users where redaction was not a feature.
@@ -124,18 +161,13 @@ class TaskCellV2: BaseListCell<Task> {
 			categoryLabel.text = "Category • Complete"
 			
 			// Content label
-			content.text = state.taskItem?.name ?? "None"
+			taskNameLabel.text = state.taskItem?.name ?? "None"
 			
-			if let priority = Priority.init(rawValue: Int16(state.taskItem?.priority ?? 0)) {
-				priorityMarker.updatePriorityColor(with: priority)
-			}
+
 		}
 		
-		listContentView.configuration = content
-//		// enable disable icons
-//		guard let item = state.taskItem else { return }
-//		featureStack.enableIcons(with: item)
-
+		completeStatus.tintColor = state.taskItem?.complete ?? false ? UIColor.systemGreen : UIColor.systemGray
+		
 	}
 	
 	func completionText(_ state: Bool) -> String {
@@ -153,7 +185,13 @@ class TaskCellV2: BaseListCell<Task> {
 			return ""
 		}
 	}
+	
+	func priorityText(_ priority: Priority) -> String {
+		return priority.stringValue
+	}
 }
+
+
 
 // MARK: - Deprecated to be removed
 class TaskCollectionViewCell: BaseNeuCollectionViewCell<TaskItem> {

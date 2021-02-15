@@ -9,9 +9,10 @@
 import UIKit
 
 extension UIColor {
-	// Neumorphic colors
+
 	static var offWhite: UIColor = UIColor.init(red: 235/255, green: 235/255, blue: 245/255, alpha: 1.0)
-	
+	static var offBlack: UIColor = UIColor.init(red: 50/255, green: 50/255, blue: 50/255, alpha: 1.0)
+
 	
 	
     func lighter(by percentage: CGFloat = 30.0) -> UIColor? {

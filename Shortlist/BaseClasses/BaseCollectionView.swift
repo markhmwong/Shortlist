@@ -26,7 +26,7 @@ class BaseCollectionViewController: UICollectionViewController {
 	
 	override init(collectionViewLayout layout: UICollectionViewLayout) {
 		super.init(collectionViewLayout: layout)
-		collectionView.backgroundColor = ThemeV2.Background
+		collectionView.backgroundColor = UIColor.offWhite
 	}
 	
 	required init?(coder: NSCoder) {

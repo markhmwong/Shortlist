@@ -40,7 +40,6 @@ class BaseLabel: UILabel {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		font = UIFont.init(name: "HelveticaNeue", size: 20)?.with(weight: .bold)
-//		textColor = UIColor.black.lighter(by: 30)!
 		translatesAutoresizingMaskIntoConstraints = false
 		numberOfLines = 0
 	}

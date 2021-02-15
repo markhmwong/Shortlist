@@ -14,7 +14,9 @@ class TaskDetailViewModel: NSObject {
 	
 	private let sectionIdHeader: String = "com.whizbang.taskdetail.sectionid.header"
 	
-	private let sectionIdFooter: String = "com.whizbang.taskdetail.sectionid.footer"
+	private let sectionIdHeaderTitle: String = "com.whizbang.taskdetail.sectionid.headerTitle"
+	
+	let sectionIdFooter: String = "com.whizbang.taskdetail.sectionid.footer"
 	
 	private var titleItem: TitleItem
 	
@@ -44,8 +46,8 @@ class TaskDetailViewModel: NSObject {
 		super.init()
 	}
 	
-	func taskCreationDate() -> Date {
-		return data.createdAt ?? Date()
+	func taskId() -> UUID {
+		return data.id ?? UUID()
 	}
 	
 	/*
@@ -71,6 +73,7 @@ class TaskDetailViewModel: NSObject {
 		persistentContainer.saveContext()
 	}
 	
+	// MARK: Delete Image
 	func removeImage(item: PhotoItem) {
 		persistentContainer.deletePhoto(withId: item.id)
 	}
@@ -84,7 +87,6 @@ class TaskDetailViewModel: NSObject {
 		mainFetcher = resultsController
 
 		diffableDataSource = UICollectionViewDiffableDataSource<TaskDetailSections, DataItem>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
-			
 			switch item {
 				case .title(let title):
 					let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellTitleRegistration(), for: indexPath, item: title)
@@ -103,28 +105,22 @@ class TaskDetailViewModel: NSObject {
 		<HeaderSupplementaryView>(elementKind: "SectionHeader") { [weak self]
 			(supplementaryView, string, indexPath) in
 			guard let self = self else { return }
-			supplementaryView.data = self.data
-			supplementaryView.priorityLabel.text = "\(self.data.priorityText())"
-		}
-		
-		let footerRegistration = UICollectionView.SupplementaryRegistration
-		<FooterSupplementaryView>(elementKind: "SectionFooter") {
-			(supplementaryView, string, indexPath) in
-			supplementaryView.backgroundColor = .clear
+			if let section = TaskDetailSections.init(rawValue: indexPath.section) {
+				switch section {
+					case .title:
+						() // no title
+					case .photos:
+						supplementaryView.update(title: "Photos")
+					case .note:
+						supplementaryView.update(title: "Notes")
+				}
+			}
 		}
 		
 		diffableDataSource.supplementaryViewProvider = { (view, kind, index) in
-
-			if (index.section == 0) {
-				return collectionView.dequeueConfiguredReusableSupplementary(
-					using:headerRegistration, for: index)
+			if (TaskDetailSupplementaryView.Header == kind) {
+				return collectionView.dequeueConfiguredReusableSupplementary(using:headerRegistration, for: index)
 			}
-			
-			if (index.section == TaskDetailSections.allCases.count - 1) {
-				return collectionView.dequeueConfiguredReusableSupplementary(
-					using:footerRegistration, for: index)
-			}
-			
 			return nil
 		}
 		
@@ -138,12 +134,12 @@ class TaskDetailViewModel: NSObject {
 		Public method, exposed to the viewcontroller to be called when the data has mutated
 	*/
 	func updateSnapshot() {
+		guard let mainFetcher = self.mainFetcher else { return }
+
 		self.snapshot = NSDiffableDataSourceSnapshot<TaskDetailSections, DataItem>()
 		
 		snapshot.appendSections(TaskDetailSections.allCases) // add remaining sections
-		
 		// This is required, as the variable is forced unwrapped during creation. The second problem is that the order of operation - mainFetcher is not yet initialised because of NSFetchedResultsController being called when it calls .performFetch()
-		guard let mainFetcher = self.mainFetcher else { return }
 		
 		if let task = mainFetcher.fetchRequestedObjects()?.first {
 			
@@ -159,9 +155,9 @@ class TaskDetailViewModel: NSObject {
 			} else {
 				// post-2.0
 				var noteArray: [NotesItem] = []
-				
+
 				if let notes = task.taskToNotes {
-					
+
 					if notes.count != 0 {
 						for note in notes.array as! [TaskNote] {
 							let notesItem = NotesItem(notes: note.note ?? "None", isButton: false)
@@ -176,7 +172,7 @@ class TaskDetailViewModel: NSObject {
 						noteArray.append(notesItem)
 						snapshot.appendItems([dataItem], toSection: .note)
 					}
-					
+
 				} else {
 					// empty notes
 					let notesItem = NotesItem(notes: "No notes yet!", isButton: false)
@@ -185,7 +181,7 @@ class TaskDetailViewModel: NSObject {
 					snapshot.appendItems([dataItem], toSection: .note)
 				}
 			}
-			
+
 			// Assign photos
 			if task.taskToPhotos == nil {
 				self.photoItem = [PhotoItem(id: UUID(),photo: nil, isButton: true)]
@@ -199,7 +195,7 @@ class TaskDetailViewModel: NSObject {
 						snapshot.appendItems([dataItem], toSection: .photos)
 					}
 				}
-				
+
 				// Include "Add" button
 				if photoArray.count < 4 && photoArray.count >= 0 {
 					let photoItem = PhotoItem(id: UUID(), photo: nil, isButton: true)
@@ -246,127 +242,5 @@ class TaskDetailViewModel: NSObject {
 			cell.configureCell(with: item)
 		}
 		return cellConfig
-	}
-	
-	// MARK: - Layout each Section
-	// create layout
-	func createCollectionViewLayout() -> UICollectionViewLayout {
-		let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-			
-			//layout each section with sectionIndex
-			
-			let section = TaskDetailSections.init(rawValue: sectionIndex)
-			
-			switch section {
-				case .title:
-					return self.createLayoutForTitleSection()
-				case .note:
-					return self.createLayoutForNotesSection()
-				case .photos:
-					return self.createLayoutForPhotoSection()
-				default:
-					return self.createLayoutForDefaultSection()
-			}
-		}
-		return layout
-	}
-	
-	// MARK: - Specific Layout Configurations
-	
-	// Default Section Layout
-	private func createLayoutForDefaultSection() -> NSCollectionLayoutSection {
-		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(150.0))
-
-		let item = NSCollectionLayoutItem(layoutSize: size)
-		item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(20), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
-
-		let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitems: [item])
-		group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
-
-
-		let sectionLayout = NSCollectionLayoutSection(group: group)
-		return sectionLayout
-	}
-	
-
-	
-	// MARK: - Layout reminder
-	private func createLayoutForReminderSection() -> NSCollectionLayoutSection {
-		let estimatedHeight: CGFloat = 50.0
-
-		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(estimatedHeight))
-
-		let item = NSCollectionLayoutItem(layoutSize: size)
-		item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(20), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
-		
-		let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
-		group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
-
-		let sectionLayout = NSCollectionLayoutSection(group: group)
-		return sectionLayout
-	}
-	
-	// MARK: - Layout title Header
-	private func createLayoutForTitleSection() -> NSCollectionLayoutSection {
-		let estimatedHeight: CGFloat = 100.0
-		let contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
-		
-		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(estimatedHeight))
-
-		let item = NSCollectionLayoutItem(layoutSize: size)
-		
-		let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
-		group.contentInsets = contentInsets
-		
-		// HEADER
-		// Note - In regards to the layout of the header, it seems setting the heightDimension argument in NSCollectionLayoutSize to .estimated collapses the inset rules adding an additional 20 points to the leadingAnchor. You'll find the insets set to the constraints in the TaskDetailHeader.swift
-		let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),heightDimension: .estimated(100.0))
-		let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize,
-																		 elementKind: sectionIdHeader, alignment: .top)
-		
-		let sectionLayout = NSCollectionLayoutSection(group: group)
-		sectionLayout.boundarySupplementaryItems = [header]
-		return sectionLayout
-	}
-	
-	// MARK: - Photos layout -
-	// includes the footer
-	private func createLayoutForPhotoSection() -> NSCollectionLayoutSection {
-		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.23), heightDimension: .fractionalWidth(0.23))
-
-		let item = NSCollectionLayoutItem(layoutSize: size)
-		item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(10), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
-		item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
-		
-		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.3))
-		
-		let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 4)
-		group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
-		
-		// Footer
-		let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-															  heightDimension: .estimated(50.0))
-		let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize,
-																		 elementKind: sectionIdFooter,
-																		 alignment: .bottom)
-		let sectionLayout = NSCollectionLayoutSection(group: group)
-		sectionLayout.boundarySupplementaryItems = [footer]
-		return sectionLayout
-	}
-	
-	// MARK: - Notes Section Layout
-	private func createLayoutForNotesSection() -> NSCollectionLayoutSection {
-		let estimatedHeight: CGFloat = 10.0
-
-		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(estimatedHeight))
-
-		let item = NSCollectionLayoutItem(layoutSize: size)
-		item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(10), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
-		
-		let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
-		group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-		
-		let sectionLayout = NSCollectionLayoutSection(group: group)
-		return sectionLayout
 	}
 }

@@ -73,9 +73,9 @@ extension Task {
 	
 	// reminder date - must include a non-nil date, any date placed before the current time will be ignored for notifications
 	func create(context: NSManagedObjectContext, taskName: String, categoryName: String, createdAt: Date, reminderDate: Date, priority: Int, redact: Int) {
-		print("change id to UUID?")
+		self.id = UUID()
 		self.name = taskName
-		self.complete = false
+		self.complete = true
 		self.carryOver = false
 		self.category = categoryName
 		self.isNew = false
