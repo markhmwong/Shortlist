@@ -16,12 +16,17 @@ enum TaskDetailSections: Int, CaseIterable {
 	case title = 0
 	case note
 	case photos
+	case complete
 //	case reminder
 	
 //	case options
 }
 
-
+struct CompletionItem: Hashable {
+	var id: UUID
+	var name: String
+	var isComplete: Bool
+}
 
 // Maps to TaskPhotos in Core Data
 struct PhotoItem: Hashable {
@@ -55,6 +60,8 @@ enum DataItem: Hashable {
 //	case header(HeaderItem)
 	case title(TitleItem)
 	case photo(PhotoItem)
+	case notes(NotesItem)
+	case complete(CompletionItem)
 //	case header(NewTaskDetailHeaderItem)
 //	case title(NewTaskDetailTitleItem)
 //	case photo(NewTaskDetailPhotoItem)
@@ -69,7 +76,7 @@ enum DataItem: Hashable {
 ////				return item.section
 //		}
 //	}
-	case notes(NotesItem)
+	
 //	case reminder(ReminderItem)
 //	case options(OptionItem)
 }

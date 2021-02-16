@@ -145,7 +145,7 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 		
 		if let section = TaskDetailSections.init(rawValue: indexPath.section) {
 			switch section {
-				case .note, .title:
+				case .note, .title, .complete:
 					()
 				case .photos:
 					
@@ -206,6 +206,8 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 				}
 			case .title:
 				() // do nothing
+			case .complete:
+				print("completion button incomplete")
 			case .none:
 				()
 		}

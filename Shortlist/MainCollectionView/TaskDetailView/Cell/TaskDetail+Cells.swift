@@ -14,10 +14,11 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
 	// private variables
 	private lazy var bodyLabel: UILabel = {
 		let label = UILabel()
-		label.font = ThemeV2.CellProperties.Title1Regular
+		label.font = ThemeV2.CellProperties.Title3Bold
 		label.textColor = ThemeV2.TextColor.DefaultColor
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.numberOfLines = 0
+		label.textAlignment = .center
 		return label
 	}()
 	
@@ -34,18 +35,16 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
 	}
 	
 	private func setupViewAdditionalViews() {
-		layer.cornerRadius = 5.0
-		clipsToBounds = true
-		
+//		backgroundColor = UIColor.lightGray.adjust(by: 40)!
 		// layout cell details
-		let padding: CGFloat = 15.0
-		
+		let padding: CGFloat = 10.0
+		let yPadding: CGFloat = 50.0
 		contentView.addSubview(bodyLabel)
 		
-		bodyLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
-		bodyLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor).isActive = true
-		bodyLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -padding).isActive = true
-		bodyLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: 0.0).isActive = true
+		bodyLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: yPadding).isActive = true
+		bodyLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: padding).isActive = true
+		bodyLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -yPadding).isActive = true
+		bodyLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -padding).isActive = true
 	}
 	
 	override func configureCell(with item: TitleItem) {
@@ -66,6 +65,7 @@ fileprivate extension UIConfigurationStateCustomKey {
 	static let notesItem = UIConfigurationStateCustomKey("com.whizbang.state.notes")
 }
 
+//convert all these cells to collectionview cells
 class TaskDetailNotesCell: BaseListCell<NotesItem> {
 	
 	override var configurationState: UICellConfigurationState {
@@ -88,7 +88,7 @@ class TaskDetailNotesCell: BaseListCell<NotesItem> {
 	
 	private lazy var button: UIButton = {
 		let button = UIButton()
-		button.setTitle("Add Photo", for: .normal)
+		button.setTitle("Notes", for: .normal)
 		button.setTitleColor(ThemeV2.TextColor.DefaultColor, for: .normal)
 		button.addTarget(self, action: #selector(handleAddPhoto), for: .touchDown)
 		button.translatesAutoresizingMaskIntoConstraints = false
@@ -117,7 +117,7 @@ class TaskDetailNotesCell: BaseListCell<NotesItem> {
 	
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
-		highlight.path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: rect.width * 0.01, height: rect.height)).cgPath
+		highlight.path = UIBezierPath(rect: CGRect(x: 0, y: rect.height, width: rect.width * 1.0, height: rect.height * 0.04)).cgPath
 	}
 	
 	override func updateConfiguration(using state: UICellConfigurationState) {

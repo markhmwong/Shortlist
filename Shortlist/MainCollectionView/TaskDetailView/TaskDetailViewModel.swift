@@ -97,6 +97,9 @@ class TaskDetailViewModel: NSObject {
 				case .photo(let photos):
 					let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellPhotosRegistration(), for: indexPath, item: photos)
 					return cell
+				case .complete(let complete):
+					let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellCompletionRegistration(), for: indexPath, item: complete)
+					return cell
 			}
 		})
 		
@@ -107,7 +110,7 @@ class TaskDetailViewModel: NSObject {
 			guard let self = self else { return }
 			if let section = TaskDetailSections.init(rawValue: indexPath.section) {
 				switch section {
-					case .title:
+					case .title, .complete:
 						() // no title
 					case .photos:
 						supplementaryView.update(title: "Photos")
@@ -147,6 +150,8 @@ class TaskDetailViewModel: NSObject {
 			
 			snapshot.appendItems([DataItem.title(title)], toSection: .title)
 			
+			let completionItem = CompletionItem(id: UUID(), name: "Complete", isComplete: false)
+			snapshot.appendItems([DataItem.complete(completionItem)], toSection: .complete)
 
 			// converts the core data model to a struct
 			if task.taskToNotes == nil {
@@ -237,6 +242,16 @@ class TaskDetailViewModel: NSObject {
 	// register notes
 	func configureCellPhotosRegistration() -> UICollectionView.CellRegistration<TaskDetailPhotoCell, PhotoItem> {
 		let cellConfig = UICollectionView.CellRegistration<TaskDetailPhotoCell, PhotoItem> { [weak self] (cell, indexPath, item) in
+			guard let _ = self else { return }
+			// configure cell
+			cell.configureCell(with: item)
+		}
+		return cellConfig
+	}
+	
+	
+	func configureCellCompletionRegistration() -> UICollectionView.CellRegistration<TaskDetailCompletionCell, CompletionItem> {
+		let cellConfig = UICollectionView.CellRegistration<TaskDetailCompletionCell, CompletionItem> { [weak self] (cell, indexPath, item) in
 			guard let _ = self else { return }
 			// configure cell
 			cell.configureCell(with: item)
