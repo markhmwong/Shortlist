@@ -33,6 +33,7 @@ struct PhotoItem: Hashable {
 	var id: UUID
 	var photo: Data?
 	var thumbnail: Data?
+	var caption: String?
 	var isButton: Bool
 }
 

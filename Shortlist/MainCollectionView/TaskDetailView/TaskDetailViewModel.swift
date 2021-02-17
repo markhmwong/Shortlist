@@ -203,10 +203,17 @@ class TaskDetailViewModel: NSObject {
 
 				// Include "Add" button
 				if photoArray.count < 4 && photoArray.count >= 0 {
-					let photoItem = PhotoItem(id: UUID(), photo: nil, isButton: true)
+					let photoItem = PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true)
+					let photoItemB = PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true)
+
 					let dataItem = DataItem.photo(photoItem)
+					let dataItemB = DataItem.photo(photoItemB)
+					let dataItemC = DataItem.photo(PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true))
+					let dataItemD = DataItem.photo(PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true))
+					let dataItemE = DataItem.photo(PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true))
 					photoArray.append(photoItem)
-					snapshot.appendItems([dataItem], toSection: .photos)
+					photoArray.append(photoItemB)
+					snapshot.appendItems([dataItem, dataItemB, dataItemC, dataItemD, dataItemE], toSection: .photos)
 				}
 				self.photoItem = photoArray
 			}

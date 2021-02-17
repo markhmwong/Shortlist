@@ -216,6 +216,7 @@
 		4DC93E88251A0B19002B58AB /* TaskNotes+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC93E80251A0B18002B58AB /* TaskNotes+CoreDataProperties.swift */; };
 		4DC93EA2251DA4B2002B58AB /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC93EA1251DA4B2002B58AB /* PhotoViewController.swift */; };
 		4DC97A0425DC05270087B837 /* TaskDetailCell+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC97A0325DC05270087B837 /* TaskDetailCell+Completion.swift */; };
+		4DC97A0C25DD4ECB0087B837 /* TaskDetailCell+Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC97A0B25DD4ECB0087B837 /* TaskDetailCell+Photo.swift */; };
 		4DC99F7824F8D1B500F44611 /* RedactStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC99F7724F8D1B500F44611 /* RedactStyleViewController.swift */; };
 		4DC9CA6A24FC67510097B2BD /* RedactionComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC9CA6924FC67510097B2BD /* RedactionComponents.swift */; };
 		4DC9CA6C24FC710B0097B2BD /* UICollectionViewLayout+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC9CA6B24FC710B0097B2BD /* UICollectionViewLayout+Extension.swift */; };
@@ -586,6 +587,7 @@
 		4DC93E82251A0B18002B58AB /* TaskPhotos+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TaskPhotos+CoreDataProperties.swift"; path = "/Users/Mark/Development/iOS/AppStore/Five/Shortlist/Model/CoreData/Entities/TaskPhotos+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		4DC93EA1251DA4B2002B58AB /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		4DC97A0325DC05270087B837 /* TaskDetailCell+Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskDetailCell+Completion.swift"; sourceTree = "<group>"; };
+		4DC97A0B25DD4ECB0087B837 /* TaskDetailCell+Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskDetailCell+Photo.swift"; sourceTree = "<group>"; };
 		4DC99F7724F8D1B500F44611 /* RedactStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedactStyleViewController.swift; sourceTree = "<group>"; };
 		4DC9CA6924FC67510097B2BD /* RedactionComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedactionComponents.swift; sourceTree = "<group>"; };
 		4DC9CA6B24FC710B0097B2BD /* UICollectionViewLayout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+Extension.swift"; sourceTree = "<group>"; };
@@ -1710,6 +1712,7 @@
 			children = (
 				4DF30BE924D14354005EA860 /* TaskDetail+Cells.swift */,
 				4DC97A0325DC05270087B837 /* TaskDetailCell+Completion.swift */,
+				4DC97A0B25DD4ECB0087B837 /* TaskDetailCell+Photo.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -2151,6 +2154,7 @@
 				4D6E753B235634C100C67B8F /* BackLogViewModel.swift in Sources */,
 				4D5BED7522FD8BC400176E18 /* RecievingKeys.swift in Sources */,
 				4D60F13524C8870200979912 /* MainViewControllerCollectionView.swift in Sources */,
+				4DC97A0C25DD4ECB0087B837 /* TaskDetailCell+Photo.swift in Sources */,
 				4D45E7EC22DE083D008AC433 /* Theme.swift in Sources */,
 				4DF30BEA24D14354005EA860 /* TaskDetail+Cells.swift in Sources */,
 				4D242C4223EC06EA00ED1C42 /* TemporaryStorageService.swift in Sources */,
