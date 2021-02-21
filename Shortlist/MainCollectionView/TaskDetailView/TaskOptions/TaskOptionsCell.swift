@@ -86,11 +86,13 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 		
 		if (item.delete != nil || item.delete == true) {
 			accessories = []
+			let bgView = UIView()
+			bgView.backgroundColor = .clear
+			backgroundView = bgView
 			content.textProperties.color = UIColor.systemRed
 			content.imageProperties.tintColor = UIColor.systemRed
 			content.secondaryTextProperties.color = UIColor.systemRed
 		} else {
-
 			accessories = [.disclosureIndicator()]
 		}
 		
@@ -106,7 +108,9 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 			case .photo:
 				content.imageProperties.tintColor = UIColor.systemPink
 			case .redact:
-				content.imageProperties.tintColor = UIColor.systemOrange
+				content.imageProperties.tintColor = UIColor.offBlack
+			case .priority:
+				content.imageProperties.tintColor = UIColor.systemPurple
 		}
 		
 		listContentView.configuration = content

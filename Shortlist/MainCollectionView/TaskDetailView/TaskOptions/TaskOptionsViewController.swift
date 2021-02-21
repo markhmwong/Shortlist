@@ -89,6 +89,14 @@ extension TaskOptionsViewController: UICollectionViewDelegate {
 					if indexPath.item == TaskOptionsSection.ContentSection.name.rawValue {
 						coordinator.showName(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
 					}
+					
+					if indexPath.item == TaskOptionsSection.ContentSection.priority.rawValue {
+						coordinator.showPriority(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
+					}
+					
+					if indexPath.item == TaskOptionsSection.ContentSection.photo.rawValue {
+						// to do
+					}
 				case .notes:
 					// create a new note
 					let cell = collectionView.cellForItem(at: indexPath) as! TaskOptionsCell
@@ -116,6 +124,7 @@ extension TaskOptionsViewController: UICollectionViewDelegate {
 					if indexPath.item == TaskOptionsSection.ReminderSection.alarm.rawValue {
 						coordinator.showAlarm(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
 					}
+
 			}
 		}
 	}

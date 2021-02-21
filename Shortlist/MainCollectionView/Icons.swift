@@ -21,7 +21,7 @@ enum Icons {
 	case delete
 	case noteNumber
 	case category
-	
+	case priority
 	
 	var sfSymbolString: String {
 		switch self {
@@ -37,6 +37,8 @@ enum Icons {
 				return "photo.fill"
 			case .delete:
 				return "xmark.bin.fill"
+			case .priority:
+				return "exclamationmark.circle"
 			case .noteNumber:
 				return ".circle.fill" // will need to be compelted with a number
 			case .category:

@@ -45,6 +45,13 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 		r.pushViewController(vc, animated: true)
 	}
 	
+	func showPriority(data: Task, persistentContainer: PersistentContainer?) {
+		guard let r = rootNavigationController, let p = persistentContainer else { return }
+		let vm = TaskOptionsPriorityViewModel(task: data, persistentContainer: p)
+		let vc = TaskOptionsPriorityViewController(coordinator: self, viewModel: vm)
+		r.pushViewController(vc, animated: true)
+	}
+	
 	func showNotes(task: Task, note: TaskNote?, persistentContainer: PersistentContainer) {
 		guard let r = rootNavigationController else { return }
 		

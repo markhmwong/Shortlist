@@ -38,9 +38,10 @@ class TaskDetailPhotoCell: BaseCell<PhotoItem> {
 	
 	private var caption: UILabel = {
 		let label = UILabel()
+		label.alpha = 0.7
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.text = "CaptionCaptionCaptionCaptionCaptionCaptionCaptionCaption"
-		label.font = UIFont.preferredFont(forTextStyle: .caption2)
+		label.font = UIFont.preferredFont(forTextStyle: .footnote)
 		return label
 	}()
 	
@@ -57,7 +58,6 @@ class TaskDetailPhotoCell: BaseCell<PhotoItem> {
 		
 		imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant:0).isActive = true
 		imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-//		imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
 		imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 	}
 	

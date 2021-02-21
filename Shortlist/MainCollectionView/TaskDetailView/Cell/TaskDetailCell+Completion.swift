@@ -33,6 +33,7 @@ class TaskDetailCompletionCell: BaseCell<CompletionItem> {
 		
 		var contentConfig = TaskDetailCompletionContentConfiguration().updated(for: state)
 		contentConfig.name = state.completionItem?.name
+		contentConfig.completionState = state.completionItem?.isComplete
 		contentConfiguration = contentConfig
 	}
 }
@@ -42,6 +43,7 @@ struct TaskDetailCompletionContentConfiguration: UIContentConfiguration, Hashabl
 	
 	var name: String?
 	var textColor: UIColor?
+	var completionState: Bool?
 	
 	func makeContentView() -> UIView & UIContentView {
 		TaskDetailCompletionContentView(configuration: self)
@@ -53,7 +55,7 @@ struct TaskDetailCompletionContentConfiguration: UIContentConfiguration, Hashabl
 		}
 		
 		var updatedConfiguration = self
-		updatedConfiguration.textColor = UIColor.black
+		updatedConfiguration.textColor = UIColor.offBlack
 		return updatedConfiguration
 	}
 	
@@ -82,8 +84,12 @@ class TaskDetailCompletionContentView: UIView, UIContentView {
 	
 	private lazy var completionButton: UIButton = {
 		let tf = UIButton()
+		tf.layer.cornerRadius = 10.0
+		tf.layer.borderWidth = 2
+		tf.layer.borderColor = UIColor.offBlack.cgColor
 		tf.setTitleColor(UIColor.black, for: .normal)
 		tf.translatesAutoresizingMaskIntoConstraints = false
+		tf.addTarget(self, action: #selector(handleComplete), for: .touchDown)
 		return tf
 	}()
 	
@@ -129,6 +135,17 @@ class TaskDetailCompletionContentView: UIView, UIContentView {
 	
 	func textViewDidChange(_ textView: UITextView) {
 		currentConfiguration.name = textView.text ?? ""
+	}
+	
+	@objc func handleComplete() {
+		let config = configuration.makeContentView() as? TaskDetailCompletionContentView
+		config?.currentConfiguration.completionState = !(config?.currentConfiguration.completionState ?? false)
+		
+		if config?.currentConfiguration.completionState ?? false {
+			completionButton.setTitleColor(UIColor.systemGreen, for: .normal)
+		} else {
+			completionButton.setTitleColor(UIColor.systemRed, for: .normal)
+		}
 	}
 }
 

@@ -147,4 +147,32 @@ extension UICollectionViewLayout {
 		}
 		return layout
 	}
+	
+	//zero padding
+	func createCollectionViewLargeCells(header: Bool = false, elementKind: String = "", xPadding: CGFloat) -> UICollectionViewLayout {
+		let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+			let estimatedHeight: CGFloat = 40.0
+
+			let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.6))
+
+			let item = NSCollectionLayoutItem(layoutSize: size)
+			item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(0), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
+			
+			let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
+			group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: xPadding, bottom: 0, trailing: xPadding)
+
+			let section = NSCollectionLayoutSection(group: group)
+			 
+			if (header && sectionIndex == 0 && elementKind != "") {
+				let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(80.0))
+				let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize, elementKind: elementKind, alignment: .top)
+				
+				section.boundarySupplementaryItems = [header]
+			}
+			
+			return section
+		}
+		
+		return layout
+	}
 }

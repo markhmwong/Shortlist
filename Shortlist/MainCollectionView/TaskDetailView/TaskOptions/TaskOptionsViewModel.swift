@@ -16,6 +16,7 @@ enum TaskOptionsType: Int, CaseIterable {
 	case alarm
 	case redact
 	case delete
+	case priority
 }
 
 // Table View Setup
@@ -59,6 +60,7 @@ enum TaskOptionsSection: Int, CaseIterable {
 	enum ContentSection: Int {
 		case name
 		case photo
+		case priority
 	}
 	
 	enum NotesSection: Int {
@@ -206,7 +208,7 @@ class TaskOptionsViewModel: NSObject {
 		
 		let titleItem = TaskOptionsItem(title: "Name", description: "Edit the name", image: Icons.notes.sfSymbolString, section: .content, type: .name)
 		let photoItem = TaskOptionsItem(title: "Add from Photo Library", description: "Attach a photo from your library", image: Icons.photo.sfSymbolString, section: .content, type: .photo)
-		
+		let priorityItem = TaskOptionsItem(title: "Priority", description: "Change the priority of the task", image: Icons.priority.sfSymbolString, section: .content, type: .priority)
 
 		reminderItem = TaskOptionsItem(title: "Alarm", description: "Edit the alarm time to set a notification to remind you", image: Icons.reminder.sfSymbolString, section: .reminder, type: .alarm)
 		let redactedStyleItem = TaskOptionsItem(title: "Redact", description: "Censor the task", image: Icons.redact.sfSymbolString, section: .redact, redactStyle: RedactState.censor, type: .redact) // update data
@@ -239,7 +241,7 @@ class TaskOptionsViewModel: NSObject {
 		}
 		guard let reminderItem = reminderItem else { return [] }
 		
-		taskOptionsItems.append(contentsOf: [titleItem, photoItem, reminderItem, redactedStyleItem, deleteItem])
+		taskOptionsItems.append(contentsOf: [titleItem, photoItem, priorityItem, reminderItem, redactedStyleItem, deleteItem])
 		
 		return taskOptionsItems
 	}
