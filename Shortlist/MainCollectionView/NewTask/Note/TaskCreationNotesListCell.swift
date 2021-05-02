@@ -21,7 +21,7 @@ fileprivate extension UIConfigurationStateCustomKey {
 
 class TaskCreationNotesListCell: BaseListCell<TaskCreationNotesItem>, UITextViewDelegate {
 	
-	var delegate: TaskCreationNotesViewController? = nil
+//	var delegate: TaskCreationNotesViewController? = nil
 	
 	private var textViewHeight: CGFloat = .zero
 
@@ -122,6 +122,6 @@ class TaskCreationNotesListCell: BaseListCell<TaskCreationNotesItem>, UITextView
 		//notify the cell's delegate (most likely a UIViewController)
 		//that UITextView's intrinsic content size has changed
 		//perhaps with a protocol such as this:
-		delegate?.textViewDidChange(newText: textView.text ?? "")
+//		delegate?.textViewDidChange(newText: textView.text ?? "")
 	}
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
-    
+
     var parentCoordinator: MainCoordinatorProtocol?
     
     var childCoordinators: [Coordinator] = [Coordinator]()
@@ -39,7 +39,7 @@ class SelectCategoryCoordinator: NSObject, Coordinator, UINavigationControllerDe
 		navigationController.pushViewController(vc, animated: true)
     }
 	
-	func dimiss(_ persistentContainer: PersistentContainer?) {
+	func dismissCurrentView() {
 		//get mainviewcontroller delegate
 		self.mainViewController.updateCategory()
 		navigationController.popViewController(animated: true)

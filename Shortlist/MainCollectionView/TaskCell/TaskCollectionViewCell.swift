@@ -82,7 +82,7 @@ class TaskCellV2: BaseCell<Task> {
 
 	private func setupViewsIfNeeded() {
 		guard viewConstraintCheck == nil else { return }
-		let lateralPadding: CGFloat = 55.0
+		let lateralPadding: CGFloat = 25.0
 		let topAndBottomPadding: CGFloat = 40.0
 
 		backgroundColor = .clear
@@ -90,10 +90,10 @@ class TaskCellV2: BaseCell<Task> {
 		clipsToBounds = true
 		layer.borderWidth = 0.0
 		layer.borderColor = ThemeV2.CellProperties.Border.cgColor
-		contentView.backgroundColor = .offWhite
+		contentView.backgroundColor = .clear
 		
 		let bg = UIView()
-		bg.backgroundColor = ThemeV2.CellProperties.Background
+        bg.backgroundColor = .clear
 		backgroundView = bg
 		
 		contentView.addSubview(taskNameLabel)
@@ -109,16 +109,15 @@ class TaskCellV2: BaseCell<Task> {
 		viewConstraintCheck = taskNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -topAndBottomPadding)
 		viewConstraintCheck?.isActive = true
 		taskNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: lateralPadding).isActive = true
-		taskNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -lateralPadding).isActive = true
+		taskNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -55).isActive = true
 		
 		dividerLine.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 0.0).isActive = true
 		dividerLine.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0).isActive = true
 		dividerLine.heightAnchor.constraint(equalToConstant: 3.0).isActive = true
 		dividerLine.widthAnchor.constraint(equalToConstant: bounds.width * 0.1).isActive = true
 		
-		
 		completeStatus.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-		completeStatus.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -13).isActive = true
+		completeStatus.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -lateralPadding).isActive = true
 	}
 	
 	override func updateConfiguration(using state: UICellConfigurationState) {
@@ -162,8 +161,6 @@ class TaskCellV2: BaseCell<Task> {
 			
 			// Content label
 			taskNameLabel.text = state.taskItem?.name ?? "None"
-			
-
 		}
 		
 		completeStatus.tintColor = state.taskItem?.complete ?? false ? UIColor.systemGreen : UIColor.systemGray

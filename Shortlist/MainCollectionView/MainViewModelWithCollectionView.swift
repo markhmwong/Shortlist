@@ -17,6 +17,8 @@ class MainViewModelWithCollectionView: NSObject {
 	
 	private var mainFetcher: MainFetcher<Day>! = nil
 	
+    var day: Day? = nil
+    
 	override init() {
 		super.init()
 		prepareDataSource()
@@ -36,7 +38,7 @@ class MainViewModelWithCollectionView: NSObject {
 	private func configureSnapshot() -> NSDiffableDataSourceSnapshot<Priority, Task> {
 		var snapshot = NSDiffableDataSourceSnapshot<Priority, Task>()
 		snapshot.appendSections([.high, .medium, .low])
-		let day = mainFetcher.fetchRequestedObjects()?.first
+        self.day = mainFetcher.fetchRequestedObjects()?.first
 		
 		let tasks = day?.dayToTask?.allObjects as? [Task] ?? []
 		for (_, task) in tasks.enumerated() {
@@ -44,6 +46,21 @@ class MainViewModelWithCollectionView: NSObject {
 		}
 		return snapshot
 	}
+    
+    func updateSnapshot() {
+        guard let mainFetcher = self.mainFetcher else { return }
+        var snapshot = NSDiffableDataSourceSnapshot<Priority, Task>()
+        snapshot.appendSections([.high, .medium, .low])
+        self.day = mainFetcher.fetchRequestedObjects()?.first
+        if let day = self.day {
+            let tasks = day.dayToTask?.allObjects as? [Task] ?? []
+            for (_, task) in tasks.enumerated() {
+                snapshot.appendItems([task], toSection: Priority.init(rawValue: task.priority))
+            }
+            diffableDataSource.apply(snapshot, animatingDifferences: true)
+        }
+        
+    }
 	
 	// MARK: - Register
 	private func configureCellRegistration() -> UICollectionView.CellRegistration<TaskCellV2, Task> {

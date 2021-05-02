@@ -59,7 +59,6 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		
 		createCollectionView()
 		mainFetcher.initFetchedObjects() // must be called first
-		print("Mainfetcher \(mainFetcher)")
 		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
 	}
 	
@@ -68,7 +67,7 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		collectionView = BaseCollectionView(frame: .zero, collectionViewLayout: viewModel.createCollectionViewLayout())
 		collectionView.delegate = self
 		view.addSubview(collectionView)
-
+        
 		collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -139,19 +138,45 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 	}
 }
 
+extension TaskDetailViewController {
+    func showNoteContextMenu() -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
+        
+            let viewNote = UIAction(title: "View Note", image: UIImage(systemName: "note.text"), identifier: UIAction.Identifier(rawValue: "view"), discoverabilityTitle: nil, state: .off) { [weak self] (action) in
+                //show note
+                guard let self = self else { return }
+                self.coordinator.showNotesInModal(task: self.viewModel.data, note: nil, persistentContainer: self.viewModel.persistentContainer)
+            }
+            
+            let editNote = UIAction(title: "Edit Note", image: UIImage(systemName: "pencil.circle"), identifier: UIAction.Identifier(rawValue: "edit"), discoverabilityTitle: nil, state: .off) { [weak self] (action) in
+                //show note
+                guard let self = self else { return }
+                self.coordinator.showNotesInEditMode(task: self.viewModel.data, note: nil, persistentContainer: self.viewModel.persistentContainer)
+            }
+            
+            return UIMenu(title: "Note Options", image: nil, identifier: nil, children: [editNote, viewNote])
+        }
+    }
+}
+
 // MARK: - Collection View Delegate
 extension TaskDetailViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
 		
 		if let section = TaskDetailSections.init(rawValue: indexPath.section) {
 			switch section {
-				case .note, .title, .complete:
+                case .note:
+                    let num = collectionView.numberOfItems(inSection: indexPath.section)
+                    if (indexPath.item == indexPath.endIndex) || num < 2 {
+                        return nil
+                    } else {
+                        return self.showNoteContextMenu()
+                    }
+				case .title, .complete:
 					()
 				case .photos:
-					
-					if indexPath.last ?? 0 == indexPath.item {
+					if indexPath.item == indexPath.endIndex - 1 {
 						let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
-						
 							let addPhoto = UIAction(title: "Add Photo", image: UIImage(systemName: "plus"), identifier: UIAction.Identifier(rawValue: "add"), discoverabilityTitle: nil, state: .off) { (action) in
 							}
 							
@@ -185,14 +210,25 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath)
 		
-		let itemsInSection = collectionView.numberOfItems(inSection: indexPath.section) - 1
+		let itemsInSection = collectionView.numberOfItems(inSection: indexPath.section)
 		let section = TaskDetailSections.init(rawValue: indexPath.section)
 		
 		switch section {
 			case .note:
-				if (itemsInSection == indexPath.row) {
-					print("last note")
-				}
+                if let noteCell = cell as? TaskDetailNotesCell {
+                    
+                    if let item = noteCell.configurationState.notesItem, let id = item.id {
+                        let obj = viewModel.persistentContainer.viewContext.object(with: id) as! TaskNote
+                        // show existing note
+                        
+                        coordinator.showNotesInModal(task: viewModel.data, note: obj, persistentContainer: viewModel.persistentContainer)
+                    } else {
+                        // add a note - don't use showNotesInModal
+                        coordinator.showNotesInEditMode(task: viewModel.data, note: nil, persistentContainer: viewModel.persistentContainer)
+                    }
+                } else {
+                    coordinator.showNotesInModal(task: viewModel.data, note: nil, persistentContainer: viewModel.persistentContainer)
+                }
 			case .photos:
 				if (itemsInSection == indexPath.row) {
 					// Add Photo
@@ -207,6 +243,18 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 			case .title:
 				() // do nothing
 			case .complete:
+                
+                
+//                if let completionCell = cell as? TaskDetailCompletionCell {
+//
+//                    if let item = completionCell.configurationState.completionItem, let id = item.id {
+//                        let object = viewModel.persistentContainer.viewContext.object(with: id) as! Task
+//                        object.complete = !object.complete
+//                        viewModel.persistentContainer.saveContext()
+//
+//                        completionCell.setNeedsUpdateConfiguration()
+//                    }
+//                }
 				print("completion button incomplete")
 			case .none:
 				()

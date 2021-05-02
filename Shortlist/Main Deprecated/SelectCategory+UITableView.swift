@@ -54,6 +54,6 @@ extension SelectCategoryViewController: UITableViewDataSource, UITableViewDelega
 		let cell = tableView.cellForRow(at: indexPath)
 		guard let vm = delegate.viewModel else { return }
 		vm.category = cell?.textLabel?.text
-		coordinator?.dimiss(nil)
+		coordinator?.dismissCurrentView()
 	}
 }

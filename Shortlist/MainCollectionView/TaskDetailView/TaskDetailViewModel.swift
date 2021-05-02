@@ -26,7 +26,7 @@ class TaskDetailViewModel: NSObject {
 		
 	private var completionStatus: Bool
 	
-	private var data: Task
+    private(set) var data: Task
 	
 	private var diffableDataSource: UICollectionViewDiffableDataSource<TaskDetailSections, DataItem>! = nil
 	
@@ -40,7 +40,7 @@ class TaskDetailViewModel: NSObject {
 		self.data = task
 		self.completionStatus = task.complete
 		self.persistentContainer = persistentContainer
-		self.titleItem = TitleItem(title: "Oops no name!")
+        self.titleItem = TitleItem(title: "Oops no name!", priority: Priority.medium)
 		self.notesItem = []
 		self.photoItem = []
 		super.init()
@@ -128,7 +128,6 @@ class TaskDetailViewModel: NSObject {
 		}
 		
 		updateSnapshot()
-
 	}
 	
 	/*
@@ -146,17 +145,17 @@ class TaskDetailViewModel: NSObject {
 		
 		if let task = mainFetcher.fetchRequestedObjects()?.first {
 			
-			let title = TitleItem(title: task.name ?? "None")
+            let title = TitleItem(title: task.name ?? "None", priority: Priority.init(rawValue: task.priority) ?? .medium)
 			
 			snapshot.appendItems([DataItem.title(title)], toSection: .title)
 			
-			let completionItem = CompletionItem(id: UUID(), name: "Complete", isComplete: false)
+            let completionItem = CompletionItem(id: task.objectID, name: "Complete", isComplete: task.complete)
 			snapshot.appendItems([DataItem.complete(completionItem)], toSection: .complete)
 
 			// converts the core data model to a struct
 			if task.taskToNotes == nil {
 				// pre-2.0 catcher for notes
-				self.notesItem = [NotesItem(notes: data.details ?? "None", isButton: false)]
+                self.notesItem = [NotesItem(id: nil, notes: data.details ?? "None", isButton: false)]
 			} else {
 				// post-2.0
 				var noteArray: [NotesItem] = []
@@ -165,22 +164,24 @@ class TaskDetailViewModel: NSObject {
 
 					if notes.count != 0 {
 						for note in notes.array as! [TaskNote] {
-							let notesItem = NotesItem(notes: note.note ?? "None", isButton: false)
+                            let notesItem = NotesItem(id: note.objectID, notes: note.note ?? "None", isButton: false)
 							let dataItem = DataItem.notes(notesItem)
 							noteArray.append(notesItem)
 							snapshot.appendItems([dataItem], toSection: .note)
 						}
-					} else {
-						// empty notes
-						let notesItem = NotesItem(notes: "No notes yet!", isButton: false)
-						let dataItem = DataItem.notes(notesItem)
-						noteArray.append(notesItem)
-						snapshot.appendItems([dataItem], toSection: .note)
 					}
-
+                    
+                    //add additional note for
+                    if notes.count <= 4 {
+                        let notesItem = NotesItem(id: nil, notes: "Add a brief note", isButton: true)
+                        let dataItem = DataItem.notes(notesItem)
+                        noteArray.append(notesItem)
+                        snapshot.appendItems([dataItem], toSection: .note)
+                    }
+                    
 				} else {
 					// empty notes
-					let notesItem = NotesItem(notes: "No notes yet!", isButton: false)
+                    let notesItem = NotesItem(id: nil, notes: "Add a brief note", isButton: true)
 					let dataItem = DataItem.notes(notesItem)
 					noteArray.append(notesItem)
 					snapshot.appendItems([dataItem], toSection: .note)
@@ -201,19 +202,12 @@ class TaskDetailViewModel: NSObject {
 					}
 				}
 
-				// Include "Add" button
+				// "Add" button
 				if photoArray.count < 4 && photoArray.count >= 0 {
-					let photoItem = PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true)
-					let photoItemB = PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true)
-
+					let photoItem = PhotoItem(id: UUID(), photo: nil, caption: "Add a new photo", isButton: true)
 					let dataItem = DataItem.photo(photoItem)
-					let dataItemB = DataItem.photo(photoItemB)
-					let dataItemC = DataItem.photo(PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true))
-					let dataItemD = DataItem.photo(PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true))
-					let dataItemE = DataItem.photo(PhotoItem(id: UUID(), photo: nil, caption: "Test Caption", isButton: true))
 					photoArray.append(photoItem)
-					photoArray.append(photoItemB)
-					snapshot.appendItems([dataItem, dataItemB, dataItemC, dataItemD, dataItemE], toSection: .photos)
+					snapshot.appendItems([dataItem], toSection: .photos)
 				}
 				self.photoItem = photoArray
 			}
@@ -262,6 +256,7 @@ class TaskDetailViewModel: NSObject {
 			guard let _ = self else { return }
 			// configure cell
 			cell.configureCell(with: item)
+            
 		}
 		return cellConfig
 	}

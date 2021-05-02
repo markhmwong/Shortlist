@@ -9,7 +9,9 @@
 import UIKit
 
 class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
-    
+    func dismissCurrentView() {
+        
+    }
     weak var parentCoordinator: MainCoordinator?
     
 	weak var parentCoordinatorFromSettings: SettingsCoordinator?

@@ -14,6 +14,7 @@ enum Priority: Int16, CaseIterable {
 	case high = 0 // pressing priority
 	case medium //doable
 	case low // touchandgo priority
+    // case flash
 	case none
 	
 	init() {

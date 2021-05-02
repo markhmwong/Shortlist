@@ -11,7 +11,9 @@ import Foundation
 import UIKit
 
 class CategoryTasksCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
-    
+    func dismissCurrentView() {
+        
+    }
     weak var parentCoordinator: BackLogCoordinator?
     
     var childCoordinators: [Coordinator] = [Coordinator]()

@@ -13,15 +13,15 @@ import UIKit
 // MARK: - Extension
 // These two extensions must be individually classified for each cell. You'll also find these extensions at WhatsNewCell and PermissionsCell
 // Declare an extension on the cell state struct to provide a typed property for this custom state.
-private extension UICellConfigurationState {
+extension UICellConfigurationState {
 	var taskOptionsItem: TaskOptionsItem? {
-		set { self[.item] = newValue }
-		get { return self[.item] as? TaskOptionsItem }
+		set { self[.taskOptionsItem] = newValue }
+		get { return self[.taskOptionsItem] as? TaskOptionsItem }
 	}
 }
 
 fileprivate extension UIConfigurationStateCustomKey {
-	static let item = UIConfigurationStateCustomKey("com.whizbang.state.taskOptions")
+	static let taskOptionsItem = UIConfigurationStateCustomKey("com.whizbang.shortlist.cell.taskOptions")
 }
 
 // MARK: - Cell
@@ -89,9 +89,12 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 			let bgView = UIView()
 			bgView.backgroundColor = .clear
 			backgroundView = bgView
-			content.textProperties.color = UIColor.systemRed
-			content.imageProperties.tintColor = UIColor.systemRed
-			content.secondaryTextProperties.color = UIColor.systemRed
+			content.textProperties.color = UIColor.systemRed.adjust(by: -30)!
+			content.imageProperties.tintColor = UIColor.systemRed.adjust(by: -30)!
+			content.secondaryTextProperties.color = UIColor.systemRed.adjust(by: -30)!
+            layer.cornerRadius = 8
+            layer.borderWidth = 2
+            layer.borderColor = UIColor.systemRed.adjust(by: -30)!.cgColor
 		} else {
 			accessories = [.disclosureIndicator()]
 		}
@@ -100,7 +103,7 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 			case .alarm:
 				content.imageProperties.tintColor = UIColor.systemBlue
 			case .delete:
-				content.imageProperties.tintColor = UIColor.systemRed
+				content.imageProperties.tintColor = UIColor.systemRed.adjust(by: -30)!
 			case .name:
 				content.imageProperties.tintColor = UIColor.systemIndigo
 			case .note:

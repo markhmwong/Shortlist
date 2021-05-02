@@ -9,6 +9,10 @@
 import UIKit
 
 class TaskDetailCoordinator: NSObject, Coordinator {
+    func dismissCurrentView() {
+        navigationController.popViewController(animated: true)
+    }
+    
 	var childCoordinators: [Coordinator] = []
 	
 	// parent navigationController
@@ -17,7 +21,7 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 	var task: Task
 	
 	var persistentContainer: PersistentContainer?
-	
+	    
 	// New navigation stack
 //	var navController: UINavigationController?
 	
@@ -33,10 +37,7 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 			fatalError("PersistentContainer cannot be loaded")
 		}
 		self.persistentContainer = persistentContainer
-		
-//		let vm = NewTaskDetailViewModel(task: task, persistentContainer: persistentContainer)
-//		let vc = NewTaskDetailViewController(coordinator: self, viewModel: vm)
-//		navigationController.pushViewController(vc, animated: true)
+
 		let viewModel = TaskDetailViewModel(task: task, persistentContainer: persistentContainer)
 		let vc = TaskDetailViewController(viewModel: viewModel, coordinator: self)
 
@@ -55,6 +56,37 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 		
 		navigationController.present(nav, animated: true)
 	}
+    
+    func showNotesInModal(task: Task, note: TaskNote?, persistentContainer: PersistentContainer) {
+        guard let note = note else {
+            // for a new note
+            let newNote = TaskNote(context: persistentContainer.viewContext)
+            newNote.createNotes(note: "There seems to be a problem recovering this note :(", isButton: false)
+            let vc = ContentViewController(editType: .newNote, task: task, taskNote: newNote, persistentContainer: persistentContainer, coordinator: self)
+            navigationController.pushViewController(vc, animated: true)
+            return
+        }
+        
+        let vc = ContentViewController(editType: .notes, task: task, taskNote: note, persistentContainer: persistentContainer, coordinator: self, modal: true)
+        navigationController.present(vc, animated: true) {
+            //
+        }
+    }
+    
+    func showNotesInEditMode(task: Task, note: TaskNote?, persistentContainer: PersistentContainer) {
+
+        guard let note = note else {
+            // for a new note
+            let newNote = TaskNote(context: persistentContainer.viewContext)
+            newNote.createNotes(note: "Expand on your task.. just a little", isButton: false)
+            let vc = ContentViewController(editType: .newNote, task: task, taskNote: newNote, persistentContainer: persistentContainer, coordinator: self)
+            navigationController.pushViewController(vc, animated: true)
+            return
+        }
+        
+        let vc = ContentViewController(editType: .notes, task: task, taskNote: note, persistentContainer: persistentContainer, coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
 	
 	/*
 	

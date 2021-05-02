@@ -81,15 +81,17 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 	
 	private var persistentContainer: PersistentContainer
 	
-	private var coordinator: TaskOptionsCoordinator
+	private var coordinator: Coordinator
 	
-	init(editType: TaskContentEditable, task: Task, taskNote: TaskNote? = nil, persistentContainer: PersistentContainer, coordinator: TaskOptionsCoordinator) {
+    private var isModal: Bool
+    
+    init(editType: TaskContentEditable, task: Task, taskNote: TaskNote? = nil, persistentContainer: PersistentContainer, coordinator: Coordinator, modal: Bool = false) {
 		self.coordinator = coordinator
 		self.persistentContainer = persistentContainer
 		self.editType = editType
 		self.task = task
 		self.taskNote = taskNote
-		
+        self.isModal = modal
 		super.init(nibName: nil, bundle: nil)
 		
 		// update UI label and limits as limits are different for Title names and Notes
@@ -99,11 +101,11 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 				dataView.text = task.name
 				maxLimit = CharacterLimitConstants.titleLimit
 			case .notes:
-				titleLabel.text = "QUICK NOTES" // static text
+				titleLabel.text = "QUICK NOTE" // static text
 				dataView.text = taskNote?.note ?? "Unknown Note"
 				maxLimit = CharacterLimitConstants.noteLimit
 			case .newNote:
-				titleLabel.text = "QUICK NOTES" // static text
+				titleLabel.text = "QUICK NOTE" // static text
 				dataView.text = taskNote?.note ?? "Unknown Note"
 				maxLimit = CharacterLimitConstants.noteLimit
 		}
@@ -129,26 +131,67 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 		
 		// navigation
 		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSave))
-		
-		view.addSubview(dataView)
-		view.backgroundColor = ThemeV2.Background
-		view.addSubview(titleLabel)
-		view.addSubview(characterLimit)
-
-		titleLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 10.0).isActive = true
-		titleLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
-		
-		dataView.contentInset = .zero
-		dataView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10.0).isActive = true
-		dataView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
-		dataView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
-		dataView.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-		
-		characterLimit.topAnchor.constraint(equalTo: dataView.bottomAnchor).isActive = true
-		characterLimit.trailingAnchor.constraint(equalTo: dataView.trailingAnchor).isActive = true
-		
 		dataView.becomeFirstResponder()
+        
+        if isModal {
+            dataView.isEditable = false
+            view.backgroundColor = .clear
+            addBlurToViewController()
+            
+            let smallView = UIView()
+            smallView.backgroundColor = .clear//ThemeV2.Background
+            smallView.layer.cornerRadius = 10.0
+            smallView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(smallView)
+            smallView.addSubview(titleLabel)
+            smallView.addSubview(dataView)
+            smallView.addSubview(characterLimit)
+            
+            smallView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 20).isActive = true
+            smallView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -20).isActive = true
+            smallView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 200).isActive = true
+            smallView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -200).isActive = true
+            
+            // static title
+            titleLabel.topAnchor.constraint(equalTo: smallView.layoutMarginsGuide.topAnchor, constant: 10.0).isActive = true
+            titleLabel.leadingAnchor.constraint(equalTo: smallView.layoutMarginsGuide.leadingAnchor).isActive = true
+            
+            // the actual note
+            dataView.contentInset = .zero
+            dataView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10.0).isActive = true
+            dataView.leadingAnchor.constraint(equalTo: smallView.layoutMarginsGuide.leadingAnchor).isActive = true
+            dataView.trailingAnchor.constraint(equalTo: smallView.layoutMarginsGuide.trailingAnchor).isActive = true
+            dataView.bottomAnchor.constraint(equalTo: smallView.bottomAnchor).isActive = true
+            
+            characterLimit.topAnchor.constraint(equalTo: dataView.bottomAnchor).isActive = true
+            characterLimit.trailingAnchor.constraint(equalTo: dataView.trailingAnchor).isActive = true
+        } else {
+            view.addSubview(dataView)
+            view.addSubview(titleLabel)
+            view.addSubview(characterLimit)
+            
+            view.backgroundColor = ThemeV2.Background
+            titleLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 10.0).isActive = true
+            titleLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
+            
+            dataView.contentInset = .zero
+            dataView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10.0).isActive = true
+            dataView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
+            dataView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
+            dataView.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            
+            characterLimit.topAnchor.constraint(equalTo: dataView.bottomAnchor).isActive = true
+            characterLimit.trailingAnchor.constraint(equalTo: dataView.trailingAnchor).isActive = true
+        }
 	}
+    
+    func addBlurToViewController() {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.systemUltraThinMaterial)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+    }
 	
 	@objc func handleSave() {
 		// save based on edit Type

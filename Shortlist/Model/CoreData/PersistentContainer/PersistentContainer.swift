@@ -12,7 +12,7 @@ import CoreData
 class PersistentContainer: NSPersistentCloudKitContainer {
     
 	// create queue
-	let cdQueue = DispatchQueue(label: "com.whizbang.queue.coredata", qos: .utility)
+	private let cdQueue = DispatchQueue(label: "com.whizbang.queue.coredata", qos: .utility)
 	
 	func saveContext(backgroundContext: NSManagedObjectContext? = nil) {
 		let context = backgroundContext ?? viewContext
@@ -148,6 +148,28 @@ class PersistentContainer: NSPersistentCloudKitContainer {
 		let category: BackLog = BackLog(context: context)
 		category.name = name
 	}
+    
+    func deleteTask(in day: Day, with task: Task) {
+        // detach Task Object from Day Object
+        day.removeFromDayToTask(task)
+        
+        if let id = task.id {
+            // remove Task object from memory
+            let request: NSFetchRequest<Task> = Task.fetchRequest()
+            request.returnsObjectsAsFaults = false
+            request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+            do {
+                let fetchedResults = try viewContext.fetch(request)
+                
+                if let object = fetchedResults.first {
+                    viewContext.delete(object)
+                }
+            } catch let error as NSError {
+                print("Task entity could not be fetched \(error)")
+            }
+        }
+        self.saveContext()
+    }
 	
 	func deletePhoto(withId id: UUID) {
 		let request: NSFetchRequest<TaskPhotos> = TaskPhotos.fetchRequest()

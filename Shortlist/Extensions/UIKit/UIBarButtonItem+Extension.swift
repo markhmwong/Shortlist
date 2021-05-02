@@ -42,6 +42,7 @@ extension UIBarButtonItem {
 		return UIBarButtonItem(customView: button)
 	}
 	
+    // for instances where the viewcontroller is pushed over an existing context
 	func backButton(target: Any?, action: Selector) -> UIBarButtonItem {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
@@ -49,6 +50,15 @@ extension UIBarButtonItem {
 		button.tintColor = Theme.Font.DefaultColor
         return UIBarButtonItem(customView: button)
 	}
+    
+    // for instances where the viewcontroller is presented over a current context
+    func dismissButton(target: Any?, action: Selector) -> UIBarButtonItem {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        button.addTarget(target, action: action, for: .touchUpInside)
+        button.tintColor = Theme.Font.DefaultColor
+        return UIBarButtonItem(customView: button)
+    }
 	
 	func cancelButton(target: Any?, action: Selector) -> UIBarButtonItem {
 		let button = UIButton(type: .system)
@@ -73,4 +83,12 @@ extension UIBarButtonItem {
 		button.tintColor = Theme.Font.DefaultColor
 		return UIBarButtonItem(customView: button)
 	}
+
+    func customButton(_ target: Any?, action: Selector, imageName: String) -> UIBarButtonItem {
+        let button = UIButton()
+        let image = UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.addTarget(target, action: action, for: .touchUpInside)
+        return UIBarButtonItem(customView: button)
+    }
 }

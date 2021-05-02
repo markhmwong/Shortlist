@@ -72,12 +72,11 @@ class NewTaskDetailHeaderCell: BaseCell<NewTaskDetailHeaderItem> {
 		backgroundView = bg
 		contentView.backgroundColor = UIColor.offWhite
 		backgroundColor = UIColor.offWhite
-		let longPadding: CGFloat = 30.0
+		
 		contentView.addSubview(header)
 		contentView.addSubview(reminder)
 		contentView.addSubview(redact)
 		contentView.addSubview(priority)
-
 		
 		priority.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
 		viewConstraintCheck = priority.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0)
@@ -85,11 +84,6 @@ class NewTaskDetailHeaderCell: BaseCell<NewTaskDetailHeaderItem> {
 		
 		header.leadingAnchor.constraint(equalTo: priority.trailingAnchor, constant: 10).isActive = true
 		header.bottomAnchor.constraint(equalTo: priority.bottomAnchor).isActive = true
-
-		
-//		header.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -longPadding).isActive = true
-//		contentView.bottomAnchor.constraint(equalTo: header.topAnchor, constant: longPadding).isActive = true
-//		header.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -longPadding).isActive = true
 		
 		redact.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10.0).isActive = true
 		redact.bottomAnchor.constraint(equalTo: reminder.topAnchor, constant: 0).isActive = true

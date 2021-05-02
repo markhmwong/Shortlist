@@ -9,7 +9,9 @@
 import UIKit
 
 class AboutCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
-    
+    func dismissCurrentView() {
+        
+    }
     weak var parentCoordinator: SettingsCoordinator?
     
     var childCoordinators: [Coordinator] = [Coordinator]()

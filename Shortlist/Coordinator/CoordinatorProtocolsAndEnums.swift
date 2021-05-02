@@ -14,10 +14,9 @@ protocol ObserveNavigation { }
 protocol Coordinator: AnyObject {
     var childCoordinators: [Coordinator] { get set }
     var navigationController: UINavigationController { get set }
-    
-	// add getTopMostViewController
 	
     func start(_ persistentContainer: PersistentContainer?)
+    func dismissCurrentView()
 }
 
 // Key to identify which coordinator was recently closed

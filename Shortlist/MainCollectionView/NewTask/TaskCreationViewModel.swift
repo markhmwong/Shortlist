@@ -24,7 +24,7 @@ class TaskCreationViewModel: NSObject {
 
 	var task: Task
 	
-	var delegate: TaskCreationNotesViewController? = nil
+//	var delegate: TaskCreationNotesViewController? = nil
 	
 	private var diffableDataSource: UICollectionViewDiffableDataSource<TaskCreationNotesSection, TaskCreationNotesItem>! = nil
 	
@@ -199,7 +199,7 @@ extension TaskCreationViewModel {
 		let cellConfig = UICollectionView.CellRegistration<TaskCreationNotesListCell, TaskCreationNotesItem> { (cell, indexPath, item) in
 			// setup cell views and text from item
 			cell.configureCell(with: item)
-			cell.delegate = self.delegate
+//			cell.delegate = self.delegate
 		}
 		return cellConfig
 	}

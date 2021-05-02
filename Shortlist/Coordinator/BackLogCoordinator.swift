@@ -11,7 +11,9 @@ import CoreData
 
 // Uses the Big List entity despite the name
 class BackLogCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol {
-    
+    func dismissCurrentView() {
+        
+    }
     weak var parentCoordinator: MainCoordinator?
 
     var childCoordinators: [Coordinator] = [Coordinator]()

@@ -139,7 +139,7 @@ class SelectCategoryViewController: UIViewController, CategoryInputViewProtocol 
 		guard let vm = delegate.viewModel else { return }
 		vm.category = category
 		inputContainer.updateField(category)
-		coordinator?.dimiss(nil)
+		coordinator?.dismissCurrentView()
 	}
 	
 	@objc

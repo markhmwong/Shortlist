@@ -1,5 +1,7 @@
 # Currently working on
-
+- weather
+- slide to complete
+- calendar and mail
 - Encapsulate category search into class
 - category
 	- recent categories

@@ -9,6 +9,9 @@
 import UIKit
 
 class ReminderCoordinator: NSObject, Coordinator {
+    func dismissCurrentView() {
+        
+    }
 	var childCoordinators: [Coordinator] = []
 	
 	var navigationController: UINavigationController

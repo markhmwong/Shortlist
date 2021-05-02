@@ -86,7 +86,7 @@ extension PermissionsViewModel {
 	func prepareDataSource() -> [PermissionItem] {
 		let cameraItem = PermissionItem(title: "Camera", image: "camera.fill", description: "Enables the use of the camera, to attach photos to the task.", section: .main, state: privacyPermissions.isCameraAllowed())
 		let biometricsItem = PermissionItem(title: "Face ID/ Touch ID", image: "faceid", description: "Allows the use of Face ID / Touch ID to lock and redact text of a specific task.", section: .main, state: privacyPermissions.isBiometricsAllowed())
-		let remindersItem = PermissionItem(title: "Reminders", image: "calendar", description: "Allows access to the Rmeinders App and allow data to be imported.", section: .main, state: privacyPermissions.isRemindersAllowed())
+		let remindersItem = PermissionItem(title: "Reminders", image: "calendar", description: "Allows access to Apple's Reminders App and allow data to be imported.", section: .main, state: privacyPermissions.isRemindersAllowed())
 		let photoItem = PermissionItem(title: "Photo Library", image: "photo.fill", description: "Allows access to your photo library to import photos.", section: .main, state: privacyPermissions.isPhotosAllowed())
 		
 		return [cameraItem, biometricsItem, remindersItem, photoItem]

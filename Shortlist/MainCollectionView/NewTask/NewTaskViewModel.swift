@@ -15,70 +15,33 @@ import UIKit
 	One view model passed between the new task guide
 
 */
-
-class TaskCreationViewModel: NSObject {
-	
-	var persistentContainer: PersistentContainer
-	
-	var keyboardSize: CGRect = .zero
-
-	var task: Task
-	
-	private var mainFetcher: MainFetcher<Task>! = nil
-	
-	init(persistentContainer: PersistentContainer) {
-		self.persistentContainer = persistentContainer
-		self.task = Task(context: persistentContainer.viewContext)
-		super.init()
-	}
-	
-	func createTask() {
-		if let day = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as? Day {
-			task.create(context: persistentContainer.viewContext, taskName: "", categoryName: "", createdAt: Date(), reminderDate: Date(), priority: 0, redact: 0)
-			day.addTask(with: task)
-			
-			persistentContainer.saveContext()
-		}
-	}
-	
-	func assignTitle(taskName: String) {
-		task.name = taskName
-	}
-	
-	func assignPriority(priority: Int16) {
-		task.priority = priority
-	}
-}
-
-enum NotesSection: Int, CaseIterable {
-	case main
-}
-
-//enum NotesType: Int, CaseIterable {
-//	case
-//}
-
-struct TaskCreationNotesItem {
-	var id: UUID = UUID()
-	var description: String
-	var date: Date = Date()
-}
-
-extension TaskCreationViewModel {
-	// MARK: - Diffable Datasource
-//	func configureSnapshot() {
-//		guard let diffableDataSource = diffableDataSource else { return }
-//
-//		var snapshot = NSDiffableDataSourceSnapshot<TaskOptionsSection, TaskOptionsItem>()
-//		snapshot.appendSections(TaskOptionsSection.allCases)
-//
-//		let data = prepareDataSource()
-//
-//		for d in data {
-//			snapshot.appendItems([d], toSection: d.section)
-//		}
-//
-//		// BUG: using this apply method refreshes the collectionview twice. however using the method with the animating differences won't allow for dynamic heights
-//		diffableDataSource.apply(snapshot, animatingDifferences: false) { }
-//	}
+class NewTaskViewModel: NSObject {
+    
+    struct TempTask {
+        var title: String = "A new task to focus on.."
+        var priority: Priority = .high
+        var redact: RedactStyle = .none
+        var reminder: DateComponents = DateComponents(hour: 12, minute: 0)
+    }
+    
+    private var persistentContainer: PersistentContainer
+    
+    var tempTask: TempTask
+    
+    init(persistentContainer: PersistentContainer) {
+        self.persistentContainer = persistentContainer
+        tempTask = TempTask()
+        super.init()
+    }
+    
+    func createTask() {
+        let task = Task(context: persistentContainer.viewContext)
+        task.create(context: persistentContainer.viewContext, taskName: "🚀 Quick tasks that aren't necessarily important or something to remind yourself, like catching up on TV shows or replying to emails.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value), redact: 0)
+        task.details = "The limit on a low priority task is 1 - 3. Quick tasks that don't need a lot of time spent on."
+        if let day = persistentContainer.fetchDayManagedObject(forDate: Calendar.current.today()) {
+            day.addToDayToTask(task)
+            persistentContainer.saveContext()
+        }
+    }
+    
 }

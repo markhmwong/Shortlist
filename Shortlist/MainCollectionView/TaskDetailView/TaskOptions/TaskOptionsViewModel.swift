@@ -23,8 +23,8 @@ enum TaskOptionsType: Int, CaseIterable {
 enum TaskOptionsSection: Int, CaseIterable {
 	case content
 	case notes
-	case reminder
-	case redact
+//	case reminder
+//	case redact
 	case data
 	
 	var value: String {
@@ -33,10 +33,10 @@ enum TaskOptionsSection: Int, CaseIterable {
 				return "Content"
 			case .notes:
 				return "Notes"
-			case .reminder:
-				return "Reminder"
-			case .redact:
-				return "Conceal"
+//			case .reminder:
+//				return "Reminder"
+//			case .redact:
+//				return "Conceal"
 			case .data:
 				return "Data"
 		}
@@ -48,10 +48,10 @@ enum TaskOptionsSection: Int, CaseIterable {
 				return "Edit written content such as the task name and notes related to the task."
 			case .notes:
 				return "Edit written notes attached to this task."
-			case .reminder:
-				return "Set a task reminder or an all day reminder, to set a 2 hour reminder which repeatedly appears as a notification on the lock screen for the entire day."
-			case .redact:
-				return "If you wish to hide a sensitive task, use Redact to censor the task from the main screen. This conceals the name and features of the task until authorized by the user to reveal itself. To access the task, you must use FaceID or a Passcode."
+//			case .reminder:
+//				return "Set a task reminder or an all day reminder, to set a 2 hour reminder which repeatedly appears as a notification on the lock screen for the entire day."
+//			case .redact:
+//				return "If you wish to hide a sensitive task, use Redact to censor the task from the main screen. This conceals the name and features of the task until authorized by the user to reveal itself. To access the task, you must use FaceID or a Passcode."
 			case .data:
 				return "Removing data is permanant and cannot be reversed."
 		}
@@ -61,23 +61,27 @@ enum TaskOptionsSection: Int, CaseIterable {
 		case name
 		case photo
 		case priority
+        case notes
+        case redactStyle
+        case alarm
 	}
 	
-	enum NotesSection: Int {
-		case notes
-	}
+//	enum NotesSection: Int {
+//		case notes
+//	}
+//    enum ConcealSection: Int {
+//        case redactStyle
+//    }
+//
+//    enum ReminderSection: Int {
+//        case alarm
+//    }
 	
 	enum DataSection: Int {
 		case delete
 	}
 	
-	enum ConcealSection: Int {
-		case redactStyle
-	}
-	
-	enum ReminderSection: Int {
-		case alarm
-	}
+
 }
 
 
@@ -210,39 +214,40 @@ class TaskOptionsViewModel: NSObject {
 		let photoItem = TaskOptionsItem(title: "Add from Photo Library", description: "Attach a photo from your library", image: Icons.photo.sfSymbolString, section: .content, type: .photo)
 		let priorityItem = TaskOptionsItem(title: "Priority", description: "Change the priority of the task", image: Icons.priority.sfSymbolString, section: .content, type: .priority)
 
-		reminderItem = TaskOptionsItem(title: "Alarm", description: "Edit the alarm time to set a notification to remind you", image: Icons.reminder.sfSymbolString, section: .reminder, type: .alarm)
-		let redactedStyleItem = TaskOptionsItem(title: "Redact", description: "Censor the task", image: Icons.redact.sfSymbolString, section: .redact, redactStyle: RedactState.censor, type: .redact) // update data
+		reminderItem = TaskOptionsItem(title: "Alarm", description: "Edit the alarm time to set a notification to remind you", image: Icons.reminder.sfSymbolString, section: .content, type: .alarm)
+		let redactedStyleItem = TaskOptionsItem(title: "Redact", description: "Censor the task", image: Icons.redact.sfSymbolString, section: .content, redactStyle: RedactState.censor, type: .redact) // update data
 		let deleteItem = TaskOptionsItem(title: "Delete Task", description: "Remove task from today's list", image: Icons.delete.sfSymbolString, section: .data, delete: true, type: .delete)
 		
-		// Handle notes and its' items
-		if let task = mainFetcher.fetchRequestedObjects()?.first {
-			if let notes = task.taskToNotes {
-				
-				// No notes
-				if notes.count == 0 {
-					taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Edit the notes", image: Icons.notes.sfSymbolString, section: .notes, type: .note))
-				} else {
-					// Contains notes
-					for (index, item) in notes.array.enumerated() {
-						// existing note
-						let note = item as! TaskNote
-						taskOptionsItems.append(TaskOptionsItem(title: "\(note.note ?? "Add a Note")", description: "", image: "\(index)\(Icons.noteNumber.sfSymbolString)", section: .notes, type: .note))
-						
-						// add the extra item to allow the user to add a note
-						if (index == notes.array.count - 1) {
-							taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Include additional notes to flesh our the task.", image: "plus.square.fill.on.square.fill", section: .notes, type: .note))
-						}
-					}
-				}
-			} else {
-				// nil notes in case we haven't initialised the relationship between Task and Notes
-				taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Edit the notes", image: Icons.notes.sfSymbolString, section: .notes, type: .note))
-			}
-		}
+		
 		guard let reminderItem = reminderItem else { return [] }
 		
-		taskOptionsItems.append(contentsOf: [titleItem, photoItem, priorityItem, reminderItem, redactedStyleItem, deleteItem])
+		taskOptionsItems.append(contentsOf: [titleItem, priorityItem, photoItem, reminderItem, redactedStyleItem, deleteItem])
 		
+        // Handle notes and its' items
+        if let task = mainFetcher.fetchRequestedObjects()?.first {
+            if let notes = task.taskToNotes {
+                let section: TaskOptionsSection = .notes
+                // No notes
+                if notes.count == 0 {
+                    taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Edit the notes", image: Icons.notes.sfSymbolString, section: section, type: .note))
+                } else {
+                    // Contains notes
+                    for (index, item) in notes.array.enumerated() {
+                        // existing note
+                        let note = item as! TaskNote
+                        taskOptionsItems.append(TaskOptionsItem(title: "\(note.note ?? "Add a Note")", description: "", image: "\(index)\(Icons.noteNumber.sfSymbolString)", section: section, type: .note))
+                        
+                        // add the extra item to allow the user to add a note
+                        if (index == notes.array.count - 1) {
+                            taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Include additional notes to flesh our the task.", image: "plus.square.fill.on.square.fill", section: section, type: .note))
+                        }
+                    }
+                }
+            } else {
+                // nil notes in case we haven't initialised the relationship between Task and Notes
+                taskOptionsItems.append(TaskOptionsItem(title: "Add a Note", description: "Edit the notes", image: Icons.notes.sfSymbolString, section: .content, type: .note))
+            }
+        }
 		return taskOptionsItems
 	}
 	

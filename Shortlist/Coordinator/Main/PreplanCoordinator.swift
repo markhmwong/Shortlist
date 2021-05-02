@@ -11,13 +11,16 @@ import CoreData
 
 // Uses the Big List entity despite the name
 class PreplanCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol, CleanupProtocol {
+    func dismissCurrentView() {
+        
+    }
+    
+    var navigationController: UINavigationController
     
     weak var parentCoordinator: MainCoordinator?
 
     var childCoordinators: [Coordinator] = [Coordinator]()
-    
-    var navigationController: UINavigationController
-    
+        
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
     }

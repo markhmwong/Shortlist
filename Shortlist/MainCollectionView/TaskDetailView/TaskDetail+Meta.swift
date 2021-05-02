@@ -6,7 +6,7 @@
 //  Copyright © 2020 Mark Wong. All rights reserved.
 //
 
-import Foundation
+import CoreData
 
 struct TaskDetailSupplementaryView {
 	static var Header: String = "com.whizbang.taskdetail.header"
@@ -14,16 +14,16 @@ struct TaskDetailSupplementaryView {
 
 enum TaskDetailSections: Int, CaseIterable {
 	case title = 0
+    case complete
 	case note
 	case photos
-	case complete
-//	case reminder
 	
+//	case reminder
 //	case options
 }
 
 struct CompletionItem: Hashable {
-	var id: UUID
+	var id: NSManagedObjectID?
 	var name: String
 	var isComplete: Bool
 }
@@ -39,12 +39,13 @@ struct PhotoItem: Hashable {
 
 struct TitleItem: Hashable {
 	var title: String
+    var priority: Priority
 }
 
 struct NotesItem: Hashable {
-	let id: UUID = UUID()
+	let id: NSManagedObjectID?
 	var notes: String
-	// date
+    var date: Date?
 	var isButton: Bool
 }
 

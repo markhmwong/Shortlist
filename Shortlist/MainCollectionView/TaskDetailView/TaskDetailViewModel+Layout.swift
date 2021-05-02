@@ -25,6 +25,8 @@ extension TaskDetailViewModel {
 					return self.createLayoutForNotesSection()
 				case .photos:
 					return self.createLayoutForPhotoSection()
+                case .complete:
+                    return self.createLayoutForDefaultSection()
 				default:
 					return self.createLayoutForDefaultSection()
 			}
@@ -36,7 +38,7 @@ extension TaskDetailViewModel {
 	
 	// Default Section Layout
 	func createLayoutForDefaultSection() -> NSCollectionLayoutSection {
-		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(150.0))
+		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(40.0))
 
 		let item = NSCollectionLayoutItem(layoutSize: size)
 		item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(20), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
@@ -66,10 +68,10 @@ extension TaskDetailViewModel {
 	
 	// MARK: - Layout title Header
 	func createLayoutForTitleSection() -> NSCollectionLayoutSection {
-		let estimatedHeight: CGFloat = 100.0
+		let estimatedHeight: CGFloat = 400.0
 		let contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 		
-		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(estimatedHeight))
+		let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.5))
 
 		let item = NSCollectionLayoutItem(layoutSize: size)
 		
@@ -90,7 +92,7 @@ extension TaskDetailViewModel {
 		item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(10), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
 		item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
 		
-		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.32))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.93), heightDimension: .fractionalWidth(0.32))
 		
 		let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
 		group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 20, trailing: 5)
@@ -116,10 +118,10 @@ extension TaskDetailViewModel {
 		let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
 		group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
 		let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(30.0))
-		let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: TaskDetailSupplementaryView.Header, alignment: .top)
+//		let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: TaskDetailSupplementaryView.Header, alignment: .top)
 
 		let sectionLayout = NSCollectionLayoutSection(group: group)
-		sectionLayout.boundarySupplementaryItems = [header]
+		sectionLayout.boundarySupplementaryItems = []
 
 		return sectionLayout
 	}

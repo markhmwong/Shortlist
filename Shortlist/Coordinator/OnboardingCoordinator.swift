@@ -37,7 +37,7 @@ class OnboardingCoordinator: NSObject, Coordinator, UINavigationControllerDelega
 		}
     }
 	
-	func dismiss(_ persistentContainer: PersistentContainer?) {
+	func dismissCurrentView() {
 		//get mainviewcontroller delegate
 		navigationController.dismiss(animated: true) {
 			

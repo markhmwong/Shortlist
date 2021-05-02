@@ -30,7 +30,7 @@ class StatsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, C
 		navigationController.pushViewController(vc, animated: true)
     }
 	
-	func dismiss() {
+	func dismissCurrentView() {
 		// check
 		navigationController.popViewController(animated: true)
 	}

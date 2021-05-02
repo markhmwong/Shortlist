@@ -85,47 +85,58 @@ extension TaskOptionsViewController: UICollectionViewDelegate {
 		if let section = TaskOptionsSection(rawValue: indexPath.section) {
 			
 			switch section {
+                case .notes:
+                    let cell = collectionView.cellForItem(at: indexPath) as! TaskOptionsCell
+                    let item = cell.item
+                    if item?.title == "Add a Note" {
+                        coordinator.showNotes(task: viewModel.data, note: nil, persistentContainer: viewModel.persistentContainer)
+                    } else {
+                        //to do this is supposed to be in its' own section - to be fixed!
+                        let note = viewModel.data.taskToNotes?.array[indexPath.row] as! TaskNote
+                        coordinator.showNotes(task: viewModel.data, note: note, persistentContainer: viewModel.persistentContainer)
+                    }
 				case .content:
-					if indexPath.item == TaskOptionsSection.ContentSection.name.rawValue {
-						coordinator.showName(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
-					}
+                    // probably get the cell
+                    let cell = collectionView.cellForItem(at: indexPath) as! TaskOptionsCell
+                    let type = cell.configurationState.taskOptionsItem?.type
+                    
+                    switch type {
+                        case .name:
+                            coordinator.showName(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
+
+                        case .alarm:
+                            coordinator.showAlarm(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
+
+                        case .note:
+                            ()
+//                            let cell = collectionView.cellForItem(at: indexPath) as! TaskOptionsCell
+//                            let item = cell.item
+//                            if item?.title == "Add a Note" {
+//                                coordinator.showNotes(task: viewModel.data, note: nil, persistentContainer: viewModel.persistentContainer)
+//                            } else {
+//                                //to do this is supposed to be in its' own section - to be fixed!
+//                                let note = viewModel.data.taskToNotes?.array[indexPath.row - 1] as! TaskNote
+//                                coordinator.showNotes(task: viewModel.data, note: note, persistentContainer: viewModel.persistentContainer)
+//                                print("display existing note")
+//                            }
+                        case .photo:
+                            ()
+                            // to do
+                        case .priority:
+                            coordinator.showPriority(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
+                        case .redact:
+                            coordinator.showRedactStyle(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
+
+                        case .none, .some(.delete):
+                            ()
+                    }
 					
-					if indexPath.item == TaskOptionsSection.ContentSection.priority.rawValue {
-						coordinator.showPriority(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
-					}
-					
-					if indexPath.item == TaskOptionsSection.ContentSection.photo.rawValue {
-						// to do
-					}
-				case .notes:
-					// create a new note
-					let cell = collectionView.cellForItem(at: indexPath) as! TaskOptionsCell
-					let item = cell.item
-					if item?.title == "Add a Note" {
-						coordinator.showNotes(task: viewModel.data, note: nil, persistentContainer: viewModel.persistentContainer)
-					} else {
-						// display existing note
-						//						coordinator.showName(data: viewModel.data)
-						
-						let note = viewModel.data.taskToNotes?.array[indexPath.row] as! TaskNote
-						coordinator.showNotes(task: viewModel.data, note: note, persistentContainer: viewModel.persistentContainer)
-						print("display existing note")
-					}
 				case .data:
 					if indexPath.item == TaskOptionsSection.DataSection.delete.rawValue {
 						// add additional confirmation
 						// ui action sheet / drawer from bottom
 					}
-				case .redact:
-					if indexPath.item == TaskOptionsSection.ConcealSection.redactStyle.rawValue {
-						coordinator.showRedactStyle(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
-					}
-				case .reminder:
-					if indexPath.item == TaskOptionsSection.ReminderSection.alarm.rawValue {
-						coordinator.showAlarm(data: viewModel.data, persistentContainer: viewModel.persistentContainer)
-					}
-
-			}
+            }
 		}
 	}
 }

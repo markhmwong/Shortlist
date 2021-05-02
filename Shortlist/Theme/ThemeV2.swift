@@ -30,6 +30,8 @@ struct ThemeV2 {
 	
 	// MARK: - Cell
 	struct CellProperties {
+        static let TertiaryBoldFont: UIFont = UIFont.preferredFont(forTextStyle: .footnote).with(weight: .bold)
+
 		static let TertiaryFont: UIFont = UIFont.preferredFont(forTextStyle: .footnote).with(weight: .regular)
 		
 		static let Title3Font: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .regular)
@@ -38,7 +40,7 @@ struct ThemeV2 {
 		
 		static let HeadingBoldFont: UIFont = UIFont.preferredFont(forTextStyle: .headline).with(weight: .black)
 		
-		static let Title1Black: UIFont = UIFont.preferredFont(forTextStyle: .title1).with(weight: .black)
+		static let Title1Black: UIFont = UIFont.preferredFont(forTextStyle: .title1).with(weight: .bold)
 
 		static let Title1Regular: UIFont = UIFont.preferredFont(forTextStyle: .title1).with(weight: .regular)
 		
@@ -65,7 +67,7 @@ struct ThemeV2 {
 				return UIColor.init { (UITraitCollection) -> UIColor in
 					switch (UITraitCollection.userInterfaceStyle) {
 						case .dark, .unspecified:
-							return .systemGray6
+							return .systemGray5
 						case .light:
 							return .offWhite
 						@unknown default:
@@ -190,17 +192,34 @@ struct ThemeV2 {
 				return UIColor.init { (UITraitCollection) -> UIColor in
 					switch (UITraitCollection.userInterfaceStyle) {
 						case .dark, .unspecified:
-							return UIColor.white.withAlphaComponent(0.1)
+							return UIColor.offWhite.withAlphaComponent(0.1)
 						case .light:
-							return .black
+							return .offWhite
 						@unknown default:
-							return UIColor.white.withAlphaComponent(0.1)
+							return UIColor.offWhite.withAlphaComponent(0.1)
 					}
 				}
 			} else {
 				return .white
 			}
 		}()
+        
+        static let AddANote: UIColor = {
+            if #available(iOS 13.0, *) {
+                return UIColor.init { (UITraitCollection) -> UIColor in
+                    switch (UITraitCollection.userInterfaceStyle) {
+                        case .dark, .unspecified:
+                            return UIColor.systemGray.adjust(by: -25)!
+                        case .light:
+                            return UIColor.systemGray.adjust(by: -25)!
+                        @unknown default:
+                            return UIColor.systemGray.adjust(by: -25)!
+                    }
+                }
+            } else {
+                return .white
+            }
+        }()
 	}
 	
 	static let Background: UIColor = {
@@ -208,11 +227,11 @@ struct ThemeV2 {
 			return UIColor.init { (UITraitCollection) -> UIColor in
 				switch (UITraitCollection.userInterfaceStyle) {
 					case .dark, .unspecified:
-						return .systemGray5
+						return .offBlack
 					case .light:
 						return .offWhite
 					@unknown default:
-						return .white
+						return .offWhite
 				}
 			}
 		} else {
@@ -223,7 +242,7 @@ struct ThemeV2 {
 	// MARK: Priority
 	struct Priority {
 		
-		static let HighPriorityFont: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .regular)
+		static let HighPriorityFont: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .bold)
 		
 		static let MediumPriorityFont: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .regular)
 		

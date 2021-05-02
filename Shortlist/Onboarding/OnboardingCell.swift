@@ -115,7 +115,7 @@ class OnboardingCell: UICollectionViewCell {
 	}
 	
 	@objc func handleSkip() {
-		coordinator?.dismiss(nil)
+		coordinator?.dismissCurrentView()
 	}
 	
 	override func prepareForReuse() {

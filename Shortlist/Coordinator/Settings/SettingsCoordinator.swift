@@ -10,7 +10,7 @@ import UIKit
 import MessageUI
 
 class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, CleanupProtocol, ObserverChildCoordinatorsProtocol {
-    
+
 	typealias DeletionClosure = () -> ()
 	
 //	weak var rootViewController: SettingsViewController? = nil
@@ -143,7 +143,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 		}
 		
 		let cancel = UIAlertAction(title: "Cancel", style: .default) { (action) in
-			self.dimiss()
+			self.dismissCurrentView()
 		}
 		alert.addAction(cancel)
 		alert.addAction(delete)
@@ -153,7 +153,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
         }
 	}
 	
-	func dimiss() {
+	func dismissCurrentView() {
 		navigationController.dismiss(animated: true) {
 			
 		}

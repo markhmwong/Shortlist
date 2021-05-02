@@ -40,7 +40,7 @@ class NewTaskDetailViewModel: NSObject {
 		self.data = task
 		self.completionStatus = task.complete
 		self.persistentContainer = persistentContainer
-		self.titleItem = TitleItem(title: "Oops no name!")
+        self.titleItem = TitleItem(title: "Oops no name!", priority: Priority.medium)
 		self.notesItem = []
 		self.photoItem = []
 		super.init()
@@ -100,7 +100,7 @@ class NewTaskDetailViewModel: NSObject {
 		
 		if let task = mainFetcher.fetchRequestedObjects()?.first {
 			
-			let title = TitleItem(title: task.name ?? "None")
+            let title = TitleItem(title: task.name ?? "None", priority: Priority.medium)
 			
 //			snapshot.appendItems([DataItem.title(title)], toSection: .title)
 			
@@ -175,11 +175,11 @@ class NewTaskDetailViewModel: NSObject {
 // MARK: view controller
 class NewTaskDetailViewController: BaseCollectionViewController {
 	
-	private var coordinator: TaskDetailCoordinator
+	private var coordinator: NewTaskCoordinator
 	
 	private var viewModel: NewTaskDetailViewModel
 	
-	init(coordinator: TaskDetailCoordinator, viewModel: NewTaskDetailViewModel) {
+	init(coordinator: NewTaskCoordinator, viewModel: NewTaskDetailViewModel) {
 		self.viewModel = viewModel
 		self.coordinator = coordinator
 		super.init(collectionViewLayout: viewModel.createLayoutForNewTaskDetails())

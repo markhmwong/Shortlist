@@ -32,6 +32,7 @@ struct MainFetcher<T: NSFetchRequestResult>: FetchedDataProtocol {
 	
 	// Objects requested by the origina descriptors and predicates formed in the fetchedResultsController
 	func fetchRequestedObjects() -> [T]? {
+        print(controller.fetchedObjects?.count)
 		return controller.fetchedObjects
 	}
 }
@@ -185,14 +186,16 @@ extension MainViewControllerWithCollectionView {
 	
 	override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
 		let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
-			
+            let object = self.viewModel.itemForSelection(indexPath: indexPath)
+
 			// from camera or camera roll
 			let camera = UIAction(title: "Attach Photo", image: UIImage(systemName: "camera.fill"), identifier: UIAction.Identifier(rawValue: "camera")) {_ in
 //				self.handleCamera()
 			}
 			
 			let complete = UIAction(title: "Mark as Complete", image: UIImage(systemName: "checkmark.circle.fill"), identifier: UIAction.Identifier(rawValue: "complete")) {_ in
-				print("complete")
+                object.complete = !object.complete
+                self.persistentContainer.saveContext()
 			}
 			
 			let open = UIAction(title: "View Task", image: UIImage(systemName: "eye.fill"), identifier: UIAction.Identifier(rawValue: "open"), discoverabilityTitle: nil, attributes: [], state: .off, handler: {action in
@@ -200,19 +203,19 @@ extension MainViewControllerWithCollectionView {
 			})
 			
 			let delete = UIAction(title: "Delete Task", image: UIImage(systemName: "minus.circle.fill"), identifier: UIAction.Identifier(rawValue: "delete"), discoverabilityTitle: nil, attributes: .destructive, state: .off, handler: {action in
-				print("delete ")
+                if let day = self.viewModel.day {
+                    self.persistentContainer.deleteTask(in: day, with: object)
+                }
 			})
 
 			return UIMenu(title: "Task Menu", image: nil, identifier: nil, children: [open, camera, complete, delete])
 		}
-		
 		return config
 	}
 }
 
 extension MainViewControllerWithCollectionView: NSFetchedResultsControllerDelegate {
 	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
-		print("did change content")
-		
+        viewModel.updateSnapshot()
 	}
 }

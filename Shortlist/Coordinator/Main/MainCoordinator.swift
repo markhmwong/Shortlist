@@ -10,7 +10,9 @@ import UIKit
 import CoreData
 
 class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol, ObserverChildCoordinatorsProtocol {
-	
+    func dismissCurrentView() {
+        
+    }
 	var rootViewController: MainViewController?
 	
     var childCoordinators: [Coordinator] = [Coordinator]()
@@ -56,10 +58,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	}
 	
 	func showCreateTask(_ persistentContainer: PersistentContainer?) {
-//		print("To do - Create Task")
-//		let child = NewTaskCoordinator(navigationController: navigationController)
-//		childCoordinators.append(child)
-//		child.start(persistentContainer)
+		print("To do - Create Task")
+		let child = NewTaskCoordinator(navigationController: navigationController)
+		childCoordinators.append(child)
+		child.start(persistentContainer)
 	}
 	
 	func showOnboarding(_ persistentContainer: PersistentContainer?) {
