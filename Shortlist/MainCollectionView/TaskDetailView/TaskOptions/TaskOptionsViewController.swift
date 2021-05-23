@@ -121,6 +121,7 @@ extension TaskOptionsViewController: UICollectionViewDelegate {
 //                            }
                         case .photo:
                             ()
+                            print("todo")
                             // to do
                         case .priority:
                             coordinator.showPriority(data: viewModel.data, persistentContainer: viewModel.persistentContainer)

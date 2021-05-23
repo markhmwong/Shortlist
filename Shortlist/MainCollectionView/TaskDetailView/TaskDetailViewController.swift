@@ -12,24 +12,7 @@ import CoreData
 
 class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-	// Core Data
-	private lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
-		// Create Fetch Request
-		let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
-		
-		// Configure Fetch Request
-		//this isn't right
-		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-		fetchRequest.predicate = NSPredicate(format: "id == %@", argumentArray: [viewModel.taskId()])
-		fetchRequest.fetchLimit = 1
-		
-		// Create Fetched Results Controller
-		let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewModel.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-		
-		// Configure Fetched Results Controller
-		fetchedResultsController.delegate = self
-		return fetchedResultsController
-	}()
+    private var cellAnimationFlags: [Bool] = [false, false, false, false, false]
 	
 	// Core Data
 	private var mainFetcher: MainFetcher<Task>! = nil
@@ -42,11 +25,13 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 	
 	private lazy var collectionView: BaseCollectionView! = nil
 	
+    private var taskDetailFetchedResultsViewController: TaskDetailFetchedResultsViewController! = nil
+    
 	init(viewModel: TaskDetailViewModel, coordinator: TaskDetailCoordinator) {
 		self.viewModel = viewModel
 		self.coordinator = coordinator
+
 		super.init(nibName: nil, bundle: nil)
-		self.mainFetcher = MainFetcher(controller: fetchedResultsController)
 	}
 	
 	required init?(coder: NSCoder) {
@@ -58,8 +43,11 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		navigationController?.transparent()
 		
 		createCollectionView()
-		mainFetcher.initFetchedObjects() // must be called first
-		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
+        self.taskDetailFetchedResultsViewController = TaskDetailFetchedResultsViewController(viewModel: viewModel, collectionView: collectionView)
+        addChild(taskDetailFetchedResultsViewController)
+        
+//		mainFetcher.initFetchedObjects() // must be called first
+//		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
 	}
 	
 	// create collection view
@@ -161,6 +149,28 @@ extension TaskDetailViewController {
 
 // MARK: - Collection View Delegate
 extension TaskDetailViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if cellAnimationFlags[indexPath.section] {
+            return
+        }
+        
+        cellAnimationFlags[indexPath.section] = true
+        if let cell = cell as? TaskDetailAnimation {
+            cell.animate()
+        }
+        
+        if let section = TaskDetailSections.init(rawValue: indexPath.section) {
+            switch section {
+                case .note, .title:
+                    print("title")
+                case .complete, .photos:
+                    ()
+            }
+        }
+    }
+    
 	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
 		
 		if let section = TaskDetailSections.init(rawValue: indexPath.section) {
@@ -243,8 +253,6 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 			case .title:
 				() // do nothing
 			case .complete:
-                
-                
 //                if let completionCell = cell as? TaskDetailCompletionCell {
 //
 //                    if let item = completionCell.configurationState.completionItem, let id = item.id {
@@ -268,9 +276,47 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 
 */
 
-extension TaskDetailViewController: NSFetchedResultsControllerDelegate {
+extension TaskDetailFetchedResultsViewController: NSFetchedResultsControllerDelegate {
 	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChangeContentWith snapshot: NSDiffableDataSourceSnapshotReference) {
-		guard let mainFetcher = mainFetcher else { return }
+		guard let _ = mainFetcher else { return }
 		viewModel.updateSnapshot()
 	}
+}
+
+class TaskDetailFetchedResultsViewController: UIViewController {
+    // Core Data
+    private lazy var fetchedResultsController: NSFetchedResultsController<Task> = {
+        // Create Fetch Request
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        
+        // Configure Fetch Request
+        //this isn't right
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", argumentArray: [viewModel.taskId()])
+        fetchRequest.fetchLimit = 1
+        
+        // Create Fetched Results Controller
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewModel.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        // Configure Fetched Results Controller
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
+    }()
+    
+    var viewModel: TaskDetailViewModel
+    
+    private var mainFetcher: MainFetcher<Task>! = nil
+
+    init(viewModel: TaskDetailViewModel, collectionView: BaseCollectionView) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+        self.mainFetcher = MainFetcher(controller: fetchedResultsController)
+        mainFetcher.initFetchedObjects() // must be called first
+        viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

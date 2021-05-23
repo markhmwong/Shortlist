@@ -22,6 +22,7 @@ class NewTaskViewModel: NSObject {
         var priority: Priority = .high
         var redact: RedactStyle = .none
         var reminder: DateComponents = DateComponents(hour: 12, minute: 0)
+        var category: String = "General"
     }
     
     private var persistentContainer: PersistentContainer
@@ -36,8 +37,7 @@ class NewTaskViewModel: NSObject {
     
     func createTask() {
         let task = Task(context: persistentContainer.viewContext)
-        task.create(context: persistentContainer.viewContext, taskName: "🚀 Quick tasks that aren't necessarily important or something to remind yourself, like catching up on TV shows or replying to emails.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value), redact: 0)
-        task.details = "The limit on a low priority task is 1 - 3. Quick tasks that don't need a lot of time spent on."
+        task.create(context: persistentContainer.viewContext, taskName: tempTask.title, categoryName: "General", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(tempTask.priority.rawValue), redact: tempTask.redact.rawValue)
         if let day = persistentContainer.fetchDayManagedObject(forDate: Calendar.current.today()) {
             day.addToDayToTask(task)
             persistentContainer.saveContext()

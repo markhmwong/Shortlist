@@ -10,7 +10,7 @@ import CoreData
 
 extension TaskNote {
 	
-	func createNotes(note: String, isButton: Bool) {
+	func createNotes(note: String, isButton: Bool = false) {
 		self.isButton = false
 		self.note = note
 	}

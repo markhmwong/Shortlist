@@ -51,13 +51,16 @@ class NewTaskCoordinator: NSObject, Coordinator {
     }
 	
     @objc func handleAddTask() {
-        let taskLow: Task = Task(context: persistentContainer.viewContext)
-        taskLow.create(context: persistentContainer.viewContext, taskName: "🚀 Quick tasks that aren't necessarily important or something to remind yourself, like catching up on TV shows or replying to emails.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value), redact: 0)
-        taskLow.details = "The limit on a low priority task is 1 - 3. Quick tasks that don't need a lot of time spent on."
-        if let day = persistentContainer.fetchDayManagedObject(forDate: Calendar.current.today()) {
-            day.addToDayToTask(taskLow)
-            persistentContainer.saveContext()
-            self.handleBack()
-        }
+        newTaskVc.addNewTask()
+        self.handleBack()
+//        let taskLow: Task = Task(context: persistentContainer.viewContext)
+//        taskLow.create(context: persistentContainer.viewContext, taskName: "🚀 Quick tasks that aren't necessarily important or something to remind yourself, like catching up on TV shows or replying to emails.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value), redact: 0)
+//        taskLow.details = "The limit on a low priority task is 1 - 3. Quick tasks that don't need a lot of time spent on."
+//        if let day = persistentContainer.fetchDayManagedObject(forDate: Calendar.current.today()) {
+//            day.addToDayToTask(taskLow)
+//            persistentContainer.saveContext()
+//            self.handleBack()
+//        }
+        navigationController.dismiss(animated: true, completion: nil)
     }
 }

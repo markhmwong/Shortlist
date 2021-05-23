@@ -40,8 +40,9 @@ class ReviewCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
     func start(_ persistentContainer: PersistentContainer?) {
 		// to do add persistent container
 		let vc = ReviewCollectionListViewController(viewModel: ReviewCollectionListViewModel())
+        navigationController.present(vc, animated: true, completion: nil)
 //		navigationController.pushViewController(vc, animated: true, completion: nil)
-		navigationController.pushViewController(vc, animated: true)
+//		navigationController.pushViewController(vc, animated: true)
 //        navigationController.delegate = self
 //        guard let persistentContainer = persistentContainer else {
 //            print("Persistent Container not loaded")

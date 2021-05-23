@@ -48,34 +48,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			// move to Task entity
 			let context = persistentContainer.viewContext
 			let dayObject = Day(context: persistentContainer.viewContext)
-			
 			dayObject.createNewDay(date: Calendar.current.today())
-			guard let stats = dayObject.dayToStats else { return true }
-			stats.totalTasks += 3
-			let taskHigh: Task = Task(context: context)
-			
-			if (Bool.random()) {
-				taskHigh.create(context: context, taskName: "📬 Visit mum.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value), redact: 0)
-			} else {
-				taskHigh.create(context: context, taskName: "📬 Visit dad.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value), redact: 0)
-			}
-			
-			// task details are deprecated
-			taskHigh.details = "These tasks are very limited of 1 - 2. Important and may take most of the day to complete."
-			dayObject.addToDayToTask(taskHigh)
-			let taskMed: Task = Task(context: context)
-
-			taskMed.create(context: context, taskName: "📕 A meeting with work colleagues, friends, family, grocery shopping, initial design or prototype.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.medium.value), redact: 0)
-			taskMed.details = "The limit on a medium priority task is 1 - 3."
-			dayObject.addToDayToTask(taskMed)
-			
-			let taskLow: Task = Task(context: context)
-			taskLow.create(context: context, taskName: "🚀 Quick tasks that aren't necessarily important or something to remind yourself, like catching up on TV shows or replying to emails.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value), redact: 0)
-			taskLow.details = "The limit on a low priority task is 1 - 3. Quick tasks that don't need a lot of time spent on."
-			dayObject.addToDayToTask(taskLow)
+            dayObject.addStartupTasks(context)
+            guard let stats = dayObject.dayToStats, let taskCount = dayObject.dayToTask?.count else { return true }
+            stats.totalTasks += Int64(taskCount)
 			persistentContainer.saveContext()
 
 		} else {
+            
+            if let day = persistentContainer.doesDayExist() {
+                if !day.reviewYesterday {
+//                    day.reviewYesterday = !day.reviewYesterday
+
+                    mainCoordinator?.reviewFlag = false
+                    mainCoordinator?.start(persistentContainer)
+
+                    // show review page
+                    DispatchQueue.main.async {
+                        self.mainCoordinator?.showReview(self.persistentContainer, automated: true)
+                    }
+                }
+            } else {
+                // create new day
+                let context = persistentContainer.viewContext
+                let dayObject = Day(context: context)
+                dayObject.createNewDay(date: Calendar.current.today())
+                persistentContainer.saveContext()
+            }
+            
+
+            
 //			let today: Int16 = Calendar.current.todayToInt()
 
 			// open app with review
@@ -171,7 +173,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				
 				// Ensure a Day object has been created
 				if let mainVC = mainCoordinator?.rootViewController {
-					mainVC.loadData()
+                    // to fix
+//					mainVC.loadData()
 				}
 				
 				// Task Tally update
@@ -184,7 +187,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			}
 		}
     }
-	var timer: DispatchSourceTimer?
+
     func applicationDidBecomeActive(_ application: UIApplication) {
 		
     }

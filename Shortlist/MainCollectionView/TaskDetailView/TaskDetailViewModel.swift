@@ -107,7 +107,6 @@ class TaskDetailViewModel: NSObject {
 		let headerRegistration = UICollectionView.SupplementaryRegistration
 		<HeaderSupplementaryView>(elementKind: "SectionHeader") { [weak self]
 			(supplementaryView, string, indexPath) in
-			guard let self = self else { return }
 			if let section = TaskDetailSections.init(rawValue: indexPath.section) {
 				switch section {
 					case .title, .complete:
@@ -134,6 +133,7 @@ class TaskDetailViewModel: NSObject {
 	
 		MARK: - Update Snapshot
 		Public method, exposed to the viewcontroller to be called when the data has mutated
+     
 	*/
 	func updateSnapshot() {
 		guard let mainFetcher = self.mainFetcher else { return }
@@ -250,14 +250,24 @@ class TaskDetailViewModel: NSObject {
 		return cellConfig
 	}
 	
-	
 	func configureCellCompletionRegistration() -> UICollectionView.CellRegistration<TaskDetailCompletionCell, CompletionItem> {
 		let cellConfig = UICollectionView.CellRegistration<TaskDetailCompletionCell, CompletionItem> { [weak self] (cell, indexPath, item) in
-			guard let _ = self else { return }
+			guard let self = self else { return }
 			// configure cell
 			cell.configureCell(with: item)
-            
+            cell.completionClosure = self.completeTask
 		}
 		return cellConfig
 	}
+    
+    /*
+     
+     MARK: - Update complete attribute for task
+     
+    */
+    func completeTask(state: Bool) {
+        print("change model \(state)")
+        data.complete = state
+        persistentContainer.saveContext()
+    }
 }

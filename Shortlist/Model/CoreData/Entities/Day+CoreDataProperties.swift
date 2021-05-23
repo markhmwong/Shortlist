@@ -30,7 +30,7 @@ extension Day {
     
     @NSManaged public var dayToTask: NSSet?
 //    @NSManaged public var accolade: String?
-
+    @NSManaged public var reviewYesterday: Bool
 	@NSManaged public var dayToStats: DayStats?
 }
 

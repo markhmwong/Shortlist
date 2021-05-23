@@ -10,10 +10,12 @@ import UIKit
 import CoreData
 
 class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, MainCoordinatorProtocol, ObserverChildCoordinatorsProtocol {
+    
     func dismissCurrentView() {
         
     }
-	var rootViewController: MainViewController?
+    
+	var rootViewController: MainViewControllerWithCollectionView?
 	
     var childCoordinators: [Coordinator] = [Coordinator]()
     
@@ -36,6 +38,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		guard let persistentContainer = persistentContainer else { return }
 		let vc = MainViewControllerWithCollectionView(viewModel: MainViewModelWithCollectionView(), persistentContainer: persistentContainer)
 		vc.coordinator = self
+        rootViewController = vc
 		navigationController.pushViewController(vc, animated: false)
 		
 		navigationController.navigationBar.isHidden = false
@@ -68,10 +71,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		addNavigationObserver(MainNavigationObserverKey.ReturnFromOnboarding)
 		
 		guard let rvc = rootViewController else { return }
-		let child = OnboardingCoordinator(navigationController: navigationController, viewController: rvc)
-		child.parentCoordinator = self
-		childCoordinators.append(child)
-		child.start(persistentContainer)
+//		let child = OnboardingCoordinator(navigationController: navigationController, viewController: rvc)
+//		child.parentCoordinator = self
+//		childCoordinators.append(child)
+//		child.start(persistentContainer)
 	}
     
     // add stats view and coordinator
@@ -103,9 +106,8 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	}
     
 	func showReview(_ persistentContainer: PersistentContainer?, automated: Bool) {
-//		addNavigationObserver(MainNavigationObserverKey.ReturnFromReview)
 		let child = ReviewCoordinator(navigationController: navigationController, automated: automated)
-//        child.parentCoordinator = self
+        child.parentCoordinator = self
         childCoordinators.append(child)
         child.start(persistentContainer)
     }
@@ -152,10 +154,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	func showReminders(persistentContainer: PersistentContainer?) {
 		addNavigationObserver(MainNavigationObserverKey.ReturnFromReminders)
 		guard let rootViewController = rootViewController else { return }
-		let child = ReminderCoordinator(navigationController: navigationController, viewController: rootViewController)
-		child.parentCoordinator = self
-		childCoordinators.append(child)
-		child.start(persistentContainer)
+//		let child = ReminderCoordinator(navigationController: navigationController, viewController: rootViewController)
+//		child.parentCoordinator = self
+//		childCoordinators.append(child)
+//		child.start(persistentContainer)
 	}
     
     func showAlertBox(_ message: String) {

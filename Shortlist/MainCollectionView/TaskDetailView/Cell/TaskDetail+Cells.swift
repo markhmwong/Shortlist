@@ -20,8 +20,12 @@ fileprivate extension UIConfigurationStateCustomKey {
 	static let notesItem = UIConfigurationStateCustomKey("com.whizbang.state.notes")
 }
 
+protocol TaskDetailAnimation {
+    func animate()
+}
+
 //convert all these cells to collectionview cells
-class TaskDetailNotesCell: BaseListCell<NotesItem> {
+class TaskDetailNotesCell: BaseListCell<NotesItem>, TaskDetailAnimation {
 	
 	override var configurationState: UICellConfigurationState {
 		var state = super.configurationState
@@ -39,7 +43,7 @@ class TaskDetailNotesCell: BaseListCell<NotesItem> {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = ThemeV2.TextColor.DefaultColor
         label.backgroundColor = ThemeV2.Background.adjust(by: 5)!
-        label.alpha = 0.3
+        label.alpha = 1.0
         label.font = UIFont.preferredFont(forTextStyle: .footnote)
         return label
     }()
@@ -56,15 +60,9 @@ class TaskDetailNotesCell: BaseListCell<NotesItem> {
         label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 10).isActive = true
         label.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -10).isActive = true
 
-        UIView.animate(withDuration: 0.5, delay: 0.2, options: [.curveEaseInOut]) {
-            self.label.alpha = 1.0
-        } completion: { (_) in
 
-        }
 
 	}
-    
-    
 	
 	override func draw(_ rect: CGRect) {
 		super.draw(rect)
@@ -89,6 +87,15 @@ class TaskDetailNotesCell: BaseListCell<NotesItem> {
             label.text = emptyText
 		}
 	}
+    
+    func animate() {
+        self.label.alpha = 0.3
+        UIView.animate(withDuration: 0.5, delay: 0.2, options: [.curveEaseInOut]) {
+            self.label.alpha = 1.0
+        } completion: { (_) in
+            
+        }
+    }
 }
 
 

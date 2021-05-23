@@ -80,6 +80,19 @@ class PersistentContainer: NSPersistentCloudKitContainer {
         }
     }
     
+    func doesDayExist(today: Date = Calendar.current.today()) -> Day? {
+        let context = viewContext
+        let dayRequest: NSFetchRequest<Day> = Day.fetchRequest()
+        dayRequest.predicate = NSPredicate(format: "createdAt = %@", today as NSDate)
+        do {
+            let fetchedResults = try context.fetch(dayRequest) as [Day]
+            return fetchedResults.first
+        } catch let error as NSError {
+            print("Day entity could not be fetched \(error)")
+            return nil
+        }
+    }
+    
     func fetchAllTasksByWeek(forWeek beginning: Date, today: Date) -> [Day] {
         let context = viewContext
         let dayRequest: NSFetchRequest<Day> = Day.fetchRequest()

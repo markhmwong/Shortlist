@@ -32,7 +32,6 @@ struct MainFetcher<T: NSFetchRequestResult>: FetchedDataProtocol {
 	
 	// Objects requested by the origina descriptors and predicates formed in the fetchedResultsController
 	func fetchRequestedObjects() -> [T]? {
-        print(controller.fetchedObjects?.count)
 		return controller.fetchedObjects
 	}
 }

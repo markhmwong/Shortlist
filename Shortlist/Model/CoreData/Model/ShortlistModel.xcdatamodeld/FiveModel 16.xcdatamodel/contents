@@ -1,23 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BackLog" representedClassName="BackLog" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="backLogToBigListTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BigListTask" inverseName="bigListTaskToBackLog" inverseEntity="BigListTask"/>
         <relationship name="backLogToTask" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" inverseName="taskToBackLog" inverseEntity="Task"/>
-    </entity>
-    <entity name="BigListTask" representedClassName="BigListTask" syncable="YES">
-        <attribute name="carryOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="category" optional="YES" attributeType="String"/>
-        <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="details" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="isNew" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="reminder" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="reminderState" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <relationship name="bigListTaskToBackLog" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BackLog" inverseName="backLogToBigListTask" inverseEntity="BackLog"/>
     </entity>
     <entity name="CategoryList" representedClassName="CategoryList" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -31,6 +16,7 @@
         <attribute name="lowPriorityLimit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="mediumPriorityLimit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="month" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="reviewYesterday" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="dayToStats" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DayStats" inverseName="statsToDay" inverseEntity="DayStats"/>
         <relationship name="dayToTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="taskToDay" inverseEntity="Task"/>
@@ -109,10 +95,9 @@
         <relationship name="reminderToTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="taskToReminder" inverseEntity="Task"/>
     </entity>
     <elements>
-        <element name="BackLog" positionX="0" positionY="0" width="128" height="88"/>
-        <element name="BigListTask" positionX="0" positionY="0" width="128" height="223"/>
+        <element name="BackLog" positionX="0" positionY="0" width="128" height="59"/>
         <element name="CategoryList" positionX="0" positionY="0" width="128" height="73"/>
-        <element name="Day" positionX="0" positionY="0" width="128" height="193"/>
+        <element name="Day" positionX="0" positionY="0" width="128" height="194"/>
         <element name="DayStats" positionX="0" positionY="0" width="128" height="148"/>
         <element name="Stats" positionX="0" positionY="0" width="128" height="193"/>
         <element name="StatsCategoryComplete" positionX="0" positionY="0" width="128" height="88"/>

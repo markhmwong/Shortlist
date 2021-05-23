@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - Title Cell
-class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
+class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem>, TaskDetailAnimation {
     
     // private variables
     private lazy var bodyLabel: UILabel = {
@@ -18,7 +18,7 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
         label.textColor = ThemeV2.TextColor.DefaultColor
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.alpha = 0.2
+        label.alpha = 1.0
         label.textAlignment = .left
         return label
     }()
@@ -36,7 +36,7 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
     
     // public variables
     var editClosure: (() -> ())? = nil
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupViewAdditionalViews()
@@ -60,16 +60,19 @@ class TaskDetailTitleCell: BaseCollectionViewCell<TitleItem> {
         priorityLabel.trailingAnchor.constraint(equalTo: bodyLabel.trailingAnchor).isActive = true
 
         bodyLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: yPadding).isActive = true
-        bodyLabel.leadingAnchor.constraint(equalTo: contentView.readableContentGuide.leadingAnchor, constant: padding).isActive = true
+        bodyLabel.leadingAnchor.constraint(equalTo: contentView.readableContentGuide.leadingAnchor, constant: 20).isActive = true
         bodyLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -yPadding).isActive = true
         bodyLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -padding).isActive = true
+    }
+    
+    func animate() {
+        self.bodyLabel.alpha = 0.3
+        self.bodyLabel.transform = CGAffineTransform(translationX: 40, y: 0)
         
         UIView.animate(withDuration: 0.4, delay: 0.15, options: [.curveEaseInOut, .preferredFramesPerSecond60]) {
             self.bodyLabel.alpha = 1.0
-            self.bodyLabel.transform = CGAffineTransform(translationX: -20, y: 0)
-        } completion: { (_) in
-            
-        }
+            self.bodyLabel.transform = CGAffineTransform(translationX: 0, y: 0) // origin
+        } completion: { (_) in }
     }
     
     override func configureCell(with item: TitleItem) {
