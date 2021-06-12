@@ -242,7 +242,7 @@ struct ThemeV2 {
 	// MARK: Priority
 	struct Priority {
 		
-		static let HighPriorityFont: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .bold)
+        static let HighPriorityFont: UIFont = UIFont.preferredFont(forTextStyle: .largeTitle).with(weight: .regular)
 		
 		static let MediumPriorityFont: UIFont = UIFont.preferredFont(forTextStyle: .title3).with(weight: .regular)
 		
@@ -287,11 +287,11 @@ struct ThemeV2 {
 				return UIColor.init { (UITraitCollection) -> UIColor in
 					switch (UITraitCollection.userInterfaceStyle) {
 						case .dark, .unspecified:
-							return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+							return UIColor(red:103/255, green:146/255, blue:171/255, alpha:1.0).adjust(by: -15.0)!
 						case .light:
-							return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+							return UIColor(red:103/255, green:146/255, blue:171/255, alpha:1.0).adjust(by: -15.0)!
 						@unknown default:
-							return UIColor(red:0.35, green:0.53, blue:0.82, alpha:1.0).adjust(by: -15.0)!
+							return UIColor(red:103/255, green:146/255, blue:171/255, alpha:1.0).adjust(by: -15.0)!
 					}
 				}
 			} else {

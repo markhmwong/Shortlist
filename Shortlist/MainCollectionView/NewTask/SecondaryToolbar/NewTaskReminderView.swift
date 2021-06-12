@@ -44,9 +44,7 @@ class NewTaskReminderView: UIView {
     private var backButton: UIButton! = nil
     
     private var saveCustomButton: UIButton! = nil
-    
-    var toggleView: (() -> ())! = nil
-    
+        
     init(vm: NewTaskViewModel) {
         self.viewModel = vm
         super.init(frame: .zero)
@@ -54,7 +52,7 @@ class NewTaskReminderView: UIView {
         self.layer.cornerRadius = 10
         self.alpha = 0.0
         self.backgroundColor = .clear
-        setupView()
+        self.setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -166,7 +164,6 @@ class NewTaskReminderView: UIView {
     func removeCustomTimeView() {
         datePicker.removeFromSuperview()
         datePicker = nil
-        //chevron.backward.circle.fill
         
         backButton.removeFromSuperview()
         backButton = nil
@@ -181,7 +178,6 @@ class NewTaskReminderView: UIView {
     @objc func saveReminder() {
         let dp = datePicker.calendar.dateComponents([.hour, .minute], from: datePicker.date)
         viewModel.tempTask.reminder = dp
-        toggleView()
         customTime()
     }
     
@@ -202,19 +198,15 @@ class NewTaskReminderView: UIView {
             case 15:
                 let c = Calendar.current.dateComponents([.hour, .minute], from: configDate(seconds: sender.tag))
                 viewModel.tempTask.reminder = c
-                toggleView()
             case 30:
                 let c = Calendar.current.dateComponents([.hour, .minute], from: configDate(seconds: sender.tag))
                 viewModel.tempTask.reminder = c
-                toggleView()
             case 45:
                 let c = Calendar.current.dateComponents([.hour, .minute], from: configDate(seconds: sender.tag))
                 viewModel.tempTask.reminder = c
-                toggleView()
             case 60:
                 let c = Calendar.current.dateComponents([.hour, .minute], from: configDate(seconds: sender.tag))
                 viewModel.tempTask.reminder = c
-                toggleView()
             case -1:
                 customTime()
             default:
@@ -229,7 +221,7 @@ class NewTaskReminderView: UIView {
 }
 
 // MARK: Preset Button
-class PresetTimersButton: UIButton {
+class PresetTimersButton: UIButton, ButtonToggleProtocol {
     
     private var padding: UIEdgeInsets
     
@@ -256,11 +248,9 @@ class PresetTimersButton: UIButton {
     
     func resetButton() {
         layer.borderColor = UIColor.offWhite.cgColor
-
         titleLabel?.textColor = UIColor.offWhite
         layer.backgroundColor = UIColor.white.adjust(by: -70)!.cgColor
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

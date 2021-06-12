@@ -83,6 +83,32 @@ extension UICollectionViewLayout {
 		}
 		return layout
 	}
+    
+    // A horizontal scrolling collection view
+    func createCollectionViewHorizontalLayout(header: Bool = false) -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+//            let estimatedHeight: CGFloat = 150.0
+
+            let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+
+            let item = NSCollectionLayoutItem(layoutSize: size)
+            item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(0), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
+            
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitem: item, count: 1)
+            let padding: CGFloat = 0.0
+            group.contentInsets = NSDirectionalEdgeInsets(top: padding, leading: padding, bottom: padding, trailing: padding)
+
+            let section = NSCollectionLayoutSection(group: group)
+            
+            return section
+        }
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.scrollDirection = .horizontal
+        layout.configuration = config
+        return layout
+    }
+    
 	
 	//zero padding
 	func createCollectionViewLayoutPadding(header: Bool = false, elementKind: String = "", padding: CGFloat) -> UICollectionViewLayout {
@@ -114,34 +140,12 @@ extension UICollectionViewLayout {
 	
 	// A vertical scrolling collection view
 	func createCollectionViewTaskDetail(header: Bool = false, elementKind: String = "") -> UICollectionViewLayout {
-//		let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-//			let size: NSCollectionLayoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: sectionIndex == 0 ? .estimated(10.0) : .estimated(30.0))
-//			let item = NSCollectionLayoutItem(layoutSize: size)
-//			item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(0), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
-//			let groupLayout = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitems: [item])
-////			let groupLayout = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: [item])
-//			groupLayout.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-//			let section = NSCollectionLayoutSection(group: groupLayout)
-//
-//			if (header && sectionIndex == 0 && elementKind != "") {
-//				let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(10.0))
-//				let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize, elementKind: elementKind, alignment: .top)
-//				section.boundarySupplementaryItems = [header]
-//			}
-//
-//			return section
-//		}
-//		return layout
-		
 		let layout = UICollectionViewCompositionalLayout {
 			(sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
 			let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(10))
 			
 			let item = NSCollectionLayoutItem(layoutSize: size)
-//			item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(0), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
-			
 			let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
-//			group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
 			let section = NSCollectionLayoutSection(group: group)
 			return section
 		}

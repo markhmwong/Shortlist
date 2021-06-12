@@ -29,9 +29,9 @@ enum RedactStyle: Int, CaseIterable {
 			case .none:
 				return "None"
 			case .highlight:
-				return "Censored"
+				return "Highlight"
 			case .star:
-				return "Password"
+				return "Astericks"
 		}
 	}
 }

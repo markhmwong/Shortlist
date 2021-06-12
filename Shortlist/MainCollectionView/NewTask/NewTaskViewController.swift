@@ -31,8 +31,8 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     
     private var taskFeatureToolbar = UIToolbar()
     
-    private lazy var reminderView: NewTaskReminderView = {
-        let view = NewTaskReminderView(vm: self.viewModel)
+    private lazy var secondaryToolbar: NewTaskSecondaryToolbar = {
+        let view = NewTaskSecondaryToolbar(vm: self.viewModel, toolbar: self.taskFeatureToolbar, textView: dataInputView)
         return view
     }()
     
@@ -51,7 +51,7 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         return view
     }()
     
-    private lazy var dataView: UITextView = {
+    private lazy var dataInputView: UITextView = {
         let textField = UITextView(frame: .zero)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.text = "A new task to focus on.."
@@ -87,9 +87,7 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     var constraint: NSLayoutConstraint! = nil
     
     var heightConstraint: NSLayoutConstraint! = nil
-    
-    private var toggle: Bool = false
-    
+        
     init(viewModel: NewTaskViewModel, coordinator: NewTaskCoordinator) {
         self.viewModel = viewModel
         self.coordinator = coordinator
@@ -104,9 +102,10 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         super.viewDidLoad()
         view.backgroundColor = .clear
         view.addSubview(textContainer)
-        view.addSubview(dataView)
+        view.addSubview(dataInputView)
         view.addSubview(characterLimit)
         view.addSubview(taskTitleLabel)
+        view.addSubview(secondaryToolbar)
         
         taskTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         taskTitleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
@@ -116,22 +115,20 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         textContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         textContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         
-        dataView.topAnchor.constraint(equalTo: taskTitleLabel.bottomAnchor, constant: 10).isActive = true
-        dataView.bottomAnchor.constraint(equalTo: textContainer.bottomAnchor, constant: 0).isActive = true
-        dataView.leadingAnchor.constraint(equalTo: textContainer.leadingAnchor, constant: 10).isActive = true
-        dataView.trailingAnchor.constraint(equalTo: textContainer.trailingAnchor, constant: -10).isActive = true
+        dataInputView.topAnchor.constraint(equalTo: taskTitleLabel.bottomAnchor, constant: 10).isActive = true
+        dataInputView.bottomAnchor.constraint(equalTo: textContainer.bottomAnchor, constant: 0).isActive = true
+        dataInputView.leadingAnchor.constraint(equalTo: textContainer.leadingAnchor, constant: 10).isActive = true
+        dataInputView.trailingAnchor.constraint(equalTo: textContainer.trailingAnchor, constant: -10).isActive = true
 
         characterLimit.topAnchor.constraint(equalTo: textContainer.topAnchor, constant: 10).isActive = true
         characterLimit.trailingAnchor.constraint(equalTo: textContainer.trailingAnchor).isActive = true
 
-        reminderView.toggleView = reminderToggle
-        view.addSubview(reminderView)
         
-        heightConstraint = reminderView.heightAnchor.constraint(equalToConstant: 44.0)
+        heightConstraint = secondaryToolbar.heightAnchor.constraint(equalToConstant: view.bounds.width * 0.26)
         heightConstraint.isActive = true
-        reminderView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        reminderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        bottomConstraint = reminderView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        secondaryToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        secondaryToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10).isActive = true
+        bottomConstraint = secondaryToolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         bottomConstraint.isActive = true
         
         // initialise text
@@ -153,7 +150,7 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
                 
                 if (isKeyboardShowing) {
                     keyboardHeight = kbFrame.height
-                    bottomConstraint?.constant = -kbFrame.height + reminderView.frame.height
+                    bottomConstraint?.constant = -kbFrame.height //reminderView.frame.height
                 } else {
                     bottomConstraint?.constant = 0
                 }
@@ -181,49 +178,49 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         self.priorityButton = UIButton()
         priorityButton.tintColor = viewModel.tempTask.priority.color
         priorityButton.setImage(image, for: .normal)
-        priorityButton.addTarget(self, action: #selector(switchPriority), for: .touchDown)
+        priorityButton.tag = SelectedFeature.priority.rawValue
+        priorityButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
         let priorityItem = UIBarButtonItem(customView: priorityButton)
         
         let redactImage = UIImage(systemName: "eye")?.withRenderingMode(.alwaysTemplate)
         self.redactButton = UIButton()
+        redactButton.tag = SelectedFeature.redact.rawValue
         redactButton.tintColor = viewModel.tempTask.priority.color
+        redactButton.tag = SelectedFeature.redact.rawValue
         redactButton.setImage(redactImage, for: .normal)
-        redactButton.addTarget(self, action: #selector(redactToggle), for: .touchDown)
+        redactButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
         let redactItem = UIBarButtonItem(customView: redactButton)
         
         let reminderImage = UIImage(systemName: "alarm")?.withRenderingMode(.alwaysTemplate)
         self.reminderButton = UIButton()
         reminderButton.tintColor = viewModel.tempTask.priority.color
+        reminderButton.tag = SelectedFeature.reminder.rawValue
         reminderButton.setImage(reminderImage, for: .normal)
-        reminderButton.addTarget(self, action: #selector(reminderToggle), for: .touchDown)
+        reminderButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
         let reminderItem = UIBarButtonItem(customView: reminderButton)
         
         let noteImage = UIImage(systemName: "note.text")?.withRenderingMode(.alwaysTemplate)
         self.noteButton = UIButton()
         noteButton.tintColor = viewModel.tempTask.priority.color
+        noteButton.tag = SelectedFeature.note.rawValue
         noteButton.setImage(noteImage, for: .normal)
-        noteButton.addTarget(self, action: #selector(noteToggle), for: .touchDown)
+        noteButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
         let noteItem = UIBarButtonItem(customView: noteButton)
         
         let photoImage = UIImage(systemName: "photo")?.withRenderingMode(.alwaysTemplate)
         self.photoButton = UIButton()
         photoButton.tintColor = viewModel.tempTask.priority.color
+        photoButton.tag = SelectedFeature.photo.rawValue
         photoButton.setImage(photoImage, for: .normal)
-        photoButton.addTarget(self, action: #selector(photoToggle), for: .touchDown)
+        photoButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
         let photoItem = UIBarButtonItem(customView: photoButton)
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
         taskFeatureToolbar.items = [flexibleSpace, priorityItem, flexibleSpace, redactItem, flexibleSpace, reminderItem, flexibleSpace, noteItem, flexibleSpace, photoItem, flexibleSpace]
         
         taskFeatureToolbar.sizeToFit()
-        dataView.inputAccessoryView = taskFeatureToolbar
-
-//        let reminderImage = UIImage(systemName: "scribble")?.withRenderingMode(.alwaysTemplate)
-//        self.scribbleButton = UIButton()
-//        scribbleButton.tintColor = viewModel.tempTask.priority.color
-//        scribbleButton.setImage(reminderImage, for: .normal)
-//        scribbleButton.addTarget(self, action: #selector(reminderToggle), for: .touchDown)
-//        let scribbleItem = UIBarButtonItem(customView: scribbleButton)
+        dataInputView.inputAccessoryView = taskFeatureToolbar
+        
     }
 
     //MARK: - Toolbar selectors
@@ -245,9 +242,6 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         alert.addAction(UIAlertAction(title: "Album", style: .default , handler:{ (UIAlertAction) in
             self.presentPicker(filter: PHPickerFilter.images)
         }))
-        
-        //uncomment for iPad Support
-        //alert.popoverPresentationController?.sourceView = self.view
 
         self.present(alert, animated: true, completion: {
             print("completion block")
@@ -266,42 +260,6 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     
     @objc func photoToggle() {
         presentCamera()
-        // toggle menu for camera or photo from library
-        
-//        guard let persistentContainer = persistentContainer else {
-//            fatalError("PersistentContainer cannot be loaded")
-//        }
-//
-//        let vc = PhotoViewController(item: item, persistentContainer: persistentContainer)
-//        let nav = UINavigationController(rootViewController: vc)
-//        vc.navigationController?.transparent()
-//
-//        navigationController.present(nav, animated: true)
-
-    }
-    
-    @objc func noteToggle() {
-        
-    }
-    
-    @objc func reminderToggle() {
-        toggle = !toggle
-        var delay = 0.0
-        
-        if toggle == false {
-            delay = 0.45
-        }
-        
-        UIView.animate(withDuration: 0.15, delay: delay, usingSpringWithDamping: 0.72, initialSpringVelocity: 15, options: [.curveEaseInOut]) {
-            for item in self.taskFeatureToolbar.items! {
-                item.customView?.alpha = 1.0
-            }
-            
-            self.reminderView.transform = CGAffineTransform(translationX: 0, y: self.toggle ? -self.reminderView.bounds.height * 1 - 10 : -self.reminderView.bounds.height * -1)
-            self.reminderView.alpha = self.toggle ? 1.0 : 0.0
-        } completion: { (state) in
-            //
-        }
 
     }
     
@@ -344,6 +302,19 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     }
     
     /*
+     
+        MARK: - Feature Toggle
+     
+    */
+    @objc func featureToggle(_ sender: UIButton) {
+        if let feature = SelectedFeature.init(rawValue: sender.tag) {
+            secondaryToolbar.toggleFeature(feature)
+        }
+    }
+    
+    
+    
+    /*
     
         MARK: - Image Picker
     
@@ -367,7 +338,7 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
 
 extension NewTaskViewController: UITextViewDelegate {
      func updateCharacterLimit() {
-        let currCount: Int = dataView.text.count
+        let currCount: Int = dataInputView.text.count
         let limit = (CharacterLimitConstants.titleLimit - currCount)
         formatCharacterLimit("\(limit) / \(CharacterLimitConstants.titleLimit)")
     }
@@ -380,7 +351,7 @@ extension NewTaskViewController: UITextViewDelegate {
         
         let currCount = textView.text.count + (text.count - range.length)
         if currCount <= CharacterLimitConstants.titleLimit {
-            viewModel.tempTask.title = dataView.text
+            viewModel.tempTask.title = dataInputView.text
             updateCharacterLimit()
             return true
         } else {

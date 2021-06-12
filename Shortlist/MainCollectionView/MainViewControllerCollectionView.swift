@@ -81,8 +81,9 @@ class MainViewControllerWithCollectionView: BaseCollectionViewController {
 	init(viewModel: MainViewModelWithCollectionView, persistentContainer: PersistentContainer) {
 		self.viewModel = viewModel
 		self.persistentContainer = persistentContainer
-		super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewLayout())
-		collectionView.contentInsetAdjustmentBehavior = .automatic
+		super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewHorizontalLayout())
+        collectionView.contentInsetAdjustmentBehavior = .automatic
+        collectionView.isPagingEnabled = true
 	}
 	
 	required init?(coder: NSCoder) {
@@ -98,15 +99,14 @@ class MainViewControllerWithCollectionView: BaseCollectionViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		self.mainFetcher = MainFetcher(controller: fetchedResultsController)
 		mainFetcher.initFetchedObjects()
-		// prep data
+        
+		// prep mock data
 //		viewModel.addMockData(persistentContainer: persistentContainer)
 //		viewModel.createMockStatisticalData(persistentContainer: persistentContainer)
 
 		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
-//		coordinator?.showReview(nil, automated: false) // add persistent container
 		
 		//create task button
 		view.addSubview(createTaskButton)
@@ -157,7 +157,7 @@ class MainViewControllerWithCollectionView: BaseCollectionViewController {
 				}
 			}
 		} else {
-			// no biometrics
+			// path for no biometrics
 		}
 	}
 }

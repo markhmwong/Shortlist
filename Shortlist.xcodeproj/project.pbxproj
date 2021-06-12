@@ -15,6 +15,7 @@
 		438245A4262DAE480036CB1D /* NewTaskReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438245A3262DAE480036CB1D /* NewTaskReminderViewController.swift */; };
 		438245AD263D959A0036CB1D /* NewTaskReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438245AC263D959A0036CB1D /* NewTaskReminderView.swift */; };
 		439600B526091F8100EA3633 /* AddNewTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439600B426091F8100EA3633 /* AddNewTaskCoordinator.swift */; };
+		439E71AD265EA6EB009712A5 /* SecondaryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E71AC265EA6EB009712A5 /* SecondaryToolbar.swift */; };
 		4B390D9A6A1FF084D47A1101 /* Pods_ShortlistUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F61ED63A603888FDD2D46B46 /* Pods_ShortlistUITests.framework */; };
 		4D015E4722FC621A007E2536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
 		4D05F397248778A600FA71D2 /* TagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05F396248778A600FA71D2 /* TagLabel.swift */; };
@@ -378,6 +379,7 @@
 		438245A3262DAE480036CB1D /* NewTaskReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskReminderViewController.swift; sourceTree = "<group>"; };
 		438245AC263D959A0036CB1D /* NewTaskReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskReminderView.swift; sourceTree = "<group>"; };
 		439600B426091F8100EA3633 /* AddNewTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskCoordinator.swift; sourceTree = "<group>"; };
+		439E71AC265EA6EB009712A5 /* SecondaryToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryToolbar.swift; sourceTree = "<group>"; };
 		4D05F396248778A600FA71D2 /* TagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagLabel.swift; sourceTree = "<group>"; };
 		4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAccolades.swift; sourceTree = "<group>"; };
 		4D11C4E42524CCCD00233EB5 /* OptionsNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsNotesViewController.swift; sourceTree = "<group>"; };
@@ -753,12 +755,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		438245AB263D957F0036CB1D /* ReminderView */ = {
+		438245AB263D957F0036CB1D /* SecondaryToolbar */ = {
 			isa = PBXGroup;
 			children = (
 				438245AC263D959A0036CB1D /* NewTaskReminderView.swift */,
+				439E71AC265EA6EB009712A5 /* SecondaryToolbar.swift */,
 			);
-			path = ReminderView;
+			path = SecondaryToolbar;
 			sourceTree = "<group>";
 		};
 		439600B326091F5A00EA3633 /* AddNewTask */ = {
@@ -1711,7 +1714,7 @@
 		4DDD0ADF255D5B9100E527D2 /* NewTask */ = {
 			isa = PBXGroup;
 			children = (
-				438245AB263D957F0036CB1D /* ReminderView */,
+				438245AB263D957F0036CB1D /* SecondaryToolbar */,
 				4DCFD67A25765AA900302C9C /* Note */,
 				4DDD0AE0255D5BD100E527D2 /* TaskCreationNameAndPriorityViewController.swift */,
 				4DAF579025611A7300224011 /* TaskCreationCategoryViewController.swift */,
@@ -2284,6 +2287,7 @@
 				4D5ECA39243D591800BFA88E /* ReminderError.swift in Sources */,
 				4D2A3AB6243226CF001DF700 /* ReminderDataSourceStructs.swift in Sources */,
 				4DC93E84251A0B19002B58AB /* TaskPhotos+CoreDataClass.swift in Sources */,
+				439E71AD265EA6EB009712A5 /* SecondaryToolbar.swift in Sources */,
 				4DED000D24362C4E009BA525 /* ReminderCell.swift in Sources */,
 				4DAF57992561302600224011 /* TaskCreationNotesViewController.swift in Sources */,
 				4D64C5C6232F628900EE77D0 /* Log.swift in Sources */,

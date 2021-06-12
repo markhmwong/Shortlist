@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                     // show review page
                     DispatchQueue.main.async {
-                        self.mainCoordinator?.showReview(self.persistentContainer, automated: true)
+//                        self.mainCoordinator?.showReview(self.persistentContainer, automated: true)
                     }
                 }
             } else {
@@ -100,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //				}
 //			} else {
 				// open app without review
-				mainCoordinator?.start(persistentContainer)
+//				mainCoordinator?.start(persistentContainer)
 //			}
 		}
         window?.rootViewController = navController
