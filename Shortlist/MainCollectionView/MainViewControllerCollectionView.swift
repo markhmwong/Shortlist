@@ -36,7 +36,7 @@ struct MainFetcher<T: NSFetchRequestResult>: FetchedDataProtocol {
 	}
 }
 
-class MainViewControllerWithCollectionView: BaseCollectionViewController {
+class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDelegate {
 
 	// Core Data
 	private lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
@@ -66,6 +66,15 @@ class MainViewControllerWithCollectionView: BaseCollectionViewController {
 		
 	private var persistentContainer: PersistentContainer
 	
+    private lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewLayout().createCollectionViewHorizontalLayout())
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.backgroundColor = .systemBackground
+        view.delegate = self
+        view.isPagingEnabled = true
+        return view
+    }()
+    
 	private lazy var createTaskButton: UIButton = {
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
@@ -81,8 +90,8 @@ class MainViewControllerWithCollectionView: BaseCollectionViewController {
 	init(viewModel: MainViewModelWithCollectionView, persistentContainer: PersistentContainer) {
 		self.viewModel = viewModel
 		self.persistentContainer = persistentContainer
-		super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewHorizontalLayout())
-        collectionView.contentInsetAdjustmentBehavior = .automatic
+        super.init(nibName: nil, bundle: nil)
+//        collectionView.contentInsetAdjustmentBehavior = .automatic
         collectionView.isPagingEnabled = true
 	}
 	
@@ -99,6 +108,7 @@ class MainViewControllerWithCollectionView: BaseCollectionViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        view.addSubview(collectionView)
 		self.mainFetcher = MainFetcher(controller: fetchedResultsController)
 		mainFetcher.initFetchedObjects()
         
@@ -165,7 +175,7 @@ class MainViewControllerWithCollectionView: BaseCollectionViewController {
 // MARK: - Collection View Methods
 extension MainViewControllerWithCollectionView {
 	
-	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
 		let item: Task = viewModel.itemForSelection(indexPath: indexPath)
 		
@@ -183,7 +193,7 @@ extension MainViewControllerWithCollectionView {
 		}
 	}
 	
-	override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
 		let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
             let object = self.viewModel.itemForSelection(indexPath: indexPath)
 

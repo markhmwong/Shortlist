@@ -59,13 +59,12 @@ class MainViewModelWithCollectionView: NSObject {
             }
             diffableDataSource.apply(snapshot, animatingDifferences: true)
         }
-        
     }
 	
 	// MARK: - Register
-	private func configureCellRegistration() -> UICollectionView.CellRegistration<TaskCellV2, Task> {
-		let cellConfig = UICollectionView.CellRegistration<TaskCellV2, Task> { (cell, indexPath, item) in
-			cell.configureCell(with: item)
+	private func configureCellRegistration() -> UICollectionView.CellRegistration<MainTaskCell, Task> {
+		let cellConfig = UICollectionView.CellRegistration<MainTaskCell, Task> { (cell, indexPath, item) in
+//			cell.configureCell(with: item)
 		}
 		return cellConfig
 	}

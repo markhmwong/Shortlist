@@ -87,15 +87,13 @@ extension UICollectionViewLayout {
     // A horizontal scrolling collection view
     func createCollectionViewHorizontalLayout(header: Bool = false) -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-//            let estimatedHeight: CGFloat = 150.0
-
-            let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+            let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(UIScreen.main.bounds.height * 0.7))
 
             let item = NSCollectionLayoutItem(layoutSize: size)
             item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(0), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
             
-            let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitem: item, count: 1)
-            let padding: CGFloat = 0.0
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
+            let padding: CGFloat = 20.0
             group.contentInsets = NSDirectionalEdgeInsets(top: padding, leading: padding, bottom: padding, trailing: padding)
 
             let section = NSCollectionLayoutSection(group: group)
@@ -109,7 +107,6 @@ extension UICollectionViewLayout {
         return layout
     }
     
-	
 	//zero padding
 	func createCollectionViewLayoutPadding(header: Bool = false, elementKind: String = "", padding: CGFloat) -> UICollectionViewLayout {
 		let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in

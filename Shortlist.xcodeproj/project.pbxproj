@@ -16,6 +16,7 @@
 		438245AD263D959A0036CB1D /* NewTaskReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438245AC263D959A0036CB1D /* NewTaskReminderView.swift */; };
 		439600B526091F8100EA3633 /* AddNewTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439600B426091F8100EA3633 /* AddNewTaskCoordinator.swift */; };
 		439E71AD265EA6EB009712A5 /* SecondaryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E71AC265EA6EB009712A5 /* SecondaryToolbar.swift */; };
+		43E0707E2674D1E100CC41C0 /* MainTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E0707D2674D1E100CC41C0 /* MainTaskCell.swift */; };
 		4B390D9A6A1FF084D47A1101 /* Pods_ShortlistUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F61ED63A603888FDD2D46B46 /* Pods_ShortlistUITests.framework */; };
 		4D015E4722FC621A007E2536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
 		4D05F397248778A600FA71D2 /* TagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05F396248778A600FA71D2 /* TagLabel.swift */; };
@@ -380,6 +381,7 @@
 		438245AC263D959A0036CB1D /* NewTaskReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskReminderView.swift; sourceTree = "<group>"; };
 		439600B426091F8100EA3633 /* AddNewTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskCoordinator.swift; sourceTree = "<group>"; };
 		439E71AC265EA6EB009712A5 /* SecondaryToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryToolbar.swift; sourceTree = "<group>"; };
+		43E0707D2674D1E100CC41C0 /* MainTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTaskCell.swift; sourceTree = "<group>"; };
 		4D05F396248778A600FA71D2 /* TagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagLabel.swift; sourceTree = "<group>"; };
 		4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAccolades.swift; sourceTree = "<group>"; };
 		4D11C4E42524CCCD00233EB5 /* OptionsNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsNotesViewController.swift; sourceTree = "<group>"; };
@@ -1591,6 +1593,7 @@
 				4D60F13924C888D500979912 /* TaskCollectionViewCell.swift */,
 				4D96F5C924F6560E00BCF13A /* RedactedLabel.swift */,
 				4DC9E59D24DC676A0046D653 /* TaskFeatureIcons.swift */,
+				43E0707D2674D1E100CC41C0 /* MainTaskCell.swift */,
 			);
 			path = TaskCell;
 			sourceTree = "<group>";
@@ -2368,6 +2371,7 @@
 				4D786DB7230ED182002D8DEB /* StatisticsGenerator.swift in Sources */,
 				4DF30BE524D0679A005EA860 /* TaskDetailViewModel.swift in Sources */,
 				4D953B6B230AA4500048C247 /* StatsViewController.swift in Sources */,
+				43E0707E2674D1E100CC41C0 /* MainTaskCell.swift in Sources */,
 				4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */,
 				4DCB1DAD253748A200F13A64 /* TaskReminder+Extension.swift in Sources */,
 				4DC710032500C8F9009DA056 /* PriorityLimitViewController.swift in Sources */,
