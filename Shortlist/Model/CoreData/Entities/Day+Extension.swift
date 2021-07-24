@@ -15,19 +15,18 @@ extension Day {
         let taskHigh: Task = Task(context: context)
         
         if (Bool.random()) {
-            taskHigh.create(context: context, taskName: "📬 Visit mum.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value), redact: 0)
+            taskHigh.create(context: context, taskName: "📬 Visit mum.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value), redact: 0, day: self)
         } else {
-            taskHigh.create(context: context, taskName: "📬 Visit dad.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value), redact: 0)
+            taskHigh.create(context: context, taskName: "📬 Visit dad.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.high.value), redact: 0, day: self)
         }
         let noteHigh = TaskNote(context: context)
         noteHigh.createNotes(note: "These tasks are very limited of 1 - 2. Important and may take most of the day to complete.")
         taskHigh.addToTaskToNotes(noteHigh)
-        
         self.addToDayToTask(taskHigh)
         
         // medium task
         let taskMed: Task = Task(context: context)
-        taskMed.create(context: context, taskName: "📕 A meeting with work colleagues, friends, family, grocery shopping, initial design or prototype.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.medium.value), redact: 0)
+        taskMed.create(context: context, taskName: "📕 A meeting with work colleagues, friends, family, grocery shopping, initial design or prototype.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.medium.value), redact: 0, day: self)
         
         let noteMed = TaskNote(context: context)
         noteMed.createNotes(note: "The limit on a medium priority task is 1 - 3.")
@@ -37,7 +36,7 @@ extension Day {
         
         // task low
         let taskLow: Task = Task(context: context)
-        taskLow.create(context: context, taskName: "🚀 Quick tasks that aren't necessarily important or something to remind yourself, like catching up on TV shows or replying to emails.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value), redact: 0)
+        taskLow.create(context: context, taskName: "🚀 Quick tasks that aren't necessarily important or something to remind yourself, like catching up on TV shows or replying to emails.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value), redact: 0, day: self)
         
         let noteLow = TaskNote(context: context)
         noteLow.createNotes(note: "The limit on a low priority task is 1 - 3. Quick tasks that don't need a lot of time spent on.")
@@ -171,6 +170,9 @@ extension Day {
 		}
 		
 		self.addToDayToTask(task)
-		
 	}
+    
+    func update() {
+        self.updatedAt = Calendar.current.today() as NSDate
+    }
 }

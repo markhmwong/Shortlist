@@ -30,7 +30,7 @@ class TaskDetailCompletionCell: BaseCell<CompletionItem> {
     
     private lazy var completionButton: PaddedButton = {
         let tf = PaddedButton(xPadding: 20, yPadding: 5)
-        tf.backgroundColor = Theme.Font.DefaultColor
+//        tf.backgroundColor = Theme.Font.DefaultColor
         tf.layer.cornerRadius = 10.0
         tf.layer.borderWidth = 0
         tf.setAttributedTitle(NSMutableAttributedString(string: "Complete", attributes: [NSAttributedString.Key.foregroundColor : Theme.Font.DefaultColor.adjust(by: -70)!, NSAttributedString.Key.font: UIFont(name: Theme.Font.Bold, size: Theme.Font.FontSize.Standard(.b2).value)!]), for: .normal)
@@ -65,6 +65,7 @@ class TaskDetailCompletionCell: BaseCell<CompletionItem> {
 
         completionButton.layer.add(fade, forKey: "fade")
         contentView.addSubview(completionButton)
+        
         completionButton.trailingAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         completionButton.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor).isActive = true
     }

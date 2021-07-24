@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 // MARK: - Extension
 // These two extensions must be individually classified for each cell. You'll also find these extensions at WhatsNewCell and PermissionsCell
 // Declare an extension on the cell state struct to provide a typed property for this custom state.
@@ -54,8 +52,6 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 		return label
 	}()
 	
-
-	
 	private func setupViewsIfNeeded() {
 		guard viewConstraintCheck == nil else { return }
 		contentView.addSubview(listContentView)
@@ -99,24 +95,10 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 			accessories = [.disclosureIndicator()]
 		}
 		
-		switch item.type {
-			case .alarm:
-				content.imageProperties.tintColor = UIColor.systemBlue
-			case .delete:
-				content.imageProperties.tintColor = UIColor.systemRed.adjust(by: -30)!
-			case .name:
-				content.imageProperties.tintColor = UIColor.systemIndigo
-			case .note:
-				content.imageProperties.tintColor = UIColor.systemTeal
-			case .photo:
-				content.imageProperties.tintColor = UIColor.systemPink
-			case .redact:
-				content.imageProperties.tintColor = UIColor.offBlack
-			case .priority:
-				content.imageProperties.tintColor = UIColor.systemPurple
-		}
-		
+        content.imageProperties.tintColor = item.type.color
 		listContentView.configuration = content
+        
+    
 	}
 	
 	// not required?
@@ -143,6 +125,8 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 			accessories = [.customView(configuration: customAccessory)]
 		}
 	}
+    
+    
 	
 	@objc private func handleAllDay() {
 		print("Handle all day")

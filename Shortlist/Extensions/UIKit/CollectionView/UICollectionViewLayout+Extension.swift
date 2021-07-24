@@ -87,17 +87,17 @@ extension UICollectionViewLayout {
     // A horizontal scrolling collection view
     func createCollectionViewHorizontalLayout(header: Bool = false) -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(UIScreen.main.bounds.height * 0.7))
-
-            let item = NSCollectionLayoutItem(layoutSize: size)
-            item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(0), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
+            let topBotPadding: CGFloat = UIScreen.main.bounds.height * 0.07
+            let lateralPadding: CGFloat = 30.0
+            let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(UIScreen.main.bounds.height * 0.65))
             
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
-            let padding: CGFloat = 20.0
-            group.contentInsets = NSDirectionalEdgeInsets(top: padding, leading: padding, bottom: padding, trailing: padding)
+            let item = NSCollectionLayoutItem(layoutSize: size)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: lateralPadding, bottom: 0, trailing: lateralPadding)
+            item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: NSCollectionLayoutSpacing.fixed(0), top: NSCollectionLayoutSpacing.fixed(topBotPadding), trailing: NSCollectionLayoutSpacing.fixed(0), bottom: NSCollectionLayoutSpacing.fixed(topBotPadding))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitem: item, count: 1)
+            
 
             let section = NSCollectionLayoutSection(group: group)
-            
             return section
         }
         
@@ -152,17 +152,17 @@ extension UICollectionViewLayout {
 	//zero padding
 	func createCollectionViewLargeCells(header: Bool = false, elementKind: String = "", xPadding: CGFloat) -> UICollectionViewLayout {
 		let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-			let estimatedHeight: CGFloat = 40.0
 
-			let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.6))
+			let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.4))
 
 			let item = NSCollectionLayoutItem(layoutSize: size)
-			item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(0), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(0))
+			item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(0), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(10))
 			
 			let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
 			group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: xPadding, bottom: 0, trailing: xPadding)
 
 			let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 40
 			 
 			if (header && sectionIndex == 0 && elementKind != "") {
 				let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(80.0))

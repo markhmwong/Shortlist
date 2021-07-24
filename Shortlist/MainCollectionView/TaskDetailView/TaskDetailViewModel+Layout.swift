@@ -118,10 +118,10 @@ extension TaskDetailViewModel {
 		let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
 		group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
 		let footerHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(30.0))
-//		let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: TaskDetailSupplementaryView.Header, alignment: .top)
+		let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerHeaderSize, elementKind: TaskDetailSupplementaryView.Header, alignment: .top)
 
 		let sectionLayout = NSCollectionLayoutSection(group: group)
-		sectionLayout.boundarySupplementaryItems = []
+		sectionLayout.boundarySupplementaryItems = [header]
 
 		return sectionLayout
 	}

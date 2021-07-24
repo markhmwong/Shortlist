@@ -46,8 +46,8 @@ class ReviewCollectionListViewModel: NSObject {
 	}
 	
 	// configure cell
-	private func configureCellRegistration() -> UICollectionView.CellRegistration<TaskCellV2, Task> {
-		let cellConfig = UICollectionView.CellRegistration<TaskCellV2, Task> { (cell, indexPath, item) in
+	private func configureCellRegistration() -> UICollectionView.CellRegistration<MainTaskCell, Task> {
+		let cellConfig = UICollectionView.CellRegistration<MainTaskCell, Task> { (cell, indexPath, item) in
 			// configure cell
 			cell.configureCell(with: item)
 		}

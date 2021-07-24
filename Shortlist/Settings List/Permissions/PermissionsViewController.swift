@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class PermissionsViewController: UIViewController, UICollectionViewDelegate {
 	
@@ -44,9 +45,40 @@ class PermissionsViewController: UIViewController, UICollectionViewDelegate {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		if let appSettings = URL(string: UIApplication.openSettingsURLString) {
-			UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
-		}
+        
+        let cell = collectionView.cellForItem(at: indexPath) as! PermissionsCell
+        
+        let type = cell.permissionType()
+        
+        switch type {
+        case .photoLibrary:
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [unowned self] (status) in
+                DispatchQueue.main.async { [unowned self] in
+                    //showUI(for: status)
+                    self.gotoAppPrivacySettings()
+                }
+            }
+        case .camera:
+            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+            }
+        case .biometric:
+            ()
+        case .reminder:
+            ()
+        }
+        
+		
 	}
+    
+    func gotoAppPrivacySettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+            UIApplication.shared.canOpenURL(url) else {
+                assertionFailure("Not able to open App privacy settings")
+                return
+        }
+
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
 }
 

@@ -17,6 +17,26 @@ enum TaskOptionsType: Int, CaseIterable {
 	case redact
 	case delete
 	case priority
+    
+    var color: UIColor {
+        switch self {
+            case .name:
+                return UIColor.yellow.adjust(by: -10)!
+            case .photo:
+                return UIColor.systemPink
+            case .note:
+                return UIColor.systemTeal
+            case .alarm:
+                return UIColor.systemBlue
+            case .redact:
+                return UIColor.systemGreen
+            case .delete:
+                return UIColor.systemRed.adjust(by: -30)!
+            case .priority:
+                return UIColor.systemPurple
+        }
+    }
+    
 }
 
 // Table View Setup
@@ -166,10 +186,10 @@ class TaskOptionsViewModel: NSObject {
 	}
 
 	func configureDataSource(collectionView: UICollectionView) {
-		
+		let cellRegistration = self.configureCellRegistration()
 		// Setup datasource and cells
 		diffableDataSource = UICollectionViewDiffableDataSource<TaskOptionsSection, TaskOptionsItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewListCell? in
-			let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
+			let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
 			return cell
 		}
 		

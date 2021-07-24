@@ -25,8 +25,8 @@ private extension UICellConfigurationState {
 fileprivate extension UIConfigurationStateCustomKey {
 	static let taskItem = UIConfigurationStateCustomKey("com.whizbang.state.task")
 }
-// MARK: - Task Cell Version 2
-class TaskCellV2: BaseCell<Task> {
+// MARK: - Main Task Cell Version
+class MainTaskCell: BaseCell<Task> {
 	
 	private let completeText: String = "Complete"
 	
@@ -36,7 +36,7 @@ class TaskCellV2: BaseCell<Task> {
         let label = UILabel()
         label.text = "High"
         label.textColor = ThemeV2.TextColor.DefaultColorWithAlpha1
-        label.font = ThemeV2.CellProperties.Title1Black
+        label.font = ThemeV2.CellProperties.Title1Regular
         label.translatesAutoresizingMaskIntoConstraints = false
         label.layoutMargins = .zero
         label.alpha = 0.7
@@ -52,16 +52,16 @@ class TaskCellV2: BaseCell<Task> {
 		return view
 	}()
 	
-	private lazy var categoryLabel: UILabel = {
-		let label = UILabel()
-		label.text = "Category • Complete"
-		label.textColor = ThemeV2.TextColor.DefaultColorWithAlpha1
-		label.font = ThemeV2.CellProperties.SecondaryFont
-		label.translatesAutoresizingMaskIntoConstraints = false
-		label.layoutMargins = .zero
-		label.alpha = 0.7
-		return label
-	}()
+//	private lazy var categoryLabel: UILabel = {
+//		let label = UILabel()
+//		label.text = "Category • Complete"
+//		label.textColor = ThemeV2.TextColor.DefaultColorWithAlpha1
+//		label.font = ThemeV2.CellProperties.SecondaryFont
+//		label.translatesAutoresizingMaskIntoConstraints = false
+//		label.layoutMargins = .zero
+//		label.alpha = 0.7
+//		return label
+//	}()
 	
 	private lazy var taskNameLabel: UILabel = {
 		let label = UILabel()
@@ -73,6 +73,18 @@ class TaskCellV2: BaseCell<Task> {
 		label.layoutMargins = .zero
 		return label
 	}()
+    
+    private lazy var notesLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.numberOfLines = 0
+        label.alpha = 0.8
+        label.textColor = ThemeV2.TextColor.DefaultColor
+        label.font = ThemeV2.CellProperties.TertiaryFont //changed dynamically, not controlled here
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.layoutMargins = .zero
+        return label
+    }()
 	
 	private lazy var featureStack: TaskFeatureIcons = TaskFeatureIcons(frame: .zero)
 
@@ -84,74 +96,76 @@ class TaskCellV2: BaseCell<Task> {
 
 	private var viewConstraintCheck: NSLayoutConstraint? = nil
 
-	private lazy var dividerLine: UIView = {
-		let view = UIView()
-		view.backgroundColor = UIColor.black.adjust(by: 90)
-		view.translatesAutoresizingMaskIntoConstraints = false
-		return view
-	}()
-
+    private var darkShadow = CALayer()
+    
+    private var lightShadow = CALayer()
+    
+    
 	private func setupViewsIfNeeded() {
-//		guard viewConstraintCheck == nil else { return }
-//		let lateralPadding: CGFloat = 25.0
-//		let topAndBottomPadding: CGFloat = 0.0
+        self.contentView.backgroundColor = ThemeV2.Background.adjust(by: -5)
+		guard viewConstraintCheck == nil else { return }
+		let lateralPadding: CGFloat = 25.0
+		let topAndBottomPadding: CGFloat = 50.0
 
-		backgroundColor = .green
-//		layer.cornerRadius = 40.0
-//		clipsToBounds = false
-//		layer.borderWidth = 0.0
-//		layer.borderColor = ThemeV2.CellProperties.Border.cgColor
-        
-//		contentView.backgroundColor = .clear
-		
-//		let bg = UIView()
-//        bg.backgroundColor = ThemeV2.Background
-//		backgroundView = bg
-//
-//        // neumorphic
-//
-//        let cornerRadius: CGFloat = 15
-//        let shadowRadius: CGFloat = 2
-//
-//        let darkShadow = CALayer()
-//        darkShadow.frame = bounds
-//        darkShadow.backgroundColor = ThemeV2.Background.cgColor
-//        darkShadow.shadowColor = UIColor(red: 0.87, green: 0.89, blue: 0.93, alpha: 1.0).cgColor
-//        darkShadow.cornerRadius = cornerRadius
-//        darkShadow.shadowOffset = CGSize(width: shadowRadius, height: shadowRadius)
-//        darkShadow.shadowOpacity = 1
-//        darkShadow.shadowRadius = shadowRadius
-//        backgroundView?.layer.insertSublayer(darkShadow, at: 0)
-//
-//        let lightShadow = CALayer()
-//        lightShadow.frame = bounds
-//        lightShadow.backgroundColor = ThemeV2.Background.cgColor
-//        lightShadow.shadowColor = UIColor.white.cgColor
-//        lightShadow.cornerRadius = cornerRadius
-//        lightShadow.shadowOffset = CGSize(width: -shadowRadius, height: -shadowRadius)
-//        lightShadow.shadowOpacity = 1
-//        lightShadow.shadowRadius = shadowRadius
-//        backgroundView?.layer.insertSublayer(lightShadow, at: 0)
-//        print(bounds)
+//		backgroundColor = .clear
+        contentView.layer.cornerRadius = 40.0
+		clipsToBounds = false
+		layer.borderWidth = 0.0
+
+        self.setupNeumorphic()
 
 		contentView.addSubview(taskNameLabel)
         contentView.addSubview(priorityLabel)
-//		contentView.addSubview(categoryLabel)
 		contentView.addSubview(completeStatus)
+        contentView.addSubview(notesLabel)
+        
+        priorityLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topAndBottomPadding).isActive = true
+        priorityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: lateralPadding).isActive = true
+        priorityLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 
-//        priorityLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topAndBottomPadding).isActive = true
-//        priorityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: lateralPadding).isActive = true
-//        priorityLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-//
-//        viewConstraintCheck = taskNameLabel.topAnchor.constraint(equalTo: priorityLabel.bottomAnchor, constant: 0.0)
-//        viewConstraintCheck?.isActive = true
-//		taskNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: lateralPadding).isActive = true
-//		taskNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -55).isActive = true
-//
-//
-//		completeStatus.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-//		completeStatus.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -lateralPadding).isActive = true
+        viewConstraintCheck = taskNameLabel.topAnchor.constraint(equalTo: priorityLabel.bottomAnchor, constant: topAndBottomPadding)
+        viewConstraintCheck?.isActive = true
+		taskNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: lateralPadding).isActive = true
+		taskNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -55).isActive = true
+
+        notesLabel.topAnchor.constraint(equalTo: taskNameLabel.bottomAnchor, constant: 20).isActive = true
+        notesLabel.leadingAnchor.constraint(equalTo: taskNameLabel.leadingAnchor, constant: 0).isActive = true
+        notesLabel.trailingAnchor.constraint(equalTo: taskNameLabel.trailingAnchor, constant: 0).isActive = true
+
+		completeStatus.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+		completeStatus.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
 	}
+    
+    func setupNeumorphic() {
+        // neumorphic
+        let shadowRadius: CGFloat = 9.0
+        let cornerRadius: CGFloat = 40.0
+        
+        darkShadow.frame = bounds
+        darkShadow.backgroundColor = ThemeV2.Background.cgColor
+        darkShadow.cornerRadius = cornerRadius
+        darkShadow.shadowOffset = CGSize(width: shadowRadius, height: shadowRadius)
+        darkShadow.shadowOpacity = 1
+        darkShadow.shadowRadius = shadowRadius
+        layer.insertSublayer(darkShadow, at: 0)
+
+        lightShadow.frame = bounds
+        lightShadow.backgroundColor = ThemeV2.Background.cgColor
+        lightShadow.cornerRadius = cornerRadius
+        lightShadow.shadowOffset = CGSize(width: -shadowRadius, height: -shadowRadius)
+        lightShadow.shadowOpacity = 1
+        lightShadow.shadowRadius = shadowRadius
+        layer.insertSublayer(lightShadow, at: 0)
+        
+        darkShadow.shadowColor = ThemeV2.CellProperties.Neumorphic.DarkShadow.cgColor
+        lightShadow.shadowColor = ThemeV2.CellProperties.Neumorphic.LightShadow.cgColor
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        darkShadow.shadowColor = ThemeV2.CellProperties.Neumorphic.DarkShadow.cgColor
+        lightShadow.shadowColor = ThemeV2.CellProperties.Neumorphic.LightShadow.cgColor
+    }
+    
 	
 	override func updateConfiguration(using state: UICellConfigurationState) {
 		setupViewsIfNeeded()
@@ -178,7 +192,6 @@ class TaskCellV2: BaseCell<Task> {
 				switch priority {
 					case .high:
 						taskNameLabel.font = ThemeV2.Priority.HighPriorityFont
-                        
 					case .medium:
 						taskNameLabel.font = ThemeV2.Priority.MediumPriorityFont
 					case .low:
@@ -188,6 +201,12 @@ class TaskCellV2: BaseCell<Task> {
 				}
                 priorityLabel.textColor = priority.color
 			}
+            
+            if let note = state.taskItem?.taskToNotes?.firstObject as? TaskNote {
+                notesLabel.attributedText = state.taskItem?.redactedText(with: note.note ?? "Unknown Note")
+            }
+            
+            
 		} else {
 			/// A path for pre-2.0 Shortlist users where redaction was not a feature.
 			
@@ -199,6 +218,9 @@ class TaskCellV2: BaseCell<Task> {
             
 			// Content label
 			taskNameLabel.text = state.taskItem?.name ?? "None"
+            
+            // note label
+            notesLabel.text = "Unknown"
 		}
 		
 		completeStatus.tintColor = state.taskItem?.complete ?? false ? UIColor.systemGreen : UIColor.systemGray
@@ -223,116 +245,5 @@ class TaskCellV2: BaseCell<Task> {
 	
 	func priorityText(_ priority: Priority) -> String {
 		return priority.stringValue
-	}
-}
-
-
-
-// MARK: - Deprecated to be removed
-class TaskCollectionViewCell: BaseNeuCollectionViewCell<TaskItem> {
-	
-	// stackview with icons to show the task features
-	
-//	private lazy var imageView: UIImageView = createImageView()
-	
-//	private lazy var completionButton: UIButton = createCompletionButton()
-
-//	private lazy var cameraButton: UIButton = createCameraButton()
-	
-	// horizontal stackview
-	private lazy var featureStack: TaskFeatureIcons = TaskFeatureIcons(frame: .zero)
-	
-	private lazy var titleLabel: RedactedLabel = {
-		guard let item = item else {
-			// default state
-			let label = RedactedLabel()
-			return label
-		}
-		let label = RedactedLabel()
-		return label
-	}()
-	
-	private let lightShadow: CALayer = CALayer()
-	
-	private let darkShadow: CALayer = CALayer()
-	
-	private var priorityMarker: PriorityIndicator = PriorityIndicator(frame: .zero, priority: .none)
-	
-//	private var item: TaskItem? = nil
-	
-	override init(frame: CGRect) {
-		super.init(frame: .zero)
-		self.setupViewAdditionalViews()
-	}
-	
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
-	}
-	
-	override func prepareForReuse() {
-		super.prepareForReuse()
-		configureCell(with: .none)
-	}
-	
-	// MARK: - Setup sub views
-	private func setupViewAdditionalViews() {
-        
-		contentView.addSubview(titleLabel)
-		contentView.addSubview(priorityMarker)
-		contentView.addSubview(featureStack)
-		
-		titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15.0).isActive = true
-		titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15.0).isActive = true
-		titleLabel.trailingAnchor.constraint(equalTo: priorityMarker.leadingAnchor, constant: -10.0).isActive = true
-		let titlePriority = titleLabel.bottomAnchor.constraint(equalTo: featureStack.topAnchor, constant: -10.0)
-		titlePriority.isActive = true
-		
-		let featureStackTopConstraintPriority = featureStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30.0)
-		featureStackTopConstraintPriority.priority = UILayoutPriority(999)
-		featureStackTopConstraintPriority.isActive = true
-		featureStack.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0.0).isActive = true
-		
-		let bottomConstraintPriority = featureStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16.0)
-		bottomConstraintPriority.isActive = true
-		
-		priorityMarker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0.0).isActive = true
-		priorityMarker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15.0).isActive = true
-
-		priorityMarker.heightAnchor.constraint(equalToConstant: 10.0).isActive = true
-		priorityMarker.widthAnchor.constraint(equalToConstant: 10.0).isActive = true
-	}
-	
-	/// Button Handlers
-	@objc func handleCompleteButton() {
-		print("taskCompleteButton")
-	}
-	
-	@objc func handleCameraButton() {
-		print("Camera")
-	}
-	
-	//temp
-	private var state: RedactState?
-	
-	// MARK: - Configure Cell
-	override func configureCell(with item: TaskItem?) {
-		
-		// blank cell
-		guard let item = item else {
-			self.titleLabel.text = "No Title"
-			return
-		}
-		// a fully configure cell
-		
-		// highlight the priority marker with the correct color
-		self.priorityMarker.updatePriorityColor(with: item.priority)
-		
-		// censor text
-//		self.titleLabel.redactText(with: "\(item.title)", redactWithEffect: item.redaction.effect)
-//		self.titleLabel.redactText(with: item.title, state: item.redacted, style: RedactStyle.stars, rType: RSStars())
-		// in core data make a new entity for redact style, 1-1
-		
-		// enable disable icons
-//		featureStack.enableIcons(with: item)
 	}
 }

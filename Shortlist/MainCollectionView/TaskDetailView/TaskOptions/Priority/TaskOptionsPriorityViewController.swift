@@ -30,4 +30,8 @@ class TaskOptionsPriorityViewController: BaseCollectionViewController {
 		viewModel.configureDataSource(collectionView: collectionView)
 	}
 	
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.task.priority = Int16(indexPath.item)
+//        viewModel.configureSnapshot()
+    }
 }

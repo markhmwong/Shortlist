@@ -21,5 +21,7 @@ extension TaskPhotos {
     @NSManaged public var id: UUID?
     @NSManaged public var photosToTask: Task?
 	@NSManaged public var caption: String?
-
+    @NSManaged public var video: String?
+    @NSManaged public var updatingState: Bool
+    @NSManaged public var createdAt: Date?
 }

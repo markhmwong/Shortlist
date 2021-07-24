@@ -37,9 +37,9 @@ class TaskCreationViewModel: NSObject {
 		super.init()
 	}
 	
-	func createTask() {
+    func createTask(day: Day) {
 		if let day = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as? Day {
-			task.create(context: persistentContainer.viewContext, taskName: "", categoryName: "", createdAt: Date(), reminderDate: Date(), priority: 0, redact: 0)
+            task.create(context: persistentContainer.viewContext, taskName: "", categoryName: "", createdAt: Date(), reminderDate: Date(), priority: 0, redact: 0, day: day)
 			day.addTask(with: task)
 			
 			persistentContainer.saveContext()
@@ -213,7 +213,7 @@ extension TaskCreationViewModel {
 		// convert to jpeg
 		guard let i = imageData.jpegData(compressionQuality: 1.0), let thumbnailData = thumbnail.jpegData(compressionQuality: 0.5) else {
 			// handle failed conversion
-			print("jpg error")
+			print("jpg errorr")
 			return
 		}
 		
@@ -221,4 +221,29 @@ extension TaskCreationViewModel {
 		persistentContainer.savePhoto(data: task, fullRes: i, thumbnail: thumbnailData)
 		persistentContainer.saveContext()
 	}
+}
+
+extension UIImage {
+    // MARK: - CoreImage
+
+    /// Resize CI image from given size.
+    ///
+    /// - Parameter newSize: Size of the image output.
+    /// - Returns: Resized image.
+    // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html
+    func resizeWithCoreImage(to newSize: CGSize) -> UIImage? {
+        guard let cgImage = cgImage, let filter = CIFilter(name: "CILanczosScaleTransform") else { return nil }
+
+        let ciImage = CIImage(cgImage: cgImage)
+        let scale = (Double)(newSize.width) / (Double)(ciImage.extent.size.width)
+
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(NSNumber(value:scale), forKey: kCIInputScaleKey)
+        filter.setValue(1.0, forKey: kCIInputAspectRatioKey)
+        guard let outputImage = filter.value(forKey: kCIOutputImageKey) as? CIImage else { return nil }
+        let context = CIContext(options: [.useSoftwareRenderer: false])
+        outputImage.orientationTransform(for: .left)
+        guard let resultCGImage = context.createCGImage(outputImage, from: outputImage.extent) else { return nil }
+        return UIImage(cgImage: resultCGImage).rotate(radians: Float.pi/2)
+    }
 }

@@ -18,7 +18,8 @@ extension Day {
     }
 
     @NSManaged public var createdAt: NSDate?
-
+    @NSManaged public var updatedAt: NSDate?
+    
 	@NSManaged public var highPriorityLimit: Int16
 	@NSManaged public var mediumPriorityLimit: Int16
 	@NSManaged public var lowPriorityLimit: Int16
@@ -29,7 +30,6 @@ extension Day {
     @NSManaged public var day: Int16
     
     @NSManaged public var dayToTask: NSSet?
-//    @NSManaged public var accolade: String?
     @NSManaged public var reviewYesterday: Bool
 	@NSManaged public var dayToStats: DayStats?
 }

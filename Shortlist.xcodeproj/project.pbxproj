@@ -9,14 +9,23 @@
 /* Begin PBXBuildFile section */
 		158E138A3865985F7A754572 /* Pods_ShortlistTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 147594AFD1D02223234C2CBE /* Pods_ShortlistTests.framework */; };
 		1E8FA3F10D4AD178A7CE89EC /* Pods_Shortlist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEC446ABDD0C7D281249F133 /* Pods_Shortlist.framework */; };
+		4360C23426836F3A009D7BD7 /* 16to17.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4360C23326836F3A009D7BD7 /* 16to17.xcmappingmodel */; };
+		4360C23B26880D29009D7BD7 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4360C23A26880D29009D7BD7 /* WidgetKit.framework */; };
+		4360C23D26880D29009D7BD7 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4360C23C26880D29009D7BD7 /* SwiftUI.framework */; };
+		4360C24026880D29009D7BD7 /* Shortlist_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4360C23F26880D29009D7BD7 /* Shortlist_Widget.swift */; };
+		4360C24326880D2A009D7BD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4360C24226880D2A009D7BD7 /* Assets.xcassets */; };
+		4360C24526880D2A009D7BD7 /* Shortlist_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 4360C24126880D29009D7BD7 /* Shortlist_Widget.intentdefinition */; };
+		4360C24626880D2A009D7BD7 /* Shortlist_Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 4360C24126880D29009D7BD7 /* Shortlist_Widget.intentdefinition */; };
+		4360C24926880D2A009D7BD7 /* Shortlist WidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4360C23926880D29009D7BD7 /* Shortlist WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4364687E268FFD9D00649CF0 /* 17to18.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4364687D268FFD9D00649CF0 /* 17to18.xcmappingmodel */; };
 		4365F2A82619668E003BF45A /* TaskDetailTitle+Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4365F2A72619668E003BF45A /* TaskDetailTitle+Cell.swift */; };
+		4376F75B2677997900B1B92F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4376F75A2677997900B1B92F /* SceneDelegate.swift */; };
 		43824591262C3F920036CB1D /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43824590262C3F920036CB1D /* NewTaskViewController.swift */; };
 		43824599262C3FDB0036CB1D /* NewTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43824598262C3FDB0036CB1D /* NewTaskViewModel.swift */; };
 		438245A4262DAE480036CB1D /* NewTaskReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438245A3262DAE480036CB1D /* NewTaskReminderViewController.swift */; };
 		438245AD263D959A0036CB1D /* NewTaskReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438245AC263D959A0036CB1D /* NewTaskReminderView.swift */; };
 		439600B526091F8100EA3633 /* AddNewTaskCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439600B426091F8100EA3633 /* AddNewTaskCoordinator.swift */; };
 		439E71AD265EA6EB009712A5 /* SecondaryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439E71AC265EA6EB009712A5 /* SecondaryToolbar.swift */; };
-		43E0707E2674D1E100CC41C0 /* MainTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E0707D2674D1E100CC41C0 /* MainTaskCell.swift */; };
 		4B390D9A6A1FF084D47A1101 /* Pods_ShortlistUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F61ED63A603888FDD2D46B46 /* Pods_ShortlistUITests.framework */; };
 		4D015E4722FC621A007E2536 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E7D022DDD1AF008AC433 /* Assets.xcassets */; };
 		4D05F397248778A600FA71D2 /* TagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D05F396248778A600FA71D2 /* TagLabel.swift */; };
@@ -107,7 +116,6 @@
 		4D60F13724C8882000979912 /* MainCollectionView+Meta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D60F13624C8882000979912 /* MainCollectionView+Meta.swift */; };
 		4D60F13A24C888D500979912 /* TaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D60F13924C888D500979912 /* TaskCollectionViewCell.swift */; };
 		4D60F13C24C898A800979912 /* MainViewModelWithCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D60F13B24C898A800979912 /* MainViewModelWithCollectionView.swift */; };
-		4D61D0C023E8119100A58332 /* NewsFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D61D0BF23E8119100A58332 /* NewsFeed.swift */; };
 		4D62366B231D7962001CBF1C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D62366A231D7962001CBF1C /* String+Extension.swift */; };
 		4D6400BB241A608000436811 /* TaskFullDetailInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6400BA241A608000436811 /* TaskFullDetailInterfaceController.swift */; };
 		4D646B3A2323C0E400073FD6 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D646B392323C0E400073FD6 /* AboutViewController.swift */; };
@@ -308,6 +316,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4360C24726880D2A009D7BD7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4D45E78622DDD1AB008AC433 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4360C23826880D29009D7BD7;
+			remoteInfo = "Shortlist WidgetExtension";
+		};
 		4D45E7A322DDD1AD008AC433 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4D45E78622DDD1AB008AC433 /* Project object */;
@@ -346,6 +361,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4360C24D26880D2A009D7BD7 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4360C24926880D2A009D7BD7 /* Shortlist WidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4D45E7D922DDD1AF008AC433 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -374,14 +400,25 @@
 		147594AFD1D02223234C2CBE /* Pods_ShortlistTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShortlistTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C327C0B68C7027F7AB99204 /* Pods-Shortlist WatchKit Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shortlist WatchKit Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Shortlist WatchKit Extension/Pods-Shortlist WatchKit Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		33CB3CDBD499A319B24EDFB1 /* Pods-ShortlistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShortlistTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShortlistTests/Pods-ShortlistTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4360C23326836F3A009D7BD7 /* 16to17.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 16to17.xcmappingmodel; sourceTree = "<group>"; };
+		4360C23926880D29009D7BD7 /* Shortlist WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Shortlist WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4360C23A26880D29009D7BD7 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		4360C23C26880D29009D7BD7 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		4360C23F26880D29009D7BD7 /* Shortlist_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortlist_Widget.swift; sourceTree = "<group>"; };
+		4360C24126880D29009D7BD7 /* Shortlist_Widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Shortlist_Widget.intentdefinition; sourceTree = "<group>"; };
+		4360C24226880D2A009D7BD7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4360C24426880D2A009D7BD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4364687D268FFD9D00649CF0 /* 17to18.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 17to18.xcmappingmodel; sourceTree = "<group>"; };
 		4365F2A72619668E003BF45A /* TaskDetailTitle+Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskDetailTitle+Cell.swift"; sourceTree = "<group>"; };
+		4376F75A2677997900B1B92F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		43824590262C3F920036CB1D /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
 		43824598262C3FDB0036CB1D /* NewTaskViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTaskViewModel.swift; sourceTree = "<group>"; };
 		438245A3262DAE480036CB1D /* NewTaskReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskReminderViewController.swift; sourceTree = "<group>"; };
 		438245AC263D959A0036CB1D /* NewTaskReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskReminderView.swift; sourceTree = "<group>"; };
+		4384876B267E0522007290DE /* FiveModel 17.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 17.xcdatamodel"; sourceTree = "<group>"; };
 		439600B426091F8100EA3633 /* AddNewTaskCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskCoordinator.swift; sourceTree = "<group>"; };
 		439E71AC265EA6EB009712A5 /* SecondaryToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryToolbar.swift; sourceTree = "<group>"; };
-		43E0707D2674D1E100CC41C0 /* MainTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTaskCell.swift; sourceTree = "<group>"; };
+		43E974B1268A034F00BC8BD9 /* FiveModel 18.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 18.xcdatamodel"; sourceTree = "<group>"; };
 		4D05F396248778A600FA71D2 /* TagLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagLabel.swift; sourceTree = "<group>"; };
 		4D106A8F23B7988F00AB1895 /* DailyAccolades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyAccolades.swift; sourceTree = "<group>"; };
 		4D11C4E42524CCCD00233EB5 /* OptionsNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsNotesViewController.swift; sourceTree = "<group>"; };
@@ -480,7 +517,6 @@
 		4D60F13624C8882000979912 /* MainCollectionView+Meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainCollectionView+Meta.swift"; sourceTree = "<group>"; };
 		4D60F13924C888D500979912 /* TaskCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCollectionViewCell.swift; sourceTree = "<group>"; };
 		4D60F13B24C898A800979912 /* MainViewModelWithCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelWithCollectionView.swift; sourceTree = "<group>"; };
-		4D61D0BF23E8119100A58332 /* NewsFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeed.swift; sourceTree = "<group>"; };
 		4D62366A231D7962001CBF1C /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4D6400BA241A608000436811 /* TaskFullDetailInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskFullDetailInterfaceController.swift; sourceTree = "<group>"; };
 		4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -707,6 +743,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4360C23626880D29009D7BD7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4360C23D26880D29009D7BD7 /* SwiftUI.framework in Frameworks */,
+				4360C23B26880D29009D7BD7 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4D45E78B22DDD1AB008AC433 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -757,6 +802,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4360C23E26880D29009D7BD7 /* Shortlist Widget */ = {
+			isa = PBXGroup;
+			children = (
+				4360C23F26880D29009D7BD7 /* Shortlist_Widget.swift */,
+				4360C24126880D29009D7BD7 /* Shortlist_Widget.intentdefinition */,
+				4360C24226880D2A009D7BD7 /* Assets.xcassets */,
+				4360C24426880D2A009D7BD7 /* Info.plist */,
+			);
+			path = "Shortlist Widget";
+			sourceTree = "<group>";
+		};
 		438245AB263D957F0036CB1D /* SecondaryToolbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -825,6 +881,7 @@
 				4D45E7BA22DDD1AD008AC433 /* Shortlist WatchKit App */,
 				4D45E7C922DDD1AE008AC433 /* Shortlist WatchKit Extension */,
 				4DF3E3702403E01F002B402C /* ScreenshotTester */,
+				4360C23E26880D29009D7BD7 /* Shortlist Widget */,
 				4D45E78F22DDD1AB008AC433 /* Products */,
 				FB99041BBC17CA1761219DA7 /* Pods */,
 				9363496DED945781F5C48D70 /* Frameworks */,
@@ -840,6 +897,7 @@
 				4D45E7B622DDD1AD008AC433 /* Shortlist WatchKit App.app */,
 				4D45E7C522DDD1AE008AC433 /* Shortlist WatchKit Extension.appex */,
 				4DF3E36F2403E01F002B402C /* ScreenshotTester.xctest */,
+				4360C23926880D29009D7BD7 /* Shortlist WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -860,7 +918,6 @@
 				4D953B62230A91720048C247 /* Coordinator */,
 				4D5ECA35243D586F00BFA88E /* Error */,
 				4D78AC3722DF16E7001FD57F /* Extensions */,
-				4D61D0BE23E80FAB00A58332 /* GlobalNewsFeed */,
 				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
 				4DC0DE3622E087E300B2B8D4 /* Main Deprecated */,
 				4D45E79522DDD1AB008AC433 /* Main.storyboard */,
@@ -949,6 +1006,7 @@
 			isa = PBXGroup;
 			children = (
 				4D45E79122DDD1AB008AC433 /* AppDelegate.swift */,
+				4376F75A2677997900B1B92F /* SceneDelegate.swift */,
 			);
 			path = "Application Delegate";
 			sourceTree = "<group>";
@@ -965,6 +1023,8 @@
 			isa = PBXGroup;
 			children = (
 				4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */,
+				4364687D268FFD9D00649CF0 /* 17to18.xcmappingmodel */,
+				4360C23326836F3A009D7BD7 /* 16to17.xcmappingmodel */,
 				4DF3BA8325BDCD810056DD63 /* 15to16.xcmappingmodel */,
 				4DCB1D6C25328C2D00F13A64 /* 13to14.xcmappingmodel */,
 				4D6B37F02529D0F90020CB4A /* 12to13.xcmappingmodel */,
@@ -1184,14 +1244,6 @@
 				4D60932823C43C0D00A7936E /* ApplicationDetails.swift */,
 			);
 			path = AppUpdate;
-			sourceTree = "<group>";
-		};
-		4D61D0BE23E80FAB00A58332 /* GlobalNewsFeed */ = {
-			isa = PBXGroup;
-			children = (
-				4D61D0BF23E8119100A58332 /* NewsFeed.swift */,
-			);
-			path = GlobalNewsFeed;
 			sourceTree = "<group>";
 		};
 		4D67DCF52362FF940008AE98 /* CircularIndicator */ = {
@@ -1593,7 +1645,6 @@
 				4D60F13924C888D500979912 /* TaskCollectionViewCell.swift */,
 				4D96F5C924F6560E00BCF13A /* RedactedLabel.swift */,
 				4DC9E59D24DC676A0046D653 /* TaskFeatureIcons.swift */,
-				43E0707D2674D1E100CC41C0 /* MainTaskCell.swift */,
 			);
 			path = TaskCell;
 			sourceTree = "<group>";
@@ -1797,6 +1848,8 @@
 				EAB1C6C1A798CBF3EDE44E1F /* Pods_Shortlist_WatchKit_Extension.framework */,
 				147594AFD1D02223234C2CBE /* Pods_ShortlistTests.framework */,
 				F61ED63A603888FDD2D46B46 /* Pods_ShortlistUITests.framework */,
+				4360C23A26880D29009D7BD7 /* WidgetKit.framework */,
+				4360C23C26880D29009D7BD7 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1821,6 +1874,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4360C23826880D29009D7BD7 /* Shortlist WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4360C24A26880D2A009D7BD7 /* Build configuration list for PBXNativeTarget "Shortlist WidgetExtension" */;
+			buildPhases = (
+				4360C23526880D29009D7BD7 /* Sources */,
+				4360C23626880D29009D7BD7 /* Frameworks */,
+				4360C23726880D29009D7BD7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Shortlist WidgetExtension";
+			productName = "Shortlist WidgetExtension";
+			productReference = 4360C23926880D29009D7BD7 /* Shortlist WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		4D45E78D22DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4D45E7DE22DDD1AF008AC433 /* Build configuration list for PBXNativeTarget "Shortlist" */;
@@ -1830,11 +1900,13 @@
 				4D45E78B22DDD1AB008AC433 /* Frameworks */,
 				4D45E78C22DDD1AB008AC433 /* Resources */,
 				4D45E7DD22DDD1AF008AC433 /* Embed Watch Content */,
+				4360C24D26880D2A009D7BD7 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				4D45E7B922DDD1AD008AC433 /* PBXTargetDependency */,
+				4360C24826880D2A009D7BD7 /* PBXTargetDependency */,
 			);
 			name = Shortlist;
 			productName = Five;
@@ -1940,10 +2012,13 @@
 		4D45E78622DDD1AB008AC433 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1120;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Mark Wong";
 				TargetAttributes = {
+					4360C23826880D29009D7BD7 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
 					4D45E78D22DDD1AB008AC433 = {
 						CreatedOnToolsVersion = 10.2;
 						LastSwiftMigration = 1200;
@@ -2003,11 +2078,20 @@
 				4D45E7B522DDD1AD008AC433 /* Shortlist WatchKit App */,
 				4D45E7C422DDD1AE008AC433 /* Shortlist WatchKit Extension */,
 				4DF3E36E2403E01F002B402C /* ScreenshotTester */,
+				4360C23826880D29009D7BD7 /* Shortlist WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4360C23726880D29009D7BD7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4360C24326880D2A009D7BD7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4D45E78C22DDD1AB008AC433 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2176,6 +2260,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4360C23526880D29009D7BD7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4360C24026880D29009D7BD7 /* Shortlist_Widget.swift in Sources */,
+				4360C24526880D2A009D7BD7 /* Shortlist_Widget.intentdefinition in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4D45E78A22DDD1AB008AC433 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2207,6 +2300,7 @@
 				4D6E755A2359A18E00C67B8F /* CategoryTaskListViewController.swift in Sources */,
 				4D6E753B235634C100C67B8F /* BackLogViewModel.swift in Sources */,
 				4D5BED7522FD8BC400176E18 /* RecievingKeys.swift in Sources */,
+				4360C23426836F3A009D7BD7 /* 16to17.xcmappingmodel in Sources */,
 				4D60F13524C8870200979912 /* MainViewControllerCollectionView.swift in Sources */,
 				4DC97A0C25DD4ECB0087B837 /* TaskDetailCell+Photo.swift in Sources */,
 				4D45E7EC22DE083D008AC433 /* Theme.swift in Sources */,
@@ -2242,6 +2336,7 @@
 				4D1B4D0E241A3D2A00C9E8CE /* ReminderViewController.swift in Sources */,
 				4D60932D23C5BF1900A7936E /* OnboardingCell.swift in Sources */,
 				4DDD0AEF255D5D7400E527D2 /* NewTaskCoordinator.swift in Sources */,
+				4364687E268FFD9D00649CF0 /* 17to18.xcmappingmodel in Sources */,
 				4DCA3E05250898F5009A739A /* TipsViewController.swift in Sources */,
 				4D377CF6237D2A810026FB3A /* AppMetaData.swift in Sources */,
 				4DED156D23617BA200FC903E /* UITextView+Extension.swift in Sources */,
@@ -2289,8 +2384,10 @@
 				4D6EE34D23A87E25001BBC95 /* Stats+CoreDataClass.swift in Sources */,
 				4D5ECA39243D591800BFA88E /* ReminderError.swift in Sources */,
 				4D2A3AB6243226CF001DF700 /* ReminderDataSourceStructs.swift in Sources */,
+				4360C24626880D2A009D7BD7 /* Shortlist_Widget.intentdefinition in Sources */,
 				4DC93E84251A0B19002B58AB /* TaskPhotos+CoreDataClass.swift in Sources */,
 				439E71AD265EA6EB009712A5 /* SecondaryToolbar.swift in Sources */,
+				4376F75B2677997900B1B92F /* SceneDelegate.swift in Sources */,
 				4DED000D24362C4E009BA525 /* ReminderCell.swift in Sources */,
 				4DAF57992561302600224011 /* TaskCreationNotesViewController.swift in Sources */,
 				4D64C5C6232F628900EE77D0 /* Log.swift in Sources */,
@@ -2371,7 +2468,6 @@
 				4D786DB7230ED182002D8DEB /* StatisticsGenerator.swift in Sources */,
 				4DF30BE524D0679A005EA860 /* TaskDetailViewModel.swift in Sources */,
 				4D953B6B230AA4500048C247 /* StatsViewController.swift in Sources */,
-				43E0707E2674D1E100CC41C0 /* MainTaskCell.swift in Sources */,
 				4D45E7E822DDD72B008AC433 /* UIView+Extension.swift in Sources */,
 				4DCB1DAD253748A200F13A64 /* TaskReminder+Extension.swift in Sources */,
 				4DC710032500C8F9009DA056 /* PriorityLimitViewController.swift in Sources */,
@@ -2398,7 +2494,6 @@
 				4DD8C76E23BF50CE00098A02 /* 7to8.xcmappingmodel in Sources */,
 				4D6E755823599C9A00C67B8F /* CategoryTasksCoordinator.swift in Sources */,
 				4D5ECA37243D587C00BFA88E /* ErrorProtocol.swift in Sources */,
-				4D61D0C023E8119100A58332 /* NewsFeed.swift in Sources */,
 				4D598B6422EEBE480020076D /* PersistentContainer.swift in Sources */,
 				4D6EE35623A87F6F001BBC95 /* StatsCategoryIncomplete+CoreDataProperties.swift in Sources */,
 				4D6E756C2360940500C67B8F /* CategoryList+CoreDataProperties.swift in Sources */,
@@ -2495,6 +2590,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4360C24826880D2A009D7BD7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4360C23826880D29009D7BD7 /* Shortlist WidgetExtension */;
+			targetProxy = 4360C24726880D2A009D7BD7 /* PBXContainerItemProxy */;
+		};
 		4D45E7A422DDD1AD008AC433 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4D45E78D22DDD1AB008AC433 /* Shortlist */;
@@ -2550,6 +2650,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4360C24B26880D2A009D7BD7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GEKZN86RYS;
+				INFOPLIST_FILE = "Shortlist Widget/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4360C24C26880D2A009D7BD7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GEKZN86RYS;
+				INFOPLIST_FILE = "Shortlist Widget/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		4D45E7D422DDD1AF008AC433 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2782,6 +2928,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 58720DDCAEE29A2BE30D32DC /* Pods-Shortlist.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
@@ -2790,7 +2937,7 @@
 				CURRENT_PROJECT_VERSION = 59;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2801,7 +2948,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2810,6 +2957,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 87A7B9AD3FD7DE5A8F3F92D8 /* Pods-Shortlist.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
@@ -2818,7 +2966,7 @@
 				CURRENT_PROJECT_VERSION = 59;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2828,7 +2976,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -2968,6 +3116,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4360C24A26880D2A009D7BD7 /* Build configuration list for PBXNativeTarget "Shortlist WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4360C24B26880D2A009D7BD7 /* Debug */,
+				4360C24C26880D2A009D7BD7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4D45E78922DDD1AB008AC433 /* Build configuration list for PBXProject "Shortlist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3037,6 +3194,8 @@
 		4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				43E974B1268A034F00BC8BD9 /* FiveModel 18.xcdatamodel */,
+				4384876B267E0522007290DE /* FiveModel 17.xcdatamodel */,
 				4DF3BA8225BDCD510056DD63 /* FiveModel 16.xcdatamodel */,
 				4DC8FAA22566703A001892A4 /* FiveModel 15.xcdatamodel */,
 				4DCB1D41252F520E00F13A64 /* FiveModel 14.xcdatamodel */,
@@ -3054,7 +3213,7 @@
 				4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */,
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
 			);
-			currentVersion = 4DF3BA8225BDCD510056DD63 /* FiveModel 16.xcdatamodel */;
+			currentVersion = 43E974B1268A034F00BC8BD9 /* FiveModel 18.xcdatamodel */;
 			path = ShortlistModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

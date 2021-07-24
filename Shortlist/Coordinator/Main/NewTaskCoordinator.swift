@@ -24,6 +24,8 @@ class NewTaskCoordinator: NSObject, Coordinator {
     
     private var persistentContainer: PersistentContainer! = nil
     
+    var day: Day! = nil
+    
 	init(navigationController: UINavigationController) {
 		self.navigationController = navigationController
 		super.init()
@@ -33,6 +35,11 @@ class NewTaskCoordinator: NSObject, Coordinator {
 		// New UI
 		guard let persistentContainer = persistentContainer else { return }
         self.persistentContainer = persistentContainer
+        self.setupNewTaskVC()
+        self.setupNavigationBar()
+	}
+    
+    func setupNewTaskVC() {
         let vm = NewTaskViewModel(persistentContainer: persistentContainer)
         newTaskVc = NewTaskViewController(viewModel: vm, coordinator: self)
         newTaskVc.title = "New Task"
@@ -40,18 +47,20 @@ class NewTaskCoordinator: NSObject, Coordinator {
         newTaskVc.navigationItem.leftBarButtonItem = UIBarButtonItem().dismissButton(target: self, action: #selector(handleBack))
         // right nav
         newTaskVc.navigationItem.rightBarButtonItem = UIBarButtonItem().addButton(self, action: #selector(handleAddTask), imageName: "plus")
+    }
+    
+    func setupNavigationBar() {
         self.newTaskNav = UINavigationController(rootViewController: newTaskVc)
-
-        
-		navigationController.present(newTaskNav, animated: true, completion: nil)
-	}
+        self.newTaskNav.view.backgroundColor = ThemeV2.Background
+        navigationController.present(newTaskNav, animated: true, completion: nil)
+    }
     
     @objc func handleBack() {
         newTaskNav?.dismiss(animated: true, completion: nil)
     }
 	
     @objc func handleAddTask() {
-        newTaskVc.addNewTask()
+        newTaskVc.addNewTask(day: day)
         self.handleBack()
 //        let taskLow: Task = Task(context: persistentContainer.viewContext)
 //        taskLow.create(context: persistentContainer.viewContext, taskName: "🚀 Quick tasks that aren't necessarily important or something to remind yourself, like catching up on TV shows or replying to emails.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value), redact: 0)

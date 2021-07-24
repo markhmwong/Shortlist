@@ -32,9 +32,12 @@ struct CompletionItem: Hashable {
 struct PhotoItem: Hashable {
 	var id: UUID
 	var photo: Data?
+    var videoUrl: URL?
 	var thumbnail: Data?
 	var caption: String?
 	var isButton: Bool
+    var updatingState: Bool
+    var createdAt: Date
 }
 
 struct TitleItem: Hashable {

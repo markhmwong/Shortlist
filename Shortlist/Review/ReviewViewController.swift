@@ -255,7 +255,7 @@ class ReviewViewController: UIViewController {
 			let resetReminder = Date() // reminder is reset because we don't know exactly when the user will copy an older task
 			let redact = task.redactStyle
 			
-			copiedTask.create(context: pc.viewContext, taskName: task.name ?? "Error", categoryName: task.category ?? "General", createdAt: task.createdAt! as Date, reminderDate: resetReminder, priority: Int(task.priority), redact: Int(redact))
+            copiedTask.create(context: pc.viewContext, taskName: task.name ?? "Error", categoryName: task.category ?? "General", createdAt: task.createdAt! as Date, reminderDate: resetReminder, priority: Int(task.priority), redact: Int(redact), day: today)
 			today.addToDayToTask(copiedTask)
 			today.dayToStats?.totalTasks = (today.dayToStats?.totalTasks ?? 0) + 1
 		}

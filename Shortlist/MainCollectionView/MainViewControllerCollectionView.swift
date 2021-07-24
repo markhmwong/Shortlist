@@ -52,6 +52,7 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 		
 		// Configure Fetched Results Controller
 		fetchedResultsController.delegate = self
+        
 		return fetchedResultsController
 	}()
 	
@@ -66,14 +67,7 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 		
 	private var persistentContainer: PersistentContainer
 	
-    private lazy var collectionView: UICollectionView = {
-        let view = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewLayout().createCollectionViewHorizontalLayout())
-        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.backgroundColor = .systemBackground
-        view.delegate = self
-        view.isPagingEnabled = true
-        return view
-    }()
+    var collectionView: UICollectionView! = nil
     
 	private lazy var createTaskButton: UIButton = {
 		let button = UIButton()
@@ -91,8 +85,6 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 		self.viewModel = viewModel
 		self.persistentContainer = persistentContainer
         super.init(nibName: nil, bundle: nil)
-//        collectionView.contentInsetAdjustmentBehavior = .automatic
-        collectionView.isPagingEnabled = true
 	}
 	
 	required init?(coder: NSCoder) {
@@ -101,14 +93,33 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		navigationItem.title = "Today"
-		navigationItem.leftBarButtonItem = UIBarButtonItem().optionsButton(target: self, action: #selector(handleSettings))
-		navigationItem.rightBarButtonItems = [ UIBarButtonItem().donateButton(target: self, action: #selector(handleDonation)) ]
+        print("view will appear")
 	}
+    
+    func configureHierarchy() {
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewLayout().createCollectionViewHorizontalLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = ThemeV2.Background
+        collectionView.contentInsetAdjustmentBehavior = .never
+        collectionView.delegate = self
+        collectionView.isPagingEnabled = true
+        view.addSubview(collectionView)
+        
+        
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+     }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        view.addSubview(collectionView)
+        self.view.backgroundColor = .white
+        navigationItem.title = "Today"
+        navigationItem.leftBarButtonItem = UIBarButtonItem().optionsButton(target: self, action: #selector(handleSettings))
+        navigationItem.rightBarButtonItems = [ UIBarButtonItem().donateButton(target: self, action: #selector(handleDonation)) ]
+        self.configureHierarchy()
+
 		self.mainFetcher = MainFetcher(controller: fetchedResultsController)
 		mainFetcher.initFetchedObjects()
         
@@ -123,15 +134,15 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 		createTaskButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20.0).isActive = true
 		createTaskButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20.0).isActive = true
 	}
-	
+    
 	/*
 	
 		MARK: - Handlers Selectors
 		
 	*/
 	@objc func handleCreateTask() {
-		guard let c = coordinator else { return }
-		c.showCreateTask(persistentContainer)
+        guard let c = coordinator, let d = viewModel.day else { return }
+        c.showCreateTask(persistentContainer, day: d)
 	}
 	
 	@objc func handleDonation() {
@@ -177,12 +188,12 @@ extension MainViewControllerWithCollectionView {
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		
-		let item: Task = viewModel.itemForSelection(indexPath: indexPath)
+		let item: Task = viewModel.taskForSelection(indexPath: indexPath)
 		
 		switch item.redactionStyle() {
 			case .none:
 				guard let coordinator = coordinator else { return }
-				coordinator.showTaskDetails(with: item, persistentContainer: persistentContainer)
+                coordinator.showTaskDetails(with: item, persistentContainer: self.persistentContainer)
 			case .star, .highlight:
 				guard let coordinator = coordinator else { return }
 				coordinator.showTaskDetails(with: item, persistentContainer: self.persistentContainer)
@@ -195,7 +206,7 @@ extension MainViewControllerWithCollectionView {
 	
 	func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
 		let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { (action) -> UIMenu? in
-            let object = self.viewModel.itemForSelection(indexPath: indexPath)
+            let object = self.viewModel.taskForSelection(indexPath: indexPath)
 
 			// from camera or camera roll
 			let camera = UIAction(title: "Attach Photo", image: UIImage(systemName: "camera.fill"), identifier: UIAction.Identifier(rawValue: "camera")) {_ in
@@ -203,12 +214,14 @@ extension MainViewControllerWithCollectionView {
 			}
 			
 			let complete = UIAction(title: "Mark as Complete", image: UIImage(systemName: "checkmark.circle.fill"), identifier: UIAction.Identifier(rawValue: "complete")) {_ in
+                //because core data only detects if one object has been changed, this does not trigger the NSFetchedResultsController. Why? because the controller is currently observing the Task Object however the NSFetchedResultsController is observing the Day Object, so we'll update the dat with a new time stamp to trigger a change
                 object.complete = !object.complete
+                self.viewModel.day?.update()
                 self.persistentContainer.saveContext()
 			}
 			
 			let open = UIAction(title: "View Task", image: UIImage(systemName: "eye.fill"), identifier: UIAction.Identifier(rawValue: "open"), discoverabilityTitle: nil, attributes: [], state: .off, handler: {action in
-				print("open")
+                self.coordinator?.showTaskDetails(with: self.viewModel.taskForSelection(indexPath: indexPath), persistentContainer: self.persistentContainer)
 			})
 			
 			let delete = UIAction(title: "Delete Task", image: UIImage(systemName: "minus.circle.fill"), identifier: UIAction.Identifier(rawValue: "delete"), discoverabilityTitle: nil, attributes: .destructive, state: .off, handler: {action in

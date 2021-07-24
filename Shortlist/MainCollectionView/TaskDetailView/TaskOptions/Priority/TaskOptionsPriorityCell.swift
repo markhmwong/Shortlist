@@ -20,7 +20,10 @@ fileprivate extension UIConfigurationStateCustomKey {
 }
 
 class TaskOptionsPriorityCell: BaseCell<TaskOptionsPriorityItem> {
-	
+    private var darkShadow = CALayer()
+    
+    private var lightShadow = CALayer()
+    
 	override var configurationState: UICellConfigurationState {
 		var state = super.configurationState
 		state.priorityItem = self.item
@@ -28,29 +31,71 @@ class TaskOptionsPriorityCell: BaseCell<TaskOptionsPriorityItem> {
 	}
 	
 	private var viewConstraintCheck: NSLayoutConstraint? = nil
-		
-	override func updateConfiguration(using state: UICellConfigurationState) {
 
-		let bg = UIView()
-		bg.backgroundColor = UIColor.offWhite
-		backgroundView = bg
-		
-		var contentConfig = TaskOptionsPriorityContentConfiguration().updated(for: state)
-		contentConfig.name = state.priorityItem?.name
-		contentConfig.caption = state.priorityItem?.caption
-		contentConfig.priority = state.priorityItem?.priority.rawValue
-		contentConfig.isSelected = state.priorityItem?.isSelected
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.contentView.backgroundColor = ThemeV2.Background
+        self.backgroundColor = ThemeV2.Background
+        self.clipsToBounds = false
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+	override func updateConfiguration(using state: UICellConfigurationState) {
+        
+        var contentConfig = TaskOptionsPriorityContentConfiguration().updated(for: state)
+        if let selected = state.priorityItem?.isSelected {
+            if selected {
+                contentConfig.name = state.priorityItem?.name
+                contentConfig.caption = state.priorityItem?.caption
+                contentConfig.priority = state.priorityItem?.priority.rawValue
+                contentConfig.textColor = state.priorityItem?.priority.color
+            } else {
+                contentConfig.caption = state.priorityItem?.caption
+                contentConfig.priority = state.priorityItem?.priority.rawValue
+                contentConfig.textColor = UIColor.white.adjust(by: -30)!
+                contentConfig.isSelected = state.priorityItem?.isSelected
+            }
+        } else {
+            contentConfig.caption = state.priorityItem?.caption
+            contentConfig.priority = state.priorityItem?.priority.rawValue
+            contentConfig.textColor = UIColor.white.adjust(by: -30)!
+            contentConfig.isSelected = state.priorityItem?.isSelected
+        }
+        
 		contentConfiguration = contentConfig
-		
-		layer.cornerRadius = 10.0
-		layer.borderWidth = 5
-		
-		if state.priorityItem?.isSelected ?? false {
-			layer.borderColor = state.priorityItem?.priority.color.cgColor
-		} else {
-			layer.borderColor = UIColor.offBlack.cgColor
-		}
+        
+        self.setupNeumorphic()
+
 	}
+    
+    private func setupNeumorphic() {
+        // neumorphic
+        let shadowRadius: CGFloat = 3.0
+        let cornerRadius: CGFloat = 25.0
+
+        darkShadow.frame = bounds
+        darkShadow.backgroundColor = ThemeV2.Background.cgColor
+        darkShadow.cornerRadius = cornerRadius
+        darkShadow.shadowOffset = CGSize(width: shadowRadius, height: shadowRadius)
+        darkShadow.shadowOpacity = 1
+        darkShadow.shadowRadius = shadowRadius
+        layer.insertSublayer(darkShadow, at: 0)
+
+        lightShadow.frame = bounds
+        lightShadow.backgroundColor = ThemeV2.Background.cgColor
+        lightShadow.cornerRadius = cornerRadius
+        lightShadow.shadowOffset = CGSize(width: -shadowRadius, height: -shadowRadius)
+        lightShadow.shadowOpacity = 1
+        lightShadow.shadowRadius = shadowRadius
+        layer.insertSublayer(lightShadow, at: 0)
+        
+        darkShadow.shadowColor = ThemeV2.CellProperties.Neumorphic.DarkShadow.cgColor
+        lightShadow.shadowColor = ThemeV2.CellProperties.Neumorphic.LightShadow.cgColor
+    }
 }
 
 // MARK: Config
@@ -72,7 +117,8 @@ struct TaskOptionsPriorityContentConfiguration: UIContentConfiguration, Hashable
 		}
 		
 		var updatedConfiguration = self
-		updatedConfiguration.textColor = UIColor.offBlack
+        updatedConfiguration.textColor = textColor
+        updatedConfiguration.name = name
 		return updatedConfiguration
 	}
 	
@@ -99,19 +145,12 @@ class TaskOptionsPriorityContentView: UIView, UIContentView {
 	
 	private var currentConfiguration: TaskOptionsPriorityContentConfiguration!
 	
-	private lazy var priorityLabel: PaddedLabel = {
-		let tf = PaddedLabel(yPadding: 0.0)
-		tf.font = UIFont.preferredFont(forTextStyle: .largeTitle).withSize(60.0)
-		tf.translatesAutoresizingMaskIntoConstraints = false
-		tf.textAlignment = .center
-		return tf
-	}()
 	
 	private lazy var priorityTitleLabel: PaddedLabel = {
 		let tf = PaddedLabel(yPadding: 5.0)
-//		tf.layer.borderColor = UIColor.offBlack.cgColor
-		tf.font = UIFont.preferredFont(forTextStyle: .headline)
+        tf.font = ThemeV2.CellProperties.Title1Black
 		tf.translatesAutoresizingMaskIntoConstraints = false
+        
 		tf.textAlignment = .center
 		return tf
 	}()
@@ -127,10 +166,10 @@ class TaskOptionsPriorityContentView: UIView, UIContentView {
 	
 	private var constraintCheck: NSLayoutConstraint? = nil
 	
+
+    
 	init(configuration: TaskOptionsPriorityContentConfiguration) {
 		super.init(frame: .zero)
-//		layer.cornerRadius = 5.0
-		clipsToBounds = true
 		// Custom initializer implementation here.
 		// Create the content view UI
 		setupAllViews()
@@ -145,27 +184,19 @@ class TaskOptionsPriorityContentView: UIView, UIContentView {
 	
 	private func setupAllViews() {
 		guard constraintCheck == nil else { return }
-		addSubview(priorityLabel)
 		addSubview(descriptionLabel)
 		addSubview(priorityTitleLabel)
-		
-		priorityLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-		constraintCheck = priorityLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20)
-		constraintCheck?.isActive = true
 
-//		constraintCheck = priorityLabel.topAnchor.constraint(equalTo: topAnchor, constant: 0)
-//		constraintCheck?.isActive = true
-//		priorityLabel.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: 0).isActive = true
-//		priorityLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-//		priorityLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
 		
-		descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-		descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+		constraintCheck = descriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+        constraintCheck?.isActive = true
 		descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
 		
-		priorityTitleLabel.topAnchor.constraint(equalTo: priorityLabel.bottomAnchor).isActive = true
-		priorityTitleLabel.centerXAnchor.constraint(equalTo: priorityLabel.centerXAnchor).isActive = true
+		priorityTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+		priorityTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 	}
+    
+
 	
 	private func apply(configuration: TaskOptionsPriorityContentConfiguration) {
 		guard currentConfiguration != configuration else {
@@ -174,24 +205,15 @@ class TaskOptionsPriorityContentView: UIView, UIContentView {
 		
 		// Replace current configuration with new configuration
 		currentConfiguration = configuration
-		priorityLabel.text = "\(currentConfiguration.name ?? "1")"
-		priorityTitleLabel.text = Priority.init(rawValue: currentConfiguration.priority ?? 3)?.stringValue
+        priorityTitleLabel.text = Priority.init(rawValue: currentConfiguration.priority ?? 3)?.stringValue
 		descriptionLabel.text = currentConfiguration.caption
-		
-		if currentConfiguration.isSelected ?? false {
-			prioritySet(priority: Priority.init(rawValue: currentConfiguration.priority ?? 3) ?? .medium)
-		} else {
-			priorityLabel.textColor = UIColor.offBlack
-			priorityTitleLabel.textColor = UIColor.offBlack
-			descriptionLabel.textColor = UIColor.offBlack
-		}
-		
-	}
-	
-	func prioritySet(priority: Priority) {
-		priorityLabel.textColor = priority.color
-		priorityTitleLabel.textColor = priority.color
-		descriptionLabel.textColor = priority.color
+        priorityTitleLabel.textColor = currentConfiguration.textColor
+        descriptionLabel.textColor = currentConfiguration.textColor
+
+        layer.cornerRadius = 20.0
+
+        clipsToBounds = false
+        self.backgroundColor = ThemeV2.Background
 	}
 	
 	func textViewDidChange(_ textView: UITextView) {

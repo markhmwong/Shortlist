@@ -276,7 +276,7 @@ class PreplanViewController: UIViewController, PickerViewContainerProtocol, Main
 			guard let stats = dayObject.dayToStats else { return }
 			stats.totalTasks += 1
 			let task: Task = Task(context: context)
-			task.create(context: context, taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel, redact: 0)
+            task.create(context: context, taskName: taskName, categoryName: category, createdAt: createdAt, reminderDate: reminderDate, priority: priorityLevel, redact: 0, day: dayObject)
 			
 			dayObject.addToDayToTask(task)
 			

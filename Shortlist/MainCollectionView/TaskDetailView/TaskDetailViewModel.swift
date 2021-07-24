@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import AVFoundation
 
 class TaskDetailViewModel: NSObject {
 	
+    private let videoQueue = DispatchQueue(label: "com.whizbang.queue.video", qos: .userInteractive)
+
 	private let photoLimit = 4
 	
 	private let sectionIdHeader: String = "com.whizbang.taskdetail.sectionid.header"
@@ -29,9 +32,7 @@ class TaskDetailViewModel: NSObject {
     private(set) var data: Task
 	
 	private var diffableDataSource: UICollectionViewDiffableDataSource<TaskDetailSections, DataItem>! = nil
-	
-	private var snapshot: NSDiffableDataSourceSnapshot<TaskDetailSections, DataItem>! = nil
-	
+		
 	var persistentContainer: PersistentContainer
 	
 	private var mainFetcher: MainFetcher<Task>! = nil
@@ -58,11 +59,11 @@ class TaskDetailViewModel: NSObject {
 	// MARK: - Process image
 	func saveImage(imageData: UIImage) {
 		// scale photo
-		
-		let thumbnail = UIImage().scalePhotoToThumbnail(image: imageData, width: Double(imageData.size.width), height: Double(imageData.size.height))
+        
+		let thumbnail = imageData.resizeWithCoreImage(to: CGSize(width: Double(imageData.size.width * 0.2), height: Double(imageData.size.height * 0.2)))
 		
 		// convert to jpeg
-		guard let i = imageData.jpegData(compressionQuality: 1.0), let thumbnailData = thumbnail.jpegData(compressionQuality: 0.5) else {
+		guard let i = imageData.jpegData(compressionQuality: 1.0), let thumbnailData = thumbnail?.jpegData(compressionQuality: 0.5) else {
 			// handle failed conversion
 			print("jpg error")
 			return
@@ -72,6 +73,53 @@ class TaskDetailViewModel: NSObject {
 		persistentContainer.savePhoto(data: data, fullRes: i, thumbnail: thumbnailData)
 		persistentContainer.saveContext()
 	}
+    
+    func prepareThumbnail() {
+        persistentContainer.saveVideoUrl(data: data, url: nil, thumbnail: nil, updatingState: true)
+    }
+    
+    func saveThumbnailImage(imageData: UIImage) {
+        // scale photo
+        let thumbnail = imageData.resizeWithCoreImage(to: CGSize(width: Double(imageData.size.width * 0.2), height: Double(imageData.size.height * 0.2)))
+//        let thumbnail = UIImage().scalePhotoToThumbnail(image: imageData, width: Double(imageData.size.width), height: Double(imageData.size.height))
+        
+        // convert to jpeg
+        guard let i = imageData.jpegData(compressionQuality: 1.0), let thumbnailData = thumbnail?.jpegData(compressionQuality: 0.5) else {
+            // handle failed conversion
+            print("jpg error")
+            // show error message
+            return
+        }
+        
+        // save process
+        persistentContainer.savePhoto(data: data, fullRes: i, thumbnail: thumbnailData)
+        persistentContainer.saveContext()
+    }
+    
+    func saveVideoUrl(url: URL) {
+        // custom thread
+        if let thumbnail = self.generateThumbnail(url: url)?.jpegData(compressionQuality: 0.8) {
+            self.persistentContainer.saveVideoUrl(data: data, url: url, thumbnail: thumbnail)
+        }
+    }
+    
+    func generateThumbnail(url: URL) -> UIImage? {
+        do {
+            let asset = AVURLAsset(url: url)
+            let imageGenerator = AVAssetImageGenerator(asset: asset)
+            imageGenerator.appliesPreferredTrackTransform = true
+            // Select the right one based on which version you are using
+            // Swift 4.2
+            let cgImage = try imageGenerator.copyCGImage(at: .zero,
+                                                         actualTime: nil)
+            return UIImage(cgImage: cgImage)
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+
+
+    }
 	
 	// MARK: Delete Image
 	func removeImage(item: PhotoItem) {
@@ -85,27 +133,31 @@ class TaskDetailViewModel: NSObject {
 	*/
 	func configureDataSource(collectionView: UICollectionView, resultsController: MainFetcher<Task>) {
 		mainFetcher = resultsController
-
+        let cellTitleRego = self.configureCellTitleRegistration()
+        let cellNotesRego = self.configureCellNotesRegistration()
+        let cellPhotoRego = self.configureCellPhotosRegistration()
+        let cellCompletionRego = self.configureCellCompletionRegistration()
+        
 		diffableDataSource = UICollectionViewDiffableDataSource<TaskDetailSections, DataItem>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
 			switch item {
 				case .title(let title):
-					let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellTitleRegistration(), for: indexPath, item: title)
+					let cell = collectionView.dequeueConfiguredReusableCell(using: cellTitleRego, for: indexPath, item: title)
 					return cell
 				case .notes(let notes):
-					let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellNotesRegistration(), for: indexPath, item: notes)
+					let cell = collectionView.dequeueConfiguredReusableCell(using: cellNotesRego, for: indexPath, item: notes)
 					return cell
 				case .photo(let photos):
-					let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellPhotosRegistration(), for: indexPath, item: photos)
+					let cell = collectionView.dequeueConfiguredReusableCell(using: cellPhotoRego, for: indexPath, item: photos)
 					return cell
 				case .complete(let complete):
-					let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellCompletionRegistration(), for: indexPath, item: complete)
+					let cell = collectionView.dequeueConfiguredReusableCell(using: cellCompletionRego, for: indexPath, item: complete)
 					return cell
 			}
 		})
 		
 		//Supplementary Views
 		let headerRegistration = UICollectionView.SupplementaryRegistration
-		<HeaderSupplementaryView>(elementKind: "SectionHeader") { [weak self]
+        <HeaderSupplementaryView>(elementKind: TaskDetailSupplementaryView.Header) { [weak self]
 			(supplementaryView, string, indexPath) in
 			if let section = TaskDetailSections.init(rawValue: indexPath.section) {
 				switch section {
@@ -138,7 +190,7 @@ class TaskDetailViewModel: NSObject {
 	func updateSnapshot() {
 		guard let mainFetcher = self.mainFetcher else { return }
 
-		self.snapshot = NSDiffableDataSourceSnapshot<TaskDetailSections, DataItem>()
+		var snapshot = NSDiffableDataSourceSnapshot<TaskDetailSections, DataItem>()
 		
 		snapshot.appendSections(TaskDetailSections.allCases) // add remaining sections
 		// This is required, as the variable is forced unwrapped during creation. The second problem is that the order of operation - mainFetcher is not yet initialised because of NSFetchedResultsController being called when it calls .performFetch()
@@ -190,21 +242,32 @@ class TaskDetailViewModel: NSObject {
 
 			// Assign photos
 			if task.taskToPhotos == nil {
-				self.photoItem = [PhotoItem(id: UUID(),photo: nil, isButton: true)]
+                self.photoItem = [PhotoItem(id: UUID(),photo: nil, isButton: true, updatingState: false, createdAt: Date())]
 			} else {
 				var photoArray: [PhotoItem] = []
-				if let photoSet = task.taskToPhotos?.array {
-					for photo in photoSet as! [TaskPhotos] {
-						let photoItem = PhotoItem(id: photo.id ?? UUID(), photo: photo.photo, thumbnail: photo.thumbnail, isButton: false)
-						photoArray.append(photoItem)
-						let dataItem = DataItem.photo(photoItem)
-						snapshot.appendItems([dataItem], toSection: .photos)
+                if let photoSet = task.taskToPhotos?.array as? [TaskPhotos] {
+                    let sortedPhotos = photoSet.sorted { photoA, photoB in
+                        photoA.createdAt! > photoB.createdAt!
+                    }
+                    for photo in sortedPhotos {
+                        if let videoUrl = URL(string: photo.video ?? "") {
+                            let photoItem = PhotoItem(id: photo.id ?? UUID(), photo: photo.photo, videoUrl: videoUrl, thumbnail: photo.thumbnail, isButton: false, updatingState: photo.updatingState, createdAt: Date())
+                            photoArray.append(photoItem)
+                            let dataItem = DataItem.photo(photoItem)
+                            snapshot.appendItems([dataItem], toSection: .photos)
+                        } else {
+                            let photoItem = PhotoItem(id: photo.id ?? UUID(), photo: photo.photo, videoUrl: nil, thumbnail: photo.thumbnail, isButton: false, updatingState: photo.updatingState, createdAt: Date())
+                            photoArray.append(photoItem)
+                            let dataItem = DataItem.photo(photoItem)
+                            snapshot.appendItems([dataItem], toSection: .photos)
+                        }
+                        
 					}
 				}
-
+                
 				// "Add" button
-				if photoArray.count < 4 && photoArray.count >= 0 {
-					let photoItem = PhotoItem(id: UUID(), photo: nil, caption: "Add a new photo", isButton: true)
+				if photoArray.count < 4 {
+                    let photoItem = PhotoItem(id: UUID(), photo: nil, caption: "Add a new photo", isButton: true, updatingState: false, createdAt: Date())
 					let dataItem = DataItem.photo(photoItem)
 					photoArray.append(photoItem)
 					snapshot.appendItems([dataItem], toSection: .photos)
@@ -213,9 +276,7 @@ class TaskDetailViewModel: NSObject {
 			}
 		}
 		
-		diffableDataSource.apply(self.snapshot, animatingDifferences: false) {
-			//
-		}
+		diffableDataSource.apply(snapshot, animatingDifferences: false) { }
 	}
 	
 	// MARK: - Cell Registration
@@ -266,8 +327,8 @@ class TaskDetailViewModel: NSObject {
      
     */
     func completeTask(state: Bool) {
-        print("change model \(state)")
         data.complete = state
+        data.taskToDay?.updatedAt = NSDate()
         persistentContainer.saveContext()
     }
 }

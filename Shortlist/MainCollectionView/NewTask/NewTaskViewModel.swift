@@ -35,13 +35,34 @@ class NewTaskViewModel: NSObject {
         super.init()
     }
     
-    func createTask() {
+    func createTask(day: Day) {
         let task = Task(context: persistentContainer.viewContext)
-        task.create(context: persistentContainer.viewContext, taskName: tempTask.title, categoryName: "General", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(tempTask.priority.rawValue), redact: tempTask.redact.rawValue)
+        task.create(context: persistentContainer.viewContext, taskName: tempTask.title, categoryName: "General", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(tempTask.priority.rawValue), redact: tempTask.redact.rawValue, day: day)
         if let day = persistentContainer.fetchDayManagedObject(forDate: Calendar.current.today()) {
             day.addToDayToTask(task)
             persistentContainer.saveContext()
         }
     }
     
+}
+
+/*
+ 
+ MARK: - Manage selected menu features
+ 
+ */
+extension NewTaskViewModel {
+    
+    func prioritySelected(priority: Priority) {
+        tempTask.priority = priority
+    }
+    
+    func rebuildMenu(items: [UIAction], button: UIBarButtonItem) {
+        button.menu = nil
+        button.menu = UIMenu(title: "Priority", options: [], children: items)
+    }
+    
+    func redactSelected(redact: RedactStyle) {
+        tempTask.redact = redact
+    }
 }

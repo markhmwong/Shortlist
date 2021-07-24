@@ -53,7 +53,6 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 	}
 	
 	func showNotes(task: Task, note: TaskNote?, persistentContainer: PersistentContainer) {
-//		guard let r = rootNavigationController else { return }
 		
 		guard let note = note else {
 			let newNote = TaskNote(context: persistentContainer.viewContext)
@@ -68,33 +67,19 @@ class TaskOptionsCoordinator: NSObject, Coordinator {
 	}
 	
 	func showAlarm(data: Task, persistentContainer: PersistentContainer) {
-//		guard let r = rootNavigationController else { return }
-
 		let viewModel = AlarmViewModel(data: data, persistentContainer: persistentContainer)
 		let vc = AlarmViewController(viewModel: viewModel)
         rootNavigationController?.pushViewController(vc, animated: true)
 	}
 	
-	func showAllDay() {
-		
-	}
-	
 	func showRedactStyle(data: Task, persistentContainer: PersistentContainer) {
-//		guard let r = rootNavigationController else { return }
 		let viewModel = RedactStyleViewModel(data: data, persistentContainer: persistentContainer)
 		let vc = RedactStyleViewController(viewModel: viewModel)
         rootNavigationController?.pushViewController(vc, animated: true)
 	}
 	
-	func showDeleteTask() {
-		guard navigationController != nil else { return }
-		// dismiss navigation
-		// delete task
-	}
-	
 	func dismissCurrentView() {
-//		guard let r = rootNavigationController else { return }
-        navigationController.popViewController(animated: true)
+        rootNavigationController?.popViewController(animated: true)
 	}
 }
 

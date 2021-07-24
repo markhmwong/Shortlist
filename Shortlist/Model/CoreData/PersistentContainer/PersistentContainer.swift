@@ -26,14 +26,30 @@ class PersistentContainer: NSPersistentCloudKitContainer {
 	
 	
 	// MARK: - Save photo
-	func savePhoto(data: Task, fullRes: Data, thumbnail: Data) {
+	func savePhoto(data: Task, fullRes: Data?, thumbnail: Data) {
 		let photo = TaskPhotos(context: viewContext)
 		photo.id = UUID()
-		photo.photo = fullRes
+        if let p = fullRes {
+            photo.photo = p
+        }
+        photo.createdAt = Date()
+        photo.video = nil
 		photo.thumbnail = thumbnail
+        photo.updatingState = false
 		data.addToTaskToPhotos(photo)
 	}
 	
+    func saveVideoUrl(data: Task?, url: URL?, thumbnail: Data?, updatingState: Bool = false) {
+        guard let d = data else { return }
+        let photo = TaskPhotos(context: viewContext)
+        photo.id = UUID()
+        photo.createdAt = Date()
+        photo.photo = nil
+        photo.video = url?.absoluteString ?? ""
+        photo.thumbnail = thumbnail
+        photo.updatingState = updatingState
+        d.addToTaskToPhotos(photo)
+    }
 
     
     func fetchAllTasksByYear(forYear year: Int16) -> [Day] {

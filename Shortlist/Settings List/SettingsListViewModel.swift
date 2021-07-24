@@ -103,8 +103,9 @@ class SettingsListViewModel: NSObject, MFMailComposeViewControllerDelegate {
 	
 	// configure diffable data source
 	func configureDiffableDataSource(collectionView: UICollectionView) {
+        let cellRego = self.configureCellRegistration()
 		diffableDataSource = UICollectionViewDiffableDataSource<SettingsListSection, SettingsListItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
-			let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
+			let cell = collectionView.dequeueConfiguredReusableCell(using: cellRego, for: indexPath, item: item)
 			return cell
 		}
 		

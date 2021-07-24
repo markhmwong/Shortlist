@@ -22,7 +22,7 @@ struct TaskOptionsPriorityItem: Hashable {
 
 class TaskOptionsPriorityViewModel: NSObject {
 	
-	private var task: Task
+	var task: Task
 	
 	var persistentContainer: PersistentContainer
 	
@@ -35,27 +35,35 @@ class TaskOptionsPriorityViewModel: NSObject {
 	}
 	
 	// MARK: - Diffable Datasource
-	private func configureSnapshot() {
+	func configureSnapshot() {
 		guard let diffableDataSource = diffableDataSource else { return }
 		
 		var snapshot = NSDiffableDataSourceSnapshot<TaskOptionsPrioritySection, TaskOptionsPriorityItem>()
 		snapshot.appendSections(TaskOptionsPrioritySection.allCases)
-		
+        
 		let data = prepareDataSource()
 		
 		for d in data {
 			snapshot.appendItems([d], toSection: .main)
 		}
 
-		// BUG: using this apply method refreshes the collectionview twice. however using the method with the animating differences won't allow for dynamic heights
 		diffableDataSource.apply(snapshot, animatingDifferences: false) { }
 	}
+    
+    // MARK: - Register Cell
+    private func configureCellRegistration() -> UICollectionView.CellRegistration<TaskOptionsPriorityCell, TaskOptionsPriorityItem> {
+        let cellConfig = UICollectionView.CellRegistration<TaskOptionsPriorityCell, TaskOptionsPriorityItem> { (cell, indexPath, item) in
+            // setup cell views and text from item
+            cell.configureCell(with: item)
+        }
+        return cellConfig
+    }
 	
 	func configureDataSource(collectionView: UICollectionView) {
-		
+        let cellRegistration = self.configureCellRegistration()
 		// Setup datasource and cells
 		diffableDataSource = UICollectionViewDiffableDataSource<TaskOptionsPrioritySection, TaskOptionsPriorityItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
-			let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
+			let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
 			return cell
 		}
 		
@@ -63,19 +71,16 @@ class TaskOptionsPriorityViewModel: NSObject {
 	}
 	
 	private func prepareDataSource() -> [TaskOptionsPriorityItem] {
-		let highItem = TaskOptionsPriorityItem(name: "1", caption: "Get it done today. This may be your last day.", priority: .high, isSelected: true)
-		let medItem = TaskOptionsPriorityItem(name: "2", caption: "Keep on top of it, do some every day.", priority: .medium, isSelected: false)
-		let lowItem = TaskOptionsPriorityItem(name: "3", caption: "Could be left for another day, meh", priority: .low, isSelected: false)
-		return [highItem, medItem, lowItem]
+        if let p = Priority(rawValue: task.priority) {
+
+            let highItem = TaskOptionsPriorityItem(name: "1", caption: "Get it done today. This may be your last day.", priority: .high, isSelected: p == .high)
+            let medItem = TaskOptionsPriorityItem(name: "2", caption: "Keep on top of it, do some every day.", priority: .medium, isSelected: p == .medium)
+            let lowItem = TaskOptionsPriorityItem(name: "3", caption: "Could be left for another day, meh", priority: .low, isSelected: p == .low)
+            return [highItem, medItem, lowItem]
+        }
+        return []
 	}
 	
-	// MARK: - Register Cell
-	private func configureCellRegistration() -> UICollectionView.CellRegistration<TaskOptionsPriorityCell, TaskOptionsPriorityItem> {
-		let cellConfig = UICollectionView.CellRegistration<TaskOptionsPriorityCell, TaskOptionsPriorityItem> { (cell, indexPath, item) in
-			// setup cell views and text from item
-			cell.configureCell(with: item)
-		}
-		return cellConfig
-	}
+
 }
 

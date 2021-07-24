@@ -64,15 +64,36 @@ class PermissionsCell: BaseListCell<PermissionItem> {
 
 		let imageView = UIImageView(image: UIImage(systemName: "checkmark.circle.fill")?.withRenderingMode(.alwaysTemplate))
 		
-		if (state.permissionItem?.state ?? false) {
-			imageView.tintColor = .systemGreen
-		} else {
-			imageView.tintColor = .systemGray3
-		}
+        switch state.permissionItem?.state {
+        case 0:
+            imageView.tintColor = .systemGray3
+        case 1:
+            imageView.tintColor = .systemGray3
+        case 2:
+            imageView.tintColor = .systemGray3
+        case 3:
+            imageView.tintColor = .systemGreen
+        case 4:
+            imageView.tintColor = .systemYellow
+        case .none:
+            imageView.tintColor = .systemBrown
+        case .some(_):
+            imageView.tintColor = .systemBrown
+        }
+        
+//		if (state.permissionItem?.state ?? false) {
+//			imageView.tintColor = .systemGreen
+//		} else {
+//			imageView.tintColor = .systemGray3
+//		}
 		
 		let customAccessory = UICellAccessory.CustomViewConfiguration(
 		  customView: imageView,
 		  placement: .trailing(displayed: .always))
 		accessories = [.customView(configuration: customAccessory)]
 	}
+    
+    func permissionType() -> PermissionType {
+        return item!.permission
+    }
 }

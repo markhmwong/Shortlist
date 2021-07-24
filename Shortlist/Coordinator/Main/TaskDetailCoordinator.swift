@@ -40,9 +40,12 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 
 		let viewModel = TaskDetailViewModel(task: task, persistentContainer: persistentContainer)
 		let vc = TaskDetailViewController(viewModel: viewModel, coordinator: self)
-
 		vc.navigationItem.rightBarButtonItem = UIBarButtonItem().taskOptionsButton(target: self, action: #selector(handleTaskOptions))
-		navigationController.pushViewController(vc, animated: true)
+        
+        let newBackButton = UIBarButtonItem(title: "Today", style: UIBarButtonItem.Style.plain, target: self, action: Selector(("backAction")))
+        navigationController.navigationBar.topItem?.backBarButtonItem = newBackButton
+        newBackButton.tintColor = ThemeV2.TextColor.DefaultColor
+        navigationController.pushViewController(vc, animated: true)
 	}
 	
 	func showPhoto(item: PhotoItem) {

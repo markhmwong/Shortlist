@@ -72,7 +72,7 @@ extension Task {
 	}
 	
 	// reminder date - must include a non-nil date, any date placed before the current time will be ignored for notifications
-	func create(context: NSManagedObjectContext, taskName: String, categoryName: String, createdAt: Date, reminderDate: Date, priority: Int, redact: Int) {
+    func create(context: NSManagedObjectContext, taskName: String, categoryName: String, createdAt: Date, reminderDate: Date, priority: Int, redact: Int, day: Day) {
 		self.id = UUID()
 		self.name = taskName
 		self.complete = true
@@ -103,6 +103,9 @@ extension Task {
 		reminder.reminderId = "id"
 		reminder.reminderToTask = self
 		self.taskToReminder = reminder
+        
+        // setup reverse relationship
+        self.taskToDay = day
 	}
 	
 	/*

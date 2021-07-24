@@ -40,8 +40,8 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationController?.transparent()
-		
+//		navigationController?.transparent()
+
 		createCollectionView()
         self.taskDetailFetchedResultsViewController = TaskDetailFetchedResultsViewController(viewModel: viewModel, collectionView: collectionView)
         addChild(taskDetailFetchedResultsViewController)
@@ -77,16 +77,21 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 			self.presentCamera()
 		}))
 		
-		alert.addAction(UIAlertAction(title: "Album", style: .default , handler:{ (UIAlertAction) in
-			self.presentPicker(filter: PHPickerFilter.images)
+		alert.addAction(UIAlertAction(title: "Images", style: .default , handler:{ (UIAlertAction) in
+            self.presentPicker(filter: PHPickerFilter.images)
 		}))
+        
+        alert.addAction(UIAlertAction(title: "Video", style: .default , handler:{ (UIAlertAction) in
+            self.presentPicker(filter: PHPickerFilter.videos)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler:{ (UIAlertAction) in
+        }))
 		
 		//uncomment for iPad Support
 		//alert.popoverPresentationController?.sourceView = self.view
 
-		self.present(alert, animated: true, completion: {
-			print("completion block")
-		})
+		self.present(alert, animated: true, completion: {} )
 	}
 	
 	private func presentPicker(filter: PHPickerFilter) {
@@ -103,27 +108,55 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		MARK: - Image Picker
 	
 	*/
+    
 	func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 		dismiss(animated: true, completion: nil)
 				guard !results.isEmpty else { return }
 		let result = results[0]
 		let provider = result.itemProvider
-		let state = provider.canLoadObject(ofClass: UIImage.self)
-		
-		if state {
+		let imageState = provider.canLoadObject(ofClass: UIImage.self)
+        
+		if imageState {
 			provider.loadObject(ofClass: UIImage.self) { (image, error) in
 				if let i = image as? UIImage {					
-					self.viewModel.saveImage(imageData: i)
+					self.viewModel.saveThumbnailImage(imageData: i)
 				}
 			}
 		}
+        
+        DispatchQueue.main.async {
+            provider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { url, err in
+                if let u = url as? URL {
+                    self.viewModel.prepareThumbnail()
+//                    self.viewModel.saveVideoUrl(url: u)
+                }
+            }
+        }
+        
 	}
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.viewModel.saveThumbnailImage(imageData: image)
+        }
+        
+        if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
+            self.viewModel.saveVideoUrl(url: videoUrl)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
 	
 	func handleRemoveImage(_ cell: TaskDetailPhotoCell) {
 		if let item = cell.item {
 			viewModel.removeImage(item: item)
 		}
 	}
+    
+    func handleRemoveVideo(_ cell: TaskDetailPhotoCell) {
+        print("to do")
+    }
 }
 
 extension TaskDetailViewController {
@@ -164,7 +197,7 @@ extension TaskDetailViewController: UICollectionViewDelegate {
         if let section = TaskDetailSections.init(rawValue: indexPath.section) {
             switch section {
                 case .note, .title:
-                    print("title")
+                    ()
                 case .complete, .photos:
                     ()
             }
@@ -216,7 +249,6 @@ extension TaskDetailViewController: UICollectionViewDelegate {
 		return nil
 	}
 
-	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath)
 		
@@ -240,7 +272,7 @@ extension TaskDetailViewController: UICollectionViewDelegate {
                     coordinator.showNotesInModal(task: viewModel.data, note: nil, persistentContainer: viewModel.persistentContainer)
                 }
 			case .photos:
-				if (itemsInSection == indexPath.row) {
+				if (itemsInSection - 1 == indexPath.row) {
 					// Add Photo
 					//https://nemecek.be/blog/30/checking-out-the-new-phpickerviewcontroller-in-ios-14-to-select-photos-or-videos
 					self.presentCameraOptions()

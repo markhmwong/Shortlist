@@ -76,6 +76,7 @@ class NewTaskSecondaryToolbar: UIView {
         priorityView.translatesAutoresizingMaskIntoConstraints = false
         priorityView.alpha = 0
         self.addSubview(priorityView)
+        
         featureDictionary[.priority] = priorityView
         
         priorityView.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -138,13 +139,14 @@ extension NewTaskSecondaryToolbar {
                 c.cycleFeature()
             }
             
+            self.bringSubviewToFront(view)
+            
             UIView.animate(withDuration: 0.10, delay: 0.0, options: [.curveEaseInOut]) {
                 view.alpha = 1.0
             } completion: { state in
                 //
             }
 
-//            view.alpha = 1.0
         }
     }
 
@@ -228,8 +230,8 @@ class PriorityToolbar: UIView, CycleFeatureProtocol {
         
     }
     
-    @objc func updatePriority() {
-        print("update")
+    @objc func updatePriority(_ sender: PriorityButton) {
+        self.viewModel.tempTask.priority = sender.priority
     }
 }
 
@@ -458,7 +460,7 @@ class PriorityButton: UIButton, ButtonToggleProtocol {
         return view
     }()
     
-    private var priority: Priority
+    var priority: Priority
     
     private var gl = CAGradientLayer()
     
@@ -491,25 +493,26 @@ class PriorityButton: UIButton, ButtonToggleProtocol {
         gl.colors = [ colorTop.cgColor, colorBottom.cgColor ]
         gl.locations = [ 0.0, 0.25]
         
+        innerView.isUserInteractionEnabled = false
         innerView.layer.addSublayer(gl)
         addSubview(innerView)
         addSubview(image)
         addSubview(bottomShaderView)
         addSubview(title)
-        
+
         innerView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         innerView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         innerView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         innerView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        
+
         bottomShaderView.topAnchor.constraint(equalTo: centerYAnchor, constant: 10).isActive = true
         bottomShaderView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         bottomShaderView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         bottomShaderView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        
+
         title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -height * 0.13).isActive = true
         title.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        
+
         image.tintColor = self.priority.color
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         image.topAnchor.constraint(equalTo: topAnchor, constant: height * 0.21).isActive = true
@@ -533,4 +536,6 @@ class PriorityButton: UIButton, ButtonToggleProtocol {
         innerView.frame = rect.insetBy(dx: 6, dy: 6)
         gl.frame = innerView.frame
     }
+    
+    
 }

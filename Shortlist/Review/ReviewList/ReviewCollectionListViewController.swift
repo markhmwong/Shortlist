@@ -61,7 +61,7 @@ class ReviewCollectionListViewController: UIViewController {
 	@objc func handleDoneButton() {
 		if let indexPaths = tableView.indexPathsForSelectedItems {
 			for index in indexPaths {
-				let cell = tableView.cellForItem(at: index) as! TaskCellV2
+				let cell = tableView.cellForItem(at: index) as! MainTaskCell
 				_ = cell.item
 			}
 		}

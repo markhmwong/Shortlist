@@ -21,8 +21,10 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
 		view.minimumZoomScale = 0.1
 		view.zoomScale = 1.0
 		view.delegate = self
-		view.contentMode = .scaleAspectFill
+		view.contentMode = .scaleAspectFit
 		view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.green
+        view.contentInsetAdjustmentBehavior = .never
 		return view
 	}()
 	
@@ -50,6 +52,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
 			// to do place holder
 			return
 		}
+        
 		imageView = ImageScrollView(frame: view.bounds)
 		view.addSubview(imageView)
 		
@@ -63,7 +66,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
 		imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
 		imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
 		
-		scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
 		scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true

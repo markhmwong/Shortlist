@@ -21,59 +21,40 @@ import Photos
 
 // Not possible to change the state of permissions for the moment - 12/9/2020
 class PrivacyPermissionsService: NSObject {
-	
-	typealias BiometricsState = Bool
-		
+    
+    typealias AuthoisationStatus = Int
+    
 	override init() {
 		super.init()
 	}
 	
 	// MARK: Biometrics
 	// TouchID/FaceId
-	func isBiometricsAllowed() -> BiometricsState {
+	func isBiometricsAllowed() -> AuthoisationStatus {
 		let context = LAContext()
 		var error: NSError?
-		return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        let status = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        switch status {
+        case true:
+            return 3
+        case false:
+            return 2
+        }
 	}
 	
 	// MARK: - Camera
-	func isCameraAllowed() -> Bool {
-		let status = AVCaptureDevice.authorizationStatus(for: .video)
-		switch status {
-			case .authorized, .restricted:
-				return true
-			case .denied, .notDetermined:
-				return false
-			@unknown default:
-				return false
-		}
-
+	func isCameraAllowed() -> AuthoisationStatus {
+        return AVCaptureDevice.authorizationStatus(for: .video).rawValue
 	}
 	
 	// MARK: - Reminders
-	func isRemindersAllowed() -> Bool {
-		let status = ReminderService.getReminderAuthorizationStatus()
-		switch status {
-			case .authorized, .restricted:
-				return true
-			case .denied, .notDetermined:
-				return false
-			@unknown default:
-				return false
-		}
+	func isRemindersAllowed() -> AuthoisationStatus {
+        return ReminderService.getReminderAuthorizationStatus().rawValue
 	}
 	
 	// MARK: - Photo Library
-	func isPhotosAllowed() -> Bool {
-		let status = PHPhotoLibrary.authorizationStatus()
-		switch status {
-			case .authorized, .restricted, .limited:
-				return true
-			case .denied, .notDetermined:
-				return false
-			@unknown default:
-				return false
-		}
+	func isPhotosAllowed() -> AuthoisationStatus {
+        return PHPhotoLibrary.authorizationStatus(for: .readWrite).rawValue
 	}
 	
 }

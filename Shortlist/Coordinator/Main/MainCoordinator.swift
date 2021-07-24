@@ -30,22 +30,29 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
     // begin application
     func start(_ persistentContainer: PersistentContainer?) {
 		navigationController.delegate = self
-		// Deprecated 1.2.x
-//		let viewModel = MainViewModel()
-//		let vc = MainViewController(persistentContainer: persistentContainer, viewModel: viewModel)
 		
 		// 2.0
 		guard let persistentContainer = persistentContainer else { return }
 		let vc = MainViewControllerWithCollectionView(viewModel: MainViewModelWithCollectionView(), persistentContainer: persistentContainer)
 		vc.coordinator = self
         rootViewController = vc
-		navigationController.pushViewController(vc, animated: false)
 		
-		navigationController.navigationBar.isHidden = false
+		
+        navigationController.navigationBar.shadowImage = UIImage()
 		navigationController.navigationBar.isTranslucent = false
-		navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-		navigationController.navigationBar.shadowImage = UIImage()
-		navigationController.navigationBar.backgroundColor = UIColor.clear
+		
+        navigationController.navigationBar.backgroundColor = ThemeV2.Background
+        navigationController.pushViewController(vc, animated: false)
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.backgroundColor = ThemeV2.Background
+
+        navigationController.navigationBar.standardAppearance = navBarAppearance
+        navigationController.navigationBar.compactAppearance = navBarAppearance
+        navigationController.navigationBar.scrollEdgeAppearance = navBarAppearance
+
+        navigationController.navigationBar.isTranslucent = false
+        navigationController.navigationBar.tintColor = ThemeV2.Background
     }
 	
 	/*
@@ -60,10 +67,11 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		}
 	}
 	
-	func showCreateTask(_ persistentContainer: PersistentContainer?) {
+    func showCreateTask(_ persistentContainer: PersistentContainer?, day: Day) {
 		print("To do - Create Task")
 		let child = NewTaskCoordinator(navigationController: navigationController)
 		childCoordinators.append(child)
+        child.day = day
 		child.start(persistentContainer)
 	}
 	

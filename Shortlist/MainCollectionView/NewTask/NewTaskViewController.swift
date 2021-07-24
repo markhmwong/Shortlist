@@ -16,15 +16,15 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     private var coordinator: NewTaskCoordinator
     
     // toolbar buttons
-    var priorityButton: UIButton! = nil
+    var priorityButton: UIBarButtonItem! = nil
     
-    var redactButton: UIButton! = nil
+    var redactButton: UIBarButtonItem! = nil
     
     var reminderButton: UIButton! = nil
     
     var noteButton: UIButton! = nil
     
-    var photoButton: UIButton! = nil
+    var photoButton: UIBarButtonItem! = nil
     
     // test
     var scribbleButton: UIButton! = nil
@@ -87,7 +87,19 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     var constraint: NSLayoutConstraint! = nil
     
     var heightConstraint: NSLayoutConstraint! = nil
-        
+    
+    private var highItem: UIAction! = nil
+    
+    private var mediumItem: UIAction! = nil
+    
+    private var lowItem: UIAction! = nil
+    
+    private var highlightItem: UIAction! = nil
+    
+    private var astericksItem: UIAction! = nil
+    
+    private var noneItem: UIAction! = nil
+    
     init(viewModel: NewTaskViewModel, coordinator: NewTaskCoordinator) {
         self.viewModel = viewModel
         self.coordinator = coordinator
@@ -174,22 +186,9 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     
     func addKeyboardToolBar() {
         
-        let image = UIImage(systemName: "exclamationmark.circle")?.withRenderingMode(.alwaysTemplate)
-        self.priorityButton = UIButton()
-        priorityButton.tintColor = viewModel.tempTask.priority.color
-        priorityButton.setImage(image, for: .normal)
-        priorityButton.tag = SelectedFeature.priority.rawValue
-        priorityButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
-        let priorityItem = UIBarButtonItem(customView: priorityButton)
+        self.priorityMenu()
         
-        let redactImage = UIImage(systemName: "eye")?.withRenderingMode(.alwaysTemplate)
-        self.redactButton = UIButton()
-        redactButton.tag = SelectedFeature.redact.rawValue
-        redactButton.tintColor = viewModel.tempTask.priority.color
-        redactButton.tag = SelectedFeature.redact.rawValue
-        redactButton.setImage(redactImage, for: .normal)
-        redactButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
-        let redactItem = UIBarButtonItem(customView: redactButton)
+        self.redactMenu()
         
         let reminderImage = UIImage(systemName: "alarm")?.withRenderingMode(.alwaysTemplate)
         self.reminderButton = UIButton()
@@ -207,19 +206,92 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         noteButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
         let noteItem = UIBarButtonItem(customView: noteButton)
         
-        let photoImage = UIImage(systemName: "photo")?.withRenderingMode(.alwaysTemplate)
-        self.photoButton = UIButton()
-        photoButton.tintColor = viewModel.tempTask.priority.color
-        photoButton.tag = SelectedFeature.photo.rawValue
-        photoButton.setImage(photoImage, for: .normal)
-        photoButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
-        let photoItem = UIBarButtonItem(customView: photoButton)
+        self.cameraMenu()
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
-        taskFeatureToolbar.items = [flexibleSpace, priorityItem, flexibleSpace, redactItem, flexibleSpace, reminderItem, flexibleSpace, noteItem, flexibleSpace, photoItem, flexibleSpace]
+        taskFeatureToolbar.items = [flexibleSpace, priorityButton, flexibleSpace, redactButton, flexibleSpace, reminderItem, flexibleSpace, noteItem, flexibleSpace, photoButton, flexibleSpace]
         
         taskFeatureToolbar.sizeToFit()
         dataInputView.inputAccessoryView = taskFeatureToolbar
+    }
+    
+    private func cameraMenu() {
+        let cameraItem = UIAction(title: "Camera", image: UIImage(systemName: "camera.fill")) { (action) in
+                 print("Camera action was tapped")
+                self.presentCamera()
+            }
+        let albumItem = UIAction(title: "Album", image: UIImage(systemName: "photo.fill.on.rectangle.fill")) { (action) in
+                 print("Album action was tapped")
+                self.presentPicker(filter: PHPickerFilter.images)
+            }
+        let menu = UIMenu(title: "Media", options: [], children: [cameraItem , albumItem])
+        let image = UIImage(systemName: "photo")?.withRenderingMode(.alwaysTemplate)
+        self.photoButton = UIBarButtonItem(title: "Menu", image: image, primaryAction: nil, menu: menu)
+        photoButton.tintColor = viewModel.tempTask.priority.color
+        photoButton.tag = SelectedFeature.photo.rawValue
+        
+    }
+    
+    private func redactMenu() {
+        self.noneItem = UIAction(title: "None", image: UIImage(systemName: "textformat.abc")) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+        }
+        self.astericksItem = UIAction(title: "Astericks", image: UIImage(systemName: "staroflife.fill")) { (action) in
+            self.noneItem.state = .off
+            self.astericksItem.state = .on
+            self.highlightItem.state = .off
+        }
+        self.highlightItem = UIAction(title: "Highlight", image: UIImage(systemName: "highlighter")) { (action) in
+            self.noneItem.state = .off
+            self.astericksItem.state = .off
+            self.highlightItem.state = .on
+        }
+        
+        self.noneItem.state = .off //default state
+        
+        let menu = UIMenu(title: "Redact Text", options: [], children: [noneItem , astericksItem, highlightItem] )
+        let image = UIImage(systemName: "text.redaction")?.withRenderingMode(.alwaysTemplate)
+        self.redactButton = UIBarButtonItem(title: "Redact", image: image, primaryAction: nil, menu: menu)
+        redactButton.tintColor = viewModel.tempTask.priority.color
+        redactButton.tag = SelectedFeature.photo.rawValue
+        
+    }
+
+
+    private func priorityMenu() {
+        highItem = UIAction(title: "High", image: UIImage(systemName: "1.circle.fill")) { (action) in
+            self.highItem.state = .on
+            self.mediumItem.state = .off
+            self.lowItem.state = self.mediumItem.state
+            
+            self.viewModel.prioritySelected(priority: .high)
+            self.viewModel.rebuildMenu(items: [self.highItem, self.mediumItem, self.lowItem], button: self.priorityButton)
+        }
+        
+        mediumItem = UIAction(title: "Medium", image: UIImage(systemName: "2.circle.fill")) { (action) in
+            self.highItem.state = .off
+            self.lowItem.state = self.highItem.state
+            self.mediumItem.state = .on
+            self.viewModel.prioritySelected(priority: .medium)
+            self.viewModel.rebuildMenu(items: [self.highItem, self.mediumItem, self.lowItem], button: self.priorityButton)
+        }
+        
+        lowItem = UIAction(title: "Low", image: UIImage(systemName: "3.circle.fill")) { (action) in
+            self.highItem.state = .off
+            self.lowItem.state = self.highItem.state
+            self.mediumItem.state = .on
+            self.viewModel.prioritySelected(priority: .low)
+            self.viewModel.rebuildMenu(items: [self.highItem, self.mediumItem, self.lowItem], button: self.priorityButton)
+        }
+
+        highItem.state = .on
+        let menu = UIMenu(title: "Priority", options: [], children: [highItem , mediumItem, lowItem])
+        let image = UIImage(systemName: "exclamationmark.circle.fill")?.withRenderingMode(.alwaysTemplate)
+        self.priorityButton = UIBarButtonItem(title: "Priority", image: image, primaryAction: nil, menu: menu)
+        priorityButton.tintColor = viewModel.tempTask.priority.color
+        priorityButton.tag = SelectedFeature.photo.rawValue
         
     }
 
@@ -232,22 +304,6 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         self.present(vc, animated: true)
     }
     
-    func presentCameraOptions() {
-        let alert = UIAlertController(title: "Title", message: "Please Select an Option", preferredStyle: .actionSheet)
-            
-        alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction) in
-            self.presentCamera()
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Album", style: .default , handler:{ (UIAlertAction) in
-            self.presentPicker(filter: PHPickerFilter.images)
-        }))
-
-        self.present(alert, animated: true, completion: {
-            print("completion block")
-        })
-    }
-    
     private func presentPicker(filter: PHPickerFilter) {
         var configuration = PHPickerConfiguration()
         configuration.filter = filter
@@ -255,12 +311,6 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true)
-    }
-    
-    
-    @objc func photoToggle() {
-        presentCamera()
-
     }
     
     @objc func redactToggle() {
@@ -277,7 +327,7 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
             viewModel.tempTask.redact = .highlight
             imageName = "highlighter"
         }
-        self.redactButton.setImage(UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
+//        self.redactButton.setImage(UIImage(systemName: imageName)?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
     @objc func switchPriority() {
@@ -294,11 +344,11 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         }
         
         self.priorityButton.tintColor = viewModel.tempTask.priority.color
-        self.priorityButton.setImage(UIImage(systemName: "exclamationmark.circle")?.withRenderingMode(.alwaysTemplate), for: .normal)
+//        self.priorityButton.setImage(UIImage(systemName: "exclamationmark.circle")?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
-    func addNewTask() {
-        viewModel.createTask()
+    func addNewTask(day: Day) {
+        viewModel.createTask(day: day)
     }
     
     /*
@@ -359,3 +409,5 @@ extension NewTaskViewController: UITextViewDelegate {
         }
     }
 }
+
+

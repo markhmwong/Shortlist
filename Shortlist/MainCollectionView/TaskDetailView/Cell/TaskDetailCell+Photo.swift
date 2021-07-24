@@ -45,20 +45,30 @@ class TaskDetailPhotoCell: BaseCell<PhotoItem> {
         label.font = UIFont.preferredFont(forTextStyle: .footnote)
 		return label
 	}()
+    private var busyView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 	
 	private func setupViewsIfNeeded() {
 		contentView.backgroundColor = ThemeV2.Background
 
 		contentView.addSubview(imageView)
 		contentView.addSubview(caption)
-		
+        contentView.addSubview(busyView)
+        
+        busyView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        busyView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        
 		caption.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
 		caption.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 		caption.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
 		
-		imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant:30).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30).isActive = true
+		imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant:0).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
 	}
 	
 	override func updateConfiguration(using state: UICellConfigurationState) {
@@ -70,22 +80,62 @@ class TaskDetailPhotoCell: BaseCell<PhotoItem> {
 		}
 		
 		if (item.isButton) {
-			let config = UIImage.SymbolConfiguration(pointSize: 20.0)
-			let image = UIImage(systemName: "rectangle.fill.badge.plus", withConfiguration: config)?.imageWithInsets(insets: UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15))?.withTintColor(ThemeV2.TextColor.DefaultColor)
+            let config = UIImage.SymbolConfiguration(pointSize: 40.0)
+			let image = UIImage(systemName: "rectangle.fill.badge.plus", withConfiguration: config)?.imageWithInsets(insets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))?.withTintColor(ThemeV2.TextColor.DefaultColor)
 			imageView.backgroundColor = ThemeV2.Background
 			imageView.image = image
-			imageView.contentScaleFactor = 0.5
+            imageView.contentMode = .center
             caption.text = item.caption ?? "None"
 		} else {
-			if let photo = item.thumbnail {
-				let p = UIImage(data: photo)
-				imageView.image = p
-                caption.text = item.caption ?? "None"
-			}
+            // item is in progress updating
+            if item.updatingState {
+                self.isBusy()
+            } else {
+                self.isNotBusy()
+            }
+            
+            self.preparePhoto(item: item)
+            
+            self.prepareVideo(item: item)
 		}
 	}
-	
-	override func prepareForReuse() {
-		super.prepareForReuse()
-	}
+    
+    private func preparePhoto(item: PhotoItem) {
+        if let photo = item.thumbnail {
+            let p = UIImage(data: photo)
+            imageView.image = p
+            imageView.contentMode = .scaleAspectFill
+            imageView.layer.cornerRadius = 10.0
+            imageView.clipsToBounds = true
+            caption.text = item.caption ?? "None"
+        } else {
+            caption.text = "no thumbnail"
+        }
+    }
+    
+    private func prepareVideo(item: PhotoItem) {
+        if item.videoUrl != nil {
+            if !item.updatingState {
+                if let thumbnail = item.thumbnail {
+                    let p = UIImage(data: thumbnail)
+                    imageView.image = p
+                    imageView.contentMode = .scaleAspectFill
+                    imageView.layer.cornerRadius = 10.0
+                    imageView.clipsToBounds = true
+                    caption.text = item.caption ?? "None"
+                }
+            }
+        }
+    }
+    
+    func isBusy() {
+        busyView.startAnimating()
+    }
+    
+    func isNotBusy() {
+        busyView.stopAnimating()
+    }
 }
+    
+
+

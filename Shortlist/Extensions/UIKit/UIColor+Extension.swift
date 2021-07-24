@@ -10,8 +10,8 @@ import UIKit
 
 extension UIColor {
 
-	static var offWhite: UIColor = UIColor.init(red: 235/255, green: 235/255, blue: 245/255, alpha: 1.0)
-	static var offBlack: UIColor = UIColor.init(red: 30/255, green: 30/255, blue: 30/255, alpha: 1.0)
+	static var offWhite: UIColor = UIColor.init(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)
+	static var offBlack: UIColor = UIColor.init(red: 50/255, green: 50/255, blue: 55/255, alpha: 1.0)
 
     static var complete: UIColor = UIColor.green.adjust(by: -30)!
 	

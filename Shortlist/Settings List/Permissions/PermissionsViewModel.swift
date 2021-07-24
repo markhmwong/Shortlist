@@ -12,12 +12,20 @@ enum PermissionSection: CaseIterable {
 	case main
 }
 
+enum PermissionType: CaseIterable {
+    case photoLibrary
+    case reminder
+    case biometric
+    case camera
+}
+
 struct PermissionItem: Hashable {
 	var title: String
 	var image: String
 	var description: String
 	var section: PermissionSection
-	var state: Bool
+	var state: Int
+    var permission: PermissionType
 }
 
 class PermissionsViewModel: NSObject {
@@ -39,8 +47,9 @@ extension PermissionsViewModel {
 	
 	// configure diffable data source
 	func configureDiffableDataSource(collectionView: UICollectionView) {
+        let cellRegistration = self.configureCellRegistration()
 		diffableDataSource = UICollectionViewDiffableDataSource<PermissionSection, PermissionItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
-			let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
+			let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
 			return cell
 		}
 		
@@ -84,10 +93,10 @@ extension PermissionsViewModel {
 	}
 	
 	func prepareDataSource() -> [PermissionItem] {
-		let cameraItem = PermissionItem(title: "Camera", image: "camera.fill", description: "Enables the use of the camera, to attach photos to the task.", section: .main, state: privacyPermissions.isCameraAllowed())
-		let biometricsItem = PermissionItem(title: "Face ID/ Touch ID", image: "faceid", description: "Allows the use of Face ID / Touch ID to lock and redact text of a specific task.", section: .main, state: privacyPermissions.isBiometricsAllowed())
-		let remindersItem = PermissionItem(title: "Reminders", image: "calendar", description: "Allows access to Apple's Reminders App and allow data to be imported.", section: .main, state: privacyPermissions.isRemindersAllowed())
-		let photoItem = PermissionItem(title: "Photo Library", image: "photo.fill", description: "Allows access to your photo library to import photos.", section: .main, state: privacyPermissions.isPhotosAllowed())
+        let cameraItem = PermissionItem(title: "Camera", image: "camera.fill", description: "Enables the use of the camera, to attach photos to the task.", section: .main, state: privacyPermissions.isCameraAllowed(), permission: .camera)
+		let biometricsItem = PermissionItem(title: "Face ID/ Touch ID", image: "faceid", description: "Allows the use of Face ID / Touch ID to lock and redact text of a specific task.", section: .main, state: privacyPermissions.isBiometricsAllowed(), permission: .biometric)
+		let remindersItem = PermissionItem(title: "Reminders", image: "calendar", description: "Allows access to Apple's Reminders App and allow data to be imported.", section: .main, state: privacyPermissions.isRemindersAllowed(), permission: .reminder)
+		let photoItem = PermissionItem(title: "Photo Library", image: "photo.fill", description: "Allows access to your photo library to import photos.", section: .main, state: privacyPermissions.isPhotosAllowed(), permission: .photoLibrary)
 		
 		return [cameraItem, biometricsItem, remindersItem, photoItem]
 	}
