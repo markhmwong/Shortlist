@@ -237,19 +237,25 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
             self.noneItem.state = .on
             self.astericksItem.state = .off
             self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
         }
         self.astericksItem = UIAction(title: "Astericks", image: UIImage(systemName: "staroflife.fill")) { (action) in
             self.noneItem.state = .off
             self.astericksItem.state = .on
             self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .star)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
         }
         self.highlightItem = UIAction(title: "Highlight", image: UIImage(systemName: "highlighter")) { (action) in
             self.noneItem.state = .off
             self.astericksItem.state = .off
             self.highlightItem.state = .on
+            self.viewModel.redactSelected(redact: .highlight)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
         }
         
-        self.noneItem.state = .off //default state
+        self.noneItem.state = .on //default state
         
         let menu = UIMenu(title: "Redact Text", options: [], children: [noneItem , astericksItem, highlightItem] )
         let image = UIImage(systemName: "text.redaction")?.withRenderingMode(.alwaysTemplate)
