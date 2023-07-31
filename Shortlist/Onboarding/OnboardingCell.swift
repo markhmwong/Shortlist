@@ -18,7 +18,11 @@ class OnboardingCell: UICollectionViewCell {
 		didSet {
 			updateDetails(data?.details ?? "Unknown")
 			updateTitle(data?.title ?? "Unknown")
-			updateImage(UIImage(named: data?.image ?? "")?.withRenderingMode(.alwaysTemplate))
+            if data?.image == nil {
+                updateImage(nil)
+            } else {
+                updateImage(UIImage(named: data?.image ?? "")?.withRenderingMode(.alwaysTemplate))
+            }
 		}
 	}
 	
@@ -40,6 +44,7 @@ class OnboardingCell: UICollectionViewCell {
 		label.lineBreakMode = .byWordWrapping
 		label.numberOfLines = 0
 		label.textColor = Theme.Font.DefaultColor
+        label.font = UIFont.preferredFont(forTextStyle: .body).with(weight: .regular)
 		label.sizeToFit()
 		return label
 	}()
@@ -49,10 +54,11 @@ class OnboardingCell: UICollectionViewCell {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.text = "Unknown"
 		label.textColor = Theme.Font.DefaultColor
+        label.font = UIFont.preferredFont(forTextStyle: .title2).with(weight: .bold)
 		return label
 	}()
 	
-	lazy var image: UIImageView = {
+	lazy var image: UIImageView? = {
 		let image = UIImage(named: "stats.png")?.withRenderingMode(.alwaysTemplate)
 		let view = UIImageView(image: image)
 		view.tintColor = Theme.Font.DefaultColor
@@ -77,35 +83,42 @@ class OnboardingCell: UICollectionViewCell {
 		addSubview(title)
 		addSubview(details)
 		addSubview(skipButton)
-		addSubview(image)
+		addSubview(image!)
 	}
 	
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		
-		image.anchorView(top: skipButton.bottomAnchor, bottom: self.centerYAnchor, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: bounds.width / 5, left: bounds.width/5, bottom: 0.0, right: -bounds.width / 5), size: .zero)
-		
-		title.anchorView(top: self.centerYAnchor, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: bounds.width / 4, left: bounds.width / 8, bottom: 0.0, right: 0.0), size: .zero)
-
-		details.anchorView(top: title.bottomAnchor, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 30.0, left: bounds.width / 8, bottom: 0.0, right: -bounds.width / 8), size: .zero)
-		
-		skipButton.anchorView(top: self.topAnchor, bottom: nil, leading: nil, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -15.0), size: .zero)
+        if image != nil {
+            image?.anchorView(top: skipButton.bottomAnchor, bottom: self.centerYAnchor, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: bounds.width / 5, left: bounds.width/5, bottom: 0.0, right: -bounds.width / 5), size: .zero)
+            title.anchorView(top: self.centerYAnchor, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: bounds.width / 4, left: bounds.width / 8, bottom: 0.0, right: 0.0), size: .zero)
+            details.anchorView(top: title.bottomAnchor, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 30.0, left: bounds.width / 8, bottom: 0.0, right: -bounds.width / 8), size: .zero)
+            skipButton.anchorView(top: self.topAnchor, bottom: nil, leading: nil, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -15.0), size: .zero)
+        } else {
+            title.anchorView(top: self.centerYAnchor, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: -bounds.width / 7, left: bounds.width / 8, bottom: 0.0, right: 0.0), size: .zero)
+            details.anchorView(top: title.bottomAnchor, bottom: nil, leading: self.leadingAnchor, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 30.0, left: bounds.width / 8, bottom: 0.0, right: -bounds.width / 8), size: .zero)
+            skipButton.anchorView(top: self.topAnchor, bottom: nil, leading: nil, trailing: self.trailingAnchor, centerY: nil, centerX: nil, padding: UIEdgeInsets(top: 5.0, left: 0.0, bottom: 0.0, right: -15.0), size: .zero)
+        }
 	}
 	
 	private func updateDetails(_ text: String) {
 		DispatchQueue.main.async {
-			self.details.attributedText = NSMutableAttributedString(string: text, attributes: self.attributedTextKeysDetails)
+            self.details.text = text
 		}
 	}
 	
 	private func updateTitle(_ text: String) {
 		DispatchQueue.main.async {
-			self.title.attributedText = NSMutableAttributedString(string: text, attributes: self.attributedTextKeysTitle)
+            self.title.text = text
 		}
 	}
 	
 	private func updateImage(_ newImage: UIImage?) {
-		image.image = newImage
+        if newImage == nil {
+            image = nil
+        } else {
+            image?.image = newImage
+        }
+		
 	}
 	
 	func updateButton(_ text: String) {

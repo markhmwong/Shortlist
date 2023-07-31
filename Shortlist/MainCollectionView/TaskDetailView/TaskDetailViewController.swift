@@ -31,7 +31,7 @@ class TaskDetailViewController: UIViewController, PHPickerViewControllerDelegate
 		self.viewModel = viewModel
 		self.coordinator = coordinator
 
-		super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil)
 	}
 	
 	required init?(coder: NSCoder) {

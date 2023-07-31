@@ -4,7 +4,7 @@
 //
 //  Created by Mark Wong on 14/5/19.
 //  Copyright © 2019 Mark Wong. All rights reserved.
-//	Base on https://www.raywenderlich.com/5456-in-app-purchase-tutorial-getting-started
+//	Based on https://www.raywenderlich.com/5456-in-app-purchase-tutorial-getting-started
 
 import Foundation
 

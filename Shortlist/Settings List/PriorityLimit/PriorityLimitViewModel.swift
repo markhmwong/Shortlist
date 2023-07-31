@@ -11,37 +11,49 @@ import UIKit
 // MARK: - View Model
 class PriorityLimitViewModel: NSObject {
 	
-	private var persistentContainer: PersistentContainer
+    private var dataSource: [PriorityLimitItem] = []
+    
+	var persistentContainer: PersistentContainer
 	
+    private var snapshot: NSDiffableDataSourceSnapshot<PriorityLimitSection, PriorityLimitItem>! = nil
+
 	private var diffableDataSource: UICollectionViewDiffableDataSource<PriorityLimitSection, PriorityLimitItem>! = nil
 	
-	init(persistentContainer: PersistentContainer) {
+    var data: Day
+    
+    private var mainFetcher: MainFetcher<Day>! = nil
+
+    init(persistentContainer: PersistentContainer, data: Day) {
+        self.data = data
 		self.persistentContainer = persistentContainer
 		super.init()
 	}
 	
 	// MARK: - Table View
 	// prepare snapshot
-	func prepareSnapshot() -> [PriorityLimitItem] {
-		var dataSource: [PriorityLimitItem] = []
-		
-		// high - max limit is 3
-		for i in 1...3 {
-			dataSource.append(contentsOf: [PriorityLimitItem(title: "\(i)", limit: i, section: .highPriority)])
-		}
-		
-		// medium and low max limit is 5 for each level
-		for i in 1...5 {
-			dataSource.append(contentsOf: [PriorityLimitItem(title: "\(i)", limit: i, section: .mediumPriority)])
-			dataSource.append(contentsOf: [PriorityLimitItem(title: "\(i)", limit: i, section: .lowPriority)])
-		}
-		return dataSource
+	func prepareDatasource() {
+        dataSource.removeAll()
+        // datasource
+        for i in 0...2 {
+            let state = data.highPriorityLimit == i
+            dataSource.append(PriorityLimitItem(title: "\(i)", limit: i, section: .highPriority, state: state))
+        }
+        for i in 0...4 {
+            let state = data.mediumPriorityLimit == i
+            dataSource.append(PriorityLimitItem(title: "\(i)", limit: i, section: .mediumPriority, state: state))
+        }
+        for i in 0...4 {
+            let state = data.lowPriorityLimit == i
+            dataSource.append(PriorityLimitItem(title: "\(i)", limit: i, section: .lowPriority, state: state))
+        }
 	}
 	
 	// configure diffable data source
-	func configureDiffableDataSource(collectionView: UICollectionView) {
+    func configureDiffableDataSource(collectionView: UICollectionView, resultsController: MainFetcher<Day>) {
+        mainFetcher = resultsController
+        let cellRegistration = self.configureCellRegistration()
 		diffableDataSource = UICollectionViewDiffableDataSource<PriorityLimitSection, PriorityLimitItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
-			let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
+			let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
 			return cell
 		}
 		
@@ -49,7 +61,9 @@ class PriorityLimitViewModel: NSObject {
 		let headerRegistration = UICollectionView.SupplementaryRegistration
 		<BaseCollectionViewListHeader>(elementKind: "PriorityHeaderId") {
 			(supplementaryView, string, indexPath) in
+        
 			if let section = PriorityLimitSection(rawValue: indexPath.section) {
+                
 				supplementaryView.updateLabel(with: "\(section.value)")
 			}
 			supplementaryView.backgroundColor = .clear
@@ -63,51 +77,35 @@ class PriorityLimitViewModel: NSObject {
 					return collectionView.dequeueConfiguredReusableSupplementary(using:headerRegistration, for: index)
 			}
 		}
-		
-		// BUG: using this apply method refreshes the collectionview twice. however using the method with the animating differences won't allow for dynamic heights
-		diffableDataSource.apply(configureSnapshot())
+        updateSnapshot()
 	}
 	
 	// configure diffable datasource snapshot
-	func configureSnapshot() -> NSDiffableDataSourceSnapshot<PriorityLimitSection, PriorityLimitItem> {
-		var diffableDataSource = NSDiffableDataSourceSnapshot<PriorityLimitSection, PriorityLimitItem>()
-		diffableDataSource.appendSections(PriorityLimitSection.allCases)
-
-		for item in prepareSnapshot() {
-			diffableDataSource.appendItems([item], toSection: item.section)
+	func updateSnapshot() {
+        guard let d = diffableDataSource else { return }
+        prepareDatasource()
+        self.snapshot = NSDiffableDataSourceSnapshot<PriorityLimitSection, PriorityLimitItem>()
+        self.snapshot.appendSections(PriorityLimitSection.allCases)
+        for item in self.dataSource {
+            self.snapshot.appendItems([item], toSection: item.section)
 		}
-		
-		return diffableDataSource
+        d.apply(snapshot)
 	}
 	
 	// configure cell
 	private func configureCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, PriorityLimitItem> {
 		let cellConfig = UICollectionView.CellRegistration<UICollectionViewListCell, PriorityLimitItem> { (cell, indexPath, item) in
 			// configure cell
-			var content: UIListContentConfiguration = cell.defaultContentConfiguration()
+            var content: UIListContentConfiguration = cell.defaultContentConfiguration()
 			content.text = item.title
 			content.textProperties.font = ThemeV2.CellProperties.PrimaryFont
-			
-			// pre select limits
-			if let section = PriorityLimitSection(rawValue: indexPath.section) {
-				switch section {
-					case .highPriority:
-						if (self.currentHighPriorityTaskLimit() == indexPath.item) {
-							cell.accessories = [.checkmark()]
-						}
-					case .mediumPriority:
-						if (self.currentMediumPriorityTaskLimit() == indexPath.item) {
-							cell.accessories = [.checkmark()]
-						}
-					case .lowPriority:
-						if (self.currentLowPriorityTaskLimit() == indexPath.item) {
-							cell.accessories = [.checkmark()]
-						}
-				}
-			}
-			
-			cell.contentConfiguration = content
-
+            cell.contentConfiguration = content
+            
+            if item.state {
+                cell.accessories = [.checkmark()]
+            } else {
+                cell.accessories = []
+            }
 		}
 		return cellConfig
 	}
@@ -117,43 +115,39 @@ class PriorityLimitViewModel: NSObject {
 		if let taskLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.HighPriorityLimit) {
 			return taskLimit
 		}
-		return 3
+        return Int(Priority.high.rawValue)
 	}
 	
 	func currentMediumPriorityTaskLimit() -> Int {
 		if let taskLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.MediumPriorityLimit) {
 			return taskLimit
 		}
-		return 3
+		return Int(Priority.high.rawValue)
 	}
 	
 	func currentLowPriorityTaskLimit() -> Int {
 		if let taskLimit = KeychainWrapper.standard.integer(forKey: SettingsKeyChainKeys.LowPriorityLimit) {
 			return taskLimit
 		}
-		return 3
+		return Int(Priority.high.rawValue)
 	}
 	
 	// MARK: - Update model
-	func updateDayObject(persistentContainer: PersistentContainer) {
-		let today = persistentContainer.fetchDayEntity(forDate: Calendar.current.today()) as! Day
-		today.dayToStats?.highPriority = Int64(currentHighPriorityTaskLimit())
-		today.dayToStats?.lowPriority = Int64(currentLowPriorityTaskLimit())
-		today.dayToStats?.mediumPriority = Int64(currentMediumPriorityTaskLimit())
-	}
-	
-	func updateKeychain(indexPath: IndexPath) {
+	func updatePriorityLimit(indexPath: IndexPath) {
 		let row = indexPath.row
-		
+        let date = Date()
+        data.updatedAt = date as NSDate
 		if let section = PriorityLimitSection(rawValue: indexPath.section) {
+            let row = Int16(row)
 			switch section {
 				case .highPriority:
-					KeychainWrapper.standard.set(row, forKey: SettingsKeyChainKeys.HighPriorityLimit)
+                    data.highPriorityLimit = row
 				case .mediumPriority:
-					KeychainWrapper.standard.set(row, forKey: SettingsKeyChainKeys.MediumPriorityLimit)
+                    data.mediumPriorityLimit = row
 				case .lowPriority:
-					KeychainWrapper.standard.set(row, forKey: SettingsKeyChainKeys.LowPriorityLimit)
-			}
+                    data.lowPriorityLimit = row
+            }
 		}
+        persistentContainer.saveContext()
 	}
 }

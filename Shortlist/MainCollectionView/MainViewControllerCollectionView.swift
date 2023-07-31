@@ -9,6 +9,7 @@
 import UIKit
 import LocalAuthentication
 import CoreData
+import EventKit
 
 protocol FetchedDataProtocol {
 	associatedtype T: NSFetchRequestResult
@@ -37,7 +38,7 @@ struct MainFetcher<T: NSFetchRequestResult>: FetchedDataProtocol {
 }
 
 class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDelegate {
-
+    let eventStore = EKEventStore()
 	// Core Data
 	private lazy var fetchedResultsController: NSFetchedResultsController<Day> = {
 		// Create Fetch Request
@@ -76,7 +77,7 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 		let config = UIImage.SymbolConfiguration(font: ThemeV2.CellProperties.LargeBoldFont)
 		let image = UIImage(systemName: "plus.circle.fill", withConfiguration: config)
 		button.setImage(image, for: .normal)
-		button.tintColor = ThemeV2.TextColor.DefaultColor
+        button.tintColor = .systemMint
 		button.addTarget(self, action: #selector(handleCreateTask), for: .touchDown)
 		return button
 	}()
@@ -89,11 +90,6 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-        print("view will appear")
 	}
     
     func configureHierarchy() {
@@ -127,12 +123,13 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 //		viewModel.addMockData(persistentContainer: persistentContainer)
 //		viewModel.createMockStatisticalData(persistentContainer: persistentContainer)
 
-		viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher)
+        viewModel.configureDataSource(collectionView: collectionView, resultsController: mainFetcher, button: createTaskButton)
 		
 		//create task button
 		view.addSubview(createTaskButton)
 		createTaskButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20.0).isActive = true
 		createTaskButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20.0).isActive = true
+        
 	}
     
 	/*
@@ -142,8 +139,41 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 	*/
 	@objc func handleCreateTask() {
         guard let c = coordinator, let d = viewModel.day else { return }
-        c.showCreateTask(persistentContainer, day: d)
+//        c.showCreateTask(persistentContainer, day: d)
+        
+        let calendars = eventStore.calendars(for: .event)
+
+        let status = EKEventStore.authorizationStatus(for: EKEntityType.event)
+        switch (status) {
+            case .notDetermined:
+                requestAccessToCalendar()
+            case .authorized:
+            // Get the appropriate calendar.
+            let currentDate = Calendar.current.today()
+            let dateFormatter = DateFormatter()
+            let calendar = Calendar(identifier: .gregorian)
+            dateFormatter.dateFormat = "yy-MM-dd HH:mm:ss"
+            dateFormatter.timeZone = calendar.timeZone
+            dateFormatter.string(from:currentDate)
+            let predicate = eventStore.predicateForEvents(withStart: Calendar.current.startOfDay(for: Date()), end: Calendar.current.endOfToday(), calendars: calendars)
+                var events: [EKEvent]? = eventStore.events(matching: predicate)
+                print(events)
+                break
+            case .restricted, .denied:
+                requestAccessToCalendar()
+                break
+                
+            }
 	}
+    
+    func requestAccessToCalendar() {
+        
+        eventStore.requestAccess(to: EKEntityType.event) { (accessGranted, error) in
+            
+            
+        }
+        
+    }
 	
 	@objc func handleDonation() {
 		guard let c = coordinator else { return }
@@ -151,10 +181,11 @@ class MainViewControllerWithCollectionView: UIViewController, UICollectionViewDe
 	}
 	
 	@objc func handleSettings() {
-		guard let c = coordinator else { return }
-		c.showSettings(persistentContainer)
+		guard let c = coordinator, let d = viewModel.day else { return }
+        c.showSettings(persistentContainer, day: d)
 	}
 	
+    // use permissionsservice class
 	func biometrics(item: Task) {
 		let context = LAContext()
 		var error: NSError?

@@ -58,23 +58,6 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
-    
-//    lazy var tableView: UITableView = {
-//        let view = UITableView()
-//        view.delegate = self
-//        view.dataSource = self
-//        view.dragDelegate = self
-//        view.dropDelegate = self
-//        view.dragInteractionEnabled = true
-//		view.backgroundColor = Theme.GeneralView.background
-//        view.separatorStyle = .none
-//        view.isEditing = false
-//        view.estimatedRowHeight = viewModel?.cellHeight ?? 100.0
-//        view.rowHeight = UITableView.automaticDimension
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//		view.keyboardDismissMode = .onDrag
-//        return view
-//    }()
 	
 	var collectionView: UICollectionView! = nil
     
@@ -424,8 +407,8 @@ class MainViewController: UIViewController, PickerViewContainerProtocol, MainVie
 	
 	// MARK: - Top navigation bar button selectors
     @objc func handleSettings() {
-        guard let coordinator = coordinator else { return }
-        coordinator.showSettings(persistentContainer)
+        guard let coordinator = coordinator, let day = viewModel?.dayEntity else { return }
+        coordinator.showSettings(persistentContainer, day: day)
     }
     
     @objc func handleOptions() {

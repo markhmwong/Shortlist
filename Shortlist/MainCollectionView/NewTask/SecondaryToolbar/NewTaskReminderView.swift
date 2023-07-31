@@ -158,7 +158,6 @@ class NewTaskReminderView: UIView {
             }
             removeCustomTimeView()
         }
-        
     }
     
     func removeCustomTimeView() {

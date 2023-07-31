@@ -23,6 +23,8 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
     
 	var settingsNavController: UINavigationController?
 	
+    var day: Day! = nil
+    
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
@@ -73,7 +75,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 		addNavigationObserver(SettingsNavigationObserverKey.ReturnFromPriorityLimit)
 
 		guard let persistentContainer = persistentContainer else { return }
-		let vc = PriorityLimitViewController(item: item, viewModel: PriorityLimitViewModel(persistentContainer: persistentContainer))
+		let vc = PriorityLimitViewController(item: item, viewModel: PriorityLimitViewModel(persistentContainer: persistentContainer, data: day))
 		
 		if let nav = settingsNavController {
 			nav.pushViewController(vc, animated: true)
@@ -194,24 +196,7 @@ class SettingsCoordinator: NSObject, Coordinator, UINavigationControllerDelegate
 
 	// in the event that the main viewcontroller is the main focus
 	@objc func handleViewControllerDidAppear(_ notification: Notification) {
-//		if let n = SettingsNavigationObserverKey.init(rawValue: notification.name.rawValue) {
-//			removeNavigationObserver(n)
-//			switch n {
-//				case .ReturnFromStats:
-//					// may be use dict to identify which coordinator
-//					if let c = notification.object as? StatsCoordinator {
-//						childDidFinish(c)
-//					}
-//				case .ReturnFromInfo:
-//					if let c = notification.object as? AboutCoordinator {
-//						childDidFinish(c)
-//					}
-//				case .ReturnFromPriorityLimit:
-//					if let c = notification.object as? TaskLimitCoordinator {
-//						childDidFinish(c)
-//					}
-//			}
-//		}
+
 	}
 
 }

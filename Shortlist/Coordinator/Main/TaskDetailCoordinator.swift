@@ -21,9 +21,6 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 	var task: Task
 	
 	var persistentContainer: PersistentContainer?
-	    
-	// New navigation stack
-//	var navController: UINavigationController?
 	
 	init(navigationController: UINavigationController, task: Task) {
 		self.navigationController = navigationController
@@ -40,11 +37,12 @@ class TaskDetailCoordinator: NSObject, Coordinator {
 
 		let viewModel = TaskDetailViewModel(task: task, persistentContainer: persistentContainer)
 		let vc = TaskDetailViewController(viewModel: viewModel, coordinator: self)
-		vc.navigationItem.rightBarButtonItem = UIBarButtonItem().taskOptionsButton(target: self, action: #selector(handleTaskOptions))
         
+		vc.navigationItem.rightBarButtonItem = UIBarButtonItem().taskOptionsButton(target: self, action: #selector(handleTaskOptions))
         let newBackButton = UIBarButtonItem(title: "Today", style: UIBarButtonItem.Style.plain, target: self, action: Selector(("backAction")))
-        navigationController.navigationBar.topItem?.backBarButtonItem = newBackButton
         newBackButton.tintColor = ThemeV2.TextColor.DefaultColor
+        navigationController.navigationBar.topItem?.backBarButtonItem = newBackButton
+
         navigationController.pushViewController(vc, animated: true)
 	}
 	

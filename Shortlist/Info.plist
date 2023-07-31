@@ -31,7 +31,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Capture media to attach to task</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Used to uncensor Task</string>
+	<string>Required to uncensor Task</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Used to attach photos to a Task</string>
 	<key>NSPhotoLibraryUsageDescription</key>

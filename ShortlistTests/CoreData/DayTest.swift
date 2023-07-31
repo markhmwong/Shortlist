@@ -74,12 +74,12 @@ class DayTest: XCTestCase {
 		task.carryOver = false
 		task.category = "Uncategorized"
 		task.complete = false
-		task.createdAt = Date() as NSDate
+		task.createdAt = Date()
 		task.details = "Details"
 		task.name = "Task A"
 		task.isNew = false
 		task.priority = 0
-		task.reminder = Date() as NSDate
+		task.reminder = Date()
 		task.reminderState = false
 		return task
 	}

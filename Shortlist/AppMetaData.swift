@@ -15,5 +15,8 @@ struct AppMetaData {
     static let build = Bundle.main.infoDictionary!["CFBundleVersion"] as? String
     
     static let name = Bundle.appName()
+        
+    static let email: String = "hello@whizbangapps.xyz"
     
+    static let twitterHandle: String = "@_markwong_"
 }

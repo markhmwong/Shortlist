@@ -89,11 +89,8 @@ class AlarmViewModel: NSObject {
 	}
 	
 	private func configureCellRegistrationForHeader() -> UICollectionView.CellRegistration<AlarmHeaderCell, AlarmItem> {
-	
 		let cellConfig = UICollectionView.CellRegistration<AlarmHeaderCell, AlarmItem> { (cell, indexPath, item) in
 			cell.configureCell(with: item)
-			
-			
 		}
 		return cellConfig
 	
@@ -144,16 +141,18 @@ class AlarmViewModel: NSObject {
 	
 	// MARK: - Configure DataSource
 	func configureDataSource(collectionView: UICollectionView) {
+        let cellRegistration = self.configureCellRegistration()
+        let cellRegistrationHeader = self.configureCellRegistrationForHeader()
 		diffableDataSource = UICollectionViewDiffableDataSource<AlarmSection, AlarmItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewListCell? in
-			
+
 			if let section = AlarmSection.init(rawValue: indexPath.section) {
 				
 				switch section {
 					case .Reminder:
-						let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistrationForHeader(), for: indexPath, item: item)
+						let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistrationHeader, for: indexPath, item: item)
 						return cell
 					default:
-						let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
+						let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
 						return cell
 				}
 				

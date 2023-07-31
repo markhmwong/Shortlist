@@ -116,15 +116,6 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
-	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		
-	}
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// keyboard
@@ -208,7 +199,9 @@ class ContentViewController: UIViewController, UITextViewDelegate {
 				taskNote.note = dataView.text
 				task.addToTaskToNotes(taskNote)
 		}
-		task.updateAt = Date()
+        let date = Date()
+        task.taskToDay?.updatedAt = date as NSDate
+		task.updateAt = date
 		persistentContainer.saveContext()
 		coordinator.dismissCurrentView()
 	}

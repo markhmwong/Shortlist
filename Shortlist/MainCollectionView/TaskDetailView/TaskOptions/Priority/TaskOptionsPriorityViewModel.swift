@@ -51,15 +51,24 @@ class TaskOptionsPriorityViewModel: NSObject {
 	}
     
     // MARK: - Register Cell
-    private func configureCellRegistration() -> UICollectionView.CellRegistration<TaskOptionsPriorityCell, TaskOptionsPriorityItem> {
-        let cellConfig = UICollectionView.CellRegistration<TaskOptionsPriorityCell, TaskOptionsPriorityItem> { (cell, indexPath, item) in
-            // setup cell views and text from item
-            cell.configureCell(with: item)
+    private func configureCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, TaskOptionsPriorityItem> {
+        let cellConfig = UICollectionView.CellRegistration<UICollectionViewListCell, TaskOptionsPriorityItem> { (cell, indexPath, item) in
+            var content: UIListContentConfiguration = cell.defaultContentConfiguration()
+            content.text = item.priority.stringValue
+            content.textProperties.font = ThemeV2.CellProperties.PrimaryFont
+            cell.contentConfiguration = content
+            
+            if item.isSelected {
+                cell.accessories = [.checkmark()]
+            } else {
+                cell.accessories = []
+            }
+            
         }
         return cellConfig
     }
-	
-	func configureDataSource(collectionView: UICollectionView) {
+    
+	func configureDataSource(collectionView: UICollectionView, resultsController: MainFetcher<Task>) {
         let cellRegistration = self.configureCellRegistration()
 		// Setup datasource and cells
 		diffableDataSource = UICollectionViewDiffableDataSource<TaskOptionsPrioritySection, TaskOptionsPriorityItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
@@ -81,6 +90,12 @@ class TaskOptionsPriorityViewModel: NSObject {
         return []
 	}
 	
-
+    func savePriority(_ item: Int16) {
+        self.task.priority = item
+        let updateDate = Date()
+        self.task.updateAt = updateDate
+        self.task.taskToDay?.updatedAt = updateDate as NSDate
+        self.persistentContainer.saveContext()
+    }
 }
 

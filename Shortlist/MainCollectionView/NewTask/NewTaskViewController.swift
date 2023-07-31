@@ -20,9 +20,9 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     
     var redactButton: UIBarButtonItem! = nil
     
-    var reminderButton: UIButton! = nil
+    var reminderButton: UIBarButtonItem! = nil
     
-    var noteButton: UIButton! = nil
+    var noteButton: UIButton! = nil // disabled temporarily
     
     var photoButton: UIBarButtonItem! = nil
     
@@ -30,6 +30,8 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     var scribbleButton: UIButton! = nil
     
     private var taskFeatureToolbar = UIToolbar()
+    
+    private var permissions: PrivacyPermissionsService = PrivacyPermissionsService()
     
     private lazy var secondaryToolbar: NewTaskSecondaryToolbar = {
         let view = NewTaskSecondaryToolbar(vm: self.viewModel, toolbar: self.taskFeatureToolbar, textView: dataInputView)
@@ -185,45 +187,58 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     }
     
     func addKeyboardToolBar() {
-        
         self.priorityMenu()
-        
         self.redactMenu()
-        
-        let reminderImage = UIImage(systemName: "alarm")?.withRenderingMode(.alwaysTemplate)
-        self.reminderButton = UIButton()
-        reminderButton.tintColor = viewModel.tempTask.priority.color
-        reminderButton.tag = SelectedFeature.reminder.rawValue
-        reminderButton.setImage(reminderImage, for: .normal)
-        reminderButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
-        let reminderItem = UIBarButtonItem(customView: reminderButton)
-        
-        let noteImage = UIImage(systemName: "note.text")?.withRenderingMode(.alwaysTemplate)
-        self.noteButton = UIButton()
-        noteButton.tintColor = viewModel.tempTask.priority.color
-        noteButton.tag = SelectedFeature.note.rawValue
-        noteButton.setImage(noteImage, for: .normal)
-        noteButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
-        let noteItem = UIBarButtonItem(customView: noteButton)
-        
+//        self.reminderMenu()
         self.cameraMenu()
         
+//        let noteImage = UIImage(systemName: "doc.append.fill")?.withRenderingMode(.alwaysTemplate)
+//        self.noteButton = UIButton()
+//        noteButton.tintColor = viewModel.tempTask.priority.color
+//        noteButton.tag = SelectedFeature.note.rawValue
+//        noteButton.setImage(noteImage, for: .normal)
+//        noteButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
+//        let noteItem = UIBarButtonItem(customView: noteButton)
+        
+        
+        
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
-        taskFeatureToolbar.items = [flexibleSpace, priorityButton, flexibleSpace, redactButton, flexibleSpace, reminderItem, flexibleSpace, noteItem, flexibleSpace, photoButton, flexibleSpace]
+        taskFeatureToolbar.items = [flexibleSpace, priorityButton, flexibleSpace, redactButton, flexibleSpace, photoButton, flexibleSpace]
         
         taskFeatureToolbar.sizeToFit()
         dataInputView.inputAccessoryView = taskFeatureToolbar
     }
     
+    /*
+     
+     MARK: Camera Menu
+     
+     */
+    
     private func cameraMenu() {
         let cameraItem = UIAction(title: "Camera", image: UIImage(systemName: "camera.fill")) { (action) in
-                 print("Camera action was tapped")
-                self.presentCamera()
+            switch self.permissions.checkCamera() {
+                case .authorized:
+                    self.presentCamera()
+                case .notDetermined, .restricted, .denied:
+                    // present viewcontroller for camera permissions
+                    self.coordinator.showCameraPermissionsViewController()
+                @unknown default:
+                    ()
+                }
             }
         let albumItem = UIAction(title: "Album", image: UIImage(systemName: "photo.fill.on.rectangle.fill")) { (action) in
-                 print("Album action was tapped")
-                self.presentPicker(filter: PHPickerFilter.images)
+            switch self.permissions.checkAlbum() {
+            case .authorized, .limited:
+                    self.presentPicker(filter: PHPickerFilter.images)
+                case .notDetermined, .restricted, .denied:
+                    // present viewcontroller for camera permissions
+                    self.coordinator.showAlbumPermissionsViewController()
+                @unknown default:
+                    ()
             }
+            
+        }
         let menu = UIMenu(title: "Media", options: [], children: [cameraItem , albumItem])
         let image = UIImage(systemName: "photo")?.withRenderingMode(.alwaysTemplate)
         self.photoButton = UIBarButtonItem(title: "Menu", image: image, primaryAction: nil, menu: menu)
@@ -232,6 +247,99 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         
     }
     
+    /*
+     
+     MARK: Reminder Menu
+     
+     */
+    private func reminderMenu() {
+        let reminderImage = UIImage(systemName: "alarm")?.withRenderingMode(.alwaysTemplate)
+        let fiveMin = UIAction(title: "5 Minutes", image: nil) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
+        }
+        let tenMin = UIAction(title: "10 Minutes", image: nil) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
+        }
+        
+        let fifteenMin = UIAction(title: "15 Minutes", image: nil) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
+        }
+        
+        let twentyMin = UIAction(title: "20 Minutes", image: nil) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
+        }
+        
+        let twentyFiveMin = UIAction(title: "25 Minutes", image: nil) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
+        }
+        
+        let thirtyMin = UIAction(title: "30 Minutes", image: nil) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
+        }
+        
+        let thirtyFiveMin = UIAction(title: "35 Minutes", image: nil) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
+        }
+        
+        let fortyMin = UIAction(title: "40 Minutes", image: nil) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
+        }
+        
+        let fortyFiveMin = UIAction(title: "45 Minutes", image: nil) { (action) in
+            self.noneItem.state = .on
+            self.astericksItem.state = .off
+            self.highlightItem.state = .off
+            self.viewModel.redactSelected(redact: .none)
+            self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
+        }
+        
+        let menu = UIMenu(title: "Reminder Text", options: [], children: [fiveMin, tenMin, fifteenMin, twentyMin, twentyFiveMin, thirtyMin, thirtyFiveMin, fortyMin, thirtyFiveMin, thirtyFiveMin, fortyMin, fortyFiveMin])
+        self.reminderButton = UIBarButtonItem(title: "Reminder", image: reminderImage, primaryAction: nil, menu: menu)
+        self.reminderButton.tintColor = viewModel.tempTask.priority.color
+        self.reminderButton.tag = SelectedFeature.photo.rawValue
+//        reminderButton.tintColor = viewModel.tempTask.priority.color
+//        reminderButton.tag = SelectedFeature.reminder.rawValue
+//        reminderButton.setImage(reminderImage, for: .normal)
+//        reminderButton.addTarget(self, action: #selector(featureToggle), for: .touchDown)
+    }
+    
+    /*
+     
+     MARK: Priority Menu
+     
+     */
     private func redactMenu() {
         self.noneItem = UIAction(title: "None", image: UIImage(systemName: "textformat.abc")) { (action) in
             self.noneItem.state = .on
@@ -241,6 +349,7 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
             self.viewModel.rebuildMenu(items: [self.noneItem, self.astericksItem, self.highlightItem], button: self.redactButton)
         }
         self.astericksItem = UIAction(title: "Astericks", image: UIImage(systemName: "staroflife.fill")) { (action) in
+            
             self.noneItem.state = .off
             self.astericksItem.state = .on
             self.highlightItem.state = .off
@@ -265,7 +374,11 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
         
     }
 
-
+    /*
+     
+     MARK: Priority Menu
+     
+     */
     private func priorityMenu() {
         highItem = UIAction(title: "High", image: UIImage(systemName: "1.circle.fill")) { (action) in
             self.highItem.state = .on
@@ -364,7 +477,16 @@ class NewTaskViewController: UIViewController, PHPickerViewControllerDelegate, U
     */
     @objc func featureToggle(_ sender: UIButton) {
         if let feature = SelectedFeature.init(rawValue: sender.tag) {
-            secondaryToolbar.toggleFeature(feature)
+            if feature == .reminder {
+                switch self.permissions.checkReminder() {
+                    case .authorized:
+                        secondaryToolbar.toggleFeature(feature)
+                    case .denied, .notDetermined, .restricted:
+                        self.coordinator.showReminderPermissionsViewController()
+                    @unknown default:
+                        self.coordinator.showReminderPermissionsViewController()
+                }
+            }
         }
     }
     

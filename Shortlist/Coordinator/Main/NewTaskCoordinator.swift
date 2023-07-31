@@ -62,6 +62,9 @@ class NewTaskCoordinator: NSObject, Coordinator {
     @objc func handleAddTask() {
         newTaskVc.addNewTask(day: day)
         self.handleBack()
+        navigationController.dismiss(animated: true, completion: nil)
+        
+        // sample
 //        let taskLow: Task = Task(context: persistentContainer.viewContext)
 //        taskLow.create(context: persistentContainer.viewContext, taskName: "🚀 Quick tasks that aren't necessarily important or something to remind yourself, like catching up on TV shows or replying to emails.", categoryName: "Uncategorized", createdAt: Calendar.current.today(), reminderDate: Calendar.current.today(), priority: Int(Priority.low.value), redact: 0)
 //        taskLow.details = "The limit on a low priority task is 1 - 3. Quick tasks that don't need a lot of time spent on."
@@ -70,6 +73,57 @@ class NewTaskCoordinator: NSObject, Coordinator {
 //            persistentContainer.saveContext()
 //            self.handleBack()
 //        }
-        navigationController.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func showCameraPermissionsViewController() {
+        let vc = CameraPermissionsViewController(nav: newTaskNav)
+        self.newTaskNav.present(vc, animated: true) {
+            //
+        }
+    }
+    
+    func showAlbumPermissionsViewController() {
+        let vc = AlbumPermissionsViewController(nav: newTaskNav)
+        self.newTaskNav.present(vc, animated: true) {
+            //
+        }
+    }
+    
+    func showBiometricPermissionsViewController() {
+//        let vc = CameraPermissionsViewController()
+//        vc.nav = newTaskNav
+//        self.newTaskNav.present(vc, animated: true) {
+//            //
+//        }
+    }
+    
+    func showCalendarPermissionsViewController() {
+        let vc = CalendarPermissionsViewController(nav: newTaskNav)
+        self.newTaskNav.present(vc, animated: true) {
+            //
+        }
+    }
+    
+    func showEventPermissionsViewController() {
+        let vc = EventPermissionsViewController(nav: newTaskNav)
+        self.newTaskNav.present(vc, animated: true) {
+            //
+        }
+    }
+    
+    func showReminderPermissionsViewController() {
+        let vc = RemindersPermissionsViewController(nav: newTaskNav)
+        self.newTaskNav.present(vc, animated: true) {
+            //
+        }
+    }
+    
+    func showNotificationPermissionsViewController() {
+//        let vc = CameraPermissionsViewController()
+//        vc.nav = newTaskNav
+//        self.newTaskNav.present(vc, animated: true) {
+//            //
+//        }
     }
 }

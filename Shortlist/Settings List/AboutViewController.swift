@@ -40,7 +40,7 @@ class AboutViewController: UIViewController {
 	}()
 	
 	private lazy var twitterButton: NeuButton = {
-		let button = NeuButton(title: "Twitter : @markhmwong")
+		let button = NeuButton(title: "Twitter : @_markwong_")
 		button.backgroundColor = .clear
 		return button
 	}()
@@ -86,7 +86,7 @@ class AboutViewController: UIViewController {
 	Please report any bugs to hello@whizbangapps.xyz
 	
 	Contact.\n
-	Twitter: @markhmwong\nWebsite: https://www.whizbangapps.xyz/\(AppMetaData.name)\n
+	Twitter: @_markwong_\nWebsite: https://www.whizbangapps.xyz/\(AppMetaData.name)\n
 	
 	Credits.\n
 	Onboarding assets authors: Freepik, Pause08, Becris, srip, zlatko-najdenovski, itim2101 @ www.flaticon.com and icons8.com

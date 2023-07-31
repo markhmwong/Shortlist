@@ -92,6 +92,9 @@ class RedactStyleViewModel: NSObject {
 	}
 	
 	func setStyle(style: Int16) {
+        let date = Date()
+        data.updateAt = Date()
+        data.taskToDay?.updatedAt = date as NSDate
 		data.redactStyle = style
 		persistentContainer.saveContext()
 	}
@@ -99,12 +102,12 @@ class RedactStyleViewModel: NSObject {
 	// inject data - TO DO
 	func prepareDataSource() -> [RedactStyleItem] {
 		dataSource.removeAll()
+
 		for (index, style) in RedactStyle.allCases.enumerated() {
 			var state: Bool = false
 			if (index == Int(data.redactStyle)) {
 				state = true
 			}
-			
 			dataSource.append(RedactStyleItem(name: style.stringValue, style: style, enabled: state))
 		}
 		return dataSource
@@ -113,9 +116,9 @@ class RedactStyleViewModel: NSObject {
 	// MARK: ConfigureDataSource
 	func configureDataSource(collectionView: UICollectionView, resultsController: MainFetcher<Task>) {
 		mainFetcher = resultsController
-		
+		let cellRegistration = self.configureCellRegistration()
 		diffableDataSource = UICollectionViewDiffableDataSource<RedactStyleSection, RedactStyleItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewListCell? in
-			let cell = collectionView.dequeueConfiguredReusableCell(using: self.configureCellRegistration(), for: indexPath, item: item)
+			let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
 			return cell
 		}
 		updateSnapshot()
@@ -141,7 +144,9 @@ class RedactStyleViewModel: NSObject {
 			cell.contentConfiguration = content
 			if item.enabled {
 				cell.accessories = [.checkmark()]
-			}
+            } else {
+                cell.accessories = []
+            }
 			
 		}
 		return cellConfig

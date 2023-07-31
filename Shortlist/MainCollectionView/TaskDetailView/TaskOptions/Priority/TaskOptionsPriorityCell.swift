@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+// not in use
 extension UICellConfigurationState {
 	var priorityItem: TaskOptionsPriorityItem? {
 		set { self[.priorityItem] = newValue }
@@ -65,7 +65,7 @@ class TaskOptionsPriorityCell: BaseCell<TaskOptionsPriorityItem> {
             contentConfig.textColor = UIColor.white.adjust(by: -30)!
             contentConfig.isSelected = state.priorityItem?.isSelected
         }
-        
+
 		contentConfiguration = contentConfig
         
         self.setupNeumorphic()
@@ -121,7 +121,6 @@ struct TaskOptionsPriorityContentConfiguration: UIContentConfiguration, Hashable
         updatedConfiguration.name = name
 		return updatedConfiguration
 	}
-	
 }
 
 // MARK: Content View

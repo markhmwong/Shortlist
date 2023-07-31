@@ -36,7 +36,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             mainCoordinator = MainCoordinator(navigationController: navController)
             mainCoordinator?.start(persistentContainer)
             
-            if (TemporaryStorageService.shared.firstLoad()) {
+            if true {
+//            if (TemporaryStorageService.shared.firstLoad()) {
 
                 mainCoordinator?.start(persistentContainer)
                 mainCoordinator?.showOnboarding(persistentContainer)

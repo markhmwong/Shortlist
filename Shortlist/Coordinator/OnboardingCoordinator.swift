@@ -16,9 +16,9 @@ class OnboardingCoordinator: NSObject, Coordinator, UINavigationControllerDelega
 	
     var navigationController: UINavigationController
 
-	var mainViewController: MainViewControllerProtocol
+	var mainViewController: MainViewControllerWithCollectionView
 	
-    init(navigationController: UINavigationController, viewController: MainViewControllerProtocol) {
+    init(navigationController: UINavigationController, viewController: MainViewControllerWithCollectionView) {
         self.navigationController = navigationController
 		self.mainViewController = viewController
     }

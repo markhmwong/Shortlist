@@ -153,7 +153,7 @@ extension UICollectionViewLayout {
 	func createCollectionViewLargeCells(header: Bool = false, elementKind: String = "", xPadding: CGFloat) -> UICollectionViewLayout {
 		let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
 
-			let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.4))
+            let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
 
 			let item = NSCollectionLayoutItem(layoutSize: size)
 			item.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: NSCollectionLayoutSpacing.fixed(0), trailing: nil, bottom: NSCollectionLayoutSpacing.fixed(10))

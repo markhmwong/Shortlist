@@ -97,8 +97,6 @@ class TaskOptionsCell: BaseListCell<TaskOptionsItem> {
 		
         content.imageProperties.tintColor = item.type.color
 		listContentView.configuration = content
-        
-    
 	}
 	
 	// not required?

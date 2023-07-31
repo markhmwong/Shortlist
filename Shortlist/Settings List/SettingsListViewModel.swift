@@ -67,7 +67,7 @@ class SettingsListViewModel: NSObject, MFMailComposeViewControllerDelegate {
 		// Suport items
 		let reviewItem = SettingsListItem(title: "Review Shortlist", subtitle: "❤️ Support Indie Developers - Comment and Rate", section: SettingsListSection.support, icon: "heart.fill", item: .review)
 		let contactItem = SettingsListItem(title: "Email Me", subtitle: "😃 Feedback, bug reports appreciated or a Hello", section: SettingsListSection.support, icon: "envelope.fill", item: .contact)
-		let twitterItem = SettingsListItem(title: "Visit and follow me on Twitter", subtitle: "Updates @markhmwong", section: SettingsListSection.support, icon: "at.circle.fill", item: .twitter)
+		let twitterItem = SettingsListItem(title: "Visit and follow me on Twitter", subtitle: "Updates @_markwong_", section: SettingsListSection.support, icon: "at.circle.fill", item: .twitter)
 		let whatsNewItem = SettingsListItem(title: "Whats New", subtitle: "Notes about the latest version of Shortlist", section: .support, icon: "newspaper.fill", disclosure: true, item: .whatsNew)
 		let aboutItem = SettingsListItem(title: "App Biography", subtitle: "Read a short story about Shortlist", section: .support, icon: "heart.text.square.fill", disclosure: true, item: .appBiography)
 		

@@ -35,7 +35,6 @@ class TaskDetailNotesCell: BaseListCell<NotesItem>, TaskDetailAnimation {
 	
 	private var viewConstraintCheck: NSLayoutConstraint? = nil
 
-	
 	private var highlight: CAShapeLayer = CAShapeLayer()
 
     private lazy var label: PaddedLabel = {
@@ -59,9 +58,6 @@ class TaskDetailNotesCell: BaseListCell<NotesItem>, TaskDetailAnimation {
         viewConstraintCheck?.isActive = true
         label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 10).isActive = true
         label.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -10).isActive = true
-
-
-
 	}
 	
 	override func draw(_ rect: CGRect) {

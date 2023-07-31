@@ -19,14 +19,21 @@ class MainViewModelWithCollectionView: NSObject {
 	
     var day: Day? = nil
     
+    private var collectionView: UICollectionView! = nil
+    
+    private var addTaskButton: UIButton! = nil
+    
 	override init() {
 		super.init()
 		prepareDataSource()
 	}
 	
 	// MARK: - Configure Datasource
-	func configureDataSource(collectionView: UICollectionView, resultsController: MainFetcher<Day>) {
+    func configureDataSource(collectionView: UICollectionView, resultsController: MainFetcher<Day>, button: UIButton) {
+        self.addTaskButton = button
 		mainFetcher = resultsController
+        self.collectionView = collectionView
+        
         let cellRego = self.configureCellRegistration()
 		diffableDataSource = UICollectionViewDiffableDataSource<Priority, Task>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
 			let cell = collectionView.dequeueConfiguredReusableCell(using: cellRego, for: indexPath, item: item)
@@ -43,6 +50,8 @@ class MainViewModelWithCollectionView: NSObject {
         self.day = mainFetcher.fetchRequestedObjects()?.first
 		
 		let tasks = day?.dayToTask?.allObjects as? [Task] ?? []
+        taskSizeCheck(tasks)
+        
 		for (_, task) in tasks.enumerated() {
 			snapshot.appendItems([task], toSection: Priority.init(rawValue: task.priority))
 		}
@@ -57,6 +66,7 @@ class MainViewModelWithCollectionView: NSObject {
         self.day = mainFetcher.fetchRequestedObjects()?.first
         if let day = self.day {
             let tasks = day.dayToTask?.allObjects as? [Task] ?? []
+            taskSizeCheck(tasks)
             for (_, task) in tasks.enumerated() {
                 snapshot.appendItems([task], toSection: Priority.init(rawValue: task.priority))
             }
@@ -78,7 +88,36 @@ class MainViewModelWithCollectionView: NSObject {
 		}
 		return item
 	}
-	
+    
+    func taskSizeCheck(_ tasks: [Task]) {
+        if tasks.isEmpty {
+            let gen = EmptyTaskMessageGenerator()
+            self.collectionView.backgroundView = EmptyCollectionView(message: gen.generate())
+            animateAddTaskButton()
+        } else {
+            // removes animation and empty collection view
+            self.collectionView.backgroundView = nil
+            UIView.animate(withDuration: 0.0, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.4, options: [.beginFromCurrentState, .curveLinear, .preferredFramesPerSecond60, .allowUserInteraction], animations: {
+                self.addTaskButton.alpha = 1.0
+                self.addTaskButton.tintColor = .systemMint
+            }, completion: { state in
+                //
+            })
+        }
+    }
+}
+
+extension MainViewModelWithCollectionView {
+    // animate add task button
+    // pulses the button
+    private func animateAddTaskButton() {
+        UIView.animate(withDuration: 2.1, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.4, options: [.repeat, .curveLinear, .preferredFramesPerSecond60, .allowUserInteraction], animations: {
+            self.addTaskButton.alpha = 0.4
+            self.addTaskButton.tintColor = .systemMint
+        }, completion: { state in
+            self.addTaskButton.alpha = 1.0
+        })
+    }
 }
 
 // MOCK Methods
@@ -133,7 +172,6 @@ extension MainViewModelWithCollectionView {
 				
 			}
 			if (dayA == nil) {
-
 				// create empty day
 				let dayObj = Day(context: persistentContainer.viewContext)
 				dayObj.createMockDay(date: date)

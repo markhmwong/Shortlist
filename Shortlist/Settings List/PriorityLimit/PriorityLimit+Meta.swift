@@ -30,4 +30,5 @@ struct PriorityLimitItem: Hashable {
 	var title: String
 	var limit: Int
 	var section: PriorityLimitSection
+    var state: Bool
 }

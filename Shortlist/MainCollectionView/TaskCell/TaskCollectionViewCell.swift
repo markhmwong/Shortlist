@@ -112,7 +112,7 @@ class MainTaskCell: BaseCell<Task> {
 		clipsToBounds = false
 		layer.borderWidth = 0.0
 
-        self.setupNeumorphic()
+//        self.setupNeumorphic()
 
 		contentView.addSubview(taskNameLabel)
         contentView.addSubview(priorityLabel)

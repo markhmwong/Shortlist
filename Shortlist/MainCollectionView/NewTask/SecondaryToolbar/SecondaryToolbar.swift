@@ -205,7 +205,6 @@ class PriorityToolbar: UIView, CycleFeatureProtocol {
         addSubview(mediumPriorityButton)
         addSubview(lowPriorityButton)
         addSubview(highPriorityButton)
-        
 
         mediumPriorityButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         mediumPriorityButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
@@ -536,6 +535,4 @@ class PriorityButton: UIButton, ButtonToggleProtocol {
         innerView.frame = rect.insetBy(dx: 6, dy: 6)
         gl.frame = innerView.frame
     }
-    
-    
 }

@@ -15,6 +15,8 @@ class PermissionsViewController: UIViewController, UICollectionViewDelegate {
 	
 	private var viewModel: PermissionsViewModel
 	
+    private var permissions: PrivacyPermissionsService = PrivacyPermissionsService()
+    
 	private lazy var tableView: BaseCollectionView = {
 		let view = BaseCollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout().createListLayout(appearance: .insetGrouped, separators: true, header: false, headerElementKind: ""))
 		view.delegate = self
@@ -55,30 +57,28 @@ class PermissionsViewController: UIViewController, UICollectionViewDelegate {
             PHPhotoLibrary.requestAuthorization(for: .readWrite) { [unowned self] (status) in
                 DispatchQueue.main.async { [unowned self] in
                     //showUI(for: status)
-                    self.gotoAppPrivacySettings()
+                    self.permissions.goToAppPrivacySettings()
                 }
             }
         case .camera:
-            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+            switch self.permissions.checkCamera() {
+                case .authorized: // The user has previously granted access to the camera.
+                    self.permissions.goToAppPrivacySettings()
+                case .notDetermined, .denied, .restricted: // The user has not yet been asked for camera access.
+                    self.permissions.requestCameraAuthorisation {
+                        // refresh ui once access has been granted
+                        DispatchQueue.main.async {
+                            self.viewModel.configureDiffableDataSource(collectionView: self.tableView)
+                        }
+                    }
+                @unknown default:
+                    self.permissions.goToAppPrivacySettings()
             }
         case .biometric:
             ()
         case .reminder:
             ()
         }
-        
-		
 	}
-    
-    func gotoAppPrivacySettings() {
-        guard let url = URL(string: UIApplication.openSettingsURLString),
-            UIApplication.shared.canOpenURL(url) else {
-                assertionFailure("Not able to open App privacy settings")
-                return
-        }
-
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-    }
 }
 

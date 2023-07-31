@@ -94,12 +94,8 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		guard let _viewModel = viewModel else {
-			
 			return UICollectionViewCell()
 		}
-		
 		return _viewModel.cellForCollectionView(collectionView, indexPath: indexPath, coordinator: coordinator ?? nil)
 	}
-	
-
 }

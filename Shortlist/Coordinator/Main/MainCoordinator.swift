@@ -25,6 +25,7 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	
     init(navigationController:UINavigationController) {
         self.navigationController = navigationController
+        super.init()
     }
 	
     // begin application
@@ -40,9 +41,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		
         navigationController.navigationBar.shadowImage = UIImage()
 		navigationController.navigationBar.isTranslucent = false
-		
         navigationController.navigationBar.backgroundColor = ThemeV2.Background
+        
         navigationController.pushViewController(vc, animated: false)
+        
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.backgroundColor = ThemeV2.Background
@@ -61,10 +63,14 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 	
 	*/
 	func showTipJar() {
-		let vc = TipsViewController(viewModel: TipsViewModel(), coordinator: nil)
-		navigationController.present(vc, animated: true) {
-			//
-		}
+        // temp
+        let vc = RemindersPermissionsViewController(nav: navigationController)
+        navigationController.present(vc, animated: true) { }
+        
+//		let vc = TipsViewController(viewModel: TipsViewModel(), coordinator: nil)
+//		navigationController.present(vc, animated: true) {
+//			//
+//		}
 	}
 	
     func showCreateTask(_ persistentContainer: PersistentContainer?, day: Day) {
@@ -79,18 +85,19 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 		addNavigationObserver(MainNavigationObserverKey.ReturnFromOnboarding)
 		
 		guard let rvc = rootViewController else { return }
-//		let child = OnboardingCoordinator(navigationController: navigationController, viewController: rvc)
-//		child.parentCoordinator = self
-//		childCoordinators.append(child)
-//		child.start(persistentContainer)
+        let child = OnboardingCoordinator(navigationController: navigationController, viewController: rvc)
+		child.parentCoordinator = self
+		childCoordinators.append(child)
+		child.start(persistentContainer)
 	}
     
     // add stats view and coordinator
-    func showSettings(_ persistentContainer: PersistentContainer?) {
+    func showSettings(_ persistentContainer: PersistentContainer?, day: Day) {
 		addNavigationObserver(MainNavigationObserverKey.ReturnFromSettings)
 		
         let child = SettingsCoordinator(navigationController: navigationController)
         child.parentCoordinator = self
+        child.day = day
         childCoordinators.append(child)
         child.start(persistentContainer)
     }
@@ -273,4 +280,6 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate, Ma
 			}
 		}
 	}
+    
+
 }
