@@ -1,4 +1,10 @@
-Tips
+# MacOS X
+.DS_Store
+
+*.pages
+AppStoreMedia
+
+# XCode
 *.mobileprovision
 Gemfile.lock
 Podfile.lock
@@ -7,6 +13,5 @@ Podfile.lock
 screenshots
 Todo
 PricingStructure
-*.pages
-AppStoreMedia
 GoogleService-Info.plist
+xcuserdata/
