@@ -11,7 +11,7 @@ import UIKit
 protocol Coordinator {
     var rootViewController: UIViewController? { get }
     
-    var navigationController: UINavigationController { get }
+    var navigationController: UINavigationController? { get }
     
     var coreDataStack: CoreDataStack? { get }
     
@@ -19,7 +19,7 @@ protocol Coordinator {
 }
 
 class Coordinate: NSObject, Coordinator {
-    var navigationController: UINavigationController
+    var navigationController: UINavigationController?
     
     var rootViewController: UIViewController?
     
@@ -49,7 +49,7 @@ class TaskListCoordinator: Coordinate {
         self.rootViewController = TaskListViewController(viewModel: vm)
         
         guard let vc = self.rootViewController else { return }
-        navigationController.present(vc, animated: false)
+        navigationController?.setViewControllers([vc], animated: false)
     }
     
 }
