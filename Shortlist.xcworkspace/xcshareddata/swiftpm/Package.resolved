@@ -1,0 +1,15 @@
+{
+  "originHash" : "585593e96117648474fa1334785da8c789f1aa847fa76e6a087e73017a4af0b6",
+  "pins" : [
+    {
+      "identity" : "whizutilkit",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:markhmwong/WhizUtilKit.git",
+      "state" : {
+        "revision" : "bb134f4b8b2096dec7c2231c42a42a77627bca54",
+        "version" : "1.0.93"
+      }
+    }
+  ],
+  "version" : 3
+}

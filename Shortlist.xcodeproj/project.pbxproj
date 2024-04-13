@@ -3,12 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E79122DDD1AB008AC433 /* AppDelegate.swift */; };
-		4D45E79722DDD1AB008AC433 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79522DDD1AB008AC433 /* Main.storyboard */; };
 		4D45E79922DDD1AD008AC433 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79822DDD1AD008AC433 /* Assets.xcassets */; };
 		4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */; };
 		4D45E7A722DDD1AD008AC433 /* FiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7A622DDD1AD008AC433 /* FiveTests.swift */; };
@@ -19,6 +18,15 @@
 		4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */; };
 		4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */; };
 		4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */; };
+		4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */; };
+		4DB043D62BCA04D200A3901F /* SLTask+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D42BCA04D200A3901F /* SLTask+CoreDataClass.swift */; };
+		4DB043D72BCA04D200A3901F /* SLTask+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D52BCA04D200A3901F /* SLTask+CoreDataProperties.swift */; };
+		4DB043D92BCA050600A3901F /* SLDay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D82BCA050600A3901F /* SLDay+CoreDataProperties.swift */; };
+		4DB043DB2BCA050B00A3901F /* SLDay+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043DA2BCA050B00A3901F /* SLDay+CoreDataClass.swift */; };
+		4DB043DE2BCA090E00A3901F /* WhizUtilKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4DB043DD2BCA090E00A3901F /* WhizUtilKit */; };
+		4DB043E02BCA216100A3901F /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043DF2BCA216100A3901F /* UICollectionView+Extension.swift */; };
+		4DB043E22BCA33CB00A3901F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043E12BCA33CB00A3901F /* SceneDelegate.swift */; };
+		4DB043E42BCA364800A3901F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DB043E32BCA364800A3901F /* Main.storyboard */; };
 		4DC6950F234CD76600CB4A6E /* 4to6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4DC6950E234CD76600CB4A6E /* 4to6.xcmappingmodel */; };
 		4DC69511234CD78B00CB4A6E /* FourToSixCustomMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC69510234CD78B00CB4A6E /* FourToSixCustomMigration.swift */; };
 		4DC8FAA42566709E001892A4 /* 14to15.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4DC8FAA32566709E001892A4 /* 14to15.xcmappingmodel */; };
@@ -76,7 +84,6 @@
 		4D1B4D0B241A3A3400C9E8CE /* BUGFIXES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BUGFIXES.md; sourceTree = "<group>"; };
 		4D45E78E22DDD1AB008AC433 /* Shortlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shortlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D45E79122DDD1AB008AC433 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4D45E79622DDD1AB008AC433 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4D45E79822DDD1AD008AC433 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D45E79B22DDD1AD008AC433 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4D45E79D22DDD1AD008AC433 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -100,6 +107,14 @@
 		4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FiveModel.xcdatamodel; sourceTree = "<group>"; };
 		4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCoordinator.swift; sourceTree = "<group>"; };
 		4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
+		4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+Extension.swift"; sourceTree = "<group>"; };
+		4DB043D42BCA04D200A3901F /* SLTask+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SLTask+CoreDataClass.swift"; path = "Entities/SLTask+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4DB043D52BCA04D200A3901F /* SLTask+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SLTask+CoreDataProperties.swift"; path = "Entities/SLTask+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4DB043D82BCA050600A3901F /* SLDay+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLDay+CoreDataProperties.swift"; path = "/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLDay+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		4DB043DA2BCA050B00A3901F /* SLDay+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLDay+CoreDataClass.swift"; path = "/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLDay+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		4DB043DF2BCA216100A3901F /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		4DB043E12BCA33CB00A3901F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		4DB043E32BCA364800A3901F /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4DC6950A234CCD6300CB4A6E /* FiveModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 5.xcdatamodel"; sourceTree = "<group>"; };
 		4DC6950B234CD09B00CB4A6E /* FiveModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 6.xcdatamodel"; sourceTree = "<group>"; };
 		4DC6950E234CD76600CB4A6E /* 4to6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 4to6.xcmappingmodel; sourceTree = "<group>"; };
@@ -135,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DB043DE2BCA090E00A3901F /* WhizUtilKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +181,7 @@
 		4D45E78522DDD1AB008AC433 = {
 			isa = PBXGroup;
 			children = (
+				4DB043E32BCA364800A3901F /* Main.storyboard */,
 				4D1B4D0B241A3A3400C9E8CE /* BUGFIXES.md */,
 				4DF724FA22F18FEF00472072 /* README.md */,
 				4D45E79022DDD1AB008AC433 /* Shortlist */,
@@ -196,7 +213,6 @@
 				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
 				4D596EEB22EC42E600B2D21D /* Application Delegate */,
 				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
-				4D45E79522DDD1AB008AC433 /* Main.storyboard */,
 				4DC6181A24D02D98008BFBE6 /* TaskListView */,
 				4D5B5E0322F07FB500C8D9A5 /* Model */,
 			);
@@ -236,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				4D45E79122DDD1AB008AC433 /* AppDelegate.swift */,
+				4DB043E12BCA33CB00A3901F /* SceneDelegate.swift */,
 			);
 			path = "Application Delegate";
 			sourceTree = "<group>";
@@ -279,6 +296,10 @@
 		4DC0DE3722E087F100B2B8D4 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				4DB043DA2BCA050B00A3901F /* SLDay+CoreDataClass.swift */,
+				4DB043D82BCA050600A3901F /* SLDay+CoreDataProperties.swift */,
+				4DB043D42BCA04D200A3901F /* SLTask+CoreDataClass.swift */,
+				4DB043D52BCA04D200A3901F /* SLTask+CoreDataProperties.swift */,
 				4D598B6222EEBE360020076D /* PersistentContainer */,
 				4D596EED22EC477900B2D21D /* Model */,
 			);
@@ -289,7 +310,9 @@
 			isa = PBXGroup;
 			children = (
 				4D60F13424C8870200979912 /* TaskListViewController.swift */,
+				4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */,
 				4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */,
+				4DB043DF2BCA216100A3901F /* UICollectionView+Extension.swift */,
 				4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */,
 			);
 			path = TaskListView;
@@ -330,6 +353,9 @@
 			dependencies = (
 			);
 			name = Shortlist;
+			packageProductDependencies = (
+				4DB043DD2BCA090E00A3901F /* WhizUtilKit */,
+			);
 			productName = Five;
 			productReference = 4D45E78E22DDD1AB008AC433 /* Shortlist.app */;
 			productType = "com.apple.product-type.application";
@@ -434,6 +460,9 @@
 				Base,
 			);
 			mainGroup = 4D45E78522DDD1AB008AC433;
+			packageReferences = (
+				4DB043DC2BCA090E00A3901F /* XCRemoteSwiftPackageReference "WhizUtilKit" */,
+			);
 			productRefGroup = 4D45E78F22DDD1AB008AC433 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -451,9 +480,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DB043E42BCA364800A3901F /* Main.storyboard in Resources */,
 				4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */,
 				4D45E79922DDD1AD008AC433 /* Assets.xcassets in Resources */,
-				4D45E79722DDD1AB008AC433 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,10 +515,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DCD042C25247231005B97F1 /* Constants.swift in Sources */,
+				4DB043D72BCA04D200A3901F /* SLTask+CoreDataProperties.swift in Sources */,
 				4D60F13524C8870200979912 /* TaskListViewController.swift in Sources */,
 				4DCB1D57252FBD2200F13A64 /* Model.xcmappingmodel in Sources */,
 				4DC6950F234CD76600CB4A6E /* 4to6.xcmappingmodel in Sources */,
+				4DB043DB2BCA050B00A3901F /* SLDay+CoreDataClass.swift in Sources */,
 				4DCB1D6D25328C2D00F13A64 /* 13to14.xcmappingmodel in Sources */,
+				4DB043D62BCA04D200A3901F /* SLTask+CoreDataClass.swift in Sources */,
 				4D6B37F12529D0F90020CB4A /* 12to13.xcmappingmodel in Sources */,
 				4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */,
 				4DCD040925239191005B97F1 /* 11to12.xcmappingmodel in Sources */,
@@ -497,12 +529,16 @@
 				4DC69511234CD78B00CB4A6E /* FourToSixCustomMigration.swift in Sources */,
 				4DC8FAA42566709E001892A4 /* 14to15.xcmappingmodel in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
+				4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */,
 				4DF3BA8425BDCD810056DD63 /* 15to16.xcmappingmodel in Sources */,
 				4DD8C76E23BF50CE00098A02 /* 7to8.xcmappingmodel in Sources */,
 				4D598B6422EEBE480020076D /* CoreDataStack.swift in Sources */,
 				4DC93DFA2515E158002B58AB /* 9to10.xcmappingmodel in Sources */,
+				4DB043D92BCA050600A3901F /* SLDay+CoreDataProperties.swift in Sources */,
+				4DB043E22BCA33CB00A3901F /* SceneDelegate.swift in Sources */,
 				4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */,
 				4DC93E772519E7BD002B58AB /* 10to11.xcmappingmodel in Sources */,
+				4DB043E02BCA216100A3901F /* UICollectionView+Extension.swift in Sources */,
 				4DED000B24361062009BA525 /* 8to9.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,14 +589,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		4D45E79522DDD1AB008AC433 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4D45E79622DDD1AB008AC433 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -928,6 +956,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4DB043DC2BCA090E00A3901F /* XCRemoteSwiftPackageReference "WhizUtilKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:markhmwong/WhizUtilKit.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4DB043DD2BCA090E00A3901F /* WhizUtilKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4DB043DC2BCA090E00A3901F /* XCRemoteSwiftPackageReference "WhizUtilKit" */;
+			productName = WhizUtilKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */ = {
