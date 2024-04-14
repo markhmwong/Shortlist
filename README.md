@@ -30,6 +30,22 @@ Unit Tests
 The app is to focus on key tasks that can be completed for the day. Progression is paramount no matter how small the task may be.
 Version 3.0.0 is a complete redesign of the application. I have nuked all previous and am basically starting from scratch.
 
+### Brain storming 14/04/2024
+3 view modes small, medium and large cells. large cells scroll horizontally
+can save images
+can save recorded message
+can save video
+
+only 5 tasks allowed per day
+
+like clear each cell is coloured based on priority
+
+calendar integration
+
+side kick AI integration
+
+
+
 This app was designed to keep users from overloading themselves during the day, and to stay focused on the most important task at hand. The base idea was to remove the abundance we all take for granted in our lives. Abundance of storage in our devices, abundance of time in our day, abundance of tasks we carry.
 
 # 2.0 Architecture and Structure
