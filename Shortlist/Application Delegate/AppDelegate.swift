@@ -14,17 +14,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-	
-    lazy var persistentContainer: CoreDataStack = {
-        let container = CoreDataStack(name: "ShortlistModel")
-        container.loadPersistentStores { description, error in
-            if let error = error {
-                fatalError("Unable to load persistent stores: \(error)")
-            }
-        }
-        container.viewContext.automaticallyMergesChangesFromParent = true        
-        return container
-    }()
+    var cds: CoreDataStack = CoreDataStack.shared
+//    lazy var persistentContainer: CoreDataStack = {
+//        let container = CoreDataStack()
+//        container.loadPersistentStores { description, error in
+//            if let error = error {
+//                fatalError("Unable to load persistent stores: \(error)")
+//            }
+//        }
+//        container.viewContext.automaticallyMergesChangesFromParent = true        
+//        return container
+//    }()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -33,11 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
     func applicationWillResignActive(_ application: UIApplication) {
-        persistentContainer.saveContext()
+//        persistentContainer.saveContext()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        persistentContainer.saveContext()
+//        persistentContainer.saveContext()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func applicationWillTerminate(_ application: UIApplication) {
-        persistentContainer.saveContext()
+//        persistentContainer.saveContext()
     }
 
 	func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {

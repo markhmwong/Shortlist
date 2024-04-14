@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D404BF72BCB758100923ADB /* SLTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D404BF62BCB758100923ADB /* SLTaskCell.swift */; };
 		4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E79122DDD1AB008AC433 /* AppDelegate.swift */; };
 		4D45E79922DDD1AD008AC433 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79822DDD1AD008AC433 /* Assets.xcassets */; };
 		4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */; };
@@ -82,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		4D1B4D0B241A3A3400C9E8CE /* BUGFIXES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BUGFIXES.md; sourceTree = "<group>"; };
+		4D404BF62BCB758100923ADB /* SLTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLTaskCell.swift; sourceTree = "<group>"; };
 		4D45E78E22DDD1AB008AC433 /* Shortlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shortlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D45E79122DDD1AB008AC433 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4D45E79822DDD1AD008AC433 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				4D60F13424C8870200979912 /* TaskListViewController.swift */,
 				4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */,
 				4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */,
+				4D404BF62BCB758100923ADB /* SLTaskCell.swift */,
 				4DB043DF2BCA216100A3901F /* UICollectionView+Extension.swift */,
 				4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */,
 			);
@@ -526,6 +529,7 @@
 				4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */,
 				4DCD040925239191005B97F1 /* 11to12.xcmappingmodel in Sources */,
 				4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */,
+				4D404BF72BCB758100923ADB /* SLTaskCell.swift in Sources */,
 				4DC69511234CD78B00CB4A6E /* FourToSixCustomMigration.swift in Sources */,
 				4DC8FAA42566709E001892A4 /* 14to15.xcmappingmodel in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
@@ -742,7 +746,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -769,7 +773,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

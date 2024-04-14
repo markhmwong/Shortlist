@@ -23,7 +23,7 @@ class Coordinate: NSObject, Coordinator {
     
     var rootViewController: UIViewController?
     
-    var coreDataStack: CoreDataStack?
+    var coreDataStack: CoreDataStack? = nil
     
     init(navigationController: UINavigationController, rootViewController: UIViewController? = nil, coreDataStack: CoreDataStack? = nil) {
         self.navigationController = navigationController
@@ -45,7 +45,7 @@ class TaskListCoordinator: Coordinate {
     }
     
     override func start() {
-        let vm = TaskListViewModel()
+        let vm = TaskListViewModel(coreDataStack: coreDataStack)
         self.rootViewController = TaskListViewController(viewModel: vm)
         
         guard let vc = self.rootViewController else { return }
