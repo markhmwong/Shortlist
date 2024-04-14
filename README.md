@@ -27,6 +27,9 @@ Shortlist (Readme WIP)
 Unit Tests
 
 # 1.0 Overview
+The app is to focus on key tasks that can be completed for the day. Progression is paramount no matter how small the task may be.
+Version 3.0.0 is a complete redesign of the application. I have nuked all previous and am basically starting from scratch.
+
 This app was designed to keep users from overloading themselves during the day, and to stay focused on the most important task at hand. The base idea was to remove the abundance we all take for granted in our lives. Abundance of storage in our devices, abundance of time in our day, abundance of tasks we carry.
 
 # 2.0 Architecture and Structure

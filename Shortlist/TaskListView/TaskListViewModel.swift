@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import WhizUtilKit
 
 enum SLTaskListPriority: Int, CaseIterable {
     case high = 0
@@ -27,10 +26,11 @@ class TaskListViewModel: NSObject {
     }
     
     func configureDatasource(view: UICollectionView) {
-        let taskCellRegistration = UICollectionView.CellRegistration<TaskCell, SLTask>.registerTaskCell()
+        let taskCellRegistration = UICollectionView.CellRegistration<SLTaskCell, SLTask>.registerTaskCell()
 
         diffableDatasource = UICollectionViewDiffableDataSource<SLTaskListPriority, SLTask>(collectionView: view) { collectionView, indexPath, item in
             let cell = collectionView.dequeueConfiguredReusableCell(using: taskCellRegistration, for: indexPath, item: item)
+            cell.configureCell(with: item)
             return cell
         }
         diffableDatasource.apply(configureSnapshot())
@@ -39,38 +39,21 @@ class TaskListViewModel: NSObject {
     private func configureSnapshot() -> NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> {
         var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>()
         snapshot.appendSections(SLTaskListPriority.allCases)
-//        let item = SLTask(context: coreDataStack!.viewContext)
-//        item.name = "Clean storm drain"
-//        item.createdAt = Date()
-//        item.carryOver = false
-//        item.complete = false
-//        item.id = 0
-        snapshot.appendItems([])
-        return snapshot
-    }
-    
-    private func configureFiatCellRegistration() -> UICollectionView.CellRegistration<TaskCell, SLTask> {
-        let cellConfig = UICollectionView.CellRegistration<TaskCell, SLTask> { (cell, indexPath, item) in
-            cell.configureCell(with: item)
-        }
-        return cellConfig
-    }
-}
-
-class TaskCell: BaseCollectionViewCell<SLTask> {
-    
-    var _item: SLTask? {
-        set {
-            item = newValue
-        }
-        get {
-            return item
-        }
-    }
-    
-    override func configureCell(with item: SLTask) {
-        super.configureCell(with: item)
         
+        guard let cds = coreDataStack else {
+            print("unable to load core data stack")
+            snapshot.appendItems([])
+            return snapshot
+        }
+        
+        let item = SLTask(context: coreDataStack!.moc!)
+        item.name = "Clean storm drain"
+        item.createdAt = Date()
+        item.carryOver = false
+        item.complete = false
+        item.id = 0
+        snapshot.appendItems([item])
+        return snapshot
     }
     
 }

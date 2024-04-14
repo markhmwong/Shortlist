@@ -9,8 +9,9 @@
 import UIKit
 
 class TaskListViewController: UICollectionViewController {
- 
-    private weak var viewModel: TaskListViewModel? = nil
+    fileprivate let className: String = String(describing: TaskListViewController.self)
+    
+    private var viewModel: TaskListViewModel? = nil
     
     init(viewModel: TaskListViewModel) {
         self.viewModel = viewModel
@@ -28,7 +29,9 @@ class TaskListViewController: UICollectionViewController {
         self.collectionView.backgroundColor = .yellow
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(handleSettings))
         //Datasource
-        guard let viewModel = viewModel else { return }
+        guard let viewModel = viewModel else { 
+            print("\(className): View model not initialised")
+            return }
         viewModel.configureDatasource(view: collectionView)
     }
     

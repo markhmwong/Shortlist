@@ -10,8 +10,8 @@ import UIKit
 
 extension UICollectionView.CellRegistration {
     
-    static func registerTaskCell() -> UICollectionView.CellRegistration<TaskCell, SLTask> {
-        let cellConfig = UICollectionView.CellRegistration<TaskCell, SLTask> { (cell, indexPath, item) in
+    static func registerTaskCell() -> UICollectionView.CellRegistration<SLTaskCell, SLTask> {
+        let cellConfig = UICollectionView.CellRegistration<SLTaskCell, SLTask> { (cell, indexPath, item) in
             cell.configureCell(with: item)
         }
         return cellConfig
