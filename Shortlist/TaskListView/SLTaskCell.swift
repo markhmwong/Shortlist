@@ -45,6 +45,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         
         /// fill content
         titleLabel.text = item.name
+        
         item.createdAt
     }
     
