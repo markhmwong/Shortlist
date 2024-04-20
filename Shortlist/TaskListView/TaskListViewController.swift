@@ -49,7 +49,10 @@ class TaskListViewController: UICollectionViewController {
     @objc func handleTap() {
         // add new task
         
+        viewModel?.createTask()
         
+        let cell = collectionView.visibleCells.last as! SLTaskCell
+        cell.focusText()
     }
     
     

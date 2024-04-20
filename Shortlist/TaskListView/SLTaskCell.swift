@@ -20,12 +20,14 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         }
     }
     
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
+    lazy var titleLabel: UITextView = {
+        let label = UITextView()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "placeholder"
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textColor = .black
+        label.backgroundColor = .clear
+        label.isEditable = true
         return label
     }()
     
@@ -40,13 +42,16 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
         
         /// fill content
         titleLabel.text = item.name
         
-        item.createdAt
     }
     
+    func focusText() {
+        titleLabel.becomeFirstResponder()
+    }
 }

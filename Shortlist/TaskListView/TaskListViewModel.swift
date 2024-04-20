@@ -46,17 +46,26 @@ class TaskListViewModel: NSObject {
             return snapshot
         }
         
-        let item = SLTask(context: coreDataStack!.moc!)
+        let item = SLTask(context: cds.moc!)
         item.name = "Clean storm drain"
         item.createdAt = Date()
         item.carryOver = false
         item.complete = false
-        item.id = 0
+        item.id = UUID()
         snapshot.appendItems([item])
         return snapshot
     }
     
-    private func createTasks() {
+    func createTask() {
+        let item = SLTask(context: coreDataStack!.moc!)
+        item.name = "\(Int.random(in: 0...1000))"
+        item.createdAt = Date()
+        item.carryOver = false
+        item.complete = false
+        item.id = UUID()
+        var snapshot: NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> = diffableDatasource.snapshot()
+        snapshot.appendItems([item], toSection: .high)
         
+        diffableDatasource.apply(snapshot)
     }
 }
