@@ -18,7 +18,7 @@ extension SLTask {
 
     @NSManaged public var carryOver: Bool
     @NSManaged public var complete: Bool
-    @NSManaged public var id: Int16
+    @NSManaged public var id: UUID
     @NSManaged public var name: String?
     @NSManaged public var createdAt: Date?
     @NSManaged public var taskToDay: SLDay?
