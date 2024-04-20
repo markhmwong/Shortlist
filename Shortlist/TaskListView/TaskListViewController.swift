@@ -15,12 +15,19 @@ class TaskListViewController: UICollectionViewController {
     
     init(viewModel: TaskListViewModel) {
         self.viewModel = viewModel
-//        super.init(nibName: nil, bundle: nil)
         super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewSectionHeaderLayout(itemSpace: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0), groupSpacing: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)))
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Add tap gesture recognizer
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        view.addGestureRecognizer(tapGesture)
     }
    
     override func viewDidLoad() {
@@ -38,6 +45,13 @@ class TaskListViewController: UICollectionViewController {
     @objc func handleSettings() {
         
     }
+    
+    @objc func handleTap() {
+        // add new task
+        
+        
+    }
+    
     
     deinit {
         viewModel = nil
