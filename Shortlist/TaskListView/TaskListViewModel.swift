@@ -7,11 +7,11 @@
 //
 
 import UIKit
+import CoreData
+
 
 enum SLTaskListPriority: Int, CaseIterable {
     case high = 0
-    case med
-    case low
 }
 
 class TaskListViewModel: NSObject {
@@ -20,6 +20,8 @@ class TaskListViewModel: NSObject {
     
     private var diffableDatasource: UICollectionViewDiffableDataSource<SLTaskListPriority, SLTask>! = nil
 
+    private var currentCellEditable: SLTaskCell! = nil
+    
     init(coreDataStack: CoreDataStack? = nil) {
         self.coreDataStack = coreDataStack
         super.init()
@@ -46,6 +48,10 @@ class TaskListViewModel: NSObject {
             return snapshot
         }
         
+        #if DEBUG
+        createMultipleTasks(cds: cds, snapshot: &snapshot)
+        #endif
+        
         let item = SLTask(context: cds.moc!)
         item.name = "Clean storm drain"
         item.createdAt = Date()
@@ -56,7 +62,27 @@ class TaskListViewModel: NSObject {
         return snapshot
     }
     
-    func createTask() {
+    func printDatasource() {
+        print("printing")
+        for item in diffableDatasource.snapshot().itemIdentifiers {
+            print(item)
+        }
+    }
+    
+    
+    private func createMultipleTasks(cds: CoreDataStack, snapshot: inout NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>) {
+        for i in 0...5 {
+            let item = SLTask(context: cds.moc!)
+            item.name = "Clean storm drain \(i)"
+            item.createdAt = Date()
+            item.carryOver = false
+            item.complete = false
+            item.id = UUID()
+            snapshot.appendItems([item])
+        }
+    }
+    
+    func createTask(completionHandler: @escaping () -> ()) -> NSManagedObjectID {
         let item = SLTask(context: coreDataStack!.moc!)
         item.name = "\(Int.random(in: 0...1000))"
         item.createdAt = Date()
@@ -66,6 +92,27 @@ class TaskListViewModel: NSObject {
         var snapshot: NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> = diffableDatasource.snapshot()
         snapshot.appendItems([item], toSection: .high)
         
-        diffableDatasource.apply(snapshot)
+        DispatchQueue.main.async {
+            self.diffableDatasource.apply(snapshot)
+            completionHandler()
+        }
+        return item.objectID
+    }
+    
+    func getLastCell(collectionView: UICollectionView) {
+        let lastSection = collectionView.numberOfSections - 1
+        let lastItem = collectionView.numberOfItems(inSection: lastSection) - 1
+        let cell = collectionView.cellForItem(at: IndexPath(item: lastItem, section: lastSection)) as! SLTaskCell
+        print(cell.item?.name)
+        cell.focusText()
+    }
+    
+    func trackCell(cell: SLTaskCell) {
+        currentCellEditable = cell
+    }
+    
+    func resignCurrentCell() {
+        guard let cell = currentCellEditable else { return }
+        cell.resignFirstResponder()
     }
 }
