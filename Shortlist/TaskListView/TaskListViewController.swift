@@ -47,12 +47,15 @@ class TaskListViewController: UICollectionViewController {
     }
     
     @objc func handleTap() {
-        // add new task
         
-        viewModel?.createTask()
+        guard let viewModel = viewModel else { return }
+        /// stop editing current cell
+        viewModel.resignCurrentCell()
         
-        let cell = collectionView.visibleCells.last as! SLTaskCell
-        cell.focusText()
+        /// add new task
+        viewModel.createTask {
+            viewModel.getLastCell(collectionView: self.collectionView)
+        }
     }
     
     

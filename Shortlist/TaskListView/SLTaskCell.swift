@@ -14,6 +14,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
     var _item: SLTask? {
         set {
             item = newValue
+            titleLabel.text = item?.name
         }
         get {
             return item
@@ -31,11 +32,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         return label
     }()
     
-    /// Configure Cell
-    /// - Parameter item: the model that is passed to fill out contents of the cell
-    override func configureCell(with item: SLTask) {
-        super.configureCell(with: item)
-        
+    override func setupViewsIfNeeded() {
         /// layout
         contentView.addSubview(titleLabel)
         
@@ -47,7 +44,15 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         ])
         
         /// fill content
-        titleLabel.text = item.name
+    }
+    
+    /// Configure Cell
+    /// - Parameter item: the model that is passed to fill out contents of the cell
+    override func configureCell(with item: SLTask) {
+        super.configureCell(with: item)
+        self._item = item
+
+
         
     }
     
