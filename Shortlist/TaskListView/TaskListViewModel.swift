@@ -99,12 +99,11 @@ class TaskListViewModel: NSObject {
         return item.objectID
     }
     
-    func getLastCell(collectionView: UICollectionView) {
+    func getLastCell(collectionView: UICollectionView) -> SLTaskCell {
         let lastSection = collectionView.numberOfSections - 1
         let lastItem = collectionView.numberOfItems(inSection: lastSection) - 1
-        let cell = collectionView.cellForItem(at: IndexPath(item: lastItem, section: lastSection)) as! SLTaskCell
-        print(cell.item?.name)
-        cell.focusText()
+        return collectionView.cellForItem(at: IndexPath(item: lastItem, section: lastSection)) as! SLTaskCell
+       
     }
     
     func trackCell(cell: SLTaskCell) {
