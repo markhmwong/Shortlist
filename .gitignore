@@ -15,3 +15,7 @@ Todo
 PricingStructure
 GoogleService-Info.plist
 xcuserdata/
+.DS_Store
+*.xcuserstate
+Shorlist.xcworkspace/
+xcuserdata/

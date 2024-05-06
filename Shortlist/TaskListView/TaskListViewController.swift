@@ -15,7 +15,7 @@ class TaskListViewController: UICollectionViewController {
     
     init(viewModel: TaskListViewModel) {
         self.viewModel = viewModel
-        super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewSectionHeaderLayout(itemSpace: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0), groupSpacing: NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)))
+        super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewListLayout())
     }
     
     required init?(coder: NSCoder) {
@@ -53,9 +53,12 @@ class TaskListViewController: UICollectionViewController {
         viewModel.resignCurrentCell()
         
         /// add new task
-        viewModel.createTask {
-            viewModel.getLastCell(collectionView: self.collectionView)
+        let _ = viewModel.createTask {
+            let cell = viewModel.getLastCell(collectionView: self.collectionView)
+            cell.focusText()
         }
+        
+        
     }
     
     
