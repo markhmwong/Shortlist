@@ -13,6 +13,9 @@ class TaskListViewController: UICollectionViewController {
     
     private var viewModel: TaskListViewModel? = nil
     
+    private var longPressGesture: UILongPressGestureRecognizer!
+
+    
     init(viewModel: TaskListViewModel) {
         self.viewModel = viewModel
         super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewListLayout())
@@ -28,6 +31,12 @@ class TaskListViewController: UICollectionViewController {
         // Add tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)
+        
+        // Initialize the long press gesture recognizer
+         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+         longPressGesture.minimumPressDuration = 0.5 // Adjust as needed
+         longPressGesture.delegate = self
+        collectionView.addGestureRecognizer(longPressGesture)
     }
    
     override func viewDidLoad() {

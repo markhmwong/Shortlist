@@ -44,6 +44,7 @@
 		4DF3BA8425BDCD810056DD63 /* 15to16.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3BA8325BDCD810056DD63 /* 15to16.xcmappingmodel */; };
 		4DF3E3722403E01F002B402C /* ScreenshotTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3712403E01F002B402C /* ScreenshotTester.swift */; };
 		4DF3E3792403E0F2002B402C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3592403DB62002B402C /* SnapshotHelper.swift */; };
+		4DF4A37D2BE98220008A4FF3 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +147,7 @@
 		4DF3E36F2403E01F002B402C /* ScreenshotTester.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScreenshotTester.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DF3E3712403E01F002B402C /* ScreenshotTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTester.swift; sourceTree = "<group>"; };
 		4DF3E3732403E01F002B402C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		4DF724F022F174D200472072 /* Five.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Five.entitlements; sourceTree = "<group>"; };
 		4DF724F122F174F100472072 /* Shortlist WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Shortlist WatchKit App.entitlements"; sourceTree = "<group>"; };
 		4DF724FA22F18FEF00472072 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				4D596EEB22EC42E600B2D21D /* Application Delegate */,
 				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
 				4D5B5E0322F07FB500C8D9A5 /* Model */,
+				4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */,
 			);
 			path = Shortlist;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 				4DB043E02BCA216100A3901F /* UICollectionView+Extension.swift in Sources */,
 				4DED000B24361062009BA525 /* 8to9.xcmappingmodel in Sources */,
 				4D0B66F32BD33F4C009A9200 /* CreateTaskViewController.swift in Sources */,
+				4DF4A37D2BE98220008A4FF3 /* TaskManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
