@@ -22,6 +22,7 @@ class TaskListViewModel: NSObject {
 
     private var currentCellEditable: SLTaskCell! = nil
     
+
     init(coreDataStack: CoreDataStack? = nil) {
         self.coreDataStack = coreDataStack
         super.init()
