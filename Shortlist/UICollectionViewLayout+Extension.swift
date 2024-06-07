@@ -59,13 +59,13 @@ extension UICollectionViewLayout {
         var config = UICollectionLayoutListConfiguration(appearance: .plain)
         config.trailingSwipeActionsConfigurationProvider = { indexPath in
             let del = UIContextualAction(style: .destructive, title: "Delete") {
-                [weak self] action, view, completion in
+                action, view, completion in
 //                self?.delete(at: indexPath)
                 completion(true)
             }
             return UISwipeActionsConfiguration(actions: [del])
         }
-        layout.configuration
+//        layout.configuration
         return layout
     }
     
@@ -74,7 +74,7 @@ extension UICollectionViewLayout {
         var config = UICollectionLayoutListConfiguration(appearance: .plain)
         config.trailingSwipeActionsConfigurationProvider = { indexPath in
             let del = UIContextualAction(style: .destructive, title: "Delete") {
-                [weak self] action, view, completion in
+                action, view, completion in
 //                self?.delete(at: indexPath)
                 completion(true)
             }

@@ -26,13 +26,17 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "placeholder"
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .black
+		label.textColor = .defaultText
         label.backgroundColor = .clear
-        label.isEditable = true
+        label.isEditable = false
+		label.isUserInteractionEnabled = false
         return label
     }()
     
     override func setupViewsIfNeeded() {
+		super.setupViewsIfNeeded()
+		
+		
         /// layout
         contentView.addSubview(titleLabel)
         
@@ -52,10 +56,12 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         super.configureCell(with: item)
         self._item = item
 
-
-        
     }
     
+	func enableEditing() {
+		titleLabel.isEditable = true
+		titleLabel.isUserInteractionEnabled = false
+	}
     func focusText() {
         titleLabel.becomeFirstResponder()
     }
