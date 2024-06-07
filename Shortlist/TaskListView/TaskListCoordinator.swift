@@ -46,10 +46,15 @@ class TaskListCoordinator: Coordinate {
     
     override func start() {
         let vm = TaskListViewModel(coreDataStack: coreDataStack)
-        self.rootViewController = TaskListViewController(viewModel: vm)
+		self.rootViewController = TaskListViewController(viewModel: vm, coordinator: self)
         
         guard let vc = self.rootViewController else { return }
         navigationController?.setViewControllers([vc], animated: false)
     }
     
+	func presentTaskDetails(item: SLTask) {
+		let vm = TaskDetailsViewModel(item: item)
+		let vc = TaskDetailsViewController(viewModel: vm)
+		self.navigationController?.pushViewController(vc, animated: true)
+	}
 }

@@ -17,6 +17,9 @@
 		4D45E7B222DDD1AD008AC433 /* FiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7B122DDD1AD008AC433 /* FiveUITests.swift */; };
 		4D598B6422EEBE480020076D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D598B6322EEBE480020076D /* CoreDataStack.swift */; };
 		4D60F13524C8870200979912 /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D60F13424C8870200979912 /* TaskListViewController.swift */; };
+		4D6339982BEDA3C600E3EE32 /* TaskDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */; };
+		4D63399A2BEDC09700E3EE32 /* TaskDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6339992BEDC09700E3EE32 /* TaskDetailsViewModel.swift */; };
+		4D63399C2BEDF66300E3EE32 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D63399B2BEDF66300E3EE32 /* Binding.swift */; };
 		4D6B37F12529D0F90020CB4A /* 12to13.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4D6B37F02529D0F90020CB4A /* 12to13.xcmappingmodel */; };
 		4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */; };
 		4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */; };
@@ -106,6 +109,9 @@
 		4D4DDC7F2529931D0016697D /* FiveModel 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 13.xcdatamodel"; sourceTree = "<group>"; };
 		4D598B6322EEBE480020076D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		4D60F13424C8870200979912 /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
+		4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewController.swift; sourceTree = "<group>"; };
+		4D6339992BEDC09700E3EE32 /* TaskDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewModel.swift; sourceTree = "<group>"; };
+		4D63399B2BEDF66300E3EE32 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		4D646B3F23264C1300073FD6 /* FiveModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		4D646B4023290D7C00073FD6 /* FiveModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 4.xcdatamodel"; sourceTree = "<group>"; };
@@ -224,6 +230,7 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
+				4D6339962BEDA3BA00E3EE32 /* TaskDetailsView */,
 				4DC6181A24D02D98008BFBE6 /* TaskListView */,
 				4D0B66F12BD33F3E009A9200 /* CreateTask */,
 				4DCD042A25247228005B97F1 /* Constants */,
@@ -236,6 +243,7 @@
 				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
 				4D5B5E0322F07FB500C8D9A5 /* Model */,
 				4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */,
+				4D63399B2BEDF66300E3EE32 /* Binding.swift */,
 			);
 			path = Shortlist;
 			sourceTree = "<group>";
@@ -309,9 +317,26 @@
 		4D5B5E0322F07FB500C8D9A5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4D63399D2BEDF95900E3EE32 /* ReminderIntegration */,
 				4DC0DE3722E087F100B2B8D4 /* CoreData */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		4D6339962BEDA3BA00E3EE32 /* TaskDetailsView */ = {
+			isa = PBXGroup;
+			children = (
+				4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */,
+				4D6339992BEDC09700E3EE32 /* TaskDetailsViewModel.swift */,
+			);
+			path = TaskDetailsView;
+			sourceTree = "<group>";
+		};
+		4D63399D2BEDF95900E3EE32 /* ReminderIntegration */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ReminderIntegration;
 			sourceTree = "<group>";
 		};
 		4DC0DE3722E087F100B2B8D4 /* CoreData */ = {
@@ -440,8 +465,9 @@
 		4D45E78622DDD1AB008AC433 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1120;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = "Mark Wong";
 				TargetAttributes = {
 					4D45E78D22DDD1AB008AC433 = {
@@ -553,12 +579,15 @@
 				4D0B66F52BD33F52009A9200 /* CreateTaskViewModel.swift in Sources */,
 				4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */,
 				4DF3BA8425BDCD810056DD63 /* 15to16.xcmappingmodel in Sources */,
+				4D6339982BEDA3C600E3EE32 /* TaskDetailsViewController.swift in Sources */,
 				4DD8C76E23BF50CE00098A02 /* 7to8.xcmappingmodel in Sources */,
 				4D598B6422EEBE480020076D /* CoreDataStack.swift in Sources */,
 				4DC93DFA2515E158002B58AB /* 9to10.xcmappingmodel in Sources */,
 				4DB043D92BCA050600A3901F /* SLDay+CoreDataProperties.swift in Sources */,
 				4DB043E22BCA33CB00A3901F /* SceneDelegate.swift in Sources */,
+				4D63399C2BEDF66300E3EE32 /* Binding.swift in Sources */,
 				4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */,
+				4D63399A2BEDC09700E3EE32 /* TaskDetailsViewModel.swift in Sources */,
 				4DC93E772519E7BD002B58AB /* 10to11.xcmappingmodel in Sources */,
 				4DB043E02BCA216100A3901F /* UICollectionView+Extension.swift in Sources */,
 				4DED000B24361062009BA525 /* 8to9.xcmappingmodel in Sources */,
@@ -670,6 +699,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -732,6 +762,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
