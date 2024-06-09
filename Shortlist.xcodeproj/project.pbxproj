@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		4D0B66F32BD33F4C009A9200 /* CreateTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B66F22BD33F4C009A9200 /* CreateTaskViewController.swift */; };
 		4D0B66F52BD33F52009A9200 /* CreateTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B66F42BD33F52009A9200 /* CreateTaskViewModel.swift */; };
+		4D2F65F42C153FA9001ADB4A /* SLTask+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2F65F32C153FA9001ADB4A /* SLTask+CoreDataClass.swift */; };
+		4D2F65F52C153FA9001ADB4A /* SLTask+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2F65F22C153FA9001ADB4A /* SLTask+CoreDataProperties.swift */; };
+		4D2F65F72C154C85001ADB4A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2F65F62C154C85001ADB4A /* Coordinator.swift */; };
 		4D404BF72BCB758100923ADB /* SLTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D404BF62BCB758100923ADB /* SLTaskCell.swift */; };
 		4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E79122DDD1AB008AC433 /* AppDelegate.swift */; };
 		4D45E79922DDD1AD008AC433 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79822DDD1AD008AC433 /* Assets.xcassets */; };
@@ -25,8 +28,6 @@
 		4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */; };
 		4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */; };
 		4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */; };
-		4DB043D62BCA04D200A3901F /* SLTask+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D42BCA04D200A3901F /* SLTask+CoreDataClass.swift */; };
-		4DB043D72BCA04D200A3901F /* SLTask+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D52BCA04D200A3901F /* SLTask+CoreDataProperties.swift */; };
 		4DB043D92BCA050600A3901F /* SLDay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D82BCA050600A3901F /* SLDay+CoreDataProperties.swift */; };
 		4DB043DB2BCA050B00A3901F /* SLDay+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043DA2BCA050B00A3901F /* SLDay+CoreDataClass.swift */; };
 		4DB043DE2BCA090E00A3901F /* WhizUtilKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4DB043DD2BCA090E00A3901F /* WhizUtilKit */; };
@@ -91,6 +92,9 @@
 		4D0B66F22BD33F4C009A9200 /* CreateTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskViewController.swift; sourceTree = "<group>"; };
 		4D0B66F42BD33F52009A9200 /* CreateTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskViewModel.swift; sourceTree = "<group>"; };
 		4D1B4D0B241A3A3400C9E8CE /* BUGFIXES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BUGFIXES.md; sourceTree = "<group>"; };
+		4D2F65F22C153FA9001ADB4A /* SLTask+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLTask+CoreDataProperties.swift"; path = "/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLTask+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		4D2F65F32C153FA9001ADB4A /* SLTask+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLTask+CoreDataClass.swift"; path = "/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLTask+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		4D2F65F62C154C85001ADB4A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		4D404BF62BCB758100923ADB /* SLTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLTaskCell.swift; sourceTree = "<group>"; };
 		4D45E78E22DDD1AB008AC433 /* Shortlist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shortlist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D45E79122DDD1AB008AC433 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,8 +125,6 @@
 		4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCoordinator.swift; sourceTree = "<group>"; };
 		4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
 		4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+Extension.swift"; sourceTree = "<group>"; };
-		4DB043D42BCA04D200A3901F /* SLTask+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SLTask+CoreDataClass.swift"; path = "Entities/SLTask+CoreDataClass.swift"; sourceTree = "<group>"; };
-		4DB043D52BCA04D200A3901F /* SLTask+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SLTask+CoreDataProperties.swift"; path = "Entities/SLTask+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4DB043D82BCA050600A3901F /* SLDay+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLDay+CoreDataProperties.swift"; path = "/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLDay+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		4DB043DA2BCA050B00A3901F /* SLDay+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLDay+CoreDataClass.swift"; path = "/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLDay+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		4DB043DF2BCA216100A3901F /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				4D5B5E0322F07FB500C8D9A5 /* Model */,
 				4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */,
 				4D63399B2BEDF66300E3EE32 /* Binding.swift */,
+				4D2F65F62C154C85001ADB4A /* Coordinator.swift */,
 			);
 			path = Shortlist;
 			sourceTree = "<group>";
@@ -342,10 +345,10 @@
 		4DC0DE3722E087F100B2B8D4 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				4D2F65F32C153FA9001ADB4A /* SLTask+CoreDataClass.swift */,
+				4D2F65F22C153FA9001ADB4A /* SLTask+CoreDataProperties.swift */,
 				4DB043DA2BCA050B00A3901F /* SLDay+CoreDataClass.swift */,
 				4DB043D82BCA050600A3901F /* SLDay+CoreDataProperties.swift */,
-				4DB043D42BCA04D200A3901F /* SLTask+CoreDataClass.swift */,
-				4DB043D52BCA04D200A3901F /* SLTask+CoreDataProperties.swift */,
 				4D598B6222EEBE360020076D /* PersistentContainer */,
 				4D596EED22EC477900B2D21D /* Model */,
 			);
@@ -561,18 +564,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DCD042C25247231005B97F1 /* Constants.swift in Sources */,
-				4DB043D72BCA04D200A3901F /* SLTask+CoreDataProperties.swift in Sources */,
+				4D2F65F52C153FA9001ADB4A /* SLTask+CoreDataProperties.swift in Sources */,
 				4D60F13524C8870200979912 /* TaskListViewController.swift in Sources */,
 				4DCB1D57252FBD2200F13A64 /* Model.xcmappingmodel in Sources */,
 				4DC6950F234CD76600CB4A6E /* 4to6.xcmappingmodel in Sources */,
 				4DB043DB2BCA050B00A3901F /* SLDay+CoreDataClass.swift in Sources */,
 				4DCB1D6D25328C2D00F13A64 /* 13to14.xcmappingmodel in Sources */,
-				4DB043D62BCA04D200A3901F /* SLTask+CoreDataClass.swift in Sources */,
 				4D6B37F12529D0F90020CB4A /* 12to13.xcmappingmodel in Sources */,
 				4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */,
 				4DCD040925239191005B97F1 /* 11to12.xcmappingmodel in Sources */,
+				4D2F65F72C154C85001ADB4A /* Coordinator.swift in Sources */,
 				4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */,
 				4D404BF72BCB758100923ADB /* SLTaskCell.swift in Sources */,
+				4D2F65F42C153FA9001ADB4A /* SLTask+CoreDataClass.swift in Sources */,
 				4DC69511234CD78B00CB4A6E /* FourToSixCustomMigration.swift in Sources */,
 				4DC8FAA42566709E001892A4 /* 14to15.xcmappingmodel in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
@@ -792,7 +796,7 @@
 				CURRENT_PROJECT_VERSION = 59;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -819,7 +823,7 @@
 				CURRENT_PROJECT_VERSION = 59;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

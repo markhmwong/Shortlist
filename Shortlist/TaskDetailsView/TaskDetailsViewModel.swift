@@ -6,7 +6,7 @@
 //  Copyright © 2024 Mark Wong. All rights reserved.
 //
 
-import Foundation
+import CoreData
 
 class TaskDetailsViewModel: NSObject {
 	

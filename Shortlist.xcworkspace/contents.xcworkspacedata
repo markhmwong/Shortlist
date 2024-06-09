@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLTask+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLTask+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:Shortlist.xcodeproj">
    </FileRef>
 </Workspace>
