@@ -21,8 +21,8 @@ class Coordinate: NSObject, Coordinator {
     
     var coreDataStack: CoreDataStack? = nil
     
-    init(parentCoordaintor: Coordinator? = nil, parentNavigationController: UINavigationController? = nil, rootNavigationController: UINavigationController? = nil, rootViewController: UIViewController? = nil, coreDataStack: CoreDataStack? = nil) {
-        self.parentCoordinator = parentCoordaintor
+    init(parentCoordinator: Coordinator? = nil, parentNavigationController: UINavigationController? = nil, rootNavigationController: UINavigationController? = nil, rootViewController: UIViewController? = nil, coreDataStack: CoreDataStack? = nil) {
+        self.parentCoordinator = parentCoordinator
         self.parentNavigationController = parentNavigationController
         self.rootNavigationController = rootNavigationController
         self.coreDataStack = coreDataStack
@@ -42,12 +42,12 @@ class Coordinate: NSObject, Coordinator {
 
 class TaskListCoordinator: Coordinate {
     
-    override init(parentCoordaintor: (any Coordinator)? = nil, 
+    override init(parentCoordinator: (any Coordinator)? = nil,
                   parentNavigationController: UINavigationController? = nil,
                   rootNavigationController: UINavigationController? = nil,
                   rootViewController: UIViewController? = nil,
                   coreDataStack: CoreDataStack? = nil) {
-        super.init(parentCoordaintor: parentCoordaintor, 
+        super.init(parentCoordinator: parentCoordinator,
                    parentNavigationController: parentNavigationController,
                    rootNavigationController: rootNavigationController,
                    rootViewController: rootViewController,
@@ -63,35 +63,19 @@ class TaskListCoordinator: Coordinate {
     }
     
 	func presentTaskDetails(item: SLTask) {
-//        let coordinate = TaskDetailsCoordinator
-
-//        coordinate.start()
-//		self.rootNavigationController?.pushViewController(vc, animated: true)
+        let coordinator = TaskDetailsCoordinator(parentCoordinator: self, parentNavigationController: rootNavigationController)
+        coordinator.startWith(item: item)
 	}
 }
 
 class TaskDetailsCoordinator: Coordinate {
-//    var _parentNavigationController: UINavigationController? {
-//        set {
-//            self.parentNavigationController = newValue
-//        }
-//        get {
-//            return self.navigationController
-//        }
-//    }
-//    
-//    var _rootViewController: UIViewController?
-//    
-//    var navigationController: UINavigationController?
     
-//    var coreDataStack: CoreDataStack?
-    
-    override init(parentCoordaintor: (any Coordinator)? = nil, 
+    override init(parentCoordinator: (any Coordinator)? = nil,
                   parentNavigationController: UINavigationController? = nil,
                   rootNavigationController: UINavigationController? = nil,
                   rootViewController: UIViewController? = nil,
                   coreDataStack: CoreDataStack? = nil) {
-        super.init(parentCoordaintor: parentCoordaintor,
+        super.init(parentCoordinator: parentCoordinator as! TaskListCoordinator,
                    parentNavigationController: parentNavigationController,
                    rootNavigationController: rootNavigationController,
                    rootViewController: rootViewController,
