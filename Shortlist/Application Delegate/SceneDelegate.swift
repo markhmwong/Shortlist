@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let nav = UINavigationController()
         
-        let taskListCoordinator = TaskListCoordinator(navigationController: nav, coreDataStack: CoreDataStack.shared)
+        let taskListCoordinator = TaskListCoordinator(rootNavigationController: nav, coreDataStack: CoreDataStack.shared)
         taskListCoordinator.start()
         window?.rootViewController = nav
         
