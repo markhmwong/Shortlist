@@ -54,7 +54,7 @@ class TaskDetailsViewController: UIViewController {
         return view
     }()
     
-    /// Add location
+    // TODO: Add location
     /// map kit
     
     /// Category
@@ -85,9 +85,12 @@ class TaskDetailsViewController: UIViewController {
         button.addTarget(self, action: #selector(handleComplete), for: .touchUpInside)
         return button
     }()
+    
+    private var coordinator: TaskDetailsCoordinator
 	
     init(viewModel: TaskDetailsViewModel, coordinator: TaskDetailsCoordinator) {
 		self.viewModel = viewModel
+        self.coordinator = coordinator
 		super.init(nibName: nil, bundle: nil)
 	}
 	
@@ -163,9 +166,19 @@ class TaskDetailsViewController: UIViewController {
     
     @objc func handleComplete() {
         print("complete pressed")
+        // dismiss
+        // update complete task
+        viewModel.taskIsComplete {
+            // TODO: fast animation toggle
+            // do some fancy animation
+            // but also allow user to turn on/off fancy animations
+            coordinator.dismissCurrentView()
+        }
+        
     }
     
     private func formatCompleteLabel(item: SLTask) {
-        self.completeLabel.text = item.complete ? "Complete" : "Not Done"
+        completeLabel.text = item.complete ? "Complete" : "Incomplete"
+        completeButton.setTitle(!item.complete ? "Complete" : "Incomplete", for: .normal)
     }
 }

@@ -20,4 +20,8 @@ protocol Coordinator {
     var coreDataStack: CoreDataStack? { get }
     
     func start()
+    
+    func dismissEntireStack()
+    
+    func dismissCurrentView()
 }

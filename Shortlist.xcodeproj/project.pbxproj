@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D09D56D2C1B6889002735BA /* TaskDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D09D56C2C1B6889002735BA /* TaskDetailsCoordinator.swift */; };
 		4D0B66F32BD33F4C009A9200 /* CreateTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B66F22BD33F4C009A9200 /* CreateTaskViewController.swift */; };
 		4D0B66F52BD33F52009A9200 /* CreateTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B66F42BD33F52009A9200 /* CreateTaskViewModel.swift */; };
 		4D2F65F42C153FA9001ADB4A /* SLTask+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D2F65F32C153FA9001ADB4A /* SLTask+CoreDataClass.swift */; };
@@ -89,6 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4D09D56C2C1B6889002735BA /* TaskDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCoordinator.swift; sourceTree = "<group>"; };
 		4D0B66F22BD33F4C009A9200 /* CreateTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskViewController.swift; sourceTree = "<group>"; };
 		4D0B66F42BD33F52009A9200 /* CreateTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskViewModel.swift; sourceTree = "<group>"; };
 		4D1B4D0B241A3A3400C9E8CE /* BUGFIXES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BUGFIXES.md; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 			children = (
 				4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */,
 				4D6339992BEDC09700E3EE32 /* TaskDetailsViewModel.swift */,
+				4D09D56C2C1B6889002735BA /* TaskDetailsCoordinator.swift */,
 			);
 			path = TaskDetailsView;
 			sourceTree = "<group>";
@@ -580,6 +583,7 @@
 				4DC69511234CD78B00CB4A6E /* FourToSixCustomMigration.swift in Sources */,
 				4DC8FAA42566709E001892A4 /* 14to15.xcmappingmodel in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
+				4D09D56D2C1B6889002735BA /* TaskDetailsCoordinator.swift in Sources */,
 				4D0B66F52BD33F52009A9200 /* CreateTaskViewModel.swift in Sources */,
 				4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */,
 				4DF3BA8425BDCD810056DD63 /* 15to16.xcmappingmodel in Sources */,
