@@ -38,6 +38,14 @@ class Coordinate: NSObject, Coordinator {
         
     }
     
+    func dismissEntireStack() {
+        
+    }
+    
+    func dismissCurrentView() {
+        
+    }
+    
 }
 
 class TaskListCoordinator: Coordinate {
@@ -63,36 +71,9 @@ class TaskListCoordinator: Coordinate {
     }
     
 	func presentTaskDetails(item: SLTask) {
-        let coordinator = TaskDetailsCoordinator(parentCoordinator: self, parentNavigationController: rootNavigationController)
+        let coordinator = TaskDetailsCoordinator(parentCoordinator: self, parentNavigationController: rootNavigationController, coreDataStack: coreDataStack)
         coordinator.startWith(item: item)
 	}
 }
 
-class TaskDetailsCoordinator: Coordinate {
-    
-    override init(parentCoordinator: (any Coordinator)? = nil,
-                  parentNavigationController: UINavigationController? = nil,
-                  rootNavigationController: UINavigationController? = nil,
-                  rootViewController: UIViewController? = nil,
-                  coreDataStack: CoreDataStack? = nil) {
-        super.init(parentCoordinator: parentCoordinator as! TaskListCoordinator,
-                   parentNavigationController: parentNavigationController,
-                   rootNavigationController: rootNavigationController,
-                   rootViewController: rootViewController,
-                   coreDataStack: coreDataStack)
-    }
-    
-    override func startWith(item: SLTask) {
-        let vm = TaskDetailsViewModel(item: item)
-        rootViewController = TaskDetailsViewController(viewModel: vm, coordinator: self)
-        
-        guard let rvc = rootViewController else {
-            return
-        }
-        rootNavigationController = UINavigationController(rootViewController: rvc)
 
-        guard let rnc = rootNavigationController else { return }
-        
-        parentNavigationController?.present(rnc, animated: true)
-    }
-}

@@ -10,15 +10,23 @@ import CoreData
 
 class TaskDetailsViewModel: NSObject {
 	
-//	private var item: SLTask
-	
 	let item: Binding<SLTask>
 	
-	init(item: SLTask) {
+    let coreData: CoreDataStack
+    
+    init(item: SLTask, coreData: CoreDataStack) {
+        self.coreData = coreData
 		self.item = Binding(value: item)
 		super.init()
-		
 	}
 	
+    func taskIsComplete(completionHandler: () -> ()) {
+        // handle data
+        item.value.complete = !item.value.complete
+        coreData.saveContext()
+        
+        // handle view dismissal and animations
+        completionHandler()
+    }
 	
 }
