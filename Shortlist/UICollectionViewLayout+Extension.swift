@@ -28,7 +28,6 @@ extension UICollectionViewLayout {
 //        UICollectionViewCompositionalLayout.list(using: config)
         
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            //            let estimatedHeight: CGFloat = cellHeight // cell height
             
             let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: cellHeight)
             
@@ -44,16 +43,6 @@ extension UICollectionViewLayout {
                                                           heightDimension: .estimated(44))
             let section = NSCollectionLayoutSection(group: group)
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-//            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-//                layoutSize: headerFooterSize,
-//                elementKind: TipJarViewController.sectionElementKind, alignment: .top)
-//            section.boundarySupplementaryItems = [sectionHeader]
-            //            if (header && sectionIndex == 0 && elementKind != "") {
-            //                let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(80.0))
-            //                let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerFooterSize, elementKind: elementKind, alignment: .top)
-            //                section.boundarySupplementaryItems = [header]
-            //            }
-            
             return section
         }
         var config = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -65,12 +54,10 @@ extension UICollectionViewLayout {
             }
             return UISwipeActionsConfiguration(actions: [del])
         }
-//        layout.configuration
         return layout
     }
     
     func createCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
-//        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         var config = UICollectionLayoutListConfiguration(appearance: .plain)
         config.trailingSwipeActionsConfigurationProvider = { indexPath in
             let del = UIContextualAction(style: .destructive, title: "Delete") {
@@ -79,6 +66,14 @@ extension UICollectionViewLayout {
                 completion(true)
             }
             return UISwipeActionsConfiguration(actions: [del])
+        }
+        config.leadingSwipeActionsConfigurationProvider = { indexPath in
+            let complete = UIContextualAction(style: .normal, title: "Complete") {
+                action, view, completion in
+//                self?.delete(at: indexPath)
+                completion(true)
+            }
+            return UISwipeActionsConfiguration(actions: [complete])
         }
         let layout = UICollectionViewCompositionalLayout.list(using: config)
 
