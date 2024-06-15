@@ -10,8 +10,8 @@ import UIKit
 
 extension Date {
     
-    func today() -> Date {
-        Calendar.current.startOfDay(for: Date())
+    static var today: Date {
+        return Calendar.current.startOfDay(for: Date())
     }
 
     func todayFormatted() -> String {
