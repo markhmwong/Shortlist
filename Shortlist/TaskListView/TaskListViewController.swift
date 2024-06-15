@@ -57,6 +57,7 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
             return }
 		
         viewModel.createMultipleMockTasks()
+        viewModel.fetchData()
         viewModel.configureDatasource(view: collectionView)
     }
     
