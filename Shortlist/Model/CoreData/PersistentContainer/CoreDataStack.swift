@@ -79,7 +79,7 @@ class CoreDataStack: NSObject {
         
         do {
             let fetchRequest: NSFetchRequest<SLTask> = SLTask.fetchRequest()
-            let date = Date().todayFormatted()
+            let date = Date.today
             fetchRequest.predicate = NSPredicate(format: "createdAt == %@", date as CVarArg)
             let items = try moc.fetch(fetchRequest)
             return items
