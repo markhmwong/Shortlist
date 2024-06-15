@@ -30,3 +30,7 @@ extension SLTask {
     @NSManaged public var taskToDay: SLDay?
 
 }
+
+extension SLTask {
+    
+}

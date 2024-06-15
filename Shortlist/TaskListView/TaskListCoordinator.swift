@@ -70,8 +70,10 @@ class TaskListCoordinator: Coordinate {
         rootNavigationController?.setViewControllers([vc], animated: false)
     }
     
-	func presentTaskDetails(item: SLTask) {
-        let coordinator = TaskDetailsCoordinator(parentCoordinator: self, parentNavigationController: rootNavigationController, coreDataStack: coreDataStack)
+    func presentTaskDetails(item: SLTask) {
+        let coordinator = TaskDetailsCoordinator(parentCoordinator: self,
+                                                 parentNavigationController: rootNavigationController,
+                                                 coreDataStack: coreDataStack)
         coordinator.startWith(item: item)
 	}
 }

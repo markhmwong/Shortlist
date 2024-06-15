@@ -29,7 +29,13 @@ class TaskDetailsCoordinator: Coordinate {
             return
         }
         let vm = TaskDetailsViewModel(item: item, coreData: cds)
-        rootViewController = TaskDetailsViewController(viewModel: vm, coordinator: self)
+        guard 
+            let pc = parentCoordinator
+        else
+        {
+            return
+        }
+        rootViewController = TaskDetailsViewController(viewModel: vm, coordinator: self, delegate: pc.rootViewController as! Refreshable)
         
         guard let rvc = rootViewController 
         else {

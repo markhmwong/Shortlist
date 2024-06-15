@@ -15,6 +15,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         set {
             item = newValue
             titleLabel.text = item?.name
+            isComplete(item?.complete ?? false)
         }
         get {
             return item
@@ -33,18 +34,31 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         return label
     }()
     
+    lazy var completeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "complete"
+        label.font = UIFont.preferredFont(forTextStyle: .footnote)
+        label.textColor = .defaultText
+        return label
+    }()
+    
     override func setupViewsIfNeeded() {
 		super.setupViewsIfNeeded()
 		
 		
         /// layout
         contentView.addSubview(titleLabel)
+        contentView.addSubview(completeLabel)
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            completeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            completeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
         
         /// fill content
@@ -54,6 +68,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
     /// - Parameter item: the model that is passed to fill out contents of the cell
     override func configureCell(with item: SLTask) {
         super.configureCell(with: item)
+        // configure item in the setter for _item
         self._item = item
 
     }
@@ -64,5 +79,10 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
 	}
     func focusText() {
         titleLabel.becomeFirstResponder()
+    }
+    
+    func isComplete(_ state: Bool) {
+        print("isComplete \(state)")
+        completeLabel.text = state ? "Complete" : "Incomplete"
     }
 }

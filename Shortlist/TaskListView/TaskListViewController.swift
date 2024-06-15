@@ -8,7 +8,12 @@
 
 import UIKit
 
-class TaskListViewController: UICollectionViewController, UIGestureRecognizerDelegate {
+class TaskListViewController: UICollectionViewController, UIGestureRecognizerDelegate, Refreshable {
+    func refresh(item: SLTask) {
+        guard let vm = viewModel else { return }
+        vm.refreshDatasource(with: item)
+    }
+    
     fileprivate let className: String = String(describing: TaskListViewController.self)
     
     private var viewModel: TaskListViewModel? = nil
@@ -51,6 +56,7 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
             print("\(className): View model not initialised")
             return }
 		
+        viewModel.createMultipleMockTasks()
         viewModel.configureDatasource(view: collectionView)
     }
     
@@ -72,11 +78,11 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
 //        viewModel.resignCurrentCell()
         
         /// add new task
-        let _ = viewModel.createTask {
-            let cell = viewModel.getLastCell(collectionView: self.collectionView)
-			cell.enableEditing()
-            cell.focusText()
-        }
+//        let _ = viewModel.createTask {
+//            let cell = viewModel.getLastCell(collectionView: self.collectionView)
+//			cell.enableEditing()
+//            cell.focusText()
+//        }
     }
     
 	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -85,7 +91,7 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
 			print("task item not found to proceed to task details view")
 			return
 		}
-		coordinator.presentTaskDetails(item: item)
+        coordinator.presentTaskDetails(item: item)
 	}
     
     deinit {
