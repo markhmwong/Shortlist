@@ -47,7 +47,7 @@ class CoreDataStack: NSObject {
         return container
     }()
     
-    var moc: NSManagedObjectContext? = nil
+    public var moc: NSManagedObjectContext? = nil
 
 
     override init() {
