@@ -9,6 +9,7 @@
 import UIKit
 
 
+
 class TaskDetailsViewController: UIViewController {
 	
 	private var viewModel: TaskDetailsViewModel
@@ -88,9 +89,12 @@ class TaskDetailsViewController: UIViewController {
     
     private var coordinator: TaskDetailsCoordinator
 	
-    init(viewModel: TaskDetailsViewModel, coordinator: TaskDetailsCoordinator) {
+    private var delegate: Refreshable
+    
+    init(viewModel: TaskDetailsViewModel, coordinator: TaskDetailsCoordinator, delegate: Refreshable) {
 		self.viewModel = viewModel
         self.coordinator = coordinator
+        self.delegate = delegate
 		super.init(nibName: nil, bundle: nil)
 	}
 	
@@ -168,11 +172,14 @@ class TaskDetailsViewController: UIViewController {
         print("complete pressed")
         // dismiss
         // update complete task
-        viewModel.taskIsComplete {
+        viewModel.taskIsComplete { item in
+            // refresh the TaskListViewController
             // TODO: fast animation toggle
             // do some fancy animation
             // but also allow user to turn on/off fancy animations
             coordinator.dismissCurrentView()
+            delegate.refresh(item: item)
+
         }
         
     }

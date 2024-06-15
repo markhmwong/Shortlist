@@ -20,13 +20,15 @@ class TaskDetailsViewModel: NSObject {
 		super.init()
 	}
 	
-    func taskIsComplete(completionHandler: () -> ()) {
+    func taskIsComplete(completionHandler: (SLTask) -> ()) {
         // handle data
         item.value.complete = !item.value.complete
+        
+        // save object state
         coreData.saveContext()
         
         // handle view dismissal and animations
-        completionHandler()
+        completionHandler(item.value)
     }
 	
 }

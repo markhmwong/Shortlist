@@ -15,6 +15,7 @@ enum SLTaskListPriority: Int, CaseIterable {
 }
 
 class TaskListViewModel: NSObject {
+    // TODO: register cell in enum fashion. create a protocol Registable around this concept
     
     var coreDataStack: CoreDataStack? = nil
     
@@ -22,24 +23,35 @@ class TaskListViewModel: NSObject {
 
     private var currentCellEditable: SLTaskCell! = nil
     
+    private var data: [SLTask] = []
 
     init(coreDataStack: CoreDataStack? = nil) {
         self.coreDataStack = coreDataStack
         super.init()
     }
     
+    func refreshDatasource(with item: SLTask) {
+        let objectToUpdate = data.first { task in
+            return task.objectID == item.objectID
+        }
+        
+        objectToUpdate?.complete = item.complete
+        
+        let snapshot = configureSnapshot(data: data)
+        diffableDatasource.applySnapshotUsingReloadData(snapshot)
+    }
+    
     func configureDatasource(view: UICollectionView) {
         let taskCellRegistration = UICollectionView.CellRegistration<SLTaskCell, SLTask>.registerTaskCell()
 
         diffableDatasource = UICollectionViewDiffableDataSource<SLTaskListPriority, SLTask>(collectionView: view) { collectionView, indexPath, item in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: taskCellRegistration, for: indexPath, item: item)
-            cell.configureCell(with: item)
-            return cell
+            return collectionView.dequeueConfiguredReusableCell(using: taskCellRegistration, for: indexPath, item: item)
         }
-        diffableDatasource.apply(configureSnapshot())
+        
+        diffableDatasource.apply(configureSnapshot(data: data))
     }
     
-    private func configureSnapshot() -> NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> {
+    private func configureSnapshot(data: [SLTask]) -> NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> {
         var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>()
         snapshot.appendSections(SLTaskListPriority.allCases)
         
@@ -49,17 +61,8 @@ class TaskListViewModel: NSObject {
             return snapshot
         }
         
-        #if DEBUG
-        createMultipleTasks(cds: cds, snapshot: &snapshot)
-        #endif
-        
-        let item = SLTask(context: cds.moc!)
-        item.name = "Clean storm drain"
-        item.createdAt = Date()
-        item.carryOver = false
-        item.complete = false
-        item.id = UUID()
-        snapshot.appendItems([item])
+        snapshot.appendItems(data)
+
         return snapshot
     }
     
@@ -68,10 +71,12 @@ class TaskListViewModel: NSObject {
         for item in diffableDatasource.snapshot().itemIdentifiers {
             print(item)
         }
+        
     }
     
     
-    private func createMultipleTasks(cds: CoreDataStack, snapshot: inout NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>) {
+     func createMultipleMockTasks() {
+        guard let cds = coreDataStack else { return }
         for i in 0...5 {
             let item = SLTask(context: cds.moc!)
             item.name = "Clean storm drain \(i)"
@@ -79,7 +84,7 @@ class TaskListViewModel: NSObject {
             item.carryOver = false
             item.complete = false
             item.id = UUID()
-            snapshot.appendItems([item])
+            data.append(item)
         }
     }
     

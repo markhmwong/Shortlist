@@ -70,5 +70,13 @@ class CoreDataStack: NSObject {
         }
     }
     
+    func fetchItem() {
+        
+    }
+    
+    func fetchTodaysItems() {
+        
+    }
+    
 }
 

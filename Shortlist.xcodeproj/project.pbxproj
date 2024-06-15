@@ -28,6 +28,7 @@
 		4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */; };
 		4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */; };
 		4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */; };
+		4D9D22212C1D1E3A00925E1B /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22202C1D1E3A00925E1B /* Refreshable.swift */; };
 		4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */; };
 		4DB043D92BCA050600A3901F /* SLDay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D82BCA050600A3901F /* SLDay+CoreDataProperties.swift */; };
 		4DB043DB2BCA050B00A3901F /* SLDay+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043DA2BCA050B00A3901F /* SLDay+CoreDataClass.swift */; };
@@ -126,6 +127,7 @@
 		4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FiveModel.xcdatamodel; sourceTree = "<group>"; };
 		4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCoordinator.swift; sourceTree = "<group>"; };
 		4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
+		4D9D22202C1D1E3A00925E1B /* Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
 		4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+Extension.swift"; sourceTree = "<group>"; };
 		4DB043D82BCA050600A3901F /* SLDay+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLDay+CoreDataProperties.swift"; path = "/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLDay+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		4DB043DA2BCA050B00A3901F /* SLDay+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLDay+CoreDataClass.swift"; path = "/Users/mark/Development/Shortlist/Shortlist/Model/CoreData/SLDay+CoreDataClass.swift"; sourceTree = "<absolute>"; };
@@ -234,6 +236,7 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
+				4D9D22202C1D1E3A00925E1B /* Refreshable.swift */,
 				4D6339962BEDA3BA00E3EE32 /* TaskDetailsView */,
 				4DC6181A24D02D98008BFBE6 /* TaskListView */,
 				4D0B66F12BD33F3E009A9200 /* CreateTask */,
@@ -581,6 +584,7 @@
 				4D404BF72BCB758100923ADB /* SLTaskCell.swift in Sources */,
 				4D2F65F42C153FA9001ADB4A /* SLTask+CoreDataClass.swift in Sources */,
 				4DC69511234CD78B00CB4A6E /* FourToSixCustomMigration.swift in Sources */,
+				4D9D22212C1D1E3A00925E1B /* Refreshable.swift in Sources */,
 				4DC8FAA42566709E001892A4 /* 14to15.xcmappingmodel in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
 				4D09D56D2C1B6889002735BA /* TaskDetailsCoordinator.swift in Sources */,

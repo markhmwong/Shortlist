@@ -62,7 +62,6 @@ extension UICollectionViewLayout {
         config.trailingSwipeActionsConfigurationProvider = { indexPath in
             let del = UIContextualAction(style: .destructive, title: "Delete") {
                 action, view, completion in
-//                self?.delete(at: indexPath)
                 completion(true)
             }
             return UISwipeActionsConfiguration(actions: [del])
@@ -70,7 +69,6 @@ extension UICollectionViewLayout {
         config.leadingSwipeActionsConfigurationProvider = { indexPath in
             let complete = UIContextualAction(style: .normal, title: "Complete") {
                 action, view, completion in
-//                self?.delete(at: indexPath)
                 completion(true)
             }
             return UISwipeActionsConfiguration(actions: [complete])
