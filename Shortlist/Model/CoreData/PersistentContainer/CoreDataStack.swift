@@ -88,4 +88,22 @@ class CoreDataStack: NSObject {
             return []
         }
     }
+    
+    func delete(objectId item: NSManagedObjectID) {
+        guard let moc = moc else {
+            print("Unable to delete item")
+            return
+        }
+        
+        
+        do {
+            let task = try moc.existingObject(with: item)
+            moc.delete(task)
+            try moc.save()
+        } catch let err {
+            print("Failed to delete item \(err)")
+            return
+        }
+        
+    }
 }
