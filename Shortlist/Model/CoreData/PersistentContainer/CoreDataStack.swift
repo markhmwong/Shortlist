@@ -74,9 +74,18 @@ class CoreDataStack: NSObject {
         
     }
     
-    func fetchTodaysItems() {
+    func fetchTodaysItems() -> [SLTask] {
+        guard let moc = moc else { return [] }
         
+        do {
+            let fetchRequest: NSFetchRequest<SLTask> = SLTask.fetchRequest()
+            let date = Date().todayFormatted()
+            fetchRequest.predicate = NSPredicate(format: "createdAt == %@", date as CVarArg)
+            let items = try moc.fetch(fetchRequest)
+            return items
+        } catch {
+            print("Failed to fetch items: \(error)")
+            return []
+        }
     }
-    
 }
-

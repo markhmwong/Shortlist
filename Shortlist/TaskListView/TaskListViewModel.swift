@@ -55,11 +55,11 @@ class TaskListViewModel: NSObject {
         var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>()
         snapshot.appendSections(SLTaskListPriority.allCases)
         
-        guard let cds = coreDataStack else {
-            print("unable to load core data stack")
-            snapshot.appendItems([])
-            return snapshot
-        }
+//        guard let cds = coreDataStack else {
+//            print("unable to load core data stack")
+//            snapshot.appendItems([])
+//            return snapshot
+//        }
         
         snapshot.appendItems(data)
 
@@ -74,6 +74,12 @@ class TaskListViewModel: NSObject {
         
     }
     
+    func fetchData() -> [SLTask] {
+        guard let cds = coreDataStack else {
+            return []
+        }
+        return cds.fetchTodaysItems()
+    }
     
      func createMultipleMockTasks() {
         guard let cds = coreDataStack else { return }
