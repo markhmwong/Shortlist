@@ -26,6 +26,7 @@
 		4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */; };
 		4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */; };
 		4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */; };
+		4D962AB82C1E0E360081D07F /* CoreDataStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */; };
 		4D9D22212C1D1E3A00925E1B /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22202C1D1E3A00925E1B /* Refreshable.swift */; };
 		4D9D22252C1D3ADE00925E1B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */; };
 		4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */; };
@@ -124,6 +125,7 @@
 		4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FiveModel.xcdatamodel; sourceTree = "<group>"; };
 		4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCoordinator.swift; sourceTree = "<group>"; };
 		4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
+		4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataStack+Extension.swift"; sourceTree = "<group>"; };
 		4D9D22202C1D1E3A00925E1B /* Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
 		4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+Extension.swift"; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				4D598B6322EEBE480020076D /* CoreDataStack.swift */,
+				4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */,
 			);
 			path = PersistentContainer;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				4D09D56D2C1B6889002735BA /* TaskDetailsCoordinator.swift in Sources */,
 				4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */,
 				4DF3BA8425BDCD810056DD63 /* 15to16.xcmappingmodel in Sources */,
+				4D962AB82C1E0E360081D07F /* CoreDataStack+Extension.swift in Sources */,
 				4D6339982BEDA3C600E3EE32 /* TaskDetailsViewController.swift in Sources */,
 				4DD8C76E23BF50CE00098A02 /* 7to8.xcmappingmodel in Sources */,
 				4D598B6422EEBE480020076D /* CoreDataStack.swift in Sources */,

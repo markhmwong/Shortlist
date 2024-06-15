@@ -82,34 +82,16 @@ class TaskListViewModel: NSObject {
     }
     
      func createMultipleMockTasks() {
-        guard let cds = coreDataStack else { return }
-        for i in 0...5 {
-            let item = SLTask(context: cds.moc!)
-            item.name = "Clean storm drain \(i)"
-            item.createdAt = Date()
-            item.carryOver = false
-            item.complete = false
-            item.id = UUID()
-            data.append(item)
-        }
+         // testings purposes
+         guard let cds = coreDataStack else {
+             return
+         }
+         if cds.fetchTodaysItems().count == 0 {
+             cds.createMockItems()
+         }
     }
     
-    func createTask(completionHandler: @escaping () -> ()) -> NSManagedObjectID {
-        let item = SLTask(context: coreDataStack!.moc!)
-        item.name = "\(Int.random(in: 0...1000))"
-        item.createdAt = Date()
-        item.carryOver = false
-        item.complete = false
-        item.id = UUID()
-        var snapshot: NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> = diffableDatasource.snapshot()
-        snapshot.appendItems([item], toSection: .high)
-        
-        DispatchQueue.main.async {
-            self.diffableDatasource.apply(snapshot)
-            completionHandler()
-        }
-        return item.objectID
-    }
+
     
     func getLastCell(collectionView: UICollectionView) -> SLTaskCell {
         let lastSection = collectionView.numberOfSections - 1
