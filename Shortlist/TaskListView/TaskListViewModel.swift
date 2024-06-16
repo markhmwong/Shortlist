@@ -25,6 +25,7 @@ class TaskListViewModel: NSObject {
     
     private var data: [SLTask] = []
 
+
     init(coreDataStack: CoreDataStack? = nil) {
         self.coreDataStack = coreDataStack
         super.init()
@@ -35,7 +36,7 @@ class TaskListViewModel: NSObject {
             return task.objectID == item.objectID
         }
         
-        objectToUpdate?.complete = item.complete
+        objectToUpdate?.taskToStatus?.name = item.taskToStatus?.name
         
         let snapshot = configureSnapshot(data: data)
         diffableDatasource.applySnapshotUsingReloadData(snapshot)

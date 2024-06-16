@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23E224" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="SLDay" representedClassName="SLDay" syncable="YES">
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="taskLimit" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="dayToTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SLTask" inverseName="taskToDay" inverseEntity="SLTask"/>
+    <entity name="SLCategory" representedClassName="SLCategory" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="categoryToTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SLTask" inverseName="taskToCategory" inverseEntity="SLTask"/>
+    </entity>
+    <entity name="SLStatus" representedClassName="SLStatus" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="statusToTask" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SLTask" inverseName="taskToStatus" inverseEntity="SLTask"/>
     </entity>
     <entity name="SLTask" representedClassName="SLTask" syncable="YES">
-        <attribute name="carryOver" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="category" optional="YES" attributeType="String"/>
-        <attribute name="complete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -17,6 +19,8 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="reminder" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="taskToDay" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SLDay" inverseName="dayToTask" inverseEntity="SLDay"/>
+        <attribute name="taskDescription" optional="YES" attributeType="String"/>
+        <relationship name="taskToCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SLCategory" inverseName="categoryToTask" inverseEntity="SLCategory"/>
+        <relationship name="taskToStatus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SLStatus" inverseName="statusToTask" inverseEntity="SLStatus"/>
     </entity>
 </model>

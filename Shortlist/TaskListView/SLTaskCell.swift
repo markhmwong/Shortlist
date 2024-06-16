@@ -15,7 +15,9 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         set {
             item = newValue
             titleLabel.text = item?.name
-            isComplete(item?.complete ?? false)
+            if let status = SLTaskStatus(rawValue: item?.taskToStatus?.name ?? "Incomplete") {
+                isComplete(status)
+            }
         }
         get {
             return item
@@ -81,8 +83,15 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         titleLabel.becomeFirstResponder()
     }
     
-    func isComplete(_ state: Bool) {
-        print("isComplete \(state)")
-        completeLabel.text = state ? "Complete" : "Incomplete"
+    func isComplete(_ status: SLTaskStatus) {
+        guard let item = _item else { return }
+        switch status {
+        case .Complete:
+            item.taskToStatus?.name = SLTaskStatus.Incomplete.rawValue
+        case .Incomplete:
+            item.taskToStatus?.name = SLTaskStatus.Complete.rawValue
+        case .Backlog, .Active:
+            ()
+        }
     }
 }

@@ -8,6 +8,13 @@
 
 import CoreData
 
+enum SLTaskStatus: String {
+    case Complete
+    case Incomplete
+    case Backlog
+    case Active
+}
+
 class TaskDetailsViewModel: NSObject {
 	
 	let item: Binding<SLTask>
@@ -22,7 +29,18 @@ class TaskDetailsViewModel: NSObject {
 	
     func taskIsComplete(completionHandler: (SLTask) -> ()) {
         // handle data
-        item.value.complete = !item.value.complete
+        let status = SLTaskStatus(rawValue: item.value.taskToStatus?.name ?? "Incomplete")
+        
+        switch status {
+        case .Complete:
+            item.value.taskToStatus?.name = SLTaskStatus.Incomplete.rawValue
+        case .Incomplete:
+            item.value.taskToStatus?.name = SLTaskStatus.Complete.rawValue
+        case .Backlog:
+            ()
+        case .none, .Active:
+            () 
+        }
         
         // save object state
         coreData.saveContext()
@@ -30,5 +48,4 @@ class TaskDetailsViewModel: NSObject {
         // handle view dismissal and animations
         completionHandler(item.value)
     }
-	
 }
