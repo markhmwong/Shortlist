@@ -160,9 +160,9 @@ class TaskDetailsViewController: UIViewController {
         /// Populate labels and views from SLTask
 		viewModel.item.bind { item in
 			self.titleLabel.text = item.name
-            self.dateLabel.text = dateformatter.string(from: item.taskToDay?.date ?? Date())
+            self.dateLabel.text = dateformatter.string(from: item.createdAt ?? Date())
             self.formatCompleteLabel(item: item)
-            self.categoryLabel.text = item.category
+            self.categoryLabel.text = item.taskToCategory?.name
             self.reminderLabel.text = timeFormatter.string(from: item.reminder ?? Date())
             self.imageView.image = UIImage(named: "")
 		}
@@ -179,13 +179,11 @@ class TaskDetailsViewController: UIViewController {
             // but also allow user to turn on/off fancy animations
             coordinator.dismissCurrentView()
             delegate.refresh(item: item)
-
         }
-        
     }
     
     private func formatCompleteLabel(item: SLTask) {
-        completeLabel.text = item.complete ? "Complete" : "Incomplete"
-        completeButton.setTitle(!item.complete ? "Complete" : "Incomplete", for: .normal)
+        completeLabel.text = item.taskToStatus?.name
+        completeButton.setTitle(item.taskToStatus?.name, for: .normal)
     }
 }

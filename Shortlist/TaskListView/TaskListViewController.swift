@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class TaskListViewController: UICollectionViewController, UIGestureRecognizerDelegate, Refreshable {
+class TaskListViewController: UICollectionViewController, UIGestureRecognizerDelegate, Refreshable, NSFetchedResultsControllerDelegate {
     func refresh(item: SLTask) {
         guard let vm = viewModel else { return }
         vm.refreshDatasource(with: item)
@@ -22,6 +23,8 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
 
 	private var coordinator: TaskListCoordinator? = nil
     
+    var fetchedResultsController: NSFetchedResultsController<SLTask>!
+
 	init(viewModel: TaskListViewModel, coordinator: TaskListCoordinator) {
         self.viewModel = viewModel
 		self.coordinator = coordinator
@@ -85,6 +88,16 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
 //            cell.focusText()
 //        }
     }
+    
+    private func configureFetchedResultsController() {
+         let fetchRequest: NSFetchRequest<SLTask> = SLTask.fetchRequest()
+        let status = SLTaskStatus.Active.rawValue
+        fetchRequest.predicate = NSPredicate(format: "taskToStatus == %@", status as CVarArg)
+//        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \SLTask.taskToStatus?.name, ascending: true)]
+         
+//         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.shared.context, sectionNameKeyPath: nil, cacheName: nil)
+         fetchedResultsController.delegate = self
+     }
     
 	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let cell = collectionView.cellForItem(at: indexPath) as! SLTaskCell

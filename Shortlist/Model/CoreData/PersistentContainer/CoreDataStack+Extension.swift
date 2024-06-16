@@ -9,17 +9,21 @@
 import Foundation
 
 extension CoreDataStack {
-    
     func createMockItems() {
         for i in 0...5 {
             let item = SLTask(context: moc!)
             item.name = "Clean storm drain \(i)"
             item.createdAt = Date()
-            item.carryOver = false
-            item.complete = false
             item.id = UUID()
+            item.lat = 1.0
+            item.long = 1.0
+            let status = SLStatus(context: moc!)
+            status.id = UUID()
+            status.name = SLTaskStatus.Complete.rawValue
+            item.taskToStatus = SLStatus(context: moc!)
+            item.taskDescription = "Description"
+            item.taskToCategory = nil
             self.saveContext()
         }
     }
-    
 }
