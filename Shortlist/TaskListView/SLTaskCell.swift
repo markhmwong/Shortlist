@@ -63,7 +63,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
             completeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
         
-        /// fill content
+        contentView.layer.cornerRadius = 5.0
     }
     
     /// Configure Cell
@@ -73,6 +73,24 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         // configure item in the setter for _item
         self._item = item
 
+        /// configure cell ui
+        if let pl = PriorityLevel(rawValue: Int(self._item?.priority ?? 2)) {
+            let colors = calculateColors(for: pl)
+            contentView.backgroundColor = colors.backgroundColor
+            contentView.layer.borderColor = colors.borderColor.cgColor
+            contentView.layer.borderWidth = 2.0
+            titleLabel.textColor = colors.textColor
+            completeLabel.textColor = colors.textColor
+        }
+    }
+    
+    func calculateColors(for priority: PriorityLevel) -> (textColor: UIColor, backgroundColor: UIColor, borderColor: UIColor) {
+        let baseColour = priority.baseColour
+        let textColour = baseColour.darker(by: 30.0) ?? baseColour
+        let backgroundColor = baseColour.lighter(by: 40.0) ?? baseColour
+        let borderColour = baseColour.darker(by: 10.0) ?? baseColour
+        
+        return (textColour, backgroundColor, borderColour)
     }
     
 	func enableEditing() {

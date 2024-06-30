@@ -20,8 +20,13 @@ extension SLTask {
         // TODO: Location
         self.lat = 0.0
         self.long = 0.0
-        
+       
+        #if DEBUG
+        let random = Int16.random(in: 0...2)
+        self.priority = random
+        #else
         self.priority = Int16(priority.rawValue)
+        #endif
         self.reminder = reminder
         self.taskDescription = taskDescription
         

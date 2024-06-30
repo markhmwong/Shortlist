@@ -76,15 +76,12 @@ class CoreDataStack: NSObject {
             return
         }
         
-        
         do {
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SLTask")
             let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
             
-            let deleteResult = try moc.execute(deleteRequest)
+            try moc.execute(deleteRequest)
             try moc.save()
-            moc.refreshAllObjects()
         } catch let err {
             print("Failed to delete item \(err)")
             return

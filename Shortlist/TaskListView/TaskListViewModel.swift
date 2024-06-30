@@ -127,6 +127,7 @@ class TaskListViewModel: NSObject {
         cell.resignFirstResponder()
     }
     
+    /// testing only
     func createTask() {
 #if DEBUG
         assert(coreDataStack != nil)
@@ -144,6 +145,7 @@ class TaskListViewModel: NSObject {
         cds.saveContext()
     }
     
+    /// testing only
     func deleteAllTasks() {
 #if DEBUG
         assert(coreDataStack != nil)
