@@ -2,7 +2,7 @@
 //  SLTask+CoreDataProperties.swift
 //  Shortlist
 //
-//  Created by Mark Wong on 16/6/2024.
+//  Created by Mark Wong on 29/6/2024.
 //  Copyright © 2024 Mark Wong. All rights reserved.
 //
 //
@@ -26,11 +26,7 @@ extension SLTask {
     @NSManaged public var priority: Int16
     @NSManaged public var reminder: Date?
     @NSManaged public var taskDescription: String?
-    @NSManaged public var taskToStatus: SLStatus?
     @NSManaged public var taskToCategory: SLCategory?
-
-}
-
-extension SLTask : Identifiable {
+    @NSManaged public var taskToStatus: SLStatus?
 
 }
