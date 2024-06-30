@@ -30,17 +30,6 @@ class TaskListViewModel: NSObject {
         super.init()
     }
     
-    func refreshDatasource(with item: SLTask) {
-        let objectToUpdate = data.first { task in
-            return task.objectID == item.objectID
-        }
-        
-        objectToUpdate?.taskToStatus?.name = item.taskToStatus?.name
-        
-        let snapshot = configureSnapshot(data: data)
-        diffableDatasource.applySnapshotUsingReloadData(snapshot)
-    }
-    
     func configureDatasource(view: UICollectionView) {
         let taskCellRegistration = UICollectionView.CellRegistration<SLTaskCell, SLTask>.registerTaskCell()
         
@@ -56,18 +45,18 @@ class TaskListViewModel: NSObject {
             let snapshot = configureSnapshot(data: fetchedObjects)
             diffableDatasource.apply(snapshot)
         }
-        
+    }
+    
+    func refreshDatasource(fetchedResultsController: NSFetchedResultsController<SLTask>) {
+        if let fetchedObjects = fetchedResultsController.fetchedObjects {
+            let snapshot = configureSnapshot(data: fetchedObjects)
+            diffableDatasource.applySnapshotUsingReloadData(snapshot)
+        }
     }
     
     private func configureSnapshot(data: [SLTask]) -> NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> {
         var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>()
         snapshot.appendSections(SLTaskListPriority.allCases)
-        
-        //        guard let cds = coreDataStack else {
-        //            print("unable to load core data stack")
-        //            snapshot.appendItems([])
-        //            return snapshot
-        //        }
         
         snapshot.appendItems(data)
         

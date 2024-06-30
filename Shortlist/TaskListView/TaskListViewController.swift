@@ -11,8 +11,9 @@ import CoreData
 
 class TaskListViewController: UICollectionViewController, UIGestureRecognizerDelegate, Refreshable {
     func refresh(item: SLTask) {
+        performFetch()
         guard let viewModel else { return }
-        viewModel.refreshDatasource(with: item)
+        viewModel.refreshDatasource(fetchedResultsController: fetchedResultsController)
     }
     
     fileprivate let className: String = String(describing: TaskListViewController.self)
@@ -66,8 +67,6 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
         viewModel.createMultipleMockTasks()
         configureFetchedResultsController()
         performFetch()
-//        let data = viewModel.fetchData()
-//        print("data \(data.count)")
         viewModel.configureDatasource(view: collectionView)
         viewModel.updateSnapshot(fetchedResultsController: fetchedResultsController)
     }
@@ -115,18 +114,16 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
 //        }
     }
     
-    private func configureFetchedResultsController(with status: TaskStatus = TaskStatus.Incomplete) {
+    private func configureFetchedResultsController(with statuses: [TaskStatus] = [.Incomplete, .Complete]) {
         let fetchRequest: NSFetchRequest<SLTask> = SLTask.fetchRequest()
-        let status = status.rawValue
-        fetchRequest.predicate = NSPredicate(format: "taskToStatus.name == %@", status as CVarArg)
+        let statusValues = statuses.map { $0.rawValue }
+        fetchRequest.predicate = NSPredicate(format: "taskToStatus.name IN %@", statusValues)
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \SLTask.taskToStatus?.name, ascending: true)]
-         
+        
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.shared.moc!, sectionNameKeyPath: nil, cacheName: nil)
         
         fetchedResultsController.delegate = self
-        
-
-     }
+    }
     
     func performFetch() {
         do {
