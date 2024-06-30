@@ -18,12 +18,12 @@ extension CoreDataStack {
             item.lat = 1.0
             item.long = 1.0
             let status = SLStatus(context: moc!)
-            status.id = UUID()
-            status.name = SLTaskStatus.Complete.rawValue
-            item.taskToStatus = SLStatus(context: moc!)
+            status.name = TaskStatus.Active.rawValue
+            item.taskToStatus = status
             item.taskDescription = "Description"
-            item.taskToCategory = nil
-            self.saveContext()
+            item.taskToCategory = SLCategory(context: moc!)
+            item.taskToCategory?.name = "test category"
         }
+        self.saveContext()
     }
 }

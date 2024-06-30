@@ -2,7 +2,7 @@
 //  SLCategory+CoreDataProperties.swift
 //  Shortlist
 //
-//  Created by Mark Wong on 16/6/2024.
+//  Created by Mark Wong on 29/6/2024.
 //  Copyright © 2024 Mark Wong. All rights reserved.
 //
 //
@@ -18,11 +18,6 @@ extension SLCategory {
     }
 
     @NSManaged public var name: String?
-    @NSManaged public var id: UUID?
     @NSManaged public var categoryToTask: SLTask?
-
-}
-
-extension SLCategory : Identifiable {
 
 }

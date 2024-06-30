@@ -70,6 +70,27 @@ class CoreDataStack: NSObject {
         }
     }
     
+    func deleteAllObjects() {
+        guard let moc = moc else {
+            print("Unable to delete item")
+            return
+        }
+        
+        
+        do {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SLTask")
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+            
+            let deleteResult = try moc.execute(deleteRequest)
+            try moc.save()
+            moc.refreshAllObjects()
+        } catch let err {
+            print("Failed to delete item \(err)")
+            return
+        }
+    }
+    
     func fetchItem() {
         
     }
@@ -79,8 +100,7 @@ class CoreDataStack: NSObject {
         
         do {
             let fetchRequest: NSFetchRequest<SLTask> = SLTask.fetchRequest()
-            let date = Date.today
-            fetchRequest.predicate = NSPredicate(format: "createdAt == %@", date as CVarArg)
+            fetchRequest.predicate = NSPredicate(format: "taskToStatus.name == %@", TaskStatus.Incomplete.rawValue as CVarArg)
             let items = try moc.fetch(fetchRequest)
             return items
         } catch {

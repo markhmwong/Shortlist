@@ -183,6 +183,7 @@ class TaskDetailsViewController: UIViewController {
     }
     
     private func formatCompleteLabel(item: SLTask) {
+        print(item.taskToStatus?.name ?? "")
         completeLabel.text = item.taskToStatus?.name
         completeButton.setTitle(item.taskToStatus?.name, for: .normal)
     }
