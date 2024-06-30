@@ -73,8 +73,13 @@ extension UICollectionViewLayout {
             }
             return UISwipeActionsConfiguration(actions: [complete])
         }
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
-
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
+            let section = NSCollectionLayoutSection.list(using: config, layoutEnvironment: environment)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16)
+            section.interGroupSpacing = 4.0
+            return section
+        }
+            
         return layout
     }
 }

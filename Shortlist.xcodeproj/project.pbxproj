@@ -21,6 +21,7 @@
 		4D6339982BEDA3C600E3EE32 /* TaskDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */; };
 		4D63399A2BEDC09700E3EE32 /* TaskDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6339992BEDC09700E3EE32 /* TaskDetailsViewModel.swift */; };
 		4D63399C2BEDF66300E3EE32 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D63399B2BEDF66300E3EE32 /* Binding.swift */; };
+		4D6CEE5B2C30E1600023BDC4 /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6CEE5A2C30E1600023BDC4 /* UIColor+AppColors.swift */; };
 		4D6F157A2C2F29B30079E79B /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F15792C2F29B30079E79B /* LocationService.swift */; };
 		4D6F157E2C2F2A790079E79B /* PriorityLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F157D2C2F2A790079E79B /* PriorityLevel.swift */; };
 		4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */; };
@@ -113,6 +114,7 @@
 		4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		4D646B3F23264C1300073FD6 /* FiveModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		4D646B4023290D7C00073FD6 /* FiveModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 4.xcdatamodel"; sourceTree = "<group>"; };
+		4D6CEE5A2C30E1600023BDC4 /* UIColor+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppColors.swift"; sourceTree = "<group>"; };
 		4D6E753E2357699400C67B8F /* FiveModel 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 7.xcdatamodel"; sourceTree = "<group>"; };
 		4D6F15792C2F29B30079E79B /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		4D6F157D2C2F2A790079E79B /* PriorityLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityLevel.swift; sourceTree = "<group>"; };
@@ -228,6 +230,8 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
+				4D6F157D2C2F2A790079E79B /* PriorityLevel.swift */,
+				4D6CEE5A2C30E1600023BDC4 /* UIColor+AppColors.swift */,
 				4D9D22202C1D1E3A00925E1B /* Refreshable.swift */,
 				4D6339962BEDA3BA00E3EE32 /* TaskDetailsView */,
 				4DC6181A24D02D98008BFBE6 /* TaskListView */,
@@ -245,7 +249,6 @@
 				4D2F65F62C154C85001ADB4A /* Coordinator.swift */,
 				4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */,
 				4D6F15792C2F29B30079E79B /* LocationService.swift */,
-				4D6F157D2C2F2A790079E79B /* PriorityLevel.swift */,
 				4D1C12022C2F932800E15BD2 /* TaskStatus.swift */,
 			);
 			path = Shortlist;
@@ -567,6 +570,7 @@
 				4DCD042C25247231005B97F1 /* Constants.swift in Sources */,
 				4D60F13524C8870200979912 /* TaskListViewController.swift in Sources */,
 				4DB0A83C2C2FA3D9005072C9 /* SLCategory+CoreDataClass.swift in Sources */,
+				4D6CEE5B2C30E1600023BDC4 /* UIColor+AppColors.swift in Sources */,
 				4DB0A8472C2FA42F005072C9 /* SLTask+Methods.swift in Sources */,
 				4DB0A83F2C2FA3D9005072C9 /* SLStatus+CoreDataProperties.swift in Sources */,
 				4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */,
