@@ -230,6 +230,7 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
+				4D6CEE5E2C30E8170023BDC4 /* Calendar */,
 				4D6F157D2C2F2A790079E79B /* PriorityLevel.swift */,
 				4D6CEE5A2C30E1600023BDC4 /* UIColor+AppColors.swift */,
 				4D9D22202C1D1E3A00925E1B /* Refreshable.swift */,
@@ -333,6 +334,13 @@
 			children = (
 			);
 			path = ReminderIntegration;
+			sourceTree = "<group>";
+		};
+		4D6CEE5E2C30E8170023BDC4 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 		4DB0A83B2C2FA3D9005072C9 /* Entities */ = {

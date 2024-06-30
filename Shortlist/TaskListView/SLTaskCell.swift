@@ -17,6 +17,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
             titleLabel.text = item?.name
             if let status = TaskStatus(rawValue: item?.taskToStatus?.name ?? "Incomplete") {
                 completeLabel.text = status.rawValue
+                print(completeLabel.text)
             }
         }
         get {
@@ -54,13 +55,13 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         contentView.addSubview(completeLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.readableContentGuide.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.readableContentGuide.trailingAnchor),
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             completeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            completeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            completeLabel.trailingAnchor.constraint(equalTo: contentView.readableContentGuide.trailingAnchor),
         ])
         
         contentView.layer.cornerRadius = 5.0
@@ -84,7 +85,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         }
     }
     
-    func calculateColors(for priority: PriorityLevel) -> (textColor: UIColor, backgroundColor: UIColor, borderColor: UIColor) {
+    private func calculateColors(for priority: PriorityLevel) -> (textColor: UIColor, backgroundColor: UIColor, borderColor: UIColor) {
         let baseColour = priority.baseColour
         let textColour = baseColour.darker(by: 30.0) ?? baseColour
         let backgroundColor = baseColour.lighter(by: 40.0) ?? baseColour
