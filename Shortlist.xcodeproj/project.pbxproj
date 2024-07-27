@@ -43,6 +43,7 @@
 		4DB0A8412C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB0A8362C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift */; };
 		4DB0A8472C2FA42F005072C9 /* SLTask+Methods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB0A8462C2FA42F005072C9 /* SLTask+Methods.swift */; };
 		4DCD042C25247231005B97F1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCD042B25247231005B97F1 /* Constants.swift */; };
+		4DDD01002C5473FD0037125E /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD00FF2C5473FD0037125E /* SettingsManager.swift */; };
 		4DF3E3722403E01F002B402C /* ScreenshotTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3712403E01F002B402C /* ScreenshotTester.swift */; };
 		4DF3E3792403E0F2002B402C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3592403DB62002B402C /* SnapshotHelper.swift */; };
 		4DF4A37D2BE98220008A4FF3 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */; };
@@ -150,6 +151,9 @@
 		4DCD040725239082005B97F1 /* FiveModel 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 12.xcdatamodel"; sourceTree = "<group>"; };
 		4DCD042B25247231005B97F1 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4DD8C76C23BF139800098A02 /* FiveModel 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 8.xcdatamodel"; sourceTree = "<group>"; };
+		4DDD00FF2C5473FD0037125E /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		4DDD01012C5475830037125E /* SLSettings+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLSettings+CoreDataClass.swift"; path = "Shortlist/Model/CoreData/Entities/SLSettings+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4DDD01022C5475830037125E /* SLSettings+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLSettings+CoreDataProperties.swift"; path = "Shortlist/Model/CoreData/Entities/SLSettings+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4DED000924361031009BA525 /* FiveModel 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 9.xcdatamodel"; sourceTree = "<group>"; };
 		4DF3E3592403DB62002B402C /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		4DF3E36F2403E01F002B402C /* ScreenshotTester.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScreenshotTester.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +201,8 @@
 		4D45E78522DDD1AB008AC433 = {
 			isa = PBXGroup;
 			children = (
+				4DDD01012C5475830037125E /* SLSettings+CoreDataClass.swift */,
+				4DDD01022C5475830037125E /* SLSettings+CoreDataProperties.swift */,
 				4DB0A8462C2FA42F005072C9 /* SLTask+Methods.swift */,
 				4DB0A82B2C2FA3AC005072C9 /* SLTask+CoreDataClass.swift */,
 				4DB0A82C2C2FA3AC005072C9 /* SLTask+CoreDataProperties.swift */,
@@ -251,6 +257,7 @@
 				4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */,
 				4D6F15792C2F29B30079E79B /* LocationService.swift */,
 				4D1C12022C2F932800E15BD2 /* TaskStatus.swift */,
+				4DDD00FF2C5473FD0037125E /* SettingsManager.swift */,
 			);
 			path = Shortlist;
 			sourceTree = "<group>";
@@ -602,6 +609,7 @@
 				4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */,
 				4D63399A2BEDC09700E3EE32 /* TaskDetailsViewModel.swift in Sources */,
 				4D6F157E2C2F2A790079E79B /* PriorityLevel.swift in Sources */,
+				4DDD01002C5473FD0037125E /* SettingsManager.swift in Sources */,
 				4DB043E02BCA216100A3901F /* UICollectionView+Extension.swift in Sources */,
 				4DF4A37D2BE98220008A4FF3 /* TaskManager.swift in Sources */,
 				4DB0A8412C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift in Sources */,

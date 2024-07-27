@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23E224" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="24A5289h" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="SLCategory" representedClassName="SLCategory" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="categoryToTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SLTask" inverseName="taskToCategory" inverseEntity="SLTask"/>
+    </entity>
+    <entity name="SLSettings" representedClassName="SLSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="taskLimit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="SLStatus" representedClassName="SLStatus" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String"/>

@@ -26,10 +26,10 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
     
     var fetchedResultsController: NSFetchedResultsController<SLTask>!
 
-	init(viewModel: TaskListViewModel, coordinator: TaskListCoordinator) {
+    init(viewModel: TaskListViewModel, coordinator: TaskListCoordinator) {
         self.viewModel = viewModel
-		self.coordinator = coordinator
-        super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewListLayout())
+        self.coordinator = coordinator
+        super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewSectionHeaderLayout(itemSpace: .init(top: 0, leading: 5, bottom: 0, trailing: 5), groupSpacing: .zero))
     }
     
     required init?(coder: NSCoder) {
@@ -154,5 +154,11 @@ extension TaskListViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard let viewModel else { return }
         viewModel.applySnapshot(fetchedResultsController: self.fetchedResultsController)
+    }
+}
+
+extension TaskListViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return UICollectionViewFlowLayout.automaticSize
     }
 }
