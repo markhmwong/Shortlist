@@ -172,4 +172,19 @@ extension CoreDataStack {
         }
         return 0
     }
+    
+    public func newLimit(_ value: Int16) {
+        guard let moc = moc else { return }
+        do {
+            let fetchRequest: NSFetchRequest<SLSettings> = SLSettings.fetchRequest()
+            fetchRequest.fetchLimit = 1
+            let limit = try moc.fetch(fetchRequest)
+            if let settings = limit.first {
+                settings.taskLimit = value
+            }
+        } catch {
+            print("Failed to apply new task limit: \(error)")
+            return
+        }
+    }
 }
