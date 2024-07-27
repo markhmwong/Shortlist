@@ -18,7 +18,14 @@ class TaskListViewModel: NSObject {
     // TODO: register cell in enum fashion. create a protocol Registable around this concept
     
     // create a singleton for settings
-    private let taskLimit: Int = 5
+    // -1 means this hasn't been initialised properly
+    private var taskLimit: Int16 = -1 {
+        didSet {
+            guard let coreDataStack else { return }
+            coreDataStack.newLimit(taskLimit)
+        }
+        
+    }
     
     var coreDataStack: CoreDataStack? = nil
     
@@ -31,6 +38,15 @@ class TaskListViewModel: NSObject {
     init(coreDataStack: CoreDataStack? = nil) {
         self.coreDataStack = coreDataStack
         super.init()
+        initialiseTaskLimit()
+    }
+    
+    private func initialiseTaskLimit() {
+        taskLimit = SettingsManager.shared.fetchTaskLimit()
+        
+        #if DEBUG
+        assert(taskLimit != -1)
+        #endif
     }
     
     func configureDatasource(view: UICollectionView) {
@@ -154,7 +170,8 @@ class TaskListViewModel: NSObject {
         cds.saveContext()
     }
     
-    func limitTasks() {
-        if SettingsManager.shared.initialiseTaskLimit()
+    func limitTasks(_ newLimit: Int16) {
+        /// check didSet of taskLimit property to see that it is set in CoreData
+        taskLimit = newLimit
     }
 }
