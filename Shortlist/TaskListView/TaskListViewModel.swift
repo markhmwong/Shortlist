@@ -17,6 +17,9 @@ enum SLTaskListPriority: Int, CaseIterable {
 class TaskListViewModel: NSObject {
     // TODO: register cell in enum fashion. create a protocol Registable around this concept
     
+    // create a singleton for settings
+    private let taskLimit: Int = 5
+    
     var coreDataStack: CoreDataStack? = nil
     
     private var diffableDatasource: UICollectionViewDiffableDataSource<SLTaskListPriority, SLTask>! = nil
@@ -149,5 +152,9 @@ class TaskListViewModel: NSObject {
         cds.deleteAllObjects()
         
         cds.saveContext()
+    }
+    
+    func limitTasks() {
+        if SettingsManager.shared.initialiseTaskLimit()
     }
 }

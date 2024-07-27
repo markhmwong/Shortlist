@@ -10,7 +10,7 @@ import UIKit
 
 extension UICollectionViewLayout {
     
-    func createCollectionViewSectionHeaderLayout(header: Bool = false, elementKind: String = "", itemSpace: NSDirectionalEdgeInsets, groupSpacing: NSDirectionalEdgeInsets, cellHeight: NSCollectionLayoutDimension = .absolute(60.0), sectionSpacing: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)) -> UICollectionViewLayout {
+    func createCollectionViewSectionHeaderLayout(header: Bool = false, elementKind: String = "", itemSpace: NSDirectionalEdgeInsets, groupSpacing: NSDirectionalEdgeInsets, cellHeight: NSCollectionLayoutDimension = .estimated(50), sectionSpacing: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)) -> UICollectionViewLayout {
         
 //        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
 //                                             heightDimension: .fractionalHeight(1.0))
@@ -39,26 +39,38 @@ extension UICollectionViewLayout {
             group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
             group.interItemSpacing = NSCollectionLayoutSpacing.fixed(10)
             
-            let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                          heightDimension: .estimated(44))
+//            let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+//                                                          heightDimension: .estimated(44))
             let section = NSCollectionLayoutSection(group: group)
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+//            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+//                layoutSize: headerFooterSize,
+//                elementKind: TipJarViewController.sectionElementKind, alignment: .top)
+//            section.boundarySupplementaryItems = [sectionHeader]
             return section
         }
-        var config = UICollectionLayoutListConfiguration(appearance: .plain)
-        config.trailingSwipeActionsConfigurationProvider = { indexPath in
-            let del = UIContextualAction(style: .destructive, title: "Delete") {
-                action, view, completion in
-//                self?.delete(at: indexPath)
-                completion(true)
-            }
-            return UISwipeActionsConfiguration(actions: [del])
-        }
+//        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+//        config.trailingSwipeActionsConfigurationProvider = { indexPath in
+//            let del = UIContextualAction(style: .destructive, title: "Delete") {
+//                action, view, completion in
+////                self?.delete(at: indexPath)
+//                completion(true)
+//            }
+//            return UISwipeActionsConfiguration(actions: [del])
+//        }
+//        config.leadingSwipeActionsConfigurationProvider = { indexPath in
+//            let complete = UIContextualAction(style: .normal, title: "Complete") {
+//                action, view, completion in
+//                completion(true)
+//            }
+//            return UISwipeActionsConfiguration(actions: [complete])
+//        }
         return layout
     }
     
     func createCollectionViewListLayout() -> UICollectionViewCompositionalLayout {
         var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        
         config.trailingSwipeActionsConfigurationProvider = { indexPath in
             let del = UIContextualAction(style: .destructive, title: "Delete") {
                 action, view, completion in
@@ -83,3 +95,5 @@ extension UICollectionViewLayout {
         return layout
     }
 }
+
+

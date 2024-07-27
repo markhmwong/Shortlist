@@ -123,4 +123,53 @@ class CoreDataStack: NSObject {
         }
         
     }
+    
+
+}
+
+extension CoreDataStack {
+    // MARK: Settings
+    
+    
+    public func createSettingsModel() {
+        guard let moc = moc else { return }
+
+        let settings = SLSettings(context: moc)
+        settings.taskLimit = 3
+        
+        self.saveContext()
+    }
+    
+    public func fetchSettingsModel() -> Bool {
+        guard let moc = moc else { return false }
+
+        let fetchRequest: NSFetchRequest<SLSettings> = SLSettings.fetchRequest()
+        fetchRequest.fetchLimit = 1
+
+        do {
+            let settings = try moc.fetch(fetchRequest)
+            return true
+        } catch {
+            print("Failed to fetch SLSettings: \(error)")
+            return false
+        }
+    }
+    
+    public func fetchSettingsLimit() -> Int16 {
+        guard let moc = moc else { return 0 }
+        
+        do {
+            let fetchRequest: NSFetchRequest<SLSettings> = SLSettings.fetchRequest()
+            fetchRequest.propertiesToFetch = ["taskLimit"]
+            fetchRequest.fetchLimit = 1
+            let limit = try moc.fetch(fetchRequest) as? [[String: Any]]
+            if let result = limit?.first, let taskLimit = result["taskLimit"] as? Int16 {
+                return taskLimit
+            }
+        } catch {
+            print("Failed to fetch items: \(error)")
+            return 0
+        }
+        return 0
+    }
 }

@@ -9,6 +9,12 @@
 import UIKit
 import WhizUtilKit
 
+extension UIFont {
+    func withWeight(_ weight: UIFont.Weight) -> UIFont {
+        UIFont.systemFont(ofSize: pointSize, weight: weight)
+    }
+}
+
 class SLTaskCell: BaseCollectionViewCell<SLTask> {
     
     var _item: SLTask? {
@@ -29,11 +35,12 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         let label = UITextView()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "placeholder"
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .body).withWeight(.bold)
 		label.textColor = .defaultText
         label.backgroundColor = .clear
         label.isEditable = false
 		label.isUserInteractionEnabled = false
+        label.isScrollEnabled = false
         return label
     }()
     
@@ -41,7 +48,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "complete"
-        label.font = UIFont.preferredFont(forTextStyle: .footnote)
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.textColor = .defaultText
         return label
     }()
@@ -55,13 +62,17 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         contentView.addSubview(completeLabel)
         
         NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.readableContentGuide.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.readableContentGuide.trailingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        
+//            titleLabel.heightAnchor.constraint(equalToConstant: 40),
+
+//            titleLabel.bottomAnchor.constraint(equalTo: completeLabel.topAnchor, constant: 0),
             
-            completeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            completeLabel.trailingAnchor.constraint(equalTo: contentView.readableContentGuide.trailingAnchor),
+            completeLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            completeLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -5),
+            completeLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
         ])
         
         contentView.layer.cornerRadius = 5.0
@@ -78,8 +89,6 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
         if let pl = PriorityLevel(rawValue: Int(self._item?.priority ?? 2)) {
             let colors = calculateColors(for: pl)
             contentView.backgroundColor = colors.backgroundColor
-            contentView.layer.borderColor = colors.borderColor.cgColor
-            contentView.layer.borderWidth = 2.0
             titleLabel.textColor = colors.textColor
             completeLabel.textColor = colors.textColor
         }
