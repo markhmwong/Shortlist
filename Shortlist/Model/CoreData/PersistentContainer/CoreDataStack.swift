@@ -88,15 +88,12 @@ class CoreDataStack: NSObject {
         }
     }
     
-    func fetchItem() {
-        
-    }
-    
     func fetchTodaysItems() -> [SLTask] {
         guard let moc = moc else { return [] }
         
         do {
             let fetchRequest: NSFetchRequest<SLTask> = SLTask.fetchRequest()
+            // TODO: update predicate to include only today's date and incomplete items
             fetchRequest.predicate = NSPredicate(format: "taskToStatus.name == %@", TaskStatus.Incomplete.rawValue as CVarArg)
             let items = try moc.fetch(fetchRequest)
             return items
@@ -104,6 +101,10 @@ class CoreDataStack: NSObject {
             print("Failed to fetch items: \(error)")
             return []
         }
+    }
+    
+    func fetchNumberOfItems() -> Int16 {
+        return Int16(fetchTodaysItems().count)
     }
     
     func delete(objectId item: NSManagedObjectID) {
@@ -127,8 +128,10 @@ class CoreDataStack: NSObject {
 
 }
 
+// MARK: Settings
+// Settings methods
 extension CoreDataStack {
-    // MARK: Settings
+    
     
     
     public func createSettingsModel() {

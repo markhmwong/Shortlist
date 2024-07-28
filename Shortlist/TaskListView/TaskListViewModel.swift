@@ -147,10 +147,16 @@ class TaskListViewModel: NSObject {
         else {
             return
         }
-        let slTask = SLTask(context: moc)
-        slTask.newTask(name: "test")
         
-        cds.saveContext()
+        let limitReached = cds.fetchNumberOfItems()
+        if limitReached < cds.fetchSettingsLimit() {
+            let slTask = SLTask(context: moc)
+            slTask.newTask(name: "test")
+            
+            cds.saveContext()
+        } else {
+            print("Limit reached - put pop up")
+        }
     }
     
     /// testing only
@@ -168,6 +174,16 @@ class TaskListViewModel: NSObject {
         cds.deleteAllObjects()
         
         cds.saveContext()
+    }
+    
+    func checkLimit() {
+        guard
+            let cds = coreDataStack
+        else {
+            return
+        }
+        
+        cds.fetchSettingsLimit()
     }
     
     func limitTasks(_ newLimit: Int16) {
