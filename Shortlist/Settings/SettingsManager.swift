@@ -15,7 +15,7 @@ final class SettingsManager {
     
     private let coreData: CoreDataStack = CoreDataStack.shared
     
-    private var taskLimit: Int16 = 0
+    private var taskLimit: Int16 = -1
     
     private init() {
         initialiseSettingsModelIfNeeded()
@@ -24,11 +24,16 @@ final class SettingsManager {
     /// use this to initialise the settings when the app first loads
     private func initialiseSettingsModelIfNeeded() {
         if !coreData.fetchSettingsModel() {
-            coreData.createSettingsModel()
+            coreData.createInitialSettingsModel()
+            taskLimit = coreData.fetchSettingsLimit()
         }
     }
     
     public func fetchTaskLimit() -> Int16 {
         return coreData.fetchSettingsLimit()
+    }
+    
+    public func setTaskLimit(_ limit: Int16) {
+        
     }
 }

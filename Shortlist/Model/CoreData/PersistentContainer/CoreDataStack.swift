@@ -131,10 +131,8 @@ class CoreDataStack: NSObject {
 // MARK: Settings
 // Settings methods
 extension CoreDataStack {
-    
-    
-    
-    public func createSettingsModel() {
+
+    public func createInitialSettingsModel() {
         guard let moc = moc else { return }
 
         let settings = SLSettings(context: moc)
@@ -160,13 +158,13 @@ extension CoreDataStack {
     
     public func fetchSettingsLimit() -> Int16 {
         guard let moc = moc else { return 0 }
-        
+        let property = "taskLimit"
         do {
             let fetchRequest: NSFetchRequest<SLSettings> = SLSettings.fetchRequest()
-            fetchRequest.propertiesToFetch = ["taskLimit"]
-            fetchRequest.fetchLimit = 1
-            let limit = try moc.fetch(fetchRequest) as? [[String: Any]]
-            if let result = limit?.first, let taskLimit = result["taskLimit"] as? Int16 {
+            fetchRequest.propertiesToFetch = [property]
+            let limit = try moc.fetch(fetchRequest)
+            if let result = limit.first {
+                let taskLimit = result.taskLimit
                 return taskLimit
             }
         } catch {
