@@ -14,7 +14,10 @@ enum SLTaskListPriority: Int, CaseIterable {
     case high = 0
 }
 
-class TaskListViewModel: NSObject {
+class TaskListViewModel: NSObject, DatasourceSupervisor {
+   
+    typealias T = SLTask
+    
     // TODO: register cell in enum fashion. create a protocol Registable around this concept
     
     // create a singleton for settings
@@ -24,16 +27,13 @@ class TaskListViewModel: NSObject {
             guard let coreDataStack else { return }
             coreDataStack.newLimit(taskLimit)
         }
-        
     }
     
-    var coreDataStack: CoreDataStack? = nil
+    private var coreDataStack: CoreDataStack? = nil
     
     private var diffableDatasource: UICollectionViewDiffableDataSource<SLTaskListPriority, SLTask>! = nil
     
     private var currentCellEditable: SLTaskCell! = nil
-    
-    private var data: [SLTask] = []
     
     init(coreDataStack: CoreDataStack? = nil) {
         self.coreDataStack = coreDataStack
@@ -55,8 +55,15 @@ class TaskListViewModel: NSObject {
         diffableDatasource = UICollectionViewDiffableDataSource<SLTaskListPriority, SLTask>(collectionView: view) { collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(using: taskCellRegistration, for: indexPath, item: item)
         }
+    }
+    
+    internal func configureSnapshot(data: [SLTask]) -> NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> {
+        var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>()
+        snapshot.appendSections(SLTaskListPriority.allCases)
         
-        //        diffableDatasource.apply(configureSnapshot(data: data))
+        snapshot.appendItems(data)
+        
+        return snapshot
     }
     
     func updateSnapshot(fetchedResultsController: NSFetchedResultsController<SLTask>) {
@@ -73,16 +80,9 @@ class TaskListViewModel: NSObject {
         }
     }
     
-    private func configureSnapshot(data: [SLTask]) -> NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> {
-        var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>()
-        snapshot.appendSections(SLTaskListPriority.allCases)
-        
-        snapshot.appendItems(data)
-        
-        return snapshot
-    }
+
     
-    func printDatasource() {
+    public func printDatasource() {
         print("printing")
         for item in diffableDatasource.snapshot().itemIdentifiers {
             print(item)
@@ -90,14 +90,7 @@ class TaskListViewModel: NSObject {
         
     }
     
-    func fetchData() -> [SLTask] {
-        guard let cds = coreDataStack else {
-            return []
-        }
-        return cds.fetchTodaysItems()
-    }
-    
-    func createMultipleMockTasks() {
+    public func createMultipleMockTasks() {
         // testings purposes
         guard let cds = coreDataStack else {
             return
@@ -107,7 +100,7 @@ class TaskListViewModel: NSObject {
         }
     }
     
-    func applySnapshot(fetchedResultsController: NSFetchedResultsController<SLTask>) {
+    public func applySnapshot(fetchedResultsController: NSFetchedResultsController<SLTask>) {
         var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>()
         snapshot.appendSections([.high])
         
@@ -126,17 +119,17 @@ class TaskListViewModel: NSObject {
         
     }
     
-    func trackCell(cell: SLTaskCell) {
+    public func trackCell(cell: SLTaskCell) {
         currentCellEditable = cell
     }
     
-    func resignCurrentCell() {
+    public func resignCurrentCell() {
         guard let cell = currentCellEditable else { return }
         cell.resignFirstResponder()
     }
     
     /// testing only
-    func createTask() {
+    public func createTask() {
 #if DEBUG
         assert(coreDataStack != nil)
         assert(coreDataStack?.moc != nil)
@@ -160,7 +153,7 @@ class TaskListViewModel: NSObject {
     }
     
     /// testing only
-    func deleteAllTasks() {
+    public func deleteAllTasks() {
 #if DEBUG
         assert(coreDataStack != nil)
         assert(coreDataStack?.moc != nil)
@@ -176,17 +169,17 @@ class TaskListViewModel: NSObject {
         cds.saveContext()
     }
     
-    func checkLimit() {
-        guard
-            let cds = coreDataStack
-        else {
-            return
-        }
+    public func taskLimitReached() -> Bool {
+        let numTasks = diffableDatasource.snapshot().numberOfItems
         
-        cds.fetchSettingsLimit()
+        if numTasks < taskLimit {
+            return false
+        } else {
+            return true
+        }
     }
     
-    func limitTasks(_ newLimit: Int16) {
+    public func limitTasks(_ newLimit: Int16) {
         /// check didSet of taskLimit property to see that it is set in CoreData
         taskLimit = newLimit
     }

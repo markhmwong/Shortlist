@@ -72,7 +72,7 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
     }
     
     @objc func handleSettings() {
-        
+        print("to do settings")
     }
     
     @objc func handleDeleteTask() {
@@ -90,7 +90,12 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
     
     @objc func handleAddTask() {
         guard let viewModel else { return }
-        viewModel.createTask()
+        if viewModel.taskLimitReached() {
+            viewModel.createTask()
+        } else {
+            print("Pop up - Task Limit Reached")
+        }
+        
     }
 	
 	@objc func handleLongPress() {

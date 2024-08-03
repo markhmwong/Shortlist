@@ -151,7 +151,7 @@ extension CoreDataStack {
 
         do {
             let settings = try moc.fetch(fetchRequest)
-            return true
+            return settings.isEmpty ? false : true
         } catch {
             print("Failed to fetch SLSettings: \(error)")
             return false
