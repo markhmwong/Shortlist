@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TaskDetailsCoordinator: Coordinate {
+class TaskDetailsCoordinator: CoordinatorFacade {
     
     override init(parentCoordinator: (any Coordinator)? = nil,
                   parentNavigationController: UINavigationController? = nil,
