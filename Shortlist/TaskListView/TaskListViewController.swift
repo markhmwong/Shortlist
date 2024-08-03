@@ -9,12 +9,15 @@
 import UIKit
 import CoreData
 
-class TaskListViewController: UICollectionViewController, UIGestureRecognizerDelegate, Refreshable {
+extension TaskListViewController: Refreshable {
     func refresh(item: SLTask) {
         performFetch()
         guard let viewModel else { return }
         viewModel.refreshDatasource(fetchedResultsController: fetchedResultsController)
     }
+}
+
+class TaskListViewController: UICollectionViewController, UIGestureRecognizerDelegate {
     
     fileprivate let className: String = String(describing: TaskListViewController.self)
     
