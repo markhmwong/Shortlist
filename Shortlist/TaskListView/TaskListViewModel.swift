@@ -15,19 +15,13 @@ enum SLTaskListPriority: Int, CaseIterable {
 }
 
 class TaskListViewModel: NSObject, DatasourceSupervisor {
-   
-    typealias T = SLTask
     
+    private let settingsManager: SettingsManager = SettingsManager.shared
     // TODO: register cell in enum fashion. create a protocol Registable around this concept
     
     // create a singleton for settings
     // -1 means this hasn't been initialised properly
-    private var taskLimit: Int16 = -1 {
-        didSet {
-            guard let coreDataStack else { return }
-            coreDataStack.newLimit(taskLimit)
-        }
-    }
+    private var taskLimit: Int16 = -1
     
     private var coreDataStack: CoreDataStack? = nil
     
@@ -42,7 +36,7 @@ class TaskListViewModel: NSObject, DatasourceSupervisor {
     }
     
     private func initialiseTaskLimit() {
-        taskLimit = SettingsManager.shared.fetchTaskLimit()
+        taskLimit = settingsManager.fetchTaskLimit()
         
         #if DEBUG
         assert(taskLimit != -1)
@@ -141,15 +135,10 @@ class TaskListViewModel: NSObject, DatasourceSupervisor {
             return
         }
         
-        let limitReached = cds.fetchNumberOfItems()
-        if limitReached < cds.fetchSettingsLimit() {
-            let slTask = SLTask(context: moc)
-            slTask.newTask(name: "test")
-            
-            cds.saveContext()
-        } else {
-            print("Limit reached - put pop up")
-        }
+        let slTask = SLTask(context: moc)
+        slTask.newTask(name: "test")
+        
+        cds.saveContext()
     }
     
     /// testing only
@@ -173,9 +162,9 @@ class TaskListViewModel: NSObject, DatasourceSupervisor {
         let numTasks = diffableDatasource.snapshot().numberOfItems
         
         if numTasks < taskLimit {
-            return false
-        } else {
             return true
+        } else {
+            return false
         }
     }
     
