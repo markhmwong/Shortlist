@@ -8,13 +8,16 @@
 
 import UIKit
 
-enum PriorityLevel: Int, CaseIterable {
-    case high
+enum TaskPriorityLevel: Int, CaseIterable {
+	case critical
+	case high
     case medium
     case low
     
     var baseColour: UIColor {
         switch self {
+		case .critical:
+			return UIColor.criticalPriority
         case .high:
             return UIColor.highPriority
         case .medium:

@@ -10,15 +10,20 @@ import UIKit
 import CoreData
 
 /// In use with Diffable Datasource and CoreData with a collectionview
-protocol DatasourceSupervisor {
-    associatedtype Item: Hashable & NSFetchRequestResult
+protocol DatasourceSupervisorBase {
+    associatedtype Item: Hashable
     associatedtype SectionIdentifier: Hashable
-    
+
     func configureSnapshot(data: [Item]) -> NSDiffableDataSourceSnapshot<SectionIdentifier, Item>
-    
-    func updateSnapshot(fetchedResultsController: NSFetchedResultsController<Item>)
-    
-    func refreshDatasource(fetchedResultsController: NSFetchedResultsController<Item>)
-    
     func configureDatasource(view: UICollectionView)
+}
+
+protocol DatasourceSupervisorForCoreData: DatasourceSupervisorBase where Item: NSFetchRequestResult {
+    func updateSnapshot(fetchedResultsController: NSFetchedResultsController<Item>)
+    func refreshDatasource(fetchedResultsController: NSFetchedResultsController<Item>)
+}
+
+protocol DatasourceSupervisor: DatasourceSupervisorBase {
+    func updateSnapshot(item: [Item])
+    func refreshDatasource(item: [Item])
 }

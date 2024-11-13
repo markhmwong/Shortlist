@@ -75,7 +75,7 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
     }
     
     @objc func handleSettings() {
-        print("to do settings")
+        coordinator?.presentSettings()
     }
     
     @objc func handleDeleteTask() {

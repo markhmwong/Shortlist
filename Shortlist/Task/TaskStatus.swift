@@ -6,11 +6,10 @@
 //  Copyright © 2024 Mark Wong. All rights reserved.
 //
 
-
-
 public enum TaskStatus: String {
     case Complete
     case Incomplete
     case Backlog
     case Active
 }
+

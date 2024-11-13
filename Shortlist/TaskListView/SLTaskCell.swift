@@ -23,7 +23,6 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
             titleLabel.text = item?.name
             if let status = TaskStatus(rawValue: item?.taskToStatus?.name ?? "Incomplete") {
                 completeLabel.text = status.rawValue
-                print(completeLabel.text)
             }
         }
         get {
@@ -55,27 +54,21 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
     
     override func setupViewsIfNeeded() {
 		super.setupViewsIfNeeded()
-		
+        contentView.layer.cornerRadius = 5.0
 		
         /// layout
         contentView.addSubview(titleLabel)
         contentView.addSubview(completeLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+			titleLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.readableContentGuide.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.readableContentGuide.trailingAnchor),
-        
-//            titleLabel.heightAnchor.constraint(equalToConstant: 40),
 
-//            titleLabel.bottomAnchor.constraint(equalTo: completeLabel.topAnchor, constant: 0),
-            
             completeLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             completeLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            completeLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
+            completeLabel.leadingAnchor.constraint(equalTo: contentView.readableContentGuide.leadingAnchor),
         ])
-        
-        contentView.layer.cornerRadius = 5.0
     }
     
     /// Configure Cell
@@ -83,18 +76,26 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
     override func configureCell(with item: SLTask) {
         super.configureCell(with: item)
         // configure item in the setter for _item
-        self._item = item
+        _item = item
 
-        /// configure cell ui
-        if let pl = PriorityLevel(rawValue: Int(self._item?.priority ?? 2)) {
-            let colors = calculateColors(for: pl)
-            contentView.backgroundColor = colors.backgroundColor
-            titleLabel.textColor = colors.textColor
-            completeLabel.textColor = colors.textColor
-        }
+		priorityLevelColour()
     }
-    
-    private func calculateColors(for priority: PriorityLevel) -> (textColor: UIColor, backgroundColor: UIColor, borderColor: UIColor) {
+
+	private func priorityLevelColour() {
+		/// configure cell ui
+		if let pl = TaskPriorityLevel(rawValue: Int(_item?.priority ?? 2)) {
+			let colors = calculateColors(for: pl)
+			contentView.backgroundColor = colors.backgroundColor
+			titleLabel.textColor = colors.textColor
+			completeLabel.textColor = colors.textColor
+		} else {
+			contentView.backgroundColor = UIColor.lightGray
+			titleLabel.textColor = UIColor.darkText
+			completeLabel.textColor = UIColor.darkText
+		}
+	}
+
+    private func calculateColors(for priority: TaskPriorityLevel) -> (textColor: UIColor, backgroundColor: UIColor, borderColor: UIColor) {
         let baseColour = priority.baseColour
         let textColour = baseColour.darker(by: 30.0) ?? baseColour
         let backgroundColor = baseColour.lighter(by: 40.0) ?? baseColour
@@ -107,6 +108,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
 		titleLabel.isEditable = true
 		titleLabel.isUserInteractionEnabled = false
 	}
+
     func focusText() {
         titleLabel.becomeFirstResponder()
     }
@@ -125,3 +127,4 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
 //        }
     }
 }
+

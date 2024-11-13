@@ -13,19 +13,30 @@ class TaskManager: NSObject {
     //core data stack
     private var coreData: CoreDataStack
     
-    init(coreDataStack: CoreDataStack) {
+    public init(coreDataStack: CoreDataStack) {
         self.coreData = coreDataStack
         super.init()
     }
     
     //TODO: define
-    func dailyTaskLimitExceeded() -> Bool {
+    public func dailyTaskLimitExceeded() -> Bool {
         return false
     }
     
     //TODO: define
-    func totalTasks() -> Int {
+    public func totalTasks() -> Int {
         return 0
     }
-    
+
+	/// For use in settings to define the maximum allowable tasks
+	public func totalAllowableTasks() -> Int {
+		return 7
+	}
+
+	/// priority
+	public priorityList() -> [Priority] {
+		return [.low, .medium, .high, .critical]
+	}
 }
+
+

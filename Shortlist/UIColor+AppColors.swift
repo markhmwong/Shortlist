@@ -9,11 +9,13 @@
 import UIKit
 
 extension UIColor {
-    
-    static let highPriority: UIColor = UIColor.systemRed
-    
-    static let mediumPriority: UIColor = UIColor.systemOrange
-    
+	
+	static let criticalPriority: UIColor = UIColor.systemRed
+
+	static let highPriority: UIColor = UIColor.systemOrange
+
+	static let mediumPriority: UIColor = UIColor.systemYellow
+
     static let lowPriority: UIColor = UIColor.systemBlue
     
 }
