@@ -16,6 +16,9 @@
 		4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */; };
 		4D45E7A722DDD1AD008AC433 /* FiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7A622DDD1AD008AC433 /* FiveTests.swift */; };
 		4D45E7B222DDD1AD008AC433 /* FiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D45E7B122DDD1AD008AC433 /* FiveUITests.swift */; };
+		4D4D69C32C5F39EF00C227EF /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4D69C22C5F39EF00C227EF /* SettingsCell.swift */; };
+		4D5584C72C5F9E5C00B3DDA1 /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5584C62C5F9E5C00B3DDA1 /* SettingsCoordinator.swift */; };
+		4D5584C92C5F9E6700B3DDA1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5584C82C5F9E6700B3DDA1 /* SettingsViewModel.swift */; };
 		4D598B6422EEBE480020076D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D598B6322EEBE480020076D /* CoreDataStack.swift */; };
 		4D60F13524C8870200979912 /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D60F13424C8870200979912 /* TaskListViewController.swift */; };
 		4D6339982BEDA3C600E3EE32 /* TaskDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */; };
@@ -23,7 +26,7 @@
 		4D63399C2BEDF66300E3EE32 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D63399B2BEDF66300E3EE32 /* Binding.swift */; };
 		4D6CEE5B2C30E1600023BDC4 /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6CEE5A2C30E1600023BDC4 /* UIColor+AppColors.swift */; };
 		4D6F157A2C2F29B30079E79B /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F15792C2F29B30079E79B /* LocationService.swift */; };
-		4D6F157E2C2F2A790079E79B /* PriorityLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F157D2C2F2A790079E79B /* PriorityLevel.swift */; };
+		4D6F157E2C2F2A790079E79B /* TaskPriorityLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F157D2C2F2A790079E79B /* TaskPriorityLevel.swift */; };
 		4D7017122C5DBFE10007F029 /* DatasourceSupervisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7017112C5DBFE10007F029 /* DatasourceSupervisor.swift */; };
 		4D7017152C5DCAF30007F029 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7017142C5DCAF30007F029 /* SettingsViewController.swift */; };
 		4D7017182C5DCFE00007F029 /* CoordinatorFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7017172C5DCFE00007F029 /* CoordinatorFacade.swift */; };
@@ -45,6 +48,7 @@
 		4DB0A8402C2FA3D9005072C9 /* SLTask+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB0A8352C2FA3D9005072C9 /* SLTask+CoreDataClass.swift */; };
 		4DB0A8412C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB0A8362C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift */; };
 		4DB0A8472C2FA42F005072C9 /* SLTask+Methods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB0A8462C2FA42F005072C9 /* SLTask+Methods.swift */; };
+		4DBA14362CE45582001D01D6 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA14352CE45580001D01D6 /* Version.swift */; };
 		4DCD042C25247231005B97F1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCD042B25247231005B97F1 /* Constants.swift */; };
 		4DDD01002C5473FD0037125E /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD00FF2C5473FD0037125E /* SettingsManager.swift */; };
 		4DF3E3722403E01F002B402C /* ScreenshotTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3712403E01F002B402C /* ScreenshotTester.swift */; };
@@ -109,7 +113,10 @@
 		4D45E7BC22DDD1AD008AC433 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		4D45E7BE22DDD1AE008AC433 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D45E7C022DDD1AE008AC433 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4D4D69C22C5F39EF00C227EF /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		4D4DDC7F2529931D0016697D /* FiveModel 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 13.xcdatamodel"; sourceTree = "<group>"; };
+		4D5584C62C5F9E5C00B3DDA1 /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		4D5584C82C5F9E6700B3DDA1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		4D598B6322EEBE480020076D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		4D60F13424C8870200979912 /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
 		4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewController.swift; sourceTree = "<group>"; };
@@ -121,7 +128,7 @@
 		4D6CEE5A2C30E1600023BDC4 /* UIColor+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppColors.swift"; sourceTree = "<group>"; };
 		4D6E753E2357699400C67B8F /* FiveModel 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 7.xcdatamodel"; sourceTree = "<group>"; };
 		4D6F15792C2F29B30079E79B /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
-		4D6F157D2C2F2A790079E79B /* PriorityLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityLevel.swift; sourceTree = "<group>"; };
+		4D6F157D2C2F2A790079E79B /* TaskPriorityLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPriorityLevel.swift; sourceTree = "<group>"; };
 		4D7017112C5DBFE10007F029 /* DatasourceSupervisor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasourceSupervisor.swift; sourceTree = "<group>"; };
 		4D7017142C5DCAF30007F029 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4D7017172C5DCFE00007F029 /* CoordinatorFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFacade.swift; sourceTree = "<group>"; };
@@ -148,6 +155,8 @@
 		4DB0A8352C2FA3D9005072C9 /* SLTask+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLTask+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4DB0A8362C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLTask+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4DB0A8462C2FA42F005072C9 /* SLTask+Methods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SLTask+Methods.swift"; sourceTree = "<group>"; };
+		4DBA14322CDA5026001D01D6 /* WhizUtilKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WhizUtilKit; path = ../WhizUtil/WhizUtilKit; sourceTree = SOURCE_ROOT; };
+		4DBA14352CE45580001D01D6 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		4DC6950A234CCD6300CB4A6E /* FiveModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 5.xcdatamodel"; sourceTree = "<group>"; };
 		4DC6950B234CD09B00CB4A6E /* FiveModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 6.xcdatamodel"; sourceTree = "<group>"; };
 		4DC8FAA22566703A001892A4 /* FiveModel 15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 15.xcdatamodel"; sourceTree = "<group>"; };
@@ -207,6 +216,7 @@
 		4D45E78522DDD1AB008AC433 = {
 			isa = PBXGroup;
 			children = (
+				4DBA14322CDA5026001D01D6 /* WhizUtilKit */,
 				4DDD01012C5475830037125E /* SLSettings+CoreDataClass.swift */,
 				4DDD01022C5475830037125E /* SLSettings+CoreDataProperties.swift */,
 				4DB0A8462C2FA42F005072C9 /* SLTask+Methods.swift */,
@@ -242,10 +252,12 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
+				4DBA14372CE5246D001D01D6 /* Task */,
+				4DBA14352CE45580001D01D6 /* Version.swift */,
+				4D4D69C12C5F335E00C227EF /* SettingsView */,
 				4D7017162C5DCFD10007F029 /* Coordinator */,
-				4D7017132C5DC6070007F029 /* Settings */,
+				4D7017132C5DC6070007F029 /* SettingsManager */,
 				4D6CEE5E2C30E8170023BDC4 /* Calendar */,
-				4D6F157D2C2F2A790079E79B /* PriorityLevel.swift */,
 				4D6CEE5A2C30E1600023BDC4 /* UIColor+AppColors.swift */,
 				4D9D22202C1D1E3A00925E1B /* Refreshable.swift */,
 				4D6339962BEDA3BA00E3EE32 /* TaskDetailsView */,
@@ -259,11 +271,9 @@
 				4D596EEB22EC42E600B2D21D /* Application Delegate */,
 				4D45E79A22DDD1AD008AC433 /* LaunchScreen.storyboard */,
 				4D5B5E0322F07FB500C8D9A5 /* Model */,
-				4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */,
 				4D63399B2BEDF66300E3EE32 /* Binding.swift */,
 				4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */,
 				4D6F15792C2F29B30079E79B /* LocationService.swift */,
-				4D1C12022C2F932800E15BD2 /* TaskStatus.swift */,
 			);
 			path = Shortlist;
 			sourceTree = "<group>";
@@ -295,6 +305,17 @@
 				4D45E7C022DDD1AE008AC433 /* Info.plist */,
 			);
 			path = "Shortlist WatchKit App";
+			sourceTree = "<group>";
+		};
+		4D4D69C12C5F335E00C227EF /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				4D5584C82C5F9E6700B3DDA1 /* SettingsViewModel.swift */,
+				4D5584C62C5F9E5C00B3DDA1 /* SettingsCoordinator.swift */,
+				4D7017142C5DCAF30007F029 /* SettingsViewController.swift */,
+				4D4D69C22C5F39EF00C227EF /* SettingsCell.swift */,
+			);
+			path = SettingsView;
 			sourceTree = "<group>";
 		};
 		4D596EEB22EC42E600B2D21D /* Application Delegate */ = {
@@ -356,13 +377,12 @@
 			path = Calendar;
 			sourceTree = "<group>";
 		};
-		4D7017132C5DC6070007F029 /* Settings */ = {
+		4D7017132C5DC6070007F029 /* SettingsManager */ = {
 			isa = PBXGroup;
 			children = (
 				4DDD00FF2C5473FD0037125E /* SettingsManager.swift */,
-				4D7017142C5DCAF30007F029 /* SettingsViewController.swift */,
 			);
-			path = Settings;
+			path = SettingsManager;
 			sourceTree = "<group>";
 		};
 		4D7017162C5DCFD10007F029 /* Coordinator */ = {
@@ -385,6 +405,16 @@
 				4DB0A8362C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		4DBA14372CE5246D001D01D6 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				4D6F157D2C2F2A790079E79B /* TaskPriorityLevel.swift */,
+				4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */,
+				4D1C12022C2F932800E15BD2 /* TaskStatus.swift */,
+			);
+			path = Task;
 			sourceTree = "<group>";
 		};
 		4DC0DE3722E087F100B2B8D4 /* CoreData */ = {
@@ -608,10 +638,12 @@
 			files = (
 				4DB0A83E2C2FA3D9005072C9 /* SLStatus+CoreDataClass.swift in Sources */,
 				4DCD042C25247231005B97F1 /* Constants.swift in Sources */,
+				4D4D69C32C5F39EF00C227EF /* SettingsCell.swift in Sources */,
 				4D60F13524C8870200979912 /* TaskListViewController.swift in Sources */,
 				4DB0A83C2C2FA3D9005072C9 /* SLCategory+CoreDataClass.swift in Sources */,
 				4D6CEE5B2C30E1600023BDC4 /* UIColor+AppColors.swift in Sources */,
 				4DB0A8472C2FA42F005072C9 /* SLTask+Methods.swift in Sources */,
+				4D5584C92C5F9E6700B3DDA1 /* SettingsViewModel.swift in Sources */,
 				4DB0A83F2C2FA3D9005072C9 /* SLStatus+CoreDataProperties.swift in Sources */,
 				4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */,
 				4D2F65F72C154C85001ADB4A /* Coordinator.swift in Sources */,
@@ -635,7 +667,9 @@
 				4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */,
 				4D7017182C5DCFE00007F029 /* CoordinatorFacade.swift in Sources */,
 				4D63399A2BEDC09700E3EE32 /* TaskDetailsViewModel.swift in Sources */,
-				4D6F157E2C2F2A790079E79B /* PriorityLevel.swift in Sources */,
+				4DBA14362CE45582001D01D6 /* Version.swift in Sources */,
+				4D5584C72C5F9E5C00B3DDA1 /* SettingsCoordinator.swift in Sources */,
+				4D6F157E2C2F2A790079E79B /* TaskPriorityLevel.swift in Sources */,
 				4D7017152C5DCAF30007F029 /* SettingsViewController.swift in Sources */,
 				4DDD01002C5473FD0037125E /* SettingsManager.swift in Sources */,
 				4DB043E02BCA216100A3901F /* UICollectionView+Extension.swift in Sources */,

@@ -8,13 +8,16 @@
 
 import UIKit
 import CoreData
+import WhizUtilKit
 
-
-enum SLTaskListPriority: Int, CaseIterable {
-    case high = 0
-}
-
-class TaskListViewModel: NSObject, DatasourceSupervisor {
+class TaskListViewModel: NSObject, DatasourceSupervisorForCoreData {
+    
+    typealias Item = SLTask
+    typealias SectionIdentifier = SLTaskListPriority
+    
+    enum SLTaskListPriority: Int, CaseIterable {
+        case high = 0
+    }
     
     private let settingsManager: SettingsManager = SettingsManager.shared
     // TODO: register cell in enum fashion. create a protocol Registable around this concept
@@ -37,7 +40,7 @@ class TaskListViewModel: NSObject, DatasourceSupervisor {
     
     private func initialiseTaskLimit() {
         taskLimit = settingsManager.fetchTaskLimit()
-        
+		
         #if DEBUG
         assert(taskLimit != -1)
         #endif
@@ -136,7 +139,7 @@ class TaskListViewModel: NSObject, DatasourceSupervisor {
         }
         
         let slTask = SLTask(context: moc)
-        slTask.newTask(name: "test")
+        slTask.newTask(name: "Testing a longer string for the title that may wrap or may not wrap")
         
         cds.saveContext()
     }

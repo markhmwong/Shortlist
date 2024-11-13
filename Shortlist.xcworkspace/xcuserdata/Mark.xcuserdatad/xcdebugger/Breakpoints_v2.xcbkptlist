@@ -7,22 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "887D9A45-9E95-43F0-9C4B-9852CB265494"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Shortlist/TaskListView/SLTaskCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "isComplete(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "B432D6DF-8B81-4E8C-981B-C75394DE8118"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -43,68 +27,6 @@
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2617F9D7-B66A-437D-BA27-B21155EA87A7"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Shortlist/Model/CoreData/PersistentContainer/CoreDataStack.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
-            landmarkName = "fetchSettingsLimit()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "2617F9D7-B66A-437D-BA27-B21155EA87A7 - ef9842325bee1c39"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Shortlist.CoreDataStack.fetchSettingsLimit() -&gt; Swift.Int16"
-                  moduleName = "Shortlist"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mark/Development/Shortlist/Shortlist/Model/CoreData/PersistentContainer/CoreDataStack.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "169"
-                  endingLineNumber = "169">
-               </Location>
-               <Location
-                  uuid = "2617F9D7-B66A-437D-BA27-B21155EA87A7 - ef9842325bee1cd8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Shortlist.CoreDataStack.fetchSettingsLimit() -&gt; Swift.Int16"
-                  moduleName = "Shortlist"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mark/Development/Shortlist/Shortlist/Model/CoreData/PersistentContainer/CoreDataStack.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "168"
-                  endingLineNumber = "168">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F50E6365-0C4E-4E14-A8D5-00FA084C7EE4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Shortlist/Model/CoreData/PersistentContainer/CoreDataStack.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
-            landmarkName = "fetchSettingsLimit()"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
