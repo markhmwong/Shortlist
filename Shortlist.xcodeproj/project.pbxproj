@@ -31,6 +31,15 @@
 		4D7017152C5DCAF30007F029 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7017142C5DCAF30007F029 /* SettingsViewController.swift */; };
 		4D7017182C5DCFE00007F029 /* CoordinatorFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7017172C5DCFE00007F029 /* CoordinatorFacade.swift */; };
 		4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */; };
+		4D7D91852D095E6200141796 /* SettingsCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D91842D095E6200141796 /* SettingsCellType.swift */; };
+		4D7D91872D095E7900141796 /* SettingsItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D91862D095E7500141796 /* SettingsItemProtocol.swift */; };
+		4D7D91892D095E9200141796 /* AnySettingsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D91882D095E8E00141796 /* AnySettingsItem.swift */; };
+		4D7D918B2D095EAA00141796 /* GeneralSettingsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D918A2D095EA200141796 /* GeneralSettingsItem.swift */; };
+		4D7D918D2D095EBC00141796 /* SettingsTaskLimitItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D918C2D095EB700141796 /* SettingsTaskLimitItem.swift */; };
+		4D80FB202D0D1AC0009CC739 /* SliderSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D80FB1F2D0D1AC0009CC739 /* SliderSettingsCell.swift */; };
+		4D80FB272D3C288B009CC739 /* PaddedIconTextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D80FB262D3C288B009CC739 /* PaddedIconTextLabel.swift */; };
+		4D80FB2A2D3CDF60009CC739 /* CategoryIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D80FB292D3CDF5A009CC739 /* CategoryIcons.swift */; };
+		4D80FB2D2D3CE1D5009CC739 /* ProFeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D80FB2C2D3CE1D3009CC739 /* ProFeatureManager.swift */; };
 		4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */; };
 		4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */; };
 		4D962AB82C1E0E360081D07F /* CoreDataStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */; };
@@ -133,6 +142,15 @@
 		4D7017142C5DCAF30007F029 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4D7017172C5DCFE00007F029 /* CoordinatorFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFacade.swift; sourceTree = "<group>"; };
 		4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FiveModel.xcdatamodel; sourceTree = "<group>"; };
+		4D7D91842D095E6200141796 /* SettingsCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellType.swift; sourceTree = "<group>"; };
+		4D7D91862D095E7500141796 /* SettingsItemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItemProtocol.swift; sourceTree = "<group>"; };
+		4D7D91882D095E8E00141796 /* AnySettingsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnySettingsItem.swift; sourceTree = "<group>"; };
+		4D7D918A2D095EA200141796 /* GeneralSettingsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsItem.swift; sourceTree = "<group>"; };
+		4D7D918C2D095EB700141796 /* SettingsTaskLimitItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTaskLimitItem.swift; sourceTree = "<group>"; };
+		4D80FB1F2D0D1AC0009CC739 /* SliderSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderSettingsCell.swift; sourceTree = "<group>"; };
+		4D80FB262D3C288B009CC739 /* PaddedIconTextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedIconTextLabel.swift; sourceTree = "<group>"; };
+		4D80FB292D3CDF5A009CC739 /* CategoryIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIcons.swift; sourceTree = "<group>"; };
+		4D80FB2C2D3CE1D3009CC739 /* ProFeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFeatureManager.swift; sourceTree = "<group>"; };
 		4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCoordinator.swift; sourceTree = "<group>"; };
 		4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
 		4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataStack+Extension.swift"; sourceTree = "<group>"; };
@@ -252,6 +270,9 @@
 		4D45E79022DDD1AB008AC433 /* Shortlist */ = {
 			isa = PBXGroup;
 			children = (
+				4D80FB2B2D3CE1CA009CC739 /* ProFeatureManager */,
+				4D80FB282D3CDF52009CC739 /* Assets */,
+				4D80FB212D3C2585009CC739 /* Extensions */,
 				4DBA14372CE5246D001D01D6 /* Task */,
 				4DBA14352CE45580001D01D6 /* Version.swift */,
 				4D4D69C12C5F335E00C227EF /* SettingsView */,
@@ -310,10 +331,11 @@
 		4D4D69C12C5F335E00C227EF /* SettingsView */ = {
 			isa = PBXGroup;
 			children = (
-				4D5584C82C5F9E6700B3DDA1 /* SettingsViewModel.swift */,
+				4D80FB1E2D0D1AAC009CC739 /* Cells */,
+				4D7D91832D095E3B00141796 /* Items */,
 				4D5584C62C5F9E5C00B3DDA1 /* SettingsCoordinator.swift */,
+				4D5584C82C5F9E6700B3DDA1 /* SettingsViewModel.swift */,
 				4D7017142C5DCAF30007F029 /* SettingsViewController.swift */,
-				4D4D69C22C5F39EF00C227EF /* SettingsCell.swift */,
 			);
 			path = SettingsView;
 			sourceTree = "<group>";
@@ -356,6 +378,7 @@
 		4D6339962BEDA3BA00E3EE32 /* TaskDetailsView */ = {
 			isa = PBXGroup;
 			children = (
+				4D80FB262D3C288B009CC739 /* PaddedIconTextLabel.swift */,
 				4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */,
 				4D6339992BEDC09700E3EE32 /* TaskDetailsViewModel.swift */,
 				4D09D56C2C1B6889002735BA /* TaskDetailsCoordinator.swift */,
@@ -392,6 +415,50 @@
 				4D7017172C5DCFE00007F029 /* CoordinatorFacade.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		4D7D91832D095E3B00141796 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				4D7D918C2D095EB700141796 /* SettingsTaskLimitItem.swift */,
+				4D7D918A2D095EA200141796 /* GeneralSettingsItem.swift */,
+				4D7D91882D095E8E00141796 /* AnySettingsItem.swift */,
+				4D7D91862D095E7500141796 /* SettingsItemProtocol.swift */,
+				4D7D91842D095E6200141796 /* SettingsCellType.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		4D80FB1E2D0D1AAC009CC739 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4D80FB1F2D0D1AC0009CC739 /* SliderSettingsCell.swift */,
+				4D4D69C22C5F39EF00C227EF /* SettingsCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		4D80FB212D3C2585009CC739 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4D80FB282D3CDF52009CC739 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				4D80FB292D3CDF5A009CC739 /* CategoryIcons.swift */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		4D80FB2B2D3CE1CA009CC739 /* ProFeatureManager */ = {
+			isa = PBXGroup;
+			children = (
+				4D80FB2C2D3CE1D3009CC739 /* ProFeatureManager.swift */,
+			);
+			path = ProFeatureManager;
 			sourceTree = "<group>";
 		};
 		4DB0A83B2C2FA3D9005072C9 /* Entities */ = {
@@ -656,22 +723,31 @@
 				4D1C12032C2F932800E15BD2 /* TaskStatus.swift in Sources */,
 				4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */,
 				4D962AB82C1E0E360081D07F /* CoreDataStack+Extension.swift in Sources */,
+				4D80FB202D0D1AC0009CC739 /* SliderSettingsCell.swift in Sources */,
 				4D6339982BEDA3C600E3EE32 /* TaskDetailsViewController.swift in Sources */,
+				4D7D91872D095E7900141796 /* SettingsItemProtocol.swift in Sources */,
 				4D6F157A2C2F29B30079E79B /* LocationService.swift in Sources */,
 				4DB0A83D2C2FA3D9005072C9 /* SLCategory+CoreDataProperties.swift in Sources */,
 				4DB0A8402C2FA3D9005072C9 /* SLTask+CoreDataClass.swift in Sources */,
 				4D598B6422EEBE480020076D /* CoreDataStack.swift in Sources */,
 				4D9D22252C1D3ADE00925E1B /* Date+Extension.swift in Sources */,
+				4D7D918B2D095EAA00141796 /* GeneralSettingsItem.swift in Sources */,
 				4DB043E22BCA33CB00A3901F /* SceneDelegate.swift in Sources */,
+				4D80FB272D3C288B009CC739 /* PaddedIconTextLabel.swift in Sources */,
+				4D7D91892D095E9200141796 /* AnySettingsItem.swift in Sources */,
 				4D63399C2BEDF66300E3EE32 /* Binding.swift in Sources */,
+				4D7D91852D095E6200141796 /* SettingsCellType.swift in Sources */,
+				4D7D918D2D095EBC00141796 /* SettingsTaskLimitItem.swift in Sources */,
 				4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */,
 				4D7017182C5DCFE00007F029 /* CoordinatorFacade.swift in Sources */,
 				4D63399A2BEDC09700E3EE32 /* TaskDetailsViewModel.swift in Sources */,
 				4DBA14362CE45582001D01D6 /* Version.swift in Sources */,
+				4D80FB2D2D3CE1D5009CC739 /* ProFeatureManager.swift in Sources */,
 				4D5584C72C5F9E5C00B3DDA1 /* SettingsCoordinator.swift in Sources */,
 				4D6F157E2C2F2A790079E79B /* TaskPriorityLevel.swift in Sources */,
 				4D7017152C5DCAF30007F029 /* SettingsViewController.swift in Sources */,
 				4DDD01002C5473FD0037125E /* SettingsManager.swift in Sources */,
+				4D80FB2A2D3CDF60009CC739 /* CategoryIcons.swift in Sources */,
 				4DB043E02BCA216100A3901F /* UICollectionView+Extension.swift in Sources */,
 				4DF4A37D2BE98220008A4FF3 /* TaskManager.swift in Sources */,
 				4DB0A8412C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift in Sources */,

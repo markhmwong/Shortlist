@@ -41,9 +41,13 @@ class TaskDetailsCoordinator: CoordinatorFacade {
         else {
             return
         }
+
+		navigationButtons()
+
         rootNavigationController = UINavigationController(rootViewController: rvc)
 
-        guard 
+
+		guard
             let rnc = rootNavigationController,
             let pnc = parentNavigationController
         else {
@@ -52,7 +56,13 @@ class TaskDetailsCoordinator: CoordinatorFacade {
         
         pnc.present(rnc, animated: true)
     }
-    
+
+	private func navigationButtons() {
+		let leftItem = UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissCurrentView))
+		rootViewController?.navigationItem.leftBarButtonItem = leftItem
+
+	}
+
     override func dismissCurrentView() {
         guard 
             let rnc = rootNavigationController

@@ -25,15 +25,15 @@ final class SettingsManager {
     private func initialiseSettingsModelIfNeeded() {
         if !coreData.fetchSettingsModel() {
             coreData.createInitialSettingsModel()
-            taskLimit = coreData.fetchSettingsLimit()
+            taskLimit = coreData.fetchSettingsTaskLimit()
         }
     }
     
     public func fetchTaskLimit() -> Int16 {
-        return coreData.fetchSettingsLimit()
+        return coreData.fetchSettingsTaskLimit()
     }
     
     public func setTaskLimit(_ limit: Int16) {
-        
+		coreData.saveDailyTaskLimit(limit)
     }
 }

@@ -155,8 +155,9 @@ extension CoreDataStack {
             return false
         }
     }
-    
-    public func fetchSettingsLimit() -> Int16 {
+
+	/// Get the total daily task limit
+    public func fetchSettingsTaskLimit() -> Int16 {
         guard let moc = moc else { return 0 }
         let property = "taskLimit"
         do {
@@ -173,12 +174,13 @@ extension CoreDataStack {
         }
         return 0
     }
-    
-    public func newLimit(_ value: Int16) {
+
+	/// Save the daily task limit
+    public func saveDailyTaskLimit(_ value: Int16) {
         guard let moc = moc else { return }
         do {
             let fetchRequest: NSFetchRequest<SLSettings> = SLSettings.fetchRequest()
-            fetchRequest.fetchLimit = 1
+//            fetchRequest.fetchLimit = 1
             let limit = try moc.fetch(fetchRequest)
             if let settings = limit.first {
                 settings.taskLimit = value

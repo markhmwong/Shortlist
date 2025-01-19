@@ -17,15 +17,15 @@ extension UICollectionView.CellRegistration {
         return cellConfig
     }
     
-    static func registerSettingsCell() -> UICollectionView.CellRegistration<SettingsCell, SettingsItem> {
-        let cellConfig = UICollectionView.CellRegistration<SettingsCell, SettingsItem> { (cell, indexPath, item) in
+    static func registerSettingsCell() -> UICollectionView.CellRegistration<SettingsCell, AnySettingsItem> {
+        let cellConfig = UICollectionView.CellRegistration<SettingsCell, AnySettingsItem> { (cell, indexPath, item) in
             cell.configureCell(with: item)
         }
         return cellConfig
     }
 
-	static func registerSliderSettingsCell() -> UICollectionView.CellRegistration<SliderSettingsCell, SettingsItem> {
-		let cellConfig = UICollectionView.CellRegistration<SliderSettingsCell, SettingsItem> { (cell, indexPath, item) in
+	static func registerSliderSettingsCell() -> UICollectionView.CellRegistration<SliderSettingsCell, AnySettingsItem> {
+		let cellConfig = UICollectionView.CellRegistration<SliderSettingsCell, AnySettingsItem> { (cell, indexPath, item) in
 			cell.configureCell(with: item)
 		}
 		return cellConfig
