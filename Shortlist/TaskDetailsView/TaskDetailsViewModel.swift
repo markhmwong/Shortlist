@@ -36,9 +36,16 @@ class TaskDetailsViewModel: NSObject {
         }
         
         // save object state
-        coreData.saveContext()
-        
+		coreData.saveContext()
+
         // handle view dismissal and animations
         completionHandler(item.value)
     }
+
+	func save(title: String) {
+		item.value.name = title
+
+		// save object state
+		coreData.saveContext()
+	}
 }

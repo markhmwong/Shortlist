@@ -84,8 +84,8 @@ class TaskDetailsViewController: UIViewController, UITextViewDelegate {
 
     private var coordinator: TaskDetailsCoordinator
 	
-    private var delegate: Refreshable
-    
+    public var delegate: Refreshable
+
     init(viewModel: TaskDetailsViewModel, coordinator: TaskDetailsCoordinator, delegate: Refreshable) {
 		self.viewModel = viewModel
         self.coordinator = coordinator
@@ -144,8 +144,8 @@ class TaskDetailsViewController: UIViewController, UITextViewDelegate {
 #endif
 	}
 
-	@objc func dismissCurrentView() {
-		self.navigationController?.dismiss(animated: true)
+	public func dismissCurrentView() {
+		delegate.refresh(item: viewModel.item.value)
 	}
 
 	override func viewDidLoad() {
@@ -180,6 +180,9 @@ class TaskDetailsViewController: UIViewController, UITextViewDelegate {
         // dismiss
         // update complete task
         viewModel.taskIsComplete { item in
+			/// save
+			viewModel.save(title: titleTextView.text)
+
             // refresh the TaskListViewController
             // TODO: fast animation toggle
             // do some fancy animation
@@ -219,6 +222,9 @@ class TaskDetailsViewController: UIViewController, UITextViewDelegate {
 
 	// Dismiss the keyboard
 	@objc private func dismissKeyboard() {
+		// save
+		viewModel.save(title: titleTextView.text)
+
 		titleTextView.endEditing(true)
 	}
 }
