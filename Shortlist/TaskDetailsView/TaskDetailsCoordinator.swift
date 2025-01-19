@@ -69,6 +69,11 @@ class TaskDetailsCoordinator: CoordinatorFacade {
         else {
             return
         }
+
+		if let refreshable = rootViewController as? TaskDetailsViewController {
+			refreshable.dismissCurrentView()
+		}
+
         rnc.dismiss(animated: true)
     }
 }
