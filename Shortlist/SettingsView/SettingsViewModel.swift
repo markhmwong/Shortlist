@@ -10,74 +10,99 @@ import UIKit
 
 class SettingsViewModel: DatasourceSupervisor {
     
-    typealias Item = SettingsItem
-    
+    typealias Item = AnySettingsItem
+
     typealias SectionIdentifier = SettingsSection
     
     enum SettingsSection: Int, CaseIterable {
         case main
     }
     
-    private var items: [SettingsItem] = []
-    
-	private var diffableDatasource: UICollectionViewDiffableDataSource<SettingsSection, SettingsItem>! = nil
+	var items: [AnySettingsItem] = []
 
-	init() {
+	var diffableDatasource: UICollectionViewDiffableDataSource<SettingsSection, AnySettingsItem>! = nil
+
+	let coordinator: SettingsCoordinator
+
+	init(coordinator: SettingsCoordinator) {
+		self.coordinator = coordinator
         self.items = initialiseItems()
     }
     
-    private func initialiseItems() -> [SettingsItem] {
-		let taskLimit = SettingsItem(name: "Task Limit", section: .main, itemType: SettingsCellType.slider)
-		let about = SettingsItem(name: "About", section: .main, itemType: .label)
-		let privacyPolicy = SettingsItem(name: "Privacy Policy", section: .main, itemType: .label)
+	private func initialiseItems() -> [AnySettingsItem] {
+		let limit = SettingsManager.shared.fetchTaskLimit()
+		let taskLimitItem = SettingsTaskLimitItem(title: "Task Limit", section: .main, value: String(limit), itemType: SettingsCellType.slider)
+		var aboutItem = GeneralSettingsItem(title: "About", section: .main, itemType: .label)
+
+		aboutItem.performAction = { [unowned coordinator] in
+			/// triggered from didSelectItem in the viewcontroller
+			coordinator.showAbout()
+		}
+		aboutItem.titleFontConfig(textStyle: .body, weight: .bold)
+		var privacyPolicyItem = GeneralSettingsItem(title: "Privacy Policy", section: .main, itemType: .label)
+		privacyPolicyItem.performAction = { [unowned coordinator] in
+			coordinator.showPrivacyPolicy()
+		}
+
+		privacyPolicyItem.titleFontConfig(textStyle: .body, weight: .bold)
 
 		guard let version: (String, String, String) = Version.getAppVersionComponentsAsStrings() else {
 			assert(Version.getAppVersionComponentsAsStrings() != nil, "Version cannot be nil")
-			let version = SettingsItem(name: "Version Unknown", section: .main, itemType: .label)
-			return [taskLimit, about, privacyPolicy, version]
+			var versionItem = GeneralSettingsItem(title: "Version Unknown", section: .main, itemType: .label)
+			versionItem.titleFontConfig(textStyle: .caption1)
+
+			let items: [AnySettingsItem] = [
+				AnySettingsItem(taskLimitItem),
+				AnySettingsItem(aboutItem),
+				AnySettingsItem(privacyPolicyItem),
+				AnySettingsItem(versionItem)
+			]
+			return items
 		}
 
-		let versionItem = SettingsItem(name: "Version \(version.0).(\(version.1).\(version.2))", section: .main, itemType: .label)
+		var versionItem = GeneralSettingsItem(title: "Version \(version.0).\(version.1).\(version.2)", section: .main, itemType: .label)
+		versionItem.titleFontConfig(textStyle: .caption1)
 
-        return [
-			taskLimit,
-			about,
-			privacyPolicy,
+		let finalItems: [any SettingsItemProtocol] = [
+			taskLimitItem,
+			aboutItem,
+			privacyPolicyItem,
 			versionItem
 		]
+
+		let castedItems = finalItems.map { AnySettingsItem($0) }
+
+		return castedItems
     }
 
-    func configureDatasource(view: UICollectionView) {
-        let settingsCellRegistration = UICollectionView.CellRegistration<SettingsCell, SettingsItem>.registerSettingsCell()
-		let settingsCellSliderRegistration = UICollectionView.CellRegistration<SliderSettingsCell, SettingsItem>.registerSliderSettingsCell()
-
-        diffableDatasource = UICollectionViewDiffableDataSource<SettingsSection, SettingsItem>(collectionView: view) { collectionView, indexPath, item in
-
+	func configureDatasource(view: UICollectionView) {
+        let settingsCellRegistration = UICollectionView.CellRegistration<SettingsCell, AnySettingsItem>.registerSettingsCell()
+		let settingsCellSliderRegistration = UICollectionView.CellRegistration<SliderSettingsCell, AnySettingsItem>.registerSliderSettingsCell()
+		diffableDatasource = UICollectionViewDiffableDataSource<SettingsSection, AnySettingsItem>(collectionView: view) { collectionView, indexPath, item in
 			switch item.itemType {
 				case .label:
 					return collectionView.dequeueConfiguredReusableCell(using: settingsCellRegistration, for: indexPath, item: item)
 				case .slider:
 					return collectionView.dequeueConfiguredReusableCell(using: settingsCellSliderRegistration, for: indexPath, item: item)
 			}
-
-        }
+		}
         
         updateSnapshot(item: items)
     }
     
-    func configureSnapshot(data: [SettingsItem]) -> NSDiffableDataSourceSnapshot<SettingsSection, SettingsItem> {
-        var snapshot = NSDiffableDataSourceSnapshot<SettingsSection, SettingsItem>()
+    func configureSnapshot(data: [AnySettingsItem]) -> NSDiffableDataSourceSnapshot<SettingsSection, AnySettingsItem> {
+        var snapshot = NSDiffableDataSourceSnapshot<SettingsSection, AnySettingsItem>()
         snapshot.appendSections(SettingsSection.allCases)
         snapshot.appendItems(data)
         return snapshot
     }
     
-    func updateSnapshot(item: [SettingsItem]) {
+    func updateSnapshot(item: [AnySettingsItem]) {
         let snapshot = configureSnapshot(data: item)
         diffableDatasource.apply(snapshot)
     }
     
-    func refreshDatasource(item: [SettingsItem]) {
+    func refreshDatasource(item: [AnySettingsItem]) {
 
 	}
 }

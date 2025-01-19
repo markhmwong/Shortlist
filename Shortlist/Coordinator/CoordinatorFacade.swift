@@ -40,8 +40,9 @@ public class CoordinatorFacade: NSObject, Coordinator {
         
     }
     
-    func dismissCurrentView() {
-        
+    @objc
+	func dismissCurrentView() {
+
     }
     
 }

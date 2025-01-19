@@ -40,7 +40,7 @@ class TaskListCoordinator: CoordinatorFacade {
 	}
     
     func presentSettings() {
-        let coordinator = SettingsCoordinator(parentCoordinator: self, parentNavigationController: rootNavigationController, rootNavigationController: nil, rootViewController: nil, coreDataStack: coreDataStack)
+        let coordinator = SettingsCoordinator(parentCoordinator: self, parentNavigationController: rootNavigationController, rootNavigationController: UINavigationController(), rootViewController: nil, coreDataStack: coreDataStack)
         coordinator.start()
     }
 }

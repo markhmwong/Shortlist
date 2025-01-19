@@ -29,12 +29,12 @@ class TaskManager: NSObject {
     }
 
 	/// For use in settings to define the maximum allowable tasks
-	public func totalAllowableTasks() -> Int {
-		return 7
+	public func totalAllowableTasks() -> Int16 {
+		return SettingsManager.shared.fetchTaskLimit()
 	}
 
 	/// priority
-	public priorityList() -> [Priority] {
+	public func priorityList() -> [TaskPriorityLevel] {
 		return [.low, .medium, .high, .critical]
 	}
 }
