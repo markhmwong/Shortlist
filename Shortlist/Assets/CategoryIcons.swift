@@ -21,7 +21,7 @@ enum AssetManager {
 	}
 
 	/// Preset categories
-	enum PresetCategoryAssets: String {
+	enum CategoryAssets: String {
 		case general
 		case personal
 		case family

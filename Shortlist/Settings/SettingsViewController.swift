@@ -32,3 +32,4 @@ class SettingsViewController: UICollectionViewController, UIGestureRecognizerDel
 		}
     }
 }
+

@@ -8,21 +8,21 @@
 
 import UIKit
 
+class TaskListCoordinator: CoordinatorFacade<SLTask> {
 
-
-class TaskListCoordinator: CoordinatorFacade {
-    
     override init(parentCoordinator: (any Coordinator)? = nil,
                   parentNavigationController: UINavigationController? = nil,
                   rootNavigationController: UINavigationController? = nil,
-                  rootViewController: UIViewController? = nil,
-                  coreDataStack: CoreDataStack? = nil) {
-        super.init(parentCoordinator: parentCoordinator,
-                   parentNavigationController: parentNavigationController,
-                   rootNavigationController: rootNavigationController,
-                   rootViewController: rootViewController,
-                   coreDataStack: coreDataStack)
-    }
+				  rootViewController: UIViewController? = nil,
+				  coreDataStack: CoreDataStack? = nil,
+				  task: SLTask? = nil) {
+		super.init(parentCoordinator: parentCoordinator,
+				   parentNavigationController: parentNavigationController,
+				   rootNavigationController: rootNavigationController,
+				   rootViewController: rootViewController,
+				   coreDataStack: coreDataStack,
+				   task: task)
+	}
     
     override func start() {
         let vm = TaskListViewModel(coreDataStack: coreDataStack)
@@ -36,7 +36,7 @@ class TaskListCoordinator: CoordinatorFacade {
         let coordinator = TaskDetailsCoordinator(parentCoordinator: self,
                                                  parentNavigationController: rootNavigationController,
                                                  coreDataStack: coreDataStack)
-        coordinator.startWith(item: item)
+        coordinator.start(with: item)
 	}
     
     func presentSettings() {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class CoordinatorFacade: NSObject, Coordinator {
+public class CoordinatorFacade<T>: NSObject, Coordinator {
     var parentCoordinator: Coordinator? = nil
     
     var parentNavigationController: UINavigationController? = nil
@@ -19,27 +19,34 @@ public class CoordinatorFacade: NSObject, Coordinator {
     
     var coreDataStack: CoreDataStack? = nil
     
-    init(parentCoordinator: Coordinator? = nil, parentNavigationController: UINavigationController? = nil, rootNavigationController: UINavigationController? = nil, rootViewController: UIViewController? = nil, coreDataStack: CoreDataStack? = nil) {
+    var task: T? = nil
+
+    init(parentCoordinator: Coordinator? = nil, parentNavigationController: UINavigationController? = nil, rootNavigationController: UINavigationController? = nil, rootViewController: UIViewController? = nil, coreDataStack: CoreDataStack? = nil, task: T? = nil) {
         self.parentCoordinator = parentCoordinator
         self.parentNavigationController = parentNavigationController
         self.rootNavigationController = rootNavigationController
         self.coreDataStack = coreDataStack
         self.rootViewController = rootViewController
+        self.task = task
         super.init()
     }
     
-    func start() {
+    public func start() {
 
     }
     
-    func startWith(item: SLTask) {
-        
+    public func start(with item: T) {
+
     }
     
-    func dismissEntireStack() {
-        
+    public func dismissEntireStack() {
+
     }
-    
+
+	public func refreshOnPop(with item: T) {
+
+	}
+
     @objc
 	func dismissCurrentView() {
 

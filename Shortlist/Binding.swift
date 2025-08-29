@@ -8,6 +8,7 @@
 
 import Foundation
 
+//https://medium.com/@onmyway133/a-taste-of-mvvm-and-reactive-paradigm-5288a819cca1
 class Binding<T> {
 	var value: T {
 		didSet {

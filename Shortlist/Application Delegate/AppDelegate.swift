@@ -15,17 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     var cds: CoreDataStack = CoreDataStack.shared
-//    lazy var persistentContainer: CoreDataStack = {
-//        let container = CoreDataStack()
-//        container.loadPersistentStores { description, error in
-//            if let error = error {
-//                fatalError("Unable to load persistent stores: \(error)")
-//            }
-//        }
-//        container.viewContext.automaticallyMergesChangesFromParent = true        
-//        return container
-//    }()
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
