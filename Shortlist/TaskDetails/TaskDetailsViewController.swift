@@ -99,7 +99,7 @@ class TaskDetailsViewController: UITableViewController, Refreshable {
 				priority: item.priority,
 				longitude: item.long,
 				latitude: item.lat
-			
+
 			)
 			self.coordinator.dismissCurrentView()
 			self.delegate.refresh(item: item)
