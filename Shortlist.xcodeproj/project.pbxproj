@@ -61,7 +61,6 @@
 		4DC677BE2E625B280001FEE8 /* PrioritySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677BD2E625B280001FEE8 /* PrioritySelectionViewController.swift */; };
 		4DC677C12E625B430001FEE8 /* ReminderDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677BF2E625B430001FEE8 /* ReminderDatePickerViewController.swift */; };
 		4DC677C22E625B430001FEE8 /* ReminderDatePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677C02E625B430001FEE8 /* ReminderDatePickerViewModel.swift */; };
-		4DC677C42E625B610001FEE8 /* SelectableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677C32E625B610001FEE8 /* SelectableTableViewCell.swift */; };
 		4DC677C72E625C290001FEE8 /* CategorySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677C62E625C290001FEE8 /* CategorySelectionViewModel.swift */; };
 		4DC677C82E625C290001FEE8 /* CategorySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677C52E625C290001FEE8 /* CategorySelectionViewController.swift */; };
 		4DC677CA2E625C360001FEE8 /* SelectableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677C92E625C360001FEE8 /* SelectableTableViewCell.swift */; };
@@ -190,7 +189,6 @@
 		4DC677BD2E625B280001FEE8 /* PrioritySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySelectionViewController.swift; sourceTree = "<group>"; };
 		4DC677BF2E625B430001FEE8 /* ReminderDatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDatePickerViewController.swift; sourceTree = "<group>"; };
 		4DC677C02E625B430001FEE8 /* ReminderDatePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDatePickerViewModel.swift; sourceTree = "<group>"; };
-		4DC677C32E625B610001FEE8 /* SelectableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableTableViewCell.swift; sourceTree = "<group>"; };
 		4DC677C52E625C290001FEE8 /* CategorySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectionViewController.swift; sourceTree = "<group>"; };
 		4DC677C62E625C290001FEE8 /* CategorySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectionViewModel.swift; sourceTree = "<group>"; };
 		4DC677C92E625C360001FEE8 /* SelectableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableTableViewCell.swift; sourceTree = "<group>"; };
@@ -403,15 +401,12 @@
 		4D6339962BEDA3BA00E3EE32 /* TaskDetails */ = {
 			isa = PBXGroup;
 			children = (
+				4DC677D92E625EC80001FEE8 /* Cells */,
 				4DC677D12E625C5D0001FEE8 /* TaskDetailsCoordinator.swift */,
-				4DC677CD2E625C500001FEE8 /* TextFieldTableViewCell.swift */,
-				4DC677CE2E625C500001FEE8 /* TextViewTableViewCell.swift */,
 				4DC677CB2E625C450001FEE8 /* TaskDetailType.swift */,
-				4DC677C92E625C360001FEE8 /* SelectableTableViewCell.swift */,
 				4DC677C52E625C290001FEE8 /* CategorySelectionViewController.swift */,
 				4DC677C62E625C290001FEE8 /* CategorySelectionViewModel.swift */,
 				4DC677BF2E625B430001FEE8 /* ReminderDatePickerViewController.swift */,
-				4DC677C32E625B610001FEE8 /* SelectableTableViewCell.swift */,
 				4DC677C02E625B430001FEE8 /* ReminderDatePickerViewModel.swift */,
 				4DC677BD2E625B280001FEE8 /* PrioritySelectionViewController.swift */,
 				4D80FB262D3C288B009CC739 /* PaddedIconTextLabel.swift */,
@@ -540,6 +535,16 @@
 				4DC677BA2E6259090001FEE8 /* ProFeatureManager.swift */,
 			);
 			path = ProFeatureManager;
+			sourceTree = "<group>";
+		};
+		4DC677D92E625EC80001FEE8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4DC677C92E625C360001FEE8 /* SelectableTableViewCell.swift */,
+				4DC677CD2E625C500001FEE8 /* TextFieldTableViewCell.swift */,
+				4DC677CE2E625C500001FEE8 /* TextViewTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		4DCD042A25247228005B97F1 /* Constants */ = {
@@ -785,7 +790,6 @@
 				4D7D91892D095E9200141796 /* AnySettingsItem.swift in Sources */,
 				4D63399C2BEDF66300E3EE32 /* Binding.swift in Sources */,
 				4D7D91852D095E6200141796 /* SettingsCellType.swift in Sources */,
-				4DC677C42E625B610001FEE8 /* SelectableTableViewCell.swift in Sources */,
 				4D7D918D2D095EBC00141796 /* SettingsTaskLimitItem.swift in Sources */,
 				4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */,
 				4D63399A2BEDC09700E3EE32 /* TaskDetailsViewModel.swift in Sources */,
