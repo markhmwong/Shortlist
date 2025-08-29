@@ -8,10 +8,10 @@
 
 import UIKit
 
-class SettingsCoordinator: CoordinatorFacade {
-    
-    override init(parentCoordinator: (any Coordinator)? = nil, parentNavigationController: UINavigationController? = nil, rootNavigationController: UINavigationController? = nil, rootViewController: UIViewController? = nil, coreDataStack: CoreDataStack? = nil) {
-        super.init(parentCoordinator: parentCoordinator, parentNavigationController: parentNavigationController, rootNavigationController: rootNavigationController, rootViewController: rootNavigationController, coreDataStack: coreDataStack)
+class SettingsCoordinator: CoordinatorFacade<SLTask> {
+
+    override init(parentCoordinator: (any Coordinator)? = nil, parentNavigationController: UINavigationController? = nil, rootNavigationController: UINavigationController? = nil, rootViewController: UIViewController? = nil, coreDataStack: CoreDataStack? = nil, task: SLTask? = nil) {
+        super.init(parentCoordinator: parentCoordinator, parentNavigationController: parentNavigationController, rootNavigationController: rootNavigationController, rootViewController: rootNavigationController, coreDataStack: coreDataStack, task: task)
     }
     
     override func start() {

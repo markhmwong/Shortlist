@@ -20,4 +20,10 @@ extension Date {
         return formatter.string(from: self)
     }
     
+    func formattedWithTime() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy HH:mm"
+        return formatter.string(from: self)
+    }
+    
 }

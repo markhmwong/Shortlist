@@ -8,6 +8,31 @@
 
 import UIKit
 
+/// A type-erased wrapper for any `SettingsItemProtocol` conforming item.
+/// This allows for heterogeneous collections of settings items, enabling
+/// the use of different types of settings items in a single collection
+/// while maintaining type safety and functionality.
+/// /// Usage:
+/// ```swift
+/// let items: [AnySettingsItem] = [
+///     AnySettingsItem(SettingsTaskLimitItem(title: "Task Limit", value: "10", itemType: .text)),
+///     AnySettingsItem(GeneralSettingsItem(title: "About", itemType: .label, performAction: { print("About tapped") }))
+/// ]
+/// Accessing properties
+/// for item in items {
+///     print("Title: \(item.title), Value: \(item.value ?? "No Value")")
+///     item.performAction?()
+///     print("Item Type: \(item.itemType)")
+///     print("Item ID: \(item.id)")
+///     print("Hash Value: \(item.hashValue)")
+///     print("Base Item: \(item.baseItem)")
+///     // Use item.baseItem to access the original settings item
+///     // Note: Ensure to cast baseItem to the specific type if needed
+///     if let specificItem = item.baseItem as? SettingsTaskLimitItem {
+///         print("Specific Item Title: \(specificItem.title)")
+///     }
+/// }
+/// ```
 struct AnySettingsItem: SettingsItemProtocol {
 	private let _id: UUID
 	private let _title: String
@@ -47,7 +72,7 @@ struct AnySettingsItem: SettingsItemProtocol {
 			_setItemType(newValue)
 		}
 	}
-
+	
 	// references actual object
 	let baseItem: any SettingsItemProtocol
 

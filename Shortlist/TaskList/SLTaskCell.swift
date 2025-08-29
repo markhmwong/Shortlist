@@ -55,7 +55,8 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
     override func setupViewsIfNeeded() {
 		super.setupViewsIfNeeded()
         contentView.layer.cornerRadius = 5.0
-		
+		contentView.layer.borderWidth = 2.0
+
         /// layout
         contentView.addSubview(titleLabel)
         contentView.addSubview(completeLabel)
@@ -88,6 +89,7 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
 			contentView.backgroundColor = colors.backgroundColor
 			titleLabel.textColor = colors.textColor
 			completeLabel.textColor = colors.textColor
+			contentView.layer.borderColor = colors.backgroundColor.darker(by: 3.0)?.cgColor
 		} else {
 			contentView.backgroundColor = UIColor.lightGray
 			titleLabel.textColor = UIColor.darkText
@@ -97,8 +99,8 @@ class SLTaskCell: BaseCollectionViewCell<SLTask> {
 
     private func calculateColors(for priority: TaskPriorityLevel) -> (textColor: UIColor, backgroundColor: UIColor, borderColor: UIColor) {
         let baseColour = priority.baseColour
-        let textColour = baseColour.darker(by: 30.0) ?? baseColour
-        let backgroundColor = baseColour.lighter(by: 40.0) ?? baseColour
+		let textColour = priority.textColour
+        let backgroundColor = baseColour.lighter(by: 20.0) ?? baseColour
         let borderColour = baseColour.darker(by: 10.0) ?? baseColour
         
         return (textColour, backgroundColor, borderColour)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum TaskPriorityLevel: Int, CaseIterable {
+public enum TaskPriorityLevel: Int, CaseIterable {
 	case critical
 	case high
     case medium
@@ -26,4 +26,17 @@ enum TaskPriorityLevel: Int, CaseIterable {
             return UIColor.lowPriority
         }
     }
+
+	var textColour: UIColor {
+		switch self {
+			case .critical:
+				return UIColor.darkRed
+			case .high:
+				return UIColor.highPriority
+			case .medium:
+				return UIColor.mediumPriorityText
+			case .low:
+				return UIColor.lowPriority
+		}
+	}
 }
