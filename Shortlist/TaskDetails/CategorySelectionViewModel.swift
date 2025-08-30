@@ -6,12 +6,17 @@
 
 import Foundation
 
-class CategorySelectionViewModel {
-    let categories: [AssetManager.CategoryAssets]
-	let task : SLTask
-    init(task: SLTask) {
+public class CategorySelectionViewModel {
+
+    public let categories: [AssetManager.Category]
+	public let task : SLTask
+
+	public let cds: CoreDataStack
+
+	public init(task: SLTask, cds: CoreDataStack) {
         // Use all cases of CategoryAssets
         self.categories = [.general, .personal, .family, .work, .home]
 		self.task = task
+		self.cds = cds
     }
 }

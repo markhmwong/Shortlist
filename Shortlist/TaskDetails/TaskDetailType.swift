@@ -51,6 +51,7 @@ struct DateTaskDetail: TaskDetailType, Hashable {
 
 enum TaskDetailValueType: Hashable {
 	case string(String)
+	case int(Int)
 	case date(Date)
 	case none
 
@@ -58,6 +59,8 @@ enum TaskDetailValueType: Hashable {
 		switch self {
 			case .string(let str):
 				return str
+			case .int(let int):
+				return String(int)
 			case .date(let date):
 				let formatter = DateFormatter()
 				formatter.dateStyle = .medium

@@ -8,6 +8,7 @@
 
 import Foundation
 
-protocol Refreshable {
+/// Refreshes the parent view when a child view is popped
+protocol RefreshablePopView {
     func refresh(item: SLTask)
 }

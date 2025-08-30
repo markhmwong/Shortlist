@@ -8,7 +8,7 @@
 import UIKit
 import os
 
-class TaskDetailsViewController: UITableViewController, Refreshable {
+class TaskDetailsViewController: UITableViewController, RefreshablePopView {
 	func refresh(item: SLTask) {
 		DispatchQueue.main.async { [weak self] in
 			self?.viewModel.task.value = item
@@ -16,15 +16,14 @@ class TaskDetailsViewController: UITableViewController, Refreshable {
 		}
 	}
 
-
 	private var viewModel: TaskDetailsViewModel
 
 	/// Navigation
 	private var coordinator: TaskDetailsCoordinator
 
-	public var delegate: Refreshable
+	public var delegate: RefreshablePopView
 
-	init(viewModel: TaskDetailsViewModel, coordinator: TaskDetailsCoordinator, delegate: Refreshable) {
+	init(viewModel: TaskDetailsViewModel, coordinator: TaskDetailsCoordinator, delegate: RefreshablePopView) {
 		self.viewModel = viewModel
 		self.coordinator = coordinator
 		self.delegate = delegate

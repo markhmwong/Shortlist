@@ -9,7 +9,7 @@
 import Foundation
 
 extension SLTask {
-    func newTask(name: String, media: String? = nil, priority: TaskPriorityLevel = .high, reminder: Date? = nil, taskDescripion: String? = nil, category: String = "General") {
+    func newTask(name: String, media: String? = nil, priority: TaskPriorityLevel = .high, reminder: Date? = nil, taskDescripion: String? = nil, category: Int16 = 0) {
         self.createdAt = Date.now
         self.id = UUID()
         self.name = name
@@ -35,6 +35,6 @@ extension SLTask {
         self.taskToStatus?.statusToTask = self
         
         self.taskToCategory = SLCategory(context: managedObjectContext!)
-        self.taskToCategory?.name = category
+        self.taskToCategory?.type = category
     }
 }

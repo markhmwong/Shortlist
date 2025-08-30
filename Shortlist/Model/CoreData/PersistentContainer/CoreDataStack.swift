@@ -9,17 +9,17 @@
 import Foundation
 import CoreData
 
-class CoreDataStack: NSObject {
-    
+public class CoreDataStack: NSObject {
+
     /// singleton instance
-    static let shared: CoreDataStack = CoreDataStack()
-    
+    public static let shared: CoreDataStack = CoreDataStack()
+
     /// create queue
-    let dataQueue: DispatchQueue = DispatchQueue(label: "com.whizbang.shortlist.queue.coredata", qos: .utility)
-    
+	public let dataQueue: DispatchQueue = DispatchQueue(label: "com.whizbang.shortlist.queue.coredata", qos: .utility)
+
     // MARK: - Core Data stack
 
-    lazy var persistentContainer: NSPersistentContainer = {
+	public lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
          creates and returns a container, having loaded the store for the
@@ -50,13 +50,13 @@ class CoreDataStack: NSObject {
     public var moc: NSManagedObjectContext? = nil
 
 
-    override init() {
+	public override init() {
         super.init()
         self.moc = self.persistentContainer.viewContext
     }
     // MARK: - Core Data Saving support
 
-    func saveContext () {
+	public func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
@@ -70,7 +70,7 @@ class CoreDataStack: NSObject {
         }
     }
     
-    func deleteAllObjects() {
+	public func deleteAllObjects() {
         guard let moc = moc else {
             print("Unable to delete item")
             return
@@ -88,7 +88,7 @@ class CoreDataStack: NSObject {
         }
     }
     
-    func fetchTodaysItems() -> [SLTask] {
+	public func fetchTodaysItems() -> [SLTask] {
         guard let moc = moc else { return [] }
         
         do {
@@ -103,11 +103,11 @@ class CoreDataStack: NSObject {
         }
     }
     
-    func fetchNumberOfItems() -> Int16 {
+	public func fetchNumberOfItems() -> Int16 {
         return Int16(fetchTodaysItems().count)
     }
     
-    func delete(objectId item: NSManagedObjectID) {
+	public func delete(objectId item: NSManagedObjectID) {
         guard let moc = moc else {
             print("Unable to delete item")
             return

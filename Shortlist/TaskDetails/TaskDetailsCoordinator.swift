@@ -38,7 +38,7 @@ class TaskDetailsCoordinator: CoordinatorFacade<SLTask> {
         {
             return
         }
-        rootViewController = TaskDetailsViewController(viewModel: vm, coordinator: self, delegate: pc.rootViewController as! Refreshable)
+        rootViewController = TaskDetailsViewController(viewModel: vm, coordinator: self, delegate: pc.rootViewController as! RefreshablePopView)
         
         guard let rvc = rootViewController 
         else {
@@ -81,9 +81,13 @@ class TaskDetailsCoordinator: CoordinatorFacade<SLTask> {
 	}
 
 	public func pushCategorySelectionViewController(with task: SLTask) {
+		guard let coreDataStack, let rvc = rootViewController as? RefreshablePopView else {
+			assertionFailure("Core Data Stack is nil")
+			return
+		}
 		self.task = task
-		let viewModel = CategorySelectionViewModel(task: task)
-		let vc = CategorySelectionViewController(coordinator: self, viewModel: viewModel)
+		let viewModel = CategorySelectionViewModel(task: task, cds: coreDataStack)
+		let vc = CategorySelectionViewController(coordinator: self, viewModel: viewModel, delegate: rvc)
 		rootNavigationController?.pushViewController(vc, animated: true)
 	}
 
@@ -93,7 +97,7 @@ class TaskDetailsCoordinator: CoordinatorFacade<SLTask> {
 			return
 		}
 
-		if let viewController = rootNavigationController.viewControllers.first as? Refreshable {
+		if let viewController = rootNavigationController.viewControllers.first as? RefreshablePopView {
 			viewController.refresh(item: item)
 		}
 

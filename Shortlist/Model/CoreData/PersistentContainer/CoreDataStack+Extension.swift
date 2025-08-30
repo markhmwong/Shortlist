@@ -22,7 +22,7 @@ extension CoreDataStack {
             item.taskToStatus = status
             item.taskDescription = "Description"
             item.taskToCategory = SLCategory(context: moc!)
-            item.taskToCategory?.name = "test category"
+            item.taskToCategory?.type = 0
         }
         self.saveContext()
     }
