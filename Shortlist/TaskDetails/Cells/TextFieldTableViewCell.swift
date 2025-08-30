@@ -50,6 +50,7 @@ class TextFieldTableViewCell: UITableViewCell, UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+		precondition(delegate != nil, "Delegate must be set")
         delegate?.textFieldCell(self, didUpdateText: textField.text ?? "")
     }
 
@@ -57,6 +58,7 @@ class TextFieldTableViewCell: UITableViewCell, UITextFieldDelegate {
         let currentText = textField.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return true }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+		precondition(delegate != nil, "Delegate must be set")
         delegate?.textFieldCell(self, didUpdateText: updatedText)
         return true
     }

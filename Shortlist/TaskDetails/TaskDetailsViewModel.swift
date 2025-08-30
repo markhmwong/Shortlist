@@ -89,12 +89,14 @@ class TaskDetailsViewModel: NSObject, TextFieldTableViewCellDelegate, TextViewTa
 					let value = (item.value?.stringValue ?? "").localizedCapitalized
 					let title = item.title.localizedCapitalized
 					cell.configure(placeholder: "Name", text: value, title: title)
+					cell.delegate = self
 					return cell
 				case Section.description.rawValue:
 					let cell = tableView.dequeueReusableCell(withIdentifier: TextViewTableViewCell.identifier, for: indexPath) as! TextViewTableViewCell
 					let title = item.title.localizedCapitalized
 					let value = (item.value?.stringValue ?? "").localizedLowercase
 					cell.configure(title: title, text: value, tableView: tableViewController.tableView)
+					cell.delegate = self
 					return cell
 				case Section.priority.rawValue:
 					let cell = tableView.dequeueReusableCell(withIdentifier: SelectableTableViewCell.identifier, for: indexPath) as! SelectableTableViewCell
@@ -198,14 +200,12 @@ class TaskDetailsViewModel: NSObject, TextFieldTableViewCellDelegate, TextViewTa
 	}
 
 	public func save(
-		title: String,
-		description: String,
 		priority: Int16,
 		longitude: Double = 0.0,
 		latitude: Double = 0.0
 	) {
-		task.value.name = title
-		task.value.taskDescription = description
+//		task.value.name = title
+//		task.value.taskDescription = description
 		task.value.priority = priority
 		task.value.long = longitude
 		task.value.lat = latitude

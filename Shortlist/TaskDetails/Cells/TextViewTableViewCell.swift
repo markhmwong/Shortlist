@@ -50,6 +50,7 @@ public class TextViewTableViewCell: UITableViewCell, UITextViewDelegate {
 	}
 
 	public func textViewDidChange(_ textView: UITextView) {
+		precondition(delegate != nil, "Delegate must be set")
 		delegate?.textViewCell(self, didUpdateText: textView.text)
 		DispatchQueue.main.async { [weak self] in
 			self?.tableView?.beginUpdates()

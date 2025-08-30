@@ -93,13 +93,10 @@ class TaskDetailsViewController: UITableViewController, Refreshable {
 
 		viewModel.taskIsComplete { [weak self] item in
 			guard let self = self else { return }
-			self.viewModel.save(
-				title: item.name ?? "no name",
-				description: item.description,
+			self.viewModel.save(// get the data from the text view
 				priority: item.priority,
 				longitude: item.long,
 				latitude: item.lat
-
 			)
 			self.coordinator.dismissCurrentView()
 			self.delegate.refresh(item: item)
