@@ -70,6 +70,7 @@
 		4DC677D22E625C5D0001FEE8 /* TaskDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677D12E625C5D0001FEE8 /* TaskDetailsCoordinator.swift */; };
 		4DC677D42E625CC00001FEE8 /* CoordinatorFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677D32E625CC00001FEE8 /* CoordinatorFacade.swift */; };
 		4DC677D82E625CFD0001FEE8 /* DynamicTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677D62E625CFD0001FEE8 /* DynamicTableView.swift */; };
+		4DC677DC2E63A3150001FEE8 /* PrioritySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677DB2E63A3150001FEE8 /* PrioritySelectionViewModel.swift */; };
 		4DCD042C25247231005B97F1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCD042B25247231005B97F1 /* Constants.swift */; };
 		4DF3E3722403E01F002B402C /* ScreenshotTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3712403E01F002B402C /* ScreenshotTester.swift */; };
 		4DF3E3792403E0F2002B402C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3592403DB62002B402C /* SnapshotHelper.swift */; };
@@ -198,6 +199,7 @@
 		4DC677D12E625C5D0001FEE8 /* TaskDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCoordinator.swift; sourceTree = "<group>"; };
 		4DC677D32E625CC00001FEE8 /* CoordinatorFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFacade.swift; sourceTree = "<group>"; };
 		4DC677D62E625CFD0001FEE8 /* DynamicTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTableView.swift; sourceTree = "<group>"; };
+		4DC677DB2E63A3150001FEE8 /* PrioritySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySelectionViewModel.swift; sourceTree = "<group>"; };
 		4DC6950A234CCD6300CB4A6E /* FiveModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 5.xcdatamodel"; sourceTree = "<group>"; };
 		4DC6950B234CD09B00CB4A6E /* FiveModel 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 6.xcdatamodel"; sourceTree = "<group>"; };
 		4DC8FAA22566703A001892A4 /* FiveModel 15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 15.xcdatamodel"; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 		4D6339962BEDA3BA00E3EE32 /* TaskDetails */ = {
 			isa = PBXGroup;
 			children = (
+				4DC677DA2E63A3090001FEE8 /* Priority */,
 				4DC677D92E625EC80001FEE8 /* Cells */,
 				4DC677D12E625C5D0001FEE8 /* TaskDetailsCoordinator.swift */,
 				4DC677CB2E625C450001FEE8 /* TaskDetailType.swift */,
@@ -408,7 +411,6 @@
 				4DC677C62E625C290001FEE8 /* CategorySelectionViewModel.swift */,
 				4DC677BF2E625B430001FEE8 /* ReminderDatePickerViewController.swift */,
 				4DC677C02E625B430001FEE8 /* ReminderDatePickerViewModel.swift */,
-				4DC677BD2E625B280001FEE8 /* PrioritySelectionViewController.swift */,
 				4D80FB262D3C288B009CC739 /* PaddedIconTextLabel.swift */,
 				4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */,
 				4D6339992BEDC09700E3EE32 /* TaskDetailsViewModel.swift */,
@@ -545,6 +547,15 @@
 				4DC677CE2E625C500001FEE8 /* TextViewTableViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		4DC677DA2E63A3090001FEE8 /* Priority */ = {
+			isa = PBXGroup;
+			children = (
+				4DC677DB2E63A3150001FEE8 /* PrioritySelectionViewModel.swift */,
+				4DC677BD2E625B280001FEE8 /* PrioritySelectionViewController.swift */,
+			);
+			path = Priority;
 			sourceTree = "<group>";
 		};
 		4DCD042A25247228005B97F1 /* Constants */ = {
@@ -758,6 +769,7 @@
 				4DB0A8472C2FA42F005072C9 /* SLTask+Methods.swift in Sources */,
 				4D5584C92C5F9E6700B3DDA1 /* SettingsViewModel.swift in Sources */,
 				4DB0A83F2C2FA3D9005072C9 /* SLStatus+CoreDataProperties.swift in Sources */,
+				4DC677DC2E63A3150001FEE8 /* PrioritySelectionViewModel.swift in Sources */,
 				4DC677BE2E625B280001FEE8 /* PrioritySelectionViewController.swift in Sources */,
 				4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */,
 				4DC677BC2E6259090001FEE8 /* ProFeatureManager.swift in Sources */,

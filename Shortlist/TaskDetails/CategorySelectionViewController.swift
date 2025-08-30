@@ -6,20 +6,18 @@
 
 import UIKit
 
-class CategorySelectionViewController: UIViewController, UITableViewDelegate {
+public class CategorySelectionViewController: UIViewController, UITableViewDelegate {
     private let viewModel: CategorySelectionViewModel
     private let tableView = UITableView()
     private var dataSource: UITableViewDiffableDataSource<Int, AssetManager.Category>!
     private let coordinator: CoordinatorFacade<SLTask>?
-	private let delegate: RefreshablePopView
-	init(
+
+	public init(
 		coordinator: CoordinatorFacade<SLTask>? = nil,
 		viewModel: CategorySelectionViewModel,
-		delegate: RefreshablePopView
 	) {
         self.viewModel = viewModel
         self.coordinator = coordinator
-		self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,7 +25,7 @@ class CategorySelectionViewController: UIViewController, UITableViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+	public override func viewDidLoad() {
         super.viewDidLoad()
         title = "Category"
 
@@ -36,8 +34,8 @@ class CategorySelectionViewController: UIViewController, UITableViewDelegate {
         applySnapshot()
     }
 
-	override func viewWillDisappear(_ animated: Bool) {
-		delegate.refresh(item: viewModel.task)
+	public override func viewWillDisappear(_ animated: Bool) {
+		coordinator?.refreshOnPop(with: viewModel.task)
 	}
 
     private func setupTableView() {
@@ -76,7 +74,7 @@ class CategorySelectionViewController: UIViewController, UITableViewDelegate {
         dataSource.apply(snapshot, animatingDifferences: animating)
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let category = dataSource.itemIdentifier(for: indexPath) else {
             tableView.deselectRow(at: indexPath, animated: true)
             return

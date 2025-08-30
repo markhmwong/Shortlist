@@ -6,18 +6,20 @@
 
 import UIKit
 
-protocol PrioritySelectionDelegate: AnyObject {
-    func prioritySelectionViewController(_ controller: PrioritySelectionViewController, didSelect priority: TaskPriorityLevel)
-}
+//protocol PrioritySelectionDelegate: AnyObject {
+//    func prioritySelectionViewController(_ controller: PrioritySelectionViewController, didSelect priority: TaskPriorityLevel)
+//}
 
 class PrioritySelectionViewController: UITableViewController {
 	enum Section { case main }
-	weak var delegate: PrioritySelectionDelegate?
 	private let viewModel: PrioritySelectionViewModel
 	private var dataSource: UITableViewDiffableDataSource<Section, TaskPriorityLevel>!
 	private let coordinator: TaskDetailsCoordinator
 
-	init(coordinator: TaskDetailsCoordinator, viewModel: PrioritySelectionViewModel) {
+	init(
+		coordinator: TaskDetailsCoordinator,
+		viewModel: PrioritySelectionViewModel,
+	) {
 		self.coordinator = coordinator
 		self.viewModel = viewModel
 		super.init(style: .insetGrouped)
@@ -47,6 +49,10 @@ class PrioritySelectionViewController: UITableViewController {
 		applySnapshot(animated: false)
 	}
 
+	override func viewWillDisappear(_ animated: Bool) {
+		coordinator.refreshOnPop(with: viewModel.task)
+	}
+
 	private func applySnapshot(animated: Bool) {
 		var snapshot = NSDiffableDataSourceSnapshot<Section, TaskPriorityLevel>()
 		snapshot.appendSections([.main])
@@ -58,9 +64,8 @@ class PrioritySelectionViewController: UITableViewController {
 		let priority = viewModel.priorities[indexPath.row]
 		updateTaskPriority(priority: priority)
 		applySnapshot(animated: true)
-		delegate?.prioritySelectionViewController(self, didSelect: priority)
+//		delegate?.prioritySelectionViewController(self, didSelect: priority)
 //		navigationController?.popViewController(animated: true)
-		coordinator.refreshOnPop(with: viewModel.task)
 	}
 
 	private func updateTaskPriority(priority: TaskPriorityLevel) {
@@ -69,14 +74,4 @@ class PrioritySelectionViewController: UITableViewController {
 	}
 }
 
-public class PrioritySelectionViewModel {
 
-    let priorities: [TaskPriorityLevel] = TaskPriorityLevel.allCases
-    var selectedPriority: TaskPriorityLevel?
-	var task: SLTask
-
-	public init(selectedPriority: TaskPriorityLevel? = nil, task: SLTask) {
-		self.task = task
-		self.selectedPriority = TaskPriorityLevel(rawValue: Int(task.priority)) //TODO: FIX to INT from INT16
-    }
-}

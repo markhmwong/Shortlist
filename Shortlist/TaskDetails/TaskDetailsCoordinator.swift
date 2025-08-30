@@ -67,6 +67,9 @@ class TaskDetailsCoordinator: CoordinatorFacade<SLTask> {
 	}
 
 	public func pushPrioritySelectionViewController(with task: SLTask) {
+		guard let rvc = rootViewController as? RefreshablePopView else {
+			return
+		}
 		self.task = task
 		let viewModel = PrioritySelectionViewModel(task: task)
 		let vc = PrioritySelectionViewController(coordinator: self, viewModel: viewModel)
@@ -87,7 +90,7 @@ class TaskDetailsCoordinator: CoordinatorFacade<SLTask> {
 		}
 		self.task = task
 		let viewModel = CategorySelectionViewModel(task: task, cds: coreDataStack)
-		let vc = CategorySelectionViewController(coordinator: self, viewModel: viewModel, delegate: rvc)
+		let vc = CategorySelectionViewController(coordinator: self, viewModel: viewModel)
 		rootNavigationController?.pushViewController(vc, animated: true)
 	}
 
