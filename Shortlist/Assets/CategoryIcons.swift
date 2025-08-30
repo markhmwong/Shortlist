@@ -6,13 +6,13 @@
 //  Copyright © 2025 Mark Wong. All rights reserved.
 //
 
-enum AssetManager {
+public enum AssetManager {
 
-	enum OtherAssets: String {
+	public enum OtherAssets: String {
 		case alarm
 
 		/// uses SF Symbols
-		var iconName: String {
+		public var iconName: String {
 			switch self {
 				case .alarm:
 					return "alarm"
@@ -21,7 +21,7 @@ enum AssetManager {
 	}
 
 	/// Preset categories
-	enum CategoryAssets: String {
+	public enum Category: Int16, CaseIterable {
 		case general
 		case personal
 		case family
@@ -29,7 +29,7 @@ enum AssetManager {
 		case home
 
 		/// uses SF Symbols
-		var iconName: String {
+		public var symbol: String {
 			switch self {
 				case .general:
 					return "text.document"
@@ -41,6 +41,21 @@ enum AssetManager {
 					return "figure.2.and.child.holdinghands"
 				case .work:
 					return "building.2"
+			}
+		}
+
+		public var name: String {
+			switch self {
+				case .general:
+					return "General"
+				case .home:
+					return "Home"
+				case .personal:
+					return "Personal"
+				case .family:
+					return "Family"
+				case .work:
+					return "Work"
 			}
 		}
 	}

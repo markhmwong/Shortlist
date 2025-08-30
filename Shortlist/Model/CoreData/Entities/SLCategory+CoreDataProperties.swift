@@ -17,7 +17,7 @@ extension SLCategory {
         return NSFetchRequest<SLCategory>(entityName: "SLCategory")
     }
 
-    @NSManaged public var name: String?
+    @NSManaged public var type: Int16
     @NSManaged public var categoryToTask: SLTask?
 
 }

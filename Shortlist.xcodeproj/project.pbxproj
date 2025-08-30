@@ -41,7 +41,7 @@
 		4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */; };
 		4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */; };
 		4D962AB82C1E0E360081D07F /* CoreDataStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */; };
-		4D9D22212C1D1E3A00925E1B /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22202C1D1E3A00925E1B /* Refreshable.swift */; };
+		4D9D22212C1D1E3A00925E1B /* RefreshablePopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */; };
 		4D9D22252C1D3ADE00925E1B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */; };
 		4DB043D32BCA028A00A3901F /* UICollectionViewLayout+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */; };
 		4DB043DE2BCA090E00A3901F /* WhizUtilKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4DB043DD2BCA090E00A3901F /* WhizUtilKit */; };
@@ -163,7 +163,7 @@
 		4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCoordinator.swift; sourceTree = "<group>"; };
 		4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
 		4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataStack+Extension.swift"; sourceTree = "<group>"; };
-		4D9D22202C1D1E3A00925E1B /* Refreshable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
+		4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshablePopView.swift; sourceTree = "<group>"; };
 		4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewLayout+Extension.swift"; sourceTree = "<group>"; };
 		4DB043DF2BCA216100A3901F /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -303,7 +303,7 @@
 				4D7017162C5DCFD10007F029 /* Coordinator */,
 				4D6CEE5E2C30E8170023BDC4 /* Calendar */,
 				4D6CEE5A2C30E1600023BDC4 /* UIColor+AppColors.swift */,
-				4D9D22202C1D1E3A00925E1B /* Refreshable.swift */,
+				4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */,
 				4D6339962BEDA3BA00E3EE32 /* TaskDetails */,
 				4DC6181A24D02D98008BFBE6 /* TaskList */,
 				4DCD042A25247228005B97F1 /* Constants */,
@@ -764,7 +764,7 @@
 				4D2F65F72C154C85001ADB4A /* Coordinator.swift in Sources */,
 				4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */,
 				4D404BF72BCB758100923ADB /* SLTaskCell.swift in Sources */,
-				4D9D22212C1D1E3A00925E1B /* Refreshable.swift in Sources */,
+				4D9D22212C1D1E3A00925E1B /* RefreshablePopView.swift in Sources */,
 				4D45E79222DDD1AB008AC433 /* AppDelegate.swift in Sources */,
 				4D09D56D2C1B6889002735BA /* TaskDetailsCoordinator.swift in Sources */,
 				4D7017122C5DBFE10007F029 /* DatasourceSupervisor.swift in Sources */,

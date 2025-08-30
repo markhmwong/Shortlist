@@ -6,15 +6,20 @@
 
 import UIKit
 
-class CategorySelectionViewController: UIViewController {
+class CategorySelectionViewController: UIViewController, UITableViewDelegate {
     private let viewModel: CategorySelectionViewModel
     private let tableView = UITableView()
-    private var dataSource: UITableViewDiffableDataSource<Int, AssetManager.CategoryAssets>!
+    private var dataSource: UITableViewDiffableDataSource<Int, AssetManager.Category>!
     private let coordinator: CoordinatorFacade<SLTask>?
-
-    init(coordinator: CoordinatorFacade<SLTask>? = nil, viewModel: CategorySelectionViewModel) {
+	private let delegate: RefreshablePopView
+	init(
+		coordinator: CoordinatorFacade<SLTask>? = nil,
+		viewModel: CategorySelectionViewModel,
+		delegate: RefreshablePopView
+	) {
         self.viewModel = viewModel
-		self.coordinator = coordinator
+        self.coordinator = coordinator
+		self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -24,15 +29,20 @@ class CategorySelectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		title = "Category"
+        title = "Category"
 
         setupTableView()
         setupDataSource()
         applySnapshot()
     }
-    
+
+	override func viewWillDisappear(_ animated: Bool) {
+		delegate.refresh(item: viewModel.task)
+	}
+
     private func setupTableView() {
         view.addSubview(tableView)
+        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -44,18 +54,45 @@ class CategorySelectionViewController: UIViewController {
     }
     
     private func setupDataSource() {
-        dataSource = UITableViewDiffableDataSource<Int, AssetManager.CategoryAssets>(tableView: tableView) { tableView, indexPath, category in
+        dataSource = UITableViewDiffableDataSource<Int, AssetManager.Category>(tableView: tableView) { [weak self] tableView, indexPath, category in
+            guard let self = self else { return nil }
             let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
-            cell.textLabel?.text = category.rawValue.capitalized
-            cell.imageView?.image = UIImage(systemName: category.iconName)
+            cell.textLabel?.text = category.name.capitalized
+            cell.imageView?.image = UIImage(systemName: category.symbol)
+
+            // Checkmark reflects current selection stored on the task
+            let selectedType = self.viewModel.task.taskToCategory?.type
+            cell.accessoryType = (selectedType == category.rawValue) ? .checkmark : .none
+
             return cell
         }
+        dataSource.defaultRowAnimation = .fade
     }
     
-    private func applySnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, AssetManager.CategoryAssets>()
+    private func applySnapshot(animating: Bool = false) {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, AssetManager.Category>()
         snapshot.appendSections([0])
-        snapshot.appendItems(viewModel.categories)
-        dataSource.apply(snapshot, animatingDifferences: false)
+        snapshot.appendItems(viewModel.categories, toSection: 0)
+        dataSource.apply(snapshot, animatingDifferences: animating)
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let category = dataSource.itemIdentifier(for: indexPath) else {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
+
+        // Update model
+        viewModel.task.taskToCategory?.type = category.rawValue
+        viewModel.cds.saveContext()
+
+        // Reapply the snapshot so the cell provider recomputes checkmarks
+        applySnapshot(animating: true)
+
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+
+
 }
+

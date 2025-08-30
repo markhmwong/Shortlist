@@ -153,7 +153,14 @@ class TaskDetailsViewModel: NSObject, TextFieldTableViewCellDelegate, TextViewTa
 		let	descripionItem = WritableContentTaskDetail(title: "Description", value: .string(task.value.taskDescription ?? ""), section: .description)
 		let priorityItem = SelectableTaskDetail(title: "Priority", value: .string("\(task.value.priority)"), section: .priority)
 		let reminderItem = SelectableTaskDetail(title: "Reminder", value: .date(task.value.reminder ?? Date()), section: .reminder)
-		let categoryItem = SelectableTaskDetail(title: "Category", value: .string(task.value.taskToCategory?.name ?? "General"), section: .category)
+
+		let category = AssetManager.Category(rawValue: task.value.taskToCategory?.type ?? 0)
+		let categoryItem = SelectableTaskDetail(
+			title: "Category",
+			value: .string(category?.name ?? AssetManager.Category.general.name),
+			section: .category
+		)
+
 		return [
 			AnyTaskDetailItem(nameItem),
 			AnyTaskDetailItem(descripionItem),
@@ -236,6 +243,5 @@ class TaskDetailsViewModel: NSObject, TextFieldTableViewCellDelegate, TextViewTa
 		updateDescription(text)
 	}
 
-    // Removed func sectionHeaderTitle(for section: Int) -> String?
 }
 

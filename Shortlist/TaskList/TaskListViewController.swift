@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-extension TaskListViewController: Refreshable {
+extension TaskListViewController: RefreshablePopView {
     func refresh(item: SLTask) {
         performFetch()
         guard let viewModel else { return }
