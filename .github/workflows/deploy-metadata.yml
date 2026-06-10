@@ -1,0 +1,43 @@
+name: Deploy App Store Metadata
+
+on:
+  push:
+    branches:
+      - release
+    paths:
+      - 'fastlane/metadata/**'
+      - 'fastlane/Deliverfile'
+
+  # Allow manual trigger for initial setup or retries
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      - name: Deploy metadata to App Store Connect
+        env:
+          APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.ASC_API_KEY }}
+        run: fastlane deploy_metadata
+
+      - name: Post result
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "### ✅ Metadata deployed to App Store Connect" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ Metadata deployment failed" >> $GITHUB_STEP_SUMMARY
+          fi
