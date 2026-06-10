@@ -10,3 +10,11 @@ PricingStructure
 *.pages
 AppStoreMedia
 GoogleService-Info.plist
+# --- fastlane / App Store Connect secrets ---
+fastlane/api_key.json
+fastlane/api_key_.json
+*.p8
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output

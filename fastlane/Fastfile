@@ -1,99 +1,73 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+# fastlane/Fastfile
+# NOTE: Builds and TestFlight are handled by Xcode Cloud.
+# This Fastfile is metadata-only.
 
 default_platform(:ios)
 
 platform :ios do
-  desc "Push a new beta build to TestFlight"
-  lane :beta do
-    enable_automatic_code_signing
-    increment_build_number
-    build_app(
-      workspace: "Shortlist.xcworkspace",
-      scheme: "Shortlist",
-      include_bitcode: true,
-      export_xcargs: "-allowProvisioningUpdates",
-    )
-    upload_to_testflight
+
+  before_all do
+    api_key_path = File.expand_path("../fastlane/api_key.json", __dir__)
+    if File.exist?(api_key_path)
+      config = JSON.parse(File.read(api_key_path))
+      app_store_connect_api_key(
+        key_id: config["key_id"],
+        issuer_id: config["issuer_id"],
+        key_filepath: config["key_filepath"]
+      )
+    elsif ENV["APP_STORE_CONNECT_API_KEY_KEY_ID"]
+      app_store_connect_api_key(
+        key_id: ENV["APP_STORE_CONNECT_API_KEY_KEY_ID"],
+        issuer_id: ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID"],
+        key_content: ENV["APP_STORE_CONNECT_API_KEY_KEY"],
+        is_key_content_base64: true
+      )
+    else
+      UI.user_error!("No App Store Connect API key found. Provide fastlane/api_key.json or set APP_STORE_CONNECT_API_KEY_* env vars.")
+    end
   end
 
-  # desc "Code Signing"
-  # lane :codeSign do
-  #   cert(
-  #       username: "markhmwong@gmail.com"
-  #       )
-  #   sigh(
-  #       force: true, username: "markhmwong@gmail.com"
-  #       )
-  # end
-
-  lane :certs do
-    update_project_team(
-      path: "Shortlist.xcodeproj",
-      teamid: "GEKZN86RYS"
-    )
-    match(type: "appstore", app_identifier: ["com.whizbang.shortlist", "com.whizbang.shortlist.watchkitapp", "com.whizbang.shortlist.watchkitapp.watchkitextension"])
-    match(type: "development", app_identifier: ["com.whizbang.shortlist", "com.whizbang.shortlist.watchkitapp", "com.whizbang.shortlist.watchkitapp.watchkitextension"])
-    match(type: "adhoc", app_identifier: ["com.whizbang.shortlist", "com.whizbang.shortlist.watchkitapp", "com.whizbang.shortlist.watchkitapp.watchkitextension"])
+  desc "Download current metadata from App Store Connect"
+  lane :download_meta do
+    deliver(download_metadata: true)
   end
 
-
-  desc "App Store Release"
-  lane :release do
-    # enable_automatic_code_signing
-    get_provisioning_profile(app_identifier: "com.whizbang.shortlist")
-    get_provisioning_profile(app_identifier: "com.whizbang.shortlist.watchkitapp")
-    get_provisioning_profile(app_identifier: "com.whizbang.shortlist.watchkitapp.watchkitextension")
-
-    increment_build_number
-    increment_version_number(
-      # bump_type: "patch"
-      version_number: "1.2.7" # update this each release
+  desc "Validate metadata locally (dry run — no upload)"
+  lane :validate do
+    deliver(
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      force: true,
+      precheck_include_in_app_purchases: false,
+      run_precheck_before_submit: true,
+      submit_for_review: false
     )
-
-    build_app(
-      workspace: "Shortlist.xcworkspace",
-      scheme: "Shortlist",
-      output_directory: "./fastlane/builds",
-      include_bitcode: true,
-      export_xcargs: "-allowProvisioningUpdates",
-    )
-    # upload
-    upload_to_app_store
   end
 
+  desc "Push metadata to App Store Connect (no binary, no submit)"
+  lane :deploy_metadata do
+    deliver(
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      force: true,
+      precheck_include_in_app_purchases: false,
+      submit_for_review: false
+    )
+  end
 
-	desc "Build App"
-	lane :build do
-    ensure_git_status_clean
-		increment_build_number
-		increment_version_number(
-			#bump_type: "patch"
-			version_number: "1.2.7"
-		)
-		gym
-	end
-
-  #Uses the gymfile with the "build" command
-	desc "App Store Release Update 11/06/2020"
-	lane :ReleaseTheKraken do
-    ensure_git_status_clean
-		get_certificates
-		get_provisioning_profile
-		build
-		upload_to_app_store
-	end
+  desc "Push metadata and submit the latest build for review"
+  lane :submit_for_review do
+    deliver(
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      force: true,
+      precheck_include_in_app_purchases: false,
+      submit_for_review: true,
+      automatic_release: false,
+      submission_information: {
+        add_id_info_uses_idfa: false  # set true if the app uses AdMob/IDFA
+      }
+    )
+  end
 
 end

@@ -1,0 +1,113 @@
+name: Validate App Store Metadata
+
+on:
+  pull_request:
+    paths:
+      - 'fastlane/metadata/**'
+      - 'fastlane/Deliverfile'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate metadata constraints
+        run: |
+          set -e
+          ERRORS=0
+
+          check_length() {
+            local file="$1" max="$2" label="$3"
+            if [ -f "$file" ]; then
+              len=$(wc -m < "$file" | tr -d ' ')
+              if [ "$len" -gt "$max" ]; then
+                echo "❌ $label: $len chars (max $max)"
+                ERRORS=$((ERRORS + 1))
+              else
+                echo "✅ $label: $len/$max chars"
+              fi
+            else
+              echo "⚠️  $label: file missing"
+            fi
+          }
+
+          check_not_empty() {
+            local file="$1" label="$2"
+            if [ -f "$file" ]; then
+              if [ ! -s "$file" ]; then
+                echo "❌ $label: file is empty"
+                ERRORS=$((ERRORS + 1))
+              fi
+            fi
+          }
+
+          check_no_placeholder() {
+            local file="$1" label="$2"
+            if [ -f "$file" ]; then
+              if grep -qiE '\[TODO\]|\[PLACEHOLDER\]|\[CHANGE ME\]|TBD' "$file"; then
+                echo "❌ $label: contains placeholder text"
+                ERRORS=$((ERRORS + 1))
+              fi
+            fi
+          }
+
+          LOCALE_DIR="fastlane/metadata/en-AU"
+
+          echo "=== Character Limit Checks ==="
+          check_length "$LOCALE_DIR/name.txt" 30 "App Name"
+          check_length "$LOCALE_DIR/subtitle.txt" 30 "Subtitle"
+          check_length "$LOCALE_DIR/description.txt" 4000 "Description"
+          check_length "$LOCALE_DIR/keywords.txt" 100 "Keywords"
+          check_length "$LOCALE_DIR/release_notes.txt" 4000 "Release Notes"
+          check_length "$LOCALE_DIR/promotional_text.txt" 170 "Promotional Text"
+
+          echo ""
+          echo "=== Empty File Checks ==="
+          check_not_empty "$LOCALE_DIR/name.txt" "App Name"
+          check_not_empty "$LOCALE_DIR/description.txt" "Description"
+          check_not_empty "$LOCALE_DIR/keywords.txt" "Keywords"
+
+          echo ""
+          echo "=== Placeholder Checks ==="
+          for f in "$LOCALE_DIR"/*.txt; do
+            check_no_placeholder "$f" "$(basename "$f")"
+          done
+
+          echo ""
+          echo "=== Keyword Checks ==="
+          if [ -f "$LOCALE_DIR/keywords.txt" ]; then
+            # Check for spaces after commas (wastes characters)
+            if grep -q ', ' "$LOCALE_DIR/keywords.txt"; then
+              echo "⚠️  Keywords: remove spaces after commas to save characters"
+            fi
+            # Check for duplicate keywords
+            dupes=$(tr ',' '\n' < "$LOCALE_DIR/keywords.txt" | sed 's/^ *//;s/ *$//' | sort | uniq -d)
+            if [ -n "$dupes" ]; then
+              echo "❌ Keywords: duplicates found: $dupes"
+              ERRORS=$((ERRORS + 1))
+            fi
+            # Check for app name in keywords (Apple ignores it, wastes space)
+            if [ -f "$LOCALE_DIR/name.txt" ]; then
+              app_name=$(cat "$LOCALE_DIR/name.txt" | tr '[:upper:]' '[:lower:]')
+              if grep -qi "$app_name" "$LOCALE_DIR/keywords.txt"; then
+                echo "⚠️  Keywords: contains app name (Apple already indexes it — wasted space)"
+              fi
+            fi
+          fi
+
+          if [ "$ERRORS" -gt 0 ]; then
+            echo ""
+            echo "❌ $ERRORS error(s) found. Fix before merging."
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ All metadata checks passed."
+
+      - name: Diff summary
+        if: always()
+        run: |
+          echo "### Metadata Changes in This PR" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          git diff origin/main -- fastlane/metadata/ | head -100 >> $GITHUB_STEP_SUMMARY
