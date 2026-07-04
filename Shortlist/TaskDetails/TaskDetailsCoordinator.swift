@@ -25,9 +25,7 @@ class TaskDetailsCoordinator: CoordinatorFacade<SLTask> {
     }
     
     override func start(with item: SLTask) {
-        guard let cds = coreDataStack
-        else {
-            print("Core Data - \(coreDataStack)")
+        guard let cds = coreDataStack else {
             return
         }
 
@@ -67,7 +65,7 @@ class TaskDetailsCoordinator: CoordinatorFacade<SLTask> {
 	}
 
 	public func pushPrioritySelectionViewController(with task: SLTask) {
-		guard let rvc = rootViewController as? RefreshablePopView else {
+		guard rootViewController is RefreshablePopView else {
 			return
 		}
 		self.task = task
@@ -84,7 +82,7 @@ class TaskDetailsCoordinator: CoordinatorFacade<SLTask> {
 	}
 
 	public func pushCategorySelectionViewController(with task: SLTask) {
-		guard let coreDataStack, let rvc = rootViewController as? RefreshablePopView else {
+		guard let coreDataStack, rootViewController is RefreshablePopView else {
 			assertionFailure("Core Data Stack is nil")
 			return
 		}

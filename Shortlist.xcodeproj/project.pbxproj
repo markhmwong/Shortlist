@@ -67,7 +67,6 @@
 		4DC677CC2E625C450001FEE8 /* TaskDetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677CB2E625C450001FEE8 /* TaskDetailType.swift */; };
 		4DC677CF2E625C500001FEE8 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677CE2E625C500001FEE8 /* TextViewTableViewCell.swift */; };
 		4DC677D02E625C500001FEE8 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677CD2E625C500001FEE8 /* TextFieldTableViewCell.swift */; };
-		4DC677D22E625C5D0001FEE8 /* TaskDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677D12E625C5D0001FEE8 /* TaskDetailsCoordinator.swift */; };
 		4DC677D42E625CC00001FEE8 /* CoordinatorFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677D32E625CC00001FEE8 /* CoordinatorFacade.swift */; };
 		4DC677D82E625CFD0001FEE8 /* DynamicTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677D62E625CFD0001FEE8 /* DynamicTableView.swift */; };
 		4DC677DC2E63A3150001FEE8 /* PrioritySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677DB2E63A3150001FEE8 /* PrioritySelectionViewModel.swift */; };
@@ -196,7 +195,6 @@
 		4DC677CB2E625C450001FEE8 /* TaskDetailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailType.swift; sourceTree = "<group>"; };
 		4DC677CD2E625C500001FEE8 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		4DC677CE2E625C500001FEE8 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
-		4DC677D12E625C5D0001FEE8 /* TaskDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCoordinator.swift; sourceTree = "<group>"; };
 		4DC677D32E625CC00001FEE8 /* CoordinatorFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFacade.swift; sourceTree = "<group>"; };
 		4DC677D62E625CFD0001FEE8 /* DynamicTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTableView.swift; sourceTree = "<group>"; };
 		4DC677DB2E63A3150001FEE8 /* PrioritySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySelectionViewModel.swift; sourceTree = "<group>"; };
@@ -405,7 +403,6 @@
 			children = (
 				4DC677DA2E63A3090001FEE8 /* Priority */,
 				4DC677D92E625EC80001FEE8 /* Cells */,
-				4DC677D12E625C5D0001FEE8 /* TaskDetailsCoordinator.swift */,
 				4DC677CB2E625C450001FEE8 /* TaskDetailType.swift */,
 				4DC677C52E625C290001FEE8 /* CategorySelectionViewController.swift */,
 				4DC677C62E625C290001FEE8 /* CategorySelectionViewModel.swift */,
@@ -788,7 +785,6 @@
 				4D7D91872D095E7900141796 /* SettingsItemProtocol.swift in Sources */,
 				4DC677B92E6258FF0001FEE8 /* SettingsManager.swift in Sources */,
 				4D6F157A2C2F29B30079E79B /* LocationService.swift in Sources */,
-				4DC677D22E625C5D0001FEE8 /* TaskDetailsCoordinator.swift in Sources */,
 				4DC677C72E625C290001FEE8 /* CategorySelectionViewModel.swift in Sources */,
 				4DC677C82E625C290001FEE8 /* CategorySelectionViewController.swift in Sources */,
 				4DB0A83D2C2FA3D9005072C9 /* SLCategory+CoreDataProperties.swift in Sources */,
