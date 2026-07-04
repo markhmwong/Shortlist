@@ -40,6 +40,8 @@
 		4D80FB2A2D3CDF60009CC739 /* CategoryIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D80FB292D3CDF5A009CC739 /* CategoryIcons.swift */; };
 		4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */; };
 		4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */; };
+		4DE10001000000000000AA01 /* AddGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10000000000000000AA01 /* AddGoalViewController.swift */; };
+		4DE10003000000000000AA01 /* PlaceholderTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10002000000000000AA01 /* PlaceholderTaskCell.swift */; };
 		4D962AB82C1E0E360081D07F /* CoreDataStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */; };
 		4D9D22212C1D1E3A00925E1B /* RefreshablePopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */; };
 		4D9D22252C1D3ADE00925E1B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */; };
@@ -162,6 +164,8 @@
 		4D80FB292D3CDF5A009CC739 /* CategoryIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIcons.swift; sourceTree = "<group>"; };
 		4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCoordinator.swift; sourceTree = "<group>"; };
 		4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
+		4DE10000000000000000AA01 /* AddGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalViewController.swift; sourceTree = "<group>"; };
+		4DE10002000000000000AA01 /* PlaceholderTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTaskCell.swift; sourceTree = "<group>"; };
 		4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataStack+Extension.swift"; sourceTree = "<group>"; };
 		4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshablePopView.swift; sourceTree = "<group>"; };
 		4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -515,6 +519,8 @@
 				4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */,
 				4D404BF62BCB758100923ADB /* SLTaskCell.swift */,
 				4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */,
+				4DE10000000000000000AA01 /* AddGoalViewController.swift */,
+				4DE10002000000000000AA01 /* PlaceholderTaskCell.swift */,
 				4D7017112C5DBFE10007F029 /* DatasourceSupervisor.swift */,
 			);
 			path = TaskList;
@@ -769,6 +775,8 @@
 				4DC677DC2E63A3150001FEE8 /* PrioritySelectionViewModel.swift in Sources */,
 				4DC677BE2E625B280001FEE8 /* PrioritySelectionViewController.swift in Sources */,
 				4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */,
+				4DE10001000000000000AA01 /* AddGoalViewController.swift in Sources */,
+				4DE10003000000000000AA01 /* PlaceholderTaskCell.swift in Sources */,
 				4DC677BC2E6259090001FEE8 /* ProFeatureManager.swift in Sources */,
 				4D2F65F72C154C85001ADB4A /* Coordinator.swift in Sources */,
 				4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */,

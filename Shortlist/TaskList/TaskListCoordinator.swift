@@ -39,6 +39,20 @@ class TaskListCoordinator: CoordinatorFacade<SLTask> {
         coordinator.start(with: item)
 	}
     
+    func presentAddGoal() {
+        guard let rnc = rootNavigationController else { return }
+        let addVC = AddGoalViewController()
+        addVC.onSave = { [weak self] name, priority in
+            guard let self, let cds = coreDataStack, let moc = cds.moc else { return }
+            let task = SLTask(context: moc)
+            task.newTask(name: name, priority: priority)
+            cds.saveContext()
+        }
+        let nav = UINavigationController(rootViewController: addVC)
+        nav.modalPresentationStyle = .formSheet
+        rnc.present(nav, animated: true)
+    }
+
     func presentSettings() {
         let coordinator = SettingsCoordinator(parentCoordinator: self, parentNavigationController: rootNavigationController, rootNavigationController: UINavigationController(), rootViewController: nil, coreDataStack: coreDataStack)
         coordinator.start()
