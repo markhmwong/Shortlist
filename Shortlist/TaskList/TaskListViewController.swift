@@ -58,16 +58,17 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
         view.backgroundColor = .white
         collectionView.backgroundColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(handleSettings))
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAddTask)),
-            UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(handleDeleteTask))
-        ]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAddTask))
+        #if DEBUG
+        navigationItem.rightBarButtonItems?.append(UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(handleDeleteTask)))
+        #endif
         //Datasource
         guard let viewModel else {
             print("\(className): View model not initialised")
             return }
-		
+        #if DEBUG
         viewModel.createMultipleMockTasks()
+        #endif
         configureFetchedResultsController()
         performFetch()
         viewModel.configureDatasource(view: collectionView)
@@ -78,8 +79,8 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
         coordinator?.presentSettings()
     }
     
+    #if DEBUG
     @objc func handleDeleteTask() {
-        /// Deletes ALL tasks for quick testing
         guard let viewModel else { return }
         viewModel.deleteAllTasks()
         do {
@@ -90,11 +91,14 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
         }
         viewModel.updateSnapshot(fetchedResultsController: fetchedResultsController)
     }
-    
+    #endif
+
     @objc func handleAddTask() {
         guard let viewModel else { return }
         if viewModel.canAddTask() {
+            #if DEBUG
             viewModel.createTask()
+            #endif
         } else {
             print("Pop up todo - Task Limit Reached")
         }
