@@ -11,9 +11,8 @@ import UIKit
 //}
 
 class PrioritySelectionViewController: UITableViewController {
-	enum Section { case main }
+	
 	private let viewModel: PrioritySelectionViewModel
-	private var dataSource: UITableViewDiffableDataSource<Section, TaskPriorityLevel>!
 	private let coordinator: TaskDetailsCoordinator
 
 	init(
@@ -34,36 +33,21 @@ class PrioritySelectionViewController: UITableViewController {
 		self.title = "Select Priority"
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PriorityCell")
 
-		dataSource = UITableViewDiffableDataSource<Section, TaskPriorityLevel>(tableView: tableView) { [weak self] tableView, indexPath, priority in
-			let cell = tableView.dequeueReusableCell(withIdentifier: "PriorityCell", for: indexPath)
-			cell.textLabel?.text = String(describing: priority).capitalized
-			cell.textLabel?.textColor = priority.textColour
-			cell.backgroundColor = priority.baseColour.withAlphaComponent(0.15)
-			if let selected = self?.viewModel.selectedPriority {
-				cell.accessoryType = (priority == selected) ? .checkmark : .none
-			} else {
-				cell.accessoryType = .none
-			}
-			return cell
-		}
-		applySnapshot(animated: false)
+		viewModel.updateDataSource(tableView: tableView)
+		viewModel.applySnapshot(animated: false)
 	}
 
 	override func viewWillDisappear(_ animated: Bool) {
 		coordinator.refreshOnPop(with: viewModel.task)
 	}
 
-	private func applySnapshot(animated: Bool) {
-		var snapshot = NSDiffableDataSourceSnapshot<Section, TaskPriorityLevel>()
-		snapshot.appendSections([.main])
-		snapshot.appendItems(viewModel.priorities, toSection: .main)
-		dataSource.apply(snapshot, animatingDifferences: animated)
-	}
+	
 
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let priority = viewModel.priorities[indexPath.row]
 		updateTaskPriority(priority: priority)
-		applySnapshot(animated: true)
+		viewModel.updateDataSource(tableView: tableView)
+		viewModel.applySnapshot(animated: true)
 //		delegate?.prioritySelectionViewController(self, didSelect: priority)
 //		navigationController?.popViewController(animated: true)
 	}
