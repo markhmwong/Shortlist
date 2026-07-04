@@ -161,14 +161,8 @@ class TaskListViewModel: NSObject, DatasourceSupervisorForCoreData {
         cds.saveContext()
     }
     
-    public func taskLimitReached() -> Bool {
-        let numTasks = diffableDatasource.snapshot().numberOfItems
-        
-        if numTasks < taskLimit {
-            return true
-        } else {
-            return false
-        }
+    public func canAddTask() -> Bool {
+        return diffableDatasource.snapshot().numberOfItems < taskLimit
     }
     
     public func limitTasks(_ newLimit: Int16) {

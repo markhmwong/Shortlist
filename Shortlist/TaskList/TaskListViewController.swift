@@ -93,12 +93,11 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
     
     @objc func handleAddTask() {
         guard let viewModel else { return }
-        if viewModel.taskLimitReached() {
+        if viewModel.canAddTask() {
             viewModel.createTask()
         } else {
             print("Pop up todo - Task Limit Reached")
         }
-        
     }
 	
 	@objc func handleLongPress() {
