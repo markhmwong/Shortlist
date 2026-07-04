@@ -48,6 +48,8 @@
 		4DE1000B000000000000AA01 /* SLDay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE1000A000000000000AA01 /* SLDay+CoreDataProperties.swift */; };
 		4DE1000D000000000000AA01 /* StreakManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE1000C000000000000AA01 /* StreakManager.swift */; };
 		4DE1000F000000000000AA01 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10010000000000000AA01 /* NotificationService.swift */; };
+		4DE10013000000000000AA01 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10014000000000000AA01 /* MediaManager.swift */; };
+		4DE10015000000000000AA01 /* DestinationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10016000000000000AA01 /* DestinationPickerViewController.swift */; };
 		4D962AB82C1E0E360081D07F /* CoreDataStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */; };
 		4D9D22212C1D1E3A00925E1B /* RefreshablePopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */; };
 		4D9D22252C1D3ADE00925E1B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */; };
@@ -161,6 +163,7 @@
 		4D7017142C5DCAF30007F029 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FiveModel.xcdatamodel; sourceTree = "<group>"; };
 		4DE1000E000000000000AA01 /* FiveModel v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel v2.xcdatamodel"; sourceTree = "<group>"; };
+		4DE10012000000000000AA01 /* FiveModel v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel v3.xcdatamodel"; sourceTree = "<group>"; };
 		4D7D91842D095E6200141796 /* SettingsCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellType.swift; sourceTree = "<group>"; };
 		4D7D91862D095E7500141796 /* SettingsItemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItemProtocol.swift; sourceTree = "<group>"; };
 		4D7D91882D095E8E00141796 /* AnySettingsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnySettingsItem.swift; sourceTree = "<group>"; };
@@ -179,6 +182,8 @@
 		4DE1000A000000000000AA01 /* SLDay+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLDay+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4DE1000C000000000000AA01 /* StreakManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakManager.swift; sourceTree = "<group>"; };
 		4DE10010000000000000AA01 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		4DE10014000000000000AA01 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
+		4DE10016000000000000AA01 /* DestinationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationPickerViewController.swift; sourceTree = "<group>"; };
 		4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataStack+Extension.swift"; sourceTree = "<group>"; };
 		4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshablePopView.swift; sourceTree = "<group>"; };
 		4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -414,6 +419,7 @@
 			children = (
 				4D63399D2BEDF95900E3EE32 /* ReminderIntegration */,
 				4DC0DE3722E087F100B2B8D4 /* CoreData */,
+				4DE10014000000000000AA01 /* MediaManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -432,6 +438,7 @@
 				4D6339972BEDA3C600E3EE32 /* TaskDetailsViewController.swift */,
 				4D6339992BEDC09700E3EE32 /* TaskDetailsViewModel.swift */,
 				4D09D56C2C1B6889002735BA /* TaskDetailsCoordinator.swift */,
+				4DE10016000000000000AA01 /* DestinationPickerViewController.swift */,
 			);
 			path = TaskDetails;
 			sourceTree = "<group>";
@@ -810,6 +817,8 @@
 				4DE1000B000000000000AA01 /* SLDay+CoreDataProperties.swift in Sources */,
 				4DE1000D000000000000AA01 /* StreakManager.swift in Sources */,
 				4DE1000F000000000000AA01 /* NotificationService.swift in Sources */,
+				4DE10013000000000000AA01 /* MediaManager.swift in Sources */,
+				4DE10015000000000000AA01 /* DestinationPickerViewController.swift in Sources */,
 				4DC677BC2E6259090001FEE8 /* ProFeatureManager.swift in Sources */,
 				4D2F65F72C154C85001ADB4A /* Coordinator.swift in Sources */,
 				4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */,
@@ -1310,8 +1319,9 @@
 				4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */,
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
 				4DE1000E000000000000AA01 /* FiveModel v2.xcdatamodel */,
+			4DE10012000000000000AA01 /* FiveModel v3.xcdatamodel */,
 			);
-			currentVersion = 4DE1000E000000000000AA01 /* FiveModel v2.xcdatamodel */;
+			currentVersion = 4DE10012000000000000AA01 /* FiveModel v3.xcdatamodel */;
 			path = ShortlistModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -26,6 +26,10 @@
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>To retrieve reminders</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Shortlist uses your location to notify you when you arrive at a goal's destination.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Shortlist can notify you when you arrive at a goal's destination, even when the app is closed.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Capture media to attach to task</string>
 	<key>NSFaceIDUsageDescription</key>
@@ -58,6 +62,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>processing</string>
+		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

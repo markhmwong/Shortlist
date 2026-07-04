@@ -7,6 +7,7 @@
 //
 
 import UserNotifications
+import CoreLocation
 
 final class NotificationService: NSObject {
 
@@ -114,6 +115,32 @@ final class NotificationService: NSObject {
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDC, repeats: false)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         center.add(request, withCompletionHandler: nil)
+    }
+
+    // MARK: - Geofence arrival
+
+    func scheduleGeofenceArrival(for task: SLTask) {
+        guard (task.lat != 0 || task.long != 0),
+              let id = task.id?.uuidString else { return }
+
+        let coordinate = CLLocationCoordinate2D(latitude: task.lat, longitude: task.long)
+        let region = CLCircularRegion(center: coordinate, radius: 200, identifier: id)
+        region.notifyOnEntry = true
+        region.notifyOnExit = false
+
+        let content = UNMutableNotificationContent()
+        content.title = "You've arrived!"
+        content.body = task.name.map { "Time to complete: \($0)" } ?? "Complete your goal here."
+        content.sound = .default
+
+        let trigger = UNLocationNotificationTrigger(region: region, repeats: false)
+        let request = UNNotificationRequest(identifier: "geo-\(id)", content: content, trigger: trigger)
+        center.add(request, withCompletionHandler: nil)
+    }
+
+    func cancelGeofenceArrival(for task: SLTask) {
+        guard let id = task.id?.uuidString else { return }
+        center.removePendingNotificationRequests(withIdentifiers: ["geo-\(id)"])
     }
 
     private func streakTitle(for streak: Int) -> String {

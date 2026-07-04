@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 import os
 
 class TaskDetailsViewController: UITableViewController, RefreshablePopView {
@@ -123,22 +124,72 @@ class TaskDetailsViewController: UITableViewController, RefreshablePopView {
 		let section = viewModel.sections[indexPath.section]
 
 		switch section {
-			case .priority:
-				// push priority selection view controller (to be implemented)
-				coordinator.pushPrioritySelectionViewController(with: viewModel.task.value)
-				break
-			case .reminder:
-				coordinator.pushReminderDatePickerViewController(with: viewModel.task.value)
-				break
-			case .category:
-				coordinator.pushCategorySelectionViewController(with: viewModel.task.value)
-				// push category selection view controller (to be implemented)
-				break
-			default:
-				break
+		case .priority:
+			coordinator.pushPrioritySelectionViewController(with: viewModel.task.value)
+		case .reminder:
+			coordinator.pushReminderDatePickerViewController(with: viewModel.task.value)
+		case .category:
+			coordinator.pushCategorySelectionViewController(with: viewModel.task.value)
+		case .photo:
+			presentPhotoOptions()
+		case .destination:
+			coordinator.pushDestinationPickerViewController(with: viewModel.task.value, delegate: self)
+		default:
+			break
 		}
 
 		tableView.deselectRow(at: indexPath, animated: true)
 	}
 
+	// MARK: - Photo
+
+	private func presentPhotoOptions() {
+		let hasPhoto = !(viewModel.task.value.media?.isEmpty ?? true)
+		let sheet = UIAlertController(title: "Photo", message: nil, preferredStyle: .actionSheet)
+		sheet.addAction(UIAlertAction(title: "Choose Photo", style: .default) { [weak self] _ in
+			self?.presentPHPicker()
+		})
+		if hasPhoto {
+			sheet.addAction(UIAlertAction(title: "Remove Photo", style: .destructive) { [weak self] _ in
+				self?.viewModel.clearPhoto()
+				self?.viewModel.applySnapshot()
+			})
+		}
+		sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+		present(sheet, animated: true)
+	}
+
+	private func presentPHPicker() {
+		var config = PHPickerConfiguration()
+		config.filter = .images
+		config.selectionLimit = 1
+		let picker = PHPickerViewController(configuration: config)
+		picker.delegate = self
+		present(picker, animated: true)
+	}
+}
+
+// MARK: - PHPickerViewControllerDelegate
+
+extension TaskDetailsViewController: PHPickerViewControllerDelegate {
+	func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+		dismiss(animated: true)
+		guard let result = results.first else { return }
+		result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] object, _ in
+			guard let image = object as? UIImage else { return }
+			DispatchQueue.main.async {
+				self?.viewModel.attachPhoto(image)
+				self?.viewModel.applySnapshot()
+			}
+		}
+	}
+}
+
+// MARK: - DestinationPickerDelegate
+
+extension TaskDetailsViewController: DestinationPickerDelegate {
+	func destinationPicker(didSelect lat: Double, long: Double, placeName: String?) {
+		viewModel.setDestination(lat: lat, long: long, placeName: placeName)
+		viewModel.applySnapshot()
+	}
 }

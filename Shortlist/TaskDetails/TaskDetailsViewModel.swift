@@ -45,6 +45,8 @@ class TaskDetailsViewModel: NSObject, TextFieldTableViewCellDelegate, TextViewTa
 		case priority
 		case reminder
 		case category
+		case photo
+		case destination
 
         var headerTitle: String {
             switch self {
@@ -53,9 +55,11 @@ class TaskDetailsViewModel: NSObject, TextFieldTableViewCellDelegate, TextViewTa
             case .priority: return "Priority"
             case .reminder: return "Reminder"
             case .category: return "Category"
+            case .photo: return "Photo"
+            case .destination: return "Destination"
             }
         }
-        
+
         /// Use Section enum directly as identifier for header titles with diffable data source.
         static func headerTitle(for section: Section) -> String {
             section.headerTitle
@@ -134,15 +138,35 @@ class TaskDetailsViewModel: NSObject, TextFieldTableViewCellDelegate, TextViewTa
 					)
 					cell.contentConfiguration = viewModel.contentConfiguration()
 					return cell
-				default:
-					let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+				case Section.photo.rawValue:
+					let cell = tableView.dequeueReusableCell(withIdentifier: SelectableTableViewCell.identifier, for: indexPath) as! SelectableTableViewCell
+					var thumbnail: UIImage?
+					if let filename = task.media, !filename.isEmpty {
+						thumbnail = MediaManager.loadImage(filename: filename).map { MediaManager.thumbnail(from: $0) }
+					}
 					let viewModel = TaskDetailCellContentViewModel(
-						titleText: nil,
+						titleText: thumbnail != nil ? "Photo attached" : "Add Photo",
 						valueText: nil,
-						image: nil,
-						style: .value1
+						image: thumbnail ?? UIImage(systemName: "camera"),
+						style: .cell
 					)
 					cell.contentConfiguration = viewModel.contentConfiguration()
+					return cell
+				case Section.destination.rawValue:
+					let cell = tableView.dequeueReusableCell(withIdentifier: SelectableTableViewCell.identifier, for: indexPath) as! SelectableTableViewCell
+					let hasLocation = task.lat != 0 || task.long != 0
+					let locationText = hasLocation ? (task.placeName ?? "Location set") : "Set Destination"
+					let viewModel = TaskDetailCellContentViewModel(
+						titleText: locationText,
+						valueText: nil,
+						image: UIImage(systemName: hasLocation ? "mappin.circle.fill" : "mappin.circle"),
+						style: .cell
+					)
+					cell.contentConfiguration = viewModel.contentConfiguration()
+					return cell
+				default:
+					let cell = tableView.dequeueReusableCell(withIdentifier: SelectableTableViewCell.identifier, for: indexPath) as! SelectableTableViewCell
+					cell.contentConfiguration = UIListContentConfiguration.cell()
 					return cell
 			}
 		}
@@ -160,14 +184,52 @@ class TaskDetailsViewModel: NSObject, TextFieldTableViewCellDelegate, TextViewTa
 			value: .string(category?.name ?? AssetManager.Category.general.name),
 			section: .category
 		)
+		let photoItem = SelectableTaskDetail(title: "Photo", value: .string(task.value.media ?? ""), section: .photo)
+		let destinationItem = SelectableTaskDetail(title: "Destination", value: .string(task.value.placeName ?? ""), section: .destination)
 
 		return [
 			AnyTaskDetailItem(nameItem),
 			AnyTaskDetailItem(descripionItem),
 			AnyTaskDetailItem(priorityItem),
 			AnyTaskDetailItem(reminderItem),
-			AnyTaskDetailItem(categoryItem)
+			AnyTaskDetailItem(categoryItem),
+			AnyTaskDetailItem(photoItem),
+			AnyTaskDetailItem(destinationItem),
 		]
+	}
+
+	public func attachPhoto(_ image: UIImage) {
+		guard let id = task.value.id else { return }
+		if let oldFilename = task.value.media, !oldFilename.isEmpty {
+			MediaManager.deleteImage(filename: oldFilename)
+		}
+		let filename = MediaManager.saveImage(image, for: id)
+		task.value.media = filename
+		coreData.saveContext()
+	}
+
+	public func clearPhoto() {
+		if let filename = task.value.media, !filename.isEmpty {
+			MediaManager.deleteImage(filename: filename)
+		}
+		task.value.media = nil
+		coreData.saveContext()
+	}
+
+	public func setDestination(lat: Double, long: Double, placeName: String?) {
+		task.value.lat = lat
+		task.value.long = long
+		task.value.placeName = placeName
+		coreData.saveContext()
+		NotificationService.shared.scheduleGeofenceArrival(for: task.value)
+	}
+
+	public func clearDestination() {
+		NotificationService.shared.cancelGeofenceArrival(for: task.value)
+		task.value.lat = 0
+		task.value.long = 0
+		task.value.placeName = nil
+		coreData.saveContext()
 	}
 
 	public func applySnapshot() {

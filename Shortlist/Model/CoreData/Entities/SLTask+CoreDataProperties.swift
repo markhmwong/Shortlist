@@ -23,6 +23,7 @@ extension SLTask {
     @NSManaged public var long: Double
     @NSManaged public var media: String?
     @NSManaged public var name: String?
+    @NSManaged public var placeName: String?
     @NSManaged public var priority: Int16
     @NSManaged public var reminder: Date?
     @NSManaged public var taskDescription: String?

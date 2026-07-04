@@ -92,6 +92,14 @@ class TaskDetailsCoordinator: CoordinatorFacade<SLTask> {
 		rootNavigationController?.pushViewController(vc, animated: true)
 	}
 
+	public func pushDestinationPickerViewController(with task: SLTask, delegate: DestinationPickerDelegate) {
+		let vc = DestinationPickerViewController()
+		vc.delegate = delegate
+		let nav = UINavigationController(rootViewController: vc)
+		nav.modalPresentationStyle = .formSheet
+		rootNavigationController?.present(nav, animated: true)
+	}
+
 	override public func refreshOnPop(with item: SLTask) {
 		self.task = task
 		guard let rootNavigationController else {
