@@ -26,10 +26,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let taskListCoordinator = TaskListCoordinator(rootNavigationController: nav, coreDataStack: CoreDataStack.shared)
         taskListCoordinator.start()
         window?.rootViewController = nav
-        
         window?.windowScene = windowScene
-        
 
+        NotificationService.shared.requestAuthorization()
+        NotificationService.shared.scheduleDailyNudgesIfNeeded()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
