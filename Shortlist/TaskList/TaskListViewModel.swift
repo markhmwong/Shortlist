@@ -8,165 +8,118 @@
 
 import UIKit
 import CoreData
-import WhizUtilKit
 
-class TaskListViewModel: NSObject, DatasourceSupervisorForCoreData {
-    
-    typealias Item = SLTask
-    typealias SectionIdentifier = SLTaskListPriority
-    
+enum TaskListItem: Hashable {
+    case task(SLTask)
+    case placeholder(index: Int)
+}
+
+class TaskListViewModel: NSObject {
+
     enum SLTaskListPriority: Int, CaseIterable {
-        case high = 0
+        case main = 0
     }
-    
-    private let settingsManager: SettingsManager = SettingsManager.shared
-    // TODO: register cell in enum fashion. create a protocol Registable around this concept
-    
-    // create a singleton for settings
-    // -1 means this hasn't been initialised properly
-    private var taskLimit: Int16 = -1
-    
-    private var coreDataStack: CoreDataStack? = nil
-    
-    private var diffableDatasource: UICollectionViewDiffableDataSource<SLTaskListPriority, SLTask>! = nil
-    
-    private var currentCellEditable: SLTaskCell! = nil
-    
+
+    static let taskLimit = 3
+
+    private let coreDataStack: CoreDataStack?
+
+    private var diffableDatasource: UICollectionViewDiffableDataSource<SLTaskListPriority, TaskListItem>!
+
     init(coreDataStack: CoreDataStack? = nil) {
         self.coreDataStack = coreDataStack
         super.init()
-        initialiseTaskLimit()
     }
-    
-    private func initialiseTaskLimit() {
-        taskLimit = settingsManager.fetchTaskLimit()
-		
-        #if DEBUG
-        assert(taskLimit != -1)
-        #endif
-    }
-    
+
     func configureDatasource(view: UICollectionView) {
-        let taskCellRegistration = UICollectionView.CellRegistration<SLTaskCell, SLTask>.registerTaskCell()
-        
-        diffableDatasource = UICollectionViewDiffableDataSource<SLTaskListPriority, SLTask>(collectionView: view) { collectionView, indexPath, item in
-            return collectionView.dequeueConfiguredReusableCell(using: taskCellRegistration, for: indexPath, item: item)
+        let taskCellReg = UICollectionView.CellRegistration<SLTaskCell, TaskListItem> { cell, _, item in
+            if case .task(let task) = item {
+                cell.configureCell(with: task)
+            }
+        }
+        let placeholderCellReg = UICollectionView.CellRegistration<PlaceholderTaskCell, TaskListItem> { _, _, _ in }
+
+        diffableDatasource = UICollectionViewDiffableDataSource<SLTaskListPriority, TaskListItem>(collectionView: view) { collectionView, indexPath, item in
+            switch item {
+            case .task:
+                return collectionView.dequeueConfiguredReusableCell(using: taskCellReg, for: indexPath, item: item)
+            case .placeholder:
+                return collectionView.dequeueConfiguredReusableCell(using: placeholderCellReg, for: indexPath, item: item)
+            }
         }
     }
-    
-    internal func configureSnapshot(data: [SLTask]) -> NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask> {
-        var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>()
+
+    private func makeSnapshot(tasks: [SLTask]) -> NSDiffableDataSourceSnapshot<SLTaskListPriority, TaskListItem> {
+        var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, TaskListItem>()
         snapshot.appendSections(SLTaskListPriority.allCases)
-        
-        snapshot.appendItems(data)
-        
+        var items: [TaskListItem] = tasks.map { .task($0) }
+        let placeholderCount = max(0, TaskListViewModel.taskLimit - tasks.count)
+        for i in 0..<placeholderCount {
+            items.append(.placeholder(index: i))
+        }
+        snapshot.appendItems(items)
         return snapshot
     }
-    
-    func updateSnapshot(fetchedResultsController: NSFetchedResultsController<SLTask>) {
-        if let fetchedObjects = fetchedResultsController.fetchedObjects {
-            let snapshot = configureSnapshot(data: fetchedObjects)
-            diffableDatasource.apply(snapshot)
-        }
-    }
-    
-    func refreshDatasource(fetchedResultsController: NSFetchedResultsController<SLTask>) {
-        if let fetchedObjects = fetchedResultsController.fetchedObjects {
-            let snapshot = configureSnapshot(data: fetchedObjects)
-            diffableDatasource.applySnapshotUsingReloadData(snapshot)
-        }
-    }
-    
 
-    
-    public func printDatasource() {
-        print("printing")
-        for item in diffableDatasource.snapshot().itemIdentifiers {
-            print(item)
-        }
-        
+    func updateSnapshot(fetchedResultsController: NSFetchedResultsController<SLTask>) {
+        let tasks = fetchedResultsController.fetchedObjects ?? []
+        diffableDatasource.apply(makeSnapshot(tasks: tasks))
     }
-    
-    public func createMultipleMockTasks() {
-        // testings purposes
-        guard let cds = coreDataStack else {
-            return
-        }
-        if cds.fetchTodaysItems().count == 0 {
+
+    func refreshDatasource(fetchedResultsController: NSFetchedResultsController<SLTask>) {
+        let tasks = fetchedResultsController.fetchedObjects ?? []
+        diffableDatasource.applySnapshotUsingReloadData(makeSnapshot(tasks: tasks))
+    }
+
+    func applySnapshot(fetchedResultsController: NSFetchedResultsController<SLTask>) {
+        let tasks = fetchedResultsController.fetchedObjects ?? []
+        diffableDatasource.apply(makeSnapshot(tasks: tasks), animatingDifferences: true)
+    }
+
+    func item(at indexPath: IndexPath) -> TaskListItem? {
+        diffableDatasource.itemIdentifier(for: indexPath)
+    }
+
+    func canAddTask() -> Bool {
+        let taskCount = diffableDatasource.snapshot().itemIdentifiers.filter {
+            if case .task = $0 { return true }
+            return false
+        }.count
+        return taskCount < TaskListViewModel.taskLimit
+    }
+
+    func completeTask(_ task: SLTask) {
+        task.taskToStatus?.name = TaskStatus.Complete.rawValue
+        coreDataStack?.saveContext()
+    }
+
+    // MARK: - Debug
+
+    #if DEBUG
+    func createMultipleMockTasks() {
+        guard let cds = coreDataStack else { return }
+        if cds.fetchTodaysItems().isEmpty {
             cds.createMockItems()
         }
     }
-    
-    public func applySnapshot(fetchedResultsController: NSFetchedResultsController<SLTask>) {
-        var snapshot = NSDiffableDataSourceSnapshot<SLTaskListPriority, SLTask>()
-        snapshot.appendSections([.high])
-        
-        if let tasks = fetchedResultsController.fetchedObjects {
-            snapshot.appendItems(tasks, toSection: .high)
-        }
-        
-        diffableDatasource.apply(snapshot, animatingDifferences: true)
+
+    func createTask() {
+        guard let cds = coreDataStack, let moc = cds.moc else { return }
+        let task = SLTask(context: moc)
+        task.newTask(name: "Test goal \(Int.random(in: 0...99))")
+        cds.saveContext()
     }
-    
-    
-    func getLastCell(collectionView: UICollectionView) -> SLTaskCell {
+
+    func deleteAllTasks() {
+        coreDataStack?.deleteAllObjects()
+        coreDataStack?.saveContext()
+    }
+    #endif
+
+    func getLastCell(collectionView: UICollectionView) -> SLTaskCell? {
         let lastSection = collectionView.numberOfSections - 1
         let lastItem = collectionView.numberOfItems(inSection: lastSection) - 1
-        return collectionView.cellForItem(at: IndexPath(item: lastItem, section: lastSection)) as! SLTaskCell
-        
-    }
-    
-    public func trackCell(cell: SLTaskCell) {
-        currentCellEditable = cell
-    }
-    
-    public func resignCurrentCell() {
-        guard let cell = currentCellEditable else { return }
-        cell.resignFirstResponder()
-    }
-    
-    /// testing only
-    public func createTask() {
-#if DEBUG
-        assert(coreDataStack != nil)
-        assert(coreDataStack?.moc != nil)
-#endif
-        guard
-            let cds = coreDataStack,
-            let moc = cds.moc
-        else {
-            return
-        }
-        
-        let slTask = SLTask(context: moc)
-        slTask.newTask(name: "Testing a longer string for the title that may wrap or may not wrap")
-        
-        cds.saveContext()
-    }
-    
-    /// testing only
-    public func deleteAllTasks() {
-#if DEBUG
-        assert(coreDataStack != nil)
-        assert(coreDataStack?.moc != nil)
-#endif
-        guard
-            let cds = coreDataStack
-        else {
-            return
-        }
-        
-        cds.deleteAllObjects()
-        
-        cds.saveContext()
-    }
-    
-    public func canAddTask() -> Bool {
-        return diffableDatasource.snapshot().numberOfItems < taskLimit
-    }
-    
-    public func limitTasks(_ newLimit: Int16) {
-        /// check didSet of taskLimit property to see that it is set in CoreData
-        taskLimit = newLimit
+        guard lastItem >= 0 else { return nil }
+        return collectionView.cellForItem(at: IndexPath(item: lastItem, section: lastSection)) as? SLTaskCell
     }
 }
