@@ -34,6 +34,11 @@ final class StreakManager {
         record.isCleanSweep = isCleanSweep
 
         try? context.save()
+
+        if isCleanSweep {
+            let streak = currentStreak(in: context)
+            NotificationService.shared.celebrateStreakIfMilestone(streak)
+        }
     }
 
     // MARK: - Streak computation
