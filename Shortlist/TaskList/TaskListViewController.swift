@@ -123,6 +123,12 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
     }
 
     @objc private func resetForNewDay() {
+        // Seal yesterday before rebuilding the FRC for today.
+        if let moc = CoreDataStack.shared.moc {
+            let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+            let yesterdayTasks = CoreDataStack.shared.fetchYesterdayTasks()
+            StreakManager.shared.sealDay(date: yesterday, tasks: yesterdayTasks, in: moc)
+        }
         configureFetchedResultsController()
         performFetch()
         guard let viewModel else { return }

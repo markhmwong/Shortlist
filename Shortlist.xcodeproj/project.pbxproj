@@ -44,6 +44,9 @@
 		4DE10003000000000000AA01 /* PlaceholderTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10002000000000000AA01 /* PlaceholderTaskCell.swift */; };
 		4DE10005000000000000AA01 /* LegacyStoreHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10004000000000000AA01 /* LegacyStoreHandler.swift */; };
 		4DE10007000000000000AA01 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10006000000000000AA01 /* WelcomeViewController.swift */; };
+		4DE10009000000000000AA01 /* SLDay+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10008000000000000AA01 /* SLDay+CoreDataClass.swift */; };
+		4DE1000B000000000000AA01 /* SLDay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE1000A000000000000AA01 /* SLDay+CoreDataProperties.swift */; };
+		4DE1000D000000000000AA01 /* StreakManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE1000C000000000000AA01 /* StreakManager.swift */; };
 		4D962AB82C1E0E360081D07F /* CoreDataStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */; };
 		4D9D22212C1D1E3A00925E1B /* RefreshablePopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */; };
 		4D9D22252C1D3ADE00925E1B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */; };
@@ -156,6 +159,7 @@
 		4D7017112C5DBFE10007F029 /* DatasourceSupervisor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasourceSupervisor.swift; sourceTree = "<group>"; };
 		4D7017142C5DCAF30007F029 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FiveModel.xcdatamodel; sourceTree = "<group>"; };
+		4DE1000E000000000000AA01 /* FiveModel v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel v2.xcdatamodel"; sourceTree = "<group>"; };
 		4D7D91842D095E6200141796 /* SettingsCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellType.swift; sourceTree = "<group>"; };
 		4D7D91862D095E7500141796 /* SettingsItemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItemProtocol.swift; sourceTree = "<group>"; };
 		4D7D91882D095E8E00141796 /* AnySettingsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnySettingsItem.swift; sourceTree = "<group>"; };
@@ -170,6 +174,9 @@
 		4DE10002000000000000AA01 /* PlaceholderTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTaskCell.swift; sourceTree = "<group>"; };
 		4DE10004000000000000AA01 /* LegacyStoreHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyStoreHandler.swift; sourceTree = "<group>"; };
 		4DE10006000000000000AA01 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		4DE10008000000000000AA01 /* SLDay+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLDay+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4DE1000A000000000000AA01 /* SLDay+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLDay+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4DE1000C000000000000AA01 /* StreakManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakManager.swift; sourceTree = "<group>"; };
 		4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataStack+Extension.swift"; sourceTree = "<group>"; };
 		4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshablePopView.swift; sourceTree = "<group>"; };
 		4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -494,6 +501,8 @@
 				4DB0A8342C2FA3D9005072C9 /* SLStatus+CoreDataProperties.swift */,
 				4DB0A8352C2FA3D9005072C9 /* SLTask+CoreDataClass.swift */,
 				4DB0A8362C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift */,
+				4DE10008000000000000AA01 /* SLDay+CoreDataClass.swift */,
+				4DE1000A000000000000AA01 /* SLDay+CoreDataProperties.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -504,6 +513,7 @@
 				4D6F157D2C2F2A790079E79B /* TaskPriorityLevel.swift */,
 				4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */,
 				4D1C12022C2F932800E15BD2 /* TaskStatus.swift */,
+				4DE1000C000000000000AA01 /* StreakManager.swift */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -785,6 +795,9 @@
 				4DE10003000000000000AA01 /* PlaceholderTaskCell.swift in Sources */,
 				4DE10005000000000000AA01 /* LegacyStoreHandler.swift in Sources */,
 				4DE10007000000000000AA01 /* WelcomeViewController.swift in Sources */,
+				4DE10009000000000000AA01 /* SLDay+CoreDataClass.swift in Sources */,
+				4DE1000B000000000000AA01 /* SLDay+CoreDataProperties.swift in Sources */,
+				4DE1000D000000000000AA01 /* StreakManager.swift in Sources */,
 				4DC677BC2E6259090001FEE8 /* ProFeatureManager.swift in Sources */,
 				4D2F65F72C154C85001ADB4A /* Coordinator.swift in Sources */,
 				4D78ABF722DF0C9C001FD57F /* ShortlistModel.xcdatamodeld in Sources */,
@@ -1284,8 +1297,9 @@
 				4D646B3F23264C1300073FD6 /* FiveModel 3.xcdatamodel */,
 				4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */,
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
+				4DE1000E000000000000AA01 /* FiveModel v2.xcdatamodel */,
 			);
-			currentVersion = 4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */;
+			currentVersion = 4DE1000E000000000000AA01 /* FiveModel v2.xcdatamodel */;
 			path = ShortlistModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
