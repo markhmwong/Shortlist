@@ -108,10 +108,6 @@ class TaskDetailsViewController: UITableViewController, RefreshablePopView {
 			presentAlert(title: "Missing Name", message: "Please enter a name for the task.")
 			return false
 		}
-		if viewModel.task.value.priority == 0 {
-			presentAlert(title: "Missing Priority", message: "Please select a priority for the task.")
-			return false
-		}
 		return true
 	}
 
