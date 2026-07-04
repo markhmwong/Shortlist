@@ -84,6 +84,11 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
         collectionView.addGestureRecognizer(longPress)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        coordinator?.showWelcomeIfNeeded()
+    }
+
     // MARK: - Today + midnight
 
     private func configureFetchedResultsController() {

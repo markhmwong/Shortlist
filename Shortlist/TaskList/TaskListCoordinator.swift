@@ -57,6 +57,15 @@ class TaskListCoordinator: CoordinatorFacade<SLTask> {
         let coordinator = SettingsCoordinator(parentCoordinator: self, parentNavigationController: rootNavigationController, rootNavigationController: UINavigationController(), rootViewController: nil, coreDataStack: coreDataStack)
         coordinator.start()
     }
+
+    func showWelcomeIfNeeded() {
+        guard LegacyStoreHandler.shouldShowWelcome,
+              let rnc = rootNavigationController else { return }
+        LegacyStoreHandler.removeV2StoreIfPresent()
+        let welcomeVC = WelcomeViewController()
+        welcomeVC.modalPresentationStyle = .fullScreen
+        rnc.present(welcomeVC, animated: true)
+    }
 }
 
 
