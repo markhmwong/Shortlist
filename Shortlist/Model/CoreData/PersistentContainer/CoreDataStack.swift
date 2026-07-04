@@ -90,11 +90,14 @@ public class CoreDataStack: NSObject {
     
 	public func fetchTodaysItems() -> [SLTask] {
         guard let moc = moc else { return [] }
-        
+        let startOfToday = Calendar.current.startOfDay(for: Date())
+        let startOfTomorrow = Calendar.current.date(byAdding: .day, value: 1, to: startOfToday)!
         do {
             let fetchRequest: NSFetchRequest<SLTask> = SLTask.fetchRequest()
-            // TODO: update predicate to include only today's date and incomplete items
-            fetchRequest.predicate = NSPredicate(format: "taskToStatus.name == %@", TaskStatus.Incomplete.rawValue as CVarArg)
+            fetchRequest.predicate = NSPredicate(
+                format: "createdAt >= %@ AND createdAt < %@",
+                startOfToday as NSDate, startOfTomorrow as NSDate
+            )
             let items = try moc.fetch(fetchRequest)
             return items
         } catch {

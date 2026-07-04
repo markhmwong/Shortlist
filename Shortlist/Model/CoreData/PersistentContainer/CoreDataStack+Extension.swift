@@ -10,20 +10,12 @@ import Foundation
 
 extension CoreDataStack {
     func createMockItems() {
-        for i in 0...5 {
-            let item = SLTask(context: moc!)
-            item.name = "Clean storm drain \(i)"
-            item.createdAt = Date()
-            item.id = UUID()
-            item.lat = 1.0
-            item.long = 1.0
-            let status = SLStatus(context: moc!)
-            status.name = TaskStatus.Active.rawValue
-            item.taskToStatus = status
-            item.taskDescription = "Description"
-            item.taskToCategory = SLCategory(context: moc!)
-            item.taskToCategory?.type = 0
+        guard let moc = moc else { return }
+        let names = ["Buy groceries", "Call the dentist", "Finish report"]
+        for (i, name) in names.prefix(3).enumerated() {
+            let task = SLTask(context: moc)
+            task.newTask(name: name, priority: TaskPriorityLevel(rawValue: i) ?? .high)
         }
-        self.saveContext()
+        saveContext()
     }
 }

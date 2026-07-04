@@ -1,5 +1,5 @@
 //
-//  MainViewControllerCollectionView.swift
+//  TaskListViewController.swift
 //  Shortlist
 //
 //  Created by Mark Wong on 23/7/20.
@@ -18,124 +18,97 @@ extension TaskListViewController: RefreshablePopView {
 }
 
 class TaskListViewController: UICollectionViewController, UIGestureRecognizerDelegate {
-    
-    fileprivate let className: String = String(describing: TaskListViewController.self)
-    
-    private var viewModel: TaskListViewModel? = nil
-    
-    private var longPressGesture: UILongPressGestureRecognizer!
 
-	private var coordinator: TaskListCoordinator? = nil
-    
+    private let className = String(describing: TaskListViewController.self)
+
+    private var viewModel: TaskListViewModel?
+
+    private var coordinator: TaskListCoordinator?
+
     var fetchedResultsController: NSFetchedResultsController<SLTask>!
 
     init(viewModel: TaskListViewModel, coordinator: TaskListCoordinator) {
         self.viewModel = viewModel
         self.coordinator = coordinator
-        super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewSectionHeaderLayout(itemSpace: .init(top: 0, leading: 5, bottom: 0, trailing: 5), groupSpacing: .zero))
+        super.init(collectionViewLayout: UICollectionViewLayout().createCollectionViewSectionHeaderLayout(
+            itemSpace: .init(top: 0, leading: 5, bottom: 0, trailing: 5),
+            groupSpacing: .zero))
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Add tap gesture recognizer
-        _ = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-//        view.addGestureRecognizer(tapGesture)
-        
-        // Initialize the long press gesture recognizer
-        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
-        longPressGesture.minimumPressDuration = 0.7
-		longPressGesture.delegate = self
-        collectionView.addGestureRecognizer(longPressGesture)
-    }
-   
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        collectionView.backgroundColor = .white
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(handleSettings))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(handleAddTask))
+        view.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .systemBackground
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "Settings", style: .plain, target: self, action: #selector(handleSettings))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Add", style: .plain, target: self, action: #selector(handleAddTask))
         #if DEBUG
-        navigationItem.rightBarButtonItems?.append(UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(handleDeleteTask)))
+        navigationItem.rightBarButtonItems?.append(
+            UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(handleDeleteTask)))
         #endif
-        //Datasource
+
         guard let viewModel else {
             print("\(className): View model not initialised")
-            return }
+            return
+        }
+
         #if DEBUG
         viewModel.createMultipleMockTasks()
         #endif
+
         configureFetchedResultsController()
         performFetch()
         viewModel.configureDatasource(view: collectionView)
         viewModel.updateSnapshot(fetchedResultsController: fetchedResultsController)
-    }
-    
-    @objc func handleSettings() {
-        coordinator?.presentSettings()
-    }
-    
-    #if DEBUG
-    @objc func handleDeleteTask() {
-        guard let viewModel else { return }
-        viewModel.deleteAllTasks()
-        do {
-            fetchedResultsController.managedObjectContext.refreshAllObjects()
-            try fetchedResultsController.performFetch()
-        } catch let err {
-            print("err \(err)")
-        }
-        viewModel.updateSnapshot(fetchedResultsController: fetchedResultsController)
-    }
-    #endif
 
-    @objc func handleAddTask() {
-        guard let viewModel else { return }
-        if viewModel.canAddTask() {
-            #if DEBUG
-            viewModel.createTask()
-            #endif
-        } else {
-            print("Pop up todo - Task Limit Reached")
-        }
+        setupSwipeToComplete()
+
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(resetForNewDay),
+            name: UIApplication.significantTimeChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(refreshOnForeground),
+            name: UIApplication.willEnterForegroundNotification, object: nil)
     }
-	
-	@objc func handleLongPress() {
-		print("long press gesture on SLTask Cell")
-		guard let viewModel = viewModel else { return }
-		let cell = viewModel.getLastCell(collectionView: self.collectionView)
-		cell.focusText()
-	}
-    
-    @objc func handleTap() {
-        
-//        guard let viewModel else { return }
-        /// stop editing current cell
-//        viewModel.resignCurrentCell()
-        
-        /// add new task
-//        let _ = viewModel.createTask {
-//            let cell = viewModel.getLastCell(collectionView: self.collectionView)
-//			cell.enableEditing()
-//            cell.focusText()
-//        }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        longPress.minimumPressDuration = 0.7
+        longPress.delegate = self
+        collectionView.addGestureRecognizer(longPress)
     }
-    
-    private func configureFetchedResultsController(with statuses: [TaskStatus] = [.Incomplete, .Complete]) {
+
+    // MARK: - Today + midnight
+
+    private func configureFetchedResultsController() {
+        let startOfToday = Calendar.current.startOfDay(for: Date())
+        let startOfTomorrow = Calendar.current.date(byAdding: .day, value: 1, to: startOfToday)!
+
         let fetchRequest: NSFetchRequest<SLTask> = SLTask.fetchRequest()
-        let statusValues = statuses.map { $0.rawValue }
-        fetchRequest.predicate = NSPredicate(format: "taskToStatus.name IN %@", statusValues)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \SLTask.taskToStatus?.name, ascending: true)]
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.shared.moc!, sectionNameKeyPath: nil, cacheName: nil)
-        
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSPredicate(format: "taskToStatus.name IN %@",
+                        [TaskStatus.Incomplete.rawValue, TaskStatus.Complete.rawValue]),
+            NSPredicate(format: "createdAt >= %@ AND createdAt < %@",
+                        startOfToday as NSDate, startOfTomorrow as NSDate),
+        ])
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(keyPath: \SLTask.priority, ascending: true),
+            NSSortDescriptor(keyPath: \SLTask.createdAt, ascending: true),
+        ]
+
+        fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: CoreDataStack.shared.moc!,
+            sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
     }
-    
+
     func performFetch() {
         do {
             try fetchedResultsController.performFetch()
@@ -143,33 +116,108 @@ class TaskListViewController: UICollectionViewController, UIGestureRecognizerDel
             print("Failed to fetch tasks: \(error)")
         }
     }
-    
 
-    
-	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		let cell = collectionView.cellForItem(at: indexPath) as! SLTaskCell
-		guard let coordinator = coordinator, let item = cell._item else {
-			print("task item not found to proceed to task details view")
-			return
-		}
-        coordinator.presentTaskDetails(item: item)
-	}
-    
+    @objc private func resetForNewDay() {
+        configureFetchedResultsController()
+        performFetch()
+        guard let viewModel else { return }
+        viewModel.refreshDatasource(fetchedResultsController: fetchedResultsController)
+    }
+
+    @objc private func refreshOnForeground() {
+        performFetch()
+        guard let viewModel else { return }
+        viewModel.updateSnapshot(fetchedResultsController: fetchedResultsController)
+    }
+
+    // MARK: - Swipe to complete
+
+    private func setupSwipeToComplete() {
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeComplete(_:)))
+        swipe.direction = .right
+        swipe.delegate = self
+        collectionView.addGestureRecognizer(swipe)
+    }
+
+    @objc private func handleSwipeComplete(_ gesture: UISwipeGestureRecognizer) {
+        let location = gesture.location(in: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: location),
+              let item = viewModel?.item(at: indexPath),
+              case .task(let task) = item,
+              task.taskToStatus?.name == TaskStatus.Incomplete.rawValue
+        else { return }
+
+        viewModel?.completeTask(task)
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+    }
+
+    // MARK: - Actions
+
+    @objc private func handleSettings() {
+        coordinator?.presentSettings()
+    }
+
+    @objc private func handleAddTask() {
+        guard let viewModel else { return }
+        if viewModel.canAddTask() {
+            coordinator?.presentAddGoal()
+        } else {
+            let alert = UIAlertController(
+                title: "Goals set for today",
+                message: "You've set all 3 goals for today. Complete one first to add another.",
+                preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
+    }
+
+    @objc private func handleLongPress() { }
+
+    #if DEBUG
+    @objc private func handleDeleteTask() {
+        guard let viewModel else { return }
+        viewModel.deleteAllTasks()
+        do {
+            fetchedResultsController.managedObjectContext.refreshAllObjects()
+            try fetchedResultsController.performFetch()
+        } catch {
+            print("delete fetch err: \(error)")
+        }
+        viewModel.updateSnapshot(fetchedResultsController: fetchedResultsController)
+    }
+    #endif
+
+    // MARK: - Collection View
+
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = viewModel?.item(at: indexPath) else { return }
+        switch item {
+        case .task(let task):
+            coordinator?.presentTaskDetails(item: task)
+        case .placeholder:
+            guard viewModel?.canAddTask() == true else { return }
+            coordinator?.presentAddGoal()
+        }
+    }
+
     deinit {
         viewModel = nil
-		coordinator = nil
+        coordinator = nil
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 extension TaskListViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard let viewModel else { return }
-        viewModel.applySnapshot(fetchedResultsController: self.fetchedResultsController)
+        viewModel.applySnapshot(fetchedResultsController: fetchedResultsController)
     }
 }
 
 extension TaskListViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return UICollectionViewFlowLayout.automaticSize
     }
 }
