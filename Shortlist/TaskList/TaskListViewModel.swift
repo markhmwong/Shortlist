@@ -91,6 +91,7 @@ class TaskListViewModel: NSObject {
     func completeTask(_ task: SLTask) {
         task.taskToStatus?.name = TaskStatus.Complete.rawValue
         coreDataStack?.saveContext()
+        NotificationService.shared.cancelReminder(for: task)
     }
 
     // MARK: - Debug

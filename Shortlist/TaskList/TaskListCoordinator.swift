@@ -42,11 +42,14 @@ class TaskListCoordinator: CoordinatorFacade<SLTask> {
     func presentAddGoal() {
         guard let rnc = rootNavigationController else { return }
         let addVC = AddGoalViewController()
-        addVC.onSave = { [weak self] name, priority in
+        addVC.onSave = { [weak self] name, priority, reminder in
             guard let self, let cds = coreDataStack, let moc = cds.moc else { return }
             let task = SLTask(context: moc)
-            task.newTask(name: name, priority: priority)
+            task.newTask(name: name, priority: priority, reminder: reminder)
             cds.saveContext()
+            if reminder != nil {
+                NotificationService.shared.scheduleReminder(for: task)
+            }
         }
         let nav = UINavigationController(rootViewController: addVC)
         nav.modalPresentationStyle = .formSheet

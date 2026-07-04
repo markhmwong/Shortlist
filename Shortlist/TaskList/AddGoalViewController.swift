@@ -10,7 +10,7 @@ import UIKit
 
 final class AddGoalViewController: UIViewController {
 
-    var onSave: ((String, TaskPriorityLevel) -> Void)?
+    var onSave: ((String, TaskPriorityLevel, Date?) -> Void)?
 
     private let nameField: UITextField = {
         let f = UITextField()
@@ -40,6 +40,52 @@ final class AddGoalViewController: UIViewController {
         return ctrl
     }()
 
+    // MARK: - Reminder
+
+    private let reminderLabel: UILabel = {
+        let l = UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.text = "REMINDER"
+        l.font = .preferredFont(forTextStyle: .caption1)
+        l.textColor = .secondaryLabel
+        return l
+    }()
+
+    private let reminderRow: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+
+    private let reminderToggleLabel: UILabel = {
+        let l = UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.text = "Set reminder"
+        l.font = .preferredFont(forTextStyle: .body)
+        return l
+    }()
+
+    private let reminderSwitch: UISwitch = {
+        let s = UISwitch()
+        s.translatesAutoresizingMaskIntoConstraints = false
+        return s
+    }()
+
+    private let reminderPicker: UIDatePicker = {
+        let dp = UIDatePicker()
+        dp.translatesAutoresizingMaskIntoConstraints = false
+        dp.datePickerMode = .dateAndTime
+        dp.preferredDatePickerStyle = .compact
+        dp.minimumDate = Date()
+        // Default: next round hour
+        let cal = Calendar.current
+        let next = cal.nextDate(after: Date(), matching: DateComponents(minute: 0), matchingPolicy: .nextTime)!
+        dp.date = next
+        dp.isHidden = true
+        dp.alpha = 0
+        return dp
+    }()
+
     private let separator: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -56,11 +102,11 @@ final class AddGoalViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .done, target: self, action: #selector(save))
         nameField.delegate = self
+        reminderSwitch.addTarget(self, action: #selector(reminderToggled), for: .valueChanged)
 
-        view.addSubview(nameField)
-        view.addSubview(separator)
-        view.addSubview(priorityLabel)
-        view.addSubview(priorityControl)
+        [reminderToggleLabel, reminderSwitch].forEach { reminderRow.addSubview($0) }
+        [nameField, separator, priorityLabel, priorityControl,
+         reminderLabel, reminderRow, reminderPicker].forEach { view.addSubview($0) }
 
         NSLayoutConstraint.activate([
             nameField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
@@ -78,6 +124,23 @@ final class AddGoalViewController: UIViewController {
             priorityControl.topAnchor.constraint(equalTo: priorityLabel.bottomAnchor, constant: 8),
             priorityControl.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
             priorityControl.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+
+            reminderLabel.topAnchor.constraint(equalTo: priorityControl.bottomAnchor, constant: 28),
+            reminderLabel.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+
+            reminderRow.topAnchor.constraint(equalTo: reminderLabel.bottomAnchor, constant: 8),
+            reminderRow.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
+            reminderRow.trailingAnchor.constraint(equalTo: view.readableContentGuide.trailingAnchor),
+            reminderRow.heightAnchor.constraint(equalToConstant: 44),
+
+            reminderToggleLabel.centerYAnchor.constraint(equalTo: reminderRow.centerYAnchor),
+            reminderToggleLabel.leadingAnchor.constraint(equalTo: reminderRow.leadingAnchor),
+
+            reminderSwitch.centerYAnchor.constraint(equalTo: reminderRow.centerYAnchor),
+            reminderSwitch.trailingAnchor.constraint(equalTo: reminderRow.trailingAnchor),
+
+            reminderPicker.topAnchor.constraint(equalTo: reminderRow.bottomAnchor, constant: 8),
+            reminderPicker.leadingAnchor.constraint(equalTo: view.readableContentGuide.leadingAnchor),
         ])
     }
 
@@ -86,11 +149,20 @@ final class AddGoalViewController: UIViewController {
         nameField.becomeFirstResponder()
     }
 
+    @objc private func reminderToggled() {
+        let show = reminderSwitch.isOn
+        UIView.animate(withDuration: 0.2) {
+            self.reminderPicker.isHidden = !show
+            self.reminderPicker.alpha = show ? 1 : 0
+        }
+    }
+
     @objc private func save() {
         let name = nameField.text?.trimmingCharacters(in: .whitespaces) ?? ""
         guard !name.isEmpty else { return }
         let priority = TaskPriorityLevel.allCases[priorityControl.selectedSegmentIndex]
-        onSave?(name, priority)
+        let reminder: Date? = reminderSwitch.isOn ? reminderPicker.date : nil
+        onSave?(name, priority, reminder)
         dismiss(animated: true)
     }
 
