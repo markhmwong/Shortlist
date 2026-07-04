@@ -182,7 +182,7 @@
 		4DB0A8342C2FA3D9005072C9 /* SLStatus+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLStatus+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4DB0A8352C2FA3D9005072C9 /* SLTask+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLTask+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4DB0A8362C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLTask+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		4DB0A8462C2FA42F005072C9 /* SLTask+Methods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SLTask+Methods.swift"; sourceTree = "<group>"; };
+		4DB0A8462C2FA42F005072C9 /* SLTask+Methods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLTask+Methods.swift"; path = "Shortlist/Model/CoreData/Entities/SLTask+Methods.swift"; sourceTree = "<group>"; };
 		4DBA14322CDA5026001D01D6 /* WhizUtilKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WhizUtilKit; path = ../WhizUtil/WhizUtilKit; sourceTree = SOURCE_ROOT; };
 		4DBA14352CE45580001D01D6 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		4DC677B72E6258FE0001FEE8 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
