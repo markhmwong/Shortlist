@@ -6,6 +6,9 @@ AppStoreMedia
 
 # XCode
 *.mobileprovision
+*.cer
+*.certSigningRequest
+*.p12
 Gemfile.lock
 Podfile.lock
 *.ipa
