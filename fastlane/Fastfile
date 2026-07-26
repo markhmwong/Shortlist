@@ -1,19 +1,9 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:ios)
+
+APP_IDS = [
+  "com.whizbang.shortlist",
+  "com.whizbang.shortlist.widget",
+].freeze
 
 platform :ios do
   desc "Push a new beta build to TestFlight"
@@ -23,77 +13,40 @@ platform :ios do
     build_app(
       workspace: "Shortlist.xcworkspace",
       scheme: "Shortlist",
-      include_bitcode: true,
       export_xcargs: "-allowProvisioningUpdates",
     )
     upload_to_testflight
   end
 
-  # desc "Code Signing"
-  # lane :codeSign do
-  #   cert(
-  #       username: "markhmwong@gmail.com"
-  #       )
-  #   sigh(
-  #       force: true, username: "markhmwong@gmail.com"
-  #       )
-  # end
-
+  desc "Sync certificates and provisioning profiles"
   lane :certs do
     update_project_team(
       path: "Shortlist.xcodeproj",
       teamid: "GEKZN86RYS"
     )
-    match(type: "appstore", app_identifier: ["com.whizbang.shortlist", "com.whizbang.shortlist.watchkitapp", "com.whizbang.shortlist.watchkitapp.watchkitextension"])
-    match(type: "development", app_identifier: ["com.whizbang.shortlist", "com.whizbang.shortlist.watchkitapp", "com.whizbang.shortlist.watchkitapp.watchkitextension"])
-    match(type: "adhoc", app_identifier: ["com.whizbang.shortlist", "com.whizbang.shortlist.watchkitapp", "com.whizbang.shortlist.watchkitapp.watchkitextension"])
+    match(type: "appstore",    app_identifier: APP_IDS)
+    match(type: "development", app_identifier: APP_IDS)
+    match(type: "adhoc",       app_identifier: APP_IDS)
   end
 
-
-  desc "App Store Release"
+  desc "App Store Release — v3.0.0"
   lane :release do
-    # enable_automatic_code_signing
-    get_provisioning_profile(app_identifier: "com.whizbang.shortlist")
-    get_provisioning_profile(app_identifier: "com.whizbang.shortlist.watchkitapp")
-    get_provisioning_profile(app_identifier: "com.whizbang.shortlist.watchkitapp.watchkitextension")
+    APP_IDS.each { |id| get_provisioning_profile(app_identifier: id) }
 
     increment_build_number
-    increment_version_number(
-      # bump_type: "patch"
-      version_number: "1.2.7" # update this each release
-    )
+    increment_version_number(version_number: "3.0.0")
 
     build_app(
       workspace: "Shortlist.xcworkspace",
       scheme: "Shortlist",
       output_directory: "./fastlane/builds",
-      include_bitcode: true,
       export_xcargs: "-allowProvisioningUpdates",
     )
-    # upload
     upload_to_app_store
   end
 
-
-	desc "Build App"
-	lane :build do
-    ensure_git_status_clean
-		increment_build_number
-		increment_version_number(
-			#bump_type: "patch"
-			version_number: "1.2.7"
-		)
-		gym
-	end
-
-  #Uses the gymfile with the "build" command
-	desc "App Store Release Update 11/06/2020"
-	lane :ReleaseTheKraken do
-    ensure_git_status_clean
-		get_certificates
-		get_provisioning_profile
-		build
-		upload_to_app_store
-	end
-
+  desc "Screenshots only (no upload)"
+  lane :screenshots do
+    capture_ios_screenshots
+  end
 end
