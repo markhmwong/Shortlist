@@ -1,0 +1,14 @@
+{
+  "blockers": [],
+  "date": "2026-07-10",
+  "phases": [
+    {
+      "description": "Everything needed to ship Shortlist v3.0.0 to the App Store. All code is complete — this phase is art, metadata, and pipeline.",
+      "id": "app-store-release",
+      "label": "PHASE 7",
+      "name": "App Store Release",
+      "summary": "Ship v3.0.0"
+    }
+  ],
+  "title": "Shortlist"
+}

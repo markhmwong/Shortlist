@@ -1,0 +1,12 @@
+{
+  "blockedBy": [],
+  "completedDate": null,
+  "createdDate": "2026-07-10",
+  "description": "Shortlist has only legacy purchase code: LegacyStoreHandler (clears old v2 store state) and an empty ProFeatureManager stub — no working purchase flow. Add the RevenueCat SDK, configure Purchases at launch, define the Pro Offering + entitlement in the RevenueCat dashboard, and wire ProFeatureManager to RevenueCat as the source of truth for Pro gating. NOTE: Shortlist is the legacy UIKit + Core Data app — do NOT rewrite the UI, just add the purchase layer.",
+  "id": "T-007",
+  "order": 70,
+  "phase": "app-store-release",
+  "status": "inprogress",
+  "title": "Adopt RevenueCat for Pro entitlement",
+  "type": "feature"
+}

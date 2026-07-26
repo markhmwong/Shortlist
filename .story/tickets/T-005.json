@@ -1,0 +1,14 @@
+{
+  "blockedBy": [
+    "T-001"
+  ],
+  "completedDate": null,
+  "createdDate": "2026-07-10",
+  "description": "Take screenshots for required device sizes (6.9\" iPhone 16 Pro Max and 6.5\" are mandatory). Run `fastlane screenshots` to use the ScreenshotTester scheme, or capture manually in the simulator. Upload via App Store Connect or `fastlane deliver`. Requires T-001 (icon) so screenshots don't show a blank icon.",
+  "id": "T-005",
+  "order": 50,
+  "phase": "app-store-release",
+  "status": "open",
+  "title": "Capture and upload screenshots",
+  "type": "task"
+}

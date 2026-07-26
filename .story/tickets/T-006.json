@@ -1,0 +1,16 @@
+{
+  "blockedBy": [
+    "T-003",
+    "T-004",
+    "T-005"
+  ],
+  "completedDate": null,
+  "createdDate": "2026-07-10",
+  "description": "Run `fastlane release` to build and upload v3.0.0 (build 59+) to App Store Connect. Bumps build number, sets version to 3.0.0, builds the Shortlist scheme (which embeds the widget), and calls upload_to_app_store. Submit for review once metadata and screenshots are in place.",
+  "id": "T-006",
+  "order": 60,
+  "phase": "app-store-release",
+  "status": "open",
+  "title": "Run fastlane release",
+  "type": "task"
+}

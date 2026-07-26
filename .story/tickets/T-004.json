@@ -1,0 +1,12 @@
+{
+  "blockedBy": [],
+  "completedDate": null,
+  "createdDate": "2026-07-10",
+  "description": "In App Store Connect, update: app name (\"Shortlist\"), subtitle, description (lead with the 3-goal anti-abundance philosophy), keywords, support URL, and what's new text for v3.0.0. Also update the privacy nutrition labels to match PrivacyInfo.xcprivacy: precise location (app functionality), photos (app functionality), no tracking.",
+  "id": "T-004",
+  "order": 40,
+  "phase": "app-store-release",
+  "status": "open",
+  "title": "Write App Store metadata",
+  "type": "task"
+}

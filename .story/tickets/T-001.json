@@ -1,0 +1,12 @@
+{
+  "blockedBy": [],
+  "completedDate": null,
+  "createdDate": "2026-07-10",
+  "description": "9 sizes are missing in Shortlist/Assets.xcassets/AppIcon.appiconset. Design a 1024×1024 master icon, then use an icon generator (e.g. MakeAppIcon, IconKitchen) to fill all required slots. The icon should reflect the v3 identity — minimal, 3-goal focus, anti-abundance.",
+  "id": "T-001",
+  "order": 10,
+  "phase": "app-store-release",
+  "status": "open",
+  "title": "Create app icon artwork",
+  "type": "task"
+}

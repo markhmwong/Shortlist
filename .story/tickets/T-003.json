@@ -1,0 +1,14 @@
+{
+  "blockedBy": [
+    "T-002"
+  ],
+  "completedDate": null,
+  "createdDate": "2026-07-10",
+  "description": "Run `fastlane certs` to sync App Store, development, and adhoc provisioning profiles for both `com.whizbang.shortlist` and `com.whizbang.shortlist.widget`. Requires T-002 (widget App ID registered) to be done first.",
+  "id": "T-003",
+  "order": 30,
+  "phase": "app-store-release",
+  "status": "open",
+  "title": "Run fastlane certs",
+  "type": "chore"
+}

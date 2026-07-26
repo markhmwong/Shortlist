@@ -1,0 +1,12 @@
+{
+  "blockedBy": [],
+  "completedDate": null,
+  "createdDate": "2026-07-10",
+  "description": "Add `com.whizbang.shortlist.widget` as an explicit App ID under Certificates, Identifiers & Profiles in developer.apple.com. Enable App Groups capability and add `group.com.whizbang.Five`. This is required before fastlane certs can provision the widget extension.",
+  "id": "T-002",
+  "order": 20,
+  "phase": "app-store-release",
+  "status": "open",
+  "title": "Register widget App ID in App Store Connect",
+  "type": "chore"
+}

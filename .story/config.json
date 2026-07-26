@@ -1,0 +1,14 @@
+{
+  "features": {
+    "handovers": true,
+    "issues": true,
+    "reviews": true,
+    "roadmap": true,
+    "tickets": true
+  },
+  "language": "swift",
+  "project": "Shortlist",
+  "schemaVersion": 1,
+  "type": "macapp",
+  "version": 2
+}
