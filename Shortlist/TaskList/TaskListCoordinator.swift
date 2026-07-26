@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WidgetKit
 
 class TaskListCoordinator: CoordinatorFacade<SLTask> {
 
@@ -50,6 +51,7 @@ class TaskListCoordinator: CoordinatorFacade<SLTask> {
             if reminder != nil {
                 NotificationService.shared.scheduleReminder(for: task)
             }
+            WidgetCenter.shared.reloadAllTimelines()
         }
         let nav = UINavigationController(rootViewController: addVC)
         nav.modalPresentationStyle = .formSheet

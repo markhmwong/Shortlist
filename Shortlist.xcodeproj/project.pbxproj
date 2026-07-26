@@ -40,16 +40,6 @@
 		4D80FB2A2D3CDF60009CC739 /* CategoryIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D80FB292D3CDF5A009CC739 /* CategoryIcons.swift */; };
 		4D8D363A2BC9B447008713C2 /* TaskListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */; };
 		4D8D363C2BC9B45B008713C2 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */; };
-		4DE10001000000000000AA01 /* AddGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10000000000000000AA01 /* AddGoalViewController.swift */; };
-		4DE10003000000000000AA01 /* PlaceholderTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10002000000000000AA01 /* PlaceholderTaskCell.swift */; };
-		4DE10005000000000000AA01 /* LegacyStoreHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10004000000000000AA01 /* LegacyStoreHandler.swift */; };
-		4DE10007000000000000AA01 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10006000000000000AA01 /* WelcomeViewController.swift */; };
-		4DE10009000000000000AA01 /* SLDay+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10008000000000000AA01 /* SLDay+CoreDataClass.swift */; };
-		4DE1000B000000000000AA01 /* SLDay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE1000A000000000000AA01 /* SLDay+CoreDataProperties.swift */; };
-		4DE1000D000000000000AA01 /* StreakManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE1000C000000000000AA01 /* StreakManager.swift */; };
-		4DE1000F000000000000AA01 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10010000000000000AA01 /* NotificationService.swift */; };
-		4DE10013000000000000AA01 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10014000000000000AA01 /* MediaManager.swift */; };
-		4DE10015000000000000AA01 /* DestinationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10016000000000000AA01 /* DestinationPickerViewController.swift */; };
 		4D962AB82C1E0E360081D07F /* CoreDataStack+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */; };
 		4D9D22212C1D1E3A00925E1B /* RefreshablePopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */; };
 		4D9D22252C1D3ADE00925E1B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */; };
@@ -81,9 +71,28 @@
 		4DC677D82E625CFD0001FEE8 /* DynamicTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677D62E625CFD0001FEE8 /* DynamicTableView.swift */; };
 		4DC677DC2E63A3150001FEE8 /* PrioritySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC677DB2E63A3150001FEE8 /* PrioritySelectionViewModel.swift */; };
 		4DCD042C25247231005B97F1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCD042B25247231005B97F1 /* Constants.swift */; };
+		4DE10001000000000000AA01 /* AddGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10000000000000000AA01 /* AddGoalViewController.swift */; };
+		4DE10003000000000000AA01 /* PlaceholderTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10002000000000000AA01 /* PlaceholderTaskCell.swift */; };
+		4DE10005000000000000AA01 /* LegacyStoreHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10004000000000000AA01 /* LegacyStoreHandler.swift */; };
+		4DE10007000000000000AA01 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10006000000000000AA01 /* WelcomeViewController.swift */; };
+		4DE10009000000000000AA01 /* SLDay+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10008000000000000AA01 /* SLDay+CoreDataClass.swift */; };
+		4DE1000B000000000000AA01 /* SLDay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE1000A000000000000AA01 /* SLDay+CoreDataProperties.swift */; };
+		4DE1000D000000000000AA01 /* StreakManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE1000C000000000000AA01 /* StreakManager.swift */; };
+		4DE1000F000000000000AA01 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10010000000000000AA01 /* NotificationService.swift */; };
+		4DE10013000000000000AA01 /* MediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10014000000000000AA01 /* MediaManager.swift */; };
+		4DE10015000000000000AA01 /* DestinationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10016000000000000AA01 /* DestinationPickerViewController.swift */; };
+		4DE10022000000000000AA01 /* ShortlistWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10021000000000000AA01 /* ShortlistWidget.swift */; };
+		4DE10024000000000000AA01 /* ShortlistWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10023000000000000AA01 /* ShortlistWidgetBundle.swift */; };
+		4DE10026000000000000AA01 /* CompleteTaskIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10025000000000000AA01 /* CompleteTaskIntent.swift */; };
+		4DE10028000000000000AA01 /* WidgetDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE10027000000000000AA01 /* WidgetDataProvider.swift */; };
+		4DE10029000000000000AA01 /* ShortlistModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D78ABF522DF0C9C001FD57F /* ShortlistModel.xcdatamodeld */; };
+		4DE1002C000000000000AA01 /* ShortlistWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4DE1001D000000000000AA01 /* ShortlistWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4DE1002F000000000000AA01 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE10030000000000000AA01 /* WidgetKit.framework */; };
+		4DE10031000000000000AA01 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 4DE10032000000000000AA01 /* PrivacyInfo.xcprivacy */; };
 		4DF3E3722403E01F002B402C /* ScreenshotTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3712403E01F002B402C /* ScreenshotTester.swift */; };
 		4DF3E3792403E0F2002B402C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3592403DB62002B402C /* SnapshotHelper.swift */; };
 		4DF4A37D2BE98220008A4FF3 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */; };
+		D40C63AA34BA5C87905E2634 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 72853DF62822A8E0D5C14C02 /* RevenueCat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +109,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4D45E78D22DDD1AB008AC433;
 			remoteInfo = Five;
+		};
+		4DE1002E000000000000AA01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4D45E78622DDD1AB008AC433 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DE1002A000000000000AA01;
+			remoteInfo = ShortlistWidgetExtension;
 		};
 		4DF3E3742403E01F002B402C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -119,6 +135,17 @@
 			files = (
 			);
 			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE1002B000000000000AA01 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4DE1002C000000000000AA01 /* ShortlistWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -162,8 +189,6 @@
 		4D7017112C5DBFE10007F029 /* DatasourceSupervisor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasourceSupervisor.swift; sourceTree = "<group>"; };
 		4D7017142C5DCAF30007F029 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FiveModel.xcdatamodel; sourceTree = "<group>"; };
-		4DE1000E000000000000AA01 /* FiveModel v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel v2.xcdatamodel"; sourceTree = "<group>"; };
-		4DE10012000000000000AA01 /* FiveModel v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel v3.xcdatamodel"; sourceTree = "<group>"; };
 		4D7D91842D095E6200141796 /* SettingsCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellType.swift; sourceTree = "<group>"; };
 		4D7D91862D095E7500141796 /* SettingsItemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItemProtocol.swift; sourceTree = "<group>"; };
 		4D7D91882D095E8E00141796 /* AnySettingsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnySettingsItem.swift; sourceTree = "<group>"; };
@@ -174,16 +199,6 @@
 		4D80FB292D3CDF5A009CC739 /* CategoryIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIcons.swift; sourceTree = "<group>"; };
 		4D8D36392BC9B447008713C2 /* TaskListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCoordinator.swift; sourceTree = "<group>"; };
 		4D8D363B2BC9B45B008713C2 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
-		4DE10000000000000000AA01 /* AddGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalViewController.swift; sourceTree = "<group>"; };
-		4DE10002000000000000AA01 /* PlaceholderTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTaskCell.swift; sourceTree = "<group>"; };
-		4DE10004000000000000AA01 /* LegacyStoreHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyStoreHandler.swift; sourceTree = "<group>"; };
-		4DE10006000000000000AA01 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		4DE10008000000000000AA01 /* SLDay+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLDay+CoreDataClass.swift"; sourceTree = "<group>"; };
-		4DE1000A000000000000AA01 /* SLDay+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLDay+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		4DE1000C000000000000AA01 /* StreakManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakManager.swift; sourceTree = "<group>"; };
-		4DE10010000000000000AA01 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		4DE10014000000000000AA01 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
-		4DE10016000000000000AA01 /* DestinationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationPickerViewController.swift; sourceTree = "<group>"; };
 		4D962AB72C1E0E360081D07F /* CoreDataStack+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataStack+Extension.swift"; sourceTree = "<group>"; };
 		4D9D22202C1D1E3A00925E1B /* RefreshablePopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshablePopView.swift; sourceTree = "<group>"; };
 		4D9D22242C1D3ADE00925E1B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -231,6 +246,27 @@
 		4DD8C76C23BF139800098A02 /* FiveModel 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 8.xcdatamodel"; sourceTree = "<group>"; };
 		4DDD01012C5475830037125E /* SLSettings+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLSettings+CoreDataClass.swift"; path = "Shortlist/Model/CoreData/Entities/SLSettings+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4DDD01022C5475830037125E /* SLSettings+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SLSettings+CoreDataProperties.swift"; path = "Shortlist/Model/CoreData/Entities/SLSettings+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4DE10000000000000000AA01 /* AddGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalViewController.swift; sourceTree = "<group>"; };
+		4DE10002000000000000AA01 /* PlaceholderTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTaskCell.swift; sourceTree = "<group>"; };
+		4DE10004000000000000AA01 /* LegacyStoreHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyStoreHandler.swift; sourceTree = "<group>"; };
+		4DE10006000000000000AA01 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		4DE10008000000000000AA01 /* SLDay+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLDay+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4DE1000A000000000000AA01 /* SLDay+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SLDay+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4DE1000C000000000000AA01 /* StreakManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakManager.swift; sourceTree = "<group>"; };
+		4DE1000E000000000000AA01 /* FiveModel v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel v2.xcdatamodel"; sourceTree = "<group>"; };
+		4DE10010000000000000AA01 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		4DE10012000000000000AA01 /* FiveModel v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel v3.xcdatamodel"; sourceTree = "<group>"; };
+		4DE10014000000000000AA01 /* MediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaManager.swift; sourceTree = "<group>"; };
+		4DE10016000000000000AA01 /* DestinationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationPickerViewController.swift; sourceTree = "<group>"; };
+		4DE1001D000000000000AA01 /* ShortlistWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShortlistWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DE1001F000000000000AA01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4DE10020000000000000AA01 /* ShortlistWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShortlistWidget.entitlements; sourceTree = "<group>"; };
+		4DE10021000000000000AA01 /* ShortlistWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortlistWidget.swift; sourceTree = "<group>"; };
+		4DE10023000000000000AA01 /* ShortlistWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortlistWidgetBundle.swift; sourceTree = "<group>"; };
+		4DE10025000000000000AA01 /* CompleteTaskIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteTaskIntent.swift; sourceTree = "<group>"; };
+		4DE10027000000000000AA01 /* WidgetDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataProvider.swift; sourceTree = "<group>"; };
+		4DE10030000000000000AA01 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		4DE10032000000000000AA01 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		4DED000924361031009BA525 /* FiveModel 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FiveModel 9.xcdatamodel"; sourceTree = "<group>"; };
 		4DF3E3592403DB62002B402C /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		4DF3E36F2403E01F002B402C /* ScreenshotTester.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScreenshotTester.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,6 +284,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DB043DE2BCA090E00A3901F /* WhizUtilKit in Frameworks */,
+				4DE1002F000000000000AA01 /* WidgetKit.framework in Frameworks */,
+				D40C63AA34BA5C87905E2634 /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +297,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4D45E7AA22DDD1AD008AC433 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE10018000000000000AA01 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -278,6 +323,7 @@
 		4D45E78522DDD1AB008AC433 = {
 			isa = PBXGroup;
 			children = (
+				4DE10030000000000000AA01 /* WidgetKit.framework */,
 				4DBA14322CDA5026001D01D6 /* WhizUtilKit */,
 				4DDD01012C5475830037125E /* SLSettings+CoreDataClass.swift */,
 				4DDD01022C5475830037125E /* SLSettings+CoreDataProperties.swift */,
@@ -296,6 +342,7 @@
 				4D45E7B022DDD1AD008AC433 /* ShortlistUITests */,
 				4D45E7BA22DDD1AD008AC433 /* Shortlist WatchKit App */,
 				4DF3E3702403E01F002B402C /* ScreenshotTester */,
+				4DE1001E000000000000AA01 /* ShortlistWidgetExtension */,
 				4D45E78F22DDD1AB008AC433 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -307,6 +354,7 @@
 				4D45E7A222DDD1AD008AC433 /* ShortlistTests.xctest */,
 				4D45E7AD22DDD1AD008AC433 /* ShortlistUITests.xctest */,
 				4DF3E36F2403E01F002B402C /* ScreenshotTester.xctest */,
+				4DE1001D000000000000AA01 /* ShortlistWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -330,6 +378,7 @@
 				4DC6181A24D02D98008BFBE6 /* TaskList */,
 				4DCD042A25247228005B97F1 /* Constants */,
 				4DF724F022F174D200472072 /* Five.entitlements */,
+				4DE10032000000000000AA01 /* PrivacyInfo.xcprivacy */,
 				4D45E79D22DDD1AD008AC433 /* Info.plist */,
 				4D45E79822DDD1AD008AC433 /* Assets.xcassets */,
 				4DB043D22BCA028A00A3901F /* UICollectionViewLayout+Extension.swift */,
@@ -528,14 +577,6 @@
 			path = Task;
 			sourceTree = "<group>";
 		};
-		4DE10011000000000000AA01 /* Notifications */ = {
-			isa = PBXGroup;
-			children = (
-				4DE10010000000000000AA01 /* NotificationService.swift */,
-			);
-			path = Notifications;
-			sourceTree = "<group>";
-		};
 		4DC0DE3722E087F100B2B8D4 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -603,6 +644,27 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		4DE10011000000000000AA01 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				4DE10010000000000000AA01 /* NotificationService.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		4DE1001E000000000000AA01 /* ShortlistWidgetExtension */ = {
+			isa = PBXGroup;
+			children = (
+				4DE10021000000000000AA01 /* ShortlistWidget.swift */,
+				4DE10023000000000000AA01 /* ShortlistWidgetBundle.swift */,
+				4DE10025000000000000AA01 /* CompleteTaskIntent.swift */,
+				4DE10027000000000000AA01 /* WidgetDataProvider.swift */,
+				4DE1001F000000000000AA01 /* Info.plist */,
+				4DE10020000000000000AA01 /* ShortlistWidget.entitlements */,
+			);
+			path = ShortlistWidgetExtension;
+			sourceTree = "<group>";
+		};
 		4DF3E3702403E01F002B402C /* ScreenshotTester */ = {
 			isa = PBXGroup;
 			children = (
@@ -624,14 +686,17 @@
 				4D45E78B22DDD1AB008AC433 /* Frameworks */,
 				4D45E78C22DDD1AB008AC433 /* Resources */,
 				4D45E7DD22DDD1AF008AC433 /* Embed Watch Content */,
+				4DE1002B000000000000AA01 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4DE1002D000000000000AA01 /* PBXTargetDependency */,
 			);
 			name = Shortlist;
 			packageProductDependencies = (
 				4DB043DD2BCA090E00A3901F /* WhizUtilKit */,
+				72853DF62822A8E0D5C14C02 /* RevenueCat */,
 			);
 			productName = Five;
 			productReference = 4D45E78E22DDD1AB008AC433 /* Shortlist.app */;
@@ -672,6 +737,23 @@
 			productName = FiveUITests;
 			productReference = 4D45E7AD22DDD1AD008AC433 /* ShortlistUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		4DE1002A000000000000AA01 /* ShortlistWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DE1001C000000000000AA01 /* Build configuration list for PBXNativeTarget "ShortlistWidgetExtension" */;
+			buildPhases = (
+				4DE10017000000000000AA01 /* Sources */,
+				4DE10018000000000000AA01 /* Frameworks */,
+				4DE10019000000000000AA01 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShortlistWidgetExtension;
+			productName = ShortlistWidgetExtension;
+			productReference = 4DE1001D000000000000AA01 /* ShortlistWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		4DF3E36E2403E01F002B402C /* ScreenshotTester */ = {
 			isa = PBXNativeTarget;
@@ -722,6 +804,15 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 4D45E78D22DDD1AB008AC433;
 					};
+					4DE1002A000000000000AA01 = {
+						CreatedOnToolsVersion = 15.0;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					4DF3E36E2403E01F002B402C = {
 						CreatedOnToolsVersion = 11.2;
 						ProvisioningStyle = Automatic;
@@ -740,6 +831,7 @@
 			mainGroup = 4D45E78522DDD1AB008AC433;
 			packageReferences = (
 				4DB043DC2BCA090E00A3901F /* XCRemoteSwiftPackageReference "WhizUtilKit" */,
+				C814821567A359D719561CE1 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 			);
 			productRefGroup = 4D45E78F22DDD1AB008AC433 /* Products */;
 			projectDirPath = "";
@@ -749,6 +841,7 @@
 				4D45E7A122DDD1AD008AC433 /* ShortlistTests */,
 				4D45E7AC22DDD1AD008AC433 /* ShortlistUITests */,
 				4DF3E36E2403E01F002B402C /* ScreenshotTester */,
+				4DE1002A000000000000AA01 /* ShortlistWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -761,6 +854,7 @@
 				4DB043E42BCA364800A3901F /* Main.storyboard in Resources */,
 				4D45E79C22DDD1AD008AC433 /* LaunchScreen.storyboard in Resources */,
 				4D45E79922DDD1AD008AC433 /* Assets.xcassets in Resources */,
+				4DE10031000000000000AA01 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,6 +866,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4D45E7AB22DDD1AD008AC433 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DE10019000000000000AA01 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -880,6 +981,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4DE10017000000000000AA01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DE10022000000000000AA01 /* ShortlistWidget.swift in Sources */,
+				4DE10024000000000000AA01 /* ShortlistWidgetBundle.swift in Sources */,
+				4DE10026000000000000AA01 /* CompleteTaskIntent.swift in Sources */,
+				4DE10028000000000000AA01 /* WidgetDataProvider.swift in Sources */,
+				4DE10029000000000000AA01 /* ShortlistModel.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4DF3E36B2403E01F002B402C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -901,6 +1014,11 @@
 			isa = PBXTargetDependency;
 			target = 4D45E78D22DDD1AB008AC433 /* Shortlist */;
 			targetProxy = 4D45E7AE22DDD1AD008AC433 /* PBXContainerItemProxy */;
+		};
+		4DE1002D000000000000AA01 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4DE1002A000000000000AA01 /* ShortlistWidgetExtension */;
+			targetProxy = 4DE1002E000000000000AA01 /* PBXContainerItemProxy */;
 		};
 		4DF3E3752403E01F002B402C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1190,6 +1308,59 @@
 			};
 			name = Release;
 		};
+		4DE1001A000000000000AA01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShortlistWidgetExtension/ShortlistWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 59;
+				DEVELOPMENT_TEAM = GEKZN86RYS;
+				INFOPLIST_FILE = ShortlistWidgetExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		4DE1001B000000000000AA01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShortlistWidgetExtension/ShortlistWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 59;
+				DEVELOPMENT_TEAM = GEKZN86RYS;
+				INFOPLIST_FILE = ShortlistWidgetExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.whizbang.shortlist.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 		4DF3E3772403E01F002B402C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1269,6 +1440,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		4DE1001C000000000000AA01 /* Build configuration list for PBXNativeTarget "ShortlistWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DE1001A000000000000AA01 /* Debug */,
+				4DE1001B000000000000AA01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4DF3E3762403E01F002B402C /* Build configuration list for PBXNativeTarget "ScreenshotTester" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1289,6 +1469,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		C814821567A359D719561CE1 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.15.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1296,6 +1484,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4DB043DC2BCA090E00A3901F /* XCRemoteSwiftPackageReference "WhizUtilKit" */;
 			productName = WhizUtilKit;
+		};
+		72853DF62822A8E0D5C14C02 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C814821567A359D719561CE1 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
 		};
 /* End XCSwiftPackageProductDependency section */
 
@@ -1319,7 +1512,7 @@
 				4D64285222F730A70057E3BA /* FiveModel 2.xcdatamodel */,
 				4D78ABF622DF0C9C001FD57F /* FiveModel.xcdatamodel */,
 				4DE1000E000000000000AA01 /* FiveModel v2.xcdatamodel */,
-			4DE10012000000000000AA01 /* FiveModel v3.xcdatamodel */,
+				4DE10012000000000000AA01 /* FiveModel v3.xcdatamodel */,
 			);
 			currentVersion = 4DE10012000000000000AA01 /* FiveModel v3.xcdatamodel */;
 			path = ShortlistModel.xcdatamodeld;

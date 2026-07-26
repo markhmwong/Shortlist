@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import WidgetKit
 
 enum TaskListItem: Hashable {
     case task(SLTask)
@@ -92,6 +93,7 @@ class TaskListViewModel: NSObject {
         task.taskToStatus?.name = TaskStatus.Complete.rawValue
         coreDataStack?.saveContext()
         NotificationService.shared.cancelReminder(for: task)
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     // MARK: - Debug
