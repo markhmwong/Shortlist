@@ -1,14 +1,5 @@
-# MacOS X
-.DS_Store
-
-*.pages
-AppStoreMedia
-
-# XCode
+Tips
 *.mobileprovision
-*.cer
-*.certSigningRequest
-*.p12
 Gemfile.lock
 Podfile.lock
 *.ipa
@@ -16,9 +7,15 @@ Podfile.lock
 screenshots
 Todo
 PricingStructure
+*.pages
+AppStoreMedia
 GoogleService-Info.plist
-xcuserdata/
-.DS_Store
-*.xcuserstate
-Shorlist.xcworkspace/
-xcuserdata/
+# --- fastlane / App Store Connect secrets ---
+fastlane/api_key.json
+fastlane/api_key_.json
+*.p8
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+Tips

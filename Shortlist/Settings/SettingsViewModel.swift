@@ -16,6 +16,7 @@ class SettingsViewModel: DatasourceSupervisor {
     
     enum SettingsSection: Int, CaseIterable {
         case main
+        case support
     }
     
 	var items: [AnySettingsItem] = []
@@ -51,8 +52,23 @@ class SettingsViewModel: DatasourceSupervisor {
 		var versionItem = GeneralSettingsItem(title: versionString, section: .main, itemType: .label)
 		versionItem.titleFontConfig(textStyle: .caption1)
 
-		return [aboutItem, privacyPolicyItem, versionItem].map { AnySettingsItem($0) }
+		let supportItems = [
+			supportItem(String(localized: "Contact Me"), url: SupportLinks.contact),
+			supportItem(String(localized: "Follow @_whizbangapps on X"), url: SupportLinks.social),
+			supportItem(String(localized: "Rate Shortlist"), url: SupportLinks.review),
+		]
+
+		return ([aboutItem, privacyPolicyItem, versionItem] + supportItems).map { AnySettingsItem($0) }
     }
+
+	private func supportItem(_ title: String, url: URL) -> GeneralSettingsItem {
+		var item = GeneralSettingsItem(title: title, section: .support, itemType: .label)
+		item.performAction = {
+			UIApplication.shared.open(url)
+		}
+		item.titleFontConfig(textStyle: .body, weight: .bold)
+		return item
+	}
 
 	func configureDatasource(view: UICollectionView) {
         let settingsCellRegistration = UICollectionView.CellRegistration<SettingsCell, AnySettingsItem>.registerSettingsCell()
@@ -65,7 +81,10 @@ class SettingsViewModel: DatasourceSupervisor {
     func configureSnapshot(data: [AnySettingsItem]) -> NSDiffableDataSourceSnapshot<SettingsSection, AnySettingsItem> {
         var snapshot = NSDiffableDataSourceSnapshot<SettingsSection, AnySettingsItem>()
         snapshot.appendSections(SettingsSection.allCases)
-        snapshot.appendItems(data)
+        for section in SettingsSection.allCases {
+            let sectionItems = data.filter { ($0.baseItem as? GeneralSettingsItem)?.section == section }
+            snapshot.appendItems(sectionItems, toSection: section)
+        }
         return snapshot
     }
     

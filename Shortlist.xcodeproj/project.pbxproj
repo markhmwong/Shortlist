@@ -93,6 +93,7 @@
 		4DF3E3792403E0F2002B402C /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3E3592403DB62002B402C /* SnapshotHelper.swift */; };
 		4DF4A37D2BE98220008A4FF3 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF4A37C2BE98220008A4FF3 /* TaskManager.swift */; };
 		D40C63AA34BA5C87905E2634 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 72853DF62822A8E0D5C14C02 /* RevenueCat */; };
+		E73E1F9F3A0787CA53DDF577 /* SupportLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D70821C5C4427EE0DE1236 /* SupportLinks.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -276,6 +277,7 @@
 		4DF724F022F174D200472072 /* Five.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Five.entitlements; sourceTree = "<group>"; };
 		4DF724F122F174F100472072 /* Shortlist WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Shortlist WatchKit App.entitlements"; sourceTree = "<group>"; };
 		4DF724FA22F18FEF00472072 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D7D70821C5C4427EE0DE1236 /* SupportLinks.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupportLinks.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -431,6 +433,7 @@
 				4D5584C62C5F9E5C00B3DDA1 /* SettingsCoordinator.swift */,
 				4D5584C82C5F9E6700B3DDA1 /* SettingsViewModel.swift */,
 				4D7017142C5DCAF30007F029 /* SettingsViewController.swift */,
+				D7D70821C5C4427EE0DE1236 /* SupportLinks.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -962,6 +965,7 @@
 				4DB0A8412C2FA3D9005072C9 /* SLTask+CoreDataProperties.swift in Sources */,
 				4DC677CA2E625C360001FEE8 /* SelectableTableViewCell.swift in Sources */,
 				4DC677CC2E625C450001FEE8 /* TaskDetailType.swift in Sources */,
+				E73E1F9F3A0787CA53DDF577 /* SupportLinks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,7 +1179,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 20260930.1;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1202,7 +1206,7 @@
 				CODE_SIGN_ENTITLEMENTS = Shortlist/Five.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 20260930.1;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = Shortlist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1314,7 +1318,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShortlistWidgetExtension/ShortlistWidget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 20260930.1;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = ShortlistWidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1341,7 +1345,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShortlistWidgetExtension/ShortlistWidget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 20260930.1;
 				DEVELOPMENT_TEAM = GEKZN86RYS;
 				INFOPLIST_FILE = ShortlistWidgetExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
